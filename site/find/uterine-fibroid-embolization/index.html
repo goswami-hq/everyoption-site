@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Who does fibroid embolization near me? | Every Option</title>
+<style>
+  :root { --bg:#f7f5f0; --ink:#1d2a2e; --muted:#5b6b70; --accent:#2f6f6a; --card:#ffffff; --line:#ddd8cc; --warn:#8a5a00; --warnbg:#fff4dc; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141a1c; --ink:#eef1ef; --muted:#9fb0b2; --accent:#7cc4bc; --card:#1c2427; --line:#2f3a3d; --warn:#f0c46a; --warnbg:#2b2414; } }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, sans-serif; padding:24px 16px 48px; }
+  main { max-width:760px; margin:0 auto; }
+  h1 { font:normal clamp(28px,6vw,40px)/1.15 Georgia, serif; letter-spacing:-0.01em; }
+  .lede { color:var(--muted); margin-top:8px; }
+  .preview { background:var(--warnbg); color:var(--warn); border-radius:8px; padding:10px 12px; font-size:14px; margin:16px 0; }
+  form { display:flex; flex-wrap:wrap; gap:12px; align-items:end; margin:20px 0 8px; }
+  label { display:flex; flex-direction:column; font-size:13px; color:var(--muted); gap:4px; }
+  input, select { font:inherit; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--ink); }
+  input[type=text] { width:9em; }
+  button { font:inherit; padding:10px 18px; border:0; border-radius:8px; background:var(--accent); color:var(--bg); cursor:pointer; }
+  .check { flex-direction:row; align-items:center; gap:8px; font-size:14px; }
+  .status { color:var(--muted); font-size:14px; margin:12px 0; min-height:1.5em; }
+  ol { list-style:none; padding:0; display:grid; gap:12px; }
+  li { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .top { display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; }
+  .name { font-weight:600; font-size:17px; }
+  .dist { color:var(--muted); font-size:14px; white-space:nowrap; }
+  .practice, .addr { color:var(--muted); font-size:14px; }
+  .badge { display:inline-block; font-size:12px; letter-spacing:0.04em; padding:2px 8px; border-radius:99px; margin-top:8px; border:1px solid var(--accent); color:var(--accent); }
+  .badge.listed { border-color:var(--line); color:var(--muted); }
+  .actions { display:flex; flex-wrap:wrap; gap:16px; margin-top:8px; font-size:15px; }
+  .src { font-size:13px; color:var(--muted); margin-top:6px; overflow-wrap:anywhere; }
+  a { color:var(--accent); }
+  footer { margin-top:32px; font-size:13px; color:var(--muted); }
+  footer p + p { margin-top:8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Who does fibroid embolization near me?</h1>
+  <p class="lede">Uterine fibroid embolization (UFE) is done by interventional radiologists. Enter your zip code to see who is nearby, sorted by distance only.</p>
+  <p class="preview">Preview, not published. New York City metro only. Distances use approximate zip-code centers.</p>
+  <form id="f">
+    <label>Zip code <input type="text" id="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" required></label>
+    <label>Within <select id="radius"><option value="10">10 miles</option><option value="25" selected>25 miles</option><option value="50">50 miles</option></select></label>
+    <button type="submit">Search</button>
+    <label class="check"><input type="checkbox" id="listed"> Also show interventional radiologists we have not yet confirmed for UFE</label>
+  </form>
+  <p class="status" id="status" role="status"></p>
+  <ol id="results"></ol>
+  <footer>
+    <p><strong>Sourced</strong> means a public page from the physician's practice or hospital names them, or their practice, for fibroid embolization. The link and the date we checked it are on each card. <strong>Listed</strong> means a federal registry lists them as an interventional radiologist; we have not confirmed they do UFE.</p>
+    <p>Nobody pays to appear here or to be ranked. Your zip code stays in your browser; we do not store searches.</p>
+    <p>Educational information, not medical advice. Contact the practice to ask whether a procedure is right for you. In an emergency, call 911.</p>
+  </footer>
+</main>
+<script src="finder.js"></script>
+</body>
+</html>
