@@ -2137,18 +2137,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1568527612",
-   "name": "Lisa Amatangelo",
-   "credential": "MD",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th St, New York, NY 10065",
-   "phone": "212-746-9729",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1972669265",
    "name": "Ryan Hickey",
    "credential": "MD",
@@ -2785,18 +2773,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1124257639",
-   "name": "Debkumar Sarkar",
-   "credential": "D.O.",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "212-639-2194",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1104056589",
    "name": "Livnat Uliel",
    "credential": "MD",
@@ -3117,18 +3093,6 @@
    "phone": "952-595-1100",
    "lat": 40.8486,
    "lon": -73.8999,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1073800330",
-   "name": "David Hirschl",
-   "credential": "M.D.",
-   "practice": "Montefiore Medical Center",
-   "address": "111 E 210th St, Bronx, NY 10467",
-   "phone": "718-920-4321",
-   "lat": 40.8737,
-   "lon": -73.8712,
    "status": "Listed"
   },
   {
@@ -3649,18 +3613,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1811396377",
-   "name": "Tate Kirk",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "450 Clarkson Ave, Brooklyn, NY 11203",
-   "phone": "718-270-1000",
-   "lat": 40.6505,
-   "lon": -73.9349,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1427442003",
    "name": "Brian Currie",
    "credential": "",
@@ -3949,18 +3901,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1093259368",
-   "name": "Tomoyoshi Shigematsu",
-   "credential": "M.D., PH.D.",
-   "practice": "Mount Sinai Interventional Radiology",
-   "address": "1450 Madison Ave # 1136, New York, NY 10029",
-   "phone": "212-241-3400",
-   "lat": 40.7918,
-   "lon": -73.9447,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1750812863",
    "name": "Jaron Tepper",
    "credential": "M.D.",
@@ -4153,18 +4093,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1679078422",
-   "name": "Nathan Mickinac",
-   "credential": "MD",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "212-639-2000",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1619472388",
    "name": "Julianne O'Gorman",
    "credential": "DO",
@@ -4281,18 +4209,6 @@
    "phone": "551-996-2200",
    "lat": 40.8882,
    "lon": -74.0503,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1275027716",
-   "name": "Hannah Bae",
-   "credential": "MD",
-   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
-   "address": "475 Seaview Ave, Staten Island, NY 10305",
-   "phone": "718-226-9197",
-   "lat": 40.5973,
-   "lon": -74.0768,
    "status": "Listed"
   },
   {
@@ -4513,18 +4429,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1780229815",
-   "name": "Oliver Jardine",
-   "credential": "RRA",
-   "practice": "NYU Langone Health Vascular & Interventional Radiology",
-   "address": "550 1st Ave, New York, NY 10016",
-   "phone": "646-584-7358",
-   "lat": 40.7443,
-   "lon": -73.9781,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1497385959",
    "name": "Adam Dmytriw",
    "credential": "MD MPH MSC",
@@ -4741,24 +4645,9 @@
   }
  ],
  "center_unconfirmed": {
-  "P002": {
-   "name": "Memorial Sloan Kettering Interventional Radiology",
-   "people": [
-    {
-     "npi": "1790016020",
-     "name": "Ernesto Santos Martin",
-     "credential": "MD"
-    }
-   ]
-  },
   "columbia-ir": {
    "name": "ColumbiaDoctors Interventional Radiology",
    "people": [
-    {
-     "npi": "1275027716",
-     "name": "Hannah Bae",
-     "credential": "MD"
-    },
     {
      "npi": "1811396377",
      "name": "Tate Kirk",
@@ -4770,16 +4659,6 @@
    "name": "Mount Sinai Interventional Radiology",
    "people": [
     {
-     "npi": "1720248875",
-     "name": "Simon Daniel",
-     "credential": "M.D."
-    },
-    {
-     "npi": "1164422531",
-     "name": "Robert Lookstein",
-     "credential": "MD"
-    },
-    {
      "npi": "1043241904",
      "name": "Rajesh Patel",
      "credential": "M.D"
@@ -4787,36 +4666,6 @@
     {
      "npi": "1740482918",
      "name": "Rahul Patel",
-     "credential": "MD"
-    }
-   ]
-  },
-  "nyu-langone-ir": {
-   "name": "NYU Langone Health Vascular & Interventional Radiology",
-   "people": [
-    {
-     "npi": "1972669265",
-     "name": "Ryan Hickey",
-     "credential": "MD"
-    },
-    {
-     "npi": "1033747910",
-     "name": "Neil Jain",
-     "credential": "DO"
-    },
-    {
-     "npi": "1699192815",
-     "name": "Amir Noor",
-     "credential": ""
-    },
-    {
-     "npi": "1891115887",
-     "name": "Vikram Rajpurohit",
-     "credential": "MD"
-    },
-    {
-     "npi": "1063998920",
-     "name": "Yuli Zhu",
      "credential": "MD"
     }
    ]
@@ -4843,16 +4692,6 @@
      "npi": "1114487451",
      "name": "Shawn Ma",
      "credential": "MD"
-    },
-    {
-     "npi": "1992977342",
-     "name": "Timothy Mcclure",
-     "credential": "M.D."
-    },
-    {
-     "npi": "1891292223",
-     "name": "Anna Mckenney",
-     "credential": "MD, PHD, MPH"
     },
     {
      "npi": "1063664530",
