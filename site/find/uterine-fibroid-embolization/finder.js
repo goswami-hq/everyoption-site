@@ -64,6 +64,7 @@
   Promise.all([fetch('../../data/ufe-nyc.json').then(function (r) { return r.json(); }), fetch('../../data/zip-centroids-nyc.json').then(function (r) { return r.json(); })])
     .then(function (v) {
       data = v[0]; zips = v[1];
+      if ($('reviewed') && data.built) $('reviewed').textContent = 'Last reviewed ' + data.built + '.';
       $('f').addEventListener('submit', run); $('listed').addEventListener('change', function () { if ($('zip').value) run(); });
       var q = new URLSearchParams(location.search).get('zip'); if (q) { $('zip').value = q; run(); }
     })
