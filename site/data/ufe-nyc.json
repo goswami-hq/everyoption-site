@@ -75,6 +75,34 @@
   },
   {
    "kind": "physician",
+   "npi": "1073800330",
+   "name": "David Hirschl",
+   "credential": "M.D.",
+   "practice_id": "columbia-ir",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "177 Ft Washington Ave, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://doctors.columbia.edu/us/ny/new-york/david-hirschl-md-177-ft-washington-avenue",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://doctors.columbia.edu/us/ny/new-york/david-hirschl-md-177-ft-washington-avenue",
+     "checked": "2026-10-05"
+    },
+    {
+     "url": "https://www.columbiaradiology.org/profile/david-hirschl-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
    "npi": "1104186097",
    "name": "Nicole Lamparello",
    "credential": "MD",
@@ -1225,18 +1253,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1407823727",
-   "name": "Daniel Walzman",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "20 Prospect Ave Ste 907, Hackensack, NJ 07601",
-   "phone": "201-342-2550",
-   "lat": 40.8882,
-   "lon": -74.0503,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1518920826",
    "name": "Robert Smith",
    "credential": "MD",
@@ -2157,18 +2173,6 @@
    "phone": "516-796-4340",
    "lat": 40.74,
    "lon": -73.4857,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1386797868",
-   "name": "Sean Lavine",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "710 W 168th St Ni-424, New York, NY 10032",
-   "phone": "212-305-0135",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -3241,18 +3245,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1205194941",
-   "name": "Karthikeyan Arcot",
-   "credential": "M.B.B.S",
-   "practice": "",
-   "address": "211 61 Street 1st Floor, Brooklyn, NY 11220",
-   "phone": "718-630-1270",
-   "lat": 40.6412,
-   "lon": -74.0133,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1518227172",
    "name": "Arkadiy Palvanov",
    "credential": "M.D.",
@@ -4213,18 +4205,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1003300096",
-   "name": "Nathan Farkas",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "2200 Northern Blvd Ste 207, Greenvale, NY 11548",
-   "phone": "516-466-1029",
-   "lat": 40.8125,
-   "lon": -73.6261,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1063998920",
    "name": "Yuli Zhu",
    "credential": "MD",
@@ -4670,6 +4650,16 @@
     }
    ]
   },
+  "nyu-langone-ir": {
+   "name": "NYU Langone Health Vascular & Interventional Radiology",
+   "people": [
+    {
+     "npi": "1891115887",
+     "name": "Vikram Rajpurohit",
+     "credential": "MD"
+    }
+   ]
+  },
   "weill-cornell-ir": {
    "name": "Weill Cornell Medicine Interventional Radiology",
    "people": [
@@ -4692,6 +4682,11 @@
      "npi": "1114487451",
      "name": "Shawn Ma",
      "credential": "MD"
+    },
+    {
+     "npi": "1992977342",
+     "name": "Timothy Mcclure",
+     "credential": "M.D."
     },
     {
      "npi": "1063664530",
