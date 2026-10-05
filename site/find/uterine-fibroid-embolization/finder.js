@@ -58,7 +58,21 @@
       if (k === 'listed' && !showListed) return;
       $('sec-' + k).hidden = false;
       if (!sec[k].length) { $('res-' + k).appendChild(el('li', 'empty', 'None within ' + R + ' miles.')); return; }
-      sec[k].forEach(function (r) { $('res-' + k).appendChild(card(r)); });
+      // Big centers have no practice card (their named physicians cover them), so their attending IRs not yet
+      // confirmed for UFE are shown once, under the nearest physician card from that center (draft, 2026-10-05).
+      var shown = {};
+      sec[k].forEach(function (r) {
+        var li = card(r), cu = k === 'phys' && data.center_unconfirmed && data.center_unconfirmed[r.practice_id];
+        if (cu && cu.people.length && !shown[r.practice_id]) {
+          shown[r.practice_id] = true;
+          var u = el('div', 'unconf');
+          u.appendChild(el('div', 'unconf-h', 'Other IRs at ' + cu.name + ', not yet individually confirmed for UFE'));
+          var ul = el('ul', 'unconf-l');
+          cu.people.forEach(function (p) { ul.appendChild(el('li', '', p.name + (p.credential ? ', ' + p.credential.replace(/\./g, '') : ''))); });
+          u.appendChild(ul); li.appendChild(u);
+        }
+        $('res-' + k).appendChild(li);
+      });
     });
   }
   Promise.all([fetch('../../data/ufe-nyc.json').then(function (r) { return r.json(); }), fetch('../../data/zip-centroids-nyc.json').then(function (r) { return r.json(); })])

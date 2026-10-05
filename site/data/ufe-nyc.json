@@ -30,6 +30,7 @@
    "npi": "1003182064",
    "name": "Stephen Reis",
    "credential": "M.D.",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "Columbia University Department Of Radiology 622 West 168th Street Pb-1-301, New York, NY 10032",
    "phone": "212-326-8874",
@@ -53,6 +54,7 @@
    "npi": "1013204858",
    "name": "Kopal Kulkarni",
    "credential": "",
+   "practice_id": "nyu-langone-ir",
    "practice": "NYU Langone Health Vascular & Interventional Radiology",
    "address": "550 1st Ave, New York, NY 10016",
    "phone": "212-263-5898",
@@ -76,6 +78,7 @@
    "npi": "1104186097",
    "name": "Nicole Lamparello",
    "credential": "MD",
+   "practice_id": "weill-cornell-ir",
    "practice": "Weill Cornell Medicine Interventional Radiology",
    "address": "525 E 68th St # P-512, New York, NY 10065",
    "phone": "646-962-5757",
@@ -99,6 +102,7 @@
    "npi": "1144451303",
    "name": "Benjamin May",
    "credential": "M.D.",
+   "practice_id": "weill-cornell-ir",
    "practice": "Weill Cornell Medicine Interventional Radiology",
    "address": "525 E 68th Street, Box 141, Department Of Radiology Newyork-Presbyterian - Weill Cornell Medical College, New York, NY 10065",
    "phone": "646-962-5757",
@@ -122,6 +126,7 @@
    "npi": "1144789991",
    "name": "Tarub Mabud",
    "credential": "MD",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St, New York, NY 10032",
    "phone": "212-326-8874",
@@ -145,6 +150,7 @@
    "npi": "1154563922",
    "name": "Marc Schiffman",
    "credential": "M.D.",
+   "practice_id": "weill-cornell-ir",
    "practice": "Weill Cornell Medicine Interventional Radiology",
    "address": "525 E. 68th Street, Box 141 - Dept. Of Radiology New York Presbyterian-Weill Cornell Medical College, New York, NY 10065",
    "phone": "646-962-5757",
@@ -168,6 +174,7 @@
    "npi": "1154737567",
    "name": "Elizabeth Morris",
    "credential": "MD",
+   "practice_id": "nyu-langone-ir",
    "practice": "NYU Langone Health Vascular & Interventional Radiology",
    "address": "550 1st Ave Fl 2, New York, NY 10016",
    "phone": "212-263-5898",
@@ -191,6 +198,7 @@
    "npi": "1174970131",
    "name": "Shu Liu",
    "credential": "MD",
+   "practice_id": "nyu-langone-ir",
    "practice": "NYU Langone Health Vascular & Interventional Radiology",
    "address": "550 1st Ave, New York, NY 10016",
    "phone": "212-263-5898",
@@ -214,6 +222,7 @@
    "npi": "1205367026",
    "name": "Raghuram Posham",
    "credential": "M.D.",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St, New York, NY 10032",
    "phone": "212-326-8874",
@@ -237,6 +246,7 @@
    "npi": "1245526433",
    "name": "Vivian Bishay",
    "credential": "MD",
+   "practice_id": "mount-sinai-hospital-ir",
    "practice": "Mount Sinai Interventional Radiology",
    "address": "1 Gustave L Levy Pl, New York, NY 10029",
    "phone": "212-241-4046",
@@ -260,6 +270,7 @@
    "npi": "1255339420",
    "name": "David Sperling",
    "credential": "M.D.",
+   "practice_id": "P002",
    "practice": "Memorial Sloan Kettering Interventional Radiology",
    "address": "1275 York Ave, New York, NY 10065",
    "phone": "646-677-7001",
@@ -283,6 +294,7 @@
    "npi": "1356736490",
    "name": "Behrooz Vaziri",
    "credential": "M.D.",
+   "practice_id": "P011",
    "practice": "",
    "address": "506 6th St, Brooklyn, NY 11215",
    "phone": "347-442-6095",
@@ -306,6 +318,7 @@
    "npi": "1427589886",
    "name": "Kiyon Naser-Tavakolian",
    "credential": "M.D.",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "630 W 168th St Mc28, New York, NY 10032",
    "phone": "212-326-8874",
@@ -329,6 +342,7 @@
    "npi": "1467484394",
    "name": "Jonathan Susman",
    "credential": "MD",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St, New York, NY 10032",
    "phone": "212-326-8874",
@@ -352,6 +366,7 @@
    "npi": "1538628649",
    "name": "Ethan Davoudzadeh",
    "credential": "MD",
+   "practice_id": "P002",
    "practice": "Memorial Sloan Kettering Interventional Radiology",
    "address": "1275 York Ave, New York, NY 10065",
    "phone": "646-677-7001",
@@ -375,6 +390,7 @@
    "npi": "1568488427",
    "name": "Sean Farquharson",
    "credential": "M.D.",
+   "practice_id": "nyu-langone-ir",
    "practice": "NYU Langone Health Vascular & Interventional Radiology",
    "address": "660 1st Ave Fl 7, New York, NY 10016",
    "phone": "212-263-5898",
@@ -398,6 +414,7 @@
    "npi": "1649731092",
    "name": "John Filtes",
    "credential": "MD",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St, New York, NY 10032",
    "phone": "212-326-8874",
@@ -421,6 +438,7 @@
    "npi": "1699934844",
    "name": "Aaron Fischman",
    "credential": "M.D.",
+   "practice_id": "mount-sinai-hospital-ir",
    "practice": "Mount Sinai Interventional Radiology",
    "address": "1176 5th Ave, New York, NY 10029",
    "phone": "212-241-4046",
@@ -444,6 +462,7 @@
    "npi": "1780061788",
    "name": "Asad Baig",
    "credential": "MD",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St, New York, NY 10032",
    "phone": "212-326-8874",
@@ -467,6 +486,7 @@
    "npi": "1780924548",
    "name": "Liwei Jiang",
    "credential": "M.D.",
+   "practice_id": "P002",
    "practice": "Memorial Sloan Kettering Interventional Radiology",
    "address": "1275 York Ave, New York, NY 10065",
    "phone": "646-677-7001",
@@ -490,6 +510,7 @@
    "npi": "1790941722",
    "name": "Ronald Winokur",
    "credential": "M.D.",
+   "practice_id": "weill-cornell-ir",
    "practice": "Weill Cornell Medicine Interventional Radiology",
    "address": "2315 Broadway Frnt 4, New York, NY 10024",
    "phone": "646-962-5757",
@@ -513,6 +534,7 @@
    "npi": "1881049112",
    "name": "Brett Marinelli",
    "credential": "",
+   "practice_id": "mount-sinai-hospital-ir",
    "practice": "Mount Sinai Interventional Radiology",
    "address": "1 Gustave L Levy Pl, New York, NY 10029",
    "phone": "212-241-4046",
@@ -536,6 +558,7 @@
    "npi": "1952628372",
    "name": "Anoop Wattamwar",
    "credential": "MD",
+   "practice_id": "P007",
    "practice": "",
    "address": "30 Prospect Ave Radiology Dept, Hackensack, NJ 07601",
    "phone": "844-646-9355",
@@ -559,6 +582,7 @@
    "npi": "1972802262",
    "name": "Sidney Brejt",
    "credential": "M.D.",
+   "practice_id": "columbia-ir",
    "practice": "ColumbiaDoctors Interventional Radiology",
    "address": "622 W 168th St # 4-100, New York, NY 10032",
    "phone": "212-326-8874",
@@ -4715,5 +4739,127 @@
    "lon": -73.9638,
    "status": "Listed"
   }
- ]
+ ],
+ "center_unconfirmed": {
+  "P002": {
+   "name": "Memorial Sloan Kettering Interventional Radiology",
+   "people": [
+    {
+     "npi": "1790016020",
+     "name": "Ernesto Santos Martin",
+     "credential": "MD"
+    }
+   ]
+  },
+  "columbia-ir": {
+   "name": "ColumbiaDoctors Interventional Radiology",
+   "people": [
+    {
+     "npi": "1275027716",
+     "name": "Hannah Bae",
+     "credential": "MD"
+    },
+    {
+     "npi": "1811396377",
+     "name": "Tate Kirk",
+     "credential": "M.D."
+    }
+   ]
+  },
+  "mount-sinai-hospital-ir": {
+   "name": "Mount Sinai Interventional Radiology",
+   "people": [
+    {
+     "npi": "1720248875",
+     "name": "Simon Daniel",
+     "credential": "M.D."
+    },
+    {
+     "npi": "1164422531",
+     "name": "Robert Lookstein",
+     "credential": "MD"
+    },
+    {
+     "npi": "1043241904",
+     "name": "Rajesh Patel",
+     "credential": "M.D"
+    },
+    {
+     "npi": "1740482918",
+     "name": "Rahul Patel",
+     "credential": "MD"
+    }
+   ]
+  },
+  "nyu-langone-ir": {
+   "name": "NYU Langone Health Vascular & Interventional Radiology",
+   "people": [
+    {
+     "npi": "1972669265",
+     "name": "Ryan Hickey",
+     "credential": "MD"
+    },
+    {
+     "npi": "1033747910",
+     "name": "Neil Jain",
+     "credential": "DO"
+    },
+    {
+     "npi": "1699192815",
+     "name": "Amir Noor",
+     "credential": ""
+    },
+    {
+     "npi": "1891115887",
+     "name": "Vikram Rajpurohit",
+     "credential": "MD"
+    },
+    {
+     "npi": "1063998920",
+     "name": "Yuli Zhu",
+     "credential": "MD"
+    }
+   ]
+  },
+  "weill-cornell-ir": {
+   "name": "Weill Cornell Medicine Interventional Radiology",
+   "people": [
+    {
+     "npi": "1770873010",
+     "name": "William Browne",
+     "credential": "M.D."
+    },
+    {
+     "npi": "1326481144",
+     "name": "Daniel Holzwanger",
+     "credential": "M.D."
+    },
+    {
+     "npi": "1689688319",
+     "name": "Neil Khilnani",
+     "credential": "MD"
+    },
+    {
+     "npi": "1114487451",
+     "name": "Shawn Ma",
+     "credential": "MD"
+    },
+    {
+     "npi": "1992977342",
+     "name": "Timothy Mcclure",
+     "credential": "M.D."
+    },
+    {
+     "npi": "1891292223",
+     "name": "Anna Mckenney",
+     "credential": "MD, PHD, MPH"
+    },
+    {
+     "npi": "1063664530",
+     "name": "Bradley Pua",
+     "credential": "MD"
+    }
+   ]
+  }
+ }
 }
