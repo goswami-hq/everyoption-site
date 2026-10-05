@@ -2477,18 +2477,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1720248875",
-   "name": "Simon Daniel",
-   "credential": "M.D.",
-   "practice": "Mount Sinai Interventional Radiology",
-   "address": "1 Gustave Levy Place, New York, NY 10029",
-   "phone": "212-241-2000",
-   "lat": 40.7918,
-   "lon": -73.9447,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1972763787",
    "name": "Etay Ziv",
    "credential": "M.D., PH.D.",
@@ -4625,9 +4613,24 @@
   }
  ],
  "center_unconfirmed": {
+  "P002": {
+   "name": "Memorial Sloan Kettering Interventional Radiology",
+   "people": [
+    {
+     "npi": "1790016020",
+     "name": "Ernesto Santos Martin",
+     "credential": "MD"
+    }
+   ]
+  },
   "columbia-ir": {
    "name": "ColumbiaDoctors Interventional Radiology",
    "people": [
+    {
+     "npi": "1275027716",
+     "name": "Hannah Bae",
+     "credential": "MD"
+    },
     {
      "npi": "1811396377",
      "name": "Tate Kirk",
@@ -4671,6 +4674,11 @@
     {
      "npi": "1891115887",
      "name": "Vikram Rajpurohit",
+     "credential": "MD"
+    },
+    {
+     "npi": "1063998920",
+     "name": "Yuli Zhu",
      "credential": "MD"
     }
    ]
