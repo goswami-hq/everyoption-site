@@ -2,301 +2,48 @@
  "procedure": "uterine-fibroid-embolization",
  "built": "2026-10-05",
  "geo": "zip centroid (zipcodes pkg 3.0.0); approximate",
- "sourced": [
-  {
-   "kind": "practice",
-   "practice_id": "weill-cornell-ir",
-   "name": "Weill Cornell Medicine Interventional Radiology",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th St, New York, NY 10065",
-   "phone": "646-962-5757",
-   "website": "https://weillcornell.org/interventional-radiology-womens-health",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://weillcornell.org/interventional-radiology-womens-health",
-     "checked": "2026-10-05"
-    },
-    {
-     "url": "https://doctors.nyp.org/ronald-s-winokur-md/2315-broadway",
-     "checked": "2026-10-05"
-    }
-   ]
+ "tiers": {
+  "physician-verified": {
+   "rank": 1,
+   "label": "Verified by the physician",
+   "max_age_months": null
   },
-  {
-   "kind": "practice",
-   "practice_id": "P002",
-   "name": "Memorial Sloan Kettering Interventional Radiology",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "646-677-7001",
-   "website": "https://www.mskcc.org/cancer-care/patient-education/about-your-uterine-fibroid-embolization-ufe",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://www.mskcc.org/cancer-care/patient-education/about-your-uterine-fibroid-embolization-ufe",
-     "checked": "2026-10-05"
-    }
-   ]
+  "physician-sourced": {
+   "rank": 2,
+   "label": "Sourced to this physician",
+   "max_age_months": 24
   },
+  "practice-confirmed": {
+   "rank": 3,
+   "label": "Confirmed by the practice",
+   "max_age_months": null
+  },
+  "practice-sourced": {
+   "rank": 4,
+   "label": "Practice-level source only",
+   "max_age_months": 12
+  }
+ },
+ "physicians": [
   {
-   "kind": "practice",
-   "practice_id": "columbia-ir",
-   "name": "ColumbiaDoctors Interventional Radiology",
+   "kind": "physician",
+   "npi": "1003182064",
+   "name": "Stephen Reis",
+   "credential": "M.D.",
    "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
+   "address": "Columbia University Department Of Radiology 622 West 168th Street Pb-1-301, New York, NY 10032",
    "phone": "212-326-8874",
-   "website": "https://www.columbiadoctors.org/node/15550",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/stephen-p-reis-md",
    "lat": 40.8382,
    "lon": -73.942,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://www.columbiadoctors.org/node/15550",
-     "checked": "2026-10-05"
-    },
-    {
-     "url": "https://lp.cuimc.columbia.edu/uterine-fibroid-treatment",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "nyu-langone-ir",
-   "name": "NYU Langone Health Vascular & Interventional Radiology",
-   "practice": "NYU Langone Health Vascular & Interventional Radiology",
-   "address": "550 1st Ave Fl 2, New York, NY 10016",
-   "phone": "212-263-5898",
-   "website": "https://nyulangone.org/care-services/interventional-radiology",
-   "lat": 40.7443,
-   "lon": -73.9781,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://nyulangone.org/care-services/center-for-fibroid-care",
-     "checked": "2026-10-05"
-    },
-    {
-     "url": "https://nyulangone.org/doctors/1568488427/sean-m-farquharson",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "mount-sinai-hospital-ir",
-   "name": "Mount Sinai Interventional Radiology",
-   "practice": "Mount Sinai Interventional Radiology",
-   "address": "1 Gustave L. Levy Place Box 1194, New York, NY 10029",
-   "phone": "212-241-4046",
-   "website": "https://www.mountsinai.org/care/interventional-radiology/services/fibroid/uterine-fibroid-embolization",
-   "lat": 40.7918,
-   "lon": -73.9447,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://www.mountsinai.org/care/interventional-radiology/services/fibroid/uterine-fibroid-embolization",
-     "checked": "2026-10-05"
-    },
-    {
-     "url": "https://www.mountsinai.org/care/interventional-radiology/services/uterine-fibroid-embolization",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "P018",
-   "name": "Montefiore Medical Center",
-   "practice": "Montefiore Medical Center",
-   "address": "111 E 210th St Department Of Radiology, Bronx, NY 10467",
-   "phone": "718-920-5506",
-   "website": "https://montefioreeinstein.org/patient-care/services/womens/treatment/fibriod-center",
-   "lat": 40.8737,
-   "lon": -73.8712,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://montefioreeinstein.org/patient-care/services/womens/treatment/fibriod-center",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "P036",
-   "name": "Mount Sinai South Nassau",
-   "practice": "Mount Sinai South Nassau",
-   "address": "1 Healthy Way Attn: Radiology, Oceanside, NY 11572",
-   "phone": "516-632-3047",
-   "website": "https://southnassau.org/sn/uterinefibroidembolization",
-   "lat": 40.6362,
-   "lon": -73.6375,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://southnassau.org/sn/uterinefibroidembolization",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "P041",
-   "name": "St. John's Riverside Hospital",
-   "practice": "St. John's Riverside Hospital",
-   "address": "967 N Broadway, Yonkers, NY 10701",
-   "phone": "914-964-4325",
-   "website": "https://riversidehealth.org/specialty-services/outpatient-services/interventional-radiology/",
-   "lat": 40.9461,
-   "lon": -73.8669,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://riversidehealth.org/specialty-services/outpatient-services/interventional-radiology/",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "practice",
-   "practice_id": "P045",
-   "name": "St. Francis Hospital & Heart Center",
-   "practice": "St. Francis Hospital & Heart Center",
-   "address": "2200 Northern Blvd (Ambulatory Center), East Hills, NY 11548",
-   "phone": "516-562-6500",
-   "website": "https://stfrancisheartcenter.chsli.org/sfh-patients-depts-and-services-radiology",
-   "lat": 40.8125,
-   "lon": -73.6261,
-   "status": "Sourced (practice)",
-   "sources": [
-    {
-     "url": "https://stfrancisheartcenter.chsli.org/sfh-patients-depts-and-services-radiology",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1104186097",
-   "name": "Nicole Lamparello",
-   "credential": "MD",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th St # P-512, New York, NY 10065",
-   "phone": "646-962-5757",
-   "phone_source": "practice public page",
-   "website": "https://weillcornell.org/nicole-lamparello-md",
-   "lat": 40.7651,
-   "lon": -73.9638,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
-     "url": "https://weillcornell.org/nicole-lamparello-md",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1154563922",
-   "name": "Marc Schiffman",
-   "credential": "M.D.",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E. 68th Street, Box 141 - Dept. Of Radiology New York Presbyterian-Weill Cornell Medical College, New York, NY 10065",
-   "phone": "646-962-5757",
-   "phone_source": "practice public page",
-   "website": "https://weillcornell.org/mschiffman",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://weillcornell.org/mschiffman",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1144451303",
-   "name": "Benjamin May",
-   "credential": "M.D.",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th Street, Box 141, Department Of Radiology Newyork-Presbyterian - Weill Cornell Medical College, New York, NY 10065",
-   "phone": "646-962-5757",
-   "phone_source": "practice public page",
-   "website": "https://weillcornell.org/bmay",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://weillcornell.org/bmay",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1780924548",
-   "name": "Liwei Jiang",
-   "credential": "M.D.",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "646-677-7001",
-   "phone_source": "practice public page",
-   "website": "https://www.mskcc.org/cancer-care/doctors/liwei-jiang",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://www.mskcc.org/cancer-care/doctors/liwei-jiang",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1538628649",
-   "name": "Ethan Davoudzadeh",
-   "credential": "MD",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "646-677-7001",
-   "phone_source": "practice public page",
-   "website": "https://www.mskcc.org/cancer-care/doctors/ethan-davoudzadeh",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://www.mskcc.org/cancer-care/doctors/ethan-davoudzadeh",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1174970131",
-   "name": "Shu Liu",
-   "credential": "MD",
-   "practice": "NYU Langone Health Vascular & Interventional Radiology",
-   "address": "550 1st Ave, New York, NY 10016",
-   "phone": "212-263-5898",
-   "phone_source": "practice public page",
-   "website": "https://nyulangone.org/doctors/1174970131/shu-liu",
-   "lat": 40.7443,
-   "lon": -73.9781,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://nyulangone.org/doctors/1174970131/shu-liu",
+     "url": "https://www.columbiaradiology.org/profile/stephen-p-reis-md",
      "checked": "2026-10-05"
     }
    ]
@@ -314,9 +61,81 @@
    "lat": 40.7443,
    "lon": -73.9781,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
      "url": "https://nyulangone.org/doctors/1013204858/kopal-s-kulkarni",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1104186097",
+   "name": "Nicole Lamparello",
+   "credential": "MD",
+   "practice": "Weill Cornell Medicine Interventional Radiology",
+   "address": "525 E 68th St # P-512, New York, NY 10065",
+   "phone": "646-962-5757",
+   "phone_source": "practice public page",
+   "website": "https://weillcornell.org/nicole-lamparello-md",
+   "lat": 40.7651,
+   "lon": -73.9638,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://weillcornell.org/nicole-lamparello-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1144451303",
+   "name": "Benjamin May",
+   "credential": "M.D.",
+   "practice": "Weill Cornell Medicine Interventional Radiology",
+   "address": "525 E 68th Street, Box 141, Department Of Radiology Newyork-Presbyterian - Weill Cornell Medical College, New York, NY 10065",
+   "phone": "646-962-5757",
+   "phone_source": "practice public page",
+   "website": "https://weillcornell.org/bmay",
+   "lat": 40.7651,
+   "lon": -73.9638,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://weillcornell.org/bmay",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1154563922",
+   "name": "Marc Schiffman",
+   "credential": "M.D.",
+   "practice": "Weill Cornell Medicine Interventional Radiology",
+   "address": "525 E. 68th Street, Box 141 - Dept. Of Radiology New York Presbyterian-Weill Cornell Medical College, New York, NY 10065",
+   "phone": "646-962-5757",
+   "phone_source": "practice public page",
+   "website": "https://weillcornell.org/mschiffman",
+   "lat": 40.7651,
+   "lon": -73.9638,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://weillcornell.org/mschiffman",
      "checked": "2026-10-05"
     }
    ]
@@ -334,6 +153,9 @@
    "lat": 40.7443,
    "lon": -73.9781,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
      "url": "https://nyulangone.org/doctors/1154737567/elizabeth-m-morris",
@@ -343,80 +165,69 @@
   },
   {
    "kind": "physician",
-   "npi": "1851704514",
-   "name": "William Johnson",
+   "npi": "1174970131",
+   "name": "Shu Liu",
    "credential": "MD",
-   "practice": "",
-   "address": "506 6th St, Brooklyn, NY 11215",
-   "phone": "347-882-6948",
-   "phone_source": "NPPES",
-   "website": "https://doctors.nyp.org/william-johnson-md/interventional-radiology",
-   "lat": 40.6669,
-   "lon": -73.9828,
+   "practice": "NYU Langone Health Vascular & Interventional Radiology",
+   "address": "550 1st Ave, New York, NY 10016",
+   "phone": "212-263-5898",
+   "phone_source": "practice public page",
+   "website": "https://nyulangone.org/doctors/1174970131/shu-liu",
+   "lat": 40.7443,
+   "lon": -73.9781,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
-     "url": "https://doctors.nyp.org/william-johnson-md/interventional-radiology",
+     "url": "https://nyulangone.org/doctors/1174970131/shu-liu",
      "checked": "2026-10-05"
     }
    ]
   },
   {
    "kind": "physician",
-   "npi": "1699934844",
-   "name": "Aaron Fischman",
-   "credential": "M.D.",
+   "npi": "1245526433",
+   "name": "Vivian Bishay",
+   "credential": "MD",
    "practice": "Mount Sinai Interventional Radiology",
-   "address": "1176 5th Ave, New York, NY 10029",
+   "address": "1 Gustave L Levy Pl, New York, NY 10029",
    "phone": "212-241-4046",
    "phone_source": "practice public page",
-   "website": "https://profiles.mountsinai.org/aaron-fischman",
+   "website": "https://profiles.mountsinai.org/vivian-l-bishay",
    "lat": 40.7918,
    "lon": -73.9447,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
-     "url": "https://profiles.mountsinai.org/aaron-fischman",
+     "url": "https://profiles.mountsinai.org/vivian-l-bishay",
      "checked": "2026-10-05"
     }
    ]
   },
   {
    "kind": "physician",
-   "npi": "1114118304",
-   "name": "Shashi Singh",
-   "credential": "MBBS",
-   "practice": "",
-   "address": "1400 Pelham Pkwy S Bronx, Bronx, NY 10461",
-   "phone": "718-918-4600",
-   "phone_source": "NPPES",
-   "website": "https://einsteinmed.edu/faculty/11940/shashi-singh",
-   "lat": 40.8465,
-   "lon": -73.841,
-   "status": "Sourced",
-   "sources": [
-    {
-     "url": "https://einsteinmed.edu/faculty/11940/shashi-singh",
-     "checked": "2026-10-05"
-    }
-   ]
-  },
-  {
-   "kind": "physician",
-   "npi": "1447530167",
-   "name": "Geraldine Abbey-Mensah",
-   "credential": "M.D.",
-   "practice": "Mount Sinai South Nassau",
-   "address": "1 Healthy Way, Oceanside, NY 11572",
-   "phone": "516-632-3047",
+   "npi": "1538628649",
+   "name": "Ethan Davoudzadeh",
+   "credential": "MD",
+   "practice": "Memorial Sloan Kettering Interventional Radiology",
+   "address": "1275 York Ave, New York, NY 10065",
+   "phone": "646-677-7001",
    "phone_source": "practice public page",
-   "website": "https://southnassau.org/sn/uterinefibroidembolization",
-   "lat": 40.6362,
-   "lon": -73.6375,
+   "website": "https://www.mskcc.org/cancer-care/doctors/ethan-davoudzadeh",
+   "lat": 40.7651,
+   "lon": -73.9638,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
-     "url": "https://southnassau.org/sn/uterinefibroidembolization",
+     "url": "https://www.mskcc.org/cancer-care/doctors/ethan-davoudzadeh",
      "checked": "2026-10-05"
     }
    ]
@@ -434,9 +245,58 @@
    "lat": 40.7443,
    "lon": -73.9781,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
      "url": "https://nyulangone.org/doctors/1568488427/sean-m-farquharson",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1699934844",
+   "name": "Aaron Fischman",
+   "credential": "M.D.",
+   "practice": "Mount Sinai Interventional Radiology",
+   "address": "1176 5th Ave, New York, NY 10029",
+   "phone": "212-241-4046",
+   "phone_source": "practice public page",
+   "website": "https://profiles.mountsinai.org/aaron-fischman",
+   "lat": 40.7918,
+   "lon": -73.9447,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://profiles.mountsinai.org/aaron-fischman",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1780924548",
+   "name": "Liwei Jiang",
+   "credential": "M.D.",
+   "practice": "Memorial Sloan Kettering Interventional Radiology",
+   "address": "1275 York Ave, New York, NY 10065",
+   "phone": "646-677-7001",
+   "phone_source": "practice public page",
+   "website": "https://www.mskcc.org/cancer-care/doctors/liwei-jiang",
+   "lat": 40.7651,
+   "lon": -73.9638,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.mskcc.org/cancer-care/doctors/liwei-jiang",
      "checked": "2026-10-05"
     }
    ]
@@ -454,9 +314,203 @@
    "lat": 40.7864,
    "lon": -73.9764,
    "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
    "sources": [
     {
      "url": "https://doctors.nyp.org/ronald-s-winokur-md/2315-broadway",
+     "checked": "2026-10-05"
+    }
+   ]
+  }
+ ],
+ "practices": [
+  {
+   "kind": "practice",
+   "practice_id": "P006",
+   "name": "Staten Island University Hospital Vascular & Interventional Radiology",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
+   "address": "475 Seaview Ave, Staten Island, NY 10305",
+   "phone": "(718) 226-9181",
+   "website": "https://siuh.northwell.edu/vascular-interventional-radiology",
+   "lat": 40.5973,
+   "lon": -74.0768,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://siuh.northwell.edu/vascular-interventional-radiology",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "P017",
+   "name": "Holy Name Medical Center",
+   "practice": "Holy Name Medical Center",
+   "address": "718 Teaneck Rd, Teaneck, NJ 07666",
+   "phone": "201-833-7268",
+   "website": "https://holyname.org/Interventional/gynecologic.aspx",
+   "lat": 40.8915,
+   "lon": -74.0119,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://holyname.org/Interventional/gynecologic.aspx",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "P018",
+   "name": "Montefiore Medical Center",
+   "practice": "Montefiore Medical Center",
+   "address": "111 E 210th St Department Of Radiology, Bronx, NY 10467",
+   "phone": "718-920-5506",
+   "website": "https://montefioreeinstein.org/patient-care/services/womens/treatment/fibriod-center",
+   "lat": 40.8737,
+   "lon": -73.8712,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://montefioreeinstein.org/patient-care/services/womens/treatment/fibriod-center",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "P031",
+   "name": "NYC Health + Hospitals/Lincoln",
+   "practice": "NYC Health + Hospitals/Lincoln",
+   "address": "234 E 149th St, Bronx, NY 10451",
+   "phone": "718-579-5000",
+   "website": "https://www.nychealthandhospitals.org/lincoln/services/radiology-center/",
+   "lat": 40.8222,
+   "lon": -73.9217,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://www.nychealthandhospitals.org/lincoln/services/radiology-center/",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "P041",
+   "name": "St. John's Riverside Hospital",
+   "practice": "St. John's Riverside Hospital",
+   "address": "967 N Broadway, Yonkers, NY 10701",
+   "phone": "914-964-4325",
+   "website": "https://riversidehealth.org/specialty-services/outpatient-services/interventional-radiology/",
+   "lat": 40.9461,
+   "lon": -73.8669,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://riversidehealth.org/specialty-services/outpatient-services/interventional-radiology/",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "P089",
+   "name": "",
+   "practice": "",
+   "address": "400 East Main St, Mount Kisco, NY 10549",
+   "phone": "(914) 666-1016",
+   "website": "https://nwh.northwell.edu/radiology/uterine-artery-embolization",
+   "lat": 41.205,
+   "lon": -73.7299,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://nwh.northwell.edu/radiology/uterine-artery-embolization",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "lenox-hill-ir",
+   "name": "Lenox Hill Hospital Interventional Radiology",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
+   "address": "100 E 77th St Lenox Hill Hospital, Radiology Department, 3rd Floor, New York, NY 10075",
+   "phone": "(212) 434-2908",
+   "website": "https://lenoxhill.northwell.edu/interventional-radiology",
+   "lat": 40.7736,
+   "lon": -73.9556,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://lenoxhill.northwell.edu/interventional-radiology",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "lij-ir",
+   "name": "Long Island Jewish Medical Center Interventional Radiology",
+   "practice": "Long Island Jewish Medical Center Interventional Radiology",
+   "address": "27005 76th Ave, New Hyde Park, NY 11040",
+   "phone": "(718) 470-4143",
+   "website": "https://lij.northwell.edu/interventional-radiology",
+   "lat": 40.7294,
+   "lon": -73.6828,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://lij.northwell.edu/interventional-radiology",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "practice",
+   "practice_id": "nsuh-ir",
+   "name": "North Shore University Hospital Interventional Radiology",
+   "practice": "North Shore University Hospital Interventional Radiology",
+   "address": "300 Community Dr, Manhasset, NY 11030",
+   "phone": "(516) 562-4677",
+   "website": "https://nsuh.northwell.edu/imaging-radiology/interventional-radiology",
+   "lat": 40.7934,
+   "lon": -73.6888,
+   "status": "Sourced (practice)",
+   "tier": "practice-sourced",
+   "tier_rank": 4,
+   "tier_label": "Practice-level source only",
+   "sources": [
+    {
+     "url": "https://nsuh.northwell.edu/imaging-radiology/interventional-radiology",
      "checked": "2026-10-05"
     }
    ]
@@ -612,7 +666,7 @@
    "npi": "1588657415",
    "name": "Gagarini Espino",
    "credential": "MD",
-   "practice": "",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
    "address": "100 E 77th St Lenox Hill Hospital, Radiology Department, 3rd Floor, New York, NY 10075",
    "phone": "212-434-2685",
    "lat": 40.7736,
@@ -732,7 +786,7 @@
    "npi": "1891771739",
    "name": "Salvatore Sclafani",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "American Access Care Brooklyn",
    "address": "960 40th St, Brooklyn, NY 11219",
    "phone": "718-369-1444",
    "lat": 40.6336,
@@ -1116,7 +1170,7 @@
    "npi": "1821040080",
    "name": "Drew Caplin",
    "credential": "MD",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-4800",
    "lat": 40.7934,
@@ -1260,7 +1314,7 @@
    "npi": "1255367280",
    "name": "John Rundback",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Holy Name Medical Center",
    "address": "718 Teaneck Rd, Teaneck, NJ 07666",
    "phone": "201-227-6210",
    "lat": 40.8915,
@@ -1344,7 +1398,7 @@
    "npi": "1104856822",
    "name": "Mohammed Aladdin",
    "credential": "MD",
-   "practice": "",
+   "practice": "The Brooklyn Hospital Center",
    "address": "121 Dekalb Ave, Brooklyn, NY 11201",
    "phone": "718-250-6056",
    "lat": 40.694,
@@ -1464,7 +1518,7 @@
    "npi": "1497773568",
    "name": "David Geller",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9175",
    "lat": 40.5973,
@@ -1512,7 +1566,7 @@
    "npi": "1023038908",
    "name": "Jonathan Scheiner",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9175",
    "lat": 40.5973,
@@ -1740,7 +1794,7 @@
    "npi": "1104900109",
    "name": "Daniel Javit",
    "credential": "MD",
-   "practice": "",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
    "address": "100 E 77th St, New York, NY 10021",
    "phone": "212-434-2685",
    "lat": 40.7685,
@@ -1752,7 +1806,7 @@
    "npi": "1093890816",
    "name": "Mark Westcott",
    "credential": "MD",
-   "practice": "",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
    "address": "100 E 77th St, New York, NY 10021",
    "phone": "212-434-2685",
    "lat": 40.7685,
@@ -1764,7 +1818,7 @@
    "npi": "1710057849",
    "name": "David Siegel",
    "credential": "MD",
-   "practice": "",
+   "practice": "Long Island Jewish Medical Center Interventional Radiology",
    "address": "Lijmc-Dept Of Radiology 270-05 76th Avenue, New Hyde Park, NY 11040",
    "phone": "718-470-7134",
    "lat": 40.7294,
@@ -1788,7 +1842,7 @@
    "npi": "1295805646",
    "name": "Craig Greben",
    "credential": "MD",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "Nsuh-Dept Of Radiology 300 Community Drive, Manhasset, NY 11030",
    "phone": "516-562-4800",
    "lat": 40.7934,
@@ -1800,7 +1854,7 @@
    "npi": "1851465181",
    "name": "Alexander Vinzons",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "NYC Health + Hospitals/Lincoln",
    "address": "234 E 149th St, Bronx, NY 10451",
    "phone": "718-579-5000",
    "lat": 40.8222,
@@ -1920,7 +1974,7 @@
    "npi": "1851419717",
    "name": "Eric Gandras",
    "credential": "",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "Nsuh-Dept Of Radiology 300 Community Drive, Manhasset, NY 11030",
    "phone": "516-562-4800",
    "lat": 40.7934,
@@ -2009,6 +2063,18 @@
    "phone": "212-238-7000",
    "lat": 40.7152,
    "lon": -73.9877,
+   "status": "Listed"
+  },
+  {
+   "kind": "listed",
+   "npi": "1114118304",
+   "name": "Shashi Singh",
+   "credential": "MBBS",
+   "practice": "",
+   "address": "1400 Pelham Pkwy S Bronx, Bronx, NY 10461",
+   "phone": "718-918-4600",
+   "lat": 40.8465,
+   "lon": -73.841,
    "status": "Listed"
   },
   {
@@ -2208,7 +2274,7 @@
    "npi": "1578724456",
    "name": "Greg Goldstein",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-0100",
    "lat": 40.7934,
@@ -2268,7 +2334,7 @@
    "npi": "1962655654",
    "name": "David Singh",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Holy Name Medical Center",
    "address": "718 Teaneck Rd, Teaneck, NJ 07666",
    "phone": "201-227-6210",
    "lat": 40.8915,
@@ -2340,7 +2406,7 @@
    "npi": "1548402860",
    "name": "Christopher Moran",
    "credential": "",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "607-229-0395",
    "lat": 40.7934,
@@ -2412,7 +2478,7 @@
    "npi": "1568699403",
    "name": "Vincent Gallo",
    "credential": "MD",
-   "practice": "",
+   "practice": "Holy Name Medical Center",
    "address": "718 Teaneck Rd, Teaneck, NJ 07666",
    "phone": "973-219-5530",
    "lat": 40.8915,
@@ -2424,7 +2490,7 @@
    "npi": "1841428539",
    "name": "Oren Herman",
    "credential": "MD",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9000",
    "lat": 40.5973,
@@ -2496,7 +2562,7 @@
    "npi": "1619107703",
    "name": "Kevin Herman",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Holy Name Medical Center",
    "address": "718 Teaneck Rd, Teaneck, NJ 07666",
    "phone": "201-227-6210",
    "lat": 40.8915,
@@ -2664,7 +2730,7 @@
    "npi": "1083932297",
    "name": "Charles Goldenberg",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
    "address": "100 E 77th St, New York, NY 10075",
    "phone": "212-434-2624",
    "lat": 40.7736,
@@ -2805,18 +2871,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1245526433",
-   "name": "Vivian Bishay",
-   "credential": "MD",
-   "practice": "Mount Sinai Interventional Radiology",
-   "address": "1 Gustave L Levy Pl, New York, NY 10029",
-   "phone": "212-241-1497",
-   "lat": 40.7918,
-   "lon": -73.9447,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1598052292",
    "name": "Charbel Ishak",
    "credential": "MD",
@@ -2877,6 +2931,18 @@
   },
   {
    "kind": "listed",
+   "npi": "1447530167",
+   "name": "Geraldine Abbey-Mensah",
+   "credential": "M.D.",
+   "practice": "Mount Sinai South Nassau",
+   "address": "1 Healthy Way, Oceanside, NY 11572",
+   "phone": "516-632-3209",
+   "lat": 40.6362,
+   "lon": -73.6375,
+   "status": "Listed"
+  },
+  {
+   "kind": "listed",
    "npi": "1457632580",
    "name": "David Mobley",
    "credential": "M.D.",
@@ -2885,18 +2951,6 @@
    "phone": "212-241-1497",
    "lat": 40.7918,
    "lon": -73.9447,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1003182064",
-   "name": "Stephen Reis",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "Columbia University Department Of Radiology 622 West 168th Street Pb-1-301, New York, NY 10032",
-   "phone": "212-305-1948",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -3000,7 +3054,7 @@
    "npi": "1518227172",
    "name": "Arkadiy Palvanov",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Long Island Jewish Medical Center Interventional Radiology",
    "address": "27005 76th Ave, New Hyde Park, NY 11040",
    "phone": "718-470-7144",
    "lat": 40.7294,
@@ -3036,7 +3090,7 @@
    "npi": "1720340490",
    "name": "George Athanasatos",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "201-303-2327",
    "lat": 40.7934,
@@ -3060,7 +3114,7 @@
    "npi": "1558623512",
    "name": "George Mikhail",
    "credential": "MD",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-4800",
    "lat": 40.7934,
@@ -3084,7 +3138,7 @@
    "npi": "1902151038",
    "name": "Elliot Landau",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-6205",
    "lat": 40.5973,
@@ -3120,7 +3174,7 @@
    "npi": "1720326192",
    "name": "Yaser Al-Qasimi",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "NYC Health + Hospitals/Lincoln",
    "address": "234 E 149th St, Bronx, NY 10451",
    "phone": "718-579-5000",
    "lat": 40.8222,
@@ -3192,7 +3246,7 @@
    "npi": "1518303502",
    "name": "Michael Meshreki",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9000",
    "lat": 40.5973,
@@ -3204,7 +3258,7 @@
    "npi": "1598104929",
    "name": "Sumeet Bahl",
    "credential": "MD",
-   "practice": "",
+   "practice": "The Brooklyn Hospital Center",
    "address": "121 Dekalb Ave, Brooklyn, NY 11201",
    "phone": "718-250-8270",
    "lat": 40.694,
@@ -3264,7 +3318,7 @@
    "npi": "1124445085",
    "name": "Bhavin Patel",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr Northshore-Lij Office Of Graduate Medical Education, Manhasset, NY 11030",
    "phone": "516-562-1000",
    "lat": 40.7934,
@@ -3312,7 +3366,7 @@
    "npi": "1447662440",
    "name": "Arton Isa",
    "credential": "MD",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9181",
    "lat": 40.5973,
@@ -3329,6 +3383,18 @@
    "phone": "718-270-8867",
    "lat": 40.6505,
    "lon": -73.9349,
+   "status": "Listed"
+  },
+  {
+   "kind": "listed",
+   "npi": "1851704514",
+   "name": "William Johnson",
+   "credential": "MD",
+   "practice": "",
+   "address": "506 6th St, Brooklyn, NY 11215",
+   "phone": "347-882-6948",
+   "lat": 40.6669,
+   "lon": -73.9828,
    "status": "Listed"
   },
   {
@@ -3444,7 +3510,7 @@
    "npi": "1346636891",
    "name": "Asaph Levy",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Long Island Jewish Medical Center Interventional Radiology",
    "address": "27005 76th Ave, New Hyde Park, NY 11040",
    "phone": "718-470-7000",
    "lat": 40.7294,
@@ -3540,7 +3606,7 @@
    "npi": "1275915753",
    "name": "Nathan Cornish",
    "credential": "D.O.",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9000",
    "lat": 40.5973,
@@ -3588,7 +3654,7 @@
    "npi": "1043673692",
    "name": "Jorge Tirado",
    "credential": "MD",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-0100",
    "lat": 40.7934,
@@ -3636,7 +3702,7 @@
    "npi": "1740635036",
    "name": "Daniel Eisman",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "Holy Name Medical Center",
    "address": "718 Teaneck Rd, Teaneck, NJ 07666",
    "phone": "201-833-3000",
    "lat": 40.8915,
@@ -3696,7 +3762,7 @@
    "npi": "1750812863",
    "name": "Jaron Tepper",
    "credential": "M.D.",
-   "practice": "",
+   "practice": "NYC Health + Hospitals/Lincoln",
    "address": "234 E 149th St, Bronx, NY 10451",
    "phone": "718-579-6679",
    "lat": 40.8222,
@@ -3852,7 +3918,7 @@
    "npi": "1659809671",
    "name": "Oliver Furusato Hunt",
    "credential": "MD",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-0100",
    "lat": 40.7934,
@@ -3876,7 +3942,7 @@
    "npi": "1144750332",
    "name": "Mark Mikhitarian",
    "credential": "DO",
-   "practice": "",
+   "practice": "North Shore University Hospital Interventional Radiology",
    "address": "300 Community Dr, Manhasset, NY 11030",
    "phone": "516-562-4677",
    "lat": 40.7934,
@@ -3924,7 +3990,7 @@
    "npi": "1619472388",
    "name": "Julianne O'Gorman",
    "credential": "DO",
-   "practice": "",
+   "practice": "Lenox Hill Hospital Interventional Radiology",
    "address": "100 E 77th St Fl 3, New York, NY 10075",
    "phone": "212-494-2900",
    "lat": 40.7736,
@@ -3948,7 +4014,7 @@
    "npi": "1376048025",
    "name": "Kan Chen",
    "credential": "",
-   "practice": "",
+   "practice": "Long Island Jewish Medical Center Interventional Radiology",
    "address": "27005 76th Ave Dept Of, New Hyde Park, NY 11040",
    "phone": "718-470-4143",
    "lat": 40.7294,
@@ -4044,7 +4110,7 @@
    "npi": "1275027716",
    "name": "Hannah Bae",
    "credential": "MD",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9197",
    "lat": 40.5973,
@@ -4380,7 +4446,7 @@
    "npi": "1164041752",
    "name": "Benjamin Rajan",
    "credential": "DO",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-9000",
    "lat": 40.5973,
@@ -4464,7 +4530,7 @@
    "npi": "1952975518",
    "name": "Ahmed Elsakka",
    "credential": "MD",
-   "practice": "",
+   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
    "address": "475 Seaview Ave, Staten Island, NY 10305",
    "phone": "718-226-1784",
    "lat": 40.5973,
