@@ -27,6 +27,15 @@
       a.href = s.url; a.rel = 'noopener noreferrer'; p.appendChild(a); p.appendChild(document.createTextNode(', checked ' + s.checked)); li.appendChild(p);
     });
     li.appendChild(el('div', 'src', 'Not yet confirmed by this ' + (r.kind === 'practice' ? 'practice' : 'physician') + '.'));
+    // Attending IRs at a practice with a practice-level UFE source, not yet individually confirmed (draft, 2026-10-05).
+    // The build fills this only for people whose current attending status at this practice was checked.
+    if (r.kind === 'practice' && r.unconfirmed_attendings && r.unconfirmed_attendings.length) {
+      var u = el('div', 'unconf');
+      u.appendChild(el('div', 'unconf-h', 'IR at this practice, not yet individually confirmed for UFE'));
+      var ul = el('ul', 'unconf-l');
+      r.unconfirmed_attendings.forEach(function (p) { ul.appendChild(el('li', '', p.name + (p.credential ? ', ' + p.credential.replace(/\./g, '') : ''))); });
+      u.appendChild(ul); li.appendChild(u);
+    }
     return li;
   }
   function run(e) {

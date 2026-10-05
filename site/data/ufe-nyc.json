@@ -119,6 +119,29 @@
   },
   {
    "kind": "physician",
+   "npi": "1144789991",
+   "name": "Tarub Mabud",
+   "credential": "MD",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/tarub-mabud-md",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/tarub-mabud-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
    "npi": "1154563922",
    "name": "Marc Schiffman",
    "credential": "M.D.",
@@ -188,6 +211,29 @@
   },
   {
    "kind": "physician",
+   "npi": "1205367026",
+   "name": "Raghuram Posham",
+   "credential": "M.D.",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/raghuram-posham-md",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/raghuram-posham-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
    "npi": "1245526433",
    "name": "Vivian Bishay",
    "credential": "MD",
@@ -205,6 +251,98 @@
    "sources": [
     {
      "url": "https://profiles.mountsinai.org/vivian-l-bishay",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1255339420",
+   "name": "David Sperling",
+   "credential": "M.D.",
+   "practice": "Memorial Sloan Kettering Interventional Radiology",
+   "address": "1275 York Ave, New York, NY 10065",
+   "phone": "646-677-7001",
+   "phone_source": "practice public page",
+   "website": "https://www.mskcc.org/cancer-care/doctors/david-sperling",
+   "lat": 40.7651,
+   "lon": -73.9638,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.mskcc.org/cancer-care/doctors/david-sperling",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1356736490",
+   "name": "Behrooz Vaziri",
+   "credential": "M.D.",
+   "practice": "",
+   "address": "506 6th St, Brooklyn, NY 11215",
+   "phone": "347-442-6095",
+   "phone_source": "NPPES",
+   "website": "https://weillcornell.org/behrooz-vaziri-md",
+   "lat": 40.6669,
+   "lon": -73.9828,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://weillcornell.org/behrooz-vaziri-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1427589886",
+   "name": "Kiyon Naser-Tavakolian",
+   "credential": "M.D.",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "630 W 168th St Mc28, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://doctors.columbia.edu/us/ny/new-york/kiyon-tavakolian-md-177-ft-washington-avenue",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://doctors.columbia.edu/us/ny/new-york/kiyon-tavakolian-md-177-ft-washington-avenue",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1467484394",
+   "name": "Jonathan Susman",
+   "credential": "MD",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/jonathan-susman-md",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/jonathan-susman-md",
      "checked": "2026-10-05"
     }
    ]
@@ -257,6 +395,29 @@
   },
   {
    "kind": "physician",
+   "npi": "1649731092",
+   "name": "John Filtes",
+   "credential": "MD",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/john-m-filtes-md",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/john-m-filtes-md",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
    "npi": "1699934844",
    "name": "Aaron Fischman",
    "credential": "M.D.",
@@ -274,6 +435,29 @@
    "sources": [
     {
      "url": "https://profiles.mountsinai.org/aaron-fischman",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1780061788",
+   "name": "Asad Baig",
+   "credential": "MD",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/asad-baig-md",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/asad-baig-md",
      "checked": "2026-10-05"
     }
    ]
@@ -323,6 +507,75 @@
      "checked": "2026-10-05"
     }
    ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1881049112",
+   "name": "Brett Marinelli",
+   "credential": "",
+   "practice": "Mount Sinai Interventional Radiology",
+   "address": "1 Gustave L Levy Pl, New York, NY 10029",
+   "phone": "212-241-4046",
+   "phone_source": "practice public page",
+   "website": "https://profiles.mountsinai.org/brett-marinelli",
+   "lat": 40.7918,
+   "lon": -73.9447,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://profiles.mountsinai.org/brett-marinelli",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1952628372",
+   "name": "Anoop Wattamwar",
+   "credential": "MD",
+   "practice": "",
+   "address": "30 Prospect Ave Radiology Dept, Hackensack, NJ 07601",
+   "phone": "844-646-9355",
+   "phone_source": "practice public page",
+   "website": "https://www.getcare.hackensackmeridianhealth.org/provider/anoop-wattamwar/1319047",
+   "lat": 40.8882,
+   "lon": -74.0503,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.getcare.hackensackmeridianhealth.org/provider/anoop-wattamwar/1319047",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
+   "npi": "1972802262",
+   "name": "Sidney Brejt",
+   "credential": "M.D.",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "622 W 168th St # 4-100, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://columbiaradiology.org/node/812",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://columbiaradiology.org/node/812",
+     "checked": "2026-10-05"
+    }
+   ]
   }
  ],
  "practices": [
@@ -345,7 +598,8 @@
      "url": "https://siuh.northwell.edu/vascular-interventional-radiology",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -366,7 +620,8 @@
      "url": "https://holyname.org/Interventional/gynecologic.aspx",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -387,7 +642,8 @@
      "url": "https://montefioreeinstein.org/patient-care/services/womens/treatment/fibriod-center",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -408,7 +664,8 @@
      "url": "https://www.nychealthandhospitals.org/lincoln/services/radiology-center/",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -429,7 +686,8 @@
      "url": "https://riversidehealth.org/specialty-services/outpatient-services/interventional-radiology/",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -450,7 +708,8 @@
      "url": "https://nwh.northwell.edu/radiology/uterine-artery-embolization",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -471,7 +730,8 @@
      "url": "https://lenoxhill.northwell.edu/interventional-radiology",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -492,7 +752,8 @@
      "url": "https://lij.northwell.edu/interventional-radiology",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   },
   {
    "kind": "practice",
@@ -513,7 +774,8 @@
      "url": "https://nsuh.northwell.edu/imaging-radiology/interventional-radiology",
      "checked": "2026-10-05"
     }
-   ]
+   ],
+   "unconfirmed_attendings": []
   }
  ],
  "listed": [
@@ -551,18 +813,6 @@
    "phone": "201-861-9900",
    "lat": 40.7888,
    "lon": -74.0115,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1255339420",
-   "name": "David Sperling",
-   "credential": "M.D.",
-   "practice": "Memorial Sloan Kettering Interventional Radiology",
-   "address": "1275 York Ave, New York, NY 10065",
-   "phone": "845-304-1221",
-   "lat": 40.7651,
-   "lon": -73.9638,
    "status": "Listed"
   },
   {
@@ -1451,18 +1701,6 @@
    "phone": "917-743-3866",
    "lat": 40.5457,
    "lon": -74.1792,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1467484394",
-   "name": "Jonathan Susman",
-   "credential": "MD",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
-   "phone": "212-305-9335",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -2679,18 +2917,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1952628372",
-   "name": "Anoop Wattamwar",
-   "credential": "MD",
-   "practice": "",
-   "address": "30 Prospect Ave Radiology Dept, Hackensack, NJ 07601",
-   "phone": "",
-   "lat": 40.8882,
-   "lon": -74.0503,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1831416858",
    "name": "Kyungmouk Lee",
    "credential": "M.D.",
@@ -2783,18 +3009,6 @@
    "phone": "212-636-3400",
    "lat": 40.7651,
    "lon": -73.9858,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1972802262",
-   "name": "Sidney Brejt",
-   "credential": "M.D.",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St # 4-100, New York, NY 10032",
-   "phone": "212-305-7094",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -3471,18 +3685,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1356736490",
-   "name": "Behrooz Vaziri",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "506 6th St, Brooklyn, NY 11215",
-   "phone": "347-442-6095",
-   "lat": 40.6669,
-   "lon": -73.9828,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1003201146",
    "name": "Matthew Chiarello",
    "credential": "MD",
@@ -3563,18 +3765,6 @@
    "phone": "516-862-4900",
    "lat": 40.6281,
    "lon": -73.9467,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1780061788",
-   "name": "Asad Baig",
-   "credential": "MD",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
-   "phone": "516-470-7000",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -3687,18 +3877,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1881049112",
-   "name": "Brett Marinelli",
-   "credential": "",
-   "practice": "Mount Sinai Interventional Radiology",
-   "address": "1 Gustave L Levy Pl, New York, NY 10029",
-   "phone": "212-241-1000",
-   "lat": 40.7918,
-   "lon": -73.9447,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1740635036",
    "name": "Daniel Eisman",
    "credential": "M.D.",
@@ -3771,18 +3949,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1205367026",
-   "name": "Raghuram Posham",
-   "credential": "M.D.",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
-   "phone": "212-305-9335",
-   "lat": 40.8382,
-   "lon": -73.942,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1235660804",
    "name": "Ahmad Hashmi",
    "credential": "",
@@ -3791,18 +3957,6 @@
    "phone": "516-663-2376",
    "lat": 40.7469,
    "lon": -73.6398,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1427589886",
-   "name": "Kiyon Naser-Tavakolian",
-   "credential": "M.D.",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "630 W 168th St Mc28, New York, NY 10032",
-   "phone": "212-305-5123",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
@@ -4155,18 +4309,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1144789991",
-   "name": "Tarub Mabud",
-   "credential": "MD",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
-   "phone": "212-305-2862",
-   "lat": 40.8382,
-   "lon": -73.942,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1811457690",
    "name": "Steven Shamah",
    "credential": "MD",
@@ -4199,18 +4341,6 @@
    "phone": "925-518-8293",
    "lat": 40.9477,
    "lon": -74.0672,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1649731092",
-   "name": "John Filtes",
-   "credential": "MD",
-   "practice": "ColumbiaDoctors Interventional Radiology",
-   "address": "622 W 168th St, New York, NY 10032",
-   "phone": "212-326-8874",
-   "lat": 40.8382,
-   "lon": -73.942,
    "status": "Listed"
   },
   {
