@@ -4639,6 +4639,11 @@
    "name": "Mount Sinai Interventional Radiology",
    "people": [
     {
+     "npi": "1164422531",
+     "name": "Robert Lookstein",
+     "credential": "MD"
+    },
+    {
      "npi": "1043241904",
      "name": "Rajesh Patel",
      "credential": "M.D"
@@ -4653,6 +4658,16 @@
   "nyu-langone-ir": {
    "name": "NYU Langone Health Vascular & Interventional Radiology",
    "people": [
+    {
+     "npi": "1972669265",
+     "name": "Ryan Hickey",
+     "credential": "MD"
+    },
+    {
+     "npi": "1699192815",
+     "name": "Amir Noor",
+     "credential": ""
+    },
     {
      "npi": "1891115887",
      "name": "Vikram Rajpurohit",
@@ -4687,6 +4702,11 @@
      "npi": "1992977342",
      "name": "Timothy Mcclure",
      "credential": "M.D."
+    },
+    {
+     "npi": "1891292223",
+     "name": "Anna Mckenney",
+     "credential": "MD, PHD, MPH"
     },
     {
      "npi": "1063664530",
