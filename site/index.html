@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Every Option</title>
-<meta name="description" content="Every Option. Coming soon.">
+<meta name="description" content="Every Option: plain-language guides to the treatment options for common conditions, including less invasive ones you may not have heard about. Coming soon.">
+<link rel="canonical" href="https://everyoptionmd.com/">
 <style>
   :root { --bg:#f7f5f0; --ink:#1d2a2e; --muted:#5b6b70; --accent:#2f6f6a; }
   @media (prefers-color-scheme: dark) { :root { --bg:#141a1c; --ink:#eef1ef; --muted:#9fb0b2; --accent:#7cc4bc; } }
@@ -13,16 +14,31 @@
   main { max-width:560px; }
   h1 { font-size:clamp(40px,8vw,64px); line-height:1.05; letter-spacing:-0.02em; font-weight:normal; }
   .rule { width:48px; height:3px; background:var(--accent); margin:24px 0; }
-  .soon { font-family:system-ui, sans-serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase; }
+  p { color:var(--muted); }
+  p + p { margin-top:12px; }
   footer { margin-top:48px; font-family:system-ui, sans-serif; font-size:13px; color:var(--muted); }
+  .soon { color:var(--ink); font-family:system-ui, sans-serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase; margin-top:32px; }
+  nav { margin-top:16px; font-family:system-ui, sans-serif; font-size:15px; display:flex; flex-wrap:wrap; gap:16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
 <main>
   <h1>Every Option</h1>
   <div class="rule"></div>
+  <p>Plain-language guides to the treatment options for common conditions, including less invasive ones you may not have heard about.</p>
+  <p>Every option, surgery included, listed from least to most invasive.</p>
   <p class="soon">Coming soon</p>
-  <footer>Every Option is an independent educational project, not affiliated with any hospital or health system.</footer>
+  <nav aria-label="Follow">
+    <a href="https://www.instagram.com/everyoptionmd/">Instagram</a>
+    <a href="https://www.tiktok.com/@every.option.md">TikTok</a>
+    <a href="https://www.youtube.com/@everyoptionmd">YouTube</a>
+  </nav>
+  <footer>
+    <p>Every Option is an independent educational project, not affiliated with any hospital or health system.</p>
+    <p>Educational information, not medical advice. In an emergency, call 911.</p>
+  </footer>
 </main>
 </body>
 </html>
