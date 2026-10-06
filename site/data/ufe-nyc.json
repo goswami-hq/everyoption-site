@@ -1,6 +1,6 @@
 {
  "procedure": "uterine-fibroid-embolization",
- "built": "2026-10-05",
+ "built": "2026-10-06",
  "geo": "zip centroid (zipcodes pkg 3.0.0); approximate",
  "tiers": {
   "physician-verified": {
@@ -1505,18 +1505,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1689629875",
-   "name": "Jeffrey Lautin",
-   "credential": "MD",
-   "practice": "",
-   "address": "741 Northfield Ave Suite 105, West Orange, NJ 07052",
-   "phone": "973-243-9729",
-   "lat": 40.7859,
-   "lon": -74.2568,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1952356123",
    "name": "Andrew Novick",
    "credential": "MD",
@@ -2197,18 +2185,6 @@
    "phone": "347-390-1075",
    "lat": 40.7119,
    "lon": -73.7944,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1437289048",
-   "name": "Joseph Erinjeri",
-   "credential": "MD, PHD",
-   "practice": "NYU Langone Health Vascular & Interventional Radiology",
-   "address": "560 1st Ave Suite He-221, New York, NY 10016",
-   "phone": "212-263-5898",
-   "lat": 40.7443,
-   "lon": -73.9781,
    "status": "Listed"
   },
   {
@@ -3041,18 +3017,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1558653980",
-   "name": "Resmi Charalel",
-   "credential": "M.D., M.P.H.",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th St Payson 512, New York, NY 10065",
-   "phone": "646-962-5757",
-   "lat": 40.7651,
-   "lon": -73.9638,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1053603100",
    "name": "Jaskirat Virk",
    "credential": "MD",
@@ -3061,18 +3025,6 @@
    "phone": "",
    "lat": 40.8882,
    "lon": -74.0503,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1689960031",
-   "name": "Jonathan Latzman",
-   "credential": "M.D.",
-   "practice": "Montefiore Medical Center",
-   "address": "111 E 210th St Department Of Radiology, Bronx, NY 10467",
-   "phone": "718-920-5506",
-   "lat": 40.8737,
-   "lon": -73.8712,
    "status": "Listed"
   },
   {
@@ -4616,6 +4568,11 @@
   "P002": {
    "name": "Memorial Sloan Kettering Interventional Radiology",
    "people": [
+    {
+     "npi": "1689960031",
+     "name": "Jonathan Latzman",
+     "credential": "M.D."
+    },
     {
      "npi": "1790016020",
      "name": "Ernesto Santos Martin",
