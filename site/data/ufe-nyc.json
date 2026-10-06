@@ -3413,18 +3413,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1447662440",
-   "name": "Arton Isa",
-   "credential": "MD",
-   "practice": "Staten Island University Hospital Vascular & Interventional Radiology",
-   "address": "475 Seaview Ave, Staten Island, NY 10305",
-   "phone": "718-226-9181",
-   "lat": 40.5973,
-   "lon": -74.0768,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1508279944",
    "name": "Mikhail Silk",
    "credential": "M.D.",
