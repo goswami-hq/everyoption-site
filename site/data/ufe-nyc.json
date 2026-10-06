@@ -1361,18 +1361,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1013973916",
-   "name": "Mitchell Baruchin",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "120 Franklin St, Jersey City, NJ 07307",
-   "phone": "201-216-9791",
-   "lat": 40.7482,
-   "lon": -74.0498,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1811945272",
    "name": "Shekher Maddineni",
    "credential": "MD",
@@ -2485,18 +2473,6 @@
    "phone": "516-562-0100",
    "lat": 40.7934,
    "lon": -73.6888,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1891950788",
-   "name": "Reza Karimi",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "650 From Rd Ste 220, Paramus, NJ 07652",
-   "phone": "201-342-2550",
-   "lat": 40.9477,
-   "lon": -74.0672,
    "status": "Listed"
   },
   {
@@ -3857,18 +3833,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1558893503",
-   "name": "Emma Wallace",
-   "credential": "MD/PHD",
-   "practice": "Montefiore Medical Center",
-   "address": "111 E 210th St, Bronx, NY 10467",
-   "phone": "718-430-3166",
-   "lat": 40.8737,
-   "lon": -73.8712,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1972035962",
    "name": "Dhara Kinariwala",
    "credential": "MD",
@@ -4513,18 +4477,6 @@
    "phone": "078-277-1799",
    "lat": 40.7618,
    "lon": -73.9505,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1922886209",
-   "name": "Diana Guerra",
-   "credential": "",
-   "practice": "Weill Cornell Medicine Interventional Radiology",
-   "address": "525 E 68th St # 5, New York, NY 10065",
-   "phone": "786-457-3216",
-   "lat": 40.7651,
-   "lon": -73.9638,
    "status": "Listed"
   },
   {
