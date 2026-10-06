@@ -127,6 +127,30 @@
   },
   {
    "kind": "physician",
+   "npi": "1124257639",
+   "name": "Debkumar Sarkar",
+   "credential": "D.O.",
+   "practice_id": "columbia-ir",
+   "practice": "ColumbiaDoctors Interventional Radiology",
+   "address": "177 Ft Washington Ave, New York, NY 10032",
+   "phone": "212-326-8874",
+   "phone_source": "practice public page",
+   "website": "https://www.columbiaradiology.org/profile/debkumar-sarkar-do",
+   "lat": 40.8382,
+   "lon": -73.942,
+   "status": "Sourced",
+   "tier": "physician-sourced",
+   "tier_rank": 2,
+   "tier_label": "Sourced to this physician",
+   "sources": [
+    {
+     "url": "https://www.columbiaradiology.org/profile/debkumar-sarkar-do",
+     "checked": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "kind": "physician",
    "npi": "1144451303",
    "name": "Benjamin May",
    "credential": "M.D.",
@@ -4482,11 +4506,6 @@
      "npi": "1811396377",
      "name": "Tate Kirk",
      "credential": "M.D."
-    },
-    {
-     "npi": "1124257639",
-     "name": "Debkumar Sarkar",
-     "credential": "D.O."
     }
    ]
   },
