@@ -1373,6 +1373,18 @@
   },
   {
    "kind": "listed",
+   "npi": "1831154301",
+   "name": "Sergei Sobolevsky",
+   "credential": "M.D.",
+   "practice": "",
+   "address": "480 Court St Ste 101, Brooklyn, NY 11231",
+   "phone": "718-393-5559",
+   "lat": 40.6794,
+   "lon": -74.0014,
+   "status": "Listed"
+  },
+  {
+   "kind": "listed",
    "npi": "1811945272",
    "name": "Shekher Maddineni",
    "credential": "MD",
