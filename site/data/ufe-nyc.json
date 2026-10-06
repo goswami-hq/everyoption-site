@@ -1349,18 +1349,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1831154301",
-   "name": "Sergei Sobolevsky",
-   "credential": "M.D.",
-   "practice": "",
-   "address": "480 Court St Ste 101, Brooklyn, NY 11231",
-   "phone": "718-393-5559",
-   "lat": 40.6794,
-   "lon": -74.0014,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1811945272",
    "name": "Shekher Maddineni",
    "credential": "MD",
@@ -1429,18 +1417,6 @@
    "phone": "973-972-5188",
    "lat": 40.737,
    "lon": -74.1964,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1649221789",
-   "name": "Barry Kanner",
-   "credential": "MD",
-   "practice": "",
-   "address": "3030 Westchester Ave, Purchase, NY 10577",
-   "phone": "914-607-5880",
-   "lat": 41.0384,
-   "lon": -73.7156,
    "status": "Listed"
   },
   {
