@@ -3545,18 +3545,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1346636891",
-   "name": "Asaph Levy",
-   "credential": "M.D.",
-   "practice": "Long Island Jewish Medical Center Interventional Radiology",
-   "address": "27005 76th Ave, New Hyde Park, NY 11040",
-   "phone": "718-470-7000",
-   "lat": 40.7294,
-   "lon": -73.6828,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1518354513",
    "name": "Robert Peng",
    "credential": "MD, MS",
@@ -4472,6 +4460,11 @@
   "P002": {
    "name": "Memorial Sloan Kettering Interventional Radiology",
    "people": [
+    {
+     "npi": "1093941791",
+     "name": "Yolanda Bryce",
+     "credential": "M.D."
+    },
     {
      "npi": "1689960031",
      "name": "Jonathan Latzman",
