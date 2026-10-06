@@ -2669,18 +2669,6 @@
   },
   {
    "kind": "listed",
-   "npi": "1932338514",
-   "name": "Ardeshir Rastinehad",
-   "credential": "D.O.",
-   "practice": "",
-   "address": "450 Lakeville Rd Suite M41, New Hyde Park, NY 11042",
-   "phone": "516-734-8500",
-   "lat": 40.7602,
-   "lon": -73.695,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
    "npi": "1104056589",
    "name": "Livnat Uliel",
    "credential": "MD",
@@ -2977,18 +2965,6 @@
    "phone": "952-595-1100",
    "lat": 40.8486,
    "lon": -73.8999,
-   "status": "Listed"
-  },
-  {
-   "kind": "listed",
-   "npi": "1972881035",
-   "name": "Elliot Deyoung",
-   "credential": "MD",
-   "practice": "",
-   "address": "1400 Pelham Pkwy S Department Of Surgery, Bronx, NY 10461",
-   "phone": "949-637-7074",
-   "lat": 40.8465,
-   "lon": -73.841,
    "status": "Listed"
   },
   {
@@ -4518,6 +4494,11 @@
      "npi": "1811396377",
      "name": "Tate Kirk",
      "credential": "M.D."
+    },
+    {
+     "npi": "1124257639",
+     "name": "Debkumar Sarkar",
+     "credential": "D.O."
     }
    ]
   },
@@ -4543,6 +4524,11 @@
      "npi": "1972669265",
      "name": "Ryan Hickey",
      "credential": "MD"
+    },
+    {
+     "npi": "1033747910",
+     "name": "Neil Jain",
+     "credential": "DO"
     },
     {
      "npi": "1699192815",
