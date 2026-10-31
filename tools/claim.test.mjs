@@ -19,6 +19,7 @@ test("stores a pending, not-live record", async () => {
   const keys = [...env.CLAIMS.m.keys()].filter((k) => k.startsWith("claim:")); assert.equal(keys.length, 1);
   const rec = JSON.parse(env.CLAIMS.m.get(keys[0])); assert.equal(rec.status, "pending review"); assert.equal(rec.live, false);
   assert.ok(!JSON.stringify(rec).includes("1.2.3.4"), "raw IP never stored");
+  assert.ok(!("ip_hash" in rec), "no IP hash in the claim record");
 });
 test("same submission id twice: one record", async () => {
   const env = { CLAIMS: kv() }; await post(env, good); const r = await post(env, good);

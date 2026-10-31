@@ -1,6 +1,6 @@
 // Cloudflare Pages Function: POST /api/claim. Stores a claim or correction for review; nothing goes live from here.
 // Storage: a KV namespace bound as CLAIMS. Until that binding exists the endpoint answers 503 and stores nothing.
-// Limits: 8 KB body cap, 5 submissions per connection per hour, duplicate guard (same submission id or same content
+// Limits: 8 KB body cap, 5 submissions per connection per hour (keyed by a hash of the IP kept 2 hours, never in the record), duplicate guard (same submission id or same content
 // within 24 h returns the first answer), honeypot field. Errors are logged without the submitter's details.
 
 const MAX_BYTES = 8 * 1024;
@@ -93,7 +93,7 @@ export async function onRequestPost({ request, env }) {
     await env.CLAIMS.put(rlKey, String(n + 1), { expirationTtl: 60 * 60 * 2 });
     const id = `${new Date().toISOString()}:${sid}`;
     const record = { ...clean, submission_id: sid, received: new Date().toISOString(), status: "pending review",
-      ip_hash: ipHash, live: false };
+      live: false };   // no IP or IP hash: the hash lives only in the rate-limit key, which expires in 2 hours
     await env.CLAIMS.put(`claim:${id}`, JSON.stringify(record));
     await env.CLAIMS.put(`dup:id:${sid}`, id, { expirationTtl: 60 * 60 * 24 });
     await env.CLAIMS.put(`dup:fp:${fingerprint}`, id, { expirationTtl: 60 * 60 * 24 });

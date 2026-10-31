@@ -183,7 +183,7 @@ def claim():
     body = f"""<h1>Is this you? Correct or claim a listing</h1>
 <div class="prose">
 <p class="lede">Tell us what is right. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
-<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created. To stop repeated submissions we keep a scrambled code made from your connection’s address, never the address itself.</p>
+<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created. To limit repeated submissions, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your submission.</p>
 </div>
 <form class="claim-form" id="claim-form" novalidate>
 <input type="hidden" name="listing"><input type="hidden" name="submission_id">

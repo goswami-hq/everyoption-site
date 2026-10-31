@@ -65,6 +65,13 @@
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
   function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
+  function showPhone(p) {          // display only: bare 10-digit numbers as (xxx) xxx-xxxx; anything else as written
+    var d = (p || "").replace(/\D/g, "");
+    if (/^\d+$/.test((p || "").trim()) && (d.length === 10 || (d.length === 11 && d[0] === "1"))) {
+      d = d.slice(-10); return "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6);
+    }
+    return p;
+  }
   function telHref(p) { var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : ""; }
 
   function card(p) {
@@ -86,7 +93,7 @@
     kids.push(where);
     var acts = [];
     var tel = telHref(p.phone);
-    if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + p.phone }));
+    if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(p.phone) }));
     if (p.url) acts.push(el("a", { href: p.url, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
     var e = p.evidence || {};
