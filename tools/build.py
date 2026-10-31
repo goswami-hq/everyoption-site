@@ -12,6 +12,8 @@ DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. L
               "to be listed, ranked higher, or sent patients.")
 CONTACT = "errors@everyoptionmd.com"
 ORIGIN = "https://everyoptionmd.com"
+REVIEWED = "2026-10-31"
+LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exported from (directory v3 job 4d)
 
 PROCS = {
     "ufe": {
@@ -98,16 +100,16 @@ def home():
     cards = "".join(
         f'<li><a href="/{k}/"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong>'
         f'<span class="for">{e(p["for"])}</span></a></li>' for k, p in PROCS.items())
-    body = f"""<h1>Find the doctors who do the procedure, and see why each one is listed.</h1>
-<p class="lede">Every Option shows which doctors perform a procedure, with the evidence for each listing under their name.</p>
+    body = f"""<h1>Find doctors listed for UFE, PAE and GAE near you, and see why each one is listed.</h1>
+<p class="lede">Every Option shows the evidence for each listing under the doctor’s name: whether their own page says they perform the procedure, or a page only lists it.</p>
 <ul class="finders">{cards}</ul>
 <div class="about">
 <p>Type your ZIP code on a procedure page. Doctors with evidence that they perform it come first; doctors whose pages only list it come next. Nearest first.</p>
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
-    return page("/", "Every Option: find doctors for UFE, PAE and GAE, with the evidence shown",
-                "Find doctors who perform uterine fibroid embolization, prostate artery embolization or genicular "
-                "artery embolization near you, with the evidence for each listing.", body)
+    return page("/", "Every Option: find doctors listed for UFE, PAE and GAE, with the evidence shown",
+                "Find doctors listed for uterine fibroid embolization, prostate artery embolization or genicular "
+                "artery embolization near you, with the evidence for each listing shown.", body)
 
 
 def finder(k):
@@ -128,10 +130,11 @@ def finder(k):
 <div id="results"></div>
 <noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>
 </div>
-<p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>"""
+<p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>
+<p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
-                f"Doctors who perform {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first, with the "
-                "evidence for each listing.", body, ["/assets/finder.js"])
+                f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first, with the "
+                "evidence for each listing shown.", body, ["/assets/finder.js"])
 
 
 def how():
@@ -140,8 +143,8 @@ def how():
 <p class="lede">Every doctor on a procedure page is there because of something we can show you. The evidence sits under their name, with a link to where it came from.</p>
 <h2>What the two groups mean</h2>
 <dl class="grades">
-<div><dt>Performs this procedure</dt><dd>The doctor’s own page says they perform it (for example, “she performs uterine fibroid embolization” or “has extensive experience in” it), or public Medicare billing records show a billing code used only for this procedure.</dd></div>
-<div><dt>Lists this procedure; confirm with the practice</dt><dd>A page lists or mentions the procedure, but does not say this doctor performs it: a list of services, a practice page, a search-result preview of their page, or a ClinicalTrials.gov study they lead. Call the practice before you book.</dd></div>
+<div><dt>Performs this procedure</dt><dd>The doctor’s own page says they perform it (for example, “she performs uterine fibroid embolization” or “has extensive experience in” it).</dd></div>
+<div><dt>Lists this procedure; confirm with the practice</dt><dd>A page lists or mentions the procedure, but does not say this doctor performs it: a list of services, a practice page, a search-result preview, a directory listing, a ClinicalTrials.gov study of the procedure they lead, or public Medicare billing for an embolization code shared by several procedures together with a page that names this one. Call the practice before you book.</dd></div>
 </dl>
 <p>We only show a doctor when we have one of these. People with weaker evidence are not shown.</p>
 <h2>Where the evidence comes from</h2>
@@ -150,6 +153,8 @@ def how():
 <li><strong>Practice pages:</strong> the services page of the practice they work in.</li>
 <li><strong>Public Medicare billing records:</strong> the yearly files Medicare publishes on what each doctor billed. We show the code and the year.</li>
 <li><strong>ClinicalTrials.gov:</strong> the U.S. registry of clinical studies, where study leaders are named.</li>
+<li><strong>Search-engine results:</strong> the short preview a search engine shows of a page we could not read in full. The card says when evidence comes from one.</li>
+<li><strong>Directory listings:</strong> other websites that copy a doctor’s profile. The card says when evidence comes from one.</li>
 </ul>
 <p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances are measured between ZIP code centres, not street addresses.</p>
 <h2>A blank is not a no</h2>
@@ -162,10 +167,10 @@ def how():
 </ul>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
-<p>The order on every page is by distance only.</p>
+<p>Within each group, the order is by distance only.</p>
 <h2>Report an error</h2>
 <p>If something is wrong, or you are a listed doctor and want to correct or claim your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
-<p class="small muted">Education, not medical advice.</p>
+<p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
     return page("/how-we-know/", "How we know | Every Option",
                 "What the two groups on Every Option mean, where the evidence comes from, and how to report an error.",
@@ -178,7 +183,7 @@ def claim():
     body = f"""<h1>Is this you? Correct or claim a listing</h1>
 <div class="prose">
 <p class="lede">Tell us what is right. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
-<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created.</p>
+<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created. To stop repeated submissions we keep a scrambled code made from your connection’s address, never the address itself.</p>
 </div>
 <form class="claim-form" id="claim-form" novalidate>
 <input type="hidden" name="listing"><input type="hidden" name="submission_id">

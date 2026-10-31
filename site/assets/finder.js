@@ -23,7 +23,7 @@
   var KIND = {
     "own_page": "From the doctor's own page",
     "own_page (search excerpt)": "From a search-engine excerpt of the doctor's own page",
-    "search_preview": "From a search-result preview of the doctor's page",
+    "search_preview": "From a search-result preview",
     "practice_page": "From the practice's page",
     "registry_copy": "From a directory listing of the doctor's profile",
     "clinicaltrials": "From ClinicalTrials.gov",
@@ -164,7 +164,7 @@
       if (!near.length) { say(""); out.appendChild(widen(zip, r)); return; }
       say(near.length + (near.length === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first.");
       if (A.length) out.appendChild(section(A, "tier-a", "Performs this procedure",
-        "Their own page, or public billing records, say they perform it. The evidence is under each name."));
+        "Their own page says they perform it. The evidence is under each name."));
       else out.appendChild(el("div", { "class": "notice" }, [el("p", { text: "No one within " + r + " miles has evidence that they perform it themselves. The doctors below list it; confirm with the practice." })]));
       if (B.length) out.appendChild(section(B, "tier-b", "Lists this procedure; confirm with the practice",
         "A page lists or mentions it, but does not say this doctor performs it. Call before you book."));
