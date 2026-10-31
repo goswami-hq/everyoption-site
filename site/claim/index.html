@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correct or claim a listing | Every Option</title>
+<meta name="description" content="Doctors and practices can correct or claim an Every Option listing. A person reviews every submission.">
+<link rel="canonical" href="https://everyoptionmd.com/claim/">
+<link rel="stylesheet" href="/assets/site.css">
+<meta name="color-scheme" content="light dark">
+<script src="/assets/claim.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="/"><span aria-hidden="true"></span>Every Option</a>
+<nav class="top" aria-label="Main"><a href="/">Home</a><a href="/ufe/">UFE</a><a href="/pae/">PAE</a><a href="/gae/">GAE</a><a href="/how-we-know/">How we know</a></nav>
+</div></header>
+<main id="main"><div class="wrap">
+<h1>Is this you? Correct or claim a listing</h1>
+<div class="prose">
+<p class="lede">Tell us what is right. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
+<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created.</p>
+</div>
+<form class="claim-form" id="claim-form" novalidate>
+<input type="hidden" name="listing"><input type="hidden" name="submission_id">
+<fieldset><legend>I am</legend><div class="checks">
+<label><input type="radio" name="role" value="doctor" checked> The doctor listed</label>
+<label><input type="radio" name="role" value="practice"> Staff at their practice</label>
+<label><input type="radio" name="role" value="other"> Someone reporting an error</label>
+</div></fieldset>
+<div><label for="c-name">Doctor’s full name</label><input id="c-name" name="name" maxlength="120" autocomplete="name" required></div>
+<div><label for="c-npi">NPI <span class="hint">(10 digits; required if you are the doctor)</span></label><input id="c-npi" name="npi" inputmode="numeric" maxlength="10" pattern="[0-9]{10}"></div>
+<div><label for="c-email">Your email</label><input id="c-email" name="email" type="email" maxlength="200" autocomplete="email" required></div>
+<fieldset><legend>Procedures the doctor performs</legend><div class="checks"><label><input type="checkbox" name="procedures" value="ufe"> Uterine fibroid embolization (UFE)</label><label><input type="checkbox" name="procedures" value="pae"> Prostate artery embolization (PAE)</label><label><input type="checkbox" name="procedures" value="gae"> Genicular artery embolization (GAE)</label></div></fieldset>
+<div><label for="c-practice">Correct practice name</label><input id="c-practice" name="practice" maxlength="200" autocomplete="organization"></div>
+<div class="row2">
+<div><label for="c-city">City</label><input id="c-city" name="city" maxlength="100" autocomplete="address-level2"></div>
+<div><label for="c-state">State <span class="hint">(2 letters)</span></label><input id="c-state" name="state" maxlength="2" autocomplete="address-level1" style="text-transform:uppercase"></div>
+</div>
+<div><label for="c-note">Anything else <span class="hint">(optional; please do not include any patient information)</span></label><textarea id="c-note" name="note" rows="4" maxlength="2000"></textarea></div>
+<div class="hp" aria-hidden="true"><label for="c-website">Leave this empty</label><input id="c-website" name="website" tabindex="-1" autocomplete="off"></div>
+<div><button type="submit">Send</button></div>
+</form>
+<div id="claim-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
+<noscript><p class="notice">This form needs JavaScript. You can email <a href="mailto:errors@everyoptionmd.com">errors@everyoptionmd.com</a> instead.</p></noscript>
+</div></main>
+<footer class="site"><div class="wrap">
+<p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
+<p>Found an error? <a href="/claim/">Use the correction form</a> or email <a href="mailto:errors@everyoptionmd.com">errors@everyoptionmd.com</a>.</p>
+<p class="disclosure">Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay to be listed, ranked higher, or sent patients.</p>
+<p><a href="/how-we-know/">How we know</a></p>
+</div></footer>
+</body>
+</html>
