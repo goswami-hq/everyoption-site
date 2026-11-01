@@ -20,15 +20,6 @@
     "by procedure": "Their own page says they perform catheter procedures interventional radiologists do",
     "by billing": "Public Medicare billing records show interventional radiology procedures"
   };
-  var KIND = {
-    "own_page": "From the doctor's own page",
-    "own_page (search excerpt)": "From a search-engine excerpt of the doctor's own page",
-    "search_preview": "From a search-result preview",
-    "practice_page": "From the practice's page",
-    "registry_copy": "From a directory listing of the doctor's profile",
-    "clinicaltrials": "From ClinicalTrials.gov",
-    "medicare_ps": "From public Medicare billing records"
-  };
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -64,7 +55,6 @@
       Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
-  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
   function showPhone(p) {          // display only: bare 10-digit numbers as (xxx) xxx-xxxx; anything else as written
     var d = (p || "").replace(/\D/g, "");
     if (/^\d+$/.test((p || "").trim()) && (d.length === 10 || (d.length === 11 && d[0] === "1"))) {
@@ -96,17 +86,9 @@
     if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(p.phone) }));
     if (p.url) acts.push(el("a", { href: p.url, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
-    var e = p.evidence || {};
-    var ev = el("div", { "class": "evidence" }, [
-      el("span", { "class": "kind", text: KIND[e.kind] || "Evidence" }),
-      !e.text ? null : e.kind === "clinicaltrials" || e.kind === "medicare_ps" ? el("span", { text: e.text }) : el("q", { text: e.text }),
-      e.url ? el("a", { "class": "src", href: e.url, rel: "noopener nofollow", target: "_blank",
-        text: "Source: " + (host(e.url) || e.url) }) : null
-    ]);
-    kids.push(ev);
     var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
     kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, [
-      el("a", { href: "/claim/" + q, text: "Is this you?" }), " Correct or claim this listing."
+      el("a", { href: "/claim/" + q, text: "Is this you?" }), " Confirm or correct this listing."
     ]));
     return el("li", { "class": "card" }, kids);
   }
@@ -136,8 +118,8 @@
     var bigger = RADII.filter(function (x) { return x > r; });
     var box = el("div", { "class": "notice", role: "status" }, [
       el("p", null, [el("strong", { text: "No doctors found near this ZIP." }),
-        " We found no one within " + r + " miles of " + zip + " with evidence for this procedure."]),
-      el("p", { text: "A blank is not a no: we may not have found their page yet." })
+        " We found no one within " + r + " miles of " + zip + " for this procedure."]),
+      el("p", { text: "A blank is not a no: we may not have found them yet." })
     ]);
     if (bigger.length) {
       var p = el("p");
@@ -166,15 +148,14 @@
       var near = d.people.filter(function (p) { return p.lat !== null && p.lon !== null; }).map(function (p) {
         var c = Object.assign({}, p); c.miles = miles(centre, [p.lat, p.lon]); return c;
       }).filter(function (p) { return p.miles <= r; }).sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); });
-      var A = near.filter(function (p) { return p.grade === "A"; }), B = near.filter(function (p) { return p.grade === "B"; });
+      var confirmed = near.filter(function (p) { return p.confirmed; }), likely = near.filter(function (p) { return !p.confirmed; });
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
       if (!near.length) { say(""); out.appendChild(widen(zip, r)); return; }
       say(near.length + (near.length === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first.");
-      if (A.length) out.appendChild(section(A, "tier-a", "Performs this procedure",
-        "Their own page says they perform it. The evidence is under each name."));
-      else out.appendChild(el("div", { "class": "notice" }, [el("p", { text: "No one within " + r + " miles has evidence that they perform it themselves. The doctors below list it; confirm with the practice." })]));
-      if (B.length) out.appendChild(section(B, "tier-b", "Lists this procedure; confirm with the practice",
-        "A page lists or mentions it, but does not say this doctor performs it. Call before you book."));
+      if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Performs this procedure, confirmed by physician",
+        "The doctor confirmed this with us. Nearest first."));
+      if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
+        "Based on public information online. Call the office to confirm. Nearest first."));
       out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
         "Distances are between ZIP centres, not street addresses. ",
         el("a", { href: "/how-we-know/", text: "How we know" })]));

@@ -117,16 +117,16 @@ def home():
     cards = "".join(
         f'<li><a href="/{k}/"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong>'
         f'<span class="for">{e(p["for"])}</span></a></li>' for k, p in PROCS.items())
-    body = f"""<h1>Find doctors listed for UFE, PAE and GAE near you, and see why each one is listed.</h1>
-<p class="lede">Every Option shows the evidence for each listing under the doctor’s name: whether their own page says they perform the procedure, or a page only lists it.</p>
+    body = f"""<h1>Find doctors who perform UFE, PAE and GAE near you.</h1>
+<p class="lede">Every Option shows you who near you likely performs these procedures, and who has confirmed it themselves.</p>
 <ul class="finders">{cards}</ul>
 <div class="about">
-<p>Type your ZIP code on a procedure page. Doctors with evidence that they perform it come first; doctors whose pages only list it come next. Nearest first.</p>
+<p>Type your ZIP code on a procedure page. Doctors who confirmed they perform it come first, then doctors who likely perform it. Nearest first.</p>
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
-    return page("/", "Every Option: find doctors listed for UFE, PAE and GAE, with the evidence shown",
-                "Find doctors listed for uterine fibroid embolization, prostate artery embolization or genicular "
-                "artery embolization near you, with the evidence for each listing shown.", body)
+    return page("/", "Every Option: find doctors who perform UFE, PAE and GAE",
+                "Find doctors who perform uterine fibroid embolization, prostate artery embolization or genicular "
+                "artery embolization near you.", body)
 
 
 def finder(k):
@@ -152,33 +152,29 @@ def finder(k):
 <p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
-                f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first, with the "
-                "evidence for each listing shown.", body, ["/assets/finder.js"])
+                f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body, ["/assets/finder.js"])
 
 
 def how():
     body = f"""<h1>How we know</h1>
 <div class="prose">
-<p class="lede">Every doctor on a procedure page is there because of something we can show you. The evidence sits under their name, with a link to where it came from.</p>
+<p class="lede">We look through public information so you can find who near you does a procedure. Doctors can confirm or correct their own listing for free.</p>
 <h2>What the two groups mean</h2>
 <dl class="grades">
-<div><dt>Performs this procedure</dt><dd>The doctor’s own page says they perform it (for example, “she performs uterine fibroid embolization” or “has extensive experience in” it).</dd></div>
-<div><dt>Lists this procedure; confirm with the practice</dt><dd>A page lists or mentions the procedure, but does not say this doctor performs it: a list of services, a practice page, a search-result preview, a directory listing, a ClinicalTrials.gov study of the procedure they lead, or public Medicare billing for an embolization code shared by several procedures together with a page that names this one. Call the practice before you book.</dd></div>
+<div><dt>Performs this procedure, confirmed by physician</dt><dd>The doctor told us they perform it. A person checks each submission before it appears.</dd></div>
+<div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it. We have not heard from the doctor, so call the office to confirm.</dd></div>
 </dl>
-<p>We only show a doctor when we have one of these. People with weaker evidence are not shown.</p>
-<h2>Where the evidence comes from</h2>
+<h2>Where the information comes from</h2>
 <ul>
-<li><strong>Doctors’ own pages:</strong> their profile on a hospital, university or practice website.</li>
-<li><strong>Practice pages:</strong> the services page of the practice they work in.</li>
-<li><strong>Public Medicare billing records:</strong> the yearly files Medicare publishes on what each doctor billed. We show the code and the year.</li>
-<li><strong>ClinicalTrials.gov:</strong> the U.S. registry of clinical studies, where study leaders are named.</li>
-<li><strong>Search-engine results:</strong> the short preview a search engine shows of a page we could not read in full. The card says when evidence comes from one.</li>
-<li><strong>Directory listings:</strong> other websites that copy a doctor’s profile. The card says when evidence comes from one.</li>
+<li>Doctors’ profiles on hospital, university and practice websites, and search results for those pages.</li>
+<li>Practice websites.</li>
+<li>Public Medicare billing records.</li>
+<li>ClinicalTrials.gov, the U.S. registry of clinical studies.</li>
+<li>Other websites that copy a doctor’s profile.</li>
 </ul>
-<p>We shorten quotes to the words that name the procedure and leave out a page’s claims about results, safety or other treatments. “…” marks a cut. When nothing is left, the card shows only where the evidence came from, with the link.</p>
 <p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances are measured between ZIP code centres, not street addresses.</p>
 <h2>A blank is not a no</h2>
-<p>If a doctor is missing, or shows only in the second group, it usually means we have not found a page that says more. It does not mean they don’t perform the procedure.</p>
+<p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
 <h2>The badge under a name</h2>
 <ul>
 <li><strong>Interventional radiologist:</strong> their own page states interventional radiology training or board certification.</li>
@@ -187,22 +183,22 @@ def how():
 </ul>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
-<p>Within each group, the order is by distance only.</p>
+<p>Confirming is free. Within each group, the order is by distance only.</p>
 <h2>Report an error</h2>
-<p>If something is wrong, or you are a listed doctor and want to correct or claim your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
+<p>If something is wrong, or you are a listed doctor and want to confirm or correct your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
     return page("/how-we-know/", "How we know | Every Option",
-                "What the two groups on Every Option mean, where the evidence comes from, and how to report an error.",
+                "What the two groups on Every Option mean, where the information comes from, and how to report an error.",
                 body)
 
 
 def claim():
     checks = "".join(f'<label><input type="checkbox" name="procedures" value="{k}"> {e(p["name"])} ({p["abbr"]})</label>'
                      for k, p in PROCS.items())
-    body = f"""<h1>Is this you? Correct or claim a listing</h1>
+    body = f"""<h1>Is this you? Confirm or correct a listing</h1>
 <div class="prose">
-<p class="lede">Tell us what is right. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
+<p class="lede">Tell us which procedures you perform. Doctors who confirm are listed first for those procedures, free. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
 <p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created. To limit repeated submissions, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your submission.</p>
 </div>
 <form class="claim-form" id="claim-form" novalidate>
