@@ -99,7 +99,7 @@
     var e = p.evidence || {};
     var ev = el("div", { "class": "evidence" }, [
       el("span", { "class": "kind", text: KIND[e.kind] || "Evidence" }),
-      e.kind === "clinicaltrials" || e.kind === "medicare_ps" ? el("span", { text: e.text }) : el("q", { text: e.text }),
+      !e.text ? null : e.kind === "clinicaltrials" || e.kind === "medicare_ps" ? el("span", { text: e.text }) : el("q", { text: e.text }),
       e.url ? el("a", { "class": "src", href: e.url, rel: "noopener nofollow", target: "_blank",
         text: "Source: " + (host(e.url) || e.url) }) : null
     ]);

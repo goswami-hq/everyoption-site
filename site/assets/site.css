@@ -47,7 +47,9 @@ p { margin: 0 0 12px; }
 
 .about { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin: 18px 0; }
 .about p:last-child { margin-bottom: 0; }
-.sources { font-size: 14px; color: var(--muted); }
+.sources { font-size: 14px; color: var(--muted); margin-top: 10px; }
+.sources summary { cursor: pointer; color: var(--accent); text-decoration: underline; }
+.sources ul { margin: 8px 0 0; padding-left: 18px; }
 
 form.zip { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin: 18px 0 8px; }
 form.zip label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 4px; }

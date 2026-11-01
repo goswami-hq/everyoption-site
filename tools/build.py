@@ -12,45 +12,55 @@ DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. L
               "to be listed, ranked higher, or sent patients.")
 CONTACT = "errors@everyoptionmd.com"
 ORIGIN = "https://everyoptionmd.com"
-REVIEWED = "2026-10-31"
+REVIEWED = "2026-11-01"
 LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exported from (directory v3 job 4d)
 
+# Finder blurbs: projects/platform/content/pages/pae-gae-blurbs-draft.md in goswami-hq/ai-hq, word for word (his
+# style rule, 2026-11-01: plain, no statistics, trial names or evidence grades in the visible text). Sources sit under
+# a collapsed "Sources" link.
 PROCS = {
     "ufe": {
         "name": "Uterine fibroid embolization", "abbr": "UFE", "for": "Fibroids",
         "title": "Find a doctor for uterine fibroid embolization (UFE)",
         "about": [
-            "Uterine fibroid embolization (UFE) treats fibroids that cause heavy bleeding, pain or pressure. A doctor "
-            "blocks the fibroids’ blood supply through a small puncture in an artery, and the uterus stays in place.",
-            "In a Cochrane review of randomized trials, satisfaction was similar to surgery and women returned to normal "
-            "activities about two weeks sooner, but more needed another procedure within two years (moderate-quality "
-            "evidence).",
-            "It is not for pregnancy, an active infection of the uterus, or uterine or ovarian cancer (CIRSE standards "
-            "of practice, 2015). If you plan a pregnancy, guidelines differ; ask about myomectomy too.",
+            "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain or pressure. It’s a "
+            "minimally invasive procedure: a doctor works through a small puncture in the wrist or groin and cuts down "
+            "the blood going to the fibroids, so they shrink over time. You keep your uterus. Talk to a doctor about "
+            "whether it’s right for you.",
         ],
-        "sources": "Sources: Cochrane systematic review of embolization versus surgery for fibroids (6 randomized "
-                   "trials, 640 women at 24 months); CIRSE standards of practice (van Overhagen and Reekers, 2015); "
-                   "ACR Appropriateness Criteria, Management of Uterine Fibroids (2023).",
+        "sources": [
+            ("Cochrane systematic review of embolization versus surgery for fibroids", ""),
+            ("CIRSE standards of practice on uterine artery embolisation (van Overhagen and Reekers, 2015)", ""),
+            ("ACR Appropriateness Criteria: Management of Uterine Fibroids (2023)", ""),
+        ],
     },
     "pae": {
         "name": "Prostate artery embolization", "abbr": "PAE", "for": "Enlarged prostate",
         "title": "Find a doctor for prostate artery embolization (PAE)",
         "about": [
-            "Prostate artery embolization (PAE) is a procedure for an enlarged prostate (benign prostatic hyperplasia).",
-            "We have not yet published our sourced summary of who it suits. Ask the doctor whether it fits your "
-            "situation, and about the other options for an enlarged prostate.",
+            "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going "
+            "often, getting up at night or a weak stream. It’s a minimally invasive procedure: a doctor works through a "
+            "small puncture in the wrist or groin and cuts down the blood going to the prostate, so it shrinks over "
+            "time. Talk to a doctor about whether it’s right for you.",
         ],
-        "sources": "",
+        "sources": [
+            ("American Urological Association guideline on benign prostatic hyperplasia (2026 update), as reported by "
+             "the Society of Interventional Radiology (2026-06-18)", ""),
+        ],
     },
     "gae": {
         "name": "Genicular artery embolization", "abbr": "GAE", "for": "Knee osteoarthritis pain",
         "title": "Find a doctor for genicular artery embolization (GAE)",
         "about": [
-            "Genicular artery embolization (GAE) is a procedure for knee pain from osteoarthritis.",
-            "We have not yet published our sourced summary of who it suits. Ask the doctor whether it fits your "
-            "situation, and about the other options for knee osteoarthritis.",
+            "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other "
+            "treatments. It’s a minimally invasive procedure: a doctor works through a small puncture in an artery and "
+            "cuts down the extra blood flow that feeds inflammation in the knee, which can ease the pain. It’s a newer "
+            "option. Talk to a doctor about whether it’s right for you.",
         ],
-        "sources": "",
+        "sources": [
+            ("Systematic review of sham-controlled trials of genicular artery embolization (PubMed Central)",
+             "https://pmc.ncbi.nlm.nih.gov/articles/PMC12320538/"),
+        ],
     },
 }
 
@@ -115,7 +125,9 @@ def home():
 def finder(k):
     p = PROCS[k]
     about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
-    src = f'<p class="sources">{e(p["sources"])}</p>' if p["sources"] else ""
+    items = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank">{e(t)}</a></li>' if u else f"<li>{e(t)}</li>"
+                    for t, u in p["sources"])
+    src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
     body = f"""<h1>{e(p["title"])}</h1>
 <div class="about">{about}{src}</div>
 <div id="finder" data-procedure="{k}">
@@ -156,6 +168,7 @@ def how():
 <li><strong>Search-engine results:</strong> the short preview a search engine shows of a page we could not read in full. The card says when evidence comes from one.</li>
 <li><strong>Directory listings:</strong> other websites that copy a doctor’s profile. The card says when evidence comes from one.</li>
 </ul>
+<p>We shorten quotes to the words that name the procedure and leave out a page’s claims about results, safety or other treatments. “…” marks a cut. When nothing is left, the card shows only where the evidence came from, with the link.</p>
 <p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances are measured between ZIP code centres, not street addresses.</p>
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, or shows only in the second group, it usually means we have not found a page that says more. It does not mean they don’t perform the procedure.</p>
