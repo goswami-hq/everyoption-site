@@ -51,9 +51,7 @@ p { margin: 0 0 13px; }
 .fork-lines { width: 100%; height: 100%; color: var(--accent); overflow: visible; }
 .fork-lines path { fill: none; stroke: currentColor; stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linecap: round; }
 .fork-lines .draw { stroke-dasharray: 100; animation: draw 1300ms var(--ease-out) both; }
-.fork-lines .draw:nth-child(2) { animation-delay: 90ms; } .fork-lines .draw:nth-child(3) { animation-delay: 180ms; }
 .fork-lines .light { stroke: var(--bg); stroke-width: 2; stroke-dasharray: 5 95; stroke-linecap: butt; opacity: 0; animation: travel 8s linear infinite; animation-delay: 1.4s; }
-.fork-lines .light:nth-of-type(5) { animation-delay: 4s; } .fork-lines .light:nth-of-type(6) { animation-delay: 6.6s; }
 .fork-list { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 1fr; }
 .fork-list li { display: flex; align-items: center; min-height: 104px; }
 .fork-list a { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-left: 10px; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); text-decoration: none; box-shadow: 0 6px 20px -14px rgba(90, 60, 30, .45); transition: border-color 180ms ease, transform 160ms var(--ease-out); }
@@ -136,6 +134,19 @@ legend { font-weight: 600; font-size: 16px; margin-bottom: 6px; padding: 0; }
 footer.site { border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--muted); font-size: 15.5px; }
 footer.site p { margin-bottom: 8px; }
 footer.site .disclosure { color: var(--ink); }
+
+/* One colour per condition: paths on the home page, and the whole page on that condition's finder. */
+.t-ufe { --accent: #a63a6b; --accent-ink: #fff; --sun: #f6dce6; --soft: #f7e6ec; }
+.t-pae { --accent: #2f5f8f; --accent-ink: #fff; --sun: #d9e6f2; --soft: #e4edf5; }
+.t-gae { --accent: #4c7a3d; --accent-ink: #fff; --sun: #dfe9d3; --soft: #e8efdf; }
+@media (prefers-color-scheme: dark) {
+  .t-ufe { --accent: #e58bb4; --accent-ink: #2a0f1d; --sun: #3a2230; --soft: #33212b; }
+  .t-pae { --accent: #8fb8e0; --accent-ink: #0f1d2a; --sun: #1f2c3b; --soft: #212c37; }
+  .t-gae { --accent: #a6cf8e; --accent-ink: #15220f; --sun: #26331f; --soft: #29321f; }
+}
+.fork-lines .t-ufe, .fork-lines .t-pae, .fork-lines .t-gae { stroke: var(--accent); }
+.sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); }
+#conditions, #follow { scroll-margin-top: 16px; }
 
 @keyframes rise { from { transform: translateY(46px); opacity: .55; } }
 @keyframes draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }

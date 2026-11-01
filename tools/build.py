@@ -64,8 +64,10 @@ PROCS = {
     },
 }
 
-FORK_PATHS = ("M0 300 C90 300 90 100 200 100", "M0 300 L200 300", "M0 300 C90 300 90 500 200 500")
-NAV = [("/", "Home"), ("/ufe/", "UFE"), ("/pae/", "PAE"), ("/gae/", "GAE"), ("/how-we-know/", "How we know")]
+NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/how-we-know/", "How we know"), ("#follow", "Follow")]
+# His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
+SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
+          ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
 
 
 def e(s):
@@ -81,6 +83,7 @@ def ver(url):
 
 def page(path, title, desc, body, scripts=()):
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
+    social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
     return f"""<!doctype html>
 <html lang="en">
@@ -94,7 +97,7 @@ def page(path, title, desc, body, scripts=()):
 <meta name="color-scheme" content="light dark">
 {js}
 </head>
-<body class="{"home-page" if path == "/" else ("finder-page" if scripts else "prose-page")}">
+<body class="{"home-page" if path == "/" else ("finder-page t-" + path.strip("/") if scripts else "prose-page")}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
 <a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
@@ -108,6 +111,7 @@ def page(path, title, desc, body, scripts=()):
 <p>Found an error? <a href="/claim/">Use the correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
 <p><a href="/how-we-know/">How we know</a></p>
+<p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
 </body>
 </html>
@@ -116,21 +120,34 @@ def page(path, title, desc, body, scripts=()):
 
 ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
          'stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>')
-FORK = ('<svg class="fork-lines" viewBox="0 0 200 600" preserveAspectRatio="none" aria-hidden="true">'
-        + "".join(f'<path class="draw" pathLength="100" d="{d}"/>' for d in FORK_PATHS)
-        + "".join(f'<path class="light" pathLength="100" d="{d}"/>' for d in FORK_PATHS) + "</svg>")
+
+
+def fork(keys):
+    """One line opening into a path per condition: any number of rows; each path takes its condition's colour."""
+    n, draw, light = len(keys), "", ""
+    mid = n * 50
+    for i, k in enumerate(keys):
+        y = 100 * i + 50
+        d = f"M0 {mid} C90 {mid} 90 {y} 200 {y}"
+        draw += f'<path class="draw t-{k}" pathLength="100" d="{d}" style="animation-delay:{i * 90}ms"/>'
+        light += f'<path class="light" pathLength="100" d="{d}" style="animation-delay:{1.4 + i * 2.6:.1f}s"/>'
+    return (f'<svg class="fork-lines" viewBox="0 0 200 {n * 100}" preserveAspectRatio="none" aria-hidden="true">'
+            f"{draw}{light}</svg>")
 
 
 def home():
     rows = "".join(
-        f'<li><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} ({p["abbr"]})</span></span>{ARROW}</a></li>'
+        f'<li class="t-{k}"><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} ({p["abbr"]})</span></span>{ARROW}</a></li>'
         for k, p in PROCS.items())
-    body = f"""<h1>You may have more options than you know.</h1>
-<p class="lede">Some common conditions have less invasive treatments that many people never hear about. Find doctors near you who do them.</p>
-<div class="fork">{FORK}<ul class="fork-list">{rows}</ul></div>
+    body = f"""<h1>You have more options than you know.</h1>
+<p class="lede">Many common conditions have non-surgical treatments that people never hear about. Find doctors near you who do them.</p>
+<h2 id="conditions" class="sr">Conditions</h2>
+<div class="fork">{fork(list(PROCS))}<ul class="fork-list">{rows}</ul></div>
 <div class="plain">
 <h2>Simple to use, and free</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
+<h2>Learn more in short videos</h2>
+<p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p>
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
     return page("/", "Every Option: find doctors who perform UFE, PAE and GAE",
