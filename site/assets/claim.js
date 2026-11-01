@@ -50,7 +50,7 @@
     var ctl = window.AbortController ? new AbortController() : null;
     var t = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
     fetch("/api/claim", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
-      credentials: "omit", signal: ctl ? ctl.signal : undefined })
+      credentials: "same-origin", signal: ctl ? ctl.signal : undefined })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
       .then(function (res) {
         if (res.status === 200 || res.status === 201) {

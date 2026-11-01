@@ -46,7 +46,7 @@
     statusEl.appendChild(typeof msg === "string" ? el("p", { "class": kind || "", text: msg }) : msg);
   }
   function getJSON(url) {
-    return fetch(url, { credentials: "omit" }).then(function (r) {
+    return fetch(url, { credentials: "same-origin" }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       return r.json();
     });
