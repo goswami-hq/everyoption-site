@@ -64,6 +64,7 @@ PROCS = {
     },
 }
 
+FORK_PATHS = ("M0 300 C90 300 90 100 200 100", "M0 300 L200 300", "M0 300 C90 300 90 500 200 500")
 NAV = [("/", "Home"), ("/ufe/", "UFE"), ("/pae/", "PAE"), ("/gae/", "GAE"), ("/how-we-know/", "How we know")]
 
 
@@ -93,10 +94,10 @@ def page(path, title, desc, body, scripts=()):
 <meta name="color-scheme" content="light dark">
 {js}
 </head>
-<body>
+<body class="{"home-page" if path == "/" else ("finder-page" if scripts else "prose-page")}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
-<a class="brand" href="/"><span aria-hidden="true"></span>Every Option</a>
+<a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
 <nav class="top" aria-label="Main">{nav}</nav>
 </div></header>
 <main id="main"><div class="wrap">
@@ -113,15 +114,23 @@ def page(path, title, desc, body, scripts=()):
 """
 
 
+ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+         'stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>')
+FORK = ('<svg class="fork-lines" viewBox="0 0 200 600" preserveAspectRatio="none" aria-hidden="true">'
+        + "".join(f'<path class="draw" pathLength="100" d="{d}"/>' for d in FORK_PATHS)
+        + "".join(f'<path class="light" pathLength="100" d="{d}"/>' for d in FORK_PATHS) + "</svg>")
+
+
 def home():
-    cards = "".join(
-        f'<li><a href="/{k}/"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong>'
-        f'<span class="for">{e(p["for"])}</span></a></li>' for k, p in PROCS.items())
-    body = f"""<h1>Find doctors who perform UFE, PAE and GAE near you.</h1>
-<p class="lede">Every Option shows you who near you likely performs these procedures, and who has confirmed it themselves.</p>
-<ul class="finders">{cards}</ul>
-<div class="about">
-<p>Type your ZIP code on a procedure page. Doctors who confirmed they perform it come first, then doctors who likely perform it. Nearest first.</p>
+    rows = "".join(
+        f'<li><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} ({p["abbr"]})</span></span>{ARROW}</a></li>'
+        for k, p in PROCS.items())
+    body = f"""<h1>You may have more options than you know.</h1>
+<p class="lede">Some common conditions have less invasive treatments that many people never hear about. Find doctors near you who do them.</p>
+<div class="fork">{FORK}<ul class="fork-list">{rows}</ul></div>
+<div class="plain">
+<h2>Simple to use, and free</h2>
+<p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
     return page("/", "Every Option: find doctors who perform UFE, PAE and GAE",
