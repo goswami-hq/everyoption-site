@@ -14,11 +14,10 @@
   var out = document.getElementById("results");
   var data = null, loading = null;
 
-  var BADGE = { "verified": "Interventional radiologist", "by procedure": "Does IR procedures", "by billing": "Bills IR procedures" };
+  // Job 7: one badge only. "verified" is shown as "Interventional radiologist"; any other value is a plain specialty.
+  var BADGE = { "verified": "Interventional radiologist" };
   var BADGE_TITLE = {
-    "verified": "Their own page states interventional radiology training or board certification",
-    "by procedure": "Their own page says they perform catheter procedures interventional radiologists do",
-    "by billing": "Public Medicare billing records show interventional radiology procedures"
+    "verified": "Identified as an interventional radiologist from their own or their practice's page, or from public Medicare billing records"
   };
 
   function el(tag, attrs, kids) {
@@ -69,7 +68,7 @@
     var top = el("div", { "class": "top" }, [
       el("div", null, [
         el("h3", { text: p.name }),
-        p.badge ? el("span", { "class": "badge", title: BADGE_TITLE[p.badge] || "", text: BADGE[p.badge] || "" }) : null
+        p.badge ? el("span", { "class": "badge", title: BADGE_TITLE[p.badge] || "", text: BADGE[p.badge] || p.badge }) : null
       ]),
       el("span", { "class": "dist", text: p.miles < 1 ? "under 1 mi" : Math.round(p.miles) + " mi" })
     ]);

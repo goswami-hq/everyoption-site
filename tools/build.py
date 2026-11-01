@@ -185,11 +185,7 @@ def how():
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
 <h2>The badge under a name</h2>
-<ul>
-<li><strong>Interventional radiologist:</strong> their own page states interventional radiology training or board certification.</li>
-<li><strong>Does IR procedures:</strong> their own page says they perform catheter procedures that interventional radiologists do.</li>
-<li><strong>Bills IR procedures:</strong> public Medicare billing records show interventional radiology procedures.</li>
-</ul>
+<p><strong>Interventional radiologist:</strong> their own page or their practice’s page says so, or, when no page does, public Medicare billing records show they perform interventional radiology procedures. When we cannot tell, the doctor is not listed.</p>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
 <p>Confirming is free. Within each group, the order is by distance only.</p>
