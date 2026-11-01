@@ -71,9 +71,16 @@ def e(s):
     return html.escape(s, quote=True)
 
 
+def ver(url):
+    """Cache-busting tag: /assets/x.js -> /assets/x.js?v=<first 10 hex of its sha256>, so a new deploy is fetched at once."""
+    import hashlib, pathlib
+    f = pathlib.Path(__file__).resolve().parent.parent / "site" / url.lstrip("/")
+    return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
+
+
 def page(path, title, desc, body, scripts=()):
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
-    js = "".join(f'<script src="{s}" defer></script>' for s in scripts)
+    js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -82,7 +89,7 @@ def page(path, title, desc, body, scripts=()):
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{ORIGIN}{path}">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="{ver('/assets/site.css')}">
 <meta name="color-scheme" content="light dark">
 {js}
 </head>
