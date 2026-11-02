@@ -161,6 +161,12 @@ footer.site .disclosure { color: var(--ink); }
 .sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); }
 #conditions, #follow { scroll-margin-top: 16px; }
 
+:root { --dia-body: #ead9c3; --dia-organ: #efc9b6; --dia-mass: #c97e73; --dia-artery: #d9a58f; }
+@media (prefers-color-scheme: dark) { :root { --dia-body: #4a4238; --dia-organ: #7a5548; --dia-mass: #a8675d; --dia-artery: #b0806e; } }
+.how { margin: 8px 0 8px; max-width: 37em; }
+.how svg { width: 100%; height: auto; }
+.how figcaption { margin-top: 8px; }
+
 @keyframes rise { from { transform: translateY(46px); opacity: .55; } }
 @keyframes draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes travel { 0% { stroke-dashoffset: 100; opacity: 0; } 6% { opacity: .9; } 28% { opacity: .9; } 34%, 100% { stroke-dashoffset: 0; opacity: 0; } }

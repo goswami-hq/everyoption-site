@@ -155,6 +155,17 @@ def home():
                 "artery embolization near you.", body)
 
 
+DIAGRAM_CAP = {'ufe': 'A thin tube goes through a small puncture in the wrist or groin to the blood vessels that feed the fibroid. Tiny beads block the blood flow, and the fibroid shrinks over time.', 'pae': 'A thin tube goes through a small puncture in the wrist or groin to the blood vessels that feed the prostate. Tiny beads slow the blood flow, and the prostate shrinks over time.', 'gae': 'A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow that feeds swelling, which can ease the pain.'}
+DIAGRAM_ALT = {k: "Simple drawing of how the procedure works." for k in DIAGRAM_CAP}
+
+
+def diagram(k):
+    import pathlib
+    svg = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"{k}.svg").read_text()
+    svg = svg.replace('role="img"', f'role="img" aria-label="{DIAGRAM_ALT[k]}"')
+    return f'<figure class="how">{svg}<figcaption>{e(DIAGRAM_CAP[k])}</figcaption></figure>'
+
+
 def finder(k):
     p = PROCS[k]
     about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
@@ -163,6 +174,9 @@ def finder(k):
     src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
     body = f"""<h1>{e(p["title"])}</h1>
 <div class="about">{about}{src}</div>
+<h2>How it works</h2>
+{diagram(k)}
+<h2>Find a doctor near you</h2>
 <div id="finder" data-procedure="{k}">
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
 <div class="f"><label for="zip">Your ZIP code</label>
