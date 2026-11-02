@@ -264,8 +264,8 @@
         out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
           "Distances run from the center of your ZIP code: to the doctor's office when we could place its street address on the map, otherwise to the center of the doctor's ZIP code. ",
           el("a", { href: "/how-we-know/", text: "How we know" })]));
-        var learn = root.getAttribute("data-learn");
-        if (learn) out.insertBefore(el("p", { "class": "learn-link" }, [el("a", { href: learn, text: "See all your treatment options" })]), out.firstChild);
+        var learn = root.getAttribute("data-learn"), sp = statusEl.querySelector("p");
+        if (learn && sp && total) { sp.appendChild(document.createTextNode(" ")); sp.appendChild(el("a", { href: learn, text: "See all options." })); }
       });
     }).catch(function () {
       var retry = el("button", { "class": "secondary", type: "button", text: "Try again" });

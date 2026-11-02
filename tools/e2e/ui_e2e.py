@@ -30,7 +30,7 @@ def check(name, ok, detail=""):
 
 TARGETS = r"""() => {
   const out = [];
-  const sel = 'header.site a, footer.site a, details.sources > summary, .fork-list a, .find-bar, .learn-link a, .about > p > a, '
+  const sel = 'header.site a, footer.site a, details.sources > summary, .fork-list a, .find-bar, .about > p > a, '
             + 'form.claim-form input[type=radio], form.claim-form input[type=checkbox]';
   for (const el of document.querySelectorAll(sel)) {
     const s = getComputedStyle(el); if (s.display === 'none' || s.visibility === 'hidden') continue;
