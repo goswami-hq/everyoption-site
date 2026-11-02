@@ -177,7 +177,9 @@ def body(c, diagram_fn, e):
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
     author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'
               f'{", " + e(c["author_credentials"]) if c.get("author_credentials") else ""}.</p>' if c.get("author_name") else "")
-    parts.append(f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {e(c["reviewed"])}.</p>{author}')
+    import datetime
+    d = datetime.date.fromisoformat(c["reviewed"])
+    parts.append(f'<p class="small muted">Page last reviewed {d.strftime("%B")} {d.day}, {d.year}.</p>{author}')
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")
