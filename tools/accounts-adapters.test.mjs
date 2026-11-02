@@ -75,7 +75,7 @@ test("Stripe webhook: signature and age checked; verified result keeps the name 
   const id = stripeIdentity("sk", "whsec", f);
   const req = new Request("https://x/api/account/identity/result", { method: "POST", body: raw, headers: { "Stripe-Signature": await sign(raw, "whsec", t) } });
   const out = await id.parseResult(req, { now: () => now });
-  assert.deepEqual(out, { session: "vs_1", status: "verified", first: "Gil", last: "Fourtest" });
+  assert.deepEqual(out, { session: "vs_1", status: "verified", first: "Gil", last: "Fourtest", redact_failed: false });
   assert.match(f.calls[1].url, /vs_1\/redact$/);
   const bad = new Request("https://x", { method: "POST", body: raw, headers: { "Stripe-Signature": "t=1,v1=00" } });
   assert.equal(await id.parseResult(bad, { now: () => now }), null);

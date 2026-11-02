@@ -60,7 +60,7 @@ async function doxFlow(w, c, profile) {
 
 test("Doximity on: link from a signed-in account when the name matches NPPES, then sign in with it", async () => {
   const w = world({ doximity: true });
-  const c = await w.signIn(ANN, "ann@lakesideir.example");
+  const c = await w.signIn(ANN, "ann.testone@lakesideir.example");
   assert.equal((await c.get("status")).body.doximity, true);
   const loc = await doxFlow(w, c, { id: "dx-1", first: "Ann", last: "Testone", credentials: "MD", specialty: "Radiology" });
   const tok = /#doximity=([0-9a-f]{64})$/.exec(loc)[1];
@@ -100,8 +100,8 @@ test("Doximity alone never counts as the going-live check", async () => {
 
 test("schema has every column the code writes", async () => {
   const w = world({ doximity: true, name: "Cara Newdoc" });
-  const c = await w.verifyByEmail(await w.signIn(), "ann@lakesideir.example");
-  const a = await w.signIn(ANN, "ann@lakesideir.example");
+  const c = await w.verifyByEmail(await w.signIn(), "ann.testone@lakesideir.example");
+  const a = await w.signIn(ANN, "ann.testone@lakesideir.example");
   await a.post("attest", { procedures: ["ufe"], agree: true });
   await a.put("profile", { blurbs: { ufe: "Hi." }, booking_url: "https://lakesideir.example/b" });
   const e = (await a.get("edits")).body.edits.find((x) => x.field === "blurbs");

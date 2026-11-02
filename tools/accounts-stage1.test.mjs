@@ -20,11 +20,11 @@ test("status when open", async () => {
 
 test("sign-up: valid NPI, terms required, name from NPPES, login link by email, no password", async () => {
   const w = world(), c = w.client();
-  assert.equal((await c.post("signup", { npi: ANN, email: "ann@lakesideir.example" })).status, 400, "terms not accepted");
-  assert.equal((await c.post("signup", { npi: "1999000010", email: "ann@lakesideir.example", accept_terms: true })).status, 400, "bad check digit");
-  const r = await c.post("signup", { npi: ANN, email: "ann@lakesideir.example", accept_terms: true, password: "x" });
+  assert.equal((await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example" })).status, 400, "terms not accepted");
+  assert.equal((await c.post("signup", { npi: "1999000010", email: "ann.testone@lakesideir.example", accept_terms: true })).status, 400, "bad check digit");
+  const r = await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example", accept_terms: true, password: "x" });
   assert.equal(r.status, 202);
-  assert.equal(w.outbox.length, 1); assert.equal(w.outbox[0].to, "ann@lakesideir.example");
+  assert.equal(w.outbox.length, 1); assert.equal(w.outbox[0].to, "ann.testone@lakesideir.example");
   assert.equal((await w.backend.data.many("accounts")).length, 0, "no account until the link is used");
   const u = await c.post("link", { token: w.lastLink() });
   assert.equal(u.status, 200);
@@ -37,19 +37,19 @@ test("sign-up: valid NPI, terms required, name from NPPES, login link by email, 
 
 test("login links: expire after 15 minutes, work once, stored only as a hash", async () => {
   const w = world(), c = w.client();
-  await c.post("signup", { npi: ANN, email: "ann@lakesideir.example", accept_terms: true });
+  await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example", accept_terms: true });
   const tok = w.lastLink();
   const rows = await w.backend.data.many("login_links");
   assert.ok(!JSON.stringify(rows).includes(tok), "raw token not stored");
   w.clock.t += 16 * 60 * 1000;
   assert.equal((await c.post("link", { token: tok })).status, 400, "expired");
-  await c.post("signup", { npi: ANN, email: "ann@lakesideir.example", accept_terms: true });
+  await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example", accept_terms: true });
   const t2 = w.lastLink();
   assert.equal((await c.post("link", { token: t2 })).status, 200);
   assert.equal((await w.client("10.0.0.9").post("link", { token: t2 })).status, 400, "second use");
   await c.post("logout");
   assert.equal((await c.get("me")).status, 401);
-  await c.post("login", { email: "ann@lakesideir.example" });
+  await c.post("login", { email: "ann.testone@lakesideir.example" });
   const t3 = w.lastLink();
   assert.equal((await c.post("link", { token: t3 })).status, 200);
   assert.equal((await c.get("me")).status, 200);
@@ -57,7 +57,7 @@ test("login links: expire after 15 minutes, work once, stored only as a hash", a
 
 test("login does not say whether an email has an account", async () => {
   const w = world(); await w.signIn();
-  const a = await w.client().post("login", { email: "ann@lakesideir.example" });
+  const a = await w.client().post("login", { email: "ann.testone@lakesideir.example" });
   const b = await w.client().post("login", { email: "nobody@else.example" });
   assert.equal(a.status, b.status); assert.deepEqual(a.body, b.body);
   assert.equal(w.outbox.filter((m) => m.to === "nobody@else.example").length, 0);
@@ -65,7 +65,7 @@ test("login does not say whether an email has an account", async () => {
 
 test("sessions: cookie is HttpOnly, Secure, SameSite=Strict; expired session is refused", async () => {
   const w = world(), c = w.client();
-  await c.post("signup", { npi: ANN, email: "ann@lakesideir.example", accept_terms: true });
+  await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example", accept_terms: true });
   const r = await c.call("POST", "link", { token: w.lastLink() });
   const sc = r.headers.get("Set-Cookie");
   for (const f of ["HttpOnly", "Secure", "SameSite=Strict", "Path=/api/account"]) assert.ok(sc.includes(f), f);
@@ -78,7 +78,9 @@ test("one account per NPI: a second claimant goes to the exceptions list, gets t
   const c2 = w.client("10.0.0.2");
   const r = await c2.post("signup", { npi: ANN, email: "someone@other.example", accept_terms: true });
   assert.equal(r.status, 202);
-  assert.equal(w.outbox.filter((m) => m.to === "someone@other.example").length, 0, "no link sent");
+  const sent = w.outbox.filter((m) => m.to === "someone@other.example");
+  assert.equal(sent.length, 1, "told it is under review (review round 1)");
+  assert.doesNotMatch(sent[0].text, /#(link|check)=/, "no sign-in link");
   const ex = await w.backend.data.many("exceptions", { kind: "second_claimant" });
   assert.equal(ex.length, 1); assert.equal(ex[0].npi, ANN);
   assert.equal((await w.backend.data.many("accounts", { npi: ANN })).length, 1);
@@ -141,7 +143,7 @@ async function handleResult(w, session) {
 test("attest: only once verified; per procedure; exact wording kept; enters the confirmed group", async () => {
   const w = world(), c = await w.signIn();
   assert.equal((await c.post("attest", { procedures: ["ufe"], agree: true })).status, 403, "not verified");
-  await w.verifyByEmail(c, "ann@lakesideir.example");
+  await w.verifyByEmail(c, "ann.testone@lakesideir.example");
   assert.equal((await c.post("attest", { procedures: ["ufe"] })).status, 400, "must tick the statement");
   const r = await c.post("attest", { procedures: ["ufe", "pae", "xyz"], agree: true });
   assert.equal(r.status, 200);
@@ -160,7 +162,7 @@ test("rate limits: sign-up, login and check attempts", async () => {
   const l = w.client("10.9.9.8");
   for (let i = 0; i < 6; i++) last = await l.post("login", { email: "same@x.example" });
   assert.equal(last.status, 429, "login");
-  const a = await w.signIn(ANN, "ann@lakesideir.example", "10.1.1.1");
+  const a = await w.signIn(ANN, "ann.testone@lakesideir.example", "10.1.1.1");
   for (let i = 0; i < 6; i++) last = await a.post("check/email", { work_email: "ann@gmail.com" });
   assert.equal(last.status, 429, "check attempts");
   w.clock.t += 25 * 3600 * 1000;

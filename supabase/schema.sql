@@ -19,7 +19,7 @@ create table accounts (
   verified_method text check (verified_method in ('work_email', 'identity')),
   verified_name text,                                                -- identity check: the name only, no images
   verified_at timestamptz,
-  work_email text,
+  work_email text unique,                                            -- one work email verifies one account
   terms_version text not null,
   terms_accepted_at timestamptz not null,
   doximity_id text unique,
@@ -66,7 +66,7 @@ create table identity_checks (
   id uuid primary key default gen_random_uuid(),
   account_id uuid not null references accounts(id),
   provider_session text not null unique,
-  status text not null check (status in ('pending', 'verified', 'failed', 'name_mismatch')),
+  status text not null check (status in ('pending', 'verified', 'failed', 'name_mismatch', 'name_review', 'cancelled')),
   verified_name text,
   at timestamptz not null default now()
 );
@@ -94,7 +94,7 @@ create table edits (                                                  -- every c
 
 create table exceptions (                                             -- the only list that reaches him
   id uuid primary key default gen_random_uuid(),
-  kind text not null,                                                 -- second_claimant, name_mismatch, doximity_name_mismatch
+  kind text not null,                                                 -- second_claimant, name_mismatch, name_review, work_email_no_name, redact_failed, email_cap, doximity_name_mismatch
   npi text not null,
   account_id uuid references accounts(id),
   detail jsonb not null default '{}',

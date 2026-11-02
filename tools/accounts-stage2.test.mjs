@@ -91,7 +91,7 @@ test("photo: wrong type, mismatched type, too big, too small refused", () => {
 });
 
 // ---- profile edits ----------------------------------------------------------------------------------------------
-async function verified(w, npi = ANN, email = "ann@lakesideir.example") {
+async function verified(w, npi = ANN, email = "ann.testone@lakesideir.example") {
   const c = await w.signIn(npi, email);
   await w.verifyByEmail(c, email);
   await c.post("attest", { procedures: ["ufe"], agree: true });
@@ -102,7 +102,7 @@ test("edit: only a verified doctor, only their own profile; fields checked and s
   const w = world();
   const u = await w.signIn();
   assert.equal((await u.put("profile", { blurbs: { ufe: "Hello" } })).status, 403, "not verified yet");
-  await w.verifyByEmail(u, "ann@lakesideir.example");
+  await w.verifyByEmail(u, "ann.testone@lakesideir.example");
   const r = await u.put("profile", { npi: GIL, blurbs: { ufe: "I perform UFE at Lakeside." } });
   assert.equal(r.status, 400, "npi is not an editable field");
   assert.equal((await u.put("profile", { blurbs: { ufe: "The best UFE" } })).status, 422);
@@ -117,7 +117,7 @@ test("edit: only a verified doctor, only their own profile; fields checked and s
   const p = await w.backend.data.one("profiles", { npi: ANN });
   assert.equal(p.blurbs.ufe, "I perform UFE at Lakeside."); assert.equal(p.offices[0].phone, "3125550100");
   assert.equal((await w.backend.data.one("profiles", { npi: GIL })), null, "nobody else's profile touched");
-  const g = await verified(w, GIL, "gil@fourtest-vascular.example");
+  const g = await verified(w, GIL, "gil.fourtest@fourtest-vascular.example");
   await g.put("profile", { blurbs: { ufe: "Gil's own words." } });
   assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, "I perform UFE at Lakeside.");
 });
@@ -135,7 +135,7 @@ test("contact changes email the verified address", async () => {
   assert.equal(w.outbox.length, n);
   await c.put("profile", { booking_url: "https://lakesideir.example/book" });
   const m = w.outbox.at(-1);
-  assert.equal(m.to, "ann@lakesideir.example"); assert.match(m.subject, /contact details changed/i); assert.match(m.text, /booking link/i);
+  assert.equal(m.to, "ann.testone@lakesideir.example"); assert.match(m.subject, /contact details changed/i); assert.match(m.text, /booking link/i);
 });
 
 test("every edit logged; undo restores; others cannot undo; a changed field must be undone newest first", async () => {
@@ -148,7 +148,7 @@ test("every edit logged; undo restores; others cannot undo; a changed field must
   assert.equal(blurbEdits.length, 2);
   const [first, second] = blurbEdits.sort((a, b) => (a.at < b.at ? -1 : 1));
   assert.equal((await c.post("undo", { edit_id: first.id })).status, 409, "newer edit on top");
-  const g = await verified(w, GIL, "gil@fourtest-vascular.example");
+  const g = await verified(w, GIL, "gil.fourtest@fourtest-vascular.example");
   assert.equal((await g.post("undo", { edit_id: second.id })).status, 404, "not yours");
   assert.equal((await c.post("undo", { edit_id: second.id })).status, 200);
   assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, "One.");

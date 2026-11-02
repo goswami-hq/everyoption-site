@@ -21,6 +21,9 @@
     link_invalid: "That link has expired or was already used. Ask for a new one.",
     npi_taken: "This NPI already has an account. We will look into it and contact you.",
     domain_no_match: "That email's domain does not match a page on your listing. Try another work email, or check with ID.",
+    name_not_in_email: "The work email needs your last name in it (like ann.testone@). We will look at this one; meanwhile you can check with ID.",
+    work_email_in_use: "That work email already confirmed another account. Try another, or check with ID.",
+    other_browser: "Finish linking Doximity in the same browser you started it in.",
     not_verified: "Finish one check first.",
     agree_required: "Please tick the statement.",
     screened: "Some text was not accepted (see below).",
@@ -261,9 +264,23 @@
     if (m[1] === "doximity") {
       if (m[2] === "signed-in") { say("Signed in with Doximity.", "ok"); return Promise.resolve(); }
       if (m[2] === "failed") { say("Doximity sign-in did not finish. Sign in by email instead.", "err"); return Promise.resolve(); }
-      return api("POST", "doximity/link", { token: m[2] }).then(function (j) {
-        say(j.ok ? "Doximity linked. Next time you can sign in with Doximity." : j.error === "signed_out" ?
-          "Sign in by email first, then link Doximity from your account." : "We could not link that Doximity account; we will look into it.", j.ok ? "ok" : "err");
+      // Review round 1: show whose Doximity account this is and wait for a click before linking it.
+      var tok = m[2];
+      return api("POST", "doximity/preview", { token: tok }).then(function (pv) {
+        if (!pv.ok) { say(words(pv), "err"); return; }
+        var b = el("div", { "class": "notice", id: "dox-confirm" }, [
+          el("p", { text: "Link the Doximity account of " + pv.name + (pv.specialty ? " (" + pv.specialty + ")" : "") + " to this Every Option account?" }),
+          el("button", { type: "button", id: "dox-yes", text: "Link Doximity", onclick: function () {
+            api("POST", "doximity/link", { token: tok }).then(function (j) {
+              b.remove();
+              say(j.ok ? "Doximity linked. Next time you can sign in with Doximity." : j.error === "signed_out" ?
+                "Sign in by email first, then link Doximity from your account." : words(j).indexOf("Something") === 0 ?
+                "We could not link that Doximity account; we will look into it." : words(j), j.ok ? "ok" : "err");
+            });
+          } }), " ",
+          el("button", { "class": "secondary", type: "button", text: "Cancel", onclick: function () { b.remove(); } })
+        ]);
+        box.insertBefore(b, statusEl);
       });
     }
     return api("POST", "link", { token: m[2] }).then(function (j) {

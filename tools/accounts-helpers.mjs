@@ -39,14 +39,14 @@ export function world(opts = {}) {
     return tok ? tok[1] : null;
   };
   // Sign up and sign in; returns the client.
-  w.signIn = async (npi = ANN, email = "ann@lakesideir.example", ip) => {
+  w.signIn = async (npi = ANN, email = "ann.testone@lakesideir.example", ip) => {
     const c = w.client(ip);
     await c.post("signup", { npi, email, accept_terms: true, name: opts.name });
     const r = await c.post("link", { token: w.lastLink(email) });
     if (r.status !== 200) throw new Error("sign-in failed " + JSON.stringify(r.body));
     return c;
   };
-  w.verifyByEmail = async (c, work = "ann@lakesideir.example") => {
+  w.verifyByEmail = async (c, work = "ann.testone@lakesideir.example") => {
     await c.post("check/email", { work_email: work });
     return c.post("link", { token: w.lastLink(work) });
   };
