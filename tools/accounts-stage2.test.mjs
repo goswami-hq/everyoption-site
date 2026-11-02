@@ -176,3 +176,17 @@ test("photo upload: stored stripped, logged, undoable; type checked against byte
   assert.equal((await c.post("undo", { edit_id: e.id })).status, 200);
   assert.equal((await w.backend.data.one("profiles", { npi: ANN })).photo_key, null);
 });
+
+test("export tool: confirmed.json plus the photo copied under its public name", async () => {
+  const { writeConfirmed } = await import("./export-confirmed.mjs");
+  const { mkdtempSync, readFileSync, readdirSync } = await import("node:fs");
+  const os = await import("node:os"), path = await import("node:path");
+  const w = world(), c = await verified(w);
+  await c.call("POST", "photo", jpeg(), { headers: { "Content-Type": "image/jpeg" } });
+  const dir = mkdtempSync(path.join(os.tmpdir(), "eo-")), out = path.join(dir, "confirmed.json");
+  const list = await writeConfirmed(w.backend, out, path.join(dir, "photos"));
+  assert.equal(list.length, 1);
+  const files = readdirSync(path.join(dir, "photos"));
+  assert.equal(files.length, 1); assert.match(files[0], /^1999000015-[0-9a-f]{16}\.jpg$/);
+  assert.equal(JSON.parse(readFileSync(out, "utf8"))[0].npi, ANN);
+});
