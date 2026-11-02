@@ -92,7 +92,7 @@ a = "Not always. If you have no symptoms or only mild ones, your doctor can watc
 
 [[faq]]
 q = "Are fibroids cancer?"
-a = "No. Rarely, a growth that looks like a fibroid turns out to be cancer. Estimates differ. Some say less than 1 out of 1,000 women.[^owh] Others say up to about 1 out of 225 women who have fibroid surgery.[^fdamorc]"
+a = "No. Rarely, a growth that looks like a fibroid turns out to be cancer. This happens in less than 1 out of 200 women who have fibroid surgery.[^owh][^fdamorc]"
 
 [[faq]]
 q = "Can I get pregnant after treatment?"
@@ -132,7 +132,7 @@ name = "Fibroid embolization (UFE)"
 what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
 invasive = "You only need a tiny skin nick. There is no cut in the belly, so no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
 works = "Most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
-side = "You may have cramps, nausea, and a low fever for up to a week. Up to 5 out of 100 women may go through menopause early.[^sir][^rinfo] Serious problems are no more common than after surgery. Smaller problems are more common.[^cochrane][^martin]"
+side = "You may have cramps, nausea, and a low fever for up to a week. Less than 5 out of 100 women go through menopause early.[^sir][^rinfo] Serious problems are no more common than after surgery. Smaller problems are more common.[^cochrane][^martin]"
 
 [[options]]
 id = "radiofrequency"
