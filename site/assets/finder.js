@@ -54,12 +54,10 @@
       Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
-  function showPhone(p) {          // display only: bare 10-digit numbers as (xxx) xxx-xxxx; anything else as written
-    var d = (p || "").replace(/\D/g, "");
-    if (/^\d+$/.test((p || "").trim()) && (d.length === 10 || (d.length === 11 && d[0] === "1"))) {
-      d = d.slice(-10); return "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6);
-    }
-    return p;
+  function showPhone(p) {          // every US number as (xxx) xxx-xxxx, any extension after; anything else as written
+    var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})\s*(?:(?:ext\.?|extension|x)\s*(\d+))?\s*$/i);
+    if (!m) return p;
+    return "(" + m[2] + ") " + m[3] + "-" + m[4] + (m[5] ? " ext. " + m[5] : "");
   }
   function telHref(p) { var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : ""; }
 
