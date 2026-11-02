@@ -94,7 +94,7 @@ def run(b, width, scheme, theme):
     pg.route(f"**/data/{proc}.json", lambda r: r.fulfill(status=200, content_type="application/json",
              body=json.dumps({"procedure": proc, "name": proc, "counts": {}, "unplaced": 0, "held": 0, "people": PEOPLE})))
     pg.route("**/photos/*", lambda r: r.fulfill(status=200, content_type="image/png", body=png()))
-    pg.goto(f"{BASE}/{proc}/")
+    pg.goto(f"{BASE}/{'fibroids' if proc == 'ufe' else proc}/")
     if theme == "base":
         pg.evaluate("document.body.classList.remove('t-ufe')")
     pg.fill("#zip", ZIP); pg.select_option("#radius", "25"); pg.click("#zip-form button")

@@ -78,6 +78,7 @@
       ]),
       el("span", { "class": "dist", text: p.miles < 1 ? "under 1 mi" : Math.round(p.miles) + " mi" })
     ]);
+    if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
     kids.push(top);
     var where = el("p", { "class": "where" }, [
       p.practice ? el("span", { "class": "practice", text: p.practice }) : null,
@@ -114,7 +115,7 @@
     kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed
       ? [el("a", { href: "/claim/" + q, text: "Report an error" }), " on this listing."]
       : [el("a", { href: "/account/" + q, text: "Is this you?" }), " Confirm or correct this listing."]));
-    return el("li", { "class": "card" + (p.confirmed ? " confirmed" : "") }, kids);
+    return el("li", { "class": p.confirmed ? "card card-confirmed" : "card" }, kids);
   }
 
   function section(list, cls, title, note) {
@@ -176,8 +177,8 @@
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
       if (!near.length) { say(""); out.appendChild(widen(zip, r)); return; }
       say(near.length + (near.length === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first.");
-      if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Performs this procedure, confirmed by physician",
-        "The doctor confirmed this with us. Nearest first."));
+      if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Confirmed by physician",
+        "These doctors confirmed they perform this procedure. Nearest first."));
       else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
         el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." }), " Are you a doctor who performs this? ",
           el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])

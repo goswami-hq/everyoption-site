@@ -277,7 +277,7 @@ def how():
 <p class="lede">We look through public information so you can find who near you does a procedure. Doctors can confirm or correct their own listing for free.</p>
 <h2>What the two groups mean</h2>
 <dl class="grades">
-<div><dt>Performs this procedure, confirmed by physician</dt><dd>The doctor told us they perform it. A person checks each submission before it appears.</dd></div>
+<div><dt>Confirmed by physician</dt><dd>The doctor told us they perform it. A person checks each submission before it appears.</dd></div>
 <div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it. We have not heard from the doctor, so call the office to confirm.</dd></div>
 </dl>
 <h2>Where the information comes from</h2>

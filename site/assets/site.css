@@ -90,14 +90,15 @@ button[disabled] { opacity: .6; cursor: progress; }
 
 section.tier { margin-top: 30px; }
 section.tier > h2 { display: flex; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin: 0 0 4px; }
-section.tier-a { background: var(--soft); border-radius: var(--radius); padding: 20px; }
 .tier-a .tier-note:last-child { margin-bottom: 0; }
 /* Empty confirmed group: visible to doctors, but the doctors below stay the page's main thing. */
 section.tier-empty { margin-top: 18px; border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; font-size: 15.5px; line-height: 1.45; color: var(--muted); }
 section.tier-empty p { margin: 0; }
 section.tier-empty strong { color: var(--ink); font-weight: 600; }
 section.tier-empty + section.tier-b { margin-top: 22px; }
-section.tier-b > h2 { color: var(--accent); }
+section.tier-a > h2, section.tier-b > h2 { color: var(--accent); }
+.card.card-confirmed { border: 2px solid var(--accent); }
+.confirmed-tag { display: inline-block; margin: 0 0 8px; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--accent); font-size: 14px; font-weight: 600; }
 .count { font: 600 15px var(--sans); color: var(--ink); letter-spacing: 0; }
 .tier-note { color: var(--muted); font-size: 16px; margin-bottom: 14px; }
 
