@@ -20,19 +20,10 @@ LINK = re.compile(r"\[([^\]^][^\]]*)\]\(([^)\s]+)\)")
 MARK = re.compile(r"\[\^([a-z0-9-]+)\]")
 BOLD = re.compile(r"\*\*(.+?)\*\*")
 
-# The eight questions every option answers, in this order (job 12 prompt, item 2).
-FIELDS = [("what", "What it is"), ("how", "How it works"), ("good", "Good for"), ("not_for", "Not for"),
-          ("recovery", "Recovery"), ("pregnancy", "Could I still get pregnant?"),
-          ("come_back", "Can fibroids come back?"), ("risks", "Main risks")]
-# Comparison table columns: key in each option's [options.table], heading.
-TABLE = [("uterus", "Keeps the uterus?"), ("recovery", "Back to normal"), ("pregnancy", "Pregnancy later?"),
-         ("come_back", "Fibroids come back?")]
-
-
 def load(slug):
     with open(CONTENT / f"{slug}.toml", "rb") as fh:
         c = tomllib.load(fh)
-    c.setdefault("sections", []); c.setdefault("faq", []); c.setdefault("refs", []); c.setdefault("terms", [])
+    c.setdefault("sections", []); c.setdefault("faq", []); c.setdefault("refs", []); c.setdefault("terms", []); c.setdefault("categories", [])
     return c
 
 
@@ -95,26 +86,20 @@ def section(refs, s):
 
 
 def option(refs, o, diagram_html):
-    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(o[k])}</dd></div>" for k, label in FIELDS if o.get(k))
-    fig = diagram_html if diagram_html else ""
-    more = f'<p class="next">{refs.inline(o["next"])}</p>' if o.get("next") else ""
-    return (f'<section class="option" id="{o["id"]}"><h3>{html.escape(o["heading"])}</h3>'
-            f'{"<p class=\"aka\">" + refs.inline(o["aka"]) + "</p>" if o.get("aka") else ""}'
-            f'<dl class="facts">{rows}</dl>{fig}{more}<p class="back"><a href="#compare">Back to the comparison</a></p></section>')
+    return (f'<details class="option" id="{o["id"]}"><summary>{html.escape(o["heading"])}</summary>'
+            f'<div class="option-body">{paras(refs, o["text"])}{diagram_html or ""}</div></details>')
 
 
-def compare(refs, c):
-    head = "".join(f'<th scope="col">{h}</th>' for _, h in TABLE)
-    rows = ""
-    for o in c["options"]:
-        t = o["table"]
-        cells = "".join(f'<td data-label="{h}">{refs.inline(t[k])}</td>' for k, h in TABLE)
-        rows += f'<tr><th scope="row"><a href="#{o["id"]}">{html.escape(o["name"])}</a></th>{cells}</tr>'
-    note = f'<p class="small muted">{refs.inline(c["compare_note"])}</p>' if c.get("compare_note") else ""
-    return (f'<section id="compare"><h2>{html.escape(c["compare_heading"])}</h2>'
-            f'<p>{refs.inline(c["compare_intro"])}</p>'
-            f'<div class="compare-wrap"><table class="compare"><caption class="sr">{html.escape(c["compare_heading"])}</caption>'
-            f'<thead><tr><th scope="col">Option</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>{note}</section>')
+def categories(refs, c, diagram_fn):
+    by_id = {o["id"]: o for o in c["options"]}
+    cards = "".join(f'<li><a href="#{k["id"]}"><strong>{html.escape(k["name"])}</strong></a></li>' for k in c["categories"])
+    out = f'<nav class="groups" aria-label="Jump to a group of options"><ul>{cards}</ul></nav>'
+    for k in c["categories"]:
+        opts = "".join(option(refs, by_id[i], diagram_fn(c["diagram"]) if i == c.get("diagram_at") else "") for i in k["options"])
+        cta = (f'<p class="cta"><a class="btn" href="/{c["finder"]}/">{html.escape(c["finder_button"])}</a></p>'
+               if c.get("diagram_at") in k["options"] else "")
+        out += f'<section class="group" id="{k["id"]}"><h3>{html.escape(k["name"])}</h3><p>{refs.inline(k["summary"])}</p>{opts}{cta}</section>'
+    return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
 
 
 def faq(refs, c):
@@ -167,14 +152,9 @@ def body(c, diagram_fn, e):
     finder = c["finder"]
     photo = (f'<figure class="photo"><img src="{e(c["photo"])}" alt="{e(c.get("photo_alt", ""))}"></figure>'
              if c.get("photo") else "")   # the photo slot: empty until a picture is chosen
-    parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(c["answer"])}</p>'
-             f'<p class="cta"><a class="btn" href="/{finder}/">{html.escape(c["finder_button"])}</a></p>']
-    parts.append(compare(refs, c))
+    parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(c["answer"])}</p>']
     parts += [section(refs, s) for s in c["sections"] if s.get("place", "before") == "before"]
-    jump = "".join(f'<li><a href="#{o["id"]}">{html.escape(o["name"])}</a></li>' for o in c["options"])
-    parts.append(f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2><p>{refs.inline(c["options_intro"])}</p>'
-                 f'<nav class="jump" aria-label="Jump to an option"><ul>{jump}</ul></nav></section>')
-    parts += [option(refs, o, diagram_fn(c["diagram"]) if o["id"] == c.get("diagram_at") else "") for o in c["options"]]
+    parts.append(categories(refs, c, diagram_fn))
     parts += [section(refs, s) for s in c["sections"] if s.get("place") == "after"]
     parts.append(faq(refs, c))
     parts.append(f'<section id="find" class="find"><h2>{html.escape(c["find_heading"])}</h2>{paras(refs, c["find_text"])}'

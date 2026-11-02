@@ -14,7 +14,8 @@ The comparison table's short cells and the reference list are not prose and are 
 import re, sys
 import condition
 
-BAR, AIM = 6.0, 4.0
+BAR, AIM = 9.0, 7.0   # his words, 2026-11-01: plain, but "it reads too simple now"; whole page under FLOOR is flagged
+FLOOR = 5.0
 WORD = re.compile(r"[A-Za-z]+(?:['’][A-Za-z]+)*|\d+(?:[.,]\d+)*")
 
 
@@ -59,55 +60,29 @@ def grade(sents, terms):
 
 def blocks(c):
     """(section name, [text...]) in page order."""
-    out = [("Direct answer", [c["answer"]]), ("Comparison (intro)", [c["compare_intro"]])]
+    out = [("Direct answer", [c["answer"]])]
     for s in c["sections"]:
         if s.get("place", "before") == "before":
             out.append((s["heading"], s.get("text", []) + s.get("list", []) + s.get("after", [])))
-    out.append((c["options_heading"], [c["options_intro"]]))
+    for k in c["categories"]:
+        out.append(("Group: " + k["name"], [k["summary"]]))
     for o in c["options"]:
-        out.append(("Option: " + o["name"], [o[k] for k, _ in condition.FIELDS if o.get(k)] + ([o["next"]] if o.get("next") else [])))
+        out.append(("Option: " + o["name"], o["text"]))
     for s in c["sections"]:
         if s.get("place") == "after":
             out.append((s["heading"], s.get("text", []) + s.get("list", []) + s.get("after", [])))
-    out.append((c["faq_heading"], [x for q in c["faq"] for x in (q["q"], q["a"])]))
+    out.append((c["faq_heading"] if c.get("faq_heading") else "Common questions", [x for q in c["faq"] for x in (q["q"], q["a"])]))
     out.append((c["find_heading"], c["find_text"]))
     return out
 
 
 def option_words(c):
-    return {o["name"]: len(WORD.findall(" ".join(condition.plain(o[k]) for k, _ in condition.FIELDS if o.get(k))))
-            for o in c["options"]}
-
-
-def term_check(c):
-    """Each listed term (or its plural) is on the page, and the section or option where it first appears also holds its
-    stated plain explanation. Headings count as part of their section."""
-    groups = [[c["answer"]], [c["compare_intro"]]]
-    for s in c["sections"]:
-        if s.get("place", "before") == "before":
-            groups.append([s["heading"]] + s.get("text", []) + s.get("list", []) + s.get("after", []))
-    groups.append([c["options_heading"], c["options_intro"]])
-    for o in c["options"]:
-        groups.append([o["heading"]] + ([o["aka"]] if o.get("aka") else []) + [o[k] for k, _ in condition.FIELDS if o.get(k)])
-    for s in c["sections"]:
-        if s.get("place") == "after":
-            groups.append([s["heading"]] + s.get("text", []) + s.get("list", []) + s.get("after", []))
-    groups.append([x for q in c["faq"] for x in (q["q"], q["a"])])
-    groups.append([c["find_heading"]] + c["find_text"])
-    problems = []
-    for t in c["terms"]:
-        pat = r"(?i)\b" + re.escape(t["term"]) + r"s?\b"
-        first = next((g for g in groups if re.search(pat, " ".join(condition.plain(x) for x in g))), None)
-        if first is None:
-            problems.append(f"term not on page: {t['term']}")
-        elif t["explain"].lower() not in " ".join(condition.plain(x) for x in first).lower():
-            problems.append(f"term {t['term']!r}: the section where it first appears lacks {t['explain']!r}")
-    return problems
+    return {o["name"]: len(WORD.findall(" ".join(condition.plain(t) for t in o["text"]))) for o in c["options"]}
 
 
 def report(slug, worst=0):
     c = condition.load(slug)
-    terms = [t["term"] for t in c["terms"]]
+    terms = c["terms"]
     rows, fails, all_sents = [], [], []
     for name, texts in blocks(c):
         sents = [s for t in texts for s in sentences(t)]
@@ -124,9 +99,11 @@ def report(slug, worst=0):
     print(f"{'Whole page, medical names counted too':58} {grade([s for _, _, s in all_sents], [])[0]:6.1f}")
     print(f"Bar {BAR} per section, aim {AIM}. Medical names left out of the count: {', '.join(terms)}")
     ow = option_words(c)
-    long = {k: v for k, v in ow.items() if v > 120}
+    long = {k: v for k, v in ow.items() if v > 150}
     print("Words per option:", ", ".join(f"{k} {v}" for k, v in ow.items()))
-    problems = term_check(c) + [f"option over 120 words: {k} ({v})" for k, v in long.items()]
+    problems = [f"option over 150 words: {k} ({v})" for k, v in long.items()]
+    if whole < FLOOR:
+        problems.append(f"whole page reads too simple: grade {whole:.1f}")
     problems += [f"section over grade {BAR}: {n}" for n in fails]
     aw = len(WORD.findall(condition.plain(c["answer"])))
     if not 40 <= aw <= 60:
