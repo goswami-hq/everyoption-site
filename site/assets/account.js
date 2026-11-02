@@ -19,7 +19,7 @@
     invalid: "Please check the highlighted details.",
     npi_not_individual: "That NPI is not an individual's NPI.",
     not_a_physician: "Every Option lists physicians only.",
-    code_invalid: "That code is wrong, expired or already used. Check it, or ask for a new code.",
+    code_invalid: "That code is wrong, expired, or already used. Check it, or ask for a new code.",
     email_in_use: "That email already has an Every Option account. Sign in with it, or use a different email.",
     npi_taken: "This listing already has an account. We will look into it and contact you.",
     invite_invalid: "This invitation has expired, was already used, or was withdrawn. Ask for a new one.",
@@ -35,7 +35,7 @@
     signed_out: "Please sign in again.", server: "Something went wrong on our side. Please try again."
   };
   var REASONS = { too_long: "too long", link: "a link", email: "an email address", phone: "a phone number",
-    patient_story: "what reads as a patient story", promise: "a promise or superlative word (like best, guaranteed or cure)" };
+    patient_story: "what reads as a patient story", promise: "a promise or superlative word (like best, guaranteed, or cure)" };
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -184,7 +184,7 @@
     if (!a.npi && a.claim_npi) return me.dispute ? "This listing's account was already confirmed by ID or Doximity. We will look into it and contact you."
       : "This listing (NPI " + a.claim_npi + ") already has an account. Confirm who you are below; a confirmed doctor takes the listing over.";
     if (!a.npi) return "This account no longer holds a listing.";
-    return a.level === "full" ? "Full access." : "Basic access: confirm procedures, write notes and add insurances. To change phone, offices, booking link or photo, confirm who you are with ID or Doximity, or ask a colleague with full access for an invitation.";
+    return a.level === "full" ? "Full access." : "Basic access: confirm procedures, write notes, and add insurances. To change phone, offices, booking link, or photo, confirm who you are with ID or Doximity, or ask a colleague with full access for an invitation.";
   }
 
   function proofBox(me) {
@@ -300,7 +300,7 @@
 
   function profile(me, p) {
     var kids = [el("h2", { style: "margin-top:0", text: "Your card" }),
-      el("p", { "class": "small muted", text: "Your card shows only what you fill in. No links, phone numbers or patient stories in the notes, and no words like best, guaranteed or cure." })];
+      el("p", { "class": "small muted", text: "Your card shows only what you fill in. No links, phone numbers, or patient stories in the notes, and no words like best, guaranteed, or cure." })];
     Object.keys(PROC).forEach(function (k) {
       var t = el("textarea", { id: "b-" + k, name: "blurb_" + k, rows: "3", maxlength: "300" });
       t.value = (p.blurbs || {})[k] || "";
@@ -318,7 +318,7 @@
     var contact = !!(me.can && me.can.contact);
     var book = el("input", { id: "p-book", name: "booking_url", type: "url", maxlength: "300", placeholder: "https://" }); book.value = p.booking_url || "";
     if (contact) kids.push(el("div", null, [el("label", { "for": "p-book", text: "Online booking link" }), book]));
-    else kids.push(el("p", { "class": "notice small", id: "contact-locked", text: "Phone, offices, booking link and photo need full access (see above)." }));
+    else kids.push(el("p", { "class": "notice small", id: "contact-locked", text: "Phone, offices, booking link, and photo need full access (see above)." }));
     var offs = el("div", { id: "offices" });
     var list = (p.offices && p.offices.length ? p.offices : [{}]);
     function officeRow(o, i) {

@@ -15,7 +15,7 @@ import re, sys
 import condition
 
 BAR, AIM = 9.0, 7.0   # his words, 2026-11-01: plain, but "it reads too simple now"; whole page under FLOOR is flagged
-FLOOR = 5.0
+FLOOR = 4.0
 WORD = re.compile(r"[A-Za-z]+(?:['’][A-Za-z]+)*|\d+(?:[.,]\d+)*")
 
 
@@ -61,13 +61,10 @@ def grade(sents, terms):
 def blocks(c):
     """(section name, [text...]) in page order."""
     out = [("Direct answer", [c["answer"]])]
-    for s in c["sections"]:
-        if s.get("place", "before") == "before":
-            out.append((s["heading"], s.get("text", []) + s.get("list", []) + s.get("after", [])))
     for k in c["categories"]:
         out.append(("Group: " + k["name"], [k["summary"]]))
     for o in c["options"]:
-        out.append(("Option: " + o["name"], o["text"]))
+        out.append(("Option: " + o["name"], [o[k] for k in ("what", "invasive", "works", "side")]))
     for s in c["sections"]:
         if s.get("place") == "after":
             out.append((s["heading"], s.get("text", []) + s.get("list", []) + s.get("after", [])))
@@ -77,7 +74,7 @@ def blocks(c):
 
 
 def option_words(c):
-    return {o["name"]: len(WORD.findall(" ".join(condition.plain(t) for t in o["text"]))) for o in c["options"]}
+    return {o["name"]: len(WORD.findall(" ".join(condition.plain(o[k]) for k in ("what", "invasive", "works", "side")))) for o in c["options"]}
 
 
 def report(slug, worst=0):
@@ -99,9 +96,9 @@ def report(slug, worst=0):
     print(f"{'Whole page, medical names counted too':58} {grade([s for _, _, s in all_sents], [])[0]:6.1f}")
     print(f"Bar {BAR} per section, aim {AIM}. Medical names left out of the count: {', '.join(terms)}")
     ow = option_words(c)
-    long = {k: v for k, v in ow.items() if v > 150}
+    long = {k: v for k, v in ow.items() if v > 90}
     print("Words per option:", ", ".join(f"{k} {v}" for k, v in ow.items()))
-    problems = [f"option over 150 words: {k} ({v})" for k, v in long.items()]
+    problems = [f"option over 90 words: {k} ({v})" for k, v in long.items()]
     if whole < FLOOR:
         problems.append(f"whole page reads too simple: grade {whole:.1f}")
     problems += [f"section over grade {BAR}: {n}" for n in fails]

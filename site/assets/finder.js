@@ -1,4 +1,4 @@
-// Every Option finder: loads one procedure's list and the ZIP centre table, sorts by distance in the browser.
+// Every Option finder: loads one procedure's list and the ZIP center table, sorts by distance in the browser.
 // No cookies, no storage, no third-party requests. The ZIP typed stays in this page (and its address bar).
 (function () {
   "use strict";
@@ -63,7 +63,7 @@
   }
   function telHref(p) { var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : ""; }
 
-  // Job 10: a confirmed doctor's card may carry a photo, a blurb, insurances, a booking link and more offices. Each
+  // Job 10: a confirmed doctor's card may carry a photo, a blurb, insurances, a booking link, and more offices. Each
   // shows only when supplied; an unconfirmed card looks as before.
   function safeHttps(u) { try { var x = new URL(u); return x.protocol === "https:" ? x.href : ""; } catch (e) { return ""; } }
   function card(p) {
@@ -167,10 +167,10 @@
     Promise.all([loadData(), getJSON("/data/zip/" + zip.slice(0, 3) + ".json").catch(function (e) {
       if (/HTTP 404/.test(e.message)) return {}; throw e;
     })]).then(function (res) {
-      var d = res[0], centre = res[1][zip];
-      if (!centre) { say("We don't have a location for ZIP " + zip + ". Check the number, or try a nearby ZIP.", "err"); return; }
+      var d = res[0], center = res[1][zip];
+      if (!center) { say("We don't have a location for ZIP " + zip + ". Check the number, or try a nearby ZIP.", "err"); return; }
       var near = d.people.filter(function (p) { return p.lat !== null && p.lon !== null; }).map(function (p) {
-        var c = Object.assign({}, p); c.miles = miles(centre, [p.lat, p.lon]); return c;
+        var c = Object.assign({}, p); c.miles = miles(center, [p.lat, p.lon]); return c;
       }).filter(function (p) { return p.miles <= r; }).sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); });
       var confirmed = near.filter(function (p) { return p.confirmed; }), likely = near.filter(function (p) { return !p.confirmed; });
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
@@ -186,7 +186,7 @@
       if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
         "Based on public information online. Call the office to confirm. Nearest first."));
       out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
-        "Distances are between ZIP centres, not street addresses. ",
+        "Distances are between ZIP centers, not street addresses. ",
         el("a", { href: "/how-we-know/", text: "How we know" })]));
     }).catch(function () {
       var retry = el("button", { "class": "secondary", type: "button", text: "Try again" });

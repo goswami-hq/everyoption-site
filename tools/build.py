@@ -24,7 +24,7 @@ PROCS = {
         "name": "Uterine fibroid embolization", "abbr": "UFE", "for": "Fibroids",
         "title": "Find a doctor for uterine fibroid embolization (UFE)",
         "about": [
-            "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain or pressure. It’s a "
+            "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain, or pressure. It’s a "
             "minimally invasive procedure: a doctor works through a small puncture in the wrist or groin and cuts down "
             "the blood going to the fibroids, so they shrink over time. You keep your uterus. Talk to a doctor about "
             "whether it’s right for you.",
@@ -40,7 +40,7 @@ PROCS = {
         "title": "Find a doctor for prostate artery embolization (PAE)",
         "about": [
             "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going "
-            "often, getting up at night or a weak stream. It’s a minimally invasive procedure: a doctor works through a "
+            "often, getting up at night, or a weak stream. It’s a minimally invasive procedure: a doctor works through a "
             "small puncture in the wrist or groin and cuts down the blood going to the prostate, so it shrinks over "
             "time. Talk to a doctor about whether it’s right for you.",
         ],
@@ -125,7 +125,7 @@ ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-widt
 
 
 def fork(keys):
-    """One line opening into a path per condition: any number of rows; each path takes its condition's colour."""
+    """One line opening into a path per condition: any number of rows; each path takes its condition's color."""
     n, draw, light = len(keys), "", ""
     mid = n * 50
     for i, k in enumerate(keys):
@@ -158,7 +158,7 @@ def home():
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
     return page("/", "Every Option: find doctors who perform UFE, PAE and GAE",
-                "Find doctors who perform uterine fibroid embolization, prostate artery embolization or genicular "
+                "Find doctors who perform uterine fibroid embolization, prostate artery embolization, or genicular "
                 "artery embolization near you.", body)
 
 
@@ -216,13 +216,13 @@ def how():
 </dl>
 <h2>Where the information comes from</h2>
 <ul>
-<li>Doctors’ profiles on hospital, university and practice websites, and search results for those pages.</li>
+<li>Doctors’ profiles on hospital, university, and practice websites, and search results for those pages.</li>
 <li>Practice websites.</li>
 <li>Public Medicare billing records.</li>
 <li>ClinicalTrials.gov, the U.S. registry of clinical studies.</li>
 <li>Other websites that copy a doctor’s profile.</li>
 </ul>
-<p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances are measured between ZIP code centres, not street addresses.</p>
+<p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances are measured between ZIP code centers, not street addresses.</p>
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
 <h2>The badge under a name</h2>
@@ -334,9 +334,9 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e),
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e), ["/assets/condition.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['colour']}"))
+                                         cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")
     counts = {}

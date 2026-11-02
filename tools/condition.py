@@ -71,40 +71,57 @@ class Refs:
         return "".join(out)
 
 
+def tail(s):
+    """Markers move to the end of the sentence group, so the reading text stays clean."""
+    keys = list(dict.fromkeys(MARK.findall(s)))
+    body = MARK.sub("", s).strip()
+    return re.sub(r"\s+([.,;:!?])", r"\1", body) + "".join(f"[^{k}]" for k in keys)
+
+
 def paras(refs, items):
-    return "".join(f"<p>{refs.inline(p)}</p>" for p in items)
+    return "".join(f"<p>{refs.inline(tail(p))}</p>" for p in items)
 
 
 def bullets(refs, items):
-    return "<ul>" + "".join(f"<li>{refs.inline(p)}</li>" for p in items) + "</ul>" if items else ""
+    return "<ul>" + "".join(f"<li>{refs.inline(tail(p))}</li>" for p in items) + "</ul>" if items else ""
+
+
+def fold(cls, title, inner, id_=""):
+    i = f' id="{id_}"' if id_ else ""
+    return f'<details class="{cls}"{i}><summary>{html.escape(title)}</summary><div class="fold-body">{inner}</div></details>'
 
 
 def section(refs, s):
-    cls = ' class="urgent"' if s.get("kind") == "urgent" else ""
     body = paras(refs, s.get("text", [])) + bullets(refs, s.get("list", [])) + paras(refs, s.get("after", []))
-    return f'<section id="{s["id"]}"{cls}><h2>{html.escape(s["heading"])}</h2>{body}</section>'
+    return fold("topic", s["heading"], body, s["id"])
 
 
-def option(refs, o, diagram_html):
-    return (f'<details class="option" id="{o["id"]}"><summary>{html.escape(o["heading"])}</summary>'
-            f'<div class="option-body">{paras(refs, o["text"])}{diagram_html or ""}</div></details>')
+FIELDS = [("invasive", "How invasive is it?"), ("works", "How well does it work?"), ("side", "Side effects")]
+
+
+def option(refs, o, extra):
+    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k]))}</dd></div>" for k, label in FIELDS)
+    return fold("option", o["name"], f'<p>{refs.inline(tail(o["what"]))}</p><dl class="facts">{rows}</dl>{extra}', o["id"])
 
 
 def categories(refs, c, diagram_fn):
     by_id = {o["id"]: o for o in c["options"]}
-    cards = "".join(f'<li><a href="#{k["id"]}"><strong>{html.escape(k["name"])}</strong></a></li>' for k in c["categories"])
-    out = f'<nav class="groups" aria-label="Jump to a group of options"><ul>{cards}</ul></nav>'
+    out = ""
     for k in c["categories"]:
-        opts = "".join(option(refs, by_id[i], diagram_fn(c["diagram"]) if i == c.get("diagram_at") else "") for i in k["options"])
-        cta = (f'<p class="cta"><a class="btn" href="/{c["finder"]}/">{html.escape(c["finder_button"])}</a></p>'
-               if c.get("diagram_at") in k["options"] else "")
-        out += f'<section class="group" id="{k["id"]}"><h3>{html.escape(k["name"])}</h3><p>{refs.inline(k["summary"])}</p>{opts}{cta}</section>'
+        opts = ""
+        for i in k["options"]:
+            extra = ""
+            if i == c.get("diagram_at"):
+                extra = (diagram_fn(c["diagram"]) +
+                         f'<p class="cta"><a class="btn" href="/{c["finder"]}/">{html.escape(c["finder_button"])}</a></p>')
+            opts += option(refs, by_id[i], extra)
+        out += fold("group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
     return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
 
 
 def faq(refs, c):
     items = "".join(f'<div class="qa"><h3>{html.escape(q["q"])}</h3>{paras(refs, [q["a"]])}</div>' for q in c["faq"])
-    return f'<section id="faq"><h2>{html.escape(c["faq_heading"])}</h2>{items}</section>'
+    return fold("topic", c["faq_heading"], items, "faq")
 
 
 def references(refs):
@@ -113,8 +130,7 @@ def references(refs):
         r = refs.by_key[key]
         link = f' <a href="{html.escape(r["url"], quote=True)}" rel="noopener">{html.escape(r["url"])}</a>' if r.get("url") else ""
         lis += f'<li id="ref-{i}">{html.escape(r["cite"])}{link}</li>'
-    return (f'<section id="references"><h2>References</h2><p class="small muted">The small numbers on this page point '
-            f'to these sources.</p><ol class="refs">{lis}</ol></section>')
+    return fold("topic", "References", f'<p class="small muted">The small numbers on this page point to these sources.</p><ol class="refs">{lis}</ol>', "references")
 
 
 def schema(c, url, origin, publisher):
@@ -152,18 +168,17 @@ def body(c, diagram_fn, e):
     finder = c["finder"]
     photo = (f'<figure class="photo"><img src="{e(c["photo"])}" alt="{e(c.get("photo_alt", ""))}"></figure>'
              if c.get("photo") else "")   # the photo slot: empty until a picture is chosen
-    parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(c["answer"])}</p>']
-    parts += [section(refs, s) for s in c["sections"] if s.get("place", "before") == "before"]
+    parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
+             f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c, diagram_fn))
-    parts += [section(refs, s) for s in c["sections"] if s.get("place") == "after"]
-    parts.append(faq(refs, c))
-    parts.append(f'<section id="find" class="find"><h2>{html.escape(c["find_heading"])}</h2>{paras(refs, c["find_text"])}'
-                 f'<p class="cta"><a class="btn" href="/{finder}/">{html.escape(c["finder_button"])}</a></p></section>')
-    parts.append(references(refs))
+    learn = "".join(section(refs, s) for s in c["sections"]) + faq(refs, c)
+    parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
+    parts.append(f'<p class="cta end"><a class="btn" href="/{finder}/">{html.escape(c["finder_button"])}</a></p>')
+    parts = [p.replace("{REFS}", references(refs)) for p in parts]
     author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'
               f'{", " + e(c["author_credentials"]) if c.get("author_credentials") else ""}.</p>' if c.get("author_name") else "")
     parts.append(f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {e(c["reviewed"])}.</p>{author}')
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")
-    return f'<article class="condition t-{c["colour"]}">{"".join(parts)}</article>'
+    return f'<article class="condition t-{c["color"]}">{"".join(parts)}</article>'
