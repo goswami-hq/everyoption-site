@@ -201,6 +201,13 @@ details.topic > summary { font-weight: 600; }
 details.option > summary { font-weight: 600; font-size: 17px; }
 .fold-body { padding: 0 2px 14px; animation: arrive 240ms var(--ease-out) both; }
 details.group > .fold-body details { margin-left: 0; }
+details.featured-group { background: var(--soft); border: 0; border-radius: var(--radius); padding: 2px 14px 6px; margin: 8px 0; }
+details.featured-group > summary { color: var(--accent); }
+details.featured-group details.option { border-color: color-mix(in srgb, var(--accent) 22%, transparent); }
+details.option.featured { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 14px; margin: 4px 0 10px; }
+details.option.featured > summary { color: var(--accent-ink); padding-left: 16px; padding-right: 16px; }
+details.option.featured > summary::after { color: var(--accent-ink); }
+details.option.featured > .fold-body { background: var(--card); color: var(--ink); border-radius: 0 0 13px 13px; padding: 14px 16px; border: 1px solid var(--accent); border-top: 0; }
 .condition .end { margin-top: 26px; }
 @media (prefers-reduced-motion: reduce) { .fold-body { animation: none; } }
 dl.facts { margin: 8px 0 0; display: grid; gap: 8px; }

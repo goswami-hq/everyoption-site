@@ -99,9 +99,9 @@ def section(refs, s):
 FIELDS = [("invasive", "How invasive is it?"), ("works", "How well does it work?"), ("side", "Side effects")]
 
 
-def option(refs, o, extra):
+def option(refs, o, extra, cls="option"):
     rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k]))}</dd></div>" for k, label in FIELDS)
-    return fold("option", o["name"], f'<p>{refs.inline(tail(o["what"]))}</p><dl class="facts">{rows}</dl>{extra}', o["id"])
+    return fold(cls, o["name"], f'<p>{refs.inline(tail(o["what"]))}</p><dl class="facts">{rows}</dl>{extra}', o["id"])
 
 
 def categories(refs, c, diagram_fn):
@@ -114,8 +114,8 @@ def categories(refs, c, diagram_fn):
             if i == c.get("diagram_at"):
                 extra = (diagram_fn(c["diagram"]) +
                          f'<p class="cta"><a class="btn" href="/{c["finder"]}/">{html.escape(c["finder_button"])}</a></p>')
-            opts += option(refs, by_id[i], extra)
-        out += fold("group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
+            opts += option(refs, by_id[i], extra, "option featured" if i == k.get("highlight") else "option")
+        out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
     return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
 
 

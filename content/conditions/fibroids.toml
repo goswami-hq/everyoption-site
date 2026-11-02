@@ -1,5 +1,5 @@
 # Fibroids: the first condition education page and the template for the rest.
-# Framework for every condition (his words, 2026-11-01): Medicines; Minimally Invasive Treatments, IR option always first;
+# Framework for every condition (his words, 2026-11-01): Medicines; Less Invasive Treatments, IR option always first;
 # Surgery. Everything collapsed by default. Each option answers what patients care about: how invasive, how well it works,
 # side effects. American spelling; Oxford comma.
 # Build: python3 tools/build.py. Reading level: python3 tools/readability.py fibroids.
@@ -30,7 +30,7 @@ photo_alt = ""
 title = "Fibroids: Every Treatment Option | Every Option"
 description = "Fibroids are common, non-cancerous growths in the uterus. Learn how invasive each treatment is, how well it works, and its side effects."
 h1 = "What are my options for fibroids?"
-answer = "Fibroids are non-cancerous growths in the uterus. Many cause no symptoms and need no treatment.[^mpfib] When they cause heavy periods, pain, or pressure, your options fall into three groups: medicines, minimally invasive treatments, and surgery.[^mpfib] The right choice depends on your symptoms and goals."
+answer = "Fibroids are non-cancerous growths in the uterus. Many cause no symptoms and need no treatment.[^mpfib] When they cause heavy periods, pain, or pressure, your options fall into three groups: medicines, less invasive treatments, and surgery.[^mpfib] The right choice depends on your symptoms and goals."
 urgent = "If you have severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for fibroid embolization"
 options_heading = "Your options"
@@ -48,9 +48,10 @@ summary = "Treat symptoms like heavy bleeding and pain. No procedure needed."
 options = ["non-hormone-medicines", "hormone-medicines", "iud"]
 
 [[categories]]
-id = "minimally-invasive"
-name = "Minimally Invasive Treatments"
-summary = "Treat fibroids or bleeding without major surgery. The uterus stays in place."
+id = "less-invasive"
+name = "Less Invasive Treatments"
+highlight = "embolization"
+summary = "Treat fibroids or bleeding without major surgery, with your uterus left in place. Before you agree to surgery, ask about these."
 options = ["embolization", "radiofrequency", "focused-ultrasound", "endometrial-ablation"]
 
 [[categories]]
@@ -93,7 +94,7 @@ a = "It depends on the treatment. Myomectomy and removal through the cervix can 
 
 [[faq]]
 q = "Do I need a hysterectomy for fibroids?"
-a = "Not always. Many people never need one. It is the only treatment that keeps fibroids from returning, but medicines, minimally invasive treatments, and surgery that removes only the fibroids are all options.[^mpfib][^owh]"
+a = "Not always. Many people never need one. It is the only treatment that keeps fibroids from returning, but medicines, less invasive treatments, and surgery that removes only the fibroids are all options.[^mpfib][^owh]"
 
 [[options]]
 id = "non-hormone-medicines"
@@ -122,7 +123,7 @@ side = "Spotting at first. It is more likely to slip out when fibroids are prese
 [[options]]
 id = "embolization"
 name = "Fibroid embolization (UFE)"
-what = "A thin tube delivers tiny beads that block blood flow to the fibroids, so they shrink.[^sir][^mpfib]"
+what = "A thin tube delivers tiny beads that block blood flow to the fibroids, so they shrink. You avoid major surgery, keep your uterus, and usually recover in about a week, compared with 2 to 6 weeks after major surgery.[^sir][^mpfib][^mpuae][^ccmyo][^mphyst]"
 invasive = "A tiny skin nick at the wrist or groin. Most people go home the same day and are back to normal in 7 to 10 days.[^sir][^mpuae]"
 works = "About 9 in 10 women have significant improvement.[^sir] About 1 in 3 needed more treatment within 5 years.[^rest]"
 side = "Cramps, nausea, and low fever for 2 to 7 days. Early menopause in 1 to 5 in 100, more often over age 45.[^sir][^rinfo]"

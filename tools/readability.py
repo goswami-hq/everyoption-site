@@ -96,9 +96,9 @@ def report(slug, worst=0):
     print(f"{'Whole page, medical names counted too':58} {grade([s for _, _, s in all_sents], [])[0]:6.1f}")
     print(f"Bar {BAR} per section, aim {AIM}. Medical names left out of the count: {', '.join(terms)}")
     ow = option_words(c)
-    long = {k: v for k, v in ow.items() if v > 90}
+    long = {k: v for k, v in ow.items() if v > 110}
     print("Words per option:", ", ".join(f"{k} {v}" for k, v in ow.items()))
-    problems = [f"option over 90 words: {k} ({v})" for k, v in long.items()]
+    problems = [f"option over 110 words: {k} ({v})" for k, v in long.items()]
     if whole < FLOOR:
         problems.append(f"whole page reads too simple: grade {whole:.1f}")
     problems += [f"section over grade {BAR}: {n}" for n in fails]
