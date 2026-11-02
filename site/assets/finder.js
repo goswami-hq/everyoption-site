@@ -252,7 +252,8 @@
         if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Confirmed by physician",
           "These doctors confirmed they perform this procedure. Nearest first."));
         else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
-          el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." }), " Are you a doctor who performs this? ",
+          el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." })]),
+          el("p", null, ["Are you a doctor who performs this? ",
             el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
         ]));
         if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
