@@ -72,14 +72,7 @@ after = ["See a doctor if you have any of these signs. Also call if you soak thr
 id = "urgent"
 kind = "urgent"
 heading = "When should I get help right away?"
-text = ["**Call 911** if you pass out.[^kp]", "**Call your doctor now or get care right away** if:[^kp]"]
-list = [
-  "You have very heavy bleeding.[^kp]",
-  "You feel dizzy or lightheaded, or feel like you might faint.[^kp]",
-  "You have new or worse pain in your belly or pelvis.[^kp]",
-]
-after = ["If you are pregnant or might be and you are bleeding, call your doctor.[^mpbleed]"]
-
+text = ["**If you have severe bleeding, severe pain, a fever, or feel faint, call 911 right away.**"]
 [[options]]
 id = "watching"
 name = "Watching and waiting"
