@@ -67,7 +67,7 @@ http.createServer(async (req, res) => {
   }
   if (backend && url.pathname === "/__revoke") {
     try { return asJSON(res, await makeService(backend, { origin }).revokeInviter(url.searchParams.get("who"))); }
-    catch (e) { return asJSON(res, { error: e.code || e.message }); }
+    catch (e) { return asJSON(res, { error: e.code || e.message, ...(e.extra || {}) }); }
   }
   if (backend && url.pathname === "/__identity/") {        // stands in for the identity provider's hosted page
     const s = url.searchParams.get("session"), back = url.searchParams.get("return") || "/account/";

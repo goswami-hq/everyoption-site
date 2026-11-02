@@ -86,7 +86,8 @@ create table invitations (                                            -- one NPI
   used_by uuid references accounts(id),
   revoked_at timestamptz,
   created_at timestamptz not null default now(),
-  unique (inviter_account_id, slot)
+  unique (inviter_account_id, slot),
+  check ((kind = 'doctor') = (inviter_account_id is not null) and (kind <> 'doctor' or slot is not null))
 );
 
 create table radiologist_names (                                      -- national list: last name + first initial

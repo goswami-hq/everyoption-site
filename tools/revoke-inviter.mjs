@@ -15,9 +15,14 @@ async function main(argv) {
   else {
     const b = realBackend();
     if (!b) { console.error("Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, or use --dev <url>."); return 2; }
-    try { r = await makeService(b, {}).revokeInviter(who); } catch (e) { r = { error: e.code || e.message }; }
+    try { r = await makeService(b, {}).revokeInviter(who); } catch (e) { r = { error: e.code || e.message, ...(e.extra || {}) }; }
   }
-  if (!r.ok) { console.error("not revoked:", r.error); return 1; }
+  if (!r.ok) {
+    console.error("not revoked:", r.error);
+    for (const c of r.candidates || []) console.error(`  ${c.id}  ${c.name}  ${c.holds ? "holds the NPI" : "lost the NPI"}  ${c.level}/${c.proof}  made ${c.created_at}`);
+    if (r.candidates) console.error("Run again with the bad inviter's account id.");
+    return 1;
+  }
   console.log(`Revoked: ${r.revoked.length} account(s) lost full access (the inviter and everyone downstream).`);
   return 0;
 }

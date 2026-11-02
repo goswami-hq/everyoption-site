@@ -145,11 +145,10 @@ test("takeover: a doctor proven by ID takes over an NPI held without that proof;
   // edits stay logged and the new holder can undo them
   const log = (await real.get("edits")).body.edits;
   const wrong = log.find((e) => e.field === "blurbs" && !e.by_you);
-  assert.ok(wrong && wrong.undoable);
-  assert.equal((await real.post("undo", { edit_id: wrong.id })).status, 200);
-  assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, undefined);
-  const att = log.find((e) => e.field === "attested");
-  assert.equal((await real.post("undo", { edit_id: att.id })).status, 200, "the squatter's attestation can be withdrawn");
+  assert.ok(wrong, "the squatter's edit stays on record");
+  assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, undefined, "and leaves the card at takeover");
+  assert.deepEqual((await w.backend.data.one("profiles", { npi: ANN })).attested, [], "its attestations too");
+  assert.equal((await real.post("undo", { edit_id: wrong.id })).status, 409, "the newer reset sits on top of it");
   assert.equal((await w.backend.data.many("accounts", { npi: ANN })).length, 1);
   assert.equal((await w.backend.data.many("exceptions")).length, 0, "no exception: automatic");
 });
@@ -225,7 +224,7 @@ test("r1-1: after a takeover the squatter's contact details, photo and attestati
   const w = world();
   const squat = w.client("10.9.0.1");
   await squat.post("invite/accept", { token: await w.invite(ANN, "owner"), agree: true, procedures: ["ufe", "pae"] });
-  await squat.put("profile", { booking_url: "https://evil.example/book", blurbs: { ufe: "Squatter words." },
+  await squat.put("profile", { booking_url: "https://evil.example/book", blurbs: { ufe: "Squatter words." }, insurances: ["Aetna"],
     offices: [{ practice: "Fake", city: "Chicago", state: "IL", zip: "60611", phone: "3125550199" }] });
   const ph = await squat.call("POST", "photo", pngBytes(), { headers: { "Content-Type": "image/png" } });
   assert.equal(ph.status, 200, JSON.stringify(ph.body));
@@ -238,7 +237,10 @@ test("r1-1: after a takeover the squatter's contact details, photo and attestati
   assert.deepEqual(card.procedures, ["gae"]); assert.equal(card.booking_url, ""); assert.deepEqual(card.offices, []); assert.equal(card.photo, "");
   const log = (await real.get("edits")).body.edits;
   assert.ok(["booking_url", "offices", "attested"].every((f) => log.some((e) => e.field === f && e.by_you)), "resets logged");
-  assert.equal(card.blurbs.ufe, "Squatter words.", "notes stay until the new holder undoes them");
+  assert.deepEqual(card.blurbs, {}, "review round 2: notes leave too"); assert.deepEqual(card.insurances, []);
+  const reset = (await real.get("edits")).body.edits.find((e) => e.field === "blurbs" && e.by_you);
+  assert.equal((await real.post("undo", { edit_id: reset.id })).status, 200);
+  assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, "Squatter words.", "the reset is undoable");
 });
 
 test("r1-1b: his invitation over a held listing also starts a fresh card; a removed holder with no email is an exception", async () => {
@@ -309,3 +311,47 @@ function pngBytes(w = 160, h = 160) {
   const raw = Buffer.concat(Array.from({ length: h }, () => Buffer.concat([Buffer.from([0]), Buffer.alloc(w * 3, 120)])));
   return new Uint8Array(Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), chunk("IHDR", ihdr), chunk("IDAT", zlib.deflateSync(raw)), chunk("IEND", Buffer.alloc(0))]));
 }
+
+// ---- Review round 2 fixes (job 11) ----
+test("r2-1: revoke by an NPI that more than one account touched is refused as ambiguous; the proven holder stays full", async () => {
+  const w = world();
+  const bad = w.client("10.10.0.1");
+  await bad.post("invite/accept", { token: await w.invite(ANN, "owner"), agree: true });
+  const real = w.client("10.10.0.2");
+  const s = await real.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  await real.post("code", { challenge: s.body.challenge, code: w.lastCode("ann@home.example") });
+  await w.idCheck(real);
+  const err = await w.svc().revokeInviter(ANN).catch((e) => e);
+  assert.equal(err.code, "ambiguous"); assert.equal(err.extra.candidates.length, 2);
+  assert.equal((await w.backend.data.one("accounts", { npi: ANN })).level, "full");
+  const badId = err.extra.candidates.find((c) => !c.holds).id;
+  assert.equal((await w.svc().revokeInviter(badId)).ok, true);
+  assert.equal((await w.backend.data.one("accounts", { npi: ANN })).level, "full", "the proven holder is untouched");
+});
+
+test("r2-5a: the waitlist rule holds for his and published invitations too", async () => {
+  const w = world();
+  await assert.rejects(w.svc().createInvite({ kind: "owner", npi: DAN }), /not_radiologist/);
+  await assert.rejects(w.svc().createInvite({ kind: "published", npi: DAN, email: "dan@ortho.example" }), /not_radiologist/);
+});
+
+test("r2-5b: on Supabase a slot conflict (409) is retried with the next slot", async () => {
+  const inviter = { id: "0b8a1c2d-0000-4000-8000-000000000001", npi: ANN, level: "full", invite_banned: false };
+  let rows = 2, posts = 0;
+  const f = async (url, init = {}) => {
+    if (/rpc\/eo_hit/.test(url)) return new Response("true");
+    if (/invitations\?select=\*&inviter_account_id=/.test(url)) return new Response(JSON.stringify(Array.from({ length: rows }, (_, i) => ({ id: "i" + i }))));
+    if (/\/invitations$/.test(url) && init.method === "POST") {
+      posts++; const body = JSON.parse(init.body);
+      if (body.slot === 3) { rows = 3; return new Response("{}", { status: 409 }); }
+      return new Response(JSON.stringify([{ id: "new", ...body }]), { status: 201 });
+    }
+    if (/accounts\?select/.test(url)) return new Response("[]");
+    if (/edits$/.test(url)) return new Response(JSON.stringify([{ id: "e1" }]), { status: 201 });
+    return new Response("[]");
+  };
+  const b = { data: supabaseData("https://a.supabase.co", "k", f), nppes: { async lookup() { return { type: "NPI-1", first: "Gil", last: "Fourtest", taxonomy: "2085R0204X" }; } },
+    listings: { async get() { return null; } } };
+  const r = await makeService(b, {}).createInvite({ kind: "doctor", npi: GIL, inviter });
+  assert.equal(r.ok, true); assert.equal(posts, 2, "second try with slot 4");
+});
