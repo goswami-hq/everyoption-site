@@ -3,6 +3,8 @@
 # Surgery. Everything collapsed by default. Each option answers what patients care about: how invasive, how well it works,
 # side effects. American spelling; Oxford comma.
 # Build: python3 tools/build.py. Reading level: python3 tools/readability.py fibroids.
+# Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point ("about 7 out of 10"),
+# modeled on the embolization "works" text below. Citations stay.
 # Every clinical claim carries a [^key] marker pointing at [[refs]] below. Sources: goswami-hq/ai-hq
 # projects/platform/content/pages/sources/fibroids.md.
 # Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
