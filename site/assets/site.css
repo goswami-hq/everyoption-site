@@ -95,12 +95,14 @@ section.tier-a { background: var(--soft); border-radius: var(--radius); padding:
 .count { font: 500 15px var(--sans); color: var(--muted); letter-spacing: 0; }
 .tier-note { color: var(--muted); font-size: 16px; margin-bottom: 14px; }
 
-ol.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+ol.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.card { min-width: 0; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; animation: arrive 420ms var(--ease-out) both; }
 .card:nth-child(2) { animation-delay: 50ms; } .card:nth-child(3) { animation-delay: 100ms; } .card:nth-child(4) { animation-delay: 150ms; } .card:nth-child(5) { animation-delay: 200ms; } .card:nth-child(6) { animation-delay: 250ms; }
 .card .top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .card .who { flex: 1; min-width: 0; }
-.card, .card * { overflow-wrap: anywhere; }
+.card, .card * { overflow-wrap: break-word; }
+.card h3 { hyphens: auto; }
 .card .photo { flex: none; width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: var(--soft); border: 1px solid var(--line); }
 .card .blurb { margin: 10px 0 0; font-size: 16.5px; line-height: 1.5; }
 .card .ins { margin: 8px 0 0; font-size: 15.5px; color: var(--muted); line-height: 1.45; }
