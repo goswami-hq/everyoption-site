@@ -72,7 +72,13 @@ after = ["See a doctor if you have any of these signs. Also call if you soak thr
 id = "urgent"
 kind = "urgent"
 heading = "When should I get help right away?"
-text = ["**If you have severe bleeding, severe pain, a fever, or feel faint, call 911 right away.**"]
+text = ["**Call 911 right away if you have:**"]
+list = [
+  "Severe bleeding.",
+  "Severe pain.",
+  "A fever.",
+  "Or you feel very sick or faint.",
+]
 [[options]]
 id = "watching"
 name = "Watching and waiting"
@@ -419,10 +425,6 @@ url = "https://my.clevelandclinic.org/health/diseases/9130-uterine-fibroids"
 key = "mpbleed"
 cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Vaginal or uterine bleeding. Reviewed October 15, 2024. Read November 1, 2026."
 url = "https://medlineplus.gov/ency/article/007496.htm"
-[[refs]]
-key = "kp"
-cite = "Kaiser Permanente Health Encyclopedia (WebMD Ignite, clinical review board). Heavy menstrual periods: care instructions. Current as of May 5, 2026. Read November 1, 2026."
-url = "https://healthy.kaiserpermanente.org/health-wellness/health-encyclopedia/he.Heavy-Menstrual-Periods-Care-Instructions.uh4126"
 [[refs]]
 key = "txa"
 cite = "U.S. Food and Drug Administration approved label (DailyMed). Tranexamic acid tablets. Label updated January 15, 2024. Read November 1, 2026."
