@@ -13,7 +13,7 @@ Checks, at 320, 390, 768 and 1280 px, light and dark:
 And once per width: the claim form hides after a successful send; an incomplete form names the missing fields in
 one plain sentence, marks them invalid and moves focus to the first.
 """
-import json, os, sys
+import json, os, re, sys
 from playwright.sync_api import sync_playwright
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
@@ -30,7 +30,7 @@ def check(name, ok, detail=""):
 
 TARGETS = r"""() => {
   const out = [];
-  const sel = 'header.site a, footer.site a, details.sources > summary, .fork-list .also, .about > p > a, '
+  const sel = 'header.site a, footer.site a, details.sources > summary, .fork-list a, .find-bar, .learn-link a, .about > p > a, '
             + 'form.claim-form input[type=radio], form.claim-form input[type=checkbox]';
   for (const el of document.querySelectorAll(sel)) {
     const s = getComputedStyle(el); if (s.display === 'none' || s.visibility === 'hidden') continue;
@@ -78,7 +78,7 @@ def run():
                     p.check("input[name=role][value=doctor]")
                     p.click("#claim-form button[type=submit]")
                     msg = p.inner_text("#claim-status")
-                    check(f"/claim/ {w}: missing fields named in one sentence", msg == "Please add your name, an email address we can reply to and your NPI.", msg)
+                    check(f"/claim/ {w}: missing fields named in one sentence", msg == "Please add your name, an email address we can reply to, and your NPI.", msg)
                     bad = p.evaluate("() => [...document.querySelectorAll('#claim-form [aria-invalid=true]')].map(e => e.id)")
                     check(f"/claim/ {w}: missing fields marked invalid", bad == ["c-name", "c-npi", "c-email"], bad)
                     check(f"/claim/ {w}: focus moves to the first missing field", p.evaluate("document.activeElement.id") == "c-name")
@@ -89,6 +89,21 @@ def run():
                     check(f"/claim/ {w}: the form hides after a successful send", not p.is_visible("#claim-form"))
                     p.screenshot(path=os.path.join(OUT, f"claim-sent-{w}.png"))
                 ctx.close()
+        # job 15: no link to a removed page, and lists keep the Oxford comma (his rule, 2026-11-01)
+        ctx = b.new_context(); p = ctx.new_page()
+        for path in PAGES + ["/404.html"]:
+            p.goto(BASE + path, wait_until="load")
+            old = p.evaluate("() => [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => /^\\/ufe(\\/|$|\\?)/.test(h))")
+            check(f"{path}: no link to the removed /ufe/ page", not old, old)
+            vis = p.evaluate("() => document.title + ' ' + document.body.innerText")
+            miss = re.findall(r"\b[A-Z]{2,4}, [A-Z]{2,4} (?:and|or) [A-Z]{2,4}\b|\b\w+, \w+ or WebP\b", vis)
+            check(f"{path}: short lists keep the Oxford comma", not miss, miss)
+        p.goto(BASE + "/claim/", wait_until="load")
+        p.check("input[name=role][value=doctor]"); p.fill("#c-name", "Test Person")
+        p.click("#claim-form button[type=submit]")
+        msg = p.inner_text("#claim-status")
+        check("/claim/: two missing fields read 'A and B', no comma", msg == "Please add an email address we can reply to and your NPI.", msg)
+        ctx.close()
         b.close()
     json.dump(R, open(os.path.join(OUT, "results.json"), "w"), indent=1)
     good = sum(c["ok"] for c in R["checks"])

@@ -29,7 +29,7 @@
     other_browser: "Finish linking Doximity in the same browser you started it in.",
     name_mismatch: "That name does not match the NPI Registry for this NPI. We will look into it.",
     screened: "Some text was not accepted (see below).",
-    photo_type: "Use a JPEG, PNG or WebP photo.", photo_too_large: "That photo is over 2 MB.",
+    photo_type: "Use a JPEG, PNG, or WebP photo.", photo_too_large: "That photo is over 2 MB.",
     photo_dimensions: "Use a photo between 100 and 6000 pixels on each side.", photo_unreadable: "We could not read that photo.",
     changed_since: "That field changed again later. Undo the newer change first.", already_undone: "Already undone.",
     signed_out: "Please sign in again.", server: "Something went wrong on our side. Please try again."
@@ -367,7 +367,7 @@
     var inp = el("input", { id: "photo", type: "file", accept: "image/jpeg,image/png,image/webp" });
     var f = el("form", { "class": "claim-form", id: "photo-form", novalidate: true }, [
       el("h2", { style: "margin-top:0", text: "Photo" }),
-      el("p", { "class": "small muted", text: p.photo_key ? "You have a photo on file." : "A head-and-shoulders photo. JPEG, PNG or WebP, up to 2 MB. We remove location and camera details from the file." }),
+      el("p", { "class": "small muted", text: p.photo_key ? "You have a photo on file." : "A head-and-shoulders photo. JPEG, PNG, or WebP, up to 2 MB. We remove location and camera details from the file." }),
       el("div", null, [el("label", { "for": "photo", text: "Choose a photo" }), inp]),
       el("div", null, [el("button", { type: "submit", text: "Upload" })])
     ]);

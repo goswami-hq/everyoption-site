@@ -190,7 +190,7 @@ def home():
 <p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p>
 <p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
 </div>"""
-    return page("/", "Every Option: find doctors who perform UFE, PAE and GAE",
+    return page("/", "Every Option: find doctors who perform UFE, PAE, and GAE",
                 "Find doctors who perform uterine fibroid embolization, prostate artery embolization, or genicular "
                 "artery embolization near you.", body)
 
@@ -363,7 +363,7 @@ def account():
 def not_found():
     body = """<h1>Page not found</h1><p>Try one of the procedure finders:</p>
 <ul class="finders">""" + "".join(
-        f'<li><a href="/{k}/"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong></a></li>'
+        f'<li><a href="{MOVED.get(k, "/" + k + "/")}"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong></a></li>'
         for k, p in PROCS.items()) + "</ul>"
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Job 12 browser checks for condition education pages: every content/conditions/*.toml page at 390 and 1280 px, light
-and dark, plus the home card and the UFE finder's link back. Job 13: updated for the grouped page (collapsed groups, no
-comparison table or jump menu). Local server only; screenshots to OUT_DIR.
+and dark. Job 13: updated for the grouped page (collapsed groups, no comparison table or jump menu). Job 15: the layout of
+2026-11-02 (finder first, home cards straight to it, How it works link, Find a doctor bar, /ufe/ forwards). Local server
+only; screenshots to OUT_DIR.
 
   node tools/dev-server.mjs 8792 &
   <browser venv>/bin/python tools/e2e/condition_e2e.py OUT_DIR
@@ -14,7 +15,7 @@ sys.path.insert(0, os.path.join(HERE, ".."))
 import condition  # noqa: E402
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
-BASE = "http://localhost:8792"
+BASE = os.environ.get("BASE", "http://localhost:8792")
 R = {"checks": []}
 
 
@@ -87,22 +88,80 @@ def run():
                         st = ctx.request.get(BASE + href).status
                         check(f"{tag}: link {href} resolves", st == 200, st)
                     ctx.close()
-        # Home card and finder back-link (job 12 item 5)
-        for w in (390, 1280):
-            ctx = b.new_context(viewport={"width": w, "height": 900}, reduced_motion="reduce")
+        # Job 15: the layout of 2026-11-02 (decisions: finder first on condition pages, home cards go straight there, a
+        # Find a doctor bar once the ZIP box scrolls away, /ufe/ forwards to /fibroids/).
+        for w, h in [(320, 640), (390, 844), (768, 1024), (1280, 900)]:
+            ctx = b.new_context(viewport={"width": w, "height": h}, reduced_motion="reduce")
             pg = ctx.new_page()
             pg.goto(BASE + "/")
             check(f"home {w}: Fibroids card opens /fibroids/", pg.locator('.fork-list li.t-ufe a[href="/fibroids/"]').count() == 1)
-            check(f"home {w}: Fibroids card has a direct finder link", pg.locator('.fork-list li.t-ufe a[href="/ufe/"]').count() == 1)
-            check(f"home {w}: PAE and GAE cards unchanged", pg.locator('.fork-list a[href="/pae/"]').count() == 1 and
+            check(f"home {w}: no link to the old /ufe/ page", pg.locator('a[href^="/ufe"]').count() == 0)
+            check(f"home {w}: PAE and GAE cards open their pages", pg.locator('.fork-list a[href="/pae/"]').count() == 1 and
                   pg.locator('.fork-list a[href="/gae/"]').count() == 1)
             over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
             check(f"home {w}: no sideways scroll", over <= 0, over)
-            pg.screenshot(path=os.path.join(OUT, f"home-{w}.png"), full_page=True)
-            pg.goto(BASE + "/ufe/")
-            check(f"ufe {w}: links back to /fibroids/", pg.locator('.about a[href="/fibroids/"]').count() == 1)
-            pg.screenshot(path=os.path.join(OUT, f"ufe-{w}.png"))
+            if w in (390, 1280):
+                pg.screenshot(path=os.path.join(OUT, f"home-{w}.png"), full_page=True)
+            for card, path in (("t-ufe", "/fibroids/"), ("t-pae", "/pae/"), ("t-gae", "/gae/")):
+                pg.goto(BASE + "/")
+                pg.locator(f".fork-list li.{card} a").first.click(); pg.wait_for_load_state("load")
+                box = pg.evaluate("(() => { const r = document.getElementById('zip').getBoundingClientRect(); return [r.top, r.bottom]; })()")
+                check(f"home {w}: {card} card reaches the ZIP box in one tap", pg.url.endswith(path) and box[0] >= 0 and box[1] <= h,
+                      [pg.url, box])
             ctx.close()
+        for slug in ("fibroids", "pae", "gae"):
+            for w, h in [(390, 844), (1280, 900)]:
+                ctx = b.new_context(viewport={"width": w, "height": h}, reduced_motion="reduce")
+                pg = ctx.new_page()
+                tag = f"{slug} {w}"
+                pg.goto(f"{BASE}/{slug}/")
+                order = pg.evaluate("""(() => { const f = document.getElementById('finder'), h = document.querySelector('h1');
+                    const edu = document.getElementById('options') || document.querySelector('.about');
+                    return !!(f && h && edu && (h.compareDocumentPosition(f) & 4) && (f.compareDocumentPosition(edu) & 4)); })()""")
+                check(f"{tag}: headline, then the finder, then the education", order)
+                check(f"{tag}: one benefit sentence with a How it works link",
+                      pg.locator(".find-intro").count() == 1 and pg.locator(".find-intro a", has_text="How it works").count() == 1)
+                # How it works opens the procedure's section and brings it into view
+                target = pg.locator(".find-intro a").get_attribute("href")[1:]
+                pg.locator(".find-intro a").click(); pg.wait_for_timeout(200)
+                st = pg.evaluate(f"""(() => {{ const el = document.getElementById('{target}'); const r = el.getBoundingClientRect();
+                    let shut = 0; for (let n = el; n; n = n.parentElement) if (n.tagName === 'DETAILS' && !n.open) shut++;
+                    return [shut, Math.round(r.top)]; }})()""")
+                check(f"{tag}: How it works opens #{target} and shows it", st[0] == 0 and -5 <= st[1] <= h, st)
+                if slug == "fibroids":
+                    check(f"{tag}: How it works goes to the embolization section", target == "embolization", target)
+                # the bar: hidden while the finder shows, shown once it scrolls away, and a tap returns to the ZIP box
+                pg.evaluate("window.scrollTo(0, 0)"); pg.wait_for_timeout(200)
+                bar = pg.locator(".find-bar")
+                check(f"{tag}: one Find a doctor bar", bar.count() == 1)
+                check(f"{tag}: bar hidden while the finder is visible", not bar.is_visible())
+                pg.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)"); pg.wait_for_timeout(300)
+                check(f"{tag}: bar shows once the finder scrolls away", bar.is_visible())
+                if bar.is_visible():
+                    bb = bar.bounding_box()
+                    check(f"{tag}: bar at least 44 px tall and inside the screen", bb["height"] >= 44 and bb["x"] >= 0 and bb["x"] + bb["width"] <= w, bb)
+                    pg.screenshot(path=os.path.join(OUT, f"{slug}-bar-{w}.png"))
+                    bar.click(); pg.wait_for_timeout(300)
+                    check(f"{tag}: tapping the bar puts focus in the ZIP box", pg.evaluate("document.activeElement.id") == "zip")
+                    check(f"{tag}: and the bar hides again", not bar.is_visible())
+                if slug == "fibroids":
+                    # the button inside the embolization section goes back up to the finder too
+                    pg.goto(f"{BASE}/fibroids/#embolization"); pg.wait_for_timeout(200)
+                    pg.locator("#embolization .cta a").click(); pg.wait_for_timeout(300)
+                    check(f"{tag}: the embolization section's button returns to the ZIP box",
+                          pg.evaluate("document.activeElement.id") == "zip")
+                ctx.close()
+        # /ufe/ forwards: here through the page's own fallback, on Cloudflare through the 301 in site/_redirects
+        ctx = b.new_context(); pg = ctx.new_page()
+        pg.goto(BASE + "/ufe/"); pg.wait_for_url("**/fibroids/", timeout=5000)
+        check("/ufe/ forwards to /fibroids/", pg.url.endswith("/fibroids/"), pg.url)
+        pg.goto(BASE + "/ufe/?zip=60611&r=25"); pg.wait_for_url("**/fibroids/**", timeout=5000)
+        check("/ufe/ forwarding lands on the fibroid finder", pg.locator("#finder[data-procedure=ufe]").count() == 1, pg.url)
+        ctx.close()
+        rules = [l.split() for l in open(os.path.join(HERE, "..", "..", "site", "_redirects")) if l.strip() and not l.startswith("#")]
+        for src in ("/ufe", "/ufe/"):
+            check(f"_redirects sends {src} to /fibroids/ with a 301", [src, "/fibroids/", "301"] in rules, rules)
+        check("sitemap no longer lists /ufe/", "/ufe/" not in open(os.path.join(HERE, "..", "..", "site", "sitemap.xml")).read())
         b.close()
     ok = sum(c["ok"] for c in R["checks"])
     print(f"{ok}/{len(R['checks'])} checks pass")

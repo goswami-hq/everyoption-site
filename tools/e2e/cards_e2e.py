@@ -125,10 +125,54 @@ def run(b, width, scheme, theme):
     check(f"{tag}: confirmed cards in the confirmed group, first", conf == sum(p["confirmed"] for p in PEOPLE)
           and pg.evaluate("document.querySelector('section.tier-a').compareDocumentPosition(document.querySelector('section.tier-b')) & 4") > 0, conf)
     check(f"{tag}: no page errors", not errs, errs)
+    # job 15: a confirmed card carries the tag and a border; a likely card carries neither; both groups look alike
+    tags = pg.evaluate("""(() => [...document.querySelectorAll('li.card')].map(c => ({
+        conf: c.classList.contains('card-confirmed'), tag: !!c.querySelector('.confirmed-tag'),
+        text: (c.querySelector('.confirmed-tag') || {}).textContent || '',
+        border: parseFloat(getComputedStyle(c).borderTopWidth),
+        inA: !!c.closest('section.tier-a') })))()""")
+    bad = [t for t in tags if t["conf"] != t["inA"] or t["tag"] != t["inA"]
+           or (t["inA"] and ("Confirmed by physician" not in t["text"] or t["border"] < 2))]
+    check(f"{tag}: confirmed cards have the tag and a 2 px border, likely cards neither", not bad, bad[:3])
+    split = pg.evaluate("""(() => [...document.querySelectorAll('li.card a[href^="tel:"]')].filter(a => a.getClientRects().length > 1)
+        .map(a => a.textContent))()""")
+    check(f"{tag}: no phone number breaks across lines", not split, split[:3])
+    first = pg.evaluate("(document.querySelector('li.card') || {}).className")
+    check(f"{tag}: the first card on the page is a confirmed one", "card-confirmed" in (first or ""), first)
+    heads = pg.evaluate("""(() => ['tier-a', 'tier-b'].map(k => { const h = document.querySelector('section.' + k + ' > h2');
+        if (!h) return null; const s = getComputedStyle(h); return [s.color, s.fontSize, s.fontWeight]; }))()""")
+    check(f"{tag}: Confirmed and Likely headings match", heads[0] and heads[0] == heads[1], heads)
     for name, file in (("Combo 255 Testperson", "all-fields"), ("Combo 000 Testperson", "no-fields")):
         pg.locator("li.card", has_text=name).first.screenshot(path=os.path.join(OUT, f"card-{file}-{width}-{scheme}-{theme}.png"))
     pg.locator("li.card", has_text="Maximiliana").first.screenshot(path=os.path.join(OUT, f"card-long-{width}-{scheme}-{theme}.png"))
     R["runs"].append({"run": tag, "cards": n})
+    ctx.close()
+
+
+def run_empty(b, width, scheme):
+    """Only likely doctors near the ZIP: the confirmed group shrinks to one quiet paragraph above them (60ch cap: two
+    lines on desktop)."""
+    likely = [p for p in PEOPLE if not p["confirmed"]][:5]
+    ctx = b.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme)
+    pg = ctx.new_page()
+    pg.route("**/data/ufe.json", lambda r: r.fulfill(status=200, content_type="application/json",
+             body=json.dumps({"procedure": "ufe", "name": "ufe", "counts": {}, "unplaced": 0, "held": 0, "people": likely})))
+    pg.goto(f"{BASE}/fibroids/")
+    pg.fill("#zip", ZIP); pg.select_option("#radius", "25"); pg.click("#zip-form button")
+    pg.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(500)
+    tag = f"{width} {scheme} empty confirmed"
+    sec = pg.locator("section.tier-empty")
+    check(f"{tag}: one quiet line for the empty confirmed group", sec.count() == 1 and sec.locator("p").count() == 1
+          and sec.locator("h2").count() == 0 and pg.locator("section.tier-a").count() == 0)
+    text = sec.inner_text() if sec.count() else ""
+    check(f"{tag}: the line says none nearby and invites the doctor", "Confirmed by physician: 0 nearby." in text
+          and sec.locator('a[href^="/claim/"]').count() == 1, text)
+    lines = pg.evaluate("(() => { const p = document.querySelector('section.tier-empty p'); const r = p.getBoundingClientRect();"
+                        " return Math.round(r.height / parseFloat(getComputedStyle(p).lineHeight)); })()")
+    check(f"{tag}: the line stays short ({lines} lines)", lines <= (4 if width < 500 else 2), lines)
+    check(f"{tag}: the likely doctors follow it", pg.locator("section.tier-b li.card").count() == len(likely)
+          and pg.evaluate("document.querySelector('section.tier-empty').compareDocumentPosition(document.querySelector('section.tier-b')) & 4") > 0)
+    pg.locator("#results").screenshot(path=os.path.join(OUT, f"empty-confirmed-{width}-{scheme}.png"))
     ctx.close()
 
 
@@ -140,6 +184,7 @@ def main():
             for scheme in ("light", "dark"):
                 for theme in ("base", "ufe", "pae", "gae"):
                     run(b, width, scheme, theme)
+                run_empty(b, width, scheme)
         b.close()
     R["passed"] = sum(c["ok"] for c in R["checks"]); R["total"] = len(R["checks"])
     json.dump(R, open(os.path.join(OUT, "cards-results.json"), "w"), indent=1)

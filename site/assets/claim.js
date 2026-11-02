@@ -45,7 +45,7 @@
     [f.name, f.npi, f.email].forEach(function (el) { if (bad.indexOf(el) < 0) el.removeAttribute("aria-invalid"); else el.setAttribute("aria-invalid", "true"); });
     if (errs.length) {
       var list = errs.map(esc), last = list.pop();
-      show("Please add " + (list.length ? list.join(", ") + " and " + last : last) + ".", "err");
+      show("Please add " + (list.length > 1 ? list.join(", ") + ", and " + last : list.length ? list[0] + " and " + last : last) + ".", "err");
       // in page order, so focus lands on the first field to fix
       bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; })[0].focus();
       return;
