@@ -209,11 +209,23 @@ def diagram(k):
 MOVED = {"ufe": "/fibroids/"}
 
 
-def finder_block(k, heading="Find a doctor near you", learn=""):
+FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
+    "pae": ("Shrink an enlarged prostate without major surgery",
+            "Prostate artery embolization works through a small puncture in the wrist or groin.", "#how-it-works"),
+    "gae": ("A newer option for knee arthritis pain, without surgery",
+            "Genicular artery embolization works through a small puncture and can ease the pain.", "#how-it-works"),
+}
+
+
+def finder_block(k, heading=None, learn="", intro=None, how=None):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
+    if heading is None:
+        heading, intro, how = FIND_TOP[k]
     return f"""<section class="find-first">
 <h2>{e(heading)}</h2>
+<p class="find-intro">{e(intro)} <a href="{e(how)}">How it works</a></p>
+<p class="find-label">Find a doctor near you</p>
 <div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
 <div class="f"><label for="zip">Your ZIP code</label>
@@ -242,7 +254,7 @@ def finder(k):
 {finder_block(k)}
 {photo(k, lazy=True, cls="photo banner")}
 <div class="about">{about}{src}</div>
-<h2>How it works</h2>
+<h2 id="how-it-works">How it works</h2>
 {diagram(k)}
 <p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""

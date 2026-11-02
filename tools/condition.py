@@ -170,7 +170,7 @@ def body(c, diagram_fn, e, photo_fn=None, finder_fn=None):
     # screen, so not lazy
     photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=True, cls="photo banner") if c.get("photo") and photo_fn else ""
     # Finder first (his yes, 2026-11-02), then education.
-    find = finder_fn(c["finder"], c["finder_heading"], "#options") if finder_fn else ""
+    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"]) if finder_fn else ""
     parts = [f'<h1>{html.escape(c["h1"])}</h1>{find}{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c, diagram_fn))
