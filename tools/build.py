@@ -210,7 +210,7 @@ MOVED = {"ufe": "/fibroids/"}
 
 
 FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
-    "pae": ("Shrink an enlarged prostate without major surgery",
+    "pae": ("Shrink an enlarged prostate without surgery",
             "Prostate artery embolization works through a small puncture in the wrist or groin.", "#how-it-works"),
     "gae": ("A newer option for knee arthritis pain, without surgery",
             "Genicular artery embolization works through a small puncture and can ease the pain.", "#how-it-works"),
@@ -223,7 +223,6 @@ def finder_block(k, heading=None, learn="", intro=None, how=None):
     if heading is None:
         heading, intro, how = FIND_TOP[k]
     return f"""<section class="find-first">
-<h2>{e(heading)}</h2>
 <p class="find-intro">{e(intro)} <a href="{e(how)}">How it works</a></p>
 <p class="find-label">Find a doctor near you</p>
 <div id="finder" data-procedure="{k}"{data}>
@@ -250,7 +249,7 @@ def finder(k):
     items = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank">{e(t)}</a></li>' if u else f"<li>{e(t)}</li>"
                     for t, u in p["sources"])
     src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
-    body = f"""<h1>{e(p["title"])}</h1>
+    body = f"""<h1>{e(FIND_TOP[k][0])}</h1>
 {finder_block(k)}
 {photo(k, lazy=True, cls="photo banner")}
 <div class="about">{about}{src}</div>

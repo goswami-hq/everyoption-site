@@ -215,7 +215,8 @@ details.option.featured > .fold-body { background: var(--card); color: var(--ink
 #learn h2, #options h2 { margin-bottom: 12px; }
 .find-first { margin: 6px 0 22px; }
 .find-first > h2 { margin: 0 0 6px; font-size: clamp(23px, 3.4vw, 28px); }
-.find-intro { margin: 0 0 14px; max-width: 34em; }
+.find-intro { margin: 0 0 14px; max-width: 34em; font-size: clamp(18px, 2vw, 20px); }
+.find-intro a { white-space: nowrap; }
 .find-label { margin: 0 0 8px; font-weight: 600; }
 .learn-link { margin: 0 0 4px; font-weight: 600; }
 .find-bar { position: fixed; left: 16px; right: 16px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; align-items: center; min-height: 50px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; border-radius: 999px; box-shadow: 0 8px 24px -10px rgba(40, 20, 10, .6); }
