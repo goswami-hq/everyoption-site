@@ -55,11 +55,15 @@
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
   function showPhone(p) {          // every US number as (xxx) xxx-xxxx, any extension after; anything else as written
-    var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})\s*(?:(?:ext\.?|extension|x)\s*(\d+))?\s*$/i);
+    var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})\s*(?:(?:ext\.?|extension|x)\s*(\d+))?\s*(?:\([^)]*\))?\s*$/i);
     if (!m) return p;
     return "(" + m[2] + ") " + m[3] + "-" + m[4] + (m[5] ? " ext. " + m[5] : "");
   }
-  function telHref(p) { var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : ""; }
+  function telHref(p) {            // the number only: an extension or a label never joins the dialed digits
+    var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})/);
+    if (m) return "tel:+1" + m[2] + m[3] + m[4];
+    var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : "";
+  }
 
   // Job 10: a confirmed doctor's card may carry a photo, a blurb, insurances, a booking link, and more offices. Each
   // shows only when supplied; an unconfirmed card looks as before.
