@@ -35,7 +35,7 @@ answer = "Fibroids are non-cancerous growths in the uterus. Many cause no sympto
 urgent = "If you have severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for fibroid embolization"
 finder_heading = "Shrink fibroids without surgery"
-finder_intro = "Fibroid embolization works through a tiny skin nick. Your uterus stays in place, and most people go home the same day."
+finder_intro = "Fibroid embolization works through a tiny skin nick. Your uterus stays in place, most people go home the same day, and recovery takes 7 to 10 days instead of 2 to 6 weeks after major surgery."
 finder_how = "#embolization"
 options_heading = "Your options"
 faq_heading = "Common questions"
@@ -128,9 +128,9 @@ side = "Spotting at first. It is more likely to slip out when fibroids are prese
 id = "embolization"
 name = "Fibroid embolization (UFE)"
 what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
-invasive = "A tiny skin nick. Most go home the same day and recover in 7 to 10 days.[^sir][^mpuae]"
+invasive = "A tiny skin nick, with no cut in the belly, so no belly scar where a hernia can form. Most people go home the same day and recover in 7 to 10 days,[^sir][^mpuae] compared with 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
 works = "Symptoms improve for about 8 to 9 in 10 women,[^iqwig] and 7 in 10 still have good control at 5 years.[^spies] Satisfaction is about the same as surgery.[^cochrane][^rest] About 1 in 5 to 1 in 3 have another procedure within 5 years.[^spies][^femme4][^rest] Over 10 years, about 2 in 3 avoid a hysterectomy.[^emmy]"
-side = "Cramps, nausea, and fever for up to a week. Early menopause in 1 to 5 in 100.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
+side = "Cramps, nausea, and low fever for up to a week. Early menopause in 1 to 5 in 100.[^sir][^rinfo] Serious problems are no more common than after surgery, but smaller problems are.[^cochrane][^martin]"
 
 [[options]]
 id = "radiofrequency"
@@ -170,7 +170,7 @@ name = "Myomectomy"
 what = "Surgery that removes the fibroids and leaves the uterus.[^mpfib]"
 invasive = "A larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
 works = "Removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo] Quality of life improves.[^femme2] About 1 in 8 had a repeat procedure within 4 years.[^femme4]"
-side = "Bleeding, infection, blood clots, and harm to nearby organs, which are not common.[^ccmyo]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs, which are not common.[^ccmyo] Scar tissue forms inside the belly in most people, and it can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] Up to 1 in 5 people have a hernia at the scar after open surgery.[^cchernia]"
 
 [[options]]
 id = "hysterectomy"
@@ -178,7 +178,7 @@ name = "Hysterectomy"
 what = "Surgery that removes the whole uterus.[^mphyst]"
 invasive = "Through the vagina, small cuts, or a larger cut in the belly. Recovery takes about 2 to 6 weeks.[^mphyst]"
 works = "The only treatment that keeps fibroids from returning. Periods stop.[^owh][^ccmyo]"
-side = "Bleeding, infection, blood clots, and harm to nearby organs. Menopause begins if the ovaries are also removed.[^mphyst]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] Up to 1 in 5 people have a hernia at the scar after open surgery.[^cchernia]"
 
 # References, in no particular order: the page numbers them by first use. Full details and how each was read are in
 # the sources file named at the top.
@@ -318,3 +318,15 @@ url = "https://doi.org/10.1007/s00270-012-0505-y"
 key = "oderkerk"
 cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrical and Gynecological Survey. 2023;78(10):575-576. doi:10.1097/OGX.0000000000001206."
 url = "https://doi.org/10.1097/OGX.0000000000001206"
+[[refs]]
+key = "asrm"
+cite = "Practice Committee of the American Society for Reproductive Medicine. Postoperative adhesions in gynecologic surgery: a committee opinion. Fertility and Sterility. 2019;112:458-463. Read November 2, 2026."
+url = "https://www.asrm.org/practice-guidance/practice-committee-documents/postoperative-adhesions-in-gynecologic-surgery-a-committee-opinion-2019"
+[[refs]]
+key = "ccadh"
+cite = "Cleveland Clinic. Abdominal adhesions. Medically reviewed, updated April 1, 2024. Read November 2, 2026."
+url = "https://my.clevelandclinic.org/health/articles/abdominal-adhesions"
+[[refs]]
+key = "cchernia"
+cite = "Cleveland Clinic. Incisional hernia. Medically reviewed, updated March 24, 2025. Read November 2, 2026."
+url = "https://my.clevelandclinic.org/health/diseases/incisional-hernia"
