@@ -14,6 +14,7 @@ create table accounts (
   id uuid primary key default gen_random_uuid(),
   npi text unique check (npi ~ '^[0-9]{10}$'),                      -- one account per NPI; null: none held (yet)
   claim_npi text check (claim_npi ~ '^[0-9]{10}$'),                  -- an NPI held by another account, waiting on proof
+  claim_procedures jsonb not null default '[]',                      -- what the claimant ticked; attested at takeover
   lost_npi text,                                                     -- the NPI a proven doctor took over from it
   email text unique check (length(email) <= 200),                    -- login email; null until added (invitations)
   name text not null,                                                -- from NPPES, never typed by the user
@@ -78,12 +79,14 @@ create table invitations (                                            -- one NPI
   npi text not null check (npi ~ '^[0-9]{10}$'),
   kind text not null check (kind in ('owner', 'doctor', 'published')),
   inviter_account_id uuid references accounts(id),                   -- null for his own invitations
+  slot integer check (slot between 1 and 5),                         -- a doctor's invitations: 5 for life, atomically
   email text,                                                        -- published-email invitations only
   expires_at timestamptz not null,
   used_at timestamptz,
   used_by uuid references accounts(id),
   revoked_at timestamptz,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  unique (inviter_account_id, slot)
 );
 
 create table radiologist_names (                                      -- national list: last name + first initial

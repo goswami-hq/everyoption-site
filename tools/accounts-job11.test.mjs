@@ -49,7 +49,8 @@ test("a full-access doctor invites up to 5 for life, from the account page; thei
   assert.equal(r.status, 201); assert.equal(r.body.left, 4); assert.equal(r.body.name, "Gil Fourtest");
   assert.equal(w.outbox.length, 1, "nothing sent by us beyond Ann's own sign-up code");
   assert.equal((await a.post("invite/create", { npi: ANN })).body.error, "invite_self");
-  for (const n of [BEN, CARA, DAN, BEN]) assert.equal((await a.post("invite/create", { npi: n })).status, 201);
+  assert.equal((await a.post("invite/create", { npi: DAN })).body.error, "not_radiologist", "the waitlist rule holds for invitations");
+  for (const n of [BEN, CARA, CARA, BEN]) assert.equal((await a.post("invite/create", { npi: n })).status, 201);
   const six = await a.post("invite/create", { npi: CARA });
   assert.equal(six.status, 403); assert.equal(six.body.error, "invite_limit");
   assert.equal((await a.get("me")).body.invites.left, 0);
@@ -212,3 +213,99 @@ test("the holder accepting an invitation upgrades in place", async () => {
   const a = await w.backend.data.many("accounts", { npi: BEN });
   assert.equal(a.length, 1); assert.equal(a[0].level, "full"); assert.equal(a[0].email, "ben@home.example");
 });
+
+// ---- Review round 1 fixes (job 11) ----
+import { nameMatch, radiologistKey } from "../lib/accounts/util.mjs";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+import { supabaseData } from "../lib/accounts/supabase.mjs";
+import { makeService } from "../lib/accounts/service.mjs";
+
+test("r1-1: after a takeover the squatter's contact details, photo and attestations leave the card; the claimant's procedures replace them", async () => {
+  const w = world();
+  const squat = w.client("10.9.0.1");
+  await squat.post("invite/accept", { token: await w.invite(ANN, "owner"), agree: true, procedures: ["ufe", "pae"] });
+  await squat.put("profile", { booking_url: "https://evil.example/book", blurbs: { ufe: "Squatter words." },
+    offices: [{ practice: "Fake", city: "Chicago", state: "IL", zip: "60611", phone: "3125550199" }] });
+  const ph = await squat.call("POST", "photo", pngBytes(), { headers: { "Content-Type": "image/png" } });
+  assert.equal(ph.status, 200, JSON.stringify(ph.body));
+  assert.ok((await w.backend.data.one("profiles", { npi: ANN })).photo_key, "squatter photo on file before");
+  const real = w.client("10.9.0.2");
+  const s = await real.post("signup", { npi: ANN, email: "ann@home.example", agree: true, procedures: ["gae"] });
+  await real.post("code", { challenge: s.body.challenge, code: w.lastCode("ann@home.example") });
+  assert.equal((await w.idCheck(real)).takeover, true);
+  const card = (await exportConfirmed(w.backend)).find((x) => x.npi === ANN);
+  assert.deepEqual(card.procedures, ["gae"]); assert.equal(card.booking_url, ""); assert.deepEqual(card.offices, []); assert.equal(card.photo, "");
+  const log = (await real.get("edits")).body.edits;
+  assert.ok(["booking_url", "offices", "attested"].every((f) => log.some((e) => e.field === f && e.by_you)), "resets logged");
+  assert.equal(card.blurbs.ufe, "Squatter words.", "notes stay until the new holder undoes them");
+});
+
+test("r1-1b: his invitation over a held listing also starts a fresh card; a removed holder with no email is an exception", async () => {
+  const w = world();
+  const squat = w.client("10.9.1.1");
+  await squat.post("invite/accept", { token: await w.invite(GIL, "owner"), agree: true, procedures: ["ufe"] });
+  await squat.put("profile", { booking_url: "https://evil.example/book" });
+  const c = w.client("10.9.1.2");
+  await c.post("invite/accept", { token: await w.invite(GIL, "owner"), agree: true, procedures: ["gae"] });
+  const card = (await exportConfirmed(w.backend)).find((x) => x.npi === GIL);
+  assert.deepEqual(card.procedures, ["gae"]); assert.equal(card.booking_url, "");
+  assert.equal((await w.backend.data.many("exceptions", { kind: "holder_removed_no_email" })).length, 1);
+});
+
+test("r1-2: wrong code tries are capped per email across challenges (10 a day)", async () => {
+  const w = world(); await w.signIn();
+  let n = 0, ch;
+  for (let i = 0; i < 4 && n < 10; i++) {
+    ch = (await w.client("10.9.2." + i).post("login", { email: "ann@home.example" })).body.challenge;
+    for (let j = 0; j < 3 && n < 10; j++, n++) await w.client("10.9.3." + n).post("code", { challenge: ch, code: "999999" === w.lastCode() ? "999998" : "999999" });
+  }
+  w.clock.t += 3601 * 1000;                           // past the hourly limits, inside the day
+  const last = await w.client("10.9.4.1").post("login", { email: "ann@home.example" });
+  const r = await w.client("10.9.4.1").post("code", { challenge: last.body.challenge, code: w.lastCode("ann@home.example") });
+  assert.equal(r.status, 429, "even the right code waits");
+  w.clock.t += 86400 * 1000;
+  const l2 = await w.client("10.9.4.2").post("login", { email: "ann@home.example" });
+  assert.equal((await w.client("10.9.4.2").post("code", { challenge: l2.body.challenge, code: w.lastCode("ann@home.example") })).status, 200);
+});
+
+test("r1-4: the 5-invitation cap holds under parallel requests", async () => {
+  const w = world();
+  const a = await w.full(ANN);
+  const rs = await Promise.all([GIL, BEN, CARA, GIL, BEN, CARA, GIL, BEN].map((n) => a.post("invite/create", { npi: n })));
+  assert.equal(rs.filter((r) => r.status === 201).length, 5);
+  assert.equal((await w.backend.data.many("invitations", { inviter_account_id: (await w.backend.data.one("accounts", { npi: ANN })).id })).length, 5);
+});
+
+test("r1-5: revoke by NPI never sends an NPI as an id filter; an inviter that lost its NPI is still found", async () => {
+  const calls = [];
+  const f = async (url) => {
+    calls.push(url);
+    if (/accounts\?select=\*&id=eq\.(?![0-9a-f]{8}-)/.test(url)) return new Response("{}", { status: 400 });
+    if (/accounts\?select=\*&npi=eq\./.test(url)) return new Response("[]");
+    if (/accounts\?select=\*&lost_npi=eq\.1999000015/.test(url)) return new Response(JSON.stringify([{ id: "0b8a1c2d-0000-4000-8000-000000000001", npi: null, lost_npi: "1999000015", level: "none" }]));
+    return new Response("[]");
+  };
+  const svc = makeService({ data: supabaseData("https://a.supabase.co", "k", f) }, {});
+  const r = await svc.revokeInviter("1999000015").catch((e) => e);
+  assert.ok(!calls.some((u) => /id=eq\.1999000015/.test(u)), "no NPI as id");
+  assert.equal(r.ok, true, "found by lost NPI: " + (r && r.message));
+  await assert.rejects(svc.revokeInviter("not-an-id"), /not_found/);
+});
+
+test("r1-6: a surname that is also a title or suffix word is kept (Do)", () => {
+  assert.equal(nameMatch({ first: "Anh", last: "Do" }, { first: "ANH", last: "DO" }), "exact");
+  assert.equal(radiologistKey("Anh", "Do"), "do|a");
+  assert.equal(nameMatch({ first: "Dr. Ann", last: "Testone Jr" }, { first: "Ann", last: "Testone" }), "exact", "titles and suffixes still go");
+});
+
+function pngBytes(w = 160, h = 160) {
+  const zlib = require("node:zlib");
+  const crc = (b) => { let c, t = []; for (let n = 0; n < 256; n++) { c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; }
+    let x = 0xffffffff; for (const v of b) x = t[(x ^ v) & 255] ^ (x >>> 8); return (x ^ 0xffffffff) >>> 0; };
+  const chunk = (type, d) => { const len = Buffer.alloc(4); len.writeUInt32BE(d.length); const td = Buffer.concat([Buffer.from(type), d]);
+    const c = Buffer.alloc(4); c.writeUInt32BE(crc(td)); return Buffer.concat([len, td, c]); };
+  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = 2;
+  const raw = Buffer.concat(Array.from({ length: h }, () => Buffer.concat([Buffer.from([0]), Buffer.alloc(w * 3, 120)])));
+  return new Uint8Array(Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), chunk("IHDR", ihdr), chunk("IDAT", zlib.deflateSync(raw)), chunk("IEND", Buffer.alloc(0))]));
+}

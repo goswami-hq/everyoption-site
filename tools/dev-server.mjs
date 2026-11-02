@@ -106,4 +106,4 @@ http.createServer(async (req, res) => {
     res.setHeader("Content-Type", type); if (gz) res.setHeader("Content-Encoding", "gzip");
     res.end(data);
   } catch { res.writeHead(404); res.end("not found"); }
-}).listen(port, () => console.log(`${origin}${noKV ? " (no KV: form answers 503)" : ""}${backend ? " (accounts: local stand-ins, made-up people)" : " (accounts not open)"}`));
+}).listen(port, "127.0.0.1", () => console.log(`${origin}${noKV ? " (no KV: form answers 503)" : ""}${backend ? " (accounts: local stand-ins, made-up people)" : " (accounts not open)"}`));
