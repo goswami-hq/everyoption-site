@@ -16,12 +16,19 @@ ORIGIN = "https://everyoptionmd.com"
 REVIEWED = "2026-11-01"
 LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exported from (directory v3 job 4d)
 
+# The one procedure list (job 19): content/procedures.json. Adding a procedure is one line there; the build writes the
+# browser copy (site/assets/procedures.js), the server copy (lib/procedures.mjs), and the database check
+# (supabase/schema.sql). A new procedure also needs its finder copy below and a patient page.
+ROOT = os.path.dirname(SITE)
+with open(os.path.join(ROOT, "content", "procedures.json"), encoding="utf-8") as _fh:
+    PROCEDURES = json.load(_fh)
+
 # Finder blurbs: projects/platform/content/pages/pae-gae-blurbs-draft.md in goswami-hq/ai-hq, word for word (his
 # style rule, 2026-11-01: plain, no statistics, trial names or evidence grades in the visible text). Sources sit under
 # a collapsed "Sources" link.
 PROCS = {
     "ufe": {
-        "name": "Uterine fibroid embolization", "abbr": "UFE", "for": "Fibroids",
+        "for": "Fibroids",
         "title": "Find a doctor for uterine fibroid embolization (UFE)",
         "about": [
             "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain, or pressure. It’s a "
@@ -36,7 +43,7 @@ PROCS = {
         ],
     },
     "pae": {
-        "name": "Prostate artery embolization", "abbr": "PAE", "for": "Enlarged prostate",
+        "for": "Enlarged prostate",
         "title": "Find a doctor for prostate artery embolization (PAE)",
         "about": [
             "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going "
@@ -50,7 +57,7 @@ PROCS = {
         ],
     },
     "gae": {
-        "name": "Genicular artery embolization", "abbr": "GAE", "for": "Knee osteoarthritis pain",
+        "for": "Knee osteoarthritis pain",
         "title": "Find a doctor for genicular artery embolization (GAE)",
         "about": [
             "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other "
@@ -64,6 +71,10 @@ PROCS = {
         ],
     },
 }
+
+assert list(PROCS) == [p["key"] for p in PROCEDURES], "PROCS copy must match content/procedures.json"
+for _p in PROCEDURES:
+    PROCS[_p["key"]].update(name=_p["name"], abbr=_p["abbr"])
 
 # Photos (job 14): free-license stock from Pexels (pexels.com/license: free to use, attribution not required; credited on
 # How we know anyway). Self-hosted WebP under site/assets/photos/; sources and license reads in goswami-hq/ai-hq
@@ -143,7 +154,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None):
 </div></main>
 <footer class="site"><div class="wrap">
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
-<p>Found an error? <a href="/claim/">Use the correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
+<p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
 <p><a href="/how-we-know/">How we know</a></p>
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
@@ -264,7 +275,7 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
-                ["/assets/finder.js", "/assets/condition.js"])
+                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js"])
 
 
 def credits():
@@ -279,10 +290,10 @@ def credits():
 def how():
     body = f"""<h1>How we know</h1>
 <div class="prose">
-<p class="lede">We look through public information so you can find who near you does a procedure. Doctors can confirm or correct their own listing for free.</p>
+<p class="lede">We look through public information so you can find who near you does a procedure. Doctors can claim their own listing for free, and anyone can report an error.</p>
 <h2>What the two groups mean</h2>
 <dl class="grades">
-<div><dt>Confirmed by physician</dt><dd>The doctor told us they perform it. A person checks each submission before it appears.</dd></div>
+<div><dt>Confirmed by physician</dt><dd>The doctor made an account and told us they perform it.</dd></div>
 <div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it. We have not heard from the doctor, so call the office to confirm.</dd></div>
 </dl>
 <h2>Where the information comes from</h2>
@@ -299,14 +310,16 @@ def how():
 <h2>When few doctors are near you</h2>
 <p>If we find fewer than five doctors for a procedure near you, we also show <strong>Interventional radiologists nearby</strong>: doctors whose own page or practice page shows they are interventional radiologists, but where we could not confirm this procedure. Call and ask whether they perform it. Doctors whose practice website names the procedure come first, then the rest by distance. We list only those with a phone number or a web page, and never from billing records alone.</p>
 <p>If that is still not enough, we add the nearest doctors farther away, up to 250 miles, with the distance on each card. If we know of no one within 250 miles, ask your doctor to refer you to an interventional radiologist.</p>
-<p>Any doctor on any card can confirm or correct their listing, for free.</p>
+<p>Any doctor on any card can claim their listing, for free.</p>
 <h2>The badge under a name</h2>
 <p><strong>Interventional radiologist:</strong> their own page or their practice’s page says so, or, when no page does, public Medicare billing records show they perform interventional radiology procedures. When we cannot tell, the doctor is not listed.</p>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
 <p>Confirming is free. Within each group, the order is by distance only, except that interventional radiologists whose practice website names the procedure come first in their group.</p>
 <h2>Report an error</h2>
-<p>If something is wrong, or you are a listed doctor and want to confirm or correct your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
+<p>If something on a listing is wrong, anyone can tell us with the <a href="/report/">report form</a> or by email to <a href="mailto:{CONTACT}">{CONTACT}</a>. A report does not change a listing by itself.</p>
+<h2>Claim your profile</h2>
+<p>Only the physician can claim their own profile, with a free <a href="/account/">account</a>. Physicians who claim their profile and confirm a procedure are listed under “Confirmed by physician.”</p>
 {credits()}
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
@@ -315,58 +328,54 @@ def how():
                 body)
 
 
-def claim():
-    checks = "".join(f'<label><input type="checkbox" name="procedures" value="{k}"> {e(p["name"])} ({p["abbr"]})</label>'
-                     for k, p in PROCS.items())
-    body = f"""<h1>Is this you? Confirm or correct a listing</h1>
+REASONS = [("not_performed", "Doesn’t perform this procedure"), ("contact", "Wrong phone or address"),
+           ("moved", "No longer practices here"), ("other", "Something else")]
+
+
+def report():
+    """Job 19: the report-an-error form, open to anyone. Claiming a profile is separate (/account/, physicians only).
+    A report is stored for us to read; it never changes a listing."""
+    reasons = "".join(f'<label><input type="radio" name="reason" value="{k}"> {e(t)}</label>' for k, t in REASONS)
+    body = f"""<h1>Report an error</h1>
 <div class="prose">
-<p class="lede">Tell us which procedures you perform. Doctors who confirm are listed first for those procedures, free. A person reviews every submission, and nothing you send appears on the site until it has been checked.</p>
-<p class="small muted">We use your email only to reply about this submission. We do not sell or share it. No account is created. To limit repeated submissions, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your submission.</p>
+<p class="lede">Tell us what’s wrong with a listing. Anyone can send a report.</p>
+<p class="small">Are you the doctor? <a href="/account/" id="r-claim">Claim your profile</a> instead.</p>
 </div>
-<form class="claim-form" id="claim-form" novalidate>
-<input type="hidden" name="listing"><input type="hidden" name="submission_id">
-<fieldset><legend>I am</legend><div class="checks">
-<label><input type="radio" name="role" value="doctor" checked> The doctor listed</label>
-<label><input type="radio" name="role" value="practice"> Staff at their practice</label>
-<label><input type="radio" name="role" value="other"> Someone reporting an error</label>
-</div></fieldset>
-<div><label for="c-name">Doctor’s full name</label><input id="c-name" name="name" maxlength="120" autocomplete="name" required></div>
-<div><label for="c-npi">NPI <span class="hint">(10 digits; required if you are the doctor)</span></label><input id="c-npi" name="npi" inputmode="numeric" maxlength="10" pattern="[0-9]{{10}}"></div>
-<div><label for="c-email">Your email</label><input id="c-email" name="email" type="email" maxlength="200" autocomplete="email" required></div>
-<fieldset><legend>Procedures the doctor performs</legend><div class="checks">{checks}</div></fieldset>
-<div><label for="c-practice">Correct practice name</label><input id="c-practice" name="practice" maxlength="200" autocomplete="organization"></div>
-<div class="row2">
-<div><label for="c-city">City</label><input id="c-city" name="city" maxlength="100" autocomplete="address-level2"></div>
-<div><label for="c-state">State <span class="hint">(2 letters)</span></label><input id="c-state" name="state" maxlength="2" autocomplete="address-level1" style="text-transform:uppercase"></div>
-</div>
-<div><label for="c-note">Anything else <span class="hint">(optional; please do not include any patient information)</span></label><textarea id="c-note" name="note" rows="4" maxlength="2000"></textarea></div>
-<div class="hp" aria-hidden="true"><label for="c-website">Leave this empty</label><input id="c-website" name="website" tabindex="-1" autocomplete="off"></div>
+<form class="claim-form" id="report-form" novalidate>
+<input type="hidden" name="listing"><input type="hidden" name="procedure"><input type="hidden" name="submission_id">
+<div id="r-doc-known" class="r-doc" hidden><p class="k">Doctor</p><p id="r-doc-name"></p></div>
+<div id="r-doc-field"><label for="r-name">Doctor’s name</label><input id="r-name" name="doctor" maxlength="120" required></div>
+<fieldset id="r-reason"><legend>What’s wrong?</legend><div class="checks" style="flex-direction:column">{reasons}</div></fieldset>
+<div><label for="r-note">Details <span class="hint">(optional) Please do not include patient information.</span></label><textarea id="r-note" name="note" rows="4" maxlength="2000"></textarea></div>
+<div><label for="r-email">Your email <span class="hint">(optional) Only if you want a reply.</span></label><input id="r-email" name="email" type="email" maxlength="200" autocomplete="email"></div>
+<div class="hp" aria-hidden="true"><label for="r-website">Leave this empty</label><input id="r-website" name="website" tabindex="-1" autocomplete="off"></div>
 <div><button type="submit">Send</button></div>
 </form>
-<div id="claim-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
+<div id="report-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
+<div class="prose"><p class="small muted">We keep what you send to fix the listing. If you give an email, we use it only to reply about this report, and we do not sell or share it. To limit repeated reports, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your report.</p></div>
 <noscript><p class="notice">This form needs JavaScript. You can email <a href="mailto:{CONTACT}">{CONTACT}</a> instead.</p></noscript>"""
-    return page("/claim/", "Correct or claim a listing | Every Option",
-                "Doctors and practices can correct or claim an Every Option listing. A person reviews every submission.",
-                body, ["/assets/claim.js"])
+    return page("/report/", "Report an error | Every Option",
+                "Anyone can report an error on an Every Option listing.",
+                body, ["/assets/report.js"], cls="finder-page t-report")
 
 
 def account():
     """Jobs 10 and 11: physician accounts, built but not open. With no backend connected the page says so and the
-    script stores nothing; the correction form (its link carries the card's NPI) stays the way to confirm a listing
-    until accounts are connected. Open, the script builds the forms: Is this you?, the code, invitations."""
+    script stores nothing and offers the report form (its link carries the card's NPI). Claiming needs an account
+    (his words, 2026-11-02), so nothing else stands in for it. Open, the script builds the forms: Is this you?, the code, invitations."""
     body = f"""<h1>Physician accounts</h1>
 <div class="prose">
-<div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> To confirm or correct a listing now, use the <a id="closed-claim" href="/claim/">correction form</a>. Nothing is stored on this page.</p></div>
+<div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> When they open, physicians can claim their profile here. To tell us about an error now, use the <a id="closed-report" href="/report/">report form</a>.</p></div>
 </div>
 <div id="acct" hidden>
 <div class="prose"><p class="lede">Confirm your listing in about a minute: tick the procedures you perform, and type the code we email you. Free.</p></div>
 <div id="acct-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
 <div id="acct-out"></div>
 </div>
-<noscript><p class="notice">This page needs JavaScript. To confirm or correct a listing, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
+<noscript><p class="notice">This page needs JavaScript. To report an error, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
     return page("/account/", "Physician accounts | Every Option",
-                "Physicians can confirm their Every Option listing and add details. Accounts are not open yet.",
-                body, ["/assets/account.js"])
+                "Physicians can claim their Every Option profile with a free account. Accounts are not open yet.",
+                body, ["/assets/procedures.js", "/assets/account.js"])
 
 
 def not_found():
@@ -383,13 +392,35 @@ def not_found():
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
            "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
-SITEMAP_PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/claim/"]
+SITEMAP_PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/report/", "/account/"]
 
 
 def sitemap():
     urls = "".join(f"<url><loc>{ORIGIN}{u}</loc><lastmod>{REVIEWED}</lastmod></url>" for u in
                    SITEMAP_PAGES + [f"/{s}/" for s in condition.slugs() if f"/{s}/" not in SITEMAP_PAGES])
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n'
+
+
+def write_procedures():
+    """The browser, server and database copies of content/procedures.json."""
+    short = {p["key"]: p["abbr"] for p in PROCEDURES}
+    long_ = {p["key"]: f'{p["name"]} ({p["abbr"]})' for p in PROCEDURES}
+    head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
+    write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
+        {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_}) + ";\n")
+    with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
+        fh.write(head + "export const PROCEDURES = " + json.dumps(PROCEDURES) + ";\n"
+                 "export const PROCS = PROCEDURES.map((p) => p.key);\n"
+                 "export const PROC_SHORT = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr]));\n"
+                 "export const PROC_LONG = Object.fromEntries(PROCEDURES.map((p) => [p.key, `${p.name} (${p.abbr})`]));\n")
+    sql = os.path.join(ROOT, "supabase", "schema.sql")
+    with open(sql, encoding="utf-8") as fh:
+        text = fh.read()
+    keys = ", ".join(f"'{p['key']}'" for p in PROCEDURES)
+    new = re.sub(r"check \(procedure in \([^)]*\)\)", f"check (procedure in ({keys}))", text)
+    if new != text:
+        with open(sql, "w", encoding="utf-8") as fh:
+            fh.write(new)
 
 
 def write(rel, text):
@@ -408,16 +439,17 @@ def main():
             continue
         write(f"{k}/index.html", finder(k))
     write("how-we-know/index.html", how())
-    write("claim/index.html", claim())
+    write("report/index.html", report())
     write("account/index.html", account())
     write("404.html", not_found())
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/finder.js", "/assets/condition.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())
+    write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")
     counts = {}
     for k in PROCS:

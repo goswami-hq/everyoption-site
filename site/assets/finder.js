@@ -68,8 +68,8 @@
   }
   var THIN = 5, FAR = 250, FAR_SHOW = 5;
   function askLine() {
-    var n = (root.getAttribute("data-procedure-name") || "").trim() || ({ ufe: "uterine fibroid embolization (UFE)",
-      pae: "prostate artery embolization (PAE)", gae: "genicular artery embolization (GAE)" })[PROC] || "this procedure";
+    var long = (window.EO_PROCS && window.EO_PROCS.long[PROC]) || "";   // site/assets/procedures.js, the shared list
+    var n = (root.getAttribute("data-procedure-name") || "").trim() || (long ? long[0].toLowerCase() + long.slice(1) : "this procedure");
     return "Ask: do you perform " + n + "?";
   }
 
@@ -183,9 +183,10 @@
       }))
     ]));
     var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
-    kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed
-      ? [el("a", { href: "/claim/" + q, text: "Report an error" }), " on this listing."]
-      : [el("a", { href: "/account/" + q, text: "Is this you?" }), " Confirm or correct this listing."]));
+    // Job 19: one quiet line. Claiming needs an account (physicians only); anyone can report an error.
+    var report = el("a", { href: "/report/" + q, text: "Report an error" });
+    kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed ? [report]
+      : [el("a", { href: "/account/" + q, text: "Is this you?" }), el("span", { "class": "sep", "aria-hidden": "true", text: "·" }), report]));
     return el("li", { "class": p.confirmed ? "card card-confirmed" : "card" }, kids);
   }
 
@@ -254,7 +255,7 @@
         else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
           el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." })]),
           el("p", null, ["Are you a doctor who performs this? ",
-            el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
+            el("a", { href: "/account/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
         ]));
         if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
           "Based on public information online. Call the office to confirm. Nearest first."));

@@ -10,9 +10,9 @@
   var statusEl = document.getElementById("acct-status");
   var out = document.getElementById("acct-out");
   var STATUS = null;
-  var PROC = { ufe: "UFE", pae: "PAE", gae: "GAE" };
-  var PROC_LONG = { ufe: "Uterine fibroid embolization (UFE)", pae: "Prostate artery embolization (PAE)", gae: "Genicular artery embolization (GAE)" };
+  var PROC = window.EO_PROCS.short, PROC_LONG = window.EO_PROCS.long;   // site/assets/procedures.js, the shared list
   var QS = new URLSearchParams(location.search);
+  var WANT = QS.get("procedure") || "";      // the procedure from the card link, ticked to start with
   var WORDS = {
     rate_limited: "Too many tries for now. Please wait and try again later.",
     agree_required: "Please tick the agreement.",
@@ -65,7 +65,7 @@
   function procBoxes(listed, name) {
     return el("fieldset", null, [el("legend", { text: "Procedures you personally perform" }),
       el("div", { "class": "checks", style: "flex-direction:column" }, Object.keys(PROC).map(function (k) {
-        return el("label", null, [el("input", { type: "checkbox", name: name || "procedures", value: k }), PROC_LONG[k] +
+        return el("label", null, [el("input", { type: "checkbox", name: name || "procedures", value: k, checked: k === WANT }), PROC_LONG[k] +
           (listed && listed.indexOf(k) >= 0 ? " (on your listing)" : "")]);
       }))]);
   }
@@ -452,8 +452,8 @@
     }).catch(function () { return null; }).then(function (s) {
       if (!s || !s.open) {
         box.hidden = true; closed.hidden = false;
-        var fix = document.getElementById("closed-claim");
-        if (fix && QS.get("npi")) fix.href = "/claim/" + location.search;
+        var fix = document.getElementById("closed-report");
+        if (fix && QS.get("npi")) fix.href = "/report/" + location.search;
         return;
       }
       STATUS = s; closed.hidden = true; box.hidden = false;

@@ -64,7 +64,7 @@ test("the test profile can never load on the live host", () => {
 
 test("the test profile is made up and never in the public procedure data", async () => {
   const t = JSON.parse(readFileSync(new URL("../site/data/test-profile.json", import.meta.url), "utf8"));
-  const { npiOk } = await import("../functions/api/claim.js");
+  const { npiOk } = await import("../functions/api/report.js");
   const [p] = t.people;
   assert.equal(p.name, "Sample Doctor, MD (test listing)"); assert.equal(npiOk(p.npi), false, "NPI fails the check digit");
   assert.deepEqual(p.procedures, ["ufe", "pae", "gae"]); assert.equal(p.offices.length, 3);

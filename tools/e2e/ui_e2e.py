@@ -10,7 +10,7 @@ Checks, at 320, 390, 768 and 1280 px, light and dark:
   links inside a sentence are exempt, as WCAG 2.5.8 allows;
 - paragraphs run 75 characters a line or fewer on desktop;
 - no sideways scroll; every photo has width, height and alt text.
-And once per width: the claim form hides after a successful send; an incomplete form names the missing fields in
+And once per width (job 19: the report form replaced the claim form): the report form hides after a successful send; an incomplete form names the missing fields in
 one plain sentence, marks them invalid and moves focus to the first.
 """
 import json, os, re, sys
@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 BASE = "http://localhost:8791"
-PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/claim/", "/account/"]
+PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/report/", "/account/"]
 R = {"checks": []}
 
 
@@ -74,20 +74,23 @@ def run():
                         ch, where = p.evaluate(MEASURE)
                         check(f"{tag}: lines 75 characters or fewer", ch <= 75, f"{ch} ch: {where}")
                 if scheme == "light":
-                    p.goto(BASE + "/claim/", wait_until="load")
-                    p.check("input[name=role][value=doctor]")
-                    p.click("#claim-form button[type=submit]")
-                    msg = p.inner_text("#claim-status")
-                    check(f"/claim/ {w}: missing fields named in one sentence", msg == "Please add your name, an email address we can reply to, and your NPI.", msg)
-                    bad = p.evaluate("() => [...document.querySelectorAll('#claim-form [aria-invalid=true]')].map(e => e.id)")
-                    check(f"/claim/ {w}: missing fields marked invalid", bad == ["c-name", "c-npi", "c-email"], bad)
-                    check(f"/claim/ {w}: focus moves to the first missing field", p.evaluate("document.activeElement.id") == "c-name")
-                    p.fill("#c-name", "Test Person"); p.fill("#c-npi", "1234567893"); p.fill("#c-email", "test@example.com")
-                    check(f"/claim/ {w}: a corrected field is no longer marked", p.evaluate("document.getElementById('c-name').getAttribute('aria-invalid')") in (None, "false"))
-                    p.click("#claim-form button[type=submit]")
-                    p.wait_for_selector("#claim-status.ok")
-                    check(f"/claim/ {w}: the form hides after a successful send", not p.is_visible("#claim-form"))
-                    p.screenshot(path=os.path.join(OUT, f"claim-sent-{w}.png"))
+                    p.goto(BASE + "/report/", wait_until="load")
+                    p.fill("#r-email", "not-an-email")
+                    p.click("#report-form button[type=submit]")
+                    msg = p.inner_text("#report-status")
+                    check(f"/report/ {w}: missing fields named in one sentence", msg == "Please add the doctor's name, what's wrong, and a full email address, or leave it blank.", msg)
+                    bad = p.evaluate("() => [...document.querySelectorAll('#report-form [aria-invalid=true]')].map(e => e.id)")
+                    check(f"/report/ {w}: missing fields marked invalid", bad == ["r-name", "r-reason", "r-email"], bad)
+                    check(f"/report/ {w}: focus moves to the first missing field", p.evaluate("document.activeElement.id") == "r-name")
+                    p.fill("#r-name", "Test Person"); p.fill("#r-email", "")
+                    check(f"/report/ {w}: a corrected field is no longer marked", p.evaluate("document.getElementById('r-name').getAttribute('aria-invalid')") in (None, "false"))
+                    p.check("input[name=reason][value=contact]")
+                    check(f"/report/ {w}: a choice clears the mark", p.evaluate("document.getElementById('r-reason').getAttribute('aria-invalid')") in (None, "false"))
+                    p.click("#report-form button[type=submit]")
+                    p.wait_for_selector("#report-status.ok")
+                    check(f"/report/ {w}: the form hides after a successful send", not p.is_visible("#report-form"))
+                    check(f"/report/ {w}: plain confirmation", p.inner_text("#report-status") == "Thank you. We got your report.", p.inner_text("#report-status"))
+                    p.screenshot(path=os.path.join(OUT, f"report-sent-{w}.png"))
                 ctx.close()
         # job 15: no link to a removed page, and lists keep the Oxford comma (his rule, 2026-11-01)
         ctx = b.new_context(); p = ctx.new_page()
@@ -98,11 +101,17 @@ def run():
             vis = p.evaluate("() => document.title + ' ' + document.body.innerText")
             miss = re.findall(r"\b[A-Z]{2,4}, [A-Z]{2,4} (?:and|or) [A-Z]{2,4}\b|\b\w+, \w+ or WebP\b", vis)
             check(f"{path}: short lists keep the Oxford comma", not miss, miss)
-        p.goto(BASE + "/claim/", wait_until="load")
-        p.check("input[name=role][value=doctor]"); p.fill("#c-name", "Test Person")
-        p.click("#claim-form button[type=submit]")
-        msg = p.inner_text("#claim-status")
-        check("/claim/: two missing fields read 'A and B', no comma", msg == "Please add an email address we can reply to and your NPI.", msg)
+        p.goto(BASE + "/report/", wait_until="load")
+        p.fill("#r-name", "Test Person")
+        p.click("#report-form button[type=submit]")
+        msg = p.inner_text("#report-status")
+        check("/report/: one missing field reads plainly", msg == "Please add what's wrong.", msg)
+        for path in PAGES + ["/404.html"]:
+            p.goto(BASE + path, wait_until="load")
+            old = p.evaluate("() => [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => /^\\/claim(\\/|$|\\?)/.test(h))")
+            check(f"{path}: no link to the old /claim/ page", not old, old)
+            words = p.evaluate("() => document.body.innerText")
+            check(f"{path}: no 'correction form' wording", "correction form" not in words.lower())
         ctx.close()
         b.close()
     json.dump(R, open(os.path.join(OUT, "results.json"), "w"), indent=1)

@@ -1,4 +1,5 @@
-// Local preview only: serves site/ like Cloudflare Pages and runs functions/api/claim.js against an in-memory KV.
+// Local preview only: serves site/ like Cloudflare Pages (site/_redirects included) and runs functions/api/report.js
+// against an in-memory KV.
 //   node tools/dev-server.mjs [port] [--no-kv] [--accounts [--doximity]]      (no install; Node 18+)
 // Accounts (jobs 10 and 11): off by default, so /api/account/* answers 503 "not open yet", as on the dev site. With
 // --accounts it runs lib/accounts/ against the local stand-ins and the made-up people in tools/fixtures/accounts.json:
@@ -10,7 +11,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { onRequestPost } from "../functions/api/claim.js";
+import { onRequestPost } from "../functions/api/report.js";
 import { handle } from "../lib/accounts/http.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
 import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
@@ -23,6 +24,8 @@ const withAccounts = process.argv.includes("--accounts");
 const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
 const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity"), geocodes: FIX.geocodes }) : null;
 const origin = `http://localhost:${port}`;
+const REDIRECTS = new Map(readFileSync(path.join(ROOT, "_redirects"), "utf8").split("\n")
+  .map((l) => l.trim().split(/\s+/)).filter((w) => w.length >= 2 && !w[0].startsWith("#")).map((w) => [w[0], [w[1], +(w[2] || 302)]]));
 const store = new Map();
 export const kv = {
   async get(k) { const v = store.get(k); return v && (!v.exp || v.exp > Date.now()) ? v.val : null; },
@@ -48,7 +51,11 @@ const asJSON = (res, x) => { res.writeHead(200, { "Content-Type": "application/j
 http.createServer(async (req, res) => {
   // A path such as "//" is not a valid relative URL; read it as a path, so one odd request cannot stop the server.
   const url = new URL(req.url.replace(/^\/+/, "/"), origin);
-  if (url.pathname === "/api/claim") {
+  // site/_redirects, exact paths only (all this site uses). The query string is kept, as the site expects of Cloudflare
+  // (not proven live: the dev site is behind Access; check /claim/?npi=... there).
+  const hop = REDIRECTS.get(url.pathname);
+  if (hop) { res.writeHead(hop[1], { Location: hop[0] + url.search }); res.end(); return; }
+  if (url.pathname === "/api/report") {
     const request = await toRequest(req, url);
     const r = req.method === "POST" ? await onRequestPost({ request, env: noKV ? {} : { CLAIMS: kv } })
       : new Response('{"error":"method"}', { status: 405 });

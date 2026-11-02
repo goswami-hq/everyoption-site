@@ -143,6 +143,27 @@ def run(b, width, scheme, theme):
     heads = pg.evaluate("""(() => ['tier-a', 'tier-b'].map(k => { const h = document.querySelector('section.' + k + ' > h2');
         if (!h) return null; const s = getComputedStyle(h); return [s.color, s.fontSize, s.fontWeight]; }))()""")
     check(f"{tag}: Confirmed and Likely headings match", heads[0] and heads[0] == heads[1], heads)
+    # job 19: one quiet line on every card. Likely: "Is this you?" (account) and "Report an error" side by side;
+    # confirmed: only "Report an error". Both carry the NPI and the procedure. One line, even at 390 px.
+    lines = pg.evaluate("""(() => [...document.querySelectorAll('li.card')].map(c => { const l = c.querySelectorAll('p.claim');
+        const p = l[0]; if (!p) return { n: 0 };
+        const lh = parseFloat(getComputedStyle(p).lineHeight) || 20;
+        return { n: l.length, conf: c.classList.contains('card-confirmed'), text: p.innerText.trim(),
+          links: [...p.querySelectorAll('a')].map(a => [a.textContent, a.getAttribute('href')]),
+          rows: Math.round(p.getBoundingClientRect().height / lh) }; }))()""")
+    def line_ok(c):
+        if c["n"] != 1:
+            return False
+        want = ["Report an error"] if c["conf"] else ["Is this you?", "Report an error"]
+        paths = ["/report/"] if c["conf"] else ["/account/", "/report/"]
+        return ([t for t, _ in c["links"]] == want and all(h.startswith(pa + "?npi=") and f"&procedure={proc}&" in h
+                for (_, h), pa in zip(c["links"], paths)) and c["rows"] == 1)
+    wrong = [c for c in lines if not line_ok(c)]
+    check(f"{tag}: one link line per card, on one row, linked as job 19 says", not wrong, wrong[:2])
+    check(f"{tag}: card line text", all(c["text"] in ("Is this you?·Report an error", "Is this you? · Report an error", "Is this you?\n·\nReport an error", "Report an error") for c in lines),
+          sorted({c["text"] for c in lines})[:4])
+    pg.locator("li.card:not(.card-confirmed) p.claim").first.screenshot(path=os.path.join(OUT, f"line-likely-{width}-{scheme}-{theme}.png"))
+    pg.locator("li.card.card-confirmed p.claim").first.screenshot(path=os.path.join(OUT, f"line-confirmed-{width}-{scheme}-{theme}.png"))
     for name, file in (("Combo 255 Testperson", "all-fields"), ("Combo 000 Testperson", "no-fields")):
         pg.locator("li.card", has_text=name).first.screenshot(path=os.path.join(OUT, f"card-{file}-{width}-{scheme}-{theme}.png"))
     pg.locator("li.card", has_text="Maximiliana").first.screenshot(path=os.path.join(OUT, f"card-long-{width}-{scheme}-{theme}.png"))
@@ -164,11 +185,12 @@ def run_empty(b, width, scheme):
     pg.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(500)
     tag = f"{width} {scheme} empty confirmed"
     sec = pg.locator("section.tier-empty")
-    check(f"{tag}: one quiet line for the empty confirmed group", sec.count() == 1 and sec.locator("p").count() == 1
+    # chat edit 2026-11-02 (896f1ae): the doctor prompt sits on its own line, so two short paragraphs
+    check(f"{tag}: two quiet lines for the empty confirmed group", sec.count() == 1 and sec.locator("p").count() == 2
           and sec.locator("h2").count() == 0 and pg.locator("section.tier-a").count() == 0)
     text = sec.inner_text() if sec.count() else ""
     check(f"{tag}: the line says none nearby and invites the doctor", "Confirmed by physician: 0 nearby." in text
-          and sec.locator('a[href^="/claim/"]').count() == 1, text)
+          and sec.locator('a[href^="/account/?procedure="]').count() == 1 and sec.locator('a[href^="/claim/"]').count() == 0, text)
     lines = pg.evaluate("(() => { const p = document.querySelector('section.tier-empty p'); const r = p.getBoundingClientRect();"
                         " return Math.round(r.height / parseFloat(getComputedStyle(p).lineHeight)); })()")
     check(f"{tag}: the line stays short ({lines} lines)", lines <= (4 if width < 500 else 2), lines)

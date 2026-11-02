@@ -97,14 +97,17 @@ def closed_site(b):
     reqs.clear()
     pg.goto(CLOSED + href); pg.wait_for_timeout(300)
     check("closed: account page says not open yet", pg.is_visible("#acct-closed") and "not open yet" in pg.inner_text("#acct-closed"))
-    fix = pg.get_attribute("#closed-claim", "href")
-    check("closed: its correction-form link carries the NPI", fix and fix.startswith("/claim/?npi="), fix)
+    fix = pg.get_attribute("#closed-report", "href")
+    check("closed: offers the report form, with the NPI", fix and fix.startswith("/report/?npi="), fix)
+    check("closed: no link to the removed /claim/ form", pg.locator('a[href^="/claim"]').count() == 0)
+    check("closed: the closed notice names the report form", "report form" in pg.inner_text("#acct-closed"))
     check("closed: only the status call reaches the server", [u for u in reqs if "/api/" in u] == [CLOSED + "/api/account/status"], reqs)
     r = pg.request.post(CLOSED + "/api/account/signup", data={"npi": ANN, "email": "a@b.example", "agree": True}, headers={"Origin": CLOSED})
     check("closed: sign-up API answers 503, stores nothing", r.status == 503)
     shot(pg, "closed-account-390")
-    pg.click("#closed-claim"); pg.wait_for_selector("#claim-form")
-    check("closed: correction form opens", pg.is_visible("#claim-form"))
+    pg.click("#closed-report"); pg.wait_for_selector("#report-form")
+    check("closed: report form opens with the doctor shown", pg.is_visible("#report-form") and pg.is_visible("#r-doc-known")
+          and not pg.is_visible("#r-name"))
     ctx.close()
 
 
@@ -116,6 +119,8 @@ def basic_path(b, label, base, vp, npi, email, proc):
     pg.goto(f"{base}/account/?npi={npi}&procedure={proc}&name=x"); steps += 1           # the click on the card
     pg.wait_for_function("document.getElementById('s-who') && !document.getElementById('s-who').hidden")
     who = pg.inner_text("#s-who")
+    pre = pg.evaluate(f"document.querySelector('#signup-form input[name=procedures][value={proc}]').checked")
+    staff = pg.evaluate("/staff|practice manager|on behalf/i.test(document.getElementById('acct').innerText)")
     pg.check(f"#signup-form input[name=procedures][value={proc}]"); steps += 1
     pg.fill("#s-email", email); steps += 1
     pg.check("#s-agree"); steps += 1
@@ -125,6 +130,7 @@ def basic_path(b, label, base, vp, npi, email, proc):
     pg.click("#code-form button[type=submit]"); steps += 1
     pg.wait_for_selector("#acct-level")
     secs = time.monotonic() - t0
+    R.setdefault("prefill", {})[label] = {"ticked": pre, "staff": staff}
     return ctx, pg, who, steps, secs
 
 
@@ -133,6 +139,8 @@ def flows(b, label, base, vp):
     ctx, pg, who, steps, secs = basic_path(b, label, base, vp, ANN, "ann@home.example", "ufe")
     R["paths"][f"{label}-basic"] = {"steps": steps, "seconds": round(secs, 2)}
     check(f"{label}: Is this you? shows the NPPES name, nothing typed", "Ann Testone" in who and "Listed on Every Option for UFE, PAE" in who, who)
+    check(f"{label}: the card's procedure is ticked to start with", R["prefill"][label]["ticked"])
+    check(f"{label}: no staff option on the sign-up", not R["prefill"][label]["staff"])
     check(f"{label}: basic path signs in and shows basic access", "Basic access" in pg.inner_text("#acct-level"))
     a = acct(pg, base, npi=ANN)
     check(f"{label}: account from NPPES, basic, attested at sign-up", a and a["name"] == "Ann Testone" and a["level"] == "basic" and

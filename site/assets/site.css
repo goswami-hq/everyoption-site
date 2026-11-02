@@ -157,6 +157,9 @@ legend { font-weight: 600; font-size: 16px; margin-bottom: 6px; padding: 0; }
 .checks label { font-weight: 400 !important; display: inline-flex !important; align-items: center; gap: 8px; min-height: 44px; }
 .checks input { width: 20px; min-height: 20px; height: 20px; accent-color: var(--accent); }
 .row2 { display: grid; gap: 16px; } @media (min-width: 560px) { .row2 { grid-template-columns: 2fr 1fr; } }
+.r-doc p { margin: 0; } .r-doc .k { font-weight: 600; font-size: 16px; margin-bottom: 5px; } #r-doc-name { font: 400 20px/1.25 var(--serif); }
+fieldset[aria-invalid="true"] legend { color: #a82a1e; } @media (prefers-color-scheme: dark) { fieldset[aria-invalid="true"] legend { color: #f2b8b5; } }
+.claim .sep { padding: 0 8px; }
 .hp { position: absolute; left: -5000px; width: 1px; height: 1px; overflow: hidden; }
 .ok { background: var(--soft); border-radius: var(--radius); padding: 16px 18px; }
 .err { color: #a82a1e; } @media (prefers-color-scheme: dark) { .err { color: #f2b8b5; } }

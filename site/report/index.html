@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report an error | Every Option</title>
+<meta name="description" content="Anyone can report an error on an Every Option listing.">
+<link rel="canonical" href="https://everyoptionmd.com/report/">
+<link rel="stylesheet" href="/assets/site.css?v=40b85740ef">
+<meta name="color-scheme" content="light dark">
+<script src="/assets/report.js?v=2de0285296" defer></script>
+
+</head>
+<body class="finder-page t-report">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
+<nav class="top" aria-label="Main"><a href="/">Home</a><a href="/#conditions">Conditions</a><a href="/how-we-know/">How we know</a><a href="#follow">Follow</a></nav>
+</div></header>
+<main id="main"><div class="wrap">
+<h1>Report an error</h1>
+<div class="prose">
+<p class="lede">Tell us what’s wrong with a listing. Anyone can send a report.</p>
+<p class="small">Are you the doctor? <a href="/account/" id="r-claim">Claim your profile</a> instead.</p>
+</div>
+<form class="claim-form" id="report-form" novalidate>
+<input type="hidden" name="listing"><input type="hidden" name="procedure"><input type="hidden" name="submission_id">
+<div id="r-doc-known" class="r-doc" hidden><p class="k">Doctor</p><p id="r-doc-name"></p></div>
+<div id="r-doc-field"><label for="r-name">Doctor’s name</label><input id="r-name" name="doctor" maxlength="120" required></div>
+<fieldset id="r-reason"><legend>What’s wrong?</legend><div class="checks" style="flex-direction:column"><label><input type="radio" name="reason" value="not_performed"> Doesn’t perform this procedure</label><label><input type="radio" name="reason" value="contact"> Wrong phone or address</label><label><input type="radio" name="reason" value="moved"> No longer practices here</label><label><input type="radio" name="reason" value="other"> Something else</label></div></fieldset>
+<div><label for="r-note">Details <span class="hint">(optional) Please do not include patient information.</span></label><textarea id="r-note" name="note" rows="4" maxlength="2000"></textarea></div>
+<div><label for="r-email">Your email <span class="hint">(optional) Only if you want a reply.</span></label><input id="r-email" name="email" type="email" maxlength="200" autocomplete="email"></div>
+<div class="hp" aria-hidden="true"><label for="r-website">Leave this empty</label><input id="r-website" name="website" tabindex="-1" autocomplete="off"></div>
+<div><button type="submit">Send</button></div>
+</form>
+<div id="report-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
+<div class="prose"><p class="small muted">We keep what you send to fix the listing. If you give an email, we use it only to reply about this report, and we do not sell or share it. To limit repeated reports, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your report.</p></div>
+<noscript><p class="notice">This form needs JavaScript. You can email <a href="mailto:errors@everyoptionmd.com">errors@everyoptionmd.com</a> instead.</p></noscript>
+</div></main>
+<footer class="site"><div class="wrap">
+<p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
+<p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:errors@everyoptionmd.com">errors@everyoptionmd.com</a>.</p>
+<p class="disclosure">Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay to be listed, ranked higher, or sent patients.</p>
+<p><a href="/how-we-know/">How we know</a></p>
+<p id="follow" class="follow"><strong>Follow Every Option:</strong> <a href="https://www.instagram.com/everyoptionmd" rel="noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@every.option.md" rel="noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@everyoptionmd" rel="noopener" target="_blank">YouTube</a> · <a href="https://x.com/everyoptionmd" rel="noopener" target="_blank">X</a></p>
+</div></footer>
+</body>
+</html>
