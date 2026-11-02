@@ -272,3 +272,10 @@ main .card p, main .lede { max-width: none; }
 main .lede { max-width: 32em; }
 footer.site p > a:only-child, .about > p > a:only-child { display: inline-block; padding: 10px 0; }
 @media (max-width: 359px) { header.site .wrap { padding-left: 16px; padding-right: 16px; } nav.top { gap: 2px 10px; font-size: 14.5px; } }
+
+/* The condition's IR procedure, open after the finder; its row in the group points back to it. */
+.lead-option { background: var(--soft); border-radius: var(--radius); padding: 20px 16px; margin: 20px 0 24px; scroll-margin-top: 14px; }
+.lead-option > h2 { margin: 0 0 10px; color: var(--accent); }
+.lead-option .cta { margin-bottom: 4px; }
+a.option-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; margin: 8px 0; padding: 12px 16px; border: 1px solid var(--accent); border-radius: 14px; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 17px; text-decoration: none; }
+a.option-link .option-note { flex: none; font-weight: 400; font-size: 15px; }

@@ -48,16 +48,19 @@ def run():
                     groups = pg.locator("details.group").count()
                     check(f"{tag}: one group per category", groups == len(c["categories"]), groups)
                     opts = pg.evaluate("[...document.querySelectorAll('details.group details.option')].map(d => d.id)")
-                    check(f"{tag}: every option in one group", sorted(opts) == sorted(o["id"] for o in c["options"]), opts)
+                    check(f"{tag}: every other option in one group", sorted(opts) == sorted(o["id"] for o in c["options"] if o["id"] != c["diagram_at"]), opts)
+                    check(f"{tag}: the lead option is open and its group row points to it",
+                          pg.locator(f"section.lead-option#{c['diagram_at']}").count() == 1 and pg.locator(f"details.group a.option-link[href='#{c['diagram_at']}']").count() == 1)
                     check(f"{tag}: everything starts collapsed", pg.locator("details[open]").count() == 0)
                     bad = pg.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href'))
                         .filter(h => h.length > 1 && !document.getElementById(h.slice(1)))""")
                     check(f"{tag}: every jump link and marker has a target", not bad, bad)
                     check(f"{tag}: diagram shown at {c['diagram_at']}", pg.locator(f"#{c['diagram_at']} figure.how svg").count() == 1)
-                    # a link straight to an option opens its group (condition.js)
-                    pg2 = ctx.new_page(); pg2.goto(f"{BASE}/{slug}/#{c['diagram_at']}"); pg2.wait_for_timeout(200)
+                    # a link straight to a collapsed option opens its group (condition.js)
+                    other = next(o["id"] for o in c["options"] if o["id"] != c["diagram_at"])
+                    pg2 = ctx.new_page(); pg2.goto(f"{BASE}/{slug}/#{other}"); pg2.wait_for_timeout(200)
                     check(f"{tag}: a link to an option opens it and its group",
-                          pg2.evaluate(f"(() => {{ const d = document.getElementById('{c['diagram_at']}'); return d.open && d.parentElement.closest('details').open; }})()"))
+                          pg2.evaluate(f"(() => {{ const d = document.getElementById('{other}'); return d.open && d.parentElement.closest('details').open; }})()"))
                     pg2.close()
                     check(f"{tag}: no console errors", not errs, errs)
                     if w == 390:

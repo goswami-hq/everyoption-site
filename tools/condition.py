@@ -104,17 +104,27 @@ def option(refs, o, extra, cls="option"):
     return fold(cls, o["name"], f'<p>{refs.inline(tail(o["what"]))}</p><dl class="facts">{rows}</dl>{extra}', o["id"])
 
 
-def categories(refs, c, diagram_fn):
+def lead_option(refs, c, diagram_fn):
+    """The condition's IR procedure, always open right after the finder (his yes, 2026-11-02)."""
+    o = next(x for x in c["options"] if x["id"] == c["diagram_at"])
+    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k]))}</dd></div>" for k, label in FIELDS)
+    return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(o["name"])}</h2>'
+            f'<p>{refs.inline(tail(o["what"]))}</p>{diagram_fn(c["diagram"])}<dl class="facts">{rows}</dl>'
+            f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p></section>')
+
+
+def categories(refs, c):
     by_id = {o["id"]: o for o in c["options"]}
     out = ""
     for k in c["categories"]:
         opts = ""
         for i in k["options"]:
-            extra = ""
             if i == c.get("diagram_at"):
-                extra = (diagram_fn(c["diagram"]) +
-                         f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>')
-            opts += option(refs, by_id[i], extra, "option featured" if i == k.get("highlight") else "option")
+                # the full text sits above in the lead section, so this row only points there
+                opts += (f'<a class="option-link" href="#{html.escape(i)}"><span>{html.escape(by_id[i]["name"])}</span>'
+                         f'<span class="option-note">Details above</span></a>')
+                continue
+            opts += option(refs, by_id[i], "", "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
     return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
 
@@ -171,9 +181,10 @@ def body(c, diagram_fn, e, photo_fn=None, finder_fn=None):
     photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=True, cls="photo banner") if c.get("photo") and photo_fn else ""
     # Finder first (his yes, 2026-11-02), then education.
     find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"]) if finder_fn else ""
-    parts = [f'<h1>{html.escape(c["h1"])}</h1>{find}{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
+    lead = lead_option(refs, c, diagram_fn)
+    parts = [f'<h1>{html.escape(c["h1"])}</h1>{find}{photo}{lead}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
-    parts.append(categories(refs, c, diagram_fn))
+    parts.append(categories(refs, c))
     learn = "".join(section(refs, s) for s in c["sections"]) + faq(refs, c)
     parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
