@@ -16,7 +16,7 @@ test("new profile: NPI not on the site, radiologist: no name typed; NPPES name; 
   const prof = await w.backend.data.one("profiles", { npi: CARA });
   assert.equal(prof.new_profile, true); assert.equal((await w.backend.data.one("accounts", { npi: CARA })).name, "Cara Newdoc");
   await w.idCheck(c);
-  await c.put("profile", { offices: [{ practice: "", city: "Evanston", state: "IL", zip: "60201", phone: "" }] });
+  await c.put("profile", { offices: [{ practice: "", street: "1 Test Way", city: "Evanston", state: "IL", zip: "60201", phone: "" }] });
   const exp = await exportConfirmed(w.backend);
   assert.equal(exp[0].npi, CARA); assert.equal(exp[0].new_profile, true); assert.deepEqual(exp[0].procedures, ["gae"]);
   assert.equal(exp[0].offices[0].city, "Evanston");

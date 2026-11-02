@@ -89,6 +89,7 @@ def run(b, width, scheme, theme):
     proc = "ufe" if theme == "base" else theme
     ctx = b.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme)
     pg = ctx.new_page()
+    pg.route("**/data/test-profile.json", lambda r: r.fulfill(status=404, body=""))   # job 16 test profile: these runs use their own data
     errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.route(f"**/data/{proc}.json", lambda r: r.fulfill(status=200, content_type="application/json",
@@ -155,6 +156,7 @@ def run_empty(b, width, scheme):
     likely = [p for p in PEOPLE if not p["confirmed"]][:5]
     ctx = b.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme)
     pg = ctx.new_page()
+    pg.route("**/data/test-profile.json", lambda r: r.fulfill(status=404, body=""))
     pg.route("**/data/ufe.json", lambda r: r.fulfill(status=200, content_type="application/json",
              body=json.dumps({"procedure": "ufe", "name": "ufe", "counts": {}, "unplaced": 0, "held": 0, "people": likely})))
     pg.goto(f"{BASE}/fibroids/")

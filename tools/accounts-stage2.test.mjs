@@ -105,10 +105,10 @@ test("edit: only the holder of the NPI, only their own profile; fields checked a
   assert.equal((await u.put("profile", { booking_url: "javascript:alert(1)" })).status, 400);
   assert.equal((await u.put("profile", { booking_url: "http://lakesideir.example/book" })).status, 400, "https only");
   assert.equal((await u.put("profile", { insurances: ["Aetna", "Made Up Plan"] })).status, 400);
-  assert.equal((await u.put("profile", { offices: [{ practice: "Lakeside IR", city: "Chicago", state: "IL", zip: "60611", phone: "312555010" }] })).status, 400);
+  assert.equal((await u.put("profile", { offices: [{ practice: "Lakeside IR", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "312555010" }] })).status, 400);
   const ok = await u.put("profile", { blurbs: { ufe: "I perform UFE at Lakeside." }, insurances: ["Aetna", "Medicare"],
     insurance_other: "Most local plans", insurance_confirm: true, booking_url: "https://lakesideir.example/book",
-    offices: [{ practice: "Lakeside IR", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] });
+    offices: [{ practice: "Lakeside IR", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] });
   assert.equal(ok.status, 200);
   const p = await w.backend.data.one("profiles", { npi: ANN });
   assert.equal(p.blurbs.ufe, "I perform UFE at Lakeside."); assert.equal(p.offices[0].phone, "3125550100");

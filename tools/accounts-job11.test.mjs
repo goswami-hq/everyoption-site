@@ -93,7 +93,7 @@ test("revoke a bad inviter: one step removes full access from it and everyone do
   const cara = w.client("10.6.0.3");
   await cara.post("invite/accept", { token: tokOf(r2.body.url), agree: true, procedures: ["gae"] });
   await bad.put("profile", { booking_url: "https://evil.example/book" });
-  await cara.put("profile", { offices: [{ practice: "", city: "Evanston", state: "IL", zip: "60201", phone: "3125550100" }] });
+  await cara.put("profile", { offices: [{ practice: "", street: "1 Test Way", city: "Evanston", state: "IL", zip: "60201", phone: "3125550100" }] });
   const before = await exportConfirmed(w.backend);
   assert.equal(before.find((x) => x.npi === ANN).booking_url, "https://evil.example/book");
 
@@ -225,7 +225,7 @@ test("r1-1: after a takeover the squatter's contact details, photo and attestati
   const squat = w.client("10.9.0.1");
   await squat.post("invite/accept", { token: await w.invite(ANN, "owner"), agree: true, procedures: ["ufe", "pae"] });
   await squat.put("profile", { booking_url: "https://evil.example/book", blurbs: { ufe: "Squatter words." }, insurances: ["Aetna"],
-    offices: [{ practice: "Fake", city: "Chicago", state: "IL", zip: "60611", phone: "3125550199" }] });
+    offices: [{ practice: "Fake", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "3125550199" }] });
   const ph = await squat.call("POST", "photo", pngBytes(), { headers: { "Content-Type": "image/png" } });
   assert.equal(ph.status, 200, JSON.stringify(ph.body));
   assert.ok((await w.backend.data.one("profiles", { npi: ANN })).photo_key, "squatter photo on file before");

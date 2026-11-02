@@ -98,5 +98,24 @@
       "n": 2,
       "npi": null
     }
+  },
+  "geocodes": {
+    "_note": "Made-up addresses for the geocoder stand-in (job 16).",
+    "100 test plaza|chicago|il|60611": [
+      41.89212,
+      -87.62185
+    ],
+    "200 sample road|evanston|il|60201": [
+      42.04771,
+      -87.68422
+    ],
+    "300 example court|naperville|il|60540": [
+      41.76589,
+      -88.14423
+    ],
+    "400 faraway lane|springfield|il|62701": [
+      39.80172,
+      -89.64371
+    ]
   }
 }

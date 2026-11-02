@@ -43,7 +43,8 @@
   }
   function loadData() {
     if (data) return Promise.resolve(data);
-    if (!loading) loading = getJSON("/data/" + PROC + ".json").then(function (d) { data = d; return d; },
+    if (!loading) loading = Promise.all([getJSON("/data/" + PROC + ".json"), loadTest()]).then(function (x) {
+      data = x[0]; if (x[1].length) data = Object.assign({}, data, { people: x[1].concat(data.people) }); return data; },
       function (e) { loading = null; throw e; });
     return loading;
   }
@@ -54,6 +55,37 @@
       Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
+  function mi(m) { return m < 1 ? "under 1 mi" : Math.round(m) + " mi"; }
+  // Job 16: every office with a point is checked against the radius. The doctor appears once, at their closest office
+  // inside it (equal distances: the office the doctor listed first); a doctor with no office inside it is left out.
+  // Offices with no point, and doctors with no offices, fall back to the card's own point.
+  function place(p, center, r) {
+    var c = Object.assign({}, p), best = null;
+    if (p.offices && p.offices.some(function (o) { return o.lat != null && o.lon != null; })) {
+      c.offices = p.offices.map(function (o) {
+        var x = Object.assign({}, o);
+        x.miles = o.lat != null && o.lon != null ? miles(center, [o.lat, o.lon]) : null;
+        if (x.miles != null && x.miles <= r && (!best || x.miles < best.miles)) best = x;
+        return x;
+      });
+      if (!best) return null;
+      c.lead = best; c.miles = best.miles; return c;
+    }
+    if (p.lat === null || p.lon === null || p.lat === undefined) return null;
+    c.miles = miles(center, [p.lat, p.lon]);
+    return c.miles <= r ? c : null;
+  }
+  // Job 16 test profile (his words, 2026-11-02): made-up, loaded only on localhost and *.pages.dev, never live.
+  var TEST_AVATAR = "/assets/test-avatar.svg";
+  function testHost(h) { return h === "localhost" || /^[a-z0-9-]+\.everyoption-site\.pages\.dev$/.test(h); }   // branch previews, not the bare production alias
+  function loadTest() {
+    if (!testHost(location.hostname)) return Promise.resolve([]);
+    return getJSON("/data/test-profile.json").then(function (t) {
+      return (t.people || []).filter(function (p) { return (p.procedures || []).indexOf(PROC) >= 0; })
+        .map(function (p) { var c = Object.assign({}, p, (p.blurbs || {})[PROC] ? { blurb: p.blurbs[PROC] } : {}); c.test = true; return c; });
+    }, function () { return []; });
+  }
+
   function showPhone(p) {          // every US number as (xxx) xxx-xxxx, any extension after; anything else as written
     var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})\s*(?:(?:ext\.?|extension|x)\s*(\d+))?\s*(?:\([^)]*\))?\s*$/i);
     if (!m) return p;
@@ -67,10 +99,11 @@
 
   // Job 10: a confirmed doctor's card may carry a photo, a blurb, insurances, a booking link, and more offices. Each
   // shows only when supplied; an unconfirmed card looks as before.
+  function safeWeb(u) { try { var x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch (e) { return ""; } }
   function safeHttps(u) { try { var x = new URL(u); return x.protocol === "https:" ? x.href : ""; } catch (e) { return ""; } }
   function card(p) {
     var kids = [];
-    var photo = p.photo && /^\/photos\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo)
+    var photo = p.photo && (/^\/photos\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo) || (p.test && p.photo === TEST_AVATAR))
       ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + p.name, width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
     var top = el("div", { "class": "top" }, [
       photo,
@@ -78,17 +111,22 @@
         el("h3", { text: p.name }),
         p.badge ? el("span", { "class": "badge", title: BADGE_TITLE[p.badge] || "", text: BADGE[p.badge] || p.badge }) : null
       ]),
-      el("span", { "class": "dist", text: p.miles < 1 ? "under 1 mi" : Math.round(p.miles) + " mi" })
+      el("span", { "class": "dist", text: mi(p.miles) })
     ]);
+    var lead = p.lead || null;            // job 16: the doctor's closest office inside the radius leads the card
     if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
     kids.push(top);
+    var practice = lead ? lead.practice : p.practice;
     var where = el("p", { "class": "where" }, [
-      p.practice ? el("span", { "class": "practice", text: p.practice }) : null,
-      p.practice ? el("br") : null,
-      p.city + ", " + p.state,
-      p.city_label ? el("span", { "class": "label", text: p.city_label }) : null
+      practice ? el("span", { "class": "practice", text: practice }) : null,
+      practice ? el("br") : null,
+      lead && lead.street ? lead.street : null,
+      lead && lead.street ? el("br") : null,
+      lead ? lead.city + ", " + lead.state : p.city + ", " + p.state,
+      !lead && p.city_label ? el("span", { "class": "label", text: p.city_label }) : null
     ]);
     kids.push(where);
+    if (lead && lead.geo === "address") kids.push(el("p", { "class": "dist-note small muted", text: "Distance is from the center of your ZIP code to this office." }));
     if (p.blurb) kids.push(el("p", { "class": "blurb", text: p.blurb }));
     var ins = (p.insurances || []).slice();
     if (p.insurance_other) ins.push(p.insurance_other);
@@ -98,19 +136,24 @@
       p.insurance_confirm ? el("span", { "class": "confirm", text: "Confirm with the office." }) : null
     ]));
     var acts = [];
-    var tel = telHref(p.phone);
-    if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(p.phone) }));
+    var phone = lead && lead.phone ? lead.phone : p.phone;
+    var tel = telHref(phone);
+    if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(phone) }));
     var book = p.booking_url ? safeHttps(p.booking_url) : "";
     if (book) acts.push(el("a", { "class": "book", href: book, rel: "noopener nofollow", target: "_blank", text: "Book online" }));
-    if (p.url) acts.push(el("a", { href: p.url, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
+    var page = p.url ? safeWeb(p.url) : "";
+    if (page) acts.push(el("a", { href: page, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
-    var more = (p.offices || []).slice(1);
-    if (more.length) kids.push(el("div", { "class": "offices" }, [
-      el("p", { "class": "k", text: more.length === 1 ? "Also sees patients at" : "Also sees patients at " + more.length + " more offices" }),
-      el("ul", null, more.map(function (o) {
+    var all = p.offices || [];             // one office: no extra list
+    if (all.length > 1) kids.push(el("div", { "class": "offices" }, [
+      el("p", { "class": "k", text: "All offices (" + all.length + ")" }),
+      el("ul", null, all.map(function (o) {
         var t = telHref(o.phone);
-        return el("li", null, [(o.practice ? o.practice + ", " : "") + o.city + ", " + o.state,
-          t ? " · " : null, t ? el("a", { href: t, text: showPhone(o.phone) }) : null]);
+        return el("li", { "class": o === lead ? "lead" : "" }, [
+          o.practice ? el("span", { "class": "practice", text: o.practice }) : null, o.practice ? el("br") : null,
+          (o.street ? o.street + ", " : "") + o.city + ", " + o.state + (o.zip ? " " + o.zip : ""),
+          o.miles != null ? el("span", { "class": "odist", text: "\u00a0· " + mi(o.miles) }) : null,
+          t ? el("br") : null, t ? el("a", { href: t, text: showPhone(o.phone) }) : null]);
       }))
     ]));
     var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
@@ -172,9 +215,8 @@
     })]).then(function (res) {
       var d = res[0], center = res[1][zip];
       if (!center) { say("We don't have a location for ZIP " + zip + ". Check the number, or try a nearby ZIP.", "err"); return; }
-      var near = d.people.filter(function (p) { return p.lat !== null && p.lon !== null; }).map(function (p) {
-        var c = Object.assign({}, p); c.miles = miles(center, [p.lat, p.lon]); return c;
-      }).filter(function (p) { return p.miles <= r; }).sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); });
+      var near = d.people.map(function (p) { return place(p, center, r); }).filter(Boolean)
+        .sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); });
       var confirmed = near.filter(function (p) { return p.confirmed; }), likely = near.filter(function (p) { return !p.confirmed; });
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
       if (!near.length) { say(""); out.appendChild(widen(zip, r)); return; }
@@ -188,7 +230,7 @@
       if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
         "Based on public information online. Call the office to confirm. Nearest first."));
       out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
-        "Distances are between ZIP centers, not street addresses. ",
+        "Distances run from the center of your ZIP code: to the doctor's office when we could place its street address on the map, otherwise to the center of the doctor's ZIP code. ",
         el("a", { href: "/how-we-know/", text: "How we know" })]));
       var learn = root.getAttribute("data-learn");
       if (learn) out.insertBefore(el("p", { "class": "learn-link" }, [el("a", { href: learn, text: "See all your treatment options" })]), out.firstChild);

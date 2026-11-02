@@ -140,7 +140,7 @@ test("levels enforced on the server: basic edits blurbs and insurances; contact 
   assert.equal((await c.put("profile", { blurbs: { ufe: "I perform UFE." }, insurances: ["Aetna"], insurance_other: "Most plans", insurance_confirm: true })).status, 200);
   const r = await c.put("profile", { booking_url: "https://lakesideir.example/book" });
   assert.equal(r.status, 403); assert.equal(r.body.error, "full_needed"); assert.deepEqual(r.body.fields, ["booking_url"]);
-  assert.equal((await c.put("profile", { offices: [{ practice: "X", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] })).status, 403);
+  assert.equal((await c.put("profile", { offices: [{ practice: "X", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] })).status, 403);
   assert.equal((await c.call("POST", "photo", new Uint8Array([0xff, 0xd8, 0xff]), { headers: { "Content-Type": "image/jpeg" } })).status, 403);
   assert.equal((await c.put("profile", { blurbs: { ufe: "I perform UFE." }, booking_url: "", offices: [] })).status, 200, "unchanged contact fields are fine");
   await w.idCheck(c);

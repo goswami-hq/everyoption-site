@@ -10,7 +10,7 @@ export const ANN = "1999000015", BEN = "1999000023", CARA = "1999000031", DAN = 
 export const EMAIL = { [ANN]: "ann@home.example", [BEN]: "ben@home.example", [CARA]: "cara@home.example", [GIL]: "gil@home.example" };
 
 export function world(opts = {}) {
-  const backend = localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: !!opts.doximity });
+  const backend = localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: !!opts.doximity, geocodes: FIX.geocodes });
   const clock = { t: Date.parse("2026-11-01T12:00:00Z") };
   const env = { backend, now: () => clock.t, origin: "http://localhost:8787", ...opts.env };
   const w = { backend, clock, env, outbox: backend.email.outbox, svc: () => makeService(backend, env) };

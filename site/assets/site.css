@@ -118,6 +118,11 @@ ol.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template
 .card .offices { margin-top: 10px; font-size: 15.5px; color: var(--muted); }
 .card .offices p { margin: 0; font-size: 15px; }
 .card .offices ul { margin: 4px 0 0; padding-left: 18px; }
+.card .offices li { margin-top: 6px; overflow-wrap: anywhere; }
+.card .offices li .practice { color: var(--ink); }
+.card .offices li.lead .practice { font-weight: 600; }
+.card .offices .odist { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.card .dist-note { margin: 2px 0 0; font-size: 14.5px; }
 .card a[href^="tel:"] { white-space: nowrap; }
 .actions .book { border: 1px solid var(--accent); border-radius: 999px; padding: 0 18px; text-decoration: none; font-weight: 600; }
 .card h3 { margin: 0; font: 400 22px/1.25 var(--serif); letter-spacing: -0.005em; }

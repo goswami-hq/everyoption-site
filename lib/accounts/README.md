@@ -23,6 +23,7 @@ Doximity. The work-email check is gone. Nothing here is open: with no configurat
 | nppes | lookup | fixture | NPI Registry API (public) |
 | listings | get | fixture | the site's own `data/*.json` |
 | doximity | authorizeUrl, profile | simulated page (`/__doximity/`) | OAuth at auth.doximity.com, behind `DOXIMITY_ON=yes` |
+| geocoder | locate (street, city, state, ZIP -> lat, lon, or null) | fixed table (`geocodes` in the fixture) | U.S. Census geocoder (public, no account), behind `GEOCODER_ON=yes` |
 
 ## His commands (no web route)
 - `node tools/invite.mjs <NPI>`: his invitation (full access), prints the link. `--published <email>`: basic, to an
@@ -38,7 +39,16 @@ Doximity. The work-email check is gone. Nothing here is open: with no configurat
 4. Listings: `SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node tools/export-confirmed.mjs confirmed.json`, then ai-hq
    `scripts/every_option_export.py --confirmed confirmed.json`, copy to `site/data/`, build, push. Edits reach the
    public cards at each such export (the finder stays static).
-5. Doximity (separate yes): client id and secret, `DOXIMITY_ON=yes`, the `DOXIMITY_*` URLs in `backend.mjs`.
+5. Geocoder: `GEOCODER_ON=yes` (Pages variable). Offices saved before then sit at their ZIP center and are looked
+   up again at their next save.
+6. Doximity (separate yes): client id and secret, `DOXIMITY_ON=yes`, the `DOXIMITY_*` URLs in `backend.mjs`.
+
+## Offices (job 16)
+Up to 5, each with practice, street, city, state, ZIP and phone; a new office needs a street. On save, each new or
+changed address is looked up once; unchanged addresses keep their coordinates. No match (or the service down): the
+office saves with `geo: "zip"` and the doctor is told; the finder uses its ZIP center. The export carries each office
+with `lat`, `lon` and `geo`. The Census geocoder interpolates along street address ranges (not rooftop) and states no
+terms or rate limit (read 2026-11-02; ai-hq plan `projects/platform/accounts/plan-2026-11-01.md`).
 
 ## Tests
 `node --test tools/*.test.mjs`; browser: `tools/e2e/accounts_e2e.py`, `tools/e2e/cards_e2e.py`

@@ -24,6 +24,7 @@
     npi_taken: "This listing already has an account. We will look into it and contact you.",
     invite_invalid: "This invitation has expired, was already used, or was withdrawn. Ask for a new one.",
     invite_limit: "You have used all 5 invitations.", invite_self: "That is your own NPI.",
+    street_required: "Each new office needs a street address, such as 100 Main Street, Suite 2.",
     full_needed: "This needs full access. Confirm who you are with ID or Doximity, or ask a colleague with full access for an invitation.",
     no_npi: "Confirm who you are first.",
     other_browser: "Finish linking Doximity in the same browser you started it in.",
@@ -327,7 +328,8 @@
         return el("div", null, [el("label", { "for": "o" + i + "-" + name, text: label }), inp]);
       }
       return el("fieldset", { "class": "office" }, [el("legend", { text: i === 0 ? "Main office" : "Office " + (i + 1) }),
-        f("practice", "Practice name", { maxlength: "120" }), f("city", "City", { maxlength: "60" }),
+        f("practice", "Practice name", { maxlength: "120" }), f("street", "Street address", { maxlength: "120", autocomplete: "street-address" }),
+        f("city", "City", { maxlength: "60" }),
         el("div", { "class": "row2" }, [f("state", "State (2 letters)", { maxlength: "2" }), f("zip", "ZIP", { maxlength: "5", inputmode: "numeric" })]),
         f("phone", "Office phone", { maxlength: "20", inputmode: "tel" })]);
     }
@@ -345,14 +347,19 @@
       Object.keys(PROC).forEach(function (k) { blurbs[k] = f["blurb_" + k].value; f.querySelector("#why-b-" + k).textContent = ""; });
       var offices = [].slice.call(offs.querySelectorAll("fieldset.office")).map(function (fs) {
         var g = function (n) { return fs.querySelector('[name="' + n + '"]').value.trim(); };
-        return { practice: g("practice"), city: g("city"), state: g("state").toUpperCase(), zip: g("zip"), phone: g("phone") };
-      }).filter(function (o) { return o.practice || o.city || o.zip || o.phone; });
+        return { practice: g("practice"), street: g("street"), city: g("city"), state: g("state").toUpperCase(), zip: g("zip"), phone: g("phone") };
+      }).filter(function (o) { return o.practice || o.street || o.city || o.zip || o.phone; });
       var patch = { blurbs: blurbs, insurances: [].slice.call(f.querySelectorAll('input[name="insurances"]:checked')).map(function (x) { return x.value; }),
         insurance_other: other.value.trim(), insurance_confirm: f.insurance_confirm.checked };
       if (contact) { patch.booking_url = book.value.trim(); patch.offices = offices; }
       api("PUT", "profile", patch)
         .then(function (j) {
-          if (j.ok) { say(j.changed.length ? "Saved." : "No changes.", "ok"); load(); return; }
+          if (j.ok) {
+            var miss = (j.unmatched || []).map(function (i) { var o = offices[i] || {}; return o.practice || o.street || "one office"; });
+            say(miss.length ? (j.changed.length ? "Saved. " : "") + "We couldn't find the street address for " + miss.join(" and ") +
+              " on the map, so patients see the distance to the center of that office's ZIP code instead. Check the address, or leave it as it is." : j.changed.length ? "Saved." : "No changes.", "ok");
+            load(); return;
+          }
           if (j.error === "screened") Object.keys(j.blocked).forEach(function (k) {
             var why = k === "blurbs" ? j.blocked.blurbs : null;
             if (why) Object.keys(why).forEach(function (pk) { var n = f.querySelector("#why-b-" + pk); if (n) n.textContent = "Not accepted: this has " + why[pk].map(function (r) { return REASONS[r] || r; }).join(" and ") + "."; });

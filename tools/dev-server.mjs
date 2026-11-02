@@ -21,14 +21,14 @@ const port = +process.argv.find((a) => /^\d+$/.test(a)) || 8787;
 const noKV = process.argv.includes("--no-kv");
 const withAccounts = process.argv.includes("--accounts");
 const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
-const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity") }) : null;
+const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity"), geocodes: FIX.geocodes }) : null;
 const origin = `http://localhost:${port}`;
 const store = new Map();
 export const kv = {
   async get(k) { const v = store.get(k); return v && (!v.exp || v.exp > Date.now()) ? v.val : null; },
   async put(k, val, o = {}) { store.set(k, { val, exp: o.expirationTtl ? Date.now() + o.expirationTtl * 1000 : 0 }); },
 };
-const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".txt": "text/plain" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".txt": "text/plain", ".svg": "image/svg+xml" };
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
 async function toRequest(req, url) {
