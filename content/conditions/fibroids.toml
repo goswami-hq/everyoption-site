@@ -13,7 +13,7 @@ color = "fibroids"             # plum, the same color as the UFE finder
 finder = "ufe"                 # the finder this page leads to
 diagram = "ufe"                # tools/diagrams/ufe.svg ...
 diagram_at = "embolization"    # ... shown inside this option
-reviewed = "2026-11-01"
+reviewed = "2026-11-02"
 condition_name = "Uterine fibroids"
 condition_alt = "Uterine leiomyoma"
 
@@ -94,7 +94,7 @@ a = "No. Rarely, a growth that looks like a fibroid is a hidden cancer. Estimate
 
 [[faq]]
 q = "Can I get pregnant after treatment?"
-a = "It depends on the treatment. Myomectomy and removal through the cervix can be good choices if you want children.[^acr][^ccmyo] Pregnancies happen after embolization, but experts disagree on its use if you plan a pregnancy.[^mpuae][^acr] Pregnancy is not possible after a hysterectomy and can be dangerous after endometrial ablation.[^ccmyo][^fdaea]"
+a = "It depends on the treatment and your situation. If you hope to get pregnant, ask your doctor which options fit you before you choose. Pregnancy is not possible after a hysterectomy and can be dangerous after endometrial ablation.[^ccmyo][^fdaea]"
 
 [[faq]]
 q = "Do I need a hysterectomy for fibroids?"
@@ -127,10 +127,10 @@ side = "Spotting at first. It is more likely to slip out when fibroids are prese
 [[options]]
 id = "embolization"
 name = "Fibroid embolization (UFE)"
-what = "A thin tube delivers tiny beads that block blood flow to the fibroids, so they shrink. You avoid surgery, keep your uterus, and usually recover in about a week, compared with 2 to 6 weeks after major surgery.[^sir][^mpfib][^mpuae][^ccmyo][^mphyst]"
-invasive = "A tiny skin nick at the wrist or groin. Most people go home the same day and are back to normal in 7 to 10 days.[^sir][^mpuae]"
-works = "About 9 in 10 women have significant improvement.[^sir] About 1 in 3 needed more treatment within 5 years.[^rest]"
-side = "Cramps, nausea, and low fever for 2 to 7 days. Early menopause in 1 to 5 in 100, more often over age 45.[^sir][^rinfo]"
+what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
+invasive = "A tiny skin nick. Most go home the same day and recover in 7 to 10 days.[^sir][^mpuae]"
+works = "Symptoms improve for about 8 to 9 in 10 women,[^iqwig] and 7 in 10 still have good control at 5 years.[^spies] Satisfaction is about the same as surgery.[^cochrane][^rest] About 1 in 5 to 1 in 3 have another procedure within 5 years.[^spies][^femme4][^rest] Over 10 years, about 2 in 3 avoid a hysterectomy.[^emmy]"
+side = "Cramps, nausea, and fever for up to a week. Early menopause in 1 to 5 in 100.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
 
 [[options]]
 id = "radiofrequency"
@@ -153,7 +153,7 @@ id = "endometrial-ablation"
 name = "Endometrial ablation"
 what = "Heat or cold destroys the lining of the uterus to lighten periods.[^mpea]"
 invasive = "No cuts. Most people go home the same day and recover in 1 to 2 days.[^mpea]"
-works = "Treats the lining, not the fibroids, which stay in place. Experts disagree on using it for fibroids.[^mpfib][^acr]"
+works = "Treats the lining, not the fibroids, which stay in place.[^mpfib] A radiology group rates it usually not appropriate for fibroids.[^acr] In heavy-bleeding studies, about 1 in 8 had a hysterectomy within 5 years.[^oderkerk]"
 side = "Cramps and discharge for a while. Not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[options]]
@@ -169,7 +169,7 @@ id = "myomectomy"
 name = "Myomectomy"
 what = "Surgery that removes the fibroids and leaves the uterus.[^mpfib]"
 invasive = "A larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
-works = "Removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo]"
+works = "Removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo] Quality of life improves.[^femme2] About 1 in 8 had a repeat procedure within 4 years.[^femme4]"
 side = "Bleeding, infection, blood clots, and harm to nearby organs, which are not common.[^ccmyo]"
 
 [[options]]
@@ -286,3 +286,35 @@ url = "https://medlineplus.gov/ency/article/002915.htm"
 key = "fdamorc"
 cite = "U.S. Food and Drug Administration. Power morcellation during gynecologic laparoscopic surgeries. Content current as of August 20, 2026. Read November 1, 2026."
 url = "https://www.fda.gov/medical-devices/surgery-devices/power-morcellation-during-gynecologic-laparoscopic-surgeries"
+[[refs]]
+key = "iqwig"
+cite = "InformedHealth.org (Institute for Quality and Efficiency in Health Care, Germany). What are the pros and cons of uterine artery embolization? Updated June 24, 2025. Read November 2, 2026."
+url = "https://www.informedhealth.org/what-are-the-pros-and-cons-of-uterine-artery-embolization.html"
+[[refs]]
+key = "spies"
+cite = "Long-term outcome of uterine artery embolization of leiomyomata. Obstetrics and Gynecology. 2005;106(5 Pt 1):933-939. doi:10.1097/01.AOG.0000182582.64088.84. PMID 16260509."
+url = "https://doi.org/10.1097/01.AOG.0000182582.64088.84"
+[[refs]]
+key = "cochrane"
+cite = "Gupta JK, Sinha A, Lumsden MA, Hickey M. Uterine artery embolization for symptomatic uterine fibroids. Cochrane Database of Systematic Reviews. 2014;(12):CD005073. doi:10.1002/14651858.CD005073.pub4. PMID 25541260."
+url = "https://doi.org/10.1002/14651858.CD005073.pub4"
+[[refs]]
+key = "femme4"
+cite = "Daniels J, Middleton LJ, Cheed V, et al. Uterine artery embolization or myomectomy for women with uterine fibroids: four-year follow-up of a randomised controlled trial. European Journal of Obstetrics and Gynecology and Reproductive Biology: X. 2022;13:100139. doi:10.1016/j.eurox.2021.100139. PMID 34877531."
+url = "https://doi.org/10.1016/j.eurox.2021.100139"
+[[refs]]
+key = "femme2"
+cite = "Manyonda I, Belli AM, Lumsden MA, et al. Uterine-artery embolization or myomectomy for uterine fibroids. New England Journal of Medicine. 2020;383(5):440-451. doi:10.1056/NEJMoa1914735. PMID 32726530."
+url = "https://doi.org/10.1056/NEJMoa1914735"
+[[refs]]
+key = "emmy"
+cite = "Uterine artery embolization vs hysterectomy in the treatment of symptomatic uterine fibroids: 10-year outcomes from the randomized EMMY trial. American Journal of Obstetrics and Gynecology. 2016;215(6):745.e1-745.e12. doi:10.1016/j.ajog.2016.06.051. PMID 27393268."
+url = "https://doi.org/10.1016/j.ajog.2016.06.051"
+[[refs]]
+key = "martin"
+cite = "Martin J, Bhanot K, Athreya S. Complications and reinterventions in uterine artery embolization for symptomatic uterine fibroids: a literature review and meta analysis. CardioVascular and Interventional Radiology. 2013;36(2):395-402. doi:10.1007/s00270-012-0505-y."
+url = "https://doi.org/10.1007/s00270-012-0505-y"
+[[refs]]
+key = "oderkerk"
+cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrical and Gynecological Survey. 2023;78(10):575-576. doi:10.1097/OGX.0000000000001206."
+url = "https://doi.org/10.1097/OGX.0000000000001206"
