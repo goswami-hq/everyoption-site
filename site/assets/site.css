@@ -25,10 +25,10 @@ svg { display: block; }
 
 header.site { position: relative; z-index: 2; }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 8px 18px; flex-wrap: wrap; padding-top: 18px; padding-bottom: 10px; }
-.brand { display: inline-flex; align-items: center; gap: 9px; font: 500 23px/1 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.brand { display: inline-flex; align-items: center; min-height: 44px; gap: 9px; font: 500 23px/1 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
 .brand svg { width: 24px; height: 24px; color: var(--accent); }
 nav.top { display: flex; gap: 2px 16px; flex-wrap: wrap; font-size: 15.5px; }
-nav.top a { text-decoration: none; color: var(--muted); padding: 5px 0; transition: color 160ms ease; }
+nav.top a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; text-decoration: none; color: var(--muted); transition: color 160ms ease; }
 nav.top a[aria-current="page"] { color: var(--ink); font-weight: 600; }
 @media (hover: hover) and (pointer: fine) { nav.top a:hover { color: var(--accent); } }
 
@@ -70,7 +70,7 @@ p { margin: 0 0 13px; }
 .about { max-width: 36em; font-size: clamp(18px, 2vw, 20px); margin: 0 0 24px; }
 .about p:last-of-type { margin-bottom: 8px; }
 .sources { font-size: 15px; color: var(--muted); }
-.sources summary { cursor: pointer; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.sources summary { cursor: pointer; padding: 10px 0; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
 .sources ul { margin: 8px 0 0; padding-left: 18px; }
 
 form.zip { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: 0 14px 34px -26px rgba(90, 60, 30, .55); }
@@ -97,7 +97,7 @@ section.tier-a { background: var(--soft); border-radius: var(--radius); padding:
 
 ol.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .card { min-width: 0; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; animation: arrive 420ms var(--ease-out) both; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; animation: arrive 280ms var(--ease-out) both; }
 .card:nth-child(2) { animation-delay: 50ms; } .card:nth-child(3) { animation-delay: 100ms; } .card:nth-child(4) { animation-delay: 150ms; } .card:nth-child(5) { animation-delay: 200ms; } .card:nth-child(6) { animation-delay: 250ms; }
 .card .top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .card .who { flex: 1; min-width: 0; }
@@ -137,7 +137,7 @@ form.claim-form .hint { font-weight: 400; color: var(--muted); font-size: 14.5px
 fieldset { border: 0; padding: 0; margin: 0; }
 legend { font-weight: 600; font-size: 16px; margin-bottom: 6px; padding: 0; }
 .checks { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-.checks label { font-weight: 400 !important; display: inline-flex !important; align-items: center; gap: 8px; min-height: 40px; }
+.checks label { font-weight: 400 !important; display: inline-flex !important; align-items: center; gap: 8px; min-height: 44px; }
 .checks input { width: 20px; min-height: 20px; height: 20px; accent-color: var(--accent); }
 .row2 { display: grid; gap: 16px; } @media (min-width: 560px) { .row2 { grid-template-columns: 2fr 1fr; } }
 .hp { position: absolute; left: -5000px; width: 1px; height: 1px; overflow: hidden; }
@@ -226,7 +226,7 @@ ol.refs li:target { color: var(--ink); background: var(--soft); border-radius: 6
 .condition figure.photo img { width: 100%; height: auto; border-radius: var(--radius); }
 .fork-list .pair { flex: 1; display: flex; flex-direction: column; gap: 6px; margin-left: 10px; }
 .fork-list .pair > a:first-child { margin-left: 0; }
-.fork-list .pair .also { flex: none; display: inline-flex; align-items: center; min-height: 32px; padding: 0 20px; background: none; border: 0; box-shadow: none; font-size: 15px; color: var(--accent); text-decoration: underline; }
+.fork-list .pair .also { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; background: none; border: 0; box-shadow: none; font-size: 15px; color: var(--accent); text-decoration: underline; }
 
 /* Photos (job 14): self-hosted, warm, never tall enough to push the options or ZIP search off a phone screen. */
 figure.photo { margin: 0 0 18px; }
@@ -236,3 +236,12 @@ figure.photo.wide { margin: 34px 0 6px; }
 figure.photo.wide img { aspect-ratio: 12 / 5; max-height: 360px; }
 @media (prefers-color-scheme: dark) { figure.photo img { filter: brightness(0.86); } }
 @media (max-width: 600px) { figure.photo.banner img { aspect-ratio: 16 / 5; } figure.photo.banner { margin-bottom: 14px; } }
+
+/* Job 13 UI check: the hidden attribute always wins (the claim form hides after sending); standalone links are 44px
+   tall; paragraphs stay within about 75 characters a line (60ch); the menu fits one line at 320px. */
+[hidden] { display: none !important; }
+main p { max-width: 60ch; }
+main .card p, main .lede { max-width: none; }
+main .lede { max-width: 32em; }
+footer.site p > a:only-child, .about > p > a:only-child { display: inline-block; padding: 10px 0; }
+@media (max-width: 359px) { header.site .wrap { padding-left: 16px; padding-right: 16px; } nav.top { gap: 2px 10px; font-size: 14.5px; } }

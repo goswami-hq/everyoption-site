@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Job 12 browser checks for condition education pages: every content/conditions/*.toml page at 390 and 1280 px, light
-and dark, plus the home card and the UFE finder's link back. Local server only; screenshots to OUT_DIR.
+and dark, plus the home card and the UFE finder's link back. Job 13: updated for the grouped page (collapsed groups, no
+comparison table or jump menu). Local server only; screenshots to OUT_DIR.
 
   node tools/dev-server.mjs 8792 &
   <browser venv>/bin/python tools/e2e/condition_e2e.py OUT_DIR
@@ -42,23 +43,35 @@ def run():
                     check(f"{tag}: one h1", pg.locator("h1").count() == 1)
                     over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                     check(f"{tag}: no sideways scroll", over <= 0, over)
-                    rows = pg.locator("table.compare tbody tr").count()
-                    check(f"{tag}: comparison has every option", rows == len(c["options"]), rows)
+                    # job 13: the page is grouped (decisions 2026-11-01): every option sits in exactly one group, all collapsed at first
+                    groups = pg.locator("details.group").count()
+                    check(f"{tag}: one group per category", groups == len(c["categories"]), groups)
+                    opts = pg.evaluate("[...document.querySelectorAll('details.group details.option')].map(d => d.id)")
+                    check(f"{tag}: every option in one group", sorted(opts) == sorted(o["id"] for o in c["options"]), opts)
+                    check(f"{tag}: everything starts collapsed", pg.locator("details[open]").count() == 0)
                     bad = pg.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href'))
                         .filter(h => h.length > 1 && !document.getElementById(h.slice(1)))""")
                     check(f"{tag}: every jump link and marker has a target", not bad, bad)
                     check(f"{tag}: diagram shown at {c['diagram_at']}", pg.locator(f"#{c['diagram_at']} figure.how svg").count() == 1)
+                    # a link straight to an option opens its group (condition.js)
+                    pg2 = ctx.new_page(); pg2.goto(f"{BASE}/{slug}/#{c['diagram_at']}"); pg2.wait_for_timeout(200)
+                    check(f"{tag}: a link to an option opens it and its group",
+                          pg2.evaluate(f"(() => {{ const d = document.getElementById('{c['diagram_at']}'); return d.open && d.parentElement.closest('details').open; }})()"))
+                    pg2.close()
                     check(f"{tag}: no console errors", not errs, errs)
                     if w == 390:
-                        cellw = pg.evaluate("Math.max(...[...document.querySelectorAll('table.compare tr')].map(r => r.getBoundingClientRect().right))")
-                        check(f"{tag}: comparison fits the phone", cellw <= w, cellw)
-                        tap = pg.evaluate("""() => [...document.querySelectorAll('nav.jump a, .cta a')].filter(a => a.getBoundingClientRect().height < 44).length""")
-                        check(f"{tag}: jump links and buttons at least 44 px tall", tap == 0, tap)
-                    # jump link scrolls to the option
-                    pg.locator(f'nav.jump a[href="#{c["diagram_at"]}"]').click()
+                        tap = pg.evaluate("""() => [...document.querySelectorAll('.cta a, details > summary')].filter(a => { const r = a.getBoundingClientRect(); return r.height && r.height < 44; }).length""")
+                        check(f"{tag}: section headings and buttons at least 44 px tall", tap == 0, tap)
+                    # a group opens and closes on a tap
+                    first = pg.locator("details.group > summary").first
+                    first.click(); check(f"{tag}: a group opens", pg.locator("details.group").first.get_attribute("open") is not None)
+                    first.click(); check(f"{tag}: and closes", pg.locator("details.group").first.get_attribute("open") is None)
+                    # a reference marker opens the collapsed references and lands on the reference
+                    pg.locator('p.answer sup.ref a').first.click()
                     pg.wait_for_timeout(150)
-                    top = pg.evaluate(f"document.getElementById('{c['diagram_at']}').getBoundingClientRect().top")
-                    check(f"{tag}: jump link lands on the option", -5 <= top <= 60, top)
+                    target = pg.locator('p.answer sup.ref a').first.get_attribute("href")[1:]
+                    top = pg.evaluate(f"document.getElementById('{target}').getBoundingClientRect().top")
+                    check(f"{tag}: a reference marker opens References and lands on it", -5 <= top <= h, top)
                     pg.evaluate("window.scrollTo(0, 0)")
                     pg.screenshot(path=os.path.join(OUT, f"{slug}-{w}-{scheme}.png"), full_page=True)
                     ld = pg.evaluate("""() => [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent))""")

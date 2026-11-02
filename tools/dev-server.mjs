@@ -46,7 +46,8 @@ const page = (res, body) => { res.writeHead(200, { "Content-Type": "text/html; c
 const asJSON = (res, x) => { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(x, null, 1)); };
 
 http.createServer(async (req, res) => {
-  const url = new URL(req.url, origin);
+  // A path such as "//" is not a valid relative URL; read it as a path, so one odd request cannot stop the server.
+  const url = new URL(req.url.replace(/^\/+/, "/"), origin);
   if (url.pathname === "/api/claim") {
     const request = await toRequest(req, url);
     const r = req.method === "POST" ? await onRequestPost({ request, env: noKV ? {} : { CLAIMS: kv } })

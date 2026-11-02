@@ -30,15 +30,26 @@
   function show(html, cls) { statusEl.className = cls || ""; statusEl.innerHTML = html; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
+  // A field fixed by the reader is no longer marked as a problem.
+  form.addEventListener("input", function (ev) { if (ev.target.getAttribute("aria-invalid")) ev.target.removeAttribute("aria-invalid"); });
+
   form.addEventListener("submit", function (ev) {
     ev.preventDefault();
     if (sent) return;
-    var f = form, errs = [];
-    if (f.name.value.trim().length < 2) errs.push("your name");
-    if (f.npi.value.trim() && !npiOk(f.npi.value.trim())) errs.push("a valid 10-digit NPI (or leave it blank if you are not the doctor)");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim())) errs.push("an email address we can reply to");
-    if (f.role.value === "doctor" && !f.npi.value.trim()) errs.push("your NPI");
-    if (errs.length) { show("Please add " + errs.map(esc).join(", ") + ".", "err"); return; }
+    var f = form, errs = [], bad = [];
+    function need(field, words) { errs.push(words); if (bad.indexOf(field) < 0) bad.push(field); }
+    if (f.name.value.trim().length < 2) need(f.name, "your name");
+    if (f.npi.value.trim() && !npiOk(f.npi.value.trim())) need(f.npi, "a valid 10-digit NPI (or leave it blank if you are not the doctor)");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim())) need(f.email, "an email address we can reply to");
+    if (f.role.value === "doctor" && !f.npi.value.trim()) need(f.npi, "your NPI");
+    [f.name, f.npi, f.email].forEach(function (el) { if (bad.indexOf(el) < 0) el.removeAttribute("aria-invalid"); else el.setAttribute("aria-invalid", "true"); });
+    if (errs.length) {
+      var list = errs.map(esc), last = list.pop();
+      show("Please add " + (list.length ? list.join(", ") + " and " + last : last) + ".", "err");
+      // in page order, so focus lands on the first field to fix
+      bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; })[0].focus();
+      return;
+    }
     var body = {
       submission_id: f.submission_id.value, listing: f.listing.value, role: f.role.value,
       name: f.name.value.trim(), npi: f.npi.value.trim(), email: f.email.value.trim(),

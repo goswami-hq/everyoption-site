@@ -191,7 +191,7 @@ def flows(b, label, base, vp):
     pg.fill("#e-email", "gil@home.example"); clear(pg); pg.click("#email-form button[type=submit]"); pg.wait_for_selector("#c-code")
     pg.fill("#c-code", "000000" if code_for(pg, base, "gil@home.example") != "000000" else "000001"); clear(pg); pg.click("#code-form button[type=submit]")
     wait_status(pg, "wrong")
-    check(f"{label}: a wrong code is refused plainly", "wrong, expired or already used" in pg.inner_text("#acct-status"))
+    check(f"{label}: a wrong code is refused plainly", "wrong, expired, or already used" in pg.inner_text("#acct-status"))
     pg.fill("#c-code", code_for(pg, base, "gil@home.example")); clear(pg); pg.click("#code-form button[type=submit]"); wait_status(pg, "Login email saved")
     check(f"{label}: login email added by code", acct(pg, base, npi=GIL)["email"] == "gil@home.example")
     # 5 revoke a bad inviter (Ann) in one step: Gil drops to basic
