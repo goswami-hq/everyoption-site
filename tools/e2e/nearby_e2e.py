@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Job 18: thin results. "Interventional radiologists nearby" from site/data/ir-roster.json when Confirmed plus Likely
 within the radius are fewer than 5; "Nearest doctors farther away" when still thin; a referral line when nobody is within
-250 miles. Real data for 62711, 60605 and 99701; made-up roster rows through request interception for the ordering and
+250 miles. Real data for 62711, 60605 and 99723; made-up roster rows through request interception for the ordering and
 exclusion rules. 390 and 1280 px, light and dark. Local server only.
 
   node tools/dev-server.mjs 8791 &
@@ -78,10 +78,14 @@ def run(b, width, scheme):
         check(f"{t}: each IR card asks about the procedure and can be claimed",
               c and all(x["ask"] == f"Ask: do you perform {proc}?" and x["claim"] == "Is this you?" for x in c["cards"]), c and c["cards"][:1])
         f = sec(v, "tier-far")
-        check(f"{t}: then nearest doctors farther away, with distances beyond the radius",
-              f and f["cards"] and all(x["miles"] > r for x in f["cards"]) and v["sections"].index(f) > v["sections"].index(c), f and f["h2"])
-        check(f"{t}: groups in order: confirmed line, IRs nearby, farther", [s["cls"].split()[-1] for s in v["sections"]][:3] == ["tier-empty", "tier-c", "tier-far"],
-              [s["cls"] for s in v["sections"]])
+        if len(c["cards"] if c else []) < 5:     # still thin: the farther group follows (job 17 part 2: UFE at 50 mi
+            check(f"{t}: then nearest doctors farther away, with distances beyond the radius",      # is no longer thin)
+                  f and f["cards"] and all(x["miles"] > r for x in f["cards"]) and v["sections"].index(f) > v["sections"].index(c), f and f["h2"])
+            check(f"{t}: groups in order: confirmed line, IRs nearby, farther", [s["cls"].split()[-1] for s in v["sections"]][:3] == ["tier-empty", "tier-c", "tier-far"],
+                  [s["cls"] for s in v["sections"]])
+        else:
+            check(f"{t}: 5 or more IRs nearby: no farther group", f is None and [s["cls"].split()[-1] for s in v["sections"]][:2] == ["tier-empty", "tier-c"],
+                  [s["cls"] for s in v["sections"]])
         no_dupes(t, v)
         bad = pg.evaluate(OVER)
         check(f"{t}: nothing overflows", not bad, bad[:3])
@@ -90,10 +94,10 @@ def run(b, width, scheme):
     v = search(pg, "fibroids", "60605", 25)
     check(f"{tag} 60605: no IRs nearby group", sec(v, "tier-c") is None and sec(v, "tier-far") is None and v["cards"] >= 5)
     no_dupes(f"{tag} 60605", v)
-    v = search(pg, "pae", "99701", 25)
-    check(f"{tag} 99701 PAE: nobody within 250 miles gives the one referral line", v["refer"] == [REFER] and v["cards"] == 0, v)
+    v = search(pg, "pae", "99723", 25)       # Utqiagvik, AK (99701 has an IR at 178 mi since job 17 part 2)
+    check(f"{tag} 99723 PAE: nobody within 250 miles gives the one referral line", v["refer"] == [REFER] and v["cards"] == 0, v)
     if width == 390:
-        pg.locator("#results").screenshot(path=os.path.join(OUT, f"99701-{width}-{scheme}.png"))
+        pg.locator("#results").screenshot(path=os.path.join(OUT, f"99723-{width}-{scheme}.png"))
     pg.goto(f"{BASE}/fibroids/"); pg.fill("#zip", ""); pg.click("#zip-form button"); pg.wait_for_timeout(200)
     check(f"{tag}: empty ZIP asks for 5 digits", "Enter a 5-digit ZIP code." in pg.inner_text("#status"))
     check(f"{tag}: no page errors", not errs, errs)
