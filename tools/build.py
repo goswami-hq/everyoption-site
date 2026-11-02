@@ -5,7 +5,7 @@
 The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq scripts/every_option_export.py.
 Standard library only; the built pages are plain static HTML (Cloudflare Pages serves site/ with no build step).
 """
-import html, json, os
+import html, json, os, re
 import condition
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
@@ -217,13 +217,18 @@ FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (hi
 }
 
 
+def intro_html(text):
+    """Finder intro: escaped text, with **bold** and a line break at each newline."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(text)).replace("\n", "<br>")
+
+
 def finder_block(k, heading=None, learn="", intro=None, how=None):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
     if heading is None:
         heading, intro, how = FIND_TOP[k]
     return f"""<section class="find-first">
-<p class="find-intro">{e(intro)} <a href="{e(how)}">How it works</a></p>
+<p class="find-intro">{intro_html(intro)} <a href="{e(how)}">How it works</a></p>
 <p class="find-label">Find a doctor near you</p>
 <div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
