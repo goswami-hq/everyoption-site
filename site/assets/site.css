@@ -96,7 +96,10 @@ section.tier-empty { margin-top: 18px; border: 1px solid var(--line); border-rad
 section.tier-empty p { margin: 0; }
 section.tier-empty strong { color: var(--ink); font-weight: 600; }
 section.tier-empty + section.tier-b { margin-top: 22px; }
-section.tier-a > h2, section.tier-b > h2 { color: var(--accent); }
+section.tier-a > h2, section.tier-b > h2, section.tier-c > h2, section.tier-far > h2 { color: var(--accent); }
+section.tier-empty + section.tier-c, section.tier-empty + section.tier-far { margin-top: 22px; }
+.card .ask-tag { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--ink); }
+.notice.referral { margin-top: 18px; }
 .card.card-confirmed { border: 2px solid var(--accent); }
 .confirmed-tag { display: inline-block; margin: 0 0 8px; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--accent); font-size: 14px; font-weight: 600; }
 .count { font: 600 15px var(--sans); color: var(--ink); letter-spacing: 0; }

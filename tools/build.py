@@ -291,11 +291,15 @@ def how():
 <p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances start from the center of the ZIP code you type; we never ask where you live. When a doctor who confirmed their listing gives an office address, we measure to that office, and a doctor with several offices is shown at the closest one, with all of their offices listed on the card. Otherwise we measure to the center of the doctor’s ZIP code or city.</p>
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
+<h2>When few doctors are near you</h2>
+<p>If we find fewer than five doctors for a procedure near you, we also show <strong>Interventional radiologists nearby</strong>: doctors whose own page or practice page shows they are interventional radiologists, but where we could not confirm this procedure. Call and ask whether they perform it. Doctors whose practice website names the procedure come first, then the rest by distance. We list only those with a phone number or a web page, and never from billing records alone.</p>
+<p>If that is still not enough, we add the nearest doctors farther away, up to 250 miles, with the distance on each card. If we know of no one within 250 miles, ask your doctor to refer you to an interventional radiologist.</p>
+<p>Any doctor on any card can confirm or correct their listing, for free.</p>
 <h2>The badge under a name</h2>
 <p><strong>Interventional radiologist:</strong> their own page or their practice’s page says so, or, when no page does, public Medicare billing records show they perform interventional radiology procedures. When we cannot tell, the doctor is not listed.</p>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
-<p>Confirming is free. Within each group, the order is by distance only.</p>
+<p>Confirming is free. Within each group, the order is by distance only, except that interventional radiologists whose practice website names the procedure come first in their group.</p>
 <h2>Report an error</h2>
 <p>If something is wrong, or you are a listed doctor and want to confirm or correct your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
 {credits()}

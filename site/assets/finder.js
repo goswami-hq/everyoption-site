@@ -48,6 +48,31 @@
       function (e) { loading = null; throw e; });
     return loading;
   }
+  // Job 18: the IR roster (site/data/ir-roster.json, ai-hq scripts/v3_job17.py): interventional radiologists on no
+  // procedure list. Loaded only when a search comes up thin. Only proven IRs with a phone or doctor's page; no
+  // billing-only and no neurointerventional-only doctors.
+  var roster = null, rosterLoading = null;
+  function loadRoster() {
+    if (roster) return Promise.resolve(roster);
+    if (!rosterLoading) rosterLoading = getJSON("/data/ir-roster.json").then(function (d) {
+      roster = (d.people || []).filter(function (p) {
+        return p.proven && !p.billing_only && !p.neuro_only && (p.phone || p.url) && p.lat != null && p.lon != null;
+      }).map(function (p) {
+        return { npi: p.npi, name: p.name, badge: "verified", practice: p.practice || "", city: p.city, state: p.state,
+          city_label: p.city_label || "", phone: p.phone || "", url: p.url || "", lat: p.lat, lon: p.lon, confirmed: false,
+          ask: true, names_it: (p.site_names || []).indexOf(PROC) >= 0 };
+      });
+      return roster;
+    }, function () { rosterLoading = null; roster = []; return roster; });
+    return rosterLoading;
+  }
+  var THIN = 5, FAR = 250, FAR_SHOW = 5;
+  function askLine() {
+    var n = (root.getAttribute("data-procedure-name") || "").trim() || ({ ufe: "uterine fibroid embolization (UFE)",
+      pae: "prostate artery embolization (PAE)", gae: "genicular artery embolization (GAE)" })[PROC] || "this procedure";
+    return "Ask: do you perform " + n + "?";
+  }
+
   function miles(a, b) {
     var R = 3958.8, rad = Math.PI / 180;
     var dLat = (b[0] - a[0]) * rad, dLon = (b[1] - a[1]) * rad;
@@ -115,6 +140,7 @@
     ]);
     var lead = p.lead || null;            // job 16: the doctor's closest office inside the radius leads the card
     if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
+    if (p.ask) kids.push(el("p", { "class": "ask-tag" }, [askLine()]));
     kids.push(top);
     var practice = lead ? lead.practice : p.practice;
     var where = el("p", { "class": "where" }, [
@@ -184,25 +210,6 @@
     return s;
   }
 
-  function widen(zip, r) {
-    var bigger = RADII.filter(function (x) { return x > r; });
-    var box = el("div", { "class": "notice", role: "status" }, [
-      el("p", null, [el("strong", { text: "No doctors found near this ZIP." }),
-        " We found no one within " + r + " miles of " + zip + " for this procedure."]),
-      el("p", { text: "A blank is not a no: we may not have found them yet." })
-    ]);
-    if (bigger.length) {
-      var p = el("p");
-      bigger.forEach(function (b) {
-        var btn = el("button", { "class": "secondary", type: "button", style: "margin:4px 8px 0 0", text: "Search within " + b + " miles" });
-        btn.addEventListener("click", function () { radiusIn.value = String(b); run(zip, b); });
-        p.appendChild(btn);
-      });
-      box.appendChild(p);
-    }
-    return box;
-  }
-
   function run(zip, r) {
     out.innerHTML = "";
     if (!/^\d{5}$/.test(zip)) { say("Enter a 5-digit ZIP code.", "err"); zipIn.focus(); return; }
@@ -219,21 +226,47 @@
         .sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); });
       var confirmed = near.filter(function (p) { return p.confirmed; }), likely = near.filter(function (p) { return !p.confirmed; });
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
-      if (!near.length) { say(""); out.appendChild(widen(zip, r)); return; }
-      say(near.length + (near.length === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first.");
-      if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Confirmed by physician",
-        "These doctors confirmed they perform this procedure. Nearest first."));
-      else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
-        el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." }), " Are you a doctor who performs this? ",
-          el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
-      ]));
-      if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
-        "Based on public information online. Call the office to confirm. Nearest first."));
-      out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
-        "Distances run from the center of your ZIP code: to the doctor's office when we could place its street address on the map, otherwise to the center of the doctor's ZIP code. ",
-        el("a", { href: "/how-we-know/", text: "How we know" })]));
-      var learn = root.getAttribute("data-learn");
-      if (learn) out.insertBefore(el("p", { "class": "learn-link" }, [el("a", { href: learn, text: "See all your treatment options" })]), out.firstChild);
+      var thin = near.length < THIN;
+      return (thin ? loadRoster() : Promise.resolve([])).then(function (ros) {
+        // Job 18: nobody appears in two groups. The roster holds no one on a procedure list; skip any NPI already shown.
+        var listed = {}; d.people.forEach(function (p) { listed[p.npi] = 1; });
+        var pool = ros.filter(function (p) { return !listed[p.npi]; });
+        var irs = thin ? pool.map(function (p) { return place(p, center, r); }).filter(Boolean)
+          .sort(function (a, b) { return (b.names_it - a.names_it) || a.miles - b.miles || (a.name < b.name ? -1 : 1); }) : [];
+        var shown = {}; near.concat(irs).forEach(function (p) { shown[p.npi] = 1; });
+        var far = [];
+        if (near.length + irs.length < THIN) {        // still thin: the nearest beyond the radius, up to 250 miles
+          far = d.people.concat(pool).filter(function (p) { return !shown[p.npi]; })
+            .map(function (p) { return place(p, center, FAR); }).filter(function (p) { return p && p.miles > r; })
+            .sort(function (a, b) { return a.miles - b.miles || (a.name < b.name ? -1 : 1); }).slice(0, FAR_SHOW);
+        }
+        var total = near.length + irs.length;
+        if (!total && !far.length) {
+          say("");
+          out.appendChild(el("div", { "class": "notice referral", role: "status" }, [
+            el("p", { text: "Ask your doctor to refer you to an interventional radiologist." })]));
+          return;
+        }
+        say(total ? total + (total === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first."
+          : "No doctors within " + r + " miles of " + zip + ". The nearest we know of are below.");
+        if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Confirmed by physician",
+          "These doctors confirmed they perform this procedure. Nearest first."));
+        else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
+          el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." }), " Are you a doctor who performs this? ",
+            el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
+        ]));
+        if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
+          "Based on public information online. Call the office to confirm. Nearest first."));
+        if (irs.length) out.appendChild(section(irs, "tier-c", "Interventional radiologists nearby",
+          "These doctors are interventional radiologists near you. We couldn't confirm they perform this procedure, so call and ask."));
+        if (far.length) out.appendChild(section(far, "tier-far", "Nearest doctors farther away",
+          "The nearest doctors we know of beyond " + r + " miles. Nearest first."));
+        out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
+          "Distances run from the center of your ZIP code: to the doctor's office when we could place its street address on the map, otherwise to the center of the doctor's ZIP code. ",
+          el("a", { href: "/how-we-know/", text: "How we know" })]));
+        var learn = root.getAttribute("data-learn");
+        if (learn) out.insertBefore(el("p", { "class": "learn-link" }, [el("a", { href: learn, text: "See all your treatment options" })]), out.firstChild);
+      });
     }).catch(function () {
       var retry = el("button", { "class": "secondary", type: "button", text: "Try again" });
       retry.addEventListener("click", function () { run(zip, r); });
