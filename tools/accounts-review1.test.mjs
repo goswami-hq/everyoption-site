@@ -146,3 +146,35 @@ test("note: an ID first name that only starts the NPPES first name goes to a per
   assert.ok(sha256);
   assert.ok(handle);
 });
+
+// ---- Reviewer round 2 (2026-11-01) ----
+import { emailHasName } from "../lib/accounts/util.mjs";
+
+test("r2-1: a replaced pending ID check is redacted directly (Stripe refuses redacting a cancelled one)", async () => {
+  const calls = [], state = { s: "requires_input" };
+  const f = async (url, init = {}) => {
+    calls.push(url);
+    if (url.endsWith("/cancel")) { state.s = "canceled"; return new Response("{}"); }
+    if (url.endsWith("/redact")) return new Response("{}", { status: state.s === "canceled" ? 400 : 200 });
+    if (/vs_p$/.test(url)) return new Response(JSON.stringify({ status: state.s }));
+    return new Response("{}");
+  };
+  const id = stripeIdentity("sk", "wh", f);
+  assert.equal(await id.cancel("vs_p"), true);
+  assert.ok(!calls.some((u) => u.endsWith("/cancel")), "no cancel before redact");
+  const busy = stripeIdentity("sk", "wh", async (url) => new Response(JSON.stringify({ status: "processing" }), { status: url.endsWith("/redact") ? 400 : 200 }));
+  assert.equal(await busy.cancel("vs_q"), "processing", "processing: left to the webhook, not an exception");
+});
+
+test("r2-2: the last name must be a whole part of the address", () => {
+  assert.equal(emailHasName("william", "Wei", "Li"), false);
+  assert.equal(emailHasName("jane.anderson", "Tom", "An"), false);
+  assert.equal(emailHasName("a.li", "Amy", "Li"), true);
+  assert.equal(emailHasName("li.amy", "Amy", "Li"), true);
+  assert.equal(emailHasName("ali", "Amy", "Li"), true, "first initial plus last name");
+  assert.equal(emailHasName("amyli", "Amy", "Li"), true, "first name plus last name");
+  assert.equal(emailHasName("atestone", "Ann", "Testone"), true);
+  assert.equal(emailHasName("ann.testone2", "Ann", "Testone"), true);
+  assert.equal(emailHasName("frontdesk", "Ann", "Testone"), false);
+  assert.equal(emailHasName("xtestonex", "Ann", "Testone"), false, "not as a whole part");
+});
