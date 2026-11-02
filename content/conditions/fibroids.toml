@@ -129,7 +129,7 @@ id = "embolization"
 name = "Fibroid embolization (UFE)"
 what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
 invasive = "A tiny skin nick, with no cut in the belly, so no belly scar where a hernia can form. Most people go home the same day and recover in about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
-works = "Most women feel much better. About 8 to 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 still feel better five years later,[^spies] and women are about as satisfied as those who had surgery.[^cochrane][^rest]\nSome women need more treatment: about 1 out of 4 have another procedure within five years.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women had avoided a hysterectomy.[^emmy]"
+works = "Most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
 side = "Cramps, nausea, and low fever for up to a week. Early menopause in 1 to 5 in 100.[^sir][^rinfo] Serious problems are no more common than after surgery, but smaller problems are.[^cochrane][^martin]"
 
 [[options]]
