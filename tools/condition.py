@@ -162,12 +162,13 @@ def schema(c, url, origin, publisher):
             f'<script type="application/ld+json">{dump(faqs)}</script>')
 
 
-def body(c, diagram_fn, e):
+def body(c, diagram_fn, e, photo_fn=None):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
     refs = Refs(c["refs"])
     finder = c["finder"]
-    photo = (f'<figure class="photo"><img src="{e(c["photo"])}" alt="{e(c.get("photo_alt", ""))}"></figure>'
-             if c.get("photo") else "")   # the photo slot: empty until a picture is chosen
+    # the photo slot (job 14): photo = the file stem under /assets/photos/ (a -1600 and -800 WebP); in the first
+    # screen, so not lazy
+    photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=False, cls="photo banner") if c.get("photo") and photo_fn else ""
     parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c, diagram_fn))

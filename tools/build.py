@@ -65,6 +65,39 @@ PROCS = {
     },
 }
 
+# Photos (job 14): free-license stock from Pexels (pexels.com/license: free to use, attribution not required; credited on
+# How we know anyway). Self-hosted WebP under site/assets/photos/; sources and license reads in goswami-hq/ai-hq
+# projects/platform/design/photos/sources.md. Keys: "home" and each PROCS key. None = no photo.
+PHOTOS = {   # key -> file stem (-1600.webp and -800.webp), alt text, credit
+    "home": dict(file="home-forked-path", alt="A dirt road in a misty forest at sunrise splits into two paths.",
+                 by="Vaidas Vaiciulis", what="Forest road that splits in two",
+                 page="https://www.pexels.com/photo/roads-in-between-trees-8514116/"),
+    "ufe": dict(file="fibroids-woman-path", alt="A woman walks along a winding country path on a sunny hillside.",
+                by="Ugur Bayır", what="Woman walking on a country path",
+                page="https://www.pexels.com/photo/woman-walking-on-dirt-road-12771952/"),
+    "pae": dict(file="pae-lake-fishing", alt="A man in a hat sits on a bench by a lake, fishing.",
+                by="Olavi Anttila", what="Man fishing by a lake",
+                page="https://www.pexels.com/photo/man-sitting-on-wooden-bench-near-water-12717503/"),
+    "gae": dict(file="gae-stone-stairs", alt="A woman walks toward a wide set of stone steps in a sunny park.",
+                by="Nikita Igonkin", what="Woman walking toward stone steps",
+                page="https://www.pexels.com/photo/woman-in-white-and-green-floral-dress-walking-10494908/"),
+}
+PHOTO_W, PHOTO_H = 1600, 667   # every photo is cropped to 12:5; an 800 px copy serves phones
+
+
+def photo_tag(stem, alt, lazy=True, cls="photo"):
+    """A photo slot: width and height set so nothing jumps; lazy unless it sits in the first screen."""
+    big, small = f"/assets/photos/{stem}-1600.webp", f"/assets/photos/{stem}-800.webp"
+    return (f'<figure class="{cls}"><img src="{ver(big)}" srcset="{ver(small)} 800w, {ver(big)} 1600w" '
+            f'sizes="(max-width: 860px) 100vw, 860px" alt="{e(alt)}" width="{PHOTO_W}" height="{PHOTO_H}" decoding="async"'
+            f'{" loading=\"lazy\"" if lazy else ""}></figure>')
+
+
+def photo(key, lazy=True, cls="photo"):
+    p = PHOTOS.get(key)
+    return photo_tag(p["file"], p["alt"], lazy, cls) if p else ""
+
+
 NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/how-we-know/", "How we know"), ("#follow", "Follow")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
@@ -150,6 +183,7 @@ def home():
 <p class="lede">Many common conditions have non-surgical treatments that people never hear about. Find doctors near you who do them.</p>
 <h2 id="conditions" class="sr">Conditions</h2>
 <div class="fork">{fork(list(PROCS))}<ul class="fork-list">{rows}</ul></div>
+{photo("home", cls="photo wide")}
 <div class="plain">
 <h2>Simple to use, and free</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
@@ -183,6 +217,7 @@ def finder(k):
                     for t, u in p["sources"])
     src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
     body = f"""<h1>{e(p["title"])}</h1>
+{photo(k, lazy=False, cls="photo banner")}
 <div class="about">{about}{LEARN.get(k, "")}{src}</div>
 <h2>How it works</h2>
 {diagram(k)}
@@ -203,6 +238,15 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body, ["/assets/finder.js"])
+
+
+def credits():
+    seen, items = set(), []
+    for p in PHOTOS.values():
+        if p["page"] not in seen:
+            seen.add(p["page"])
+            items.append(f'<li><a href="{e(p["page"])}" rel="noopener" target="_blank">{e(p["what"])}</a> by {e(p["by"])} on Pexels</li>')
+    return f'<h2>Photos</h2><p>Photos are free-license stock photos, used for illustration only.</p><ul class="small">{"".join(items)}</ul>' if items else ""
 
 
 def how():
@@ -232,6 +276,7 @@ def how():
 <p>Confirming is free. Within each group, the order is by distance only.</p>
 <h2>Report an error</h2>
 <p>If something is wrong, or you are a listed doctor and want to confirm or correct your listing, use the <a href="/claim/">correction form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>. A person reviews every report before anything changes.</p>
+{credits()}
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
     return page("/how-we-know/", "How we know | Every Option",
@@ -334,7 +379,7 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e), ["/assets/condition.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag), ["/assets/condition.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())

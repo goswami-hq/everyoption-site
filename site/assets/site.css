@@ -227,3 +227,12 @@ ol.refs li:target { color: var(--ink); background: var(--soft); border-radius: 6
 .fork-list .pair { flex: 1; display: flex; flex-direction: column; gap: 6px; margin-left: 10px; }
 .fork-list .pair > a:first-child { margin-left: 0; }
 .fork-list .pair .also { flex: none; display: inline-flex; align-items: center; min-height: 32px; padding: 0 20px; background: none; border: 0; box-shadow: none; font-size: 15px; color: var(--accent); text-decoration: underline; }
+
+/* Photos (job 14): self-hosted, warm, never tall enough to push the options or ZIP search off a phone screen. */
+figure.photo { margin: 0 0 18px; }
+figure.photo img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); background: var(--soft); }
+figure.photo.banner img { aspect-ratio: 12 / 5; max-height: 280px; }
+figure.photo.wide { margin: 34px 0 6px; }
+figure.photo.wide img { aspect-ratio: 12 / 5; max-height: 360px; }
+@media (prefers-color-scheme: dark) { figure.photo img { filter: brightness(0.86); } }
+@media (max-width: 600px) { figure.photo.banner img { aspect-ratio: 16 / 5; } figure.photo.banner { margin-bottom: 14px; } }

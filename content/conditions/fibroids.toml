@@ -23,9 +23,10 @@ author_name = ""
 author_credentials = ""        # e.g. "MD"
 author_role = ""               # e.g. "Interventional radiologist"
 
-# Photo slot: empty for now. Set photo = "/assets/photos/<file>" and photo_alt to show one under the title.
-photo = ""
-photo_alt = ""
+# Photo slot: photo = the file stem under site/assets/photos/ (needs <stem>-1600.webp and <stem>-800.webp, 12:5).
+# Empty = no photo. Credit it in PHOTOS in tools/build.py (How we know lists it).
+photo = "fibroids-woman-path"
+photo_alt = "A woman walks along a winding country path on a sunny hillside."
 
 title = "Fibroids: Every Treatment Option | Every Option"
 description = "Fibroids are common, non-cancerous growths in the uterus. Learn how invasive each treatment is, how well it works, and its side effects."
