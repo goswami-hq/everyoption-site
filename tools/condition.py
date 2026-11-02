@@ -107,7 +107,7 @@ def option(refs, o, extra, cls="option"):
 def lead_option(refs, c, diagram_fn):
     """The condition's IR procedure, always open right after the finder (his yes, 2026-11-02)."""
     o = next(x for x in c["options"] if x["id"] == c["diagram_at"])
-    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k]))}</dd></div>" for k, label in FIELDS)
+    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k])).replace(chr(10), '<br>')}</dd></div>" for k, label in FIELDS)
     return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(o["name"])}</h2>'
             f'<p>{refs.inline(tail(o["what"]))}</p>{diagram_fn(c["diagram"])}<dl class="facts">{rows}</dl>'
             f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p></section>')
