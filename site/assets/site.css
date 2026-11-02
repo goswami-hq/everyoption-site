@@ -217,18 +217,19 @@ footer.site .disclosure { color: var(--ink); }
 details.group { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 2px 16px 2px; margin: 10px 0; }
 details.group > summary { font: 400 24px/1.2 var(--serif); }
 details.group > .fold-body > p:first-child { margin-bottom: 6px; }
-details.option, details.topic { border-top: 1px solid var(--line); }
+details.topic { border-top: 1px solid var(--line); }
+details.option { border: 1px solid var(--line); border-radius: 14px; margin: 8px 0; overflow: hidden; }
 details.option > summary, details.topic > summary { font-weight: 600; font-size: 17px; }
+details.option > summary { padding-left: 16px; padding-right: 16px; border-radius: 0; }
+details.option > summary:focus-visible { outline-offset: -3px; }
 details.topic:last-of-type { border-bottom: 1px solid var(--line); }
-details.option > .fold-body { padding-bottom: 12px; }
+details.option > .fold-body { padding: 14px 16px; background: var(--card); color: var(--ink); border-top: 1px solid var(--line); }
 details.featured-group { background: var(--soft); border-color: transparent; }
 details.featured-group > summary { color: var(--accent); }
-details.featured-group details.option { border-color: color-mix(in srgb, var(--accent) 22%, transparent); }
-details.option.featured { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 14px; margin: 8px 0 8px; }
-details.option.featured + details.option { border-top: 0; }
-details.option.featured > summary { color: var(--accent-ink); padding-left: 16px; padding-right: 16px; }
-details.option.featured > summary::after { color: var(--accent-ink); }
-details.option.featured > .fold-body { background: var(--card); color: var(--ink); border-radius: 0 0 13px 13px; padding: 14px 16px; border: 1px solid var(--accent); border-top: 0; }
+details.featured-group details.option { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+details.option.featured { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+details.option.featured > summary, details.option.featured > summary::after { color: var(--accent-ink); }
+details.option.featured > .fold-body { border-top: 0; }
 #learn h2, #options h2 { margin-bottom: 12px; }
 .find-first { margin: 6px 0 22px; }
 .find-first > h2 { margin: 0 0 6px; font-size: clamp(23px, 3.4vw, 28px); }
