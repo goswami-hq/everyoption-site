@@ -102,3 +102,31 @@ export function schemaColumns() {
     out[m[1]] = [...m[2].matchAll(/^\s+(\w+)\s+(?:uuid|text|boolean|jsonb|timestamptz|bigint|integer)/gm)].map((x) => x[1]);
   return out;
 }
+
+// ---- Job 11 adapters and commands ----
+test("Supabase data adapter: code tries and invitation use go through the atomic functions", async () => {
+  const f = fakeFetch([{ body: [{ id: "c1", purpose: "login" }] }, { body: [] }, { body: [{ id: "i1" }] }]);
+  const d = supabaseData("https://a.supabase.co", "svc", f);
+  assert.equal((await d.tryCode("ch", "co", 5)).id, "c1");
+  assert.equal(await d.tryCode("ch", "bad", 5), null);
+  assert.equal((await d.consumeInvite("h")).id, "i1");
+  assert.match(f.calls[0].url, /rpc\/eo_try_code$/); assert.deepEqual(JSON.parse(f.calls[0].body), { p_challenge: "ch", p_code: "co", p_max: 5 });
+  assert.match(f.calls[2].url, /rpc\/eo_consume_invite$/);
+  assert.match(SQL, /create function eo_try_code/); assert.match(SQL, /create function eo_consume_invite/);
+});
+
+test("radiologist list: loader keeps only well-formed keys, NPI only when unique; adapter reads one key", async () => {
+  const { rowsFrom } = await import("./load-radiologist-names.mjs");
+  assert.deepEqual(rowsFrom({ "testone|a": { n: 1, npi: "1999000015" }, "two|b": { n: 2, npi: "1" }, "bad key": { n: 1 } }),
+    [{ name_key: "testone|a", n: 1, npi: "1999000015" }, { name_key: "two|b", n: 2, npi: null }]);
+  const { supabaseRadiologists } = await import("../lib/accounts/supabase.mjs");
+  const f = fakeFetch([{ body: [{ name_key: "testone|a", n: 1, npi: "1999000015" }] }]);
+  assert.deepEqual(await supabaseRadiologists("https://a.supabase.co", "svc", f).lookup("testone|a"), { n: 1, npi: "1999000015" });
+  assert.match(f.calls[0].url, /radiologist_names\?select=\*&name_key=eq\.testone%7Ca&limit=1$/);
+});
+
+test("his invitation command refuses to run without a database or the dev server", async () => {
+  const { realBackend } = await import("./invite.mjs");
+  assert.equal(realBackend({}), null);
+  assert.ok(realBackend({ SUPABASE_URL: "https://a.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "k" }).data);
+});

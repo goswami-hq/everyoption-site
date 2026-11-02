@@ -113,7 +113,7 @@
     var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
     kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed
       ? [el("a", { href: "/claim/" + q, text: "Report an error" }), " on this listing."]
-      : [el("a", { href: "/claim/" + q, text: "Is this you?" }), " Confirm or correct this listing."]));
+      : [el("a", { href: "/account/" + q, text: "Is this you?" }), " Confirm or correct this listing."]));
     return el("li", { "class": "card" + (p.confirmed ? " confirmed" : "") }, kids);
   }
 

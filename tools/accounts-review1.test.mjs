@@ -2,40 +2,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { world, ANN, BEN, GIL } from "./accounts-helpers.mjs";
-import { handle } from "../lib/accounts/http.mjs";
 import { verifyStripe, stripeIdentity, doximityOAuth } from "../lib/accounts/vendors.mjs";
-import { sha256 } from "../lib/accounts/util.mjs";
-
-test("1a: listing links to publications, societies or site builders never prove a work email", async () => {
-  const w = world();
-  w.backend.listings = { async get() { return { name: "Ben Sampletwo", procedures: ["gae"],
-    urls: ["https://doi.org/10.1/x", "https://www.sirweb.org/find/ben", "https://bensample.wixsite.com/ir", "https://ben.github.io/"] }; } };
-  const c = await w.signIn(BEN, "ben@home.example");
-  for (const e of ["sampletwo@doi.org", "sampletwo@sirweb.org", "sampletwo@wixsite.com", "sampletwo@github.io"])
-    assert.equal((await c.post("check/email", { work_email: e })).status, 400, e);
-});
-
-test("1b: the NPPES last name must be in the work email; without it, an exception and no link", async () => {
-  const w = world(), c = await w.signIn(ANN, "ann@home.example");
-  const r = await c.post("check/email", { work_email: "frontdesk@lakesideir.example" });
-  assert.equal(r.status, 400); assert.equal(r.body.error, "name_not_in_email");
-  assert.equal(w.outbox.filter((m) => m.to === "frontdesk@lakesideir.example").length, 0);
-  assert.equal((await w.backend.data.many("exceptions", { kind: "work_email_no_name" })).length, 1);
-  assert.equal((await c.post("check/email", { work_email: "a.testone@lakesideir.example" })).status, 202);
-});
-
-test("1c: one work email verifies one account", async () => {
-  const w = world();
-  w.backend.listings = { async get(n) { return { name: "x", procedures: ["ufe"], urls: ["https://shared.example/team"] }; } };
-  w.backend.nppes = { async lookup(n) { return { type: "NPI-1", first: n === ANN ? "Ann" : "Gil", last: "Same", taxonomy: "2085R0204X" }; } };
-  const a = await w.signIn(ANN, "a@home.example");
-  await w.verifyByEmail(a, "same@shared.example");
-  const g = await w.signIn(GIL, "g@home.example");
-  assert.equal((await g.post("check/email", { work_email: "same@shared.example" })).status, 409);
-});
 
 test("2: failed ID checks are redacted too; a new check cancels the pending one; a failed redact is an exception", async () => {
-  const w = world(), c = await w.signIn(GIL, "gil@home.example");
+  const w = world(), c = await w.signIn(GIL);
   await c.post("check/identity");
   const s1 = (await w.backend.data.many("identity_checks"))[0].provider_session;
   await c.post("check/identity");
@@ -75,30 +45,19 @@ test("3: Doximity uses PKCE (S256 challenge on the way out, verifier on the toke
 test("4: per-email sign-up limit and a daily cap on all email", async () => {
   const w = world();
   let last;
-  for (let i = 0; i < 4; i++) last = await w.client("10.7.0." + i).post("signup", { npi: [ANN, BEN, GIL, ANN][i], email: "target@x.example", accept_terms: true });
+  for (let i = 0; i < 4; i++) last = await w.client("10.7.0." + i).post("signup", { npi: [ANN, BEN, GIL, ANN][i], email: "target@x.example", agree: true });
   assert.equal(last.status, 429, "same inbox from several connections");
   const w2 = world({ env: { emailDailyCap: 3 } });
   for (let i = 0; i < 3; i++) await w2.client("10.8.0." + i).post("login", { email: `n${i}@x.example` }); // no accounts: no sends
-  for (let i = 0; i < 3; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, accept_terms: true })).status, 202);
-  const over = await w2.client("10.8.2.1").post("login", { email: "s0@x.example" });
-  assert.equal((await w2.client("10.8.2.2").post("signup", { npi: ANN, email: "s9@x.example", accept_terms: true })).status, 429);
+  for (let i = 0; i < 3; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, agree: true })).status, 202);
+  assert.equal((await w2.client("10.8.2.2").post("signup", { npi: ANN, email: "s9@x.example", agree: true })).status, 429);
   assert.equal(w2.outbox.length, 3);
   assert.equal((await w2.backend.data.many("exceptions", { kind: "email_cap" })).length, 1);
-  assert.ok(over);
-});
-
-test("5: a second claimant is kept with their email and told, by email only to them, that the claim is under review", async () => {
-  const w = world(); await w.signIn();
-  await w.client("10.0.0.5").post("signup", { npi: ANN, email: "real.ann@other.example", accept_terms: true });
-  const ex = (await w.backend.data.many("exceptions", { kind: "second_claimant" }))[0];
-  assert.equal(ex.detail.email, "real.ann@other.example");
-  const m = w.outbox.filter((x) => x.to === "real.ann@other.example");
-  assert.equal(m.length, 1); assert.match(m[0].text, /already has an Every Option account/); assert.doesNotMatch(m[0].text, /#(link|check)=/);
 });
 
 test("6: a Doximity link token works only in the browser that started it, and only after a confirm", async () => {
   const w = world({ doximity: true });
-  const victim = await w.signIn(ANN, "ann.testone@lakesideir.example");
+  const victim = await w.signIn(ANN);
   const attacker = w.client("10.6.6.6");
   const s = await attacker.call("GET", "doximity/start");
   const state = new URL(s.headers.get("Location"), "http://x").searchParams.get("state");
@@ -112,11 +71,11 @@ test("6: a Doximity link token works only in the browser that started it, and on
   assert.equal(pv.status, 200); assert.equal(pv.body.name, "Ann Testone");
 });
 
-test("7: an NPPES outage after sign-up does not burn the link", async () => {
+test("7: an NPPES outage after the code is sent does not burn it", async () => {
   const w = world(), c = w.client();
-  await c.post("signup", { npi: ANN, email: "ann.testone@lakesideir.example", accept_terms: true });
+  const s = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
   w.backend.nppes = { async lookup() { throw new Error("nppes down"); } };
-  assert.equal((await c.post("link", { token: w.lastLink() })).status, 200);
+  assert.equal((await c.post("code", { challenge: s.body.challenge, code: w.lastCode() })).status, 200);
   assert.equal((await w.backend.data.one("accounts", { npi: ANN })).name, "Ann Testone");
 });
 
@@ -129,26 +88,12 @@ test("8: Stripe webhook accepted when any of several v1 signatures matches (secr
 });
 
 test("9: a malformed edit id is not found, not a server error", async () => {
-  const w = world(), c = await w.signIn();
-  await w.verifyByEmail(c, "ann.testone@lakesideir.example");
+  const w = world(), c = await w.full();
   for (const id of ["nope", "'; drop table edits; --", 123])
     assert.equal((await c.post("undo", { edit_id: id })).status, 404);
 });
 
-test("note: an ID first name that only starts the NPPES first name goes to a person, not straight through", async () => {
-  const w = world(), c = await w.signIn(GIL, "gil@home.example");
-  await c.post("check/identity");
-  const s = (await w.backend.data.many("identity_checks"))[0].provider_session;
-  const svc = (await import("../lib/accounts/service.mjs")).makeService(w.backend, w.env);
-  await svc.identityResult({ session: s, status: "verified", first: "Gilberto", last: "Fourtest" });
-  assert.equal((await w.backend.data.one("accounts", { npi: GIL })).status, "unverified");
-  assert.equal((await w.backend.data.many("exceptions", { kind: "name_review" })).length, 1);
-  assert.ok(sha256);
-  assert.ok(handle);
-});
-
 // ---- Reviewer round 2 (2026-11-01) ----
-import { emailHasName } from "../lib/accounts/util.mjs";
 
 test("r2-1: a replaced pending ID check is redacted directly (Stripe refuses redacting a cancelled one)", async () => {
   const calls = [], state = { s: "requires_input" };
@@ -164,17 +109,4 @@ test("r2-1: a replaced pending ID check is redacted directly (Stripe refuses red
   assert.ok(!calls.some((u) => u.endsWith("/cancel")), "no cancel before redact");
   const busy = stripeIdentity("sk", "wh", async (url) => new Response(JSON.stringify({ status: "processing" }), { status: url.endsWith("/redact") ? 400 : 200 }));
   assert.equal(await busy.cancel("vs_q"), "processing", "processing: left to the webhook, not an exception");
-});
-
-test("r2-2: the last name must be a whole part of the address", () => {
-  assert.equal(emailHasName("william", "Wei", "Li"), false);
-  assert.equal(emailHasName("jane.anderson", "Tom", "An"), false);
-  assert.equal(emailHasName("a.li", "Amy", "Li"), true);
-  assert.equal(emailHasName("li.amy", "Amy", "Li"), true);
-  assert.equal(emailHasName("ali", "Amy", "Li"), true, "first initial plus last name");
-  assert.equal(emailHasName("amyli", "Amy", "Li"), true, "first name plus last name");
-  assert.equal(emailHasName("atestone", "Ann", "Testone"), true);
-  assert.equal(emailHasName("ann.testone2", "Ann", "Testone"), true);
-  assert.equal(emailHasName("frontdesk", "Ann", "Testone"), false);
-  assert.equal(emailHasName("xtestonex", "Ann", "Testone"), false, "not as a whole part");
 });

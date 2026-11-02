@@ -1,6 +1,6 @@
 // Local preview only: serves site/ like Cloudflare Pages and runs functions/api/claim.js against an in-memory KV.
 //   node tools/dev-server.mjs [port] [--no-kv] [--accounts [--doximity]]      (no install; Node 18+)
-// Accounts (job 10): off by default, so /api/account/* answers 503 "not open yet", as on the dev site. With
+// Accounts (jobs 10 and 11): off by default, so /api/account/* answers 503 "not open yet", as on the dev site. With
 // --accounts it runs lib/accounts/ against the local stand-ins and the made-up people in tools/fixtures/accounts.json:
 // email lands in /__outbox, the ID check and Doximity are simulated pages (/__identity/, /__doximity/), and
 // /__accounts shows the stored rows. Nothing leaves this machine.
@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { onRequestPost } from "../functions/api/claim.js";
 import { handle } from "../lib/accounts/http.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
-import { exportConfirmed } from "../lib/accounts/service.mjs";
+import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, "..", "site");
@@ -21,7 +21,7 @@ const port = +process.argv.find((a) => /^\d+$/.test(a)) || 8787;
 const noKV = process.argv.includes("--no-kv");
 const withAccounts = process.argv.includes("--accounts");
 const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
-const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, doximity: process.argv.includes("--doximity") }) : null;
+const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity") }) : null;
 const origin = `http://localhost:${port}`;
 const store = new Map();
 export const kv = {
@@ -59,6 +59,16 @@ http.createServer(async (req, res) => {
   if (backend && url.pathname === "/__outbox") return asJSON(res, backend.email.outbox);
   if (backend && url.pathname === "/__accounts") return asJSON(res, Object.fromEntries(backend.data.tables));
   if (backend && url.pathname === "/__confirmed") return asJSON(res, await exportConfirmed(backend));
+  // Stand-ins for his two local commands (tools/invite.mjs, tools/revoke-inviter.mjs --dev).
+  if (backend && url.pathname === "/__invite") {
+    const q = url.searchParams;
+    try { return asJSON(res, await makeService(backend, { origin }).createInvite({ kind: q.get("kind") || "owner", npi: q.get("npi"), email: q.get("email") || "" })); }
+    catch (e) { return asJSON(res, { error: e.code || e.message }); }
+  }
+  if (backend && url.pathname === "/__revoke") {
+    try { return asJSON(res, await makeService(backend, { origin }).revokeInviter(url.searchParams.get("who"))); }
+    catch (e) { return asJSON(res, { error: e.code || e.message }); }
+  }
   if (backend && url.pathname === "/__identity/") {        // stands in for the identity provider's hosted page
     const s = url.searchParams.get("session"), back = url.searchParams.get("return") || "/account/";
     const btn = (label, q) => `<p><a href="/__identity/done?session=${encodeURIComponent(s)}&${q}&return=${encodeURIComponent(back)}">${label}</a></p>`;
@@ -69,7 +79,7 @@ http.createServer(async (req, res) => {
     const s = url.searchParams.get("session"), q = url.searchParams;
     const row = (backend.data.tables.get("identity_checks") || []).find((r) => r.provider_session === s);
     const acct = row && (backend.data.tables.get("accounts") || []).find((a) => a.id === row.account_id);
-    const [first, last] = q.get("match") && acct ? [acct.name.split(" ")[0], acct.name.split(" ").slice(-1)[0]] : [q.get("first") || "", q.get("last") || ""];
+    const [first, last] = q.get("match") && acct ? [acct.first_name, acct.last_name] : [q.get("first") || "", q.get("last") || ""];
     await handle(new Request(origin + "/api/account/identity/result", { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session: s, status: q.get("status"), first, last }) }), { backend, origin });
     res.writeHead(302, { Location: q.get("return") || "/account/" }); res.end(); return;
@@ -78,7 +88,7 @@ http.createServer(async (req, res) => {
     const st = url.searchParams.get("state");
     if (url.searchParams.get("first")) {
       const code = backend.doximity.grant({ id: url.searchParams.get("id") || "dx-local", first: url.searchParams.get("first"),
-        last: url.searchParams.get("last"), credentials: "MD", specialty: "Radiology" });
+        last: url.searchParams.get("last"), credentials: "MD", specialty: url.searchParams.get("specialty") || "Radiology" });
       res.writeHead(302, { Location: `/api/account/doximity/callback?code=${code}&state=${encodeURIComponent(st)}` }); res.end(); return;
     }
     return page(res, `<h1>Doximity (local stand-in)</h1><form><input type="hidden" name="state" value="${esc(st)}">` +
