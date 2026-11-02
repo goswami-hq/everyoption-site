@@ -1,7 +1,7 @@
 // Job 11: invitations, one-step revoke, automatic takeover by a proven doctor. node --test tools/accounts-job11.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { world, ANN, BEN, CARA, GIL, DAN, EMAIL } from "./accounts-helpers.mjs";
+import { world, FIX, ANN, BEN, CARA, GIL, DAN, EMAIL } from "./accounts-helpers.mjs";
 import { exportConfirmed } from "../lib/accounts/service.mjs";
 
 const tokOf = (url) => /#invite=([0-9a-f]{64})$/.exec(url)[1];
@@ -355,3 +355,16 @@ test("r2-5b: on Supabase a slot conflict (409) is retried with the next slot", a
   const r = await makeService(b, {}).createInvite({ kind: "doctor", npi: GIL, inviter });
   assert.equal(r.ok, true); assert.equal(posts, 2, "second try with slot 4");
 });
+
+test("takeover needs the exact first name: a near match leaves the listing where it is and goes to exceptions", async () => {
+  const w = world();
+  const squat = await w.signIn(ANN, "squatter@x.example", "10.7.0.1", ["ufe"]);
+  const real = w.client("10.7.0.2");
+  const s = await real.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  await real.post("code", { challenge: s.body.challenge, code: w.lastCode("ann@home.example") });
+  await w.idCheck(real, "Annabel", FIX.nppes[ANN].last);
+  assert.equal((await w.backend.data.one("accounts", { npi: ANN })).email, "squatter@x.example");
+  assert.equal((await w.backend.data.many("exceptions", { kind: "takeover_name_not_exact" })).length, 1);
+  assert.equal((await w.idCheck(real)).takeover, true, "the exact name still takes over");
+});
+
