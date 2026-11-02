@@ -121,6 +121,7 @@ def report(slug, worst=0):
     for name, g, n, w in rows:
         print(f"{name[:58]:58} {'' if g is None else f'{g:6.1f}':>6} {n:5d} {w:6d}")
     print(f"{'Whole page':58} {whole:6.1f}")
+    print(f"{'Whole page, medical names counted too':58} {grade([s for _, _, s in all_sents], [])[0]:6.1f}")
     print(f"Bar {BAR} per section, aim {AIM}. Medical names left out of the count: {', '.join(terms)}")
     ow = option_words(c)
     long = {k: v for k, v in ow.items() if v > 120}

@@ -120,13 +120,13 @@ come_back = "They stay"
 id = "hormone-medicines"
 name = "Hormone medicines"
 heading = "Hormone medicines"
-what = "Birth control pills or shots. Daily pills that lower hormones. Shots that stop periods for a few months.[^mpfib][^owh]"
-how = "These change hormones so periods get lighter. Some also shrink fibroids for a while.[^mpfib]"
+what = "Birth control pills or shots. Daily pills that lower hormones. Shots for up to 3 months before surgery, to stop bleeding and build back blood.[^mpfib][^lupron]"
+how = "These change hormones so periods are lighter. Some shrink fibroids for a while.[^mpfib]"
 good = "Heavy periods. With the daily hormone-lowering pills, about 7 in 10 bled much less. On a fake pill, 1 or 2 in 10 did.[^liberty]"
 not_for = "People who have had blood clots or some other health problems.[^oriahnn][^myfembree]"
 recovery = "None."
-pregnancy = "Birth control pills and shots prevent it. The other medicines are not birth control.[^oriahnn][^lupron]"
-come_back = "Signs often come back after you stop. Fibroids can grow back fast.[^owh]"
+pregnancy = "Birth control pills and shots prevent it. The others are not birth control.[^oriahnn][^lupron]"
+come_back = "Signs often return when you stop. Fibroids can regrow fast.[^owh]"
 risks = "Hot flashes. Some weaken bones, so use is limited: up to 2 years for the daily pills, a few months for shots.[^oriahnn][^myfembree][^lupron]"
 [options.table]
 uterus = "Yes"
@@ -158,7 +158,7 @@ name = "Focused ultrasound"
 heading = "Focused ultrasound"
 what = "Sound waves heat and destroy fibroids. There is no cut. An MRI scanner, a large machine that takes pictures, guides it.[^rinfo]"
 how = "Beams of sound meet at the fibroid and heat it. The fibroid gets smaller over time.[^rinfo]"
-good = "Some fibroids that the beams can reach. It was approved for people who are done having children.[^fdapma]"
+good = "Some fibroids that the beams can reach, in a uterus that is not too big.[^fdapma]"
 not_for = "Pregnancy, many or very large fibroids, or many scars on the belly.[^rinfo]"
 recovery = "Short. Most people go back to normal soon.[^rinfo]"
 pregnancy = "Some people have had babies after it. Doctors are still studying this.[^rinfo]"
@@ -174,20 +174,20 @@ come_back = "Can"
 id = "embolization"
 name = "Fibroid embolization"
 heading = "Fibroid embolization"
-aka = "Also called uterine fibroid embolization (UFE) or uterine artery embolization."
-what = "A procedure with no cuts. Embolization means blocking blood flow on purpose.[^sir]"
-how = "A doctor puts a thin tube in the wrist or groin. Tiny beads block blood to the fibroids, so they shrink.[^sir][^mpfib]"
-good = "Fibroids that cause bleeding, pain or pressure, if you want to keep your uterus.[^acr]"
-not_for = "Pregnancy, a pelvic infection, or a chance of cancer.[^rinfo]"
-recovery = "Most go home the same day.[^sir] Cramps are strong at first. Most are back to normal in 7 to 10 days.[^mpuae]"
-pregnancy = "Often yes, but experts disagree. It may lower the chance.[^mpuae][^cochrane] Some guides say it is fine.[^acr]"
-come_back = "Within 5 years, about 1 in 3 needed more treatment.[^rest]"
-risks = "About 1 to 5 in 100 reach menopause early, mostly after 45.[^rinfo] Infection is rare.[^rinfo]"
+aka = "Also called UFE or uterine artery embolization. Embolization means blocking blood flow on purpose."
+what = "No surgery, only a tiny skin nick.[^sir]"
+how = "A thin tube goes in at the wrist or groin. Tiny beads block blood to the fibroids, so they shrink.[^sir][^mpfib]"
+good = "Fibroids causing bleeding, pain or pressure, if you want to keep your uterus.[^acr]"
+not_for = "Pregnancy, pelvic infection, or possible cancer.[^rinfo]"
+recovery = "Most go home the same day,[^sir] back to normal in 7 to 10 days.[^mpuae]"
+pregnancy = "Maybe. Pregnancies happen, but proof is weaker than after fibroid surgery. Experts disagree.[^mpuae][^cochrane][^acr]"
+come_back = "About 1 in 3 needed more treatment within 5 years.[^rest]"
+risks = "Cramps, upset stomach, low fever for 2 to 7 days.[^sir] 2 to 3 in 100 pass bits of fibroid. 1 to 5 in 100 reach menopause early, more often over 45. Some later need the uterus removed.[^rinfo]"
 next = "Want to talk to a doctor who does this? [Find a doctor for fibroid embolization](/ufe/)."
 [options.table]
 uterus = "Yes"
 recovery = "About 7 to 10 days"
-pregnancy = "Often, but experts disagree"
+pregnancy = "Maybe; experts disagree"
 come_back = "About 1 in 3 need more care in 5 years"
 
 [[options]]
@@ -233,7 +233,7 @@ name = "Endometrial ablation"
 heading = "Endometrial ablation"
 what = "A procedure that destroys the lining of the uterus to make periods lighter. The lining is called the endometrium.[^mpea]"
 how = "Tools go in through the vagina with no cuts. Heat or cold scars the lining.[^mpea]"
-good = "Heavy bleeding with small fibroids. It often stops periods.[^mpfib]"
+good = "Heavy bleeding with small fibroids. It often stops periods.[^mpfib] Experts disagree on using it for fibroids.[^acr]"
 not_for = "Anyone who might want to get pregnant later.[^mpea][^fdaea]"
 recovery = "Most go home the same day and are back to normal in 1 to 2 days.[^mpea]"
 pregnancy = "No. Pregnancy after it can be dangerous. You still need birth control.[^fdaea][^mpea]"
@@ -254,8 +254,8 @@ how = "A surgeon cuts out each fibroid. This is done through a larger cut in the
 good = "Fibroids that cause problems, if you want children later.[^mpfib][^acr]"
 not_for = "Ask your surgeon. It depends on how many fibroids you have and where they are."
 recovery = "About 2 to 4 weeks with small cuts. Up to 6 weeks with a larger cut.[^ccmyo]"
-pregnancy = "Yes. You may need a C-section.[^ccmyo] A tear in the uterus during pregnancy is rare, about 3 in 1,000.[^groffils]"
-come_back = "New fibroids can grow.[^mpfib] This is more likely if you are under 40 and have many.[^ccmyo]"
+pregnancy = "Yes. You may need a C-section.[^ccmyo] A tear in the uterus in pregnancy is rare: about 3 to 6 in 1,000.[^groffils][^gambacorti]"
+come_back = "New fibroids can grow.[^mpfib] More likely if you are under 40 with many.[^ccmyo]"
 risks = "Bleeding, infection, blood clots and harm to nearby organs. These are not common.[^ccmyo]"
 [options.table]
 uterus = "Yes"
@@ -273,8 +273,8 @@ good = "Bad signs, if you do not want children, or other choices have not worked
 not_for = "Anyone who wants to get pregnant later.[^ccmyo]"
 recovery = "About 2 to 4 weeks with small cuts. About 4 to 6 weeks with a larger cut.[^mphyst]"
 pregnancy = "No. Periods stop too.[^ccmyo]"
-come_back = "No. It is the only sure cure for fibroids.[^owh]"
-risks = "Bleeding, infection, blood clots and harm to nearby organs. If the ovaries are also taken out, menopause starts.[^mphyst]"
+come_back = "No. It is the only treatment that makes sure fibroids cannot come back.[^owh]"
+risks = "Bleeding, infection, blood clots and harm to nearby organs. If the ovaries, which make eggs and hormones, are also taken out, menopause starts.[^mphyst]"
 [options.table]
 uterus = "No"
 recovery = "About 2 to 6 weeks"
@@ -316,7 +316,7 @@ a = "Sometimes. Many do not grow and need no care. They often shrink after menop
 
 [[faq]]
 q = "Are fibroids cancer?"
-a = "No. Fibroids are not cancer. Cancer in a fibroid is very rare, less than 1 in 1,000.[^owh]"
+a = "No. Fibroids are not cancer. Rarely, a growth that looks like a fibroid is a hidden cancer. Estimates differ: less than 1 in 1,000,[^owh] or about 1 in 225 to 1 in 580 people who have fibroid surgery.[^fdamorc]"
 
 [[faq]]
 q = "Can I get pregnant if I have fibroids?"
@@ -324,11 +324,11 @@ a = "Yes, most people can. Big fibroids can sometimes cause problems in pregnanc
 
 [[faq]]
 q = "Do I need a hysterectomy for fibroids?"
-a = "Not always. Many people never need one. There are pills, procedures that keep the uterus, and surgery that removes only the fibroids. A hysterectomy is the only sure cure.[^mpfib][^owh]"
+a = "Not always. Many people never need one. There are pills, procedures that keep the uterus, and surgery that removes only the fibroids. A hysterectomy is the only treatment that makes sure fibroids cannot come back.[^mpfib][^owh]"
 
 [[faq]]
 q = "What is the least invasive treatment for fibroids?"
-a = "Watching and waiting, medicines and a hormone IUD need no procedure. Focused ultrasound and fibroid embolization need no cuts. Each fits some people and not others.[^mpfib][^rinfo]"
+a = "Watching and waiting, medicines and a hormone IUD need no procedure. Some procedures need no cuts or only a tiny nick: focused ultrasound, embolization, removal through the cervix, endometrial ablation, and one kind of radiofrequency ablation. Each fits some people and not others.[^mpfib][^rinfo][^sir]"
 
 [[faq]]
 q = "Who does fibroid embolization?"
@@ -402,7 +402,7 @@ term = "interventional radiologist"
 explain = "treats problems through tiny tubes"
 [[terms]]
 term = "ovaries"
-explain = "menopause starts"
+explain = "which make eggs and hormones"
 
 # References, in no particular order: the page numbers them by first use. Full details and how each was read are in
 # the sources file named at the top.
@@ -464,8 +464,8 @@ cite = "RadiologyInfo.org (Radiological Society of North America and American Co
 url = "https://www.radiologyinfo.org/en/info/uterine-fibroid-treatment"
 [[refs]]
 key = "fdapma"
-cite = "U.S. Food and Drug Administration. Premarket approval P040003: magnetic resonance-guided focused ultrasound system for uterine fibroids. Approved October 22, 2004. Read November 1, 2026."
-url = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P040003"
+cite = "U.S. Food and Drug Administration. Premarket approval P040003, supplement S015: magnetic resonance-guided focused ultrasound system for uterine fibroids, indications changed August 31, 2015 (first approved October 22, 2004). Read November 1, 2026."
+url = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P040003S015"
 [[refs]]
 key = "bcbsnc"
 cite = "Blue Cross and Blue Shield of North Carolina. Corporate medical policy: MRI-guided focused ultrasound. Last reviewed May 2026. Read November 1, 2026."
@@ -480,7 +480,7 @@ cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Ut
 url = "https://medlineplus.gov/ency/article/007384.htm"
 [[refs]]
 key = "acr"
-cite = "Expert Panel on Interventional Radiology. ACR Appropriateness Criteria: Management of Uterine Fibroids, 2023 update. Journal of the American College of Radiology. 2024;21(6S):S203-S218. doi:10.1016/j.jacr.2024.02.022."
+cite = "Expert Panel on Interventional Radiology. ACR Appropriateness Criteria: Management of Uterine Fibroids, 2023 update. Journal of the American College of Radiology. 2024;21(6S):S203-S218. doi:10.1016/j.jacr.2024.02.022. PMID 38823944. Ratings read on the ACR web narrative (revised 2023), November 1, 2026."
 url = "https://acsearch.acr.org/docs/69508/Narrative/"
 [[refs]]
 key = "cochrane"
@@ -526,3 +526,11 @@ url = "https://www.fda.gov/medical-devices/surgery-devices/endometrial-ablation-
 key = "mphyst"
 cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Hysterectomy. Reviewed March 17, 2026. Read November 1, 2026."
 url = "https://medlineplus.gov/ency/article/002915.htm"
+[[refs]]
+key = "gambacorti"
+cite = "Gambacorti-Passerini Z, Gimovsky AC, Locatelli A, Berghella V. Trial of labor after myomectomy and uterine rupture: a systematic review. Acta Obstetricia et Gynecologica Scandinavica. 2016. doi:10.1111/aogs.12920. PMID 27154306."
+url = "https://doi.org/10.1111/aogs.12920"
+[[refs]]
+key = "fdamorc"
+cite = "U.S. Food and Drug Administration. Power morcellation during gynecologic laparoscopic surgeries. Content current as of August 20, 2026. Read November 1, 2026."
+url = "https://www.fda.gov/medical-devices/surgery-devices/power-morcellation-during-gynecologic-laparoscopic-surgeries"
