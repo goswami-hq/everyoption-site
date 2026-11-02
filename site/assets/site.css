@@ -178,3 +178,51 @@ footer.site .disclosure { color: var(--ink); }
   button, .fork-list a, .fork-list svg, .actions .call { transition: none; }
 }
 @keyframes fade { from { opacity: 0; } }
+
+/* Condition education pages (job 12): one per condition, built from content/conditions/<slug>.toml. */
+.t-fibroids { --accent: #a63a6b; --accent-ink: #fff; --sun: #f6dce6; --soft: #f7e6ec; }
+@media (prefers-color-scheme: dark) { .t-fibroids { --accent: #e58bb4; --accent-ink: #2a0f1d; --sun: #3a2230; --soft: #33212b; } }
+.condition { max-width: 40em; }
+.condition section { scroll-margin-top: 14px; }
+.condition .answer { max-width: 34em; }
+.condition .cta { margin: 18px 0 8px; }
+.btn { display: inline-flex; align-items: center; text-decoration: none; line-height: 1.2; }
+.condition sup.ref { font-size: 0.68em; line-height: 0; margin-left: 1px; }
+.condition sup.ref a { text-decoration: none; padding: 0 2px; }
+.condition section.urgent { background: var(--soft); border-left: 5px solid var(--accent); border-radius: var(--radius); padding: 4px 20px 10px; margin-top: 36px; }
+.condition section.urgent h2 { margin-top: 18px; }
+.compare-wrap { margin: 14px 0 6px; }
+table.compare { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 16px; line-height: 1.4; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+table.compare th, table.compare td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+table.compare thead th { font-size: 14px; color: var(--muted); font-weight: 600; background: var(--soft); }
+table.compare tbody tr:last-child > * { border-bottom: 0; }
+table.compare th[scope="row"] { font-weight: 600; }
+@media (max-width: 680px) {
+  table.compare thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.compare, table.compare tbody, table.compare tr, table.compare th, table.compare td { display: block; }
+  table.compare { background: none; border: 0; }
+  table.compare tr { display: grid; grid-template-columns: 1fr 1fr; background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; padding: 2px 0 6px; }
+  table.compare th[scope="row"] { grid-column: 1 / -1; border-bottom: 0; font-size: 17px; padding: 8px 14px 2px; }
+  table.compare td { border-bottom: 0; padding: 3px 14px; font-size: 15px; line-height: 1.3; }
+  table.compare td::before { content: attr(data-label); display: block; color: var(--muted); font-size: 13px; }
+}
+nav.jump ul { list-style: none; padding: 0; margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+nav.jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); background: var(--card); border-radius: 999px; text-decoration: none; font-size: 16px; }
+section.option { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 20px 12px; margin: 16px 0; }
+section.option h3 { font: 400 24px/1.25 var(--serif); margin: 18px 0 4px; }
+section.option .aka { color: var(--muted); font-size: 16px; margin: 0 0 6px; }
+dl.facts { margin: 8px 0 0; display: grid; gap: 8px; }
+dl.facts dt { font-weight: 600; font-size: 15.5px; color: var(--accent); }
+dl.facts dd { margin: 0; }
+@media (min-width: 681px) { dl.facts div { display: grid; grid-template-columns: 11em 1fr; gap: 14px; } }
+section.option .back { font-size: 15px; margin: 10px 0 0; }
+section.option .next { margin-top: 10px; }
+.condition .qa h3 { font: 400 21px/1.3 var(--serif); margin: 20px 0 4px; }
+ol.refs { font-size: 15px; color: var(--muted); padding-left: 22px; overflow-wrap: anywhere; }
+ol.refs li { margin-bottom: 8px; }
+ol.refs li:target { color: var(--ink); background: var(--soft); border-radius: 6px; }
+.condition figure.photo { margin: 0 0 16px; }
+.condition figure.photo img { width: 100%; height: auto; border-radius: var(--radius); }
+.fork-list .pair { flex: 1; display: flex; flex-direction: column; gap: 6px; margin-left: 10px; }
+.fork-list .pair > a:first-child { margin-left: 0; }
+.fork-list .pair .also { flex: none; display: inline-flex; align-items: center; min-height: 32px; padding: 0 20px; background: none; border: 0; box-shadow: none; font-size: 15px; color: var(--accent); text-decoration: underline; }

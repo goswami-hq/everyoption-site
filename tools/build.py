@@ -6,6 +6,7 @@ The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq s
 Standard library only; the built pages are plain static HTML (Cloudflare Pages serves site/ with no build step).
 """
 import html, json, os
+import condition
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -81,7 +82,7 @@ def ver(url):
     return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
 
 
-def page(path, title, desc, body, scripts=()):
+def page(path, title, desc, body, scripts=(), head="", cls=None):
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
@@ -96,8 +97,9 @@ def page(path, title, desc, body, scripts=()):
 <link rel="stylesheet" href="{ver('/assets/site.css')}">
 <meta name="color-scheme" content="light dark">
 {js}
+{head}
 </head>
-<body class="{"home-page" if path == "/" else ("finder-page t-" + path.strip("/") if scripts else "prose-page")}">
+<body class="{cls or ("home-page" if path == "/" else ("finder-page t-" + path.strip("/") if scripts else "prose-page"))}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
 <a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
@@ -136,9 +138,14 @@ def fork(keys):
 
 
 def home():
-    rows = "".join(
-        f'<li class="t-{k}"><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} ({p["abbr"]})</span></span>{ARROW}</a></li>'
-        for k, p in PROCS.items())
+    def row(k, p):
+        if k == "ufe":   # job 12: Fibroids opens the education page; the finder is one tap from it, or straight from here
+            return (f'<li class="t-{k}"><div class="pair"><a href="/fibroids/"><span><strong>{e(p["for"])}</strong>'
+                    f'<span class="proc">Every option, explained simply</span></span>{ARROW}</a>'
+                    f'<a class="also" href="/{k}/">Or find a doctor for {e(p["name"].lower())} ({p["abbr"]})</a></div></li>')
+        return (f'<li class="t-{k}"><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
+                f'({p["abbr"]})</span></span>{ARROW}</a></li>')
+    rows = "".join(row(k, p) for k, p in PROCS.items())
     body = f"""<h1>You have more options than you know.</h1>
 <p class="lede">Many common conditions have non-surgical treatments that people never hear about. Find doctors near you who do them.</p>
 <h2 id="conditions" class="sr">Conditions</h2>
@@ -166,6 +173,9 @@ def diagram(k):
     return f'<figure class="how">{svg}<figcaption>{e(DIAGRAM_CAP[k])}</figcaption></figure>'
 
 
+LEARN = {"ufe": '<p><a href="/fibroids/">Learn about every fibroid treatment, from watching and waiting to surgery</a>.</p>'}
+
+
 def finder(k):
     p = PROCS[k]
     about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
@@ -173,7 +183,7 @@ def finder(k):
                     for t, u in p["sources"])
     src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
     body = f"""<h1>{e(p["title"])}</h1>
-<div class="about">{about}{src}</div>
+<div class="about">{about}{LEARN.get(k, "")}{src}</div>
 <h2>How it works</h2>
 {diagram(k)}
 <h2>Find a doctor near you</h2>
@@ -291,6 +301,21 @@ def not_found():
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 
 
+# Search engines and AI assistants may read every public page (his goal, 2026-11-01: pages "picked up be search engines
+# and by LLMs"). Named AI crawlers are allowed explicitly; Cloudflare's own bot settings can still override this file
+# (a launch check, listed in the job 12 run log).
+AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
+           "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
+ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
+SITEMAP_PAGES = ["/", "/fibroids/", "/ufe/", "/pae/", "/gae/", "/how-we-know/", "/claim/"]
+
+
+def sitemap():
+    urls = "".join(f"<url><loc>{ORIGIN}{u}</loc><lastmod>{REVIEWED}</lastmod></url>" for u in
+                   SITEMAP_PAGES + [f"/{s}/" for s in condition.slugs() if f"/{s}/" not in SITEMAP_PAGES])
+    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n'
+
+
 def write(rel, text):
     p = os.path.join(SITE, rel)
     os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -306,6 +331,14 @@ def main():
     write("claim/index.html", claim())
     write("account/index.html", account())
     write("404.html", not_found())
+    for slug in condition.slugs():
+        c = condition.load(slug)
+        path = f"/{slug}/"
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e),
+                                         head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
+                                         cls=f"prose-page condition-page t-{c['colour']}"))
+    write("sitemap.xml", sitemap())
+    write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")
     counts = {}
     for k in PROCS:
         with open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8") as fh:
