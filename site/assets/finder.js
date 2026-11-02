@@ -63,10 +63,16 @@
   }
   function telHref(p) { var d = (p || "").replace(/[^0-9+]/g, ""); return d.length >= 10 ? "tel:" + d : ""; }
 
+  // Job 10: a confirmed doctor's card may carry a photo, a blurb, insurances, a booking link and more offices. Each
+  // shows only when supplied; an unconfirmed card looks as before.
+  function safeHttps(u) { try { var x = new URL(u); return x.protocol === "https:" ? x.href : ""; } catch (e) { return ""; } }
   function card(p) {
     var kids = [];
+    var photo = p.photo && /^\/photos\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo)
+      ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + p.name, width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
     var top = el("div", { "class": "top" }, [
-      el("div", null, [
+      photo,
+      el("div", { "class": "who" }, [
         el("h3", { text: p.name }),
         p.badge ? el("span", { "class": "badge", title: BADGE_TITLE[p.badge] || "", text: BADGE[p.badge] || p.badge }) : null
       ]),
@@ -80,16 +86,35 @@
       p.city_label ? el("span", { "class": "label", text: p.city_label }) : null
     ]);
     kids.push(where);
+    if (p.blurb) kids.push(el("p", { "class": "blurb", text: p.blurb }));
+    var ins = (p.insurances || []).slice();
+    if (p.insurance_other) ins.push(p.insurance_other);
+    if (ins.length || p.insurance_confirm) kids.push(el("p", { "class": "ins" }, [
+      el("span", { "class": "k", text: "Insurance: " }),
+      ins.length ? ins.join(", ") + (p.insurance_confirm ? ". " : "") : "",
+      p.insurance_confirm ? el("span", { "class": "confirm", text: "Confirm with the office." }) : null
+    ]));
     var acts = [];
     var tel = telHref(p.phone);
     if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(p.phone) }));
+    var book = p.booking_url ? safeHttps(p.booking_url) : "";
+    if (book) acts.push(el("a", { "class": "book", href: book, rel: "noopener nofollow", target: "_blank", text: "Book online" }));
     if (p.url) acts.push(el("a", { href: p.url, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
-    var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
-    kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, [
-      el("a", { href: "/claim/" + q, text: "Is this you?" }), " Confirm or correct this listing."
+    var more = (p.offices || []).slice(1);
+    if (more.length) kids.push(el("div", { "class": "offices" }, [
+      el("p", { "class": "k", text: more.length === 1 ? "Also sees patients at" : "Also sees patients at " + more.length + " more offices" }),
+      el("ul", null, more.map(function (o) {
+        var t = telHref(o.phone);
+        return el("li", null, [(o.practice ? o.practice + ", " : "") + o.city + ", " + o.state,
+          t ? " · " : null, t ? el("a", { href: t, text: showPhone(o.phone) }) : null]);
+      }))
     ]));
-    return el("li", { "class": "card" }, kids);
+    var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
+    kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed
+      ? [el("a", { href: "/claim/" + q, text: "Report an error" }), " on this listing."]
+      : [el("a", { href: "/claim/" + q, text: "Is this you?" }), " Confirm or correct this listing."]));
+    return el("li", { "class": "card" + (p.confirmed ? " confirmed" : "") }, kids);
   }
 
   function section(list, cls, title, note) {

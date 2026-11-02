@@ -1,35 +1,88 @@
 // Local preview only: serves site/ like Cloudflare Pages and runs functions/api/claim.js against an in-memory KV.
-//   node tools/dev-server.mjs [port] [--no-kv]      (no install; Node 18+)
+//   node tools/dev-server.mjs [port] [--no-kv] [--accounts [--doximity]]      (no install; Node 18+)
+// Accounts (job 10): off by default, so /api/account/* answers 503 "not open yet", as on the dev site. With
+// --accounts it runs lib/accounts/ against the local stand-ins and the made-up people in tools/fixtures/accounts.json:
+// email lands in /__outbox, the ID check and Doximity are simulated pages (/__identity/, /__doximity/), and
+// /__accounts shows the stored rows. Nothing leaves this machine.
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { onRequestPost } from "../functions/api/claim.js";
+import { handle } from "../lib/accounts/http.mjs";
+import { localBackend } from "../lib/accounts/local.mjs";
+import { exportConfirmed } from "../lib/accounts/service.mjs";
 
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "site");
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.join(HERE, "..", "site");
 const port = +process.argv.find((a) => /^\d+$/.test(a)) || 8787;
 const noKV = process.argv.includes("--no-kv");
+const withAccounts = process.argv.includes("--accounts");
+const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
+const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, doximity: process.argv.includes("--doximity") }) : null;
+const origin = `http://localhost:${port}`;
 const store = new Map();
 export const kv = {
   async get(k) { const v = store.get(k); return v && (!v.exp || v.exp > Date.now()) ? v.val : null; },
   async put(k, val, o = {}) { store.set(k, { val, exp: o.expirationTtl ? Date.now() + o.expirationTtl * 1000 : 0 }); },
 };
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".txt": "text/plain" };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+async function toRequest(req, url) {
+  const chunks = []; for await (const c of req) chunks.push(c);
+  const headers = new Headers(); for (const [k, v] of Object.entries(req.headers)) headers.set(k, String(v));
+  headers.set("CF-Connecting-IP", req.socket.remoteAddress || "127.0.0.1");
+  return new Request(url, { method: req.method, headers, body: ["GET", "HEAD"].includes(req.method) ? undefined : Buffer.concat(chunks) });
+}
+async function send(res, r) {
+  const h = {}; r.headers.forEach((v, k) => { if (k !== "set-cookie") h[k] = v; });
+  const sc = r.headers.getSetCookie(); if (sc.length) h["set-cookie"] = sc;
+  res.writeHead(r.status, h); res.end(Buffer.from(await r.arrayBuffer()));
+}
+const page = (res, body) => { res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); res.end(`<!doctype html><meta charset="utf-8"><title>Local stand-in</title><body style="font:18px system-ui;max-width:40em;margin:40px auto">${body}`); };
+const asJSON = (res, x) => { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(x, null, 1)); };
 
 http.createServer(async (req, res) => {
-  const url = new URL(req.url, `http://localhost:${port}`);
+  const url = new URL(req.url, origin);
   if (url.pathname === "/api/claim") {
-    const chunks = []; for await (const c of req) chunks.push(c);
-    const body = Buffer.concat(chunks);
-    const headers = new Headers(); for (const [k, v] of Object.entries(req.headers)) headers.set(k, String(v));
-    headers.set("CF-Connecting-IP", req.socket.remoteAddress || "127.0.0.1");
-    const r = req.method === "POST"
-      ? await onRequestPost({ request: new Request(url, { method: "POST", headers, body }), env: noKV ? {} : { CLAIMS: kv } })
+    const request = await toRequest(req, url);
+    const r = req.method === "POST" ? await onRequestPost({ request, env: noKV ? {} : { CLAIMS: kv } })
       : new Response('{"error":"method"}', { status: 405 });
-    res.writeHead(r.status, Object.fromEntries(r.headers)); res.end(await r.text());
+    await send(res, r);
     if (url.searchParams.has("dump")) console.log([...store.keys()]);
     return;
+  }
+  if (url.pathname.startsWith("/api/account/")) return send(res, await handle(await toRequest(req, url), { backend, origin }));
+  if (backend && url.pathname === "/__outbox") return asJSON(res, backend.email.outbox);
+  if (backend && url.pathname === "/__accounts") return asJSON(res, Object.fromEntries(backend.data.tables));
+  if (backend && url.pathname === "/__confirmed") return asJSON(res, await exportConfirmed(backend));
+  if (backend && url.pathname === "/__identity/") {        // stands in for the identity provider's hosted page
+    const s = url.searchParams.get("session"), back = url.searchParams.get("return") || "/account/";
+    const btn = (label, q) => `<p><a href="/__identity/done?session=${encodeURIComponent(s)}&${q}&return=${encodeURIComponent(back)}">${label}</a></p>`;
+    return page(res, `<h1>Identity check (local stand-in)</h1><p>No ID or selfie is taken here.</p>` +
+      btn("Pass, name matches", "status=verified&match=1") + btn("Pass, different name", "status=verified&first=Someone&last=Different") + btn("Fail", "status=failed"));
+  }
+  if (backend && url.pathname === "/__identity/done") {
+    const s = url.searchParams.get("session"), q = url.searchParams;
+    const row = (backend.data.tables.get("identity_checks") || []).find((r) => r.provider_session === s);
+    const acct = row && (backend.data.tables.get("accounts") || []).find((a) => a.id === row.account_id);
+    const [first, last] = q.get("match") && acct ? [acct.name.split(" ")[0], acct.name.split(" ").slice(-1)[0]] : [q.get("first") || "", q.get("last") || ""];
+    await handle(new Request(origin + "/api/account/identity/result", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session: s, status: q.get("status"), first, last }) }), { backend, origin });
+    res.writeHead(302, { Location: q.get("return") || "/account/" }); res.end(); return;
+  }
+  if (backend && backend.doximity && url.pathname === "/__doximity/") {   // stands in for Doximity's sign-in page
+    const st = url.searchParams.get("state");
+    if (url.searchParams.get("first")) {
+      const code = backend.doximity.grant({ id: url.searchParams.get("id") || "dx-local", first: url.searchParams.get("first"),
+        last: url.searchParams.get("last"), credentials: "MD", specialty: "Radiology" });
+      res.writeHead(302, { Location: `/api/account/doximity/callback?code=${code}&state=${encodeURIComponent(st)}` }); res.end(); return;
+    }
+    return page(res, `<h1>Doximity (local stand-in)</h1><form><input type="hidden" name="state" value="${esc(st)}">` +
+      `<p><label>First <input name="first"></label> <label>Last <input name="last"></label> <label>Id <input name="id" value="dx-local"></label></p><button>Continue</button></form>`);
   }
   if (url.pathname === "/__store") { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify([...store.entries()].map(([k, v]) => [k, v.val]))); return; }
   let p = path.join(ROOT, decodeURIComponent(url.pathname));
@@ -43,4 +96,4 @@ http.createServer(async (req, res) => {
     res.setHeader("Content-Type", type); if (gz) res.setHeader("Content-Encoding", "gzip");
     res.end(data);
   } catch { res.writeHead(404); res.end("not found"); }
-}).listen(port, () => console.log(`http://localhost:${port}${noKV ? " (no KV: form answers 503)" : ""}`));
+}).listen(port, () => console.log(`${origin}${noKV ? " (no KV: form answers 503)" : ""}${backend ? " (accounts: local stand-ins, made-up people)" : " (accounts not open)"}`));

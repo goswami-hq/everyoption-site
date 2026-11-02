@@ -250,6 +250,42 @@ def claim():
                 body, ["/assets/claim.js"])
 
 
+def account():
+    """Job 10: physician accounts, built but not open. With no backend connected the page says so and the script
+    stores nothing; the correction form stays the way to confirm a listing until accounts are connected."""
+    checks = "".join(f'<label><input type="checkbox" name="procedures" value="{k}"> {e(p["name"])} ({p["abbr"]})</label>'
+                     for k, p in PROCS.items())
+    body = f"""<h1>Physician accounts</h1>
+<div class="prose">
+<div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> To confirm or correct a listing now, use the <a href="/claim/">correction form</a>. Nothing is stored on this page.</p></div>
+</div>
+<div id="acct" hidden>
+<div class="prose"><p class="lede">Confirm your listing, add your photo, insurances, booking link and offices, and write a short note for each procedure. Free.</p></div>
+<div id="acct-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
+<div id="acct-out">
+<form class="claim-form" id="signup-form" novalidate>
+<h2 style="margin-top:0">Sign up with your NPI</h2>
+<div><label for="s-npi">NPI <span class="hint">(10 digits)</span></label><input id="s-npi" name="npi" inputmode="numeric" maxlength="10" pattern="[0-9]{{10}}" required></div>
+<div><label for="s-email">Email</label><input id="s-email" name="email" type="email" maxlength="200" autocomplete="email" required></div>
+<div><label for="s-name">Your name as it appears in the NPI Registry <span class="hint">(only if you are not listed on Every Option yet)</span></label><input id="s-name" name="name" maxlength="120" autocomplete="name"></div>
+<div class="checks"><label><input type="checkbox" name="accept_terms" required> I accept the Every Option terms of service and privacy policy.</label></div>
+<p class="small muted">No password. We email you a sign-in link that works once, for 15 minutes. Your name comes from the NPI Registry.</p>
+<div><button type="submit">Send my link</button></div>
+</form>
+<form class="claim-form" id="login-form" novalidate>
+<h2 style="margin-top:0">Already signed up?</h2>
+<div><label for="l-email">Email</label><input id="l-email" name="email" type="email" maxlength="200" autocomplete="email" required></div>
+<div><button type="submit" class="secondary">Email me a sign-in link</button> <a id="dox" href="/api/account/doximity/start" hidden>Sign in with Doximity</a></div>
+</form>
+</div>
+<template id="attest-procs">{checks}</template>
+</div>
+<noscript><p class="notice">This page needs JavaScript. To confirm or correct a listing, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
+    return page("/account/", "Physician accounts | Every Option",
+                "Physicians can confirm their Every Option listing and add details. Accounts are not open yet.",
+                body, ["/assets/account.js"])
+
+
 def not_found():
     body = """<h1>Page not found</h1><p>Try one of the procedure finders:</p>
 <ul class="finders">""" + "".join(
@@ -271,6 +307,7 @@ def main():
         write(f"{k}/index.html", finder(k))
     write("how-we-know/index.html", how())
     write("claim/index.html", claim())
+    write("account/index.html", account())
     write("404.html", not_found())
     counts = {}
     for k in PROCS:

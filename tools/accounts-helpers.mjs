@@ -23,8 +23,7 @@ export function world(opts = {}) {
         if (body instanceof Uint8Array) payload = body;
         else if (body !== undefined) { payload = JSON.stringify(body); headers["Content-Type"] ||= "application/json"; }
         const r = await handle(new Request(env.origin + "/api/account/" + path, { method, headers, body: payload }), env);
-        const sc = r.headers.get("Set-Cookie");
-        if (sc) { const [kv] = sc.split(";"); const [k, v] = kv.split("="); if (v) jar[k] = v; else delete jar[k]; }
+        for (const sc of r.headers.getSetCookie()) { const [kv] = sc.split(";"); const [k, v] = kv.split("="); if (v) jar[k] = v; else delete jar[k]; }
         let j = null; try { j = await r.json(); } catch (_) {}
         return { status: r.status, body: j, headers: r.headers };
       },

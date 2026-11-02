@@ -99,6 +99,17 @@ ol.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; animation: arrive 420ms var(--ease-out) both; }
 .card:nth-child(2) { animation-delay: 50ms; } .card:nth-child(3) { animation-delay: 100ms; } .card:nth-child(4) { animation-delay: 150ms; } .card:nth-child(5) { animation-delay: 200ms; } .card:nth-child(6) { animation-delay: 250ms; }
 .card .top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.card .who { flex: 1; min-width: 0; }
+.card, .card * { overflow-wrap: anywhere; }
+.card .photo { flex: none; width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: var(--soft); border: 1px solid var(--line); }
+.card .blurb { margin: 10px 0 0; font-size: 16.5px; line-height: 1.5; }
+.card .ins { margin: 8px 0 0; font-size: 15.5px; color: var(--muted); line-height: 1.45; }
+.card .k { color: var(--ink); font-weight: 600; }
+.card .confirm { color: var(--warn); }
+.card .offices { margin-top: 10px; font-size: 15.5px; color: var(--muted); }
+.card .offices p { margin: 0; font-size: 15px; }
+.card .offices ul { margin: 4px 0 0; padding-left: 18px; }
+.actions .book { border: 1px solid var(--accent); border-radius: 999px; padding: 0 18px; text-decoration: none; font-weight: 600; }
 .card h3 { margin: 0; font: 400 22px/1.25 var(--serif); letter-spacing: -0.005em; }
 .dist { white-space: nowrap; font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .badge { display: block; font-size: 14px; color: var(--pine); margin-top: 3px; }
