@@ -88,7 +88,7 @@ def closed_site(b):
     pg = ctx.new_page(); watch(pg, "closed")
     reqs = []
     pg.on("request", lambda r: reqs.append(r.url))
-    pg.goto(CLOSED + "/ufe/"); pg.fill("#zip", "60611"); pg.click("#zip-form button")
+    pg.goto(CLOSED + "/fibroids/"); pg.fill("#zip", "60611"); pg.click("#zip-form button")
     pg.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(200)
     check("closed: UFE finder still finds doctors", pg.locator("li.card").count() > 0)
     check("closed: finder makes no account request", not [u for u in reqs if "/api/" in u], reqs)

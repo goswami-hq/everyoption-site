@@ -213,7 +213,13 @@ details.option.featured > summary { color: var(--accent-ink); padding-left: 16px
 details.option.featured > summary::after { color: var(--accent-ink); }
 details.option.featured > .fold-body { background: var(--card); color: var(--ink); border-radius: 0 0 13px 13px; padding: 14px 16px; border: 1px solid var(--accent); border-top: 0; }
 #learn h2, #options h2 { margin-bottom: 12px; }
-.condition .end { margin-top: 26px; }
+.find-first { margin: 6px 0 22px; }
+.find-first > h2 { margin: 0 0 12px; font-size: clamp(21px, 3vw, 26px); }
+.learn-link { margin: 0 0 4px; font-weight: 600; }
+.find-bar { position: fixed; left: 16px; right: 16px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; align-items: center; min-height: 50px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; border-radius: 999px; box-shadow: 0 8px 24px -10px rgba(40, 20, 10, .6); }
+.find-bar[hidden] { display: none; }
+body:has(.find-bar) footer.site { padding-bottom: 90px; }
+@media (min-width: 761px) { .find-bar { left: auto; right: 24px; padding: 0 24px; } }
 @media (prefers-reduced-motion: reduce) { .fold-body { animation: none; } }
 dl.facts { margin: 8px 0 0; display: grid; gap: 8px; }
 dl.facts dt { font-weight: 600; font-size: 15.5px; color: var(--accent); }

@@ -113,7 +113,7 @@ def categories(refs, c, diagram_fn):
             extra = ""
             if i == c.get("diagram_at"):
                 extra = (diagram_fn(c["diagram"]) +
-                         f'<p class="cta"><a class="btn" href="/{c["finder"]}/">{html.escape(c["finder_button"])}</a></p>')
+                         f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>')
             opts += option(refs, by_id[i], extra, "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
     return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
@@ -162,19 +162,20 @@ def schema(c, url, origin, publisher):
             f'<script type="application/ld+json">{dump(faqs)}</script>')
 
 
-def body(c, diagram_fn, e, photo_fn=None):
+def body(c, diagram_fn, e, photo_fn=None, finder_fn=None):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
     refs = Refs(c["refs"])
     finder = c["finder"]
     # the photo slot (job 14): photo = the file stem under /assets/photos/ (a -1600 and -800 WebP); in the first
     # screen, so not lazy
-    photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=False, cls="photo banner") if c.get("photo") and photo_fn else ""
-    parts = [f'<h1>{html.escape(c["h1"])}</h1>{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
+    photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=True, cls="photo banner") if c.get("photo") and photo_fn else ""
+    # Finder first (his yes, 2026-11-02), then education.
+    find = finder_fn(c["finder"], c["finder_heading"], "#options") if finder_fn else ""
+    parts = [f'<h1>{html.escape(c["h1"])}</h1>{find}{photo}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c, diagram_fn))
     learn = "".join(section(refs, s) for s in c["sections"]) + faq(refs, c)
     parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
-    parts.append(f'<p class="cta end"><a class="btn" href="/{finder}/">{html.escape(c["finder_button"])}</a></p>')
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
     author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'
               f'{", " + e(c["author_credentials"]) if c.get("author_credentials") else ""}.</p>' if c.get("author_name") else "")
@@ -184,4 +185,4 @@ def body(c, diagram_fn, e, photo_fn=None):
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")
-    return f'<article class="condition t-{c["color"]}">{"".join(parts)}</article>'
+    return f'<article class="condition t-{c["color"]}">{"".join(parts)}</article><a class="find-bar" href="#finder" hidden>Find a doctor</a>'

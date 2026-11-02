@@ -171,12 +171,11 @@ def fork(keys):
 
 
 def home():
+    # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
+    HOME_LINK = {"ufe": "/fibroids/"}
+
     def row(k, p):
-        if k == "ufe":   # job 12: Fibroids opens the education page; the finder is one tap from it, or straight from here
-            return (f'<li class="t-{k}"><div class="pair"><a href="/fibroids/"><span><strong>{e(p["for"])}</strong>'
-                    f'<span class="proc">Every option, explained simply</span></span>{ARROW}</a>'
-                    f'<a class="also" href="/{k}/">Or find a doctor for {e(p["name"].lower())} ({p["abbr"]})</a></div></li>')
-        return (f'<li class="t-{k}"><a href="/{k}/"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
+        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
                 f'({p["abbr"]})</span></span>{ARROW}</a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
     body = f"""<h1>You have more options than you know.</h1>
@@ -207,22 +206,15 @@ def diagram(k):
     return f'<figure class="how">{svg}<figcaption>{e(DIAGRAM_CAP[k])}</figcaption></figure>'
 
 
-LEARN = {"ufe": '<p><a href="/fibroids/">Learn about every fibroid treatment, from watching and waiting to surgery</a>.</p>'}
+MOVED = {"ufe": "/fibroids/"}
 
 
-def finder(k):
-    p = PROCS[k]
-    about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
-    items = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank">{e(t)}</a></li>' if u else f"<li>{e(t)}</li>"
-                    for t, u in p["sources"])
-    src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
-    body = f"""<h1>{e(p["title"])}</h1>
-{photo(k, lazy=False, cls="photo banner")}
-<div class="about">{about}{LEARN.get(k, "")}{src}</div>
-<h2>How it works</h2>
-{diagram(k)}
-<h2>Find a doctor near you</h2>
-<div id="finder" data-procedure="{k}">
+def finder_block(k, heading="Find a doctor near you", learn=""):
+    """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
+    data = f' data-learn="{e(learn)}"' if learn else ""
+    return f"""<section class="find-first">
+<h2>{e(heading)}</h2>
+<div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
 <div class="f"><label for="zip">Your ZIP code</label>
 <input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{{5}}" maxlength="5" placeholder="e.g. 60611" required></div>
@@ -234,10 +226,29 @@ def finder(k):
 <div id="results"></div>
 <noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>
 </div>
+</section>"""
+
+
+FIND_BAR = '<a class="find-bar" href="#finder" hidden>Find a doctor</a>'
+
+
+def finder(k):
+    p = PROCS[k]
+    about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
+    items = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank">{e(t)}</a></li>' if u else f"<li>{e(t)}</li>"
+                    for t, u in p["sources"])
+    src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
+    body = f"""<h1>{e(p["title"])}</h1>
+{finder_block(k)}
+{photo(k, lazy=True, cls="photo banner")}
+<div class="about">{about}{src}</div>
+<h2>How it works</h2>
+{diagram(k)}
 <p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>
-<p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>"""
+<p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
-                f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body, ["/assets/finder.js"])
+                f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
+                ["/assets/finder.js", "/assets/condition.js"])
 
 
 def credits():
@@ -352,7 +363,7 @@ def not_found():
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
            "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
-SITEMAP_PAGES = ["/", "/fibroids/", "/ufe/", "/pae/", "/gae/", "/how-we-know/", "/claim/"]
+SITEMAP_PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/claim/"]
 
 
 def sitemap():
@@ -371,6 +382,10 @@ def write(rel, text):
 def main():
     write("index.html", home())
     for k in PROCS:
+        if k in MOVED:     # the finder now lives on the condition page; site/_redirects sends a 301
+            to = MOVED[k]
+            write(f"{k}/index.html", f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{ORIGIN}{to}"><meta http-equiv="refresh" content="0; url={to}"><p><a href="{to}">This page moved.</a></p>')
+            continue
         write(f"{k}/index.html", finder(k))
     write("how-we-know/index.html", how())
     write("claim/index.html", claim())
@@ -379,7 +394,7 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag), ["/assets/condition.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/finder.js", "/assets/condition.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())
