@@ -178,9 +178,8 @@
       say(near.length + (near.length === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first.");
       if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Performs this procedure, confirmed by physician",
         "The doctor confirmed this with us. Nearest first."));
-      else out.appendChild(el("section", { "class": "tier tier-a", "aria-label": "Performs this procedure, confirmed by physician" }, [
-        el("h2", null, ["Performs this procedure, confirmed by physician", el("span", { "class": "count", text: "0 doctors" })]),
-        el("p", { "class": "tier-note" }, ["No doctor near this ZIP has confirmed yet. Are you a doctor who performs this procedure? ",
+      else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
+        el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." }), " Are you a doctor who performs this? ",
           el("a", { href: "/claim/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
       ]));
       if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
