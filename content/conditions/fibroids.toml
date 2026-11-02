@@ -33,7 +33,7 @@ photo_alt = "A woman walks along a winding country path on a sunny hillside."
 title = "Fibroids: Every Treatment Option | Every Option"
 description = "Fibroids are common, non-cancerous growths in the uterus. Learn how invasive each treatment is, how well it works, and its side effects."
 h1 = "Shrink fibroids without surgery"
-answer = "Fibroids are non-cancerous growths in the uterus. Many cause no symptoms and need no treatment.[^mpfib] When they cause heavy periods, pain, or pressure, your options fall into three groups: medicines, less invasive treatments, and surgery.[^mpfib] The right choice depends on your symptoms and goals."
+answer = "Fibroids are growths in the uterus. They are not cancer. Many women have no symptoms and need no treatment.[^mpfib] If you have heavy periods, pain, or pressure, embolization is not your only option. You can also consider medicines, other less invasive treatments, or surgery.[^mpfib] The right choice depends on your symptoms and goals."
 urgent = "If you have severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for fibroid embolization"
 finder_heading = "Shrink fibroids without surgery"
@@ -50,20 +50,20 @@ terms = ["fibroids", "fibroid", "uterus", "uterine", "menopause", "ultrasound", 
 [[categories]]
 id = "medicines"
 name = "Medicines"
-summary = "Treat symptoms like heavy bleeding and pain. No procedure needed."
+summary = "These treat symptoms like heavy bleeding and pain. No procedure is needed."
 options = ["non-hormone-medicines", "hormone-medicines", "iud"]
 
 [[categories]]
 id = "less-invasive"
 name = "Less Invasive Treatments"
 highlight = "embolization"
-summary = "Treat fibroids or bleeding without major surgery, with your uterus left in place. Before you agree to surgery, ask about these."
+summary = "These treat fibroids or bleeding without major surgery. Your uterus stays in place. Before you agree to surgery, ask about these."
 options = ["embolization", "radiofrequency", "focused-ultrasound", "endometrial-ablation"]
 
 [[categories]]
 id = "surgery"
 name = "Surgery"
-summary = "Removes the fibroids or the whole uterus."
+summary = "Surgery removes the fibroids or the whole uterus."
 options = ["hysteroscopic", "myomectomy", "hysterectomy"]
 
 [[sections]]
@@ -71,7 +71,7 @@ id = "what"
 place = "after"
 heading = "What are fibroids?"
 text = [
-  "Fibroids are muscle growths in or on the wall of the uterus. They are very common: by age 50, between 2 and 8 in 10 women have them.[^owh]",
+  "Fibroids are muscle growths in or on the wall of the uterus. They are very common. By age 50, about 2 to 8 out of 10 women have them.[^owh]",
   "Symptoms can include heavy or long periods, tiredness from blood loss, pelvic pain or pressure, frequent urination, and pain during sex.[^mpfib][^owh] See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed]",
 ]
 
@@ -88,11 +88,11 @@ list = [
 
 [[faq]]
 q = "Do I need treatment?"
-a = "Not always. Fibroids that cause no symptoms or only mild ones can simply be watched with exams or an ultrasound. They often shrink after menopause.[^mpfib][^owh]"
+a = "Not always. If you have no symptoms or only mild ones, your doctor can watch the fibroids with exams or an ultrasound. They often shrink after menopause.[^mpfib][^owh]"
 
 [[faq]]
 q = "Are fibroids cancer?"
-a = "No. Rarely, a growth that looks like a fibroid is a hidden cancer. Estimates differ: less than 1 in 1,000,[^owh] or about 1 in 225 to 1 in 580 people who have fibroid surgery.[^fdamorc]"
+a = "No. Rarely, a growth that looks like a fibroid turns out to be cancer. Estimates differ. Some say less than 1 out of 1,000 women.[^owh] Others say up to about 1 out of 225 women who have fibroid surgery.[^fdamorc]"
 
 [[faq]]
 q = "Can I get pregnant after treatment?"
@@ -100,87 +100,87 @@ a = "It depends on the treatment and your situation. If you hope to get pregnant
 
 [[faq]]
 q = "Do I need a hysterectomy for fibroids?"
-a = "Not always. Many people never need one. It is the only treatment that keeps fibroids from returning, but medicines, less invasive treatments, and surgery that removes only the fibroids are all options.[^mpfib][^owh]"
+a = "Not always. Many women never need one. It is the only treatment that keeps fibroids from returning. Medicines, less invasive treatments, and surgery that removes only the fibroids are also options.[^mpfib][^owh]"
 
 [[options]]
 id = "non-hormone-medicines"
 name = "Medicines without hormones"
-what = "Tranexamic acid, taken only on period days, plus pain relievers and iron.[^mpfib][^txa][^owh]"
-invasive = "Not invasive. These are pills."
-works = "They ease bleeding and cramps but do not treat the fibroids, so symptoms return when you stop.[^mpfib][^txa]"
+what = "These include tranexamic acid, which you take only on period days, plus pain relievers and iron.[^mpfib][^txa][^owh]"
+invasive = "These are pills. No procedure is needed."
+works = "They ease bleeding and cramps. They do not treat the fibroids, so symptoms return when you stop.[^mpfib][^txa]"
 side = "Tranexamic acid can rarely cause blood clots.[^txa]"
 
 [[options]]
 id = "hormone-medicines"
 name = "Hormone medicines"
-what = "Birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
-invasive = "Not invasive. These are pills or shots."
-works = "Daily hormone-lowering pills greatly reduced bleeding for about 7 in 10 people.[^liberty] Symptoms often return after stopping.[^owh]"
-side = "Hot flashes. Some weaken bones, so use is limited. Not for people who have had blood clots.[^oriahnn][^myfembree][^lupron]"
+what = "These include birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
+invasive = "These are pills or shots. No procedure is needed."
+works = "Daily hormone-lowering pills greatly reduced bleeding for about 7 out of 10 women.[^liberty] Symptoms often return after stopping.[^owh]"
+side = "You may have hot flashes. Some of these medicines weaken bones, so use is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
 [[options]]
 id = "iud"
 name = "Hormone IUD"
-what = "A small device placed in the uterus that thins the lining, for up to 5 years.[^owh][^mirena]"
-invasive = "Minimal. Placed during an office visit."
-works = "Lightens periods but does not treat the fibroids.[^owh]"
-side = "Spotting at first. It is more likely to slip out when fibroids are present.[^obg]"
+what = "A small device placed in the uterus thins the lining. It lasts up to 5 years.[^owh][^mirena]"
+invasive = "It is placed during an office visit."
+works = "It lightens periods. It does not treat the fibroids.[^owh]"
+side = "You may have spotting at first. It is more likely to slip out when fibroids are present.[^obg]"
 
 [[options]]
 id = "embolization"
 name = "Fibroid embolization (UFE)"
 what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
-invasive = "A tiny skin nick, with no cut in the belly, so no belly scar where a hernia can form. Most people go home the same day and recover in about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
+invasive = "You only need a tiny skin nick. There is no cut in the belly, so no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
 works = "Most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
-side = "Cramps, nausea, and low fever for up to a week. Early menopause in 1 to 5 in 100.[^sir][^rinfo] Serious problems are no more common than after surgery, but smaller problems are.[^cochrane][^martin]"
+side = "You may have cramps, nausea, and a low fever for up to a week. Up to 5 out of 100 women may go through menopause early.[^sir][^rinfo] Serious problems are no more common than after surgery. Smaller problems are more common.[^cochrane][^martin]"
 
 [[options]]
 id = "radiofrequency"
 name = "Radiofrequency ablation"
 what = "Heat from a small needle destroys the fibroid.[^mpfib]"
-invasive = "Small cuts in the belly, or through the vagina with no cuts. Most people go home the same day.[^sonata3][^halt]"
-works = "Results vary: about 1 in 11 needed surgery within 3 years in one study, and about 2 in 5 within 2 years in another.[^sonata3][^dutch]"
-side = "Pain and cramps. Serious problems were rare in studies.[^sonata3][^dutch]"
+invasive = "The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^sonata3][^halt]"
+works = "Results vary from study to study. About 1 out of 11 women needed surgery within 3 years in one study, and about 2 out of 5 within 2 years in another.[^sonata3][^dutch]"
+side = "You may have pain and cramps. Serious problems were rare in studies.[^sonata3][^dutch]"
 
 [[options]]
 id = "focused-ultrasound"
 name = "Focused ultrasound"
-what = "Beams of sound, guided by an MRI scanner, heat and shrink the fibroid.[^rinfo]"
-invasive = "No cut. Most people recover quickly.[^rinfo]"
-works = "Fits only some fibroids, and some people need more treatment later. Not all insurance covers it.[^rinfo][^fdapma][^bcbsnc]"
-side = "Belly pain and skin burns or bruises that usually heal in a week or two.[^rinfo]"
+what = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid.[^rinfo]"
+invasive = "There is no cut. Most women recover quickly.[^rinfo]"
+works = "It fits only some fibroids. Some women need more treatment later. Not all insurance covers it.[^rinfo][^fdapma][^bcbsnc]"
+side = "You may have belly pain. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
 
 [[options]]
 id = "endometrial-ablation"
 name = "Endometrial ablation"
 what = "Heat or cold destroys the lining of the uterus to lighten periods.[^mpea]"
-invasive = "No cuts. Most people go home the same day and recover in 1 to 2 days.[^mpea]"
-works = "Treats the lining, not the fibroids, which stay in place.[^mpfib] A radiology group rates it usually not appropriate for fibroids.[^acr] In heavy-bleeding studies, about 1 in 8 had a hysterectomy within 5 years.[^oderkerk]"
-side = "Cramps and discharge for a while. Not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
+invasive = "There are no cuts. Most women go home the same day and recover in 1 to 2 days.[^mpea]"
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] A radiology group rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, about 1 out of 8 women had a hysterectomy within 5 years.[^oderkerk]"
+side = "You may have cramps and discharge for a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[options]]
 id = "hysteroscopic"
 name = "Removal through the cervix"
 what = "A thin camera and small tools remove fibroids growing inside the uterus.[^mpfib][^mphysteroscopy]"
-invasive = "No cuts. Recovery takes a few days.[^ccmyo]"
-works = "Works only for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
-side = "Cramps and light bleeding for a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
+invasive = "There are no cuts. Recovery takes a few days.[^ccmyo]"
+works = "It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+side = "You may have cramps and light bleeding for a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
 
 [[options]]
 id = "myomectomy"
 name = "Myomectomy"
-what = "Surgery that removes the fibroids and leaves the uterus.[^mpfib]"
-invasive = "A larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
-works = "Removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo] Quality of life improves.[^femme2] About 1 in 8 had a repeat procedure within 4 years.[^femme4]"
-side = "Bleeding, infection, blood clots, and harm to nearby organs, which are not common.[^ccmyo] Scar tissue forms inside the belly in most people, and it can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] Up to 1 in 5 people have a hernia at the scar after open surgery.[^cchernia]"
+what = "Surgery removes the fibroids and leaves the uterus.[^mpfib]"
+invasive = "It takes a larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
+works = "It removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo] Women's quality of life improves.[^femme2] About 1 out of 8 women may need another procedure down the line.[^femme4]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
 
 [[options]]
 id = "hysterectomy"
 name = "Hysterectomy"
-what = "Surgery that removes the whole uterus.[^mphyst]"
-invasive = "Through the vagina, small cuts, or a larger cut in the belly. Recovery takes about 2 to 6 weeks.[^mphyst]"
-works = "The only treatment that keeps fibroids from returning. Periods stop.[^owh][^ccmyo]"
-side = "Bleeding, infection, blood clots, and harm to nearby organs. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] Up to 1 in 5 people have a hernia at the scar after open surgery.[^cchernia]"
+what = "Surgery removes the whole uterus.[^mphyst]"
+invasive = "The doctor goes through the vagina, small cuts, or a larger cut in the belly. Recovery takes about 2 to 6 weeks.[^mphyst]"
+works = "It is the only treatment that keeps fibroids from returning. Periods stop.[^owh][^ccmyo]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
 
 # References, in no particular order: the page numbers them by first use. Full details and how each was read are in
 # the sources file named at the top.
