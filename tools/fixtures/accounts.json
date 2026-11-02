@@ -1,0 +1,17 @@
+{
+  "_note": "Made-up test people only. Used by the tests and by `node tools/dev-server.mjs --accounts`. No real doctor is in this file.",
+  "nppes": {
+    "1999000015": { "type": "NPI-1", "first": "Ann", "last": "Testone", "taxonomy": "2085R0204X", "taxonomy_desc": "Radiology, Vascular & Interventional Radiology" },
+    "1999000023": { "type": "NPI-1", "first": "Ben", "last": "Sampletwo", "taxonomy": "2085R0202X", "taxonomy_desc": "Radiology, Diagnostic Radiology" },
+    "1999000031": { "type": "NPI-1", "first": "Cara", "last": "Newdoc", "taxonomy": "2085R0204X", "taxonomy_desc": "Radiology, Vascular & Interventional Radiology" },
+    "1999000049": { "type": "NPI-1", "first": "Dan", "last": "Orthotest", "taxonomy": "207X00000X", "taxonomy_desc": "Orthopaedic Surgery" },
+    "1999000056": { "type": "NPI-1", "first": "Eve", "last": "Nursetest", "taxonomy": "363L00000X", "taxonomy_desc": "Nurse Practitioner" },
+    "1999000064": { "type": "NPI-2", "org": "Test Imaging Group LLC", "taxonomy": "261QR0200X", "taxonomy_desc": "Clinic/Center, Radiology" },
+    "1999000072": { "type": "NPI-1", "first": "Gil", "last": "Fourtest", "taxonomy": "2085R0204X", "taxonomy_desc": "Radiology, Vascular & Interventional Radiology" }
+  },
+  "listings": {
+    "1999000015": { "name": "Ann Testone", "procedures": ["ufe", "pae"], "urls": ["https://www.lakesideir.example/team/ann-testone"] },
+    "1999000023": { "name": "Ben Sampletwo", "procedures": ["gae"], "urls": ["https://www.healthgrades.com/physician/dr-ben-sampletwo"] },
+    "1999000072": { "name": "Gil Fourtest", "procedures": ["ufe"], "urls": ["https://fourtest-vascular.example/about"] }
+  }
+}
