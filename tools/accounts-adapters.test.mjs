@@ -33,7 +33,10 @@ test("backend needs every variable and ACCOUNTS_OPEN=yes", () => {
   env.ACCOUNTS_OPEN = "yes";
   const b = backendFrom(env);
   assert.equal(b.kind, "supabase"); assert.equal(b.doximity, null, "Doximity off unless switched on");
-  delete env.STRIPE_SECRET_KEY; assert.equal(backendFrom(env), null);
+  assert.ok(b.identity === null, "ID route off without Stripe");
+  env.STRIPE_SECRET_KEY = "set"; assert.ok(backendFrom(env).identity === null, "needs both Stripe values");
+  env.STRIPE_IDENTITY_WEBHOOK_SECRET = "set"; assert.ok(backendFrom(env).identity, "ID route on with both");
+  delete env.RESEND_API_KEY; assert.equal(backendFrom(env), null);
 });
 
 test("Supabase data adapter: request shapes, service key in headers only, conflict mapped", async () => {

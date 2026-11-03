@@ -197,10 +197,12 @@
   }
 
   function proofBox(me) {
+    var idOn = !STATUS || STATUS.identity !== false;
     return el("div", { "class": "claim-form", id: "proof" }, [
       el("h2", { style: "margin-top:0", text: "Confirm who you are" }),
-      el("p", { text: "A photo ID and a selfie, checked by our identity provider. We keep only the result and the name on the ID, never the images." }),
-      el("div", null, [el("button", { type: "button", id: "check-id", text: "Confirm with ID", onclick: function () {
+      idOn ? el("p", { text: "A photo ID and a selfie, checked by our identity provider. We keep only the result and the name on the ID, never the images." })
+        : el("p", { text: "ID checks are not open yet. A doctor with full access can invite you." }),
+      el("div", null, [!idOn ? null : el("button", { type: "button", id: "check-id", text: "Confirm with ID", onclick: function () {
         api("POST", "check/identity", {}).then(function (j) {
           if (j.url) location.assign(j.url); else if (j.already) load(); else say(words(j), "err");
         }); } }),

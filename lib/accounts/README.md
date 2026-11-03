@@ -34,7 +34,7 @@ Doximity. The work-email check is gone. Nothing here is open: with no configurat
 1. Supabase: run `supabase/schema.sql`; make the private bucket `photos`; schedule `eo_cleanup()` daily; load the
    radiologist list: `node tools/load-radiologist-names.mjs ~/ai-hq-data/projects/platform/accounts/radiologist-names.json`.
 2. Pages variables (encrypted, preview first): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`,
-   `EMAIL_FROM`, `STRIPE_SECRET_KEY`, `STRIPE_IDENTITY_WEBHOOK_SECRET`, then `ACCOUNTS_OPEN=yes`.
+   `EMAIL_FROM`, then `ACCOUNTS_OPEN=yes`. `STRIPE_SECRET_KEY` and `STRIPE_IDENTITY_WEBHOOK_SECRET` are optional; without both the ID route is off.
 3. Stripe webhook to `/api/account/identity/result` for `identity.verification_session.verified` and `.requires_input`.
 4. Listings: `SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node tools/export-confirmed.mjs confirmed.json`, then ai-hq
    `scripts/every_option_export.py --confirmed confirmed.json`, copy to `site/data/`, build, push. Edits reach the
