@@ -14,7 +14,7 @@ async function main(file) {
   const rows = rowsFrom(JSON.parse(readFileSync(file, "utf8")));
   for (let i = 0; i < rows.length; i += 1000) {
     const r = await fetch(base.replace(/\/$/, "") + "/rest/v1/radiologist_names", { method: "POST",
-      headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates" },
+      headers: { apikey: key, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates" },
       body: JSON.stringify(rows.slice(i, i + 1000)) });
     if (!r.ok) { console.error("load failed at row", i, r.status); return 1; }
   }
