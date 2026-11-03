@@ -13,6 +13,7 @@ import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { onRequestPost } from "../functions/api/report.js";
 import { handle } from "../lib/accounts/http.mjs";
+import { handlePublic } from "../lib/accounts/listings.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
 import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
 
@@ -24,6 +25,17 @@ const withAccounts = process.argv.includes("--accounts");
 const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
 const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity"), geocodes: FIX.geocodes }) : null;
 const origin = `http://localhost:${port}`;
+const slowArg = process.argv.find((a) => a.startsWith("--listings-slow="));
+const SLOW = slowArg ? +slowArg.split("=")[1] : 0, DOWN = process.argv.includes("--listings-down");
+const listingsDB = (b) => ({ ...b, data: { ...b.data, overlay: async () => {
+  if (SLOW) await new Promise((r) => setTimeout(r, SLOW));
+  if (DOWN) throw new Error("database down");
+  return b.data.overlay();
+} } });
+const localAssets = { async fetch(req) {
+  const p = path.join(ROOT, new URL(req.url).pathname);
+  try { return new Response(await readFile(p), { status: 200 }); } catch (_) { return new Response("", { status: 404 }); }
+} };
 const REDIRECTS = new Map(readFileSync(path.join(ROOT, "_redirects"), "utf8").split("\n")
   .map((l) => l.trim().split(/\s+/)).filter((w) => w.length >= 2 && !w[0].startsWith("#")).map((w) => [w[0], [w[1], +(w[2] || 302)]]));
 const store = new Map();
@@ -64,6 +76,10 @@ http.createServer(async (req, res) => {
     return;
   }
   if (url.pathname.startsWith("/api/account/")) return send(res, await handle(await toRequest(req, url), { backend, origin }));
+  // Job 25: the live overlay and public photos. --listings-slow=<ms> and --listings-down play a slow or failed database.
+  if (url.pathname === "/api/listings" || url.pathname.startsWith("/api/photo/")) return send(res, await handlePublic(await toRequest(req, url), {
+    backend: backend && listingsDB(backend), origin, noCache: true, ASSETS: localAssets }));
+  if (backend && url.pathname === "/__alerts") return asJSON(res, backend.alert.sent);
   if (backend && url.pathname === "/__outbox") return asJSON(res, backend.email.outbox);
   if (backend && url.pathname === "/__accounts") return asJSON(res, Object.fromEntries(backend.data.tables));
   if (backend && url.pathname === "/__confirmed") return asJSON(res, await exportConfirmed(backend));

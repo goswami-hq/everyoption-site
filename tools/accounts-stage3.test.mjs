@@ -143,5 +143,7 @@ test("the public finder pages load no account code", () => {
     assert.doesNotMatch(html, /account\.js|\/api\/account/);
   }
   const finder = readFileSync(new URL("../site/assets/finder.js", import.meta.url), "utf8");
-  assert.doesNotMatch(finder.replace(/\/\/.*$/gm, ""), /\/api\/|document\.cookie|localStorage|sessionStorage/);
+  // Job 25: the public overlay and photo routes only (no cookies, no account routes, no storage).
+  const code = finder.replace(/\/\/.*$/gm, "").split('"/api/listings?procedure="').join("").split("(photos|api\\/photo)").join("");
+  assert.doesNotMatch(code, /\/api\/|api\\\/|document\.cookie|localStorage|sessionStorage/);
 });

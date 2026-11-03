@@ -1,5 +1,6 @@
 // Every Option finder: loads one procedure's list and the ZIP center table, sorts by distance in the browser.
-// No cookies, no storage, no third-party requests. The ZIP typed stays in this page (and its address bar).
+// No cookies, no storage, no third-party requests. The ZIP typed stays in this page (and its address bar); the live
+// overlay request (job 25) carries the procedure only.
 (function () {
   "use strict";
   var root = document.getElementById("finder");
@@ -15,8 +16,9 @@
   var data = null, loading = null;
 
   // Job 7: one badge only. "verified" is shown as "Interventional radiologist"; any other value is a plain specialty.
-  var BADGE = { "verified": "Interventional radiologist" };
+  var BADGE = { "verified": "Interventional radiologist", "account": "Interventional radiologist" };
   var BADGE_TITLE = {
+    "account": "Stated by the doctor in their Every Option account",
     "verified": "Identified as an interventional radiologist from their own or their practice's page, or from public Medicare billing records"
   };
 
@@ -41,11 +43,64 @@
       return r.json();
     });
   }
+  // Job 25 (his words, 2026-11-03: "I want live"): doctors' account changes come from /api/listings (procedure only,
+  // never the ZIP) and are merged over the static file with the export's rules (ai-hq merge_confirmed): full access in
+  // Confirmed with its photo, partial stays in Likely marked "not yet confirmed", a new doctor is added at their office,
+  // their offices lay over the found ones, and a doctor who removed this procedure leaves the list. If the overlay is
+  // down or slower than OVERLAY_MS, results come from the static file; a late overlay applies to the next search.
+  var OVERLAY_MS = 2500;
+  var CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"];
+  function wait(ms, v) { return new Promise(function (ok) { setTimeout(function () { ok(v); }, ms); }); }
+  function loadOverlay() {
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    if (ctl) setTimeout(function () { ctl.abort(); }, 15000);
+    return fetch("/api/listings?procedure=" + encodeURIComponent(PROC), { credentials: "same-origin", signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (o) { return o && o.procedure === PROC && Array.isArray(o.people) ? o : null; })
+      .catch(function () { return null; });
+  }
+  function mergeOverlay(d, ov) {
+    try {
+      var people = d.people.slice(), at = {}, gone = {};
+      people.forEach(function (p, i) { at[p.npi] = i; });
+      (ov.removed || []).forEach(function (n) { gone[n] = 1; });
+      ov.people.forEach(function (c) {
+        var i = at[c.npi];
+        var p = i === undefined ? { npi: c.npi, name: c.name, badge: "account", practice: "", city: "", state: "", city_label: "",
+          phone: "", url: "", lat: null, lon: null } : Object.assign({}, people[i]);
+        p.confirmed = !!c.confirmed;
+        if (p.confirmed) delete p.from_account; else p.from_account = true;
+        var offs = (c.offices || []).filter(function (o) { return o && o.city; });
+        if (offs.length) {
+          var f = offs[0];
+          p.practice = f.practice || p.practice; p.city = f.city; p.state = f.state; p.phone = f.phone || p.phone; p.city_label = "";
+          if (f.lat != null && f.lon != null) { p.lat = f.lat; p.lon = f.lon; }
+          p.offices = offs;
+        } else delete p.offices;
+        // Review round 1: the overlay is the account's whole current state, so an empty value clears what an earlier
+        // export put in the static file (a removed link, photo, note, insurance or office).
+        CARD_KEYS.forEach(function (k) { if (c[k] && !(Array.isArray(c[k]) && !c[k].length)) p[k] = c[k]; else delete p[k]; });
+        if (p.confirmed && c.photo) p.photo = c.photo; else delete p.photo;
+        if (c.blurb) p.blurb = c.blurb; else delete p.blurb;
+        if (i === undefined) { at[c.npi] = people.length; people.push(p); } else people[i] = p;
+        delete gone[c.npi];
+      });
+      return Object.assign({}, d, { people: people.filter(function (p) { return !gone[p.npi] || p.test; }) });
+    } catch (e) { return d; }
+  }
   function loadData() {
     if (data) return Promise.resolve(data);
-    if (!loading) loading = Promise.all([getJSON("/data/" + PROC + ".json"), loadTest()]).then(function (x) {
-      data = x[0]; if (x[1].length) data = Object.assign({}, data, { people: x[1].concat(data.people) }); return data; },
-      function (e) { loading = null; throw e; });
+    if (!loading) {
+      var ov = loadOverlay(), inTime = Promise.race([ov, wait(OVERLAY_MS, null)]);
+      loading = Promise.all([getJSON("/data/" + PROC + ".json"), loadTest()]).then(function (x) {
+        var base = x[0]; if (x[1].length) base = Object.assign({}, base, { people: x[1].concat(base.people) });
+        return inTime.then(function (o) {
+          data = o ? mergeOverlay(base, o) : base;
+          if (!o) ov.then(function (late) { if (late && data === base) data = mergeOverlay(base, late); });
+          return data;
+        });
+      }, function (e) { loading = null; throw e; });
+    }
     return loading;
   }
   // Job 18: the IR roster (site/data/ir-roster.json, ai-hq scripts/v3_job17.py): interventional radiologists on no
@@ -129,7 +184,7 @@
   function safeHttps(u) { try { var x = new URL(u); return x.protocol === "https:" ? x.href : ""; } catch (e) { return ""; } }
   function card(p) {
     var kids = [];
-    var photo = p.photo && (/^\/photos\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo) || (p.test && p.photo === TEST_AVATAR))
+    var photo = p.photo && (/^\/(photos|api\/photo)\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo) || (p.test && p.photo === TEST_AVATAR))
       ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + p.name, width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
     var top = el("div", { "class": "top" }, [
       photo,

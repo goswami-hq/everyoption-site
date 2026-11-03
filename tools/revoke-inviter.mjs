@@ -1,6 +1,6 @@
 // His one-step revoke of a bad inviter: it and everyone whose full access came through its invitations drop to basic,
 // their unused invitations stop working, and none of them can invite again. Someone downstream with their own ID or
-// Doximity proof keeps full access. Edits stay on record and undoable; contact fields leave the cards at the next export.
+// Doximity proof keeps full access. Edits stay on record and undoable; contact fields stay (partial access may hold them); the card leaves Confirmed within about a minute.
 //   node tools/revoke-inviter.mjs <NPI or account id> [--dev http://localhost:8792]
 // Real database: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the environment.
 import { makeService } from "../lib/accounts/service.mjs";

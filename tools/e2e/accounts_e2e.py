@@ -92,7 +92,7 @@ def closed_site(b):
     pg.goto(CLOSED + "/fibroids/"); pg.fill("#zip", "60611"); pg.click("#zip-form button")
     pg.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(200)
     check("closed: UFE finder still finds doctors", pg.locator("li.card").count() > 0)
-    check("closed: finder makes no account request", not [u for u in reqs if "/api/" in u], reqs)
+    check("closed: finder makes no account request (job 25: only the public overlay)", not [u for u in reqs if "/api/" in u and "/api/listings?procedure=" not in u], reqs)
     href = pg.locator("li.card p.claim a", has_text="Is this you?").first.get_attribute("href")
     check("closed: a card's Is this you? opens the account page with the NPI", re.match(r"^/account/\?npi=\d{10}&procedure=ufe&name=", href or ""), href)
     reqs.clear()

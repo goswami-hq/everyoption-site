@@ -350,7 +350,7 @@
     return panel("see", "How patients see you", [
       el("p", { "class": "see-line" + (done.length ? "" : " need"), id: "see-line", text: seeLine(me) }),
       cardPreview(me),
-      el("p", { "class": "small muted", text: "Changes reach the public site at the next site update." })
+      el("p", { "class": "small muted", text: "Saved changes show in patient searches within about a minute." })
     ]);
   }
 
