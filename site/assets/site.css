@@ -328,4 +328,4 @@ a.option-link .option-note { flex: none; font-weight: 400; font-size: 15px; }
 .proc svg .limb-fill { fill: var(--calm); stroke: none; }
 .proc svg .limb-edge { fill: none; stroke: var(--edge); stroke-width: 2; stroke-linecap: round; }
 .proc svg .bolt path { fill: none; stroke: var(--hot); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-
+.lead-option > .proc-vary { margin: 14px 0 0; }

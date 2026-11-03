@@ -231,7 +231,10 @@ PROC_DEFS = """<defs>
       </defs>"""
 
 
-def diagram(k):
+PROC_VARY = "Results vary from person to person. Talk to a doctor about whether this is right for you."
+
+
+def diagram(k, vary=True):
     import pathlib
     a = PROC_ANIM[k]
     scene = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"anim-{k}.svgfrag").read_text()
@@ -247,7 +250,7 @@ def diagram(k):
 <div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
 <figcaption aria-live="polite">{caps}</figcaption>
 <button type="button" class="proc-replay" data-replay hidden>Replay</button>
-<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>
+{f'<p class="small muted proc-vary">{PROC_VARY}</p>' if vary else ""}
 </figure>"""
 
 

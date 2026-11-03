@@ -109,7 +109,8 @@ def lead_option(refs, c, diagram_fn):
     o = next(x for x in c["options"] if x["id"] == c["diagram_at"])
     rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k])).replace(chr(10), '<br>')}</dd></div>" for k, label in FIELDS)
     return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(o["name"])}</h2>'
-            f'<p>{refs.inline(tail(o["what"]))}</p>{diagram_fn(c["diagram"])}<dl class="facts">{rows}</dl>'
+            f'<p>{refs.inline(tail(o["what"]))}</p>{diagram_fn(c["diagram"], vary=False)}<dl class="facts">{rows}</dl>'
+            f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
             f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p></section>')
 
 
