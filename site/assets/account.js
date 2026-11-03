@@ -104,6 +104,7 @@
       el("div", null, [el("label", { "for": "s-email" }, ["Email ", el("span", { "class": "hint", text: "(use an email you'll keep; personal is fine)" })]),
         el("input", { id: "s-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true })]),
       el("div", { "class": "checks" }, [el("label", null, [el("input", { type: "checkbox", name: "agree", id: "s-agree", required: true }), agreeText])]),
+      el("p", { "class": "err small", id: "why-agree" }),
       el("p", { "class": "small muted", text: "No password. We email you a 6-digit code to type here. Your name comes from the NPI Registry." }),
       el("div", null, [el("button", { type: "submit", text: "Send my code" })])
     ]);
@@ -126,6 +127,13 @@
     s.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var email = s.email.value.trim();
+      var why = document.getElementById("why-agree");
+      if (!s.agree.checked) {
+        why.textContent = "Please tick this box to continue.";
+        s.agree.setAttribute("aria-invalid", "true"); s.agree.focus();
+        return;
+      }
+      why.textContent = ""; s.agree.removeAttribute("aria-invalid");
       api("POST", "signup", { npi: s.npi.value.trim(), email: email, procedures: ticked(s), agree: s.agree.checked }).then(function (j) {
         if (j._status !== 202) return say(words(j), "err");
         if (j.waitlist) return say(j.message, "ok");
@@ -223,13 +231,15 @@
     return f;
   }
 
+  function inviteWords(n) { return "A link for one colleague's NPI, good once for 7 days. They get full access. You have " + n + " of 5 left. Send it yourself."; }
+
   function inviteBox(me) {
     var inv = me.invites || { left: 0, sent: [] };
     var inp = el("input", { id: "v-npi", name: "npi", inputmode: "numeric", maxlength: "10" });
     var res = el("div", { id: "invite-out" });
     var f = el("form", { "class": "claim-form", id: "invite-create", novalidate: true }, [
       el("h2", { style: "margin-top:0", text: "Invite a colleague" }),
-      el("p", { "class": "small", text: "A link for one colleague's NPI, good once for 7 days. They get full access. You have " + inv.left + " of 5 left. Send it yourself." }),
+      el("p", { "class": "small", id: "invite-left", text: inviteWords(inv.left) }),
       el("div", null, [el("label", { "for": "v-npi", text: "Their NPI" }), inp]),
       el("div", null, [el("button", { type: "submit", "class": "secondary", text: "Make a link", disabled: inv.left <= 0 })]), res
     ]);
@@ -241,6 +251,14 @@
         var link = el("input", { id: "invite-link", readonly: true, value: j.url });
         res.appendChild(el("p", { "class": "small", text: "Link for " + j.name + (j.held ? " (this listing already has an account; it will reach us first)" : "") + ":" }));
         res.appendChild(link);
+        var copy = el("button", { type: "button", "class": "secondary", id: "invite-copy", text: "Copy link", style: "margin-top:8px" });
+        copy.addEventListener("click", function () {
+          function selected() { link.focus(); link.select(); copy.textContent = "Press copy on your device"; }
+          if (navigator.clipboard) navigator.clipboard.writeText(j.url).then(function () { copy.textContent = "Copied"; }, selected); else selected();
+        });
+        res.appendChild(copy);
+        document.getElementById("invite-left").textContent = inviteWords(j.left);
+        if (j.left <= 0) f.querySelector('button[type="submit"]').disabled = true;
         say("Invitation link made. " + j.left + " left.", "ok");
       });
     });
@@ -302,7 +320,8 @@
   function profile(me, p) {
     var kids = [el("h2", { style: "margin-top:0", text: "Your card" }),
       el("p", { "class": "small muted", text: "Your card shows only what you fill in. No links, phone numbers, or patient stories in the notes, and no words like best, guaranteed, or cure." })];
-    Object.keys(PROC).forEach(function (k) {
+    var ok = (me.profile && me.profile.attested) || [];
+    Object.keys(PROC).filter(function (k) { return ok.indexOf(k) >= 0; }).forEach(function (k) {
       var t = el("textarea", { id: "b-" + k, name: "blurb_" + k, rows: "3", maxlength: "300" });
       t.value = (p.blurbs || {})[k] || "";
       kids.push(el("div", null, [el("label", { "for": "b-" + k }, ["Note for " + PROC[k] + " ", counter(t)]), t,
@@ -344,7 +363,10 @@
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var blurbs = {};
-      Object.keys(PROC).forEach(function (k) { blurbs[k] = f["blurb_" + k].value; f.querySelector("#why-b-" + k).textContent = ""; });
+      Object.keys(PROC).forEach(function (k) {
+        if (!f["blurb_" + k]) { blurbs[k] = (p.blurbs || {})[k] || ""; return; }   // no box for an unconfirmed procedure: keep what is saved
+        blurbs[k] = f["blurb_" + k].value; f.querySelector("#why-b-" + k).textContent = "";
+      });
       var badOffice = [];
       var offices = [].slice.call(offs.querySelectorAll("fieldset.office")).map(function (fs) {
         var g = function (n) { return fs.querySelector('[name="' + n + '"]').value.trim(); };

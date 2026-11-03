@@ -74,6 +74,9 @@
           sent = true;
           form.hidden = true;
           show("<strong>Thank you. We got your report.</strong>" + (email ? " If we need more, we will write to " + esc(email) + "." : ""), "ok");
+          var ref = document.referrer, back = "";
+          try { var u = new URL(ref); if (u.origin === location.origin && u.pathname !== "/report/") back = u.pathname + u.search; } catch (e) {}
+          if (back) statusEl.insertAdjacentHTML("beforeend", '<p style="margin:10px 0 0"><a href="' + esc(back) + '">Back to your search</a></p>');
           statusEl.focus();
         } else if (res.status === 503) {
           show("The form is not open yet. Please email <a href=\"mailto:errors@everyoptionmd.com\">errors@everyoptionmd.com</a> instead.", "err");

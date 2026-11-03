@@ -67,6 +67,7 @@
     return rosterLoading;
   }
   var THIN = 5, FAR = 250, FAR_SHOW = 5;
+  var CLOSE = 25;
   function askLine() {
     var long = (window.EO_PROCS && window.EO_PROCS.long[PROC]) || "";   // site/assets/procedures.js, the shared list
     var n = (root.getAttribute("data-procedure-name") || "").trim() || (long ? long[0].toLowerCase() + long.slice(1) : "this procedure");
@@ -179,7 +180,8 @@
           o.practice ? el("span", { "class": "practice", text: o.practice }) : null, o.practice ? el("br") : null,
           (o.street ? o.street + ", " : "") + o.city + ", " + o.state + (o.zip ? " " + o.zip : ""),
           o.miles != null ? el("span", { "class": "odist", text: "\u00a0· " + mi(o.miles) }) : null,
-          t ? el("br") : null, t ? el("a", { href: t, text: showPhone(o.phone) }) : null]);
+          t && !(o === lead && o.phone === phone) ? el("br") : null,
+          t && !(o === lead && o.phone === phone) ? el("a", { href: t, text: showPhone(o.phone) }) : null]);
       }))
     ]));
     var q = "?npi=" + encodeURIComponent(p.npi) + "&procedure=" + PROC + "&name=" + encodeURIComponent(p.name);
@@ -228,11 +230,15 @@
       var confirmed = near.filter(function (p) { return p.confirmed; }), likely = near.filter(function (p) { return !p.confirmed; });
       try { history.replaceState(null, "", "?zip=" + zip + "&r=" + r); } catch (e) {}
       var thin = near.length < THIN;
-      return (thin ? loadRoster() : Promise.resolve([])).then(function (ros) {
+      // Job 20 fix: widening the distance must not hide closer doctors. When the nearest listed doctor is far away,
+      // radiologists closer than that doctor still show.
+      var nearestListed = near.length ? near[0].miles : Infinity, farOff = !thin && nearestListed > CLOSE;
+      return (thin || farOff ? loadRoster() : Promise.resolve([])).then(function (ros) {
         // Job 18: nobody appears in two groups. The roster holds no one on a procedure list; skip any NPI already shown.
         var listed = {}; d.people.forEach(function (p) { listed[p.npi] = 1; });
         var pool = ros.filter(function (p) { return !listed[p.npi]; });
-        var irs = thin ? pool.map(function (p) { return place(p, center, r); }).filter(Boolean)
+        var irs = thin || farOff ? pool.map(function (p) { return place(p, center, r); })
+          .filter(function (p) { return p && (thin || p.miles < nearestListed); })
           .sort(function (a, b) { return (b.names_it - a.names_it) || a.miles - b.miles || (a.name < b.name ? -1 : 1); }) : [];
         var shown = {}; near.concat(irs).forEach(function (p) { shown[p.npi] = 1; });
         var far = [];
@@ -243,7 +249,7 @@
         }
         var total = near.length + irs.length;
         if (!total && !far.length) {
-          say("");
+          say("No doctors within " + FAR + " miles of " + zip + ".");
           out.appendChild(el("div", { "class": "notice referral", role: "status" }, [
             el("p", { text: "Ask your doctor to refer you to an interventional radiologist." })]));
           return;

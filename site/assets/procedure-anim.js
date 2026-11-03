@@ -84,7 +84,7 @@
     if (sc.init) sc.init();
   });
 
-  var t = 0, clock = 0, playing = false, last = 0, shown = null, visible = false, started = false, ticking = false;
+  var t = 0, clock = 0, playing = false, last = 0, shown = null, visible = false, started = false, ticking = false, rest = false, ended = 0;
   var rl = $("routeLine"), rLen = rl.getTotalLength(); rl.style.strokeDasharray = rLen;
   function render(T) {
     var sc = S[cur], a = seg(T, 10, 13.4);
@@ -122,14 +122,16 @@
   }
   function frame(now) {
     var dt = Math.min(.05, (now - last) / 1000); last = now; clock += dt;
-    if (playing) { t += dt; if (t >= D) { t = D; playing = false; } }
+    if (playing) { t += dt; if (t >= D) { t = D; playing = false; ended = clock; } }
     render(t);
-    if (visible && !reduce) requestAnimationFrame(frame); else ticking = false;
+    // Job 20: rest about 15 seconds after the story ends, to save battery. The knee rests straight. Replay restarts it.
+    if (ended && clock - ended > 15 && (cur !== "gae" || Math.sin(clock * 2.2 - 1.57) < -.97)) { rest = true; ended = 0; }
+    if (visible && !reduce && !rest) requestAnimationFrame(frame); else ticking = false;
   }
-  function wake() { if (ticking || reduce || !visible) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
+  function wake() { if (ticking || reduce || !visible || rest) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
   function play(at, step) {
     if (reduce) { t = KEY[step]; render(t); return; }
-    t = at; playing = true; wake();
+    t = at; playing = true; rest = false; ended = 0; wake();
   }
   fig.addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;

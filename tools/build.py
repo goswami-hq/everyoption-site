@@ -416,9 +416,9 @@ def account():
 
 
 def not_found():
-    body = """<h1>Page not found</h1><p>Try one of the procedure finders:</p>
+    body = """<h1>Page not found</h1><p>Find a doctor for:</p>
 <ul class="finders">""" + "".join(
-        f'<li><a href="{MOVED.get(k, "/" + k + "/")}"><span class="abbr">{p["abbr"]}</span><strong>{e(p["name"])}</strong></a></li>'
+        f'<li><a href="{MOVED.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong></a></li>'
         for k, p in PROCS.items()) + "</ul>"
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 

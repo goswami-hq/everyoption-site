@@ -73,8 +73,8 @@ def run(b, width, scheme):
         check(f"{tag} {proc}: card leads with the 60605 office, its distance and Call button",
               t["practice"] == "Sample Interventional Radiology" and "Chicago, IL" in t["where"] and t["call"] == "Call (312) 555-0142"
               and t["dist"] == "under 1 mi", t)
-        check(f"{tag} {proc}: All offices lists the three with address, phone and distance",
-              len(t["all"]) == 3 and all(" mi" in x and "555-01" in x for x in t["all"]) and "Evanston" in t["all"][1]
+        check(f"{tag} {proc}: All offices lists the three with address and distance, and a phone unless the Call button already shows it",
+              len(t["all"]) == 3 and all(" mi" in x for x in t["all"]) and "555-01" not in t["all"][0] and all("555-01" in x for x in t["all"][1:]) and "Evanston" in t["all"][1]
               and "2 Example Avenue" in t["all"][1] and t["lead"] == "Sample Interventional Radiology", t["all"])
         check(f"{tag} {proc}: real address card says distance is from your ZIP center", t["note"])
         img = pg.evaluate("(() => { const i = [...document.querySelectorAll('li.card')].find(c => c.querySelector('h3').textContent.includes('test listing')).querySelector('img.photo'); return i ? [i.complete, i.naturalWidth, i.getAttribute('src')] : null; })()")

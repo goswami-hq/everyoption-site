@@ -55,7 +55,7 @@ options = ["non-hormone-medicines", "hormone-medicines", "iud"]
 
 [[categories]]
 id = "less-invasive"
-name = "Less Invasive Treatments"
+name = "Less invasive treatments"
 highlight = "embolization"
 summary = "These treat fibroids or bleeding without major surgery. Your uterus stays in place. Before you agree to surgery, ask about these."
 options = ["embolization", "radiofrequency", "focused-ultrasound", "endometrial-ablation"]
