@@ -1,5 +1,5 @@
 {
- "what": "Interventional radiologists on no procedure list (Every Option job 17: saved pages and the part 2 search of 2026-11-02). proven: an own or practice page shows IR; billing_only: Medicare billing only, not proven. site_names: procedures their practice site names (grade C).",
+ "what": "Interventional radiologists on no procedure list (Every Option job 17: saved pages and the part 2 search of 2026-11-02). proven: an own or practice page shows IR; billing_only: Medicare billing only, not proven. site_names: procedures their practice site names (grade C). Job 23 (2026-11-03): people now on a procedure list removed; his word adds five.",
  "people": [
   {
    "npi": "1073926846",
@@ -223,22 +223,6 @@
    "url": "https://doctorize.com/doctors/amit-sharma-2",
    "lat": 34.5355,
    "lon": -86.9712,
-   "site_names": []
-  },
-  {
-   "npi": "1194111245",
-   "name": "Darrel Ceballos",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Radiology Associates of Dothan, P.C.",
-   "city": "Dothan",
-   "state": "AL",
-   "city_label": "",
-   "phone": "334-793-9511",
-   "url": "https://www.southeasthealth.org/portfolio-items/darrel-a-ceballos-do/",
-   "lat": 31.1405,
-   "lon": -85.4091,
    "site_names": []
   },
   {
@@ -2079,22 +2063,6 @@
    "url": "",
    "lat": 33.943,
    "lon": -117.7256,
-   "site_names": []
-  },
-  {
-   "npi": "1689647331",
-   "name": "James Lyon",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "San Diego Imaging",
-   "city": "Chula Vista",
-   "state": "CA",
-   "city_label": "",
-   "phone": "619-502-5800",
-   "url": "https://www.sharp.com/doctors/james-lyon",
-   "lat": 32.6074,
-   "lon": -117.0504,
    "site_names": []
   },
   {
@@ -4626,22 +4594,6 @@
    "site_names": []
   },
   {
-   "npi": "1093963605",
-   "name": "Hamed Aryafar",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "San Diego Imaging Kearny Mesa",
-   "city": "San Diego",
-   "state": "CA",
-   "city_label": "",
-   "phone": "858-634-5900",
-   "url": "https://www.sharp.com/doctors/hamed-aryafar",
-   "lat": 32.8096,
-   "lon": -117.1342,
-   "site_names": []
-  },
-  {
    "npi": "1588712533",
    "name": "John D'Abreo",
    "proven": true,
@@ -4994,22 +4946,6 @@
    "site_names": []
   },
   {
-   "npi": "1669486700",
-   "name": "Paul Cipriano",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "San Jose",
-   "state": "CA",
-   "city_label": "",
-   "phone": "408-918-0405",
-   "url": "https://www.endovascularsurgery.com/paul-r-cipriano-md.php",
-   "lat": 37.3159,
-   "lon": -121.9364,
-   "site_names": []
-  },
-  {
    "npi": "1225473143",
    "name": "Zhongxia Hu",
    "proven": true,
@@ -5357,22 +5293,6 @@
    "city_label": "",
    "phone": "(650) 723-5407",
    "url": "https://med.stanford.edu/profiles/lynne-bettinger",
-   "lat": 37.4183,
-   "lon": -122.1709,
-   "site_names": []
-  },
-  {
-   "npi": "1689179632",
-   "name": "Matthew Hung",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Dept Of Radiology",
-   "city": "Stanford",
-   "state": "CA",
-   "city_label": "",
-   "phone": "(650) 723-6855",
-   "url": "https://med.stanford.edu/profiles/matthew-hung",
    "lat": 37.4183,
    "lon": -122.1709,
    "site_names": []
@@ -5906,22 +5826,6 @@
    "site_names": []
   },
   {
-   "npi": "1427069210",
-   "name": "Kimi Kondo",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "UCHealth University of Colorado Hospital",
-   "city": "Aurora",
-   "state": "CO",
-   "city_label": "",
-   "phone": "720.848.0000",
-   "url": "https://www.uchealth.org/provider/kimi-kondo-do/",
-   "lat": 39.7467,
-   "lon": -104.8372,
-   "site_names": []
-  },
-  {
    "npi": "1700203627",
    "name": "Michael Collard",
    "proven": true,
@@ -5965,22 +5869,6 @@
    "city_label": "",
    "phone": "1-303-415-5170",
    "url": "https://www.boulderradiologists.com/thomasfahrbach",
-   "lat": 39.9732,
-   "lon": -105.2093,
-   "site_names": []
-  },
-  {
-   "npi": "1770922882",
-   "name": "Zachary Lambertsen",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Boulder Radiologists, Inc.",
-   "city": "Boulder",
-   "state": "CO",
-   "city_label": "",
-   "phone": "1-303-415-5170",
-   "url": "https://www.boulderradiologists.com/zacharylambertsen",
    "lat": 39.9732,
    "lon": -105.2093,
    "site_names": []
@@ -6351,54 +6239,6 @@
    "url": "https://www.mountain.commonspirit.org/provider-search/elizabeth-spencer-md",
    "lat": 39.5283,
    "lon": -104.9239,
-   "site_names": []
-  },
-  {
-   "npi": "1033436217",
-   "name": "Meredith Mcdermott",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Our Office",
-   "city": "Highlands Ranch",
-   "state": "CO",
-   "city_label": "",
-   "phone": "(303) 805-7478",
-   "url": "https://mipscenter.com/team/dr-meredith-mcdermott-md/",
-   "lat": 39.5283,
-   "lon": -104.9239,
-   "site_names": []
-  },
-  {
-   "npi": "1841263803",
-   "name": "Michael Sassman",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "CU Medicine Interventional Radiology - Ridgeline Medical Campus",
-   "city": "Highlands Ranch",
-   "state": "CO",
-   "city_label": "",
-   "phone": "720-516-0637",
-   "url": "https://www.cumedicine.us/providers/radiology/Michael-Sassman",
-   "lat": 39.5469,
-   "lon": -105.0116,
-   "site_names": []
-  },
-  {
-   "npi": "1447609466",
-   "name": "Alan Hise",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Colorado Advanced Endovascular",
-   "city": "Lakewood",
-   "state": "CO",
-   "city_label": "",
-   "phone": "(720) 669-3036",
-   "url": "https://coloradoae.com/team/alan-j-hise-md/",
-   "lat": 39.6949,
-   "lon": -105.1732,
    "site_names": []
   },
   {
@@ -6802,22 +6642,6 @@
    "site_names": []
   },
   {
-   "npi": "1508817990",
-   "name": "Hooman Khabiri",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Trinity Health Of New England Provider Network Organization Inc",
-   "city": "Hartford",
-   "state": "CT",
-   "city_label": "City from public records; confirm location with the practice.",
-   "phone": "(301) 888-6948",
-   "url": "",
-   "lat": 41.7733,
-   "lon": -72.7044,
-   "site_names": []
-  },
-  {
    "npi": "1902892011",
    "name": "Peter Morrison",
    "proven": true,
@@ -6900,22 +6724,6 @@
    "url": "https://www.trinityhealthofne.org/provider/venu-vadlamudi-md-interventional-radiology-and-diagnostic-radiology",
    "lat": 41.7733,
    "lon": -72.7044,
-   "site_names": []
-  },
-  {
-   "npi": "1417269317",
-   "name": "Daniel Macarthur",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Madison Radiology",
-   "city": "Madison",
-   "state": "CT",
-   "city_label": "",
-   "phone": "(203) 245-7351",
-   "url": "https://madisonradiology.com/radiologists/daniel-macarthur",
-   "lat": 41.3445,
-   "lon": -72.6245,
    "site_names": []
   },
   {
@@ -7095,22 +6903,6 @@
    "site_names": []
   },
   {
-   "npi": "1528392321",
-   "name": "Juan Carlos Perez Lozada",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Patient Care Locations",
-   "city": "New Haven",
-   "state": "CT",
-   "city_label": "",
-   "phone": "203.785.4747",
-   "url": "https://medicine.yale.edu/profile/juancarlos-perezlozada/",
-   "lat": 41.3062,
-   "lon": -72.9266,
-   "site_names": []
-  },
-  {
    "npi": "1932490786",
    "name": "Rahmat Ali",
    "proven": true,
@@ -7284,22 +7076,6 @@
    "url": "https://www.centerforvaricoseveins.com/about",
    "lat": 41.2113,
    "lon": -73.441,
-   "site_names": []
-  },
-  {
-   "npi": "1851462675",
-   "name": "Anthony Venbrux",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "The George Washington University Hospital",
-   "city": "Washington",
-   "state": "DC",
-   "city_label": "",
-   "phone": "(202) 715-4000",
-   "url": "https://gwhospital.com/hospital-services/radiology/anthony-venbrux-md/",
-   "lat": 38.8925,
-   "lon": -77.0538,
    "site_names": []
   },
   {
@@ -8569,22 +8345,6 @@
    "site_names": []
   },
   {
-   "npi": "1134388200",
-   "name": "Akash Patel",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Melbourne",
-   "state": "FL",
-   "city_label": "",
-   "phone": "321-364-1001",
-   "url": "https://www.mabmd.com/physicians/akash-patel.html",
-   "lat": 28.0794,
-   "lon": -80.6223,
-   "site_names": []
-  },
-  {
    "npi": "1740220789",
    "name": "Robert Kennedy",
    "proven": false,
@@ -9177,38 +8937,6 @@
    "site_names": []
   },
   {
-   "npi": "1134115959",
-   "name": "Alexander Azbel",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Orlando Health Medical Group Radiology",
-   "city": "Orlando",
-   "state": "FL",
-   "city_label": "",
-   "phone": "(321) 843-3627",
-   "url": "https://www.southlakehospital.com/physician-finder/alexander-azbel-md",
-   "lat": 28.5124,
-   "lon": -81.3603,
-   "site_names": []
-  },
-  {
-   "npi": "1215317888",
-   "name": "Andrew Wagner",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Orlando Health Medical Group Radiology",
-   "city": "Orlando",
-   "state": "FL",
-   "city_label": "",
-   "phone": "(321) 841-5658",
-   "url": "https://www.southlakehospital.com/physician-finder/andrew-wagner-md",
-   "lat": 28.5124,
-   "lon": -81.3603,
-   "site_names": []
-  },
-  {
    "npi": "1033484134",
    "name": "Brandon Perry",
    "proven": true,
@@ -9561,22 +9289,6 @@
    "site_names": []
   },
   {
-   "npi": "1235132473",
-   "name": "Neal Joseph",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Radiology Associates of Hollywood",
-   "city": "Pembroke Pines",
-   "state": "FL",
-   "city_label": "",
-   "phone": "954-442-8346",
-   "url": "https://www.mhs.net:443/providers/j/joseph-neal",
-   "lat": 26.0262,
-   "lon": -80.296,
-   "site_names": []
-  },
-  {
    "npi": "1528293891",
    "name": "Oscar Garcia-Fraga",
    "proven": true,
@@ -9894,22 +9606,6 @@
    "url": "https://smhfpg.com/doctors/wong-thomas-y-md/",
    "lat": 27.3109,
    "lon": -82.5212,
-   "site_names": []
-  },
-  {
-   "npi": "1669708509",
-   "name": "Aldo Gonzalez-Beicos",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "South Miami",
-   "state": "FL",
-   "city_label": "",
-   "phone": "(786) 422-5223",
-   "url": "https://provectus.health/dr-aldo-gonzalez-beicos/",
-   "lat": 25.7025,
-   "lon": -80.2986,
    "site_names": []
   },
   {
@@ -10265,22 +9961,6 @@
    "site_names": []
   },
   {
-   "npi": "1477528206",
-   "name": "Hai Kenney",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Viera",
-   "state": "FL",
-   "city_label": "",
-   "phone": "321-704-8505",
-   "url": "https://spacecoastliving.com/health-care-professionals-dr-hai-h-kenney/",
-   "lat": 28.2888,
-   "lon": -80.7914,
-   "site_names": []
-  },
-  {
    "npi": "1518303502",
    "name": "Michael Meshreki",
    "proven": false,
@@ -10294,22 +9974,6 @@
    "url": "",
    "lat": 26.6467,
    "lon": -80.2503,
-   "site_names": []
-  },
-  {
-   "npi": "1588763288",
-   "name": "Gaurav Kumar",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Wesley Chapel",
-   "state": "FL",
-   "city_label": "",
-   "phone": "(813) 388-4000",
-   "url": "https://www.floridamedicalclinic.com/doctors/gaurav-kumar-md/",
-   "lat": 28.2052,
-   "lon": -82.3171,
    "site_names": []
   },
   {
@@ -10925,22 +10589,6 @@
    "site_names": []
   },
   {
-   "npi": "1811407141",
-   "name": "Mohamed Abbas",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Grady Memorial Hospital",
-   "city": "Atlanta",
-   "state": "GA",
-   "city_label": "",
-   "phone": "(404) 616-1000",
-   "url": "https://www.gradyhealth.org/doctors/mohamed-said-awad-abbas/",
-   "lat": 33.7528,
-   "lon": -84.3902,
-   "site_names": []
-  },
-  {
    "npi": "1699015792",
    "name": "Peter Ju Park",
    "proven": true,
@@ -11006,22 +10654,6 @@
    "url": "https://raadocs.com/atlanta-radiologists/g-raymond-wong-m-d/",
    "lat": 33.7999,
    "lon": -84.3858,
-   "site_names": []
-  },
-  {
-   "npi": "1558345777",
-   "name": "Ronald Jay Zagoria",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Atlanta",
-   "state": "GA",
-   "city_label": "",
-   "phone": "404-778-9729",
-   "url": "https://www.emoryhealthcare.org/providers/ronald-jay-zagoria-2241555",
-   "lat": 33.7946,
-   "lon": -84.3252,
    "site_names": []
   },
   {
@@ -13049,38 +12681,6 @@
    "site_names": []
   },
   {
-   "npi": "1669412920",
-   "name": "Paul Sonntag",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Boise Radiology Group",
-   "city": "Meridian",
-   "state": "ID",
-   "city_label": "",
-   "phone": "(208) 706-7086",
-   "url": "https://stlukesonline.org/en/get-care/providers/sonntag-paul/",
-   "lat": 43.5736,
-   "lon": -116.4009,
-   "site_names": []
-  },
-  {
-   "npi": "1760682066",
-   "name": "Paul Sonntag",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "St. Luke’s Clinic - Interventional Radiology: Meridian",
-   "city": "Meridian",
-   "state": "ID",
-   "city_label": "",
-   "phone": "(208) 706-7086",
-   "url": "https://stlukesonline.org/en/get-care/providers/sonntag-paul/",
-   "lat": 43.5736,
-   "lon": -116.4009,
-   "site_names": []
-  },
-  {
    "npi": "1851335509",
    "name": "Sean Carr",
    "proven": true,
@@ -13321,22 +12921,6 @@
    "site_names": []
   },
   {
-   "npi": "1417480419",
-   "name": "Abdul Khan",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Department of Radiology",
-   "city": "Chicago",
-   "state": "IL",
-   "city_label": "",
-   "phone": "773.702.6024",
-   "url": "https://radiology.uchicago.edu/faculty/abdul-khan",
-   "lat": 41.7825,
-   "lon": -87.6027,
-   "site_names": []
-  },
-  {
    "npi": "1750471678",
    "name": "Adam Finkelstein",
    "proven": true,
@@ -13558,22 +13142,6 @@
    "url": "https://cookcountyhealth.org/physicians/olga-vinokur-md/",
    "lat": 41.8805,
    "lon": -87.6879,
-   "site_names": []
-  },
-  {
-   "npi": "1104384791",
-   "name": "Patrick Tran",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Department of Radiology",
-   "city": "Chicago",
-   "state": "IL",
-   "city_label": "",
-   "phone": "773.702.6024",
-   "url": "https://radiology.uchicago.edu/faculty/patrick-tran-md",
-   "lat": 41.7825,
-   "lon": -87.6027,
    "site_names": []
   },
   {
@@ -13988,22 +13556,6 @@
    "city_label": "",
    "phone": "(630) 856-7460",
    "url": "https://virchicago.com/team/daniel-schmelka/",
-   "lat": 41.8007,
-   "lon": -87.9282,
-   "site_names": []
-  },
-  {
-   "npi": "1912926353",
-   "name": "David Hahn",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "VIR Chicago",
-   "city": "Hinsdale",
-   "state": "IL",
-   "city_label": "",
-   "phone": "(630) 856-7460",
-   "url": "https://virchicago.com/team/david-hahn/",
    "lat": 41.8007,
    "lon": -87.9282,
    "site_names": []
@@ -15515,8 +15067,8 @@
   {
    "npi": "1457846750",
    "name": "Austin Clarey",
-   "proven": false,
-   "billing_only": true,
+   "proven": true,
+   "billing_only": false,
    "neuro_only": false,
    "practice": "Munster Radiology Group Pc",
    "city": "Munster",
@@ -16134,22 +15686,6 @@
    "url": "",
    "lat": 38.0424,
    "lon": -84.544,
-   "site_names": []
-  },
-  {
-   "npi": "1336670363",
-   "name": "Luis Acosta",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Lexington",
-   "state": "KY",
-   "city_label": "",
-   "phone": "859-323-9729",
-   "url": "https://ukhealthcare.uky.edu/doctors/luis-acosta",
-   "lat": 38.0262,
-   "lon": -84.4863,
    "site_names": []
   },
   {
@@ -17062,22 +16598,6 @@
    "url": "https://www.bmc.org/about-us/directory/doctor/suvranu-ganguli-md",
    "lat": 42.3379,
    "lon": -71.0698,
-   "site_names": []
-  },
-  {
-   "npi": "1235523440",
-   "name": "Vincent Wu",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Mass General Brigham Vascular & Vein Care Center",
-   "city": "Boston",
-   "state": "MA",
-   "city_label": "",
-   "phone": "617-726-8488",
-   "url": "https://www.massgeneralbrigham.org/en/doctors/w/vincent-wu-3001236",
-   "lat": 42.3637,
-   "lon": -71.0669,
    "site_names": []
   },
   {
@@ -18025,38 +17545,6 @@
    "site_names": []
   },
   {
-   "npi": "1518925122",
-   "name": "Arshad Khan",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "MedStar Southern Maryland Hospital Center",
-   "city": "Clinton",
-   "state": "MD",
-   "city_label": "",
-   "phone": "(202) 877-8153",
-   "url": "https://www.medstarhealth.org/doctors/arshad-a-khan-md",
-   "lat": 38.7509,
-   "lon": -76.9027,
-   "site_names": []
-  },
-  {
-   "npi": "1982164042",
-   "name": "Maryam Boumezrag",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "MedStar Southern Maryland Hospital Center",
-   "city": "Clinton",
-   "state": "MD",
-   "city_label": "",
-   "phone": "301-877-4772",
-   "url": "https://www.medstarhealth.org/doctors/maryam-boumezrag-md",
-   "lat": 38.7509,
-   "lon": -76.9027,
-   "site_names": []
-  },
-  {
    "npi": "1831189547",
    "name": "Brian Johnson",
    "proven": false,
@@ -18169,22 +17657,6 @@
    "site_names": []
   },
   {
-   "npi": "1174779946",
-   "name": "Donna Buckley",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Hollywood",
-   "state": "MD",
-   "city_label": "",
-   "phone": "(877) 219-2787",
-   "url": "https://www.medstarhealth.org/doctors/donna-carol-buckley-md",
-   "lat": 38.3521,
-   "lon": -76.5672,
-   "site_names": []
-  },
-  {
    "npi": "1871729681",
    "name": "Ruchika Bhatt",
    "proven": true,
@@ -18214,38 +17686,6 @@
    "url": "https://oakland-mri.com/our-radiologists/27-dr-pappas",
    "lat": 39.3917,
    "lon": -79.3924,
-   "site_names": []
-  },
-  {
-   "npi": "1427099936",
-   "name": "Marcos Roffe",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Oakland MRI Center, LLC",
-   "city": "Oakland",
-   "state": "MD",
-   "city_label": "",
-   "phone": "301-533-4674",
-   "url": "https://www.oakland-mri.com/our-radiologists/28-dr-roffe",
-   "lat": 39.3917,
-   "lon": -79.3924,
-   "site_names": []
-  },
-  {
-   "npi": "1245230085",
-   "name": "James Spies",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Olney",
-   "state": "MD",
-   "city_label": "",
-   "phone": "(877) 219-2787",
-   "url": "https://www.medstarhealth.org/doctors/james-brennan-spies-md-mph",
-   "lat": 39.1503,
-   "lon": -77.0783,
    "site_names": []
   },
   {
@@ -18921,22 +18361,6 @@
    "site_names": []
   },
   {
-   "npi": "1083032320",
-   "name": "Peter Massa",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Henry Ford Interventional Radiology - Henry Ford Hospital",
-   "city": "Detroit",
-   "state": "MI",
-   "city_label": "",
-   "phone": "313-916-1363",
-   "url": "https://www.henryford.com/physician-directory/m/massa-peter",
-   "lat": 42.3746,
-   "lon": -83.0777,
-   "site_names": []
-  },
-  {
    "npi": "1558439299",
    "name": "Scott Sturza",
    "proven": true,
@@ -18998,22 +18422,6 @@
    "url": "https://www.osfhealthcare.org/providers/tarek-jazmati-2637841",
    "lat": 45.7741,
    "lon": -87.1363,
-   "site_names": []
-  },
-  {
-   "npi": "1265631733",
-   "name": "Charles Cash",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Farmington Hills",
-   "state": "MI",
-   "city_label": "",
-   "phone": "947-228-5500",
-   "url": "https://myprecisionir.com/team/charles-cash-m-d/",
-   "lat": 42.5047,
-   "lon": -83.3492,
    "site_names": []
   },
   {
@@ -21097,22 +20505,6 @@
    "site_names": []
   },
   {
-   "npi": "1306833405",
-   "name": "Maxwell Lazinger",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Boone Health",
-   "city": "Columbia",
-   "state": "MO",
-   "city_label": "",
-   "phone": "573-815-8000",
-   "url": "https://boone.health/providers/lazinger-maxwell-md/",
-   "lat": 38.9009,
-   "lon": -92.2384,
-   "site_names": []
-  },
-  {
    "npi": "1538456363",
    "name": "Kurtis Mauer",
    "proven": true,
@@ -21353,38 +20745,6 @@
    "site_names": []
   },
   {
-   "npi": "1922530666",
-   "name": "Francisco Gortes",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Mosaic Life Care at St. Joseph - Interventional Radiology",
-   "city": "Saint Joseph",
-   "state": "MO",
-   "city_label": "",
-   "phone": "(816) 271-1092",
-   "url": "https://www.mymlc.com/Main/Doctor/Dr-Francisco-J-Gortes-MD/",
-   "lat": 39.7899,
-   "lon": -94.8033,
-   "site_names": []
-  },
-  {
-   "npi": "1174887921",
-   "name": "Afsheen Sherwani",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "SLUCare Physician Group",
-   "city": "Saint Louis",
-   "state": "MO",
-   "city_label": "",
-   "phone": "314-257-3760",
-   "url": "https://www.getcare.ssmhealth.com/find-a-doctor/doctor-details/afsheen-sherwani-md",
-   "lat": 38.6111,
-   "lon": -90.2141,
-   "site_names": []
-  },
-  {
    "npi": "1720105521",
    "name": "Akhilesh Sista",
    "proven": true,
@@ -21414,22 +20774,6 @@
    "url": "https://www.slu.edu/science-and-engineering/academics/biomedical-engineering/faculty/hall-andrew.php",
    "lat": 38.6298,
    "lon": -90.2171,
-   "site_names": []
-  },
-  {
-   "npi": "1558822643",
-   "name": "Asif Aziz",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "SLUCare Physician Group",
-   "city": "Saint Louis",
-   "state": "MO",
-   "city_label": "",
-   "phone": "314-257-3760",
-   "url": "https://www.getcare.ssmhealth.com/find-a-doctor/doctor-details/asif-aziz-md",
-   "lat": 38.6111,
-   "lon": -90.2141,
    "site_names": []
   },
   {
@@ -21625,22 +20969,6 @@
    "site_names": []
   },
   {
-   "npi": "1114231479",
-   "name": "Radu Serban",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "SLUCare Physician Group",
-   "city": "Saint Louis",
-   "state": "MO",
-   "city_label": "",
-   "phone": "314-257-3760",
-   "url": "https://www.getcare.ssmhealth.com/find-a-doctor/doctor-details/radu-serban-md",
-   "lat": 38.6111,
-   "lon": -90.2141,
-   "site_names": []
-  },
-  {
    "npi": "1467478768",
    "name": "Suresh Vedantham",
    "proven": true,
@@ -21812,22 +21140,6 @@
    "city_label": "",
    "phone": "(601) 450-0521",
    "url": "https://www.merithealthwesley.com/find-a-doctor/york-james-md-13869",
-   "lat": 31.3332,
-   "lon": -89.4141,
-   "site_names": []
-  },
-  {
-   "npi": "1639107147",
-   "name": "Ronald Young",
-   "proven": false,
-   "billing_only": true,
-   "neuro_only": false,
-   "practice": "Comprehensive Radiology Services, PLLC",
-   "city": "Hattiesburg",
-   "state": "MS",
-   "city_label": "",
-   "phone": "(601) 450-0521",
-   "url": "https://www.merithealthwesley.com/find-a-doctor/young-ronald-md-390",
    "lat": 31.3332,
    "lon": -89.4141,
    "site_names": []
@@ -22278,22 +21590,6 @@
    "url": "",
    "lat": 46.5307,
    "lon": -112.1994,
-   "site_names": []
-  },
-  {
-   "npi": "1740623818",
-   "name": "Mark Johnson",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Central Office",
-   "city": "Kalispell",
-   "state": "MT",
-   "city_label": "",
-   "phone": "(406) 751-7519",
-   "url": "https://northwestimaging.com/radiologists/mark-johnson-md/",
-   "lat": 48.2306,
-   "lon": -114.4033,
    "site_names": []
   },
   {
@@ -22873,22 +22169,6 @@
    "site_names": []
   },
   {
-   "npi": "1942695382",
-   "name": "Dylan Suttle",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Greensboro",
-   "state": "NC",
-   "city_label": "",
-   "phone": "336-499-9513",
-   "url": "https://carolinaendovascular.com/physician/dylan-suttle-md/",
-   "lat": 36.1874,
-   "lon": -79.8174,
-   "site_names": []
-  },
-  {
    "npi": "1194984930",
    "name": "Farhaan Rowshan Mir",
    "proven": true,
@@ -23193,22 +22473,6 @@
    "site_names": []
   },
   {
-   "npi": "1023646577",
-   "name": "Nathan Brajer",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Raleigh",
-   "state": "NC",
-   "city_label": "",
-   "phone": "919-684-7999",
-   "url": "https://www.dukehealth.org/find-doctors-physicians/nathan-brajer-md",
-   "lat": 35.8271,
-   "lon": -78.6507,
-   "site_names": []
-  },
-  {
    "npi": "1952306268",
    "name": "Paul Capito",
    "proven": true,
@@ -23252,38 +22516,6 @@
    "city_label": "",
    "phone": "(910) 762-3882",
    "url": "https://www.delaneyrad.com/radiologists/brodwater-brian-k-md/",
-   "lat": 34.292,
-   "lon": -77.9724,
-   "site_names": []
-  },
-  {
-   "npi": "1588056113",
-   "name": "Eric Keller",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Delaney Radiology Medical Center Drive Office",
-   "city": "Wilmington",
-   "state": "NC",
-   "city_label": "",
-   "phone": "(910) 762-3882",
-   "url": "https://www.delaneyrad.com/radiologists/eric-keller-m-d-m-a/",
-   "lat": 34.292,
-   "lon": -77.9724,
-   "site_names": []
-  },
-  {
-   "npi": "1801385893",
-   "name": "Victoria Arendt Kosec",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Delaney Radiology Medical Center Drive Office",
-   "city": "Wilmington",
-   "state": "NC",
-   "city_label": "",
-   "phone": "(910) 762-3882",
-   "url": "https://www.delaneyrad.com/radiologists/victoria-arendt-kosec-m-d/",
    "lat": 34.292,
    "lon": -77.9724,
    "site_names": []
@@ -24116,22 +23348,6 @@
    "city_label": "",
    "phone": "603-650-4488",
    "url": "https://providers.dartmouth-health.org/277/nancy-j-mcnulty",
-   "lat": 43.6326,
-   "lon": -72.2348,
-   "site_names": []
-  },
-  {
-   "npi": "1578068540",
-   "name": "Ryan Kiefer",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Lebanon",
-   "state": "NH",
-   "city_label": "",
-   "phone": "603-650-4488",
-   "url": "https://providers.dartmouth-health.org/2238/ryan-m-kiefer",
    "lat": 43.6326,
    "lon": -72.2348,
    "site_names": []
@@ -27722,22 +26938,6 @@
    "url": "",
    "lat": 40.7003,
    "lon": -73.836,
-   "site_names": []
-  },
-  {
-   "npi": "1326095829",
-   "name": "Andrew J Bebry",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Practice Locations & Hours",
-   "city": "Jericho",
-   "state": "NY",
-   "city_label": "",
-   "phone": "516-755-0390",
-   "url": "https://medseal.app/es/providers/mr-andrew-bebry-radiology",
-   "lat": 40.7897,
-   "lon": -73.541,
    "site_names": []
   },
   {
@@ -32687,38 +31887,6 @@
    "site_names": []
   },
   {
-   "npi": "1407894603",
-   "name": "James Thomas",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "American Access Care - South Philadelphia",
-   "city": "Philadelphia",
-   "state": "PA",
-   "city_label": "",
-   "phone": "215 462 2100",
-   "url": "https://thefibroidcenter.com/drthomas.htm",
-   "lat": 39.9145,
-   "lon": -75.1912,
-   "site_names": []
-  },
-  {
-   "npi": "1831147180",
-   "name": "James Thomas",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "American Access Care - South Philadelphia",
-   "city": "Philadelphia",
-   "state": "PA",
-   "city_label": "",
-   "phone": "215 462 2100",
-   "url": "https://thefibroidcenter.com/drthomas.htm",
-   "lat": 39.9145,
-   "lon": -75.1912,
-   "site_names": []
-  },
-  {
    "npi": "1073875621",
    "name": "Jeffrey Cruz",
    "proven": true,
@@ -32847,22 +32015,6 @@
    "site_names": []
   },
   {
-   "npi": "1558399600",
-   "name": "Richard Shlansky-Goldberg",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Penn Interventional Radiology HUP",
-   "city": "Philadelphia",
-   "state": "PA",
-   "city_label": "",
-   "phone": "800-789-7366",
-   "url": "https://www.pennmedicine.org/providers/richard-shlansky-goldberg",
-   "lat": 39.9585,
-   "lon": -75.1989,
-   "site_names": []
-  },
-  {
    "npi": "1093922528",
    "name": "Robert Adamo",
    "proven": true,
@@ -32876,22 +32028,6 @@
    "url": "",
    "lat": 39.9518,
    "lon": -75.1587,
-   "site_names": []
-  },
-  {
-   "npi": "1538699749",
-   "name": "Robert Griffith",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Penn Interventional Radiology HUP",
-   "city": "Philadelphia",
-   "state": "PA",
-   "city_label": "",
-   "phone": "800-789-7366",
-   "url": "https://www.pennmedicine.org/providers/robert-griffith",
-   "lat": 39.9585,
-   "lon": -75.1989,
    "site_names": []
   },
   {
@@ -32986,22 +32122,6 @@
    "city_label": "",
    "phone": "215-590-7000",
    "url": "https://www.chop.edu/doctors/pimpalwar-sheena",
-   "lat": 39.9585,
-   "lon": -75.1989,
-   "site_names": []
-  },
-  {
-   "npi": "1831410471",
-   "name": "Shilpa Reddy",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Penn Interventional Radiology HUP",
-   "city": "Philadelphia",
-   "state": "PA",
-   "city_label": "",
-   "phone": "800-789-7366",
-   "url": "https://www.pennmedicine.org/providers/shilpa-reddy",
    "lat": 39.9585,
    "lon": -75.1989,
    "site_names": []
@@ -33247,22 +32367,6 @@
    "site_names": []
   },
   {
-   "npi": "1164740056",
-   "name": "Charles Fedele",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Chester County Hospital",
-   "city": "West Chester",
-   "state": "PA",
-   "city_label": "",
-   "phone": "800-789-7366",
-   "url": "https://www.pennmedicine.org/providers/charles-fedele",
-   "lat": 39.9872,
-   "lon": -75.6031,
-   "site_names": []
-  },
-  {
    "npi": "1205098548",
    "name": "Gerard Berry",
    "proven": true,
@@ -33450,22 +32554,6 @@
    "city_label": "",
    "phone": "484.580.1800",
    "url": "https://www.mainlinehealth.org/find-a-doctor/peter-a-villas",
-   "lat": 39.9981,
-   "lon": -75.2739,
-   "site_names": []
-  },
-  {
-   "npi": "1679896112",
-   "name": "Ricky Tong",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Lankenau Medical Center, Radiology Department",
-   "city": "Wynnewood",
-   "state": "PA",
-   "city_label": "",
-   "phone": "484.580.1800",
-   "url": "https://www.mainlinehealth.org/find-a-doctor/ricky-t-tong",
    "lat": 39.9981,
    "lon": -75.2739,
    "site_names": []
@@ -33900,22 +32988,6 @@
    "url": "",
    "lat": 32.7772,
    "lon": -79.932,
-   "site_names": []
-  },
-  {
-   "npi": "1760863005",
-   "name": "Cain Green",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "MUSC Health University Medical Center Extension",
-   "city": "Charleston",
-   "state": "SC",
-   "city_label": "",
-   "phone": "843-792-2300",
-   "url": "https://www.getcare.muschealth.org/providers/cain-green-1760863005",
-   "lat": 32.7853,
-   "lon": -79.9484,
    "site_names": []
   },
   {
@@ -34442,22 +33514,6 @@
    "city_label": "City from public records; confirm location with the practice.",
    "phone": "800-475-6236",
    "url": "",
-   "lat": 34.9953,
-   "lon": -81.9684,
-   "site_names": []
-  },
-  {
-   "npi": "1053379552",
-   "name": "Richard Harp",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Spartanburg",
-   "state": "SC",
-   "city_label": "",
-   "phone": "864-560-6522",
-   "url": "https://spartanburgradiology.org/associates/Harp_R.htm",
    "lat": 34.9953,
    "lon": -81.9684,
    "site_names": []
@@ -35050,22 +34106,6 @@
    "city_label": "",
    "phone": "901-685-2696",
    "url": "https://memphisradiological.com/memphis-radiological-physicians/jon-roberts/",
-   "lat": 35.0795,
-   "lon": -89.8454,
-   "site_names": []
-  },
-  {
-   "npi": "1013329044",
-   "name": "Michael Beaucaire",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Memphis Vascular Center",
-   "city": "Memphis",
-   "state": "TN",
-   "city_label": "",
-   "phone": "(901) 683-1890",
-   "url": "https://www.memphisvascular.com/team/michael-beaucaire-m-d/",
    "lat": 35.0795,
    "lon": -89.8454,
    "site_names": []
@@ -35775,22 +34815,6 @@
    "site_names": []
   },
   {
-   "npi": "1568720662",
-   "name": "Veral Amin",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Austin",
-   "state": "TX",
-   "city_label": "",
-   "phone": "(713) 242-4046",
-   "url": "https://memorialhermann.org/doctors/interventional-radiology-diagnostic-radiologists/dr-veral-amin-md-1568720662",
-   "lat": 30.429,
-   "lon": -97.7177,
-   "site_names": []
-  },
-  {
    "npi": "1689801995",
    "name": "Vijay Jaswani",
    "proven": true,
@@ -36076,22 +35100,6 @@
    "url": "https://www.bswhealth.com/physician/islam-shahin",
    "lat": 32.7925,
    "lon": -96.7728,
-   "site_names": []
-  },
-  {
-   "npi": "1679951511",
-   "name": "Jamaal Benjamin",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "",
-   "city": "Dallas",
-   "state": "TX",
-   "city_label": "",
-   "phone": "214-645-7237",
-   "url": "https://utswmed.org/doctors/jamaal-benjamin/",
-   "lat": 32.814,
-   "lon": -96.8428,
    "site_names": []
   },
   {
@@ -37423,22 +36431,6 @@
    "site_names": []
   },
   {
-   "npi": "1215101894",
-   "name": "Amir Pezeshkmehr",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Texas Children's Hospital Wallace Tower",
-   "city": "Houston",
-   "state": "TX",
-   "city_label": "",
-   "phone": "832-824-7237",
-   "url": "https://www.texaschildrens.org/find-a-provider/amir-pezeshkmehr-md",
-   "lat": 29.7056,
-   "lon": -95.4018,
-   "site_names": []
-  },
-  {
    "npi": "1629205158",
    "name": "Arash Saemi",
    "proven": true,
@@ -38191,22 +37183,6 @@
    "site_names": []
   },
   {
-   "npi": "1740422369",
-   "name": "Voon Liaw",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "HNRA",
-   "city": "Houston",
-   "state": "TX",
-   "city_label": "",
-   "phone": "281.206.9050",
-   "url": "http://www.hnra.com/rad_vliaw.html",
-   "lat": 30.009,
-   "lon": -95.4396,
-   "site_names": []
-  },
-  {
    "npi": "1821230434",
    "name": "Zeyad Metwalli",
    "proven": true,
@@ -38236,22 +37212,6 @@
    "url": "https://www.stridecare.com/providers/dean-p-chauvin-md",
    "lat": 29.7956,
    "lon": -95.7794,
-   "site_names": []
-  },
-  {
-   "npi": "1225290380",
-   "name": "Poyan Rafiei",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Katy Office",
-   "city": "Katy",
-   "state": "TX",
-   "city_label": "",
-   "phone": "346-387-9147",
-   "url": "https://texas-ir.com/poyan-rafiei-md/",
-   "lat": 29.7447,
-   "lon": -95.8155,
    "site_names": []
   },
   {
@@ -38623,22 +37583,6 @@
    "site_names": []
   },
   {
-   "npi": "1013188762",
-   "name": "Gunvir Gill",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Main Address",
-   "city": "Richmond",
-   "state": "TX",
-   "city_label": "",
-   "phone": "(281) 341-2826",
-   "url": "https://oakbendmedcenter.org/doctors/gill-gunvir-md/",
-   "lat": 29.4914,
-   "lon": -95.7021,
-   "site_names": []
-  },
-  {
    "npi": "1306006531",
    "name": "Justin Smith",
    "proven": true,
@@ -38732,22 +37676,6 @@
    "url": "https://www.christushealth.org/find-a-doctor/diane-bricco-94231",
    "lat": 29.4239,
    "lon": -98.4864,
-   "site_names": []
-  },
-  {
-   "npi": "1720116056",
-   "name": "Ghazwan Kroma",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Practice Location",
-   "city": "San Antonio",
-   "state": "TX",
-   "city_label": "",
-   "phone": "210-358-2725",
-   "url": "https://www.universityhealth.com/providers/k/ghazwan-kroma-1720116056",
-   "lat": 29.5055,
-   "lon": -98.577,
    "site_names": []
   },
   {
@@ -39119,22 +38047,6 @@
    "site_names": []
   },
   {
-   "npi": "1588608582",
-   "name": "Daniel Hatch",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Utah Radiology Associates",
-   "city": "Provo",
-   "state": "UT",
-   "city_label": "",
-   "phone": "888.752.6151",
-   "url": "https://utahradiology.com/doctor-profile/daniel-j-hatch-md/",
-   "lat": 40.3187,
-   "lon": -111.577,
-   "site_names": []
-  },
-  {
    "npi": "1528280385",
    "name": "Matthew Nokes",
    "proven": true,
@@ -39308,22 +38220,6 @@
    "url": "",
    "lat": 38.8834,
    "lon": -77.1395,
-   "site_names": []
-  },
-  {
-   "npi": "1255489803",
-   "name": "Alan Matsumoto",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Radiology & Medical Imaging",
-   "city": "Charlottesville",
-   "state": "VA",
-   "city_label": "",
-   "phone": "434.924.9400",
-   "url": "https://www.uvahealth.com/providers/Alan-Matsumoto-1255489803",
-   "lat": 38.031,
-   "lon": -78.4966,
    "site_names": []
   },
   {
@@ -40543,22 +39439,6 @@
    "site_names": []
   },
   {
-   "npi": "1154522092",
-   "name": "Samuel Chao",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Vantage Radiology & Diagnostic Services",
-   "city": "Renton",
-   "state": "WA",
-   "city_label": "",
-   "phone": "253.661.4755",
-   "url": "https://www.valleymed.org/find-a-provider/c/samuel-c-chao",
-   "lat": 47.4475,
-   "lon": -122.2004,
-   "site_names": []
-  },
-  {
    "npi": "1942680830",
    "name": "David Holt",
    "proven": true,
@@ -40906,22 +39786,6 @@
    "city_label": "City from public records; confirm location with the practice.",
    "phone": "715-838-3926",
    "url": "",
-   "lat": 44.8346,
-   "lon": -91.5204,
-   "site_names": []
-  },
-  {
-   "npi": "1780144634",
-   "name": "Sirus Saeedipour",
-   "proven": true,
-   "billing_only": false,
-   "neuro_only": false,
-   "practice": "Eau Claire",
-   "city": "Eau Claire",
-   "state": "WI",
-   "city_label": "",
-   "phone": "715-838-3926",
-   "url": "https://sncs-prod-external.mayo.edu/providers/sirus-saeedipour-do",
    "lat": 44.8346,
    "lon": -91.5204,
    "site_names": []
@@ -42012,6 +40876,38 @@
    "url": "https://www.sheridanhospital.org/doctor/gonda-shaun-j-m-d/",
    "lat": 44.8325,
    "lon": -106.8963,
+   "site_names": []
+  },
+  {
+   "npi": "1437656683",
+   "name": "Ethan Ungchusri",
+   "proven": true,
+   "billing_only": false,
+   "neuro_only": false,
+   "practice": "UChicago Medicine Duchossois Center for Advanced Medicine - Hyde Park",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "",
+   "phone": "1-888-824-0200",
+   "url": "https://www.uchicagomedicine.org/find-a-physician/physician/ethan-ungchusri",
+   "lat": 41.7825,
+   "lon": -87.6027,
+   "site_names": []
+  },
+  {
+   "npi": "1992201560",
+   "name": "Karan Nijhawan",
+   "proven": true,
+   "billing_only": false,
+   "neuro_only": false,
+   "practice": "Department Radiology",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "",
+   "phone": "",
+   "url": "https://profiles.uchicago.edu/profiles/display/78364943",
+   "lat": 41.7825,
+   "lon": -87.6027,
    "site_names": []
   }
  ]
