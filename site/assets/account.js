@@ -345,10 +345,20 @@
       ev.preventDefault();
       var blurbs = {};
       Object.keys(PROC).forEach(function (k) { blurbs[k] = f["blurb_" + k].value; f.querySelector("#why-b-" + k).textContent = ""; });
+      var badOffice = [];
       var offices = [].slice.call(offs.querySelectorAll("fieldset.office")).map(function (fs) {
         var g = function (n) { return fs.querySelector('[name="' + n + '"]').value.trim(); };
-        return { practice: g("practice"), street: g("street"), city: g("city"), state: g("state").toUpperCase(), zip: g("zip"), phone: g("phone") };
+        var o = { practice: g("practice"), street: g("street"), city: g("city"), state: g("state").toUpperCase(), zip: g("zip"), phone: g("phone") };
+        // Job 20: the same rules as the server, so the field that is wrong is the one marked (the server names only "offices").
+        var used = o.practice || o.street || o.city || o.zip || o.phone, digits = o.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+        [["city", used && !o.city], ["state", used && !/^[A-Z]{2}$/.test(o.state)], ["zip", used && !/^\d{5}$/.test(o.zip)],
+          ["phone", o.phone && digits.length !== 10]].forEach(function (c) {
+          var inp = fs.querySelector('[name="' + c[0] + '"]');
+          if (c[1]) { inp.setAttribute("aria-invalid", "true"); badOffice.push(inp); } else inp.removeAttribute("aria-invalid");
+        });
+        return o;
       }).filter(function (o) { return o.practice || o.street || o.city || o.zip || o.phone; });
+      if (contact && badOffice.length) { say("Please check the highlighted office details.", "err"); badOffice[0].focus(); return; }
       var patch = { blurbs: blurbs, insurances: [].slice.call(f.querySelectorAll('input[name="insurances"]:checked')).map(function (x) { return x.value; }),
         insurance_other: other.value.trim(), insurance_confirm: f.insurance_confirm.checked };
       if (contact) { patch.booking_url = book.value.trim(); patch.offices = offices; }
@@ -364,7 +374,12 @@
             var why = k === "blurbs" ? j.blocked.blurbs : null;
             if (why) Object.keys(why).forEach(function (pk) { var n = f.querySelector("#why-b-" + pk); if (n) n.textContent = "Not accepted: this has " + why[pk].map(function (r) { return REASONS[r] || r; }).join(" and ") + "."; });
           });
-          say(words(j) + (j.fields ? " (" + j.fields.join(", ").replace(/_/g, " ") + ")" : ""), "err");
+          var rows = [].slice.call(offs.querySelectorAll("fieldset.office")).filter(function (fs) {   // same rows as the saved list
+            return [].some.call(fs.querySelectorAll("input"), function (x) { return x.name !== "state" && x.value.trim(); }); }), first = null;
+          if (j.error === "street_required") (j.offices || []).forEach(function (i) {
+            var s = rows[i] && rows[i].querySelector('[name="street"]'); if (s) { s.setAttribute("aria-invalid", "true"); first = first || s; } });
+          say(words(j) + (j.fields && !first ? " (" + j.fields.join(", ").replace(/_/g, " ") + ")" : ""), "err");
+          if (first) first.focus();
         });
     });
     return f;

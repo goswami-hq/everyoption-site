@@ -9,7 +9,12 @@
   }
   document.addEventListener("click", function (ev) {
     var a = ev.target.closest && ev.target.closest('a[href^="#"]');
-    if (a) { ev.preventDefault(); open(a.getAttribute("href").slice(1)); }
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    ev.preventDefault();
+    // A history entry, so Back returns the reader to where they were (job 20: Back used to leave the page).
+    if (id && location.hash !== "#" + id && history.pushState) history.pushState(null, "", "#" + id);
+    open(id);
   });
   if (location.hash) open(location.hash.slice(1));
   var bar = document.querySelector(".find-bar"), finder = document.getElementById("finder");

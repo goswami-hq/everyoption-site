@@ -282,6 +282,10 @@
     ev.preventDefault();
     run(zipIn.value.trim(), parseInt(radiusIn.value, 10) || 50);
   });
+  // Job 20: changing the distance after a search reruns it, so the list never disagrees with the box.
+  radiusIn.addEventListener("change", function () {
+    if (out.childNodes.length && /^\d{5}$/.test(zipIn.value.trim())) run(zipIn.value.trim(), parseInt(radiusIn.value, 10) || 50);
+  });
   var qs = new URLSearchParams(location.search);
   var z = qs.get("zip"), rr = parseInt(qs.get("r"), 10);
   if (RADII.indexOf(rr) >= 0) radiusIn.value = String(rr);
