@@ -23,6 +23,10 @@ test("names: First Last, Last, First, titles dropped; a listed name matches on l
   assert.deepEqual(splitName("Dr. Ann Testone MD"), { first: "ann", last: "testone" });
   assert.deepEqual(splitName("Testone, Ann"), { first: "ann", last: "testone" });
   assert.deepEqual(splitName("testone"), { first: "", last: "testone" });
+  assert.deepEqual(splitName("Aleksandra Wiśniewska-Kowalczyk"), { first: "aleksandra", last: "wisniewska-kowalczyk" }, "hyphen kept, accents dropped");
+  assert.deepEqual(splitName("Wisniewska-Kowalczyk"), { first: "", last: "wisniewska-kowalczyk" });
+  assert.deepEqual(splitName("Dr. Anh Do"), { first: "anh", last: "do" }, "Do is a surname, not a title");
+  assert.ok(nameHit("Aleksandra Wiśniewska-Kowalczyk", { first: "", last: "wisniewska-kowalczyk" }));
   assert.ok(nameHit("Ann Testone", { first: "an", last: "Testone" }));
   assert.ok(nameHit("Gil Fourtest", { first: "Gilberto", last: "Fourtest" }));
   assert.ok(!nameHit("Ann Testone", { first: "Ben", last: "Testone" }));

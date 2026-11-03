@@ -79,6 +79,16 @@
       "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
       "city": "Peoria",
       "state": "IL"
+    },
+    "1999000114": {
+      "type": "NPI-1",
+      "first": "Aleksandra",
+      "last": "Wiśniewska-Kowalczyk",
+      "credential": "M.D., Ph.D., FSIR",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Rancho Santa Margarita",
+      "state": "CA"
     }
   },
   "listings": {

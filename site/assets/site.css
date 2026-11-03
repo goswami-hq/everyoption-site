@@ -415,3 +415,17 @@ ul.history .undo { flex: none; }
 @media (prefers-color-scheme: dark) { input[type="checkbox"][aria-invalid="true"] { outline-color: #f2b8b5; } fieldset[aria-invalid="true"] legend { color: #f2b8b5; } }
 /* Job 22: four menu links on one line on phones (the header wrapped once "For physicians" was added). */
 @media (max-width: 420px) { nav.top { width: 100%; justify-content: space-between; column-gap: 6px; flex-wrap: nowrap; } nav.top a { min-width: 0; padding: 0 2px; } }
+/* Job 22 design pass (phone screenshots, 390 px): sign out on one line; procedure names get the row; office legends
+   clear of their divider; breathing room under the search button. */
+#signout { white-space: nowrap; flex: none; }
+.proc-name { min-width: 0; }
+.proc-name .proc-state { display: block; margin-top: 2px; }
+.proc .remove { justify-self: start; }
+.proc.on { display: grid; justify-items: start; }
+.proc.on .proc-head { width: 100%; }
+fieldset.office { border-top: 0; padding-top: 0; }
+fieldset.office + fieldset.office { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+fieldset.office legend { float: left; width: 100%; font: 400 1.125rem/1.3 var(--serif); margin-bottom: 4px; }
+fieldset.office legend + * { clear: both; }
+#f-results > p:first-child { margin-top: 18px; }
+.proc-note summary { font-size: 1rem; }
