@@ -100,7 +100,7 @@
     var other = el("div", { id: "s-other-wrap", hidden: true }, [el("label", { "for": "s-other", text: "Your specialty" }),
       el("input", { id: "s-other", name: "specialty_other", maxlength: "100" })]);
     function specialtyBox(value, label) {
-      return el("label", { style: "font-weight:400;margin:0 0 6px" }, [el("input", { type: "radio", name: "specialty", value: value }), " " + label]);
+      return el("label", null, [el("input", { type: "radio", name: "specialty", value: value }), " " + label]);
     }
     var specialty = el("fieldset", { id: "s-specialty" }, [el("legend", { style: "font-weight:600;margin-bottom:5px", text: "Your specialty" }),
       specialtyBox("ir", "Interventional radiology"), specialtyBox("dr", "Diagnostic radiology"), specialtyBox("other", "Other")]);

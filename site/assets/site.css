@@ -332,3 +332,5 @@ a.option-link .option-note { flex: none; font-weight: 400; font-size: 0.9375rem;
 .lead-option > .proc-vary { margin: 14px 0 0; }
 #why-agree:empty { display: none; }
 #s-agree[aria-invalid="true"] { outline: 2px solid var(--warn); outline-offset: 2px; }
+#s-specialty label { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 400; margin: 0; }
+#s-specialty input[type="radio"] { width: 22px; height: 22px; min-height: 0; padding: 0; flex: none; accent-color: var(--accent); }
