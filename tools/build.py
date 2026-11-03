@@ -5,6 +5,7 @@
 The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq scripts/every_option_export.py.
 Standard library only; the built pages are plain static HTML (Cloudflare Pages serves site/ with no build step).
 """
+import pathlib
 import html, json, os, re
 import condition
 
@@ -126,7 +127,7 @@ def ver(url):
     return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
 
 
-def page(path, title, desc, body, scripts=(), head="", cls=None):
+def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
@@ -149,7 +150,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None):
 <a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
 <nav class="top" aria-label="Main">{nav}</nav>
 </div></header>
-<main id="main"><div class="wrap">
+{banner}<main id="main"><div class="wrap">
 {body}
 </div></main>
 <footer class="site"><div class="wrap">
@@ -203,7 +204,8 @@ def home():
 </div>"""
     return page("/", "Every Option: find doctors who perform UFE, PAE, and GAE",
                 "Find doctors who perform uterine fibroid embolization, prostate artery embolization, or genicular "
-                "artery embolization near you.", body)
+                "artery embolization near you.", body, ["/assets/banner.js"],
+                banner=(pathlib.Path(__file__).resolve().parent / "diagrams" / "home-banner.html").read_text(), cls="home-page")
 
 
 PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/README.md (his yes, 2026-11-02)

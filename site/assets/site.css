@@ -430,3 +430,17 @@ fieldset.office legend + * { clear: both; }
 #f-results > p:first-child { margin-top: 18px; }
 .proc-note summary { font-size: 1rem; }
 .proc-note textarea { display: block; width: 100%; }
+
+/* Home banner: dark in every theme (his words, 2026-11-03). */
+.home-banner { --bg: #fbf8f4; --card: #fffdfc; --ink: #2b2228; --muted: #6b5d65; --line: #e2d6d2; --glow: #fbeedd; --sun1: #ffd166; --sun2: #ffe3a3; --edge: #d3bfac; --body-a: #f6ece1; --body-b: #ecdccc; --bone: #e6d6bb; --bone-hi: #fbf4e6; --bone-edge: #c9b89e; --org-a: #f8d5d6; --org-b: #e9aeb5; --org-edge: #c98f99; --liv-a: #d99089; --liv-b: #a95a58; --artery: #c7504e; --bead: #2f6fb0; --tube: #3a3238; --disc: #2f5d50; --sun: #f0a04b; --btn: #2f5d50; --btn-ink: #ffffff;
+  background: #171311; color-scheme: dark; position: relative; --card: #171311; --ink: #fff4e4; --muted: #b9a99c; --edge: #8d746a; --body-a: #33272a; --body-b: #2a2023;
+  --liv-a: #d0695f; --liv-b: #7d3534; --org-a: #e39aa0; --org-b: #93495a; --org-edge: #e6a9b0; --bone: #8f7f6e; --bone-hi: #e6d8c2;
+  --artery: #f0705f; --bead: #86ccff; --tube: #fff1dd; --disc: #8fc4b2; --sun: #ffb648; }
+.home-banner .hb-in { position: relative; max-width: 640px; margin: 0 auto; }
+.home-banner svg#s { display: block; width: 100%; height: auto; }
+.home-banner #rp { position: absolute; right: max(4px, env(safe-area-inset-right, 0px)); bottom: 2px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.home-banner #rp svg { width: 20px; height: 20px; }
+.home-banner .cath { fill: none; stroke: var(--tube); stroke-width: 1.5; stroke-linecap: round; }
+.home-banner .ves { fill: none; stroke: var(--artery); stroke-width: 3.4; stroke-linecap: round; }
+.home-banner .word { font: 500 44px "Fraunces", Georgia, serif; fill: var(--ink); letter-spacing: -.01em; }
+@media (min-width: 641px) { .home-banner .hb-in { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); } }
