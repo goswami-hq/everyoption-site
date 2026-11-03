@@ -1,0 +1,21 @@
+<g id="scene-ufe">
+        <g id="ufeAll">
+          <path class="vessel" d="M200 -24 L200 30 C160 50 60 90 45 190 C40 230 50 270 70 310"/>
+          <path class="vessel" d="M200 30 C240 50 340 90 355 190 C360 230 350 270 330 310"/>
+          <path class="fal" d="M120 112 C90 78 62 78 42 96"/><path class="fal" d="M280 112 C310 78 338 78 358 96"/>
+          <ellipse class="soft" cx="66" cy="132" rx="23" ry="15" transform="rotate(-18 66 132)"/>
+          <ellipse class="soft" cx="334" cy="132" rx="23" ry="15" transform="rotate(18 334 132)"/>
+          <path class="organ" d="M200 70 C270 70 310 115 300 175 C292 225 250 262 222 285 L222 325 Q200 335 178 325 L178 285 C150 262 108 225 100 175 C90 115 130 70 200 70 Z"/>
+          <path id="ufeHot" class="hot" d="M200 70 C270 70 310 115 300 175 C292 225 250 262 222 285 L222 325 Q200 335 178 325 L178 285 C150 262 108 225 100 175 C90 115 130 70 200 70 Z"/>
+          <path class="light" d="M168 138 Q200 152 232 138 L210 232 Q200 244 190 232 Z"/>
+          <path id="ufeBrL" class="branch" d="M45 215 C60 270 90 275 108 245 C120 220 125 205 150 190"/>
+          <path id="ufeBrR" class="branch" d="M355 215 C340 270 310 275 292 245 C302 200 292 165 256 138"/>
+          <circle id="ufeGlowR" class="glow" cx="252" cy="135" r="88"/><circle id="ufeGlowL" class="glow" cx="150" cy="190" r="56"/>
+          <g id="ufeFibR"><circle class="fib" cx="252" cy="135" r="46"/><circle id="ufeFibRH" class="fib-hot" cx="252" cy="135" r="46"/><path class="swirl" d="M226 128 C236 104 272 104 280 132 M234 146 C246 124 268 128 270 148"/></g>
+          <g id="ufeFibL"><circle class="fib" cx="150" cy="190" r="27"/><circle id="ufeFibLH" class="fib-hot" cx="150" cy="190" r="27"/><path class="swirl" d="M136 186 C142 172 162 174 165 190"/></g>
+          <g class="flow"></g>
+          <path id="ufeCathL" class="cath" d="M200 -24 L200 30 C160 50 60 90 45 190 L45 215 C60 270 90 275 108 245 C120 220 125 205 142 194"/>
+          <path id="ufeCathR" class="cath" d="M200 -24 L200 30 C240 50 340 90 355 190 L355 215 C340 270 310 275 292 245 C302 200 292 165 268 148"/>
+          <g class="beads"></g>
+        </g>
+      </g>

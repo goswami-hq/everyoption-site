@@ -55,7 +55,7 @@ def run():
                     bad = pg.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href'))
                         .filter(h => h.length > 1 && !document.getElementById(h.slice(1)))""")
                     check(f"{tag}: every jump link and marker has a target", not bad, bad)
-                    check(f"{tag}: diagram shown at {c['diagram_at']}", pg.locator(f"#{c['diagram_at']} figure.how svg").count() == 1)
+                    check(f"{tag}: diagram shown at {c['diagram_at']}", pg.locator(f"#{c['diagram_at']} figure.how svg.main").count() == 1)
                     # a link straight to a collapsed option opens its group (condition.js)
                     other = next(o["id"] for o in c["options"] if o["id"] != c["diagram_at"])
                     pg2 = ctx.new_page(); pg2.goto(f"{BASE}/{slug}/#{other}"); pg2.wait_for_timeout(200)

@@ -282,3 +282,50 @@ footer.site p > a:only-child, .about > p > a:only-child { display: inline-block;
 .lead-option .cta { margin-bottom: 4px; }
 a.option-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; margin: 8px 0; padding: 12px 16px; border: 1px solid var(--accent); border-radius: 14px; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 17px; text-decoration: none; }
 a.option-link .option-note { flex: none; font-weight: 400; font-size: 15px; }
+
+/* Procedure animation (Soft atlas). Template: ai-hq projects/platform/design/procedure-animations/README.md */
+.proc { --calm: #eebfc4; --edge: #c98f99; --hot: #d2433d; --mass-hot: #a92f35; --artery: #c7504e; --bead: #2f6fb0; --tube: #3a3238; --light: #fbe7e6;
+  --bone: #efe6d6; --bone-edge: #bfae94; --urine: #d9a92f; --bladder: #f5e7c4; --shade-a: #fbdcdc; --shade-b: #eebfc4; --shade-c: #d99aa2; --fib-a: #ecb6ba; --fib-b: #c5808a;
+  display: grid; gap: 12px; margin: 12px 0; max-width: 37em; }
+@media (prefers-color-scheme: dark) { .proc { --edge: #f0cdd1; --hot: #e2554c; --mass-hot: #a8302f; --artery: #e0605a; --bead: #7fc0f5; --tube: #f4ede1; --bone-edge: #8f8069; --urine: #e9bf4d; --bladder: #e9d9b0; } }
+.proc-stage { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.proc svg.main { display: block; width: 100%; height: auto; }
+.proc .route { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: var(--soft); border-top: 1px solid var(--line); font-size: 15px; line-height: 1.35; }
+.proc .route .inset { flex: none; width: 54px; height: auto; }
+.proc .route span { min-width: 0; }
+.proc-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.proc-steps[hidden], .proc-replay[hidden] { display: none; }
+.proc button { min-height: 44px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; background: transparent; color: var(--ink); font: 600 15px/1.2 var(--sans); }
+.proc button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.proc .proc-replay { justify-self: start; padding-inline: 18px; }
+.proc figcaption { margin: 0; display: grid; gap: 10px; }
+.proc-cap strong { display: block; font: 400 22px/1.2 var(--serif); }
+.proc-cap p { margin: 0; }
+.proc.js .proc-cap:not(.on) { display: none; }
+.proc.js figcaption { min-height: 118px; align-content: start; }
+.proc-vary { margin: 0; }
+.proc:not(.js) .cath { display: none; }
+.proc svg .vessel { fill: none; stroke: var(--artery); stroke-linecap: round; stroke-width: 7; opacity: .55; }
+.proc svg .branch { fill: none; stroke: var(--artery); stroke-linecap: round; stroke-width: 4.5; }
+.proc svg .fal { fill: none; stroke: var(--edge); stroke-width: 7; stroke-linecap: round; }
+.proc svg .soft { fill: var(--calm); stroke: var(--edge); stroke-width: 1.5; }
+.proc svg .organ { fill: url(#shade); stroke: var(--edge); stroke-width: 2; }
+.proc svg .hot { fill: var(--hot); }
+.proc svg .light { fill: var(--light); opacity: .75; }
+.proc svg .fib { fill: url(#shadeFib); stroke: var(--edge); stroke-width: 1.5; }
+.proc svg .fib-hot { fill: var(--mass-hot); }
+.proc svg .swirl { fill: none; stroke: #fff; stroke-opacity: .22; stroke-width: 2; stroke-linecap: round; }
+.proc svg .glow { fill: url(#heat); }
+.proc svg .cath { fill: none; stroke: var(--tube); stroke-width: 3; stroke-linecap: round; }
+.proc svg .blood { fill: var(--artery); }
+.proc svg .bead { fill: var(--bead); stroke: #fff; stroke-opacity: .7; stroke-width: .6; }
+.proc svg .bladder { fill: var(--bladder); stroke: var(--bone-edge); stroke-width: 2; }
+.proc svg .urethra { fill: none; stroke: var(--urine); stroke-linecap: round; }
+.proc svg .urine { fill: var(--urine); }
+.proc svg .bone { fill: var(--bone); stroke: var(--bone-edge); stroke-width: 2; }
+.proc svg .capsule { fill: var(--hot); }
+.proc svg .neo { fill: none; stroke: var(--artery); stroke-width: 2.5; stroke-linecap: round; }
+.proc svg .limb-fill { fill: var(--calm); stroke: none; }
+.proc svg .limb-edge { fill: none; stroke: var(--edge); stroke-width: 2; stroke-linecap: round; }
+.proc svg .bolt path { fill: none; stroke: var(--hot); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+

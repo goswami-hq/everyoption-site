@@ -206,15 +206,49 @@ def home():
                 "artery embolization near you.", body)
 
 
-DIAGRAM_CAP = {'ufe': 'A thin tube goes through a small puncture in the wrist or groin to the blood vessels that feed the fibroid. Tiny beads block the blood flow, and the fibroid shrinks over time.', 'pae': 'A thin tube goes through a small puncture in the wrist or groin to the blood vessels that feed the prostate. Tiny beads slow the blood flow, and the prostate shrinks over time.', 'gae': 'A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow that feeds swelling, which can ease the pain.'}
-DIAGRAM_ALT = {k: "Simple drawing of how the procedure works." for k in DIAGRAM_CAP}
+PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/README.md (his yes, 2026-11-02)
+    "ufe": dict(alt="A swollen uterus with large fibroids. A thin tube delivers tiny beads to the arteries feeding them. The fibroids and uterus then shrink.",
+                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
+                caps=["Fibroids can make the uterus large and swollen. A rich blood supply feeds them.",
+                      "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny beads block the blood flow to the fibroids.",
+                      "Without blood flow, the fibroids shrink over time. The uterus gets smaller, and most women feel much better."]),
+    "pae": dict(alt="An enlarged prostate squeezes the urine tube. A thin tube delivers tiny beads to the prostate arteries. The prostate shrinks, and urine flows more easily.",
+                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
+                caps=["An enlarged prostate squeezes the tube that carries urine. The bladder stays full, and urine only trickles out.",
+                      "A thin tube goes through a small puncture in the wrist or groin. Tiny beads slow the blood flow to the prostate.",
+                      "With less blood flow, the prostate shrinks over time. The urine tube opens up, and urine flows more easily."]),
+    "gae": dict(alt="A swollen, painful knee with extra small blood vessels. A thin tube delivers tiny particles to those vessels. The swelling calms, and the knee moves.",
+                route="groin", route_text="The tube goes in through a small puncture, here at the groin, and travels to the knee.",
+                caps=["With knee arthritis, the joint gets swollen and painful. Extra small blood vessels feed that swelling, and bending hurts.",
+                      "A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
+                      "With less blood flow, the swelling can calm down. That can ease the pain. The arthritis itself is still there."]),
+}
+PROC_ROUTES = {"wrist": ("M186 192 L168 150 L136 96 L114 100 L110 170", (186, 192)), "groin": ("M122 205 L126 240 L126 262", (122, 205))}
+PROC_DEFS = """<defs>
+        <radialGradient id="heat"><stop offset="0" stop-color="#ff5a3c" stop-opacity=".62"/><stop offset=".6" stop-color="#ff5a3c" stop-opacity=".22"/><stop offset="1" stop-color="#ff5a3c" stop-opacity="0"/></radialGradient>
+        <radialGradient id="shade" cx=".42" cy=".32" r=".8"><stop offset="0" stop-color="var(--shade-a)"/><stop offset=".65" stop-color="var(--shade-b)"/><stop offset="1" stop-color="var(--shade-c)"/></radialGradient>
+        <radialGradient id="shadeFib" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="var(--fib-a)"/><stop offset="1" stop-color="var(--fib-b)"/></radialGradient>
+      </defs>"""
 
 
 def diagram(k):
     import pathlib
-    svg = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"{k}.svg").read_text()
-    svg = svg.replace('role="img"', f'role="img" aria-label="{DIAGRAM_ALT[k]}"')
-    return f'<figure class="how">{svg}<figcaption>{e(DIAGRAM_CAP[k])}</figcaption></figure>'
+    a = PROC_ANIM[k]
+    scene = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"anim-{k}.svgfrag").read_text()
+    d, (cx, cy) = PROC_ROUTES[a["route"]]
+    body_shape = ('<g fill="var(--muted)"><circle cx="110" cy="42" r="24"/><path d="M78 76 Q110 62 142 76 L150 170 Q152 190 146 208 L140 300 L118 300 L112 214 L108 214 L102 300 L80 300 L74 208 Q68 190 70 170 Z"/>'
+                  '<path d="M80 80 L44 150 L28 196 L38 200 L58 158 L86 112 Z"/><path d="M140 80 L176 150 L192 196 L182 200 L162 158 L134 112 Z"/></g>')
+    names = ["Before", "During", "After"]
+    btns = "".join(f'<button type="button" id="st-{i}" data-step="{i}" aria-pressed="{"true" if i == 0 else "false"}">{n}</button>' for i, n in enumerate(names))
+    caps = "".join(f'<div class="proc-cap{" on" if i == 0 else ""}" id="cap-{i}"><strong>{n}</strong><p>{e(a["caps"][i])}</p></div>' for i, n in enumerate(names))
+    return f"""<figure class="how proc" data-proc="{k}">
+<div class="proc-stage"><svg class="main" viewBox="-10 -24 420 380" role="img" aria-label="{e(a["alt"])}">{PROC_DEFS}{scene}</svg>
+<div class="route"><svg class="inset" viewBox="20 10 180 295" aria-hidden="true">{body_shape}<path id="routeLine" d="{d}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><circle id="routeDot" cx="{cx}" cy="{cy}" r="7" fill="var(--card)" stroke="var(--accent)" stroke-width="3.5"/></svg><span>{e(a["route_text"])}</span></div></div>
+<div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
+<figcaption aria-live="polite">{caps}</figcaption>
+<button type="button" class="proc-replay" data-replay hidden>Replay</button>
+<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>
+</figure>"""
 
 
 MOVED = {"ufe": "/fibroids/"}
@@ -275,7 +309,7 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
-                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js"])
+                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"])
 
 
 def credits():
@@ -445,7 +479,7 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())
