@@ -22,9 +22,23 @@ R = {"checks": [], "console_errors": [], "paths": {}}
 ANN, BEN, CARA, DAN, GIL = "1999000015", "1999000023", "1999000031", "1999000049", "1999000072"
 
 
+SECRET_VALUES = []          # job 21: filled from the live config; removed from any text before it is cut or kept
+
+
+def scrub(text):
+    text = str(text)
+    if "Call log:" in text:     # Playwright request errors list the request headers after this line
+        text = text.split("Call log:")[0]
+    for v in SECRET_VALUES:
+        if v:
+            text = text.replace(v, "[key removed]")
+    return text
+
+
 def check(name, ok, detail=""):
-    R["checks"].append({"check": name, "ok": bool(ok), "detail": str(detail)[:300]})
-    print(("OK  " if ok else "FAIL") + " " + name + (f" ({detail})" if detail and not ok else ""))
+    detail = scrub(detail)
+    R["checks"].append({"check": name, "ok": bool(ok), "detail": detail[:300]})
+    print(("OK  " if ok else "FAIL") + " " + name + (f" ({detail[:300]})" if detail and not ok else ""))
 
 
 def png_file(path, w=160, h=160):
@@ -385,7 +399,466 @@ def flows(b, label, base, vp):
     photos(b, label, base, vp)
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Job 21: the same walk-through, live on the dev site (one doctor, real email, real database), or on a local server
+# with stand-ins. Started by ai-hq scripts/every_option_live_test.py, which reads the keys from the mini's keychain
+# and passes them as JSON on stdin, never in arguments, environment or files:
+#   <browser venv>/bin/python tools/e2e/accounts_e2e.py --live OUT_DIR < config.json
+# Config: mode ("live" or "local"), base, first, last, state, npi, zip, email_user, email_tag; live only:
+# access_id, access_secret, gmail_password, supabase_url, supabase_key, publishable_key; optional break (one check
+# made to expect the wrong thing, to prove a failure is reported). Exit 0 all passed, 1 a check failed, 3 setup failed.
+# The test-only database functions (reset, promote, count) are in ai-hq projects/platform/accounts/job21/, not here.
+
+class SetupFailed(Exception):
+    pass
+
+
+def test_email(cfg):
+    return cfg["email_user"].replace("@", f"+eo21-{cfg['email_tag']}@")
+
+
+def tls():
+    """Certificate and host name checked (Python's imaplib default checks neither; review round 1)."""
+    import ssl
+    c = ssl.create_default_context()
+    assert c.verify_mode == ssl.CERT_REQUIRED and c.check_hostname
+    return c
+
+
+class LiveSite:
+    """The dev site behind Cloudflare Access, its database through the test-only functions, and the Gmail inbox."""
+
+    SENDER = "no-reply@everyoptionmd.com"
+
+    def __init__(self, cfg):
+        import urllib.parse
+        self.cfg, self.base = cfg, cfg["base"].rstrip("/")
+        self.host = urllib.parse.urlsplit(self.base).netloc
+        self.ours = lambda u: (lambda x: x.scheme == "https" and x.netloc == self.host)(urllib.parse.urlsplit(u))
+        self.access = {"CF-Access-Client-Id": cfg["access_id"], "CF-Access-Client-Secret": cfg["access_secret"]}
+        self.seen = set()
+        self.email = test_email(cfg)
+
+    # Access headers go only to the dev site's own host. Playwright carries headers set in continue_() across redirects
+    # (review round 1) and does not route redirect hops, so each request to the host is fetched here with redirects
+    # off: a redirect within the host is followed here with the headers (up to 5 hops); a redirect to any other host is
+    # handed to the browser as is and followed without them (checked against two local servers, 2026-11-03).
+    def attach(self, ctx):
+        import urllib.parse
+        def add(route):
+            url = route.request.url
+            if not self.ours(url):
+                return route.continue_()
+            resp = route.fetch(headers={**route.request.headers, **self.access}, max_redirects=0)
+            for _ in range(5):
+                loc = resp.headers.get("location")
+                if not (300 <= resp.status < 400 and loc):
+                    break
+                url = urllib.parse.urljoin(url, loc)
+                if not self.ours(url):
+                    break
+                resp = route.fetch(url=url, method="GET", headers={**route.request.headers, **self.access}, max_redirects=0)
+            route.fulfill(response=resp)
+        ctx.route("**/*", add)
+
+    def headers(self, extra=None):
+        return {**self.access, **(extra or {})}
+
+    def _open(self, req):
+        """The secret key goes to the configured Supabase host only: no redirect is followed, no proxy is used."""
+        import urllib.request, urllib.error
+        class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, *a, **k):
+                return None                          # a 3xx then surfaces as an HTTPError, handled below
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect)
+        try:
+            return json.loads(opener.open(req, timeout=30).read() or b"null")
+        except urllib.error.HTTPError as e:      # status and the database's message only; never the request headers
+            if 300 <= e.code < 400:
+                raise SetupFailed(f"Supabase {req.full_url.split('/v1/')[-1]}: unexpected redirect (HTTP {e.code}); key not sent on") from None
+            raise SetupFailed(f"Supabase {req.full_url.split('/v1/')[-1]}: HTTP {e.code} {scrub(e.read()[:200].decode('utf-8', 'replace'))}") from None
+
+    def _db(self, fn, body):
+        import urllib.request
+        url = self.cfg["supabase_url"].rstrip("/") + "/rest/v1/rpc/" + fn
+        return self._open(urllib.request.Request(url, json.dumps(body).encode(), {"apikey": self.cfg["supabase_key"], "Content-Type": "application/json"}))
+
+    def _storage(self, method, path, body):
+        import urllib.request
+        url = self.cfg["supabase_url"].rstrip("/") + "/storage/v1/" + path
+        return self._open(urllib.request.Request(url, json.dumps(body).encode(), {"apikey": self.cfg["supabase_key"], "Content-Type": "application/json"}, method=method))
+
+    def photo_objects(self):
+        rows = self._storage("POST", "object/list/photos", {"prefix": self.cfg["npi"], "limit": 1000}) or []
+        return [f"{self.cfg['npi']}/{r['name']}" for r in rows if r.get("name")]
+
+    def gate(self, ip=None):
+        """eo_test_count exists only in the project where test-reset.sql was run: no answer, no Storage call."""
+        return self._db("eo_test_count", {"p_npi": self.cfg["npi"], "p_ip": ip, "p_email": self.email})
+
+    def reset(self, ip):
+        self.gate(ip)
+        objs = self.photo_objects()
+        if objs:
+            self._storage("DELETE", "object/photos", {"prefixes": objs})
+        out = self._db("eo_test_reset", {"p_npi": self.cfg["npi"], "p_ip": ip, "p_email": self.email})
+        return {"deleted": out, "photos_deleted": len(objs)}
+
+    def promote(self):
+        return self._db("eo_test_promote", {"p_npi": self.cfg["npi"]})
+
+    def remaining(self, ip=None):
+        r = self.gate(ip) or {}
+        r["photo_objects"] = len(self.photo_objects())
+        return r
+
+    def ip(self, pg):
+        r = pg.request.get(self.base + "/cdn-cgi/trace", headers=self.headers(), max_redirects=0)
+        m = re.search(r"^ip=(\S+)$", r.text(), re.M) if r.status == 200 else None
+        if not m:
+            raise SetupFailed(f"Cloudflare Access did not let the service token in (status {r.status})")
+        return m.group(1)
+
+    def code(self, to, timeout=150):
+        """The newest 6-digit code mailed to `to`, only from the site's sender; read-only, each message used once."""
+        import email, email.policy, email.utils, imaplib
+        t0 = time.monotonic()
+        while time.monotonic() - t0 < timeout:
+            try:
+                M = imaplib.IMAP4_SSL("imap.gmail.com", 993, timeout=30, ssl_context=tls())
+                M.login(self.cfg["email_user"], self.cfg["gmail_password"])
+            except imaplib.IMAP4.error:
+                raise SetupFailed("Gmail refused the app password") from None
+            try:
+                for box in ("INBOX", '"[Gmail]/Spam"'):
+                    if M.select(box, readonly=True)[0] != "OK":
+                        continue
+                    _, ids = M.search(None, "FROM", f'"{self.SENDER}"', "TO", f'"{to}"')
+                    for i in reversed(ids[0].split()):
+                        _, data = M.fetch(i, "(BODY.PEEK[])")
+                        msg = email.message_from_bytes(data[0][1], policy=email.policy.default)
+                        if email.utils.parseaddr(msg.get("From", ""))[1].lower() != self.SENDER:
+                            continue
+                        if to.lower() not in [a.lower() for _, a in email.utils.getaddresses(msg.get_all("To", []))]:
+                            continue
+                        mid = msg.get("Message-ID", "") + i.decode()
+                        if mid in self.seen:
+                            continue
+                        part = msg.get_body(("plain",)) or msg
+                        c = re.search(r"Your Every Option code is (\d{6})\.", part.get_content() if part.get_content_type() == "text/plain" else "")
+                        if c:
+                            self.seen.add(mid)
+                            return c.group(1)
+            finally:
+                try: M.logout()
+                except Exception: pass
+            time.sleep(6)
+        return None
+
+    def public_key_blocked(self, pg, photo_key):
+        """The public (publishable) key reads no table and no photo, while test rows and a photo exist."""
+        url, k = self.cfg["supabase_url"].rstrip("/"), self.cfg["publishable_key"]
+        H = {"apikey": k}
+        out = {}
+        for t in ("accounts", "profiles", "login_links", "codes", "invitations", "radiologist_names", "sessions",
+                  "identity_checks", "attestations", "edits", "exceptions", "waitlist", "rate_hits"):
+            r = pg.request.get(f"{url}/rest/v1/{t}?select=*&limit=1", headers=H)
+            out[t] = r.status if r.status != 200 else ("empty" if r.text().strip() == "[]" else "ROWS")
+        r = pg.request.post(f"{url}/storage/v1/object/list/photos", headers={**H, "Content-Type": "application/json"},
+                            data=json.dumps({"prefix": self.cfg["npi"], "limit": 10}))
+        out["photos list"] = r.status if r.status != 200 else ("empty" if r.text().strip() == "[]" else "ROWS")
+        for fn in ("eo_test_reset", "eo_test_promote", "eo_test_count"):
+            r = pg.request.post(f"{url}/rest/v1/rpc/{fn}", headers={**H, "Content-Type": "application/json"},
+                                data=json.dumps({"p_npi": "0000000000"}))
+            out[f"rpc {fn}"] = r.status if r.status in (401, 403, 404) else f"CALLED {r.status}"
+        for kind in ("public", "authenticated"):
+            r = pg.request.get(f"{url}/storage/v1/object/{kind}/photos/{photo_key}", headers=H)
+            out[f"photo {kind}"] = r.status if r.status != 200 else "READ"
+        return all(v not in ("ROWS", "READ") and not str(v).startswith("CALLED") for v in out.values()), out
+
+
+class LocalSite(LiveSite):
+    """The same flow on node tools/dev-server.mjs --accounts: outbox for mail, /__test/* for the database functions."""
+
+    def __init__(self, cfg):
+        self.cfg, self.base, self.seen = cfg, cfg["base"].rstrip("/"), set()
+
+    def attach(self, ctx):
+        pass
+
+    def headers(self, extra=None):
+        return dict(extra or {})
+
+    def _get(self, path):
+        import urllib.request
+        return json.loads(urllib.request.urlopen(self.base + path, timeout=10).read())
+
+    def reset(self, ip):
+        return self._get(f"/__test/reset?npi={self.cfg['npi']}")
+
+    def promote(self):
+        return self._get(f"/__test/promote?npi={self.cfg['npi']}")["promoted"]
+
+    def remaining(self, ip=None):
+        return self._get(f"/__test/count?npi={self.cfg['npi']}")["remaining"]
+
+    def ip(self, pg):
+        return "127.0.0.1"
+
+    def code(self, to, timeout=10):
+        for i, m in reversed(list(enumerate(self._get("/__outbox")))):
+            c = re.search(r"Your Every Option code is (\d{6})\.", m["text"])
+            if m["to"] == to and c and i not in self.seen:
+                self.seen.add(i)
+                return c.group(1)
+        return None
+
+    def public_key_blocked(self, pg, photo_key):
+        return None, "not testable locally (no database here)"
+
+
+def live_run(cfg):
+    SECRET_VALUES[:] = [cfg.get(k) for k in ("access_id", "access_secret", "gmail_password", "supabase_key") if cfg.get(k)]
+    site = LocalSite(cfg) if cfg.get("mode") == "local" else LiveSite(cfg)
+    base, npi, brk = site.base, cfg["npi"], cfg.get("break", "")
+    first, last = cfg["first"], cfg["last"]
+    email_addr = test_email(cfg)
+    office = {"practice": "Every Option Test Office", "street": "1 Test Plaza", "city": cfg.get("city", "Chicago"),
+              "state": cfg["state"], "zip": cfg["zip"], "phone": "3125550199"}
+    note = "Automated test note. This text is removed after every test run."
+    R["live"] = {"base": base, "mode": cfg.get("mode", "live"), "email": email_addr, "steps": []}
+    fails = []
+    current = {"pg": None}
+
+    def lcheck(name, ok, detail=""):
+        if brk and brk == name:
+            ok = not ok                       # the deliberately broken check: proves a failure is reported
+        check(name, ok, detail)
+        if not ok and current["pg"] is not None and len(fails) < 8:
+            p = os.path.join(OUT, f"fail-{len(fails) + 1:02d}.png")
+            try:
+                current["pg"].screenshot(path=p, full_page=True); fails.append({"check": name, "shot": p})
+            except Exception:
+                fails.append({"check": name, "shot": ""})
+        return ok
+
+    def step(s):
+        R["live"]["steps"].append(s); print("--", s)
+
+    def api(pg, method, path, body=None, raw=None, ctype="application/json"):
+        h = site.headers({"Origin": base, "Content-Type": ctype})
+        data = raw if raw is not None else (json.dumps(body or {}) if method != "GET" else None)
+        return pg.request.fetch(base + path, method=method, headers=h, data=data, max_redirects=0)
+
+    def find_card(pg, tier, want_photo=False, timeout=95, gone=False):
+        """A patient (fresh signed-out browser, empty cache) searches the UFE finder by the office ZIP until the card is
+        in `tier` (or gone). Returns the seconds taken or None; `pg` is left on the last search page for screenshots."""
+        t0 = time.monotonic()
+        while time.monotonic() - t0 < timeout:
+            pc = pg.context.browser.new_context(viewport={"width": 1280, "height": 900}); site.attach(pc)
+            q = pc.new_page(); current["pg"] = q
+            q.goto(base + "/fibroids/"); q.fill("#zip", cfg["zip"])
+            if q.locator("#radius").count(): q.select_option("#radius", "25")
+            q.click("#zip-form button")
+            q.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')", timeout=20000)
+            q.wait_for_timeout(300)
+            cards = q.locator("#results li.card", has_text=f"{first} {last}")
+            inside = q.locator(f"section.{tier} li.card", has_text=f"{first} {last}")
+            found = None
+            if gone and cards.count() == 0:
+                found = round(time.monotonic() - t0, 1)
+            elif not gone and inside.count():
+                ok = True
+                if want_photo:
+                    inside.first.scroll_into_view_if_needed()
+                    try:
+                        q.wait_for_function("e => { const i = e.querySelector('img.photo'); return !!i && i.complete }",
+                                            arg=inside.first.element_handle(), timeout=5000)
+                    except Exception:
+                        pass
+                    ok = q.evaluate("e => { const i = e.querySelector('img.photo'); return !!i && i.complete && i.naturalWidth > 0 }",
+                                    inside.first.element_handle())
+                if ok:
+                    found = round(time.monotonic() - t0, 1)
+            if found is not None or time.monotonic() - t0 >= timeout - 8:
+                last_search["page"], last_search["ctx"] = q, pc
+                return found
+            pc.close(); current["pg"] = pg
+            pg.wait_for_timeout(8000)
+        return None
+
+    last_search = {}
+
+    def done_search():
+        if last_search.get("ctx"):
+            last_search["ctx"].close(); last_search.clear()
+        current["pg"] = pg
+
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        ctx = b.new_context(viewport={"width": 1280, "height": 900})
+        site.attach(ctx)
+        pg = ctx.new_page(); watch(pg, "live"); current["pg"] = pg
+        try:
+            if cfg.get("reset_only"):           # the runner's clean-up after a run stopped at its time limit
+                raise SetupFailed("reset only")
+            # 1 reset, then Access
+            step("1 Access and reset")
+            ip = site.ip(pg)
+            R["live"]["reset_before"] = site.reset(ip)
+            r = pg.request.get(base + "/api/account/status", headers=site.headers(), max_redirects=0)
+            if r.status != 200 or not r.json().get("open"):
+                raise SetupFailed(f"accounts are not open on the site (status {r.status})")
+            # 2 Physicians page, Get started, find him by name, yes to IR, sign up, code from the inbox
+            step("2 sign-up by name")
+            t0 = time.monotonic()
+            pg.goto(base + "/"); pg.click("header a[href='/account/']"); pg.wait_for_selector("#go-start")
+            pg.click("#go-start"); pg.fill("#f-name", f"{first} {last}")
+            if cfg.get("state"): pg.select_option("#f-state", cfg["state"])
+            pg.click("#f-go"); pg.wait_for_selector(".pick-row, #f-none", timeout=30000)
+            row = pg.locator(".pick-row", has_text=last)
+            lcheck("live: the name search finds him in the NPI Registry", row.count() >= 1, pg.inner_text("#f-results")[:200])
+            row.first.click(); pg.wait_for_selector("#s-who")
+            lcheck("live: choosing himself fills his NPI (none typed)", npi in pg.inner_text("#s-who"))
+            signup_steps(pg, email_addr)
+            pg.wait_for_selector("#c-code", timeout=30000)
+            c = site.code(email_addr)
+            if not c:
+                raise SetupFailed("no sign-up code reached the inbox from the site's sender within 150 s")
+            pg.fill("#c-code", c); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+            R["live"]["signup_seconds"] = round(time.monotonic() - t0, 1)
+            lcheck("live: sign-up by code gives partial access", "Partial access" in pg.inner_text("#acct-level"), pg.inner_text("#acct-level"))
+            # 3 partial access: add and remove, note, office, phone, link; refresh; photo refused; finder in Likely
+            step("3 partial access")
+            for proc in ("ufe", "pae"):
+                pg.click(f".add[data-proc={proc}]"); pg.click(f"#attest-{proc}"); pg.wait_for_selector(f"#proc-{proc}.on")
+            pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pae .remove"); wait_status(pg, "PAE removed", 15000)
+            pg.click("#proc-ufe .proc-note summary"); pg.fill("#b-ufe", note); clear(pg)
+            pg.click("#proc-ufe .proc-note button"); wait_status(pg, "Note saved", 15000)
+            pg.fill("#o0-practice", office["practice"]); pg.fill("#o0-street", office["street"]); pg.fill("#o0-city", office["city"])
+            pg.select_option("#o0-state", office["state"]); pg.fill("#o0-zip", office["zip"]); pg.fill("#o0-phone", office["phone"])
+            pg.fill("#p-book", "https://example.com/every-option-test")
+            clear(pg); pg.click("#office-form button[type=submit]"); wait_status(pg, "Saved", 20000)
+            pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
+            kept = {"ufe on": pg.locator("#proc-ufe.on").count() == 1, "pae off": pg.locator("#proc-pae.on").count() == 0,
+                    "note": pg.input_value("#b-ufe") == note, "office": pg.input_value("#o0-practice") == office["practice"],
+                    "phone": re.sub(r"\D", "", pg.input_value("#o0-phone")) == office["phone"],
+                    "link": "example.com/every-option-test" in pg.input_value("#p-book")}
+            lcheck("live: after a refresh, the procedure, removal, note, office, phone and link stayed", all(kept.values()), kept)
+            lcheck("live: the page shows partial access, photo locked",
+                   "Partial access" in pg.inner_text("#acct-level") and pg.is_visible("#photo-locked") and not pg.is_visible("#photo-pick"))
+            r = api(pg, "POST", "/api/account/photo", raw=b"\xff\xd8\xff", ctype="image/jpeg")
+            lcheck("live: the server refuses a photo on partial access", r.status == 403, r.status)
+            shot(pg, "live-1-partial")
+            secs = find_card(pg, "tier-b")
+            q = last_search.get("page") or pg
+            card = q.locator("section.tier-b li.card", has_text=f"{first} {last}")
+            lcheck("live: the card shows in Likely performs within about 90 s of saving", secs is not None, secs)
+            lcheck("live: the card says not yet confirmed", card.count() and "not yet confirmed" in card.first.inner_text())
+            R["live"]["likely_seconds"] = secs
+            shot(q, "live-2-likely"); done_search()
+            pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
+            pg.once("dialog", lambda d: d.accept()); pg.click("#proc-ufe .remove"); wait_status(pg, "UFE removed", 15000)
+            secs = find_card(pg, "tier-b", gone=True)
+            lcheck("live: after removing UFE the card leaves the UFE list", secs is not None, secs)
+            R["live"]["removed_seconds"] = secs; done_search()
+            # 4 full access set in the test database; photo upload, see, replace; Confirmed with photo; remove
+            step("4 full access and photo")
+            lcheck("live: the test account was raised to full in the test database", site.promote() == 1)
+            pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
+            lcheck("live: the page shows full access", "Full access" in pg.inner_text("#acct-level"), pg.inner_text("#acct-level"))
+            pg.click(".add[data-proc=ufe]"); pg.click("#attest-ufe"); pg.wait_for_selector("#proc-ufe.on")
+            pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-1.png"), 160, 160)); wait_status(pg, "Photo saved", 30000)
+            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            w1 = pg.evaluate("document.getElementById('photo-now').naturalWidth")
+            lcheck("live: the photo uploads and its owner sees it", w1 > 0, w1)
+            pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-2.png"), 240, 240)); wait_status(pg, "Photo saved", 30000)
+            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
+            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            w2 = pg.evaluate("document.getElementById('photo-now').naturalWidth")
+            lcheck("live: replacing the photo shows the new one", w2 != w1, [w1, w2])
+            shot(pg, "live-3-full")
+            secs = find_card(pg, "tier-a", want_photo=True)
+            q = last_search.get("page") or pg
+            lcheck("live: the card moves to Confirmed with its photo", secs is not None, secs)
+            R["live"]["confirmed_seconds"] = secs
+            shot(q, "live-4-confirmed")
+            src = q.locator("section.tier-a li.card", has_text=f"{first} {last}").locator("img.photo")
+            src = src.first.get_attribute("src") if src.count() else ""
+            done_search()
+            m = re.match(r"^/api/photo/(\d{10})-([0-9a-f]+)\.(jpg|png|webp)$", src or "")
+            # 5 the public key reads no table and no photo (checked here, while test rows and a photo exist)
+            ok, detail = site.public_key_blocked(pg, f"{m.group(1)}/{m.group(2)}.{m.group(3)}" if m else "none")
+            if ok is None:
+                R["live"]["public_key"] = detail
+            else:
+                lcheck("live: the public key reads no table, not the photos bucket, and cannot call the test functions", ok, detail)
+            pg.goto(base + "/account/"); pg.wait_for_selector("#photo-remove", timeout=30000)
+            pg.once("dialog", lambda d: d.accept()); pg.click("#photo-remove"); wait_status(pg, "Photo removed", 15000)
+            lcheck("live: remove takes the photo off", pg.locator("img#photo-now").count() == 0)
+            out_ctx = b.new_context(); site.attach(out_ctx); out = out_ctx.new_page()
+            r = out.request.get(base + "/api/account/photo", headers=site.headers(), max_redirects=0)
+            lcheck("live: a signed-out visitor cannot see the photo", r.status == 401, r.status)
+            gone_s = None
+            if src:
+                t0 = time.monotonic()
+                while time.monotonic() - t0 < 95:
+                    if out.request.get(base + src, headers=site.headers(), max_redirects=0).status == 404:
+                        gone_s = round(time.monotonic() - t0, 1); break
+                    out.wait_for_timeout(8000)
+            lcheck("live: the removed photo's public address stops working", gone_s is not None, gone_s)
+            out_ctx.close()
+            # 5 sign out, sign in again
+            step("5 sign out and in")
+            pg.click("#signout"); pg.wait_for_selector("#login-form", timeout=20000)
+            pg.fill("#l-email", email_addr); pg.click("#l-send"); pg.wait_for_selector("#c-code", timeout=30000)
+            c = site.code(email_addr)
+            lcheck("live: a sign-in code arrives", bool(c))
+            if c:
+                pg.fill("#c-code", c); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+                lcheck("live: signed in again, still full access", "Full access" in pg.inner_text("#acct-level"))
+        except SetupFailed as e:
+            if not cfg.get("reset_only"):
+                R["live"]["setup_failed"] = scrub(e)
+            print("SETUP FAILED", e)
+        except Exception as e:                       # a step that could not run counts as a failed check
+            lcheck(f"live: step ran without error ({R['live']['steps'][-1] if R['live']['steps'] else 'start'})", False, type(e).__name__ + ": " + scrub(e)[:200])
+        finally:
+            # 6 reset, rate limit rows included; the database is left without test rows
+            step("6 reset and check empty")
+            try:
+                R["live"]["reset_after"] = site.reset(site.ip(pg))
+                left = site.remaining(site.ip(pg))
+                R["live"]["remaining"] = left
+                lcheck("live: the test database is left with no test rows", left and not any(left.values()), left)
+            except Exception as e:
+                R["live"]["reset_failed"] = type(e).__name__ + ": " + scrub(e)[:200]
+                check("live: reset after the run", False, R["live"]["reset_failed"])
+            ctx.close(); b.close()
+    R["live"]["fail_shots"] = fails
+    R["passed"] = sum(c["ok"] for c in R["checks"]); R["total"] = len(R["checks"])
+    text = json.dumps(R, indent=1)
+    for k in ("access_id", "access_secret", "gmail_password", "supabase_key"):      # never write a key, whatever happened
+        if cfg.get(k) and cfg[k] in text:
+            text = text.replace(cfg[k], "[key removed]")
+    open(os.path.join(OUT, "results.json"), "w").write(text)
+    print(f"{R['passed']} of {R['total']} checks")
+    if R["live"].get("setup_failed") or R["live"].get("reset_failed"):
+        return 3
+    return 0 if R["passed"] == R["total"] else 1
+
+
+def live_main():
+    global OUT
+    OUT = sys.argv[2]
+    os.makedirs(OUT, exist_ok=True)
+    return live_run(json.loads(sys.stdin.read()))
+
+
 def main():
+    if OUT == "--live":
+        return live_main()
     os.makedirs(OUT, exist_ok=True)
     with sync_playwright() as p:
         b = p.chromium.launch()

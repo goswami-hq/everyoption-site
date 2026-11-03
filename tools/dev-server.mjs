@@ -46,6 +46,28 @@ export const kv = {
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".txt": "text/plain", ".svg": "image/svg+xml" };
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
+const TEST_EMAIL = /^agoswami\.assistant\+eo21-[0-9a-z]{4,20}@gmail\.com$/;
+function testOp(op, npi) {
+  if (!/^\d{10}$/.test(npi)) return { error: "npi" };
+  const T = backend.data.tables, rows = (n) => T.get(n) || [];
+  const ids = new Set(rows("accounts").filter((a) => a.npi === npi || a.claim_npi === npi || a.lost_npi === npi || TEST_EMAIL.test(a.email || "")).map((a) => a.id));
+  const emails = new Set(rows("accounts").filter((a) => ids.has(a.id) && a.email).map((a) => a.email));
+  const mine = (r) => ids.has(r.account_id) || r.npi === npi || ids.has(r.id) || ids.has(r.inviter_account_id) || ids.has(r.used_by)
+    || emails.has(r.email) || TEST_EMAIL.test(r.email || "");
+  if (op === "promote") {
+    const a = rows("accounts").filter((x) => x.npi === npi && TEST_EMAIL.test(x.email || ""));
+    a.forEach((x) => { x.level = "full"; });
+    return { promoted: a.length };
+  }
+  const counts = {};
+  for (const [name, list] of T) {
+    if (name === "radiologist_names") continue;
+    counts[name] = list.filter(mine).length;
+    if (op === "reset") T.set(name, list.filter((r) => !mine(r)));
+  }
+  return op === "reset" ? { deleted: counts } : { remaining: counts };
+}
+
 async function toRequest(req, url) {
   const chunks = []; for await (const c of req) chunks.push(c);
   const headers = new Headers(); for (const [k, v] of Object.entries(req.headers)) headers.set(k, String(v));
@@ -118,6 +140,9 @@ http.createServer(async (req, res) => {
     return page(res, `<h1>Doximity (local stand-in)</h1><form><input type="hidden" name="state" value="${esc(st)}">` +
       `<p><label>First <input name="first"></label> <label>Last <input name="last"></label> <label>Id <input name="id" value="dx-local"></label></p><button>Continue</button></form>`);
   }
+  // Job 21: stand-ins for the test-only database functions (ai-hq projects/platform/accounts/job21/test-reset.sql), so
+  // the live test's flow runs here first. Same rule: only one NPI (?npi=) and the test email pattern.
+  if (backend && url.pathname.startsWith("/__test/")) return asJSON(res, testOp(url.pathname.slice(8), url.searchParams.get("npi") || ""));
   if (url.pathname === "/__store") { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify([...store.entries()].map(([k, v]) => [k, v.val]))); return; }
   let p = path.join(ROOT, decodeURIComponent(url.pathname));
   if (!p.startsWith(ROOT)) { res.writeHead(400); res.end(); return; }

@@ -53,6 +53,10 @@ terms or rate limit (read 2026-11-02; ai-hq plan `projects/platform/accounts/pla
 ## Tests
 `node --test tools/*.test.mjs`; browser: `tools/e2e/accounts_e2e.py`, `tools/e2e/cards_e2e.py`
 (see their headers for the local servers to start).
+Job 21: `tools/e2e/accounts_e2e.py --live OUT < config.json` runs one real sign-up on the dev site (keys on stdin
+only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode": "local"` runs the same flow on
+`node tools/dev-server.mjs PORT --accounts` (stand-ins `/__test/reset`, `/__test/promote`, `/__test/count`).
+`tools/e2e/access_headers_check.py`: where the live test's keys can go.
 
 ## Job 22 (2026-11-03): restructure (ai-hq `projects/platform/accounts/restructure-proposal-2026-11-03.md`, Decision)
 - Levels: partial (stored as `basic`; email code or published-email invitation) edits procedures, notes, insurance,
