@@ -43,11 +43,14 @@ test("sign-up: one agreement, a 6-digit code typed on the page, name from NPPES,
   assert.equal(acct.name, "Ann Testone", "never the typed name"); assert.equal(acct.level, "basic"); assert.equal(acct.proof, "email_code");
   const me = await c.get("me");
   assert.equal(me.body.account.npi, ANN);
-  assert.deepEqual(me.body.can, { attest: true, blurbs: true, insurances: true, contact: false, photo: false, invite: false });
+  assert.deepEqual(me.body.can, { attest: true, blurbs: true, insurances: true, contact: true, photo: false, invite: false });
+  assert.equal(me.body.group, "likely", "job 22: an email code alone is partial access, Likely performs");
   assert.deepEqual((await w.backend.data.one("profiles", { npi: ANN })).attested, ["ufe"]);
   const at = await w.backend.data.many("attestations", { npi: ANN });
   assert.match(at[0].statement, /I personally perform uterine fibroid/); assert.match(at[0].agreement, /I accept the Every Option terms/);
-  assert.equal((await exportConfirmed(w.backend))[0].npi, ANN, "basic counts as confirmed by physician");
+  assert.doesNotMatch(at[0].agreement, /ticked/, "job 22: the agreement no longer speaks of ticked procedures");
+  const ex = (await exportConfirmed(w.backend))[0];
+  assert.equal(ex.npi, ANN); assert.equal(ex.confirmed, false, "job 22: an email code alone is not confirmed by physician");
 });
 
 test("codes: one hour, single use, 5 wrong tries, stored only as salted hashes", async () => {
@@ -135,17 +138,19 @@ test("one account per NPI holds with two codes sent before either is used", asyn
   assert.equal((await w.backend.data.many("accounts", { npi: ANN })).length, 1);
 });
 
-test("levels enforced on the server: basic edits blurbs and insurances; contact fields and photo need full", async () => {
+test("levels enforced on the server (job 22): partial edits everything but the photo; full adds the photo and Confirmed", async () => {
   const w = world(), c = await w.signIn(ANN, EMAIL[ANN], undefined, ["ufe"]);
   assert.equal((await c.put("profile", { blurbs: { ufe: "I perform UFE." }, insurances: ["Aetna"], insurance_other: "Most plans", insurance_confirm: true })).status, 200);
-  const r = await c.put("profile", { booking_url: "https://lakesideir.example/book" });
-  assert.equal(r.status, 403); assert.equal(r.body.error, "full_needed"); assert.deepEqual(r.body.fields, ["booking_url"]);
-  assert.equal((await c.put("profile", { offices: [{ practice: "X", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] })).status, 403);
-  assert.equal((await c.call("POST", "photo", new Uint8Array([0xff, 0xd8, 0xff]), { headers: { "Content-Type": "image/jpeg" } })).status, 403);
-  assert.equal((await c.put("profile", { blurbs: { ufe: "I perform UFE." }, booking_url: "", offices: [] })).status, 200, "unchanged contact fields are fine");
+  assert.equal((await c.put("profile", { booking_url: "https://lakesideir.example/book" })).status, 200, "website link on partial");
+  assert.equal((await c.put("profile", { offices: [{ practice: "X", street: "1 Test Way", city: "Chicago", state: "IL", zip: "60611", phone: "3125550100" }] })).status, 200);
+  const ph = await c.call("POST", "photo", new Uint8Array([0xff, 0xd8, 0xff]), { headers: { "Content-Type": "image/jpeg" } });
+  assert.equal(ph.status, 403); assert.equal(ph.body.error, "full_needed"); assert.deepEqual(ph.body.fields, ["photo"]);
+  let ex = (await exportConfirmed(w.backend))[0];
+  assert.equal(ex.confirmed, false); assert.equal(ex.booking_url, "https://lakesideir.example/book"); assert.equal(ex.offices[0].phone, "3125550100");
   await w.idCheck(c);
-  assert.equal((await c.get("me")).body.account.level, "full");
-  assert.equal((await c.put("profile", { booking_url: "https://lakesideir.example/book" })).status, 200);
+  assert.equal((await c.get("me")).body.account.level, "full"); assert.equal((await c.get("me")).body.group, "confirmed");
+  ex = (await exportConfirmed(w.backend))[0];
+  assert.equal(ex.confirmed, true, "full access moves the card to Confirmed");
 });
 
 test("check by ID: only result and verified name kept; plan's name rule; only a clear mismatch is an exception", async () => {

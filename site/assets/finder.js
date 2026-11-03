@@ -143,6 +143,8 @@
     if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
     if (p.ask) kids.push(el("p", { "class": "ask-tag" }, [askLine()]));
     kids.push(top);
+    // Job 22: a partial-access account's own details sit in Likely performs, labelled as such.
+    if (p.from_account && !p.confirmed) kids.push(el("p", { "class": "from-account small muted", text: "Details from this doctor's account, not yet confirmed." }));
     var practice = lead ? lead.practice : p.practice;
     var where = el("p", { "class": "where" }, [
       practice ? el("span", { "class": "practice", text: practice }) : null,
@@ -167,7 +169,7 @@
     var tel = telHref(phone);
     if (tel) acts.push(el("a", { "class": "call", href: tel, text: "Call " + showPhone(phone) }));
     var book = p.booking_url ? safeHttps(p.booking_url) : "";
-    if (book) acts.push(el("a", { "class": "book", href: book, rel: "noopener nofollow", target: "_blank", text: "Book online" }));
+    if (book) acts.push(el("a", { "class": "book", href: book, rel: "noopener nofollow", target: "_blank", text: "Website" }));   // job 22: one "website or booking link"
     var page = p.url ? safeWeb(p.url) : "";
     if (page) acts.push(el("a", { href: page, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
@@ -261,7 +263,7 @@
         else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
           el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." })]),
           el("p", null, ["Are you a doctor who performs this? ",
-            el("a", { href: "/account/?procedure=" + encodeURIComponent(PROC), text: "Confirm your listing" }), ". It's free."])
+            el("a", { href: "/account/?procedure=" + encodeURIComponent(PROC), text: "Make your free account" }), "."])
         ]));
         if (likely.length) out.appendChild(section(likely, "tier-b", "Likely performs this procedure",
           "Based on public information online. Call the office to confirm. Nearest first."));

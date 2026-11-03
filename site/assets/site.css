@@ -334,3 +334,84 @@ a.option-link .option-note { flex: none; font-weight: 400; font-size: 0.9375rem;
 #s-agree[aria-invalid="true"] { outline: 2px solid var(--warn); outline-offset: 2px; }
 #s-specialty label { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 400; margin: 0; }
 #s-specialty input[type="radio"] { width: 22px; height: 22px; min-height: 0; padding: 0; flex: none; accent-color: var(--accent); }
+
+/* Job 22: physician accounts. One entry page, find yourself, Your account in sections. */
+.t-account .status:empty { display: none; }
+.t-account .status { padding: 12px 16px; border-radius: 12px; background: var(--soft); }
+.t-account .status.err { background: transparent; border: 1px solid currentColor; }
+.acct-choice { display: grid; gap: 16px; margin-top: 8px; }
+@media (min-width: 720px) { .acct-choice { grid-template-columns: 1fr 1fr; align-items: start; } }
+.acct-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin-top: 16px; max-width: 40em; }
+.acct-choice .acct-panel { margin-top: 0; max-width: none; height: 100%; box-sizing: border-box; }
+.acct-panel > h2, .acct-panel summary h2 { font-size: 1.375rem; margin: 0 0 10px; }
+.acct-panel > p:last-child { margin-bottom: 0; }
+.acct-panel.acct-start { background: var(--soft); border-color: transparent; }
+.acct-panel.need { border: 2px solid var(--accent); }
+.acct-form { display: grid; gap: 14px; }
+.acct-form .field label, .acct-form label.agree, .acct-panel .proc-note label { font-weight: 600; font-size: 1rem; display: block; margin-bottom: 5px; }
+.acct-form .hint, .acct-panel .hint { font-weight: 400; color: var(--muted); font-size: 0.90625rem; }
+.acct-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.acct-alt { margin-top: 12px; }
+.acct-foot { margin-top: 18px; }
+.btn.secondary { display: inline-flex; align-items: center; background: transparent; color: var(--accent); border: 1px solid var(--accent); text-decoration: none; padding: 0 22px; }
+button.link { background: none; border: 0; padding: 0 2px; min-height: 44px; color: var(--accent); font: 500 1rem var(--sans); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; border-radius: 6px; }
+button.link:active { transform: none; }
+.acct-form label.agree { display: grid !important; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; font-weight: 400; font-size: 0.96875rem; line-height: 1.5; }
+.acct-form label.agree input { width: 22px; height: 22px; min-height: 22px; margin: 2px 0 0; accent-color: var(--accent); }
+input[type="checkbox"][aria-invalid="true"] { outline: 2px solid #a82a1e; outline-offset: 2px; }
+fieldset[aria-invalid="true"] legend { color: #a82a1e; }
+.who-box { background: var(--soft); border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; }
+.who-box p { margin: 0 0 4px; }
+.who-name strong { font: 400 1.25rem/1.25 var(--serif); }
+.pick { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+.pick-row { display: grid; gap: 2px; width: 100%; text-align: left; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; font: 400 1rem/1.4 var(--sans); }
+.pick-row:active { transform: scale(0.99); }
+@media (hover: hover) and (pointer: fine) { .pick-row:hover { border-color: var(--accent); } }
+.pick-name { font-weight: 600; font-size: 1.0625rem; }
+.pick-meta { color: var(--muted); font-size: 0.9375rem; }
+.pick-listed { color: var(--accent); font-size: 0.9375rem; font-weight: 600; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.acct-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 4px; }
+.acct-head p { margin: 0; }
+.acct-name strong { font: 400 1.5rem/1.2 var(--serif); }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--soft); color: var(--ink); font-size: 0.875rem; font-weight: 600; }
+.pill.full { background: var(--accent); color: var(--accent-ink); }
+.see-line { margin: 0 0 12px; }
+.see-line.need { font-weight: 600; }
+.card.preview { animation: none; margin: 0 0 10px; }
+.card.preview .actions span { display: inline-flex; align-items: center; min-height: 40px; }
+.from-account { margin: 6px 0 0; }
+.procs { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+.proc { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; }
+.proc.on { border-color: var(--accent); }
+.proc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; }
+.proc-name { line-height: 1.35; }
+.proc-name .muted { font-size: 0.9375rem; }
+.proc-state { color: var(--accent); font-weight: 600; font-size: 0.9375rem; white-space: nowrap; }
+.proc .add { min-height: 40px; padding: 0 18px; }
+.attest { margin-top: 8px; }
+.attest-text { margin: 0 0 10px; font-size: 0.96875rem; line-height: 1.5; }
+.proc-note summary, .history-panel summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--accent); }
+.proc-note[open] { margin-bottom: 6px; }
+.proc .remove { font-size: 0.9375rem; color: var(--muted); }
+fieldset.office { border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 12px; }
+fieldset.office:first-child { border-top: 0; padding-top: 0; }
+.photo-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.photo-row > div { flex: 1 1 220px; }
+.photo-big { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; background: var(--soft); border: 1px solid var(--line); flex: none; }
+.ins-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0 16px; }
+.acct-form.sub { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.acct-form.sub h3 { margin: 0; font: 400 1.25rem/1.25 var(--serif); }
+.history-panel summary { list-style: none; color: var(--ink); }
+.history-panel summary::-webkit-details-marker { display: none; }
+.history-panel summary h2 { margin: 0; }
+.history-panel summary::after { content: "Show"; margin-left: auto; color: var(--accent); font-size: 0.9375rem; }
+.history-panel[open] summary::after { content: "Hide"; }
+ul.history { list-style: none; padding: 0; margin: 0; }
+ul.history li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); min-height: 44px; }
+.h-what { display: grid; font-size: 0.96875rem; }
+.h-when { color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+ul.history .undo { flex: none; }
+@media (prefers-color-scheme: dark) { input[type="checkbox"][aria-invalid="true"] { outline-color: #f2b8b5; } fieldset[aria-invalid="true"] legend { color: #f2b8b5; } }
+/* Job 22: four menu links on one line on phones (the header wrapped once "For physicians" was added). */
+@media (max-width: 420px) { nav.top { width: 100%; justify-content: space-between; column-gap: 6px; flex-wrap: nowrap; } nav.top a { min-width: 0; padding: 0 2px; } }

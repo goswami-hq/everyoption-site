@@ -56,9 +56,12 @@ test("a failed address: the doctor is told plainly, it saves, and that office us
   assert.deepEqual(r3.body.changed, [], "same result as before: no change logged, no email");
 });
 
-test("contact-change rules still apply: full access only, email to the doctor, undoable", async () => {
+test("contact-change rules: partial access may change offices (job 22), email to the doctor, undoable", async () => {
   const w = world(), b = await w.signIn(ANN, undefined, undefined, ["ufe"]);
-  assert.equal((await b.put("profile", { offices: [CHI] })).status, 403, "basic access cannot change offices");
+  assert.equal((await b.put("profile", { offices: [CHI] })).status, 200, "partial access changes offices");
+  assert.match(w.outbox.at(-1).subject, /contact details changed/i, "and is emailed about it");
+  const e0 = (await b.get("edits")).body.edits.find((x) => x.field === "offices");
+  assert.equal(e0.undoable, true, "partial can undo an office change");
   const w2 = world(), c = await w2.full(ANN, undefined, ["ufe"]);
   await c.put("profile", { offices: [CHI] });
   const m = w2.outbox.at(-1);

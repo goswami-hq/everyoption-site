@@ -6,35 +6,45 @@
       "first": "Ann",
       "last": "Testone",
       "taxonomy": "2085R0204X",
-      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology"
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Chicago",
+      "state": "IL"
     },
     "1999000023": {
       "type": "NPI-1",
       "first": "Ben",
       "last": "Sampletwo",
       "taxonomy": "2085R0202X",
-      "taxonomy_desc": "Radiology, Diagnostic Radiology"
+      "taxonomy_desc": "Radiology, Diagnostic Radiology",
+      "city": "Evanston",
+      "state": "IL"
     },
     "1999000031": {
       "type": "NPI-1",
       "first": "Cara",
       "last": "Newdoc",
       "taxonomy": "2085R0204X",
-      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology"
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Madison",
+      "state": "WI"
     },
     "1999000049": {
       "type": "NPI-1",
       "first": "Dan",
       "last": "Orthotest",
       "taxonomy": "207X00000X",
-      "taxonomy_desc": "Orthopaedic Surgery"
+      "taxonomy_desc": "Orthopaedic Surgery",
+      "city": "Chicago",
+      "state": "IL"
     },
     "1999000056": {
       "type": "NPI-1",
       "first": "Eve",
       "last": "Nursetest",
       "taxonomy": "363L00000X",
-      "taxonomy_desc": "Nurse Practitioner"
+      "taxonomy_desc": "Nurse Practitioner",
+      "city": "Chicago",
+      "state": "IL"
     },
     "1999000064": {
       "type": "NPI-2",
@@ -47,7 +57,28 @@
       "first": "Gil",
       "last": "Fourtest",
       "taxonomy": "2085R0204X",
-      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology"
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Skokie",
+      "state": "IL"
+    },
+    "1999000080": {
+      "type": "NPI-1",
+      "first": "Anna",
+      "last": "Testone",
+      "taxonomy": "207R00000X",
+      "taxonomy_desc": "Internal Medicine",
+      "credential": "MD",
+      "city": "Austin",
+      "state": "TX"
+    },
+    "1999000106": {
+      "type": "NPI-1",
+      "first": "Hal",
+      "last": "Phototest",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Peoria",
+      "state": "IL"
     }
   },
   "listings": {
@@ -59,7 +90,9 @@
       ],
       "urls": [
         "https://www.lakesideir.example/team/ann-testone"
-      ]
+      ],
+      "city": "Chicago",
+      "state": "IL"
     },
     "1999000023": {
       "name": "Ben Sampletwo",
@@ -68,7 +101,9 @@
       ],
       "urls": [
         "https://www.healthgrades.com/physician/dr-ben-sampletwo"
-      ]
+      ],
+      "city": "Evanston",
+      "state": "IL"
     },
     "1999000072": {
       "name": "Gil Fourtest",
@@ -77,7 +112,9 @@
       ],
       "urls": [
         "https://fourtest-vascular.example/about"
-      ]
+      ],
+      "city": "Skokie",
+      "state": "IL"
     }
   },
   "radiologists": {

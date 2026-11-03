@@ -39,9 +39,11 @@ test("stating diagnostic radiology or other goes on the waitlist with no code, e
   }
 });
 
-test("a specialty is required, and other needs its text", async () => {
-  for (const body of [{}, { specialty: "x" }, { specialty: "other" }, { specialty: "other", specialty_other: "  " }])
-    assert.equal((await signup(TRAINEE, body)).status, 400);
+test("the IR yes or no is required; a no may leave its specialty blank (job 22) and goes on the waitlist", async () => {
+  for (const body of [{}, { specialty: "x" }]) assert.equal((await signup(TRAINEE, body)).status, 400);
+  const r = await signup(TRAINEE, { specialty: "other" });
+  assert.equal(r.status, 202); assert.equal(r.body.waitlist, true);
+  assert.match((await r.w.backend.data.many("waitlist"))[0].taxonomy_desc, /Stated: not IR/);
 });
 
 test("a non-physician code with no physician degree is still refused", async () => {

@@ -70,8 +70,9 @@ test("published-email invitation: basic access, its address becomes the login em
   assert.equal(r.body.level, "basic");
   const me = (await c.get("me")).body;
   assert.equal(me.account.email, "gil.fourtest@fourtest-vascular.example"); assert.equal(me.account.proof, "invite_published");
-  assert.equal(me.can.contact, false); assert.equal(me.can.invite, false);
-  assert.equal((await c.put("profile", { booking_url: "https://fourtest-vascular.example/book" })).status, 403);
+  assert.equal(me.can.contact, true, "job 22: partial edits offices, phone and link"); assert.equal(me.can.photo, false); assert.equal(me.can.invite, false);
+  assert.equal((await c.put("profile", { booking_url: "https://fourtest-vascular.example/book" })).status, 200);
+  assert.equal((await exportConfirmed(w.backend)).find((x) => x.npi === GIL).confirmed, false, "a published-email invitation stays partial: Likely");
 });
 
 test("an invitation cannot be made for a non-physician or an organisation; his command only from the server side", async () => {
@@ -106,8 +107,9 @@ test("revoke a bad inviter: one step removes full access from it and everyone do
   assert.equal((await w.client("10.6.0.4").post("invite/accept", { token: tokOf(unused.body.url), agree: true })).status, 400, "unused invitation dead");
   assert.equal((await g.post("invite/create", { npi: DAN })).status, 403, "downstream can no longer invite");
   const after = await exportConfirmed(w.backend);
-  assert.equal(after.find((x) => x.npi === ANN).booking_url, "", "contact fields leave the card");
-  assert.deepEqual(after.find((x) => x.npi === CARA).offices, []);
+  // Job 22: partial access may hold offices, phone and link, so they stay; the cards leave Confirmed for Likely.
+  for (const npi of [ANN, GIL, CARA]) assert.equal(after.find((x) => x.npi === npi).confirmed, false, npi);
+  assert.equal(before.find((x) => x.npi === ANN).confirmed, true);
   assert.equal((await w.backend.data.many("exceptions", { kind: "inviter_revoked" })).length, 1);
   assert.ok((await w.backend.data.many("edits", { field: "level" })).length >= 3, "logged");
 });

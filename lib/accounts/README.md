@@ -1,4 +1,4 @@
-# Physician accounts (jobs 10 and 11, built, not live)
+# Physician accounts (jobs 10, 11 and 22, built; open on the dev site only)
 
 Plan: ai-hq `projects/platform/accounts/plan-2026-11-01.md` and its revision (job 11): 6-digit codes, basic and full
 access enforced on the server, invitations with a one-step revoke, automatic takeover by a doctor proven by ID or
@@ -53,3 +53,15 @@ terms or rate limit (read 2026-11-02; ai-hq plan `projects/platform/accounts/pla
 ## Tests
 `node --test tools/*.test.mjs`; browser: `tools/e2e/accounts_e2e.py`, `tools/e2e/cards_e2e.py`
 (see their headers for the local servers to start).
+
+## Job 22 (2026-11-03): restructure (ai-hq `projects/platform/accounts/restructure-proposal-2026-11-03.md`, Decision)
+- Levels: partial (stored as `basic`; email code or published-email invitation) edits procedures, notes, insurance,
+  offices, phone and website link, all public at the next export, and sits in Likely performs. Full (his or a full
+  doctor's invitation, ID or Doximity) adds the photo and invitations and moves the card to Confirmed. The export
+  carries `confirmed` (full only); ai-hq `merge_confirmed` marks partial cards `from_account`.
+- Sign-up asks one yes or no (IR), an email, one agreement; no procedures. Each procedure is added in Your account
+  with its own attestation; `POST withdraw` removes one (attestation rows stay).
+- `GET search?name=&state=`: our listings plus the NPI Registry by name, physicians only, public fields only.
+- `GET photo`: the holder's own photo, `no-store`; `DELETE photo` removes it (no proof needed). The page shrinks phone
+  photos in the browser (1600 px, JPEG under 2 MB); the server limit and checks are unchanged.
+- No schema change.

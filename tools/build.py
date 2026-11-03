@@ -109,7 +109,7 @@ def photo(key, lazy=True, cls="photo"):
     return photo_tag(p["file"], p["alt"], lazy, cls) if p else ""
 
 
-NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/how-we-know/", "How we know"), ("#follow", "Follow"), ("/account/", "For physicians")]
+NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/how-we-know/", "How we know"), ("/account/", "Physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -330,8 +330,8 @@ def how():
 <p class="lede">We look through public information so you can find who near you does a procedure. Doctors can claim their own listing for free, and anyone can report an error.</p>
 <h2>What the two groups mean</h2>
 <dl class="grades">
-<div><dt>Confirmed by physician</dt><dd>The doctor made an account and told us they perform it.</dd></div>
-<div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it. We have not heard from the doctor, so call the office to confirm.</dd></div>
+<div><dt>Confirmed by physician</dt><dd>The doctor told us they perform it, and we have confirmed the account is theirs.</dd></div>
+<div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it, or the doctor told us so from an account we have not yet confirmed (the card says so). Call the office to confirm.</dd></div>
 </dl>
 <h2>Where the information comes from</h2>
 <ul>
@@ -356,7 +356,7 @@ def how():
 <h2>Report an error</h2>
 <p>If something on a listing is wrong, anyone can tell us with the <a href="/report/">report form</a> or by email to <a href="mailto:{CONTACT}">{CONTACT}</a>. A report does not change a listing by itself.</p>
 <h2>Claim your profile</h2>
-<p>Only the physician can claim their own profile, with a free <a href="/account/">account</a>. Physicians who claim their profile and confirm a procedure are listed under “Confirmed by physician.”</p>
+<p>Only the physician can claim their own profile, with a free <a href="/account/">account</a>. A physician with an account can add their procedures, offices, phone, and website at once; their card stays under “Likely performs” until we know the account is theirs, and then moves to “Confirmed by physician.”</p>
 {credits()}
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
@@ -400,17 +400,17 @@ def account():
     """Jobs 10 and 11: physician accounts, built but not open. With no backend connected the page says so and the
     script stores nothing and offers the report form (its link carries the card's NPI). Claiming needs an account
     (his words, 2026-11-02), so nothing else stands in for it. Open, the script builds the forms: Is this you?, the code, invitations."""
-    body = f"""<h1>Physician accounts</h1>
+    body = f"""<h1>For physicians</h1>
 <div class="prose">
 <div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> When they open, physicians can claim their profile here. To tell us about an error now, use the <a id="closed-report" href="/report/">report form</a>.</p></div>
 </div>
 <div id="acct" hidden>
-<div class="prose"><p class="lede">Confirm your listing in about a minute: tick the procedures you perform, and type the code we email you. Free.</p></div>
+<div class="prose"><p class="lede" id="acct-lede">Manage how you appear to patients. Listings are free.</p></div>
 <div id="acct-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
 <div id="acct-out"></div>
 </div>
 <noscript><p class="notice">This page needs JavaScript. To report an error, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
-    return page("/account/", "Physician accounts | Every Option",
+    return page("/account/", "For physicians | Every Option",
                 "Physicians can claim their Every Option profile with a free account. Accounts are not open yet.",
                 body, ["/assets/procedures.js", "/assets/account.js"])
 
