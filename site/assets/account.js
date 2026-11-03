@@ -376,7 +376,7 @@
         return el("li", { "class": "proc on", id: "proc-" + k }, [
           el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC[k] }), el("span", { "class": "muted", text: " " + PROC_LONG[k] }),
             el("span", { "class": "proc-state", text: "✓ You perform this" })])]),
-          el("details", { "class": "proc-note" }, [el("summary", { text: t.value ? "Your note" : "Add a note for patients" }),
+          el("details", { "class": "proc-note", open: !!t.value }, [el("summary", { text: t.value ? "Your note" : "Add a note for patients" }),
             el("label", { "for": "b-" + k }, ["Note for " + PROC[k] + " ", count]), t, el("p", { "class": "err small", id: "why-b-" + k }),
             el("div", { "class": "acct-actions" }, [saveNote])]),
           el("button", { type: "button", "class": "link remove", "data-proc": k, text: "Remove " + PROC[k], onclick: function () {

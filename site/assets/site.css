@@ -429,3 +429,4 @@ fieldset.office legend { float: left; width: 100%; font: 400 1.125rem/1.3 var(--
 fieldset.office legend + * { clear: both; }
 #f-results > p:first-child { margin-top: 18px; }
 .proc-note summary { font-size: 1rem; }
+.proc-note textarea { display: block; width: 100%; }
