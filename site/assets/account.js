@@ -171,7 +171,7 @@
     ]);
     function search() {
       var q = name.value.trim();
-      if (q.replace(/[^A-Za-z]/g, "").length < 2) { name.setAttribute("aria-invalid", "true"); name.focus(); return say("Type your name.", "err"); }
+      if (!/[A-Za-z\u00C0-\u024F]{1,}[\s,]+[A-Za-z\u00C0-\u024F]{2,}/.test(q)) { name.setAttribute("aria-invalid", "true"); name.focus(); return say("Type your first and last name.", "err"); }
       name.removeAttribute("aria-invalid"); hush(); busy(go, true);
       api("GET", "search?name=" + encodeURIComponent(q) + (st.value ? "&state=" + st.value : "")).then(function (j) {
         busy(go, false);

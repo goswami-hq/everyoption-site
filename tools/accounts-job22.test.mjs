@@ -48,6 +48,14 @@ test("find yourself: our listings and the registry together, listed first, physi
   assert.equal((await c.get("search?name=Ann+Testone&state=Illinois")).status, 400);
 });
 
+test("find yourself: registry rows matched only on a former or other name are dropped (seen live 2026-11-03)", async () => {
+  const w = world();
+  w.backend.nppes.search = async () => [{ type: "NPI-1", npi: "1999000122", first: "JOSELYN", last: "CAFUN", taxonomy: "207R00000X",
+    taxonomies: ["207R00000X"], credential: "MD", city: "VERONA", state: "WI" }];
+  const r = await w.client("10.22.0.3").get("search?name=Jo+Smith");
+  assert.deepEqual(r.body.results, []);
+});
+
 test("find yourself: the registry down still shows our listings and says so", async () => {
   const w = world(); w.backend.nppes.down = true;
   const r = await w.client("10.22.0.2").get("search?name=Gil+Fourtest");
