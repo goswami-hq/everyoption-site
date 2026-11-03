@@ -10,7 +10,7 @@ test("new profile: NPI not on the site, radiologist: no name typed; NPPES name; 
   const w = world(), c = w.client();
   const lk = await c.get("lookup?npi=" + CARA);
   assert.equal(lk.body.name, "Cara Newdoc"); assert.deepEqual(lk.body.listed_for, []);
-  const r = await c.post("signup", { npi: CARA, email: "cara@home.example", agree: true, procedures: ["gae"] });
+  const r = await c.post("signup", { specialty: "ir", npi: CARA, email: "cara@home.example", agree: true, procedures: ["gae"] });
   assert.equal(r.status, 202); assert.ok(!r.body.waitlist);
   assert.equal((await c.post("code", { challenge: r.body.challenge, code: w.lastCode("cara@home.example") })).status, 200);
   const prof = await w.backend.data.one("profiles", { npi: CARA });
@@ -24,18 +24,18 @@ test("new profile: NPI not on the site, radiologist: no name typed; NPPES name; 
 
 test("new profile: a physician who is not a radiologist goes on the waitlist; no account, no code", async () => {
   const w = world(), c = w.client();
-  const r = await c.post("signup", { npi: DAN, email: "dan@ortho.example", agree: true });
+  const r = await c.post("signup", { specialty: "other", specialty_other: "Orthopaedic surgery", npi: DAN, email: "dan@ortho.example", agree: true });
   assert.equal(r.status, 202); assert.equal(r.body.waitlist, true);
   assert.equal(w.outbox.length, 0);
   assert.equal((await w.backend.data.many("accounts")).length, 0);
   const wl = await w.backend.data.many("waitlist");
-  assert.equal(wl.length, 1); assert.equal(wl[0].taxonomy, "207X00000X");
+  assert.equal(wl.length, 1); assert.equal(wl[0].taxonomy, "207X00000X"); assert.match(wl[0].taxonomy_desc, /Stated: Orthopaedic surgery/);
 });
 
 test("not a physician, or an organisation NPI: refused", async () => {
   const w = world(), c = w.client();
-  assert.equal((await c.post("signup", { npi: EVE, email: "e@x.example", agree: true })).body.error, "not_a_physician");
-  assert.equal((await c.post("signup", { npi: ORG, email: "o@x.example", agree: true })).body.error, "npi_not_individual");
+  assert.equal((await c.post("signup", { specialty: "ir", npi: EVE, email: "e@x.example", agree: true })).body.error, "not_a_physician");
+  assert.equal((await c.post("signup", { specialty: "ir", npi: ORG, email: "o@x.example", agree: true })).body.error, "npi_not_individual");
 });
 
 test("Doximity off: its routes are not there", async () => {
@@ -118,9 +118,9 @@ test("schema has every column the code writes", async () => {
   const e = (await a.get("edits")).body.edits.find((x) => x.field === "blurbs");
   await a.post("undo", { edit_id: e.id });
   const claimant = w.client("10.2.2.2");
-  const s = await claimant.post("signup", { npi: ANN, email: "other@x.example", agree: true });
+  const s = await claimant.post("signup", { specialty: "ir", npi: ANN, email: "other@x.example", agree: true });
   await claimant.post("code", { challenge: s.body.challenge, code: w.lastCode("other@x.example") });
-  await w.client().post("signup", { npi: DAN, email: "dan@x.example", agree: true });
+  await w.client().post("signup", { specialty: "ir", npi: DAN, email: "dan@x.example", agree: true });
   await w.client().post("login", { email: "nobody@x.example" });
   await a.post("email", { email: "ann2@x.example" });
   const tok = /#invite=([0-9a-f]{64})$/.exec((await a.post("invite/create", { npi: GIL })).body.url)[1];

@@ -102,7 +102,7 @@ def closed_site(b):
     check("closed: no link to the removed /claim/ form", pg.locator('a[href^="/claim"]').count() == 0)
     check("closed: the closed notice names the report form", "report form" in pg.inner_text("#acct-closed"))
     check("closed: only the status call reaches the server", [u for u in reqs if "/api/" in u] == [CLOSED + "/api/account/status"], reqs)
-    r = pg.request.post(CLOSED + "/api/account/signup", data={"npi": ANN, "email": "a@b.example", "agree": True}, headers={"Origin": CLOSED})
+    r = pg.request.post(CLOSED + "/api/account/signup", data={"specialty": "ir", "npi": ANN, "email": "a@b.example", "agree": True}, headers={"Origin": CLOSED})
     check("closed: sign-up API answers 503, stores nothing", r.status == 503)
     shot(pg, "closed-account-390")
     pg.click("#closed-report"); pg.wait_for_selector("#report-form")
@@ -119,6 +119,7 @@ def basic_path(b, label, base, vp, npi, email, proc):
     pg.goto(f"{base}/account/?npi={npi}&procedure={proc}&name=x"); steps += 1           # the click on the card
     pg.wait_for_function("document.getElementById('s-who') && !document.getElementById('s-who').hidden")
     who = pg.inner_text("#s-who")
+    pg.check("#s-specialty input[value=ir]"); steps += 1
     pre = pg.evaluate(f"document.querySelector('#signup-form input[name=procedures][value={proc}]').checked")
     staff = pg.evaluate("/staff|practice manager|on behalf/i.test(document.getElementById('acct').innerText)")
     pg.check(f"#signup-form input[name=procedures][value={proc}]"); steps += 1
@@ -226,7 +227,7 @@ def flows(b, label, base, vp):
     ctx = b.new_context(viewport=vp); pg = ctx.new_page(); watch(pg, label + "-takeover")
     pg.goto(f"{base}/account/?npi={BEN}"); pg.wait_for_function("!document.getElementById('s-who').hidden")
     check(f"{label}: a held listing says so before sign-up", "already has an account" in pg.inner_text("#s-who"))
-    pg.fill("#s-email", "ben@home.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
+    pg.check("#s-specialty input[value=ir]"); pg.fill("#s-email", "ben@home.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
     pg.wait_for_selector("#c-code")
     check(f"{label}: second claimant told plainly", "already has an account" in pg.inner_text("#acct-status"))
     pg.fill("#c-code", code_for(pg, base, "ben@home.example")); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#check-id")
@@ -255,11 +256,11 @@ def flows(b, label, base, vp):
     # 9 shared email and waitlist
     ctx = b.new_context(viewport=vp); pg = ctx.new_page(); watch(pg, label + "-misc")
     pg.goto(f"{base}/account/?npi={GIL}"); pg.wait_for_function("!document.getElementById('s-who').hidden")
-    pg.fill("#s-email", "ben@home.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
+    pg.check("#s-specialty input[value=ir]"); pg.fill("#s-email", "ben@home.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
     wait_status(pg, "already has an Every Option account")
     check(f"{label}: a shared email is told plainly", "Sign in with it, or use a different email" in pg.inner_text("#acct-status"))
     pg.goto(f"{base}/account/?npi={DAN}"); pg.wait_for_function("!document.getElementById('s-who').hidden")
-    pg.fill("#s-email", "dan@ortho.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
+    pg.check("#s-specialty input[value=other]"); pg.fill("#s-other", "Orthopaedic surgery"); pg.fill("#s-email", "dan@ortho.example"); pg.check("#s-agree"); clear(pg); pg.click("#signup-form button[type=submit]")
     wait_status(pg, "waitlist")
     check(f"{label}: a non-radiologist goes on the waitlist", any(w["npi"] == DAN for w in store(pg, base).get("waitlist", [])))
     shot(pg, f"{label}-5-waitlist")

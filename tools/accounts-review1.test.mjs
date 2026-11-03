@@ -45,12 +45,12 @@ test("3: Doximity uses PKCE (S256 challenge on the way out, verifier on the toke
 test("4: per-email sign-up limit and a daily cap on all email", async () => {
   const w = world();
   let last;
-  for (let i = 0; i < 4; i++) last = await w.client("10.7.0." + i).post("signup", { npi: [ANN, BEN, GIL, ANN][i], email: "target@x.example", agree: true });
+  for (let i = 0; i < 4; i++) last = await w.client("10.7.0." + i).post("signup", { specialty: "ir", npi: [ANN, BEN, GIL, ANN][i], email: "target@x.example", agree: true });
   assert.equal(last.status, 429, "same inbox from several connections");
   const w2 = world({ env: { emailDailyCap: 3 } });
   for (let i = 0; i < 3; i++) await w2.client("10.8.0." + i).post("login", { email: `n${i}@x.example` }); // no accounts: no sends
-  for (let i = 0; i < 3; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, agree: true })).status, 202);
-  assert.equal((await w2.client("10.8.2.2").post("signup", { npi: ANN, email: "s9@x.example", agree: true })).status, 429);
+  for (let i = 0; i < 3; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { specialty: "ir", npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, agree: true })).status, 202);
+  assert.equal((await w2.client("10.8.2.2").post("signup", { specialty: "ir", npi: ANN, email: "s9@x.example", agree: true })).status, 429);
   assert.equal(w2.outbox.length, 3);
   assert.equal((await w2.backend.data.many("exceptions", { kind: "email_cap" })).length, 1);
 });
@@ -73,7 +73,7 @@ test("6: a Doximity link token works only in the browser that started it, and on
 
 test("7: an NPPES outage after the code is sent does not burn it", async () => {
   const w = world(), c = w.client();
-  const s = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   w.backend.nppes = { async lookup() { throw new Error("nppes down"); } };
   assert.equal((await c.post("code", { challenge: s.body.challenge, code: w.lastCode() })).status, 200);
   assert.equal((await w.backend.data.one("accounts", { npi: ANN })).name, "Ann Testone");

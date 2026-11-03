@@ -95,19 +95,36 @@
     var npi = (QS.get("npi") || "").replace(/\D/g, "").slice(0, 10);
     var who = el("div", { id: "s-who", "class": "notice", hidden: true });
     var procs = el("div", { id: "s-procs" }, [procBoxes([])]);
-    var agreeText = el("span", { id: "s-agree-text", text: "I am the physician with this NPI. I personally perform each procedure I ticked, and what I enter about my practice is accurate. I accept the Every Option terms of service and privacy policy." });
+    var agreeText = el("span", { id: "s-agree-text", text: "I am the physician with this NPI. I am an interventional radiologist. I personally perform each procedure I ticked, and what I enter about my practice is accurate. I accept the Every Option terms of service and privacy policy." });
+    var irAgree = agreeText.textContent;
+    var other = el("div", { id: "s-other-wrap", hidden: true }, [el("label", { "for": "s-other", text: "Your specialty" }),
+      el("input", { id: "s-other", name: "specialty_other", maxlength: "100" })]);
+    function specialtyBox(value, label) {
+      return el("label", { style: "font-weight:400;margin:0 0 6px" }, [el("input", { type: "radio", name: "specialty", value: value }), " " + label]);
+    }
+    var specialty = el("fieldset", { id: "s-specialty" }, [el("legend", { style: "font-weight:600;margin-bottom:5px", text: "Your specialty" }),
+      specialtyBox("ir", "Interventional radiology"), specialtyBox("dr", "Diagnostic radiology"), specialtyBox("other", "Other")]);
+    var send = el("button", { type: "submit", id: "s-send", text: "Send my code" });
     var s = el("form", { "class": "claim-form", id: "signup-form", novalidate: true }, [
       el("h2", { style: "margin-top:0", text: "Is this you? Confirm your listing" }),
       el("div", null, [el("label", { "for": "s-npi" }, ["NPI ", el("span", { "class": "hint", text: "(10 digits)" })]),
         el("input", { id: "s-npi", name: "npi", inputmode: "numeric", maxlength: "10", pattern: "[0-9]{10}", required: true, value: npi })]),
-      who, procs,
+      who, specialty, other, procs,
       el("div", null, [el("label", { "for": "s-email" }, ["Email ", el("span", { "class": "hint", text: "(use an email you'll keep; personal is fine)" })]),
         el("input", { id: "s-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true })]),
       el("div", { "class": "checks" }, [el("label", null, [el("input", { type: "checkbox", name: "agree", id: "s-agree", required: true }), agreeText])]),
       el("p", { "class": "err small", id: "why-agree" }),
       el("p", { "class": "small muted", text: "No password. We email you a 6-digit code to type here. Your name comes from the NPI Registry." }),
-      el("div", null, [el("button", { type: "submit", text: "Send my code" })])
+      el("div", null, [send])
     ]);
+    function chosen() { var c = s.querySelector("input[name=specialty]:checked"); return c ? c.value : ""; }
+    function onSpecialty() {
+      var v = chosen(), notIr = v === "dr" || v === "other";
+      other.hidden = v !== "other"; procs.hidden = notIr;
+      agreeText.textContent = notIr ? "I am the physician with this NPI. I accept the Every Option terms of service and privacy policy." : irAgree;
+      send.textContent = notIr ? "Join the waitlist" : "Send my code";
+    }
+    specialty.addEventListener("change", onSpecialty);
     function look() {
       var v = s.npi.value.trim();
       if (!/^\d{10}$/.test(v)) { who.hidden = true; return; }
@@ -119,7 +136,7 @@
           j.listed_for.map(function (k) { return PROC[k]; }).join(", ") + "." : "Not listed on Every Option yet; confirming adds you." }));
         if (j.held) who.appendChild(el("p", { "class": "small", text: "This listing already has an account. If it is yours, carry on: after the code, confirm who you are with Doximity or a photo ID and the listing moves to you." }));
         procs.innerHTML = ""; procs.appendChild(procBoxes(j.listed_for));
-        agreeText.textContent = j.agreement;
+        irAgree = j.agreement; onSpecialty();
       });
     }
     s.npi.addEventListener("input", look);
@@ -128,13 +145,18 @@
       ev.preventDefault();
       var email = s.email.value.trim();
       var why = document.getElementById("why-agree");
+      var stated = chosen();
+      if (!stated || (stated === "other" && !s.specialty_other.value.trim())) {
+        why.textContent = "Please choose your specialty."; (stated ? s.specialty_other : s.querySelector("input[name=specialty]")).focus();
+        return;
+      }
       if (!s.agree.checked) {
         why.textContent = "Please tick this box to continue.";
         s.agree.setAttribute("aria-invalid", "true"); s.agree.focus();
         return;
       }
       why.textContent = ""; s.agree.removeAttribute("aria-invalid");
-      api("POST", "signup", { npi: s.npi.value.trim(), email: email, procedures: ticked(s), agree: s.agree.checked }).then(function (j) {
+      api("POST", "signup", { npi: s.npi.value.trim(), email: email, specialty: stated, specialty_other: s.specialty_other.value.trim(), procedures: stated === "ir" ? ticked(s) : [], agree: s.agree.checked }).then(function (j) {
         if (j._status !== 202) return say(words(j), "err");
         if (j.waitlist) return say(j.message, "ok");
         say(j.npi_taken ? j.message : "We sent a 6-digit code to " + email + ".", "ok");

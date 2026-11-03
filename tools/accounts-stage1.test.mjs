@@ -30,8 +30,8 @@ test("Is this you?: lookup shows the NPPES name and the procedures listed; nothi
 
 test("sign-up: one agreement, a 6-digit code typed on the page, name from NPPES, basic access, attested at once", async () => {
   const w = world(), c = w.client();
-  assert.equal((await c.post("signup", { npi: ANN, email: "ann@home.example" })).body.error, "agree_required");
-  const s = await c.post("signup", { npi: ANN, email: "Ann@Home.example", agree: true, procedures: ["ufe", "xyz"], name: "Typed Name" });
+  assert.equal((await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example" })).body.error, "agree_required");
+  const s = await c.post("signup", { specialty: "ir", npi: ANN, email: "Ann@Home.example", agree: true, procedures: ["ufe", "xyz"], name: "Typed Name" });
   assert.equal(s.status, 202); assert.match(s.body.challenge, /^[0-9a-f]{64}$/);
   assert.equal(w.outbox.length, 1); assert.equal(w.outbox[0].to, "ann@home.example");
   assert.match(w.outbox[0].subject, /^\d{6} is your Every Option code$/);
@@ -52,18 +52,18 @@ test("sign-up: one agreement, a 6-digit code typed on the page, name from NPPES,
 
 test("codes: one hour, single use, 5 wrong tries, stored only as salted hashes", async () => {
   const w = world(), c = w.client();
-  const s = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   const code = w.lastCode();
   const rows = await w.backend.data.many("codes");
   assert.ok(!JSON.stringify(rows).includes(code) && !JSON.stringify(rows).includes(s.body.challenge), "neither stored raw");
   w.clock.t += 61 * 60 * 1000;
   assert.equal((await c.post("code", { challenge: s.body.challenge, code })).status, 400, "expired after an hour");
-  const s2 = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s2 = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   const code2 = w.lastCode();
   const wrong = code2 === "000000" ? "000001" : "000000";
   for (let i = 0; i < 5; i++) assert.equal((await c.post("code", { challenge: s2.body.challenge, code: wrong })).status, 400);
   assert.equal((await c.post("code", { challenge: s2.body.challenge, code: code2 })).status, 400, "dead after 5 wrong tries");
-  const s3 = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s3 = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   const code3 = w.lastCode();
   assert.equal((await c.post("code", { challenge: s3.body.challenge, code: code3 })).status, 200);
   assert.equal((await w.client("10.0.0.9").post("code", { challenge: s3.body.challenge, code: code3 })).status, 400, "second use");
@@ -86,7 +86,7 @@ test("sign-in by code; same answer whether or not the email has an account; logo
 
 test("sessions: cookie is HttpOnly, Secure, SameSite=Strict; expired session is refused", async () => {
   const w = world(), c = w.client();
-  const s = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   const r = await c.call("POST", "code", { challenge: s.body.challenge, code: w.lastCode() });
   const sc = r.headers.get("Set-Cookie");
   for (const f of ["HttpOnly", "Secure", "SameSite=Strict", "Path=/api/account"]) assert.ok(sc.includes(f), f);
@@ -96,7 +96,7 @@ test("sessions: cookie is HttpOnly, Secure, SameSite=Strict; expired session is 
 
 test("a shared email is told plainly it is in use; one email, one account", async () => {
   const w = world(); await w.signIn(ANN, "shared@home.example");
-  const r = await w.client("10.0.0.2").post("signup", { npi: GIL, email: "shared@home.example", agree: true });
+  const r = await w.client("10.0.0.2").post("signup", { specialty: "ir", npi: GIL, email: "shared@home.example", agree: true });
   assert.equal(r.status, 409); assert.equal(r.body.error, "email_in_use"); assert.match(r.body.message, /already has an Every Option account/);
   assert.equal(w.outbox.filter((m) => m.to === "shared@home.example").length, 1, "no second code");
 });
@@ -104,7 +104,7 @@ test("a shared email is told plainly it is in use; one email, one account", asyn
 test("signing up again on your own NPI with your own email is a sign-in", async () => {
   const w = world(); await w.signIn();
   const c = w.client("10.0.0.5");
-  const s = await c.post("signup", { npi: ANN, email: "ann@home.example", agree: true });
+  const s = await c.post("signup", { specialty: "ir", npi: ANN, email: "ann@home.example", agree: true });
   assert.equal(s.body.signin, true);
   assert.equal((await c.post("code", { challenge: s.body.challenge, code: w.lastCode() })).status, 200);
   assert.equal((await w.backend.data.many("accounts")).length, 1);
@@ -113,7 +113,7 @@ test("signing up again on your own NPI with your own email is a sign-in", async 
 test("one account per NPI: a second claimant is told plainly and gets a claimant account with no NPI", async () => {
   const w = world(); await w.signIn();
   const c2 = w.client("10.0.0.2");
-  const s = await c2.post("signup", { npi: ANN, email: "someone@other.example", agree: true });
+  const s = await c2.post("signup", { specialty: "ir", npi: ANN, email: "someone@other.example", agree: true });
   assert.equal(s.status, 202); assert.equal(s.body.npi_taken, true); assert.match(s.body.message, /already has an account/);
   assert.equal((await c2.post("code", { challenge: s.body.challenge, code: w.lastCode("someone@other.example") })).status, 200);
   const me = (await c2.get("me")).body;
@@ -127,8 +127,8 @@ test("one account per NPI: a second claimant is told plainly and gets a claimant
 test("one account per NPI holds with two codes sent before either is used", async () => {
   const w = world();
   const a = w.client("10.0.0.3"), b = w.client("10.0.0.4");
-  const sa = await a.post("signup", { npi: ANN, email: "one@x.example", agree: true }); const ca = w.lastCode("one@x.example");
-  const sb = await b.post("signup", { npi: ANN, email: "two@y.example", agree: true }); const cb = w.lastCode("two@y.example");
+  const sa = await a.post("signup", { specialty: "ir", npi: ANN, email: "one@x.example", agree: true }); const ca = w.lastCode("one@x.example");
+  const sb = await b.post("signup", { specialty: "ir", npi: ANN, email: "two@y.example", agree: true }); const cb = w.lastCode("two@y.example");
   assert.equal((await a.post("code", { challenge: sa.body.challenge, code: ca })).status, 200);
   const rb = await b.post("code", { challenge: sb.body.challenge, code: cb });
   assert.equal(rb.status, 200); assert.equal(rb.body.claimant, true, "the later one is a claimant");
@@ -186,7 +186,7 @@ test("login email: add or change by a code to the new address; the old address i
 test("rate limits: sign-up, sign-in and ID check attempts", async () => {
   const w = world(), c = w.client("10.9.9.9");
   let last;
-  for (let i = 0; i < 11; i++) last = await c.post("signup", { npi: ANN, email: `x${i}@lakesideir.example`, agree: true });
+  for (let i = 0; i < 11; i++) last = await c.post("signup", { specialty: "ir", npi: ANN, email: `x${i}@lakesideir.example`, agree: true });
   assert.equal(last.status, 429, "sign-up");
   const l = w.client("10.9.9.8");
   for (let i = 0; i < 6; i++) last = await l.post("login", { email: "same@x.example" });

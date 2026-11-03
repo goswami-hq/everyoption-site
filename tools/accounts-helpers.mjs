@@ -43,7 +43,7 @@ export function world(opts = {}) {
   // Sign up (or sign in) with a code; returns the client.
   w.signIn = async (npi = ANN, email = EMAIL[npi] || "x@home.example", ip, procedures = []) => {
     const c = w.client(ip);
-    const s = await c.post("signup", { npi, email, agree: true, procedures });
+    const s = await c.post("signup", { specialty: "ir", npi, email, agree: true, procedures });
     if (s.status !== 202 || !s.body.challenge) throw new Error("sign-up failed " + JSON.stringify(s.body));
     const r = await c.post("code", { challenge: s.body.challenge, code: w.lastCode(email) });
     if (r.status !== 200) throw new Error("code failed " + JSON.stringify(r.body));
