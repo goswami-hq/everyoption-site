@@ -60,6 +60,7 @@ PROCS = {
     },
     "gae": {
         "for": "Arthritis pain",
+        "home_name": "Genicular (knee) artery embolization",
         "title": "Find a doctor for genicular artery embolization (GAE)",
         "about": [
             "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other "
@@ -191,7 +192,7 @@ def home():
     HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}
 
     def row(k, p):
-        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
+        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))} '
                 f'({p["abbr"]})</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
     opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
