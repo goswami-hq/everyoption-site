@@ -449,20 +449,18 @@ fieldset.office legend + * { clear: both; }
    theme and cards with the new fonts and logo (his words, 2026-11-03: the card layouts, cues, and color theme "were better"). ===== */
 :root { --night: #171311; --plum: #33272a; --vessel: #d9574a; --vessel-lit: #f0705f; --gold: #ffb648; --mint: #8fc4b2; --cream: #fff4e4; --gut: clamp(48px, 11vw, 160px); font-synthesis: none; }
 .home-page { --accent: #2f5d50; --accent-ink: #fff; --soft: #e6efe9; --sun: #e6efe9; }
-.home-page .t-ufe, .home-page .t-pae, .home-page .t-gae { --accent: #2f5d50; --accent-ink: #fff; }
-@media (prefers-color-scheme: dark) { .home-page { --accent: #8fc4b2; --accent-ink: #14231d; --soft: #243029; --sun: #243029; --vessel: #e0605a; } .home-page .t-ufe, .home-page .t-pae, .home-page .t-gae { --accent: #8fc4b2; --accent-ink: #14231d; } }
+@media (prefers-color-scheme: dark) { .home-page { --accent: #8fc4b2; --accent-ink: #14231d; --soft: #243029; --sun: #243029; --vessel: #e0605a; } }
 .home-page main::before { display: none; }
 h1, h2, .card h3 { letter-spacing: 0; }
 .brand .logo { display: block; width: auto; height: 30px; }
 .brand svg, .brand .logo { color: inherit; }
-.logo-disc { fill: var(--pine); } .logo-hole { fill: var(--gold); }
-.home-page header.site { background: var(--night); color: var(--cream); }
+.logo-disc { fill: var(--mint); } .logo-hole { fill: var(--gold); }
+header.site { background: var(--night); color: var(--cream); }
 .home-page header.site .wrap { max-width: 1440px; padding: 8px 40px 6px var(--gut); }
-.home-page .brand { color: var(--cream); }
-.home-page .logo-disc { fill: var(--mint); }
-.home-page nav.top a { color: #e6d8c6; }
-.home-page nav.top a[aria-current="page"] { color: var(--cream); }
-@media (hover: hover) and (pointer: fine) { .home-page nav.top a:hover { color: var(--gold); } }
+.brand { color: var(--cream); }
+nav.top a { color: #e6d8c6; }
+nav.top a[aria-current="page"] { color: var(--cream); }
+@media (hover: hover) and (pointer: fine) { nav.top a:hover { color: var(--gold); } }
 
 .hero-in { max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding: 34px 40px 44px var(--gut); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 56px; align-items: end; }
 .home-page .hero { position: relative; background: var(--night); color: var(--cream); }
@@ -478,7 +476,7 @@ h1, h2, .card h3 { letter-spacing: 0; }
 .hs-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
 .hs-row .f { flex: 1 1 150px; min-width: 0; } .hs-row .f-zip { flex: 1 1 120px; }
 .hs-status { margin: 6px 0 0; min-height: 1.2em; font-size: 0.9375rem; color: var(--gold); }
-@media (max-width: 760px) { .hero-in { grid-template-columns: minmax(0, 1fr); padding: 20px 16px 26px var(--gut); } .home-page .hero h1 { font-size: 2.25rem; } .brand .logo { height: 25px; } .home-page header.site .wrap { padding-left: 16px; padding-right: 16px; } .home-page .hs-row button { flex: 1 1 100%; width: 100%; } }
+@media (max-width: 760px) { .hero-in { grid-template-columns: minmax(0, 1fr); padding: 20px 16px 26px var(--gut); } .home-page .hero h1 { font-size: 2.25rem; } .brand .logo { height: 25px; } header.site .wrap { padding-left: 16px; padding-right: 16px; } .home-page .hs-row button { flex: 1 1 100%; width: 100%; } }
 
 .home-page main { padding-top: 0; }
 .home-page main > .wrap { max-width: 1440px; padding: 0 40px 0 0; }
@@ -506,11 +504,21 @@ h1, h2, .card h3 { letter-spacing: 0; }
 
 /* Fibroid page: original theme, wider layout. Results first, education beside them on a computer. */
 .condition-page main > .wrap { max-width: 1280px; }
-.hero-cond .hero-in { max-width: none; padding: 0 0 22px; align-items: center; grid-template-columns: minmax(0, 1fr) 420px; }
+.hero-cond { margin-bottom: 16px; }
 .hero-cond h1 { margin-bottom: 12px; }
-.hero-art { display: block; width: 100%; height: auto; border-radius: var(--radius); }
 .cond-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 0 40px; align-items: start; }
 .cond-grid .condition { max-width: none; }
 .results-col .status { margin-top: 0; }
-@media (max-width: 1020px) { .cond-grid, .hero-cond .hero-in { grid-template-columns: minmax(0, 1fr); } .cond-grid .condition { margin-top: 28px; } .hero-art { display: none; } }
+@media (max-width: 1020px) { .cond-grid { grid-template-columns: minmax(0, 1fr); } .cond-grid .condition { margin-top: 28px; } }
 .condition-page header.site .wrap { max-width: 1280px; }
+
+/* Cohesion (2026-11-03): every page shares the dark header; finder pages carry a slim strip of the banner art; home conditions are the same cards as the rest, in each condition's color. */
+.page-strip { background: var(--plum); line-height: 0; }
+.page-strip img { display: block; width: 100%; height: clamp(104px, 12vw, 170px); object-fit: cover; }
+main::before { top: 0; }
+.fork-list.stops li { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); margin: 0 0 12px; box-shadow: 0 1px 2px rgba(60, 40, 30, .05); }
+.fork-list.stops li:last-child { border-bottom: 1px solid var(--line); }
+.fork-list.stops a { padding: 12px 20px; min-height: 92px; }
+.stops strong { color: var(--accent); }
+.stops li::before { left: -30px; }
+.home-page .hero-in, .home-page header.site .wrap { max-width: 1440px; }
