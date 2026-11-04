@@ -808,7 +808,12 @@ def live_run(cfg):
                 lcheck("live: the public key reads no table, not the photos bucket, and cannot call the test functions", ok, detail)
             pg.goto(base + "/account/"); pg.wait_for_selector("#photo-remove", timeout=30000)
             pg.once("dialog", lambda d: d.accept()); pg.click("#photo-remove"); wait_status(pg, "Photo removed", 15000)
-            lcheck("live: remove takes the photo off", pg.locator("img#photo-now").count() == 0)
+            # the page says "Photo removed" first, then reloads the profile: on the live site that takes a moment
+            try:
+                wait_js(pg, "!document.querySelector('img#photo-now')", timeout=15000); off = True
+            except TimeoutError:
+                off = False
+            lcheck("live: remove takes the photo off", off)
             out_ctx = b.new_context(); site.attach(out_ctx); out = out_ctx.new_page()
             r = out.request.get(base + "/api/account/photo", headers=site.headers(), max_redirects=0)
             lcheck("live: a signed-out visitor cannot see the photo", r.status == 401, r.status)
