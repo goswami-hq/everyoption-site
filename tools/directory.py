@@ -13,7 +13,7 @@ Profiles themselves are rendered by lib/directory.mjs on request; none are commi
 """
 import json, os, re, unicodedata
 
-PROC_PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/gae/"}
+PROC_PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}
 TEST_NPIS = {"1999999990"}
 CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"]
 OFFICE_KEYS = ["practice", "street", "city", "state", "zip", "phone"]

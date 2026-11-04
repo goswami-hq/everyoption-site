@@ -188,7 +188,7 @@ def fork(keys):
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
-    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/"}
+    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}
 
     def row(k, p):
         return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
@@ -269,7 +269,7 @@ def diagram(k, vary=True):
 </figure>"""
 
 
-MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/"}   # job 32: the PAE finder lives on the prostate page
+MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
 
 
 FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
@@ -455,7 +455,7 @@ def not_found():
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
            "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
-SITEMAP_PAGES = ["/", "/fibroids/", "/enlarged-prostate/", "/gae/", "/how-we-know/", "/report/", "/account/", "/doctors/"]
+SITEMAP_PAGES = ["/", "/fibroids/", "/enlarged-prostate/", "/arthritis-embolization/", "/how-we-know/", "/report/", "/account/", "/doctors/"]
 
 
 def sitemap(profiles=()):

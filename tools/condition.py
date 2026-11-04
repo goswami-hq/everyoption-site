@@ -185,10 +185,15 @@ def body(c, diagram_fn, e, top=""):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
     refs = Refs(c["refs"])
     lead = lead_option(refs, c, diagram_fn)
+    # place = "lead": a section shown open right after the lead procedure, not folded in Learn more (job 33: the
+    # arthritis page's "other joints" block, so it sits with embolization instead of below every other option)
+    lead += "".join(f'<section class="lead-extra" id="{html.escape(s["id"])}"><h2>{html.escape(s["heading"])}</h2>'
+                    f'{paras(refs, s.get("text", []))}{bullets(refs, s.get("list", []))}{paras(refs, s.get("after", []))}</section>'
+                    for s in c["sections"] if s.get("place") == "lead")
     parts = [f'{lead}<p class="answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c))
-    learn = "".join(section(refs, s) for s in c["sections"]) + faq(refs, c)
+    learn = "".join(section(refs, s) for s in c["sections"] if s.get("place") != "lead") + faq(refs, c)
     parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
     author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'
