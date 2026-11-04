@@ -131,7 +131,7 @@ id = "embolization"
 name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
 invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out, and most men do not need a urine tube.[^sirpt][^ucla] Most men go home the same day.[^ucla][^gstt] Recovery takes about 1 to 2 weeks,[^gstt] instead of 3 to 6 weeks after TURP surgery.[^mpturpdc]"
-works = "Most men feel much better.[^sham][^pisco] About 8 out of 10 men still felt better one to three years later.[^pisco] In the first year, symptoms may improve about as much as after TURP surgery.[^cochrane] In men with larger prostates who were still bothered while taking one pill, it helped more than taking two pills together.[^partem]\nSome men may need more treatment: about 1 out of 5 had another procedure within five years, such as a second embolization or surgery.[^bilhim] Results after surgery are more likely to last.[^cochrane][^abt5]"
+works = "Most men feel much better.[^sham][^pisco] About 8 out of 10 men still felt better one to three years later.[^pisco] In the first year, symptoms may improve about as much as after TURP surgery.[^cochrane]\nSome men may need more treatment: about 1 out of 5 had another procedure within five years, such as a second embolization or surgery.[^bilhim] Results after surgery are more likely to last.[^cochrane][^abt5]"
 side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Many men have less semen afterward. Losing ejaculation completely is less common than after TURP surgery.[^ejac][^cochrane] Serious problems are rare.[^pisco]"
 
 [[options]]
@@ -247,10 +247,6 @@ url = "https://doi.org/10.1016/j.jvir.2016.04.001"
 key = "cochrane"
 cite = "Jung JH, McCutcheon KA, Borofsky M, et al. Prostatic arterial embolization for the treatment of lower urinary tract symptoms in men with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2022;(3):CD012867. doi:10.1002/14651858.CD012867.pub3. PMID 35349161."
 url = "https://doi.org/10.1002/14651858.CD012867.pub3"
-[[refs]]
-key = "partem"
-cite = "Sapoval M, Thiounn N, Descazeaud A, et al. Prostatic artery embolisation versus medical treatment in patients with benign prostatic hyperplasia (PARTEM): a randomised, multicentre, open-label, phase 3, superiority trial. Lancet Regional Health Europe. 2023;31:100672. doi:10.1016/j.lanepe.2023.100672. PMID 37415648. Funded by the French Ministry of Health, with a grant from a maker of embolization products (NCT02869971)."
-url = "https://doi.org/10.1016/j.lanepe.2023.100672"
 [[refs]]
 key = "sham"
 cite = "Pisco JM, Bilhim T, Costa NV, et al. Randomised clinical trial of prostatic artery embolisation versus a sham procedure for benign prostatic hyperplasia. European Urology. 2020;77(3):354-362. doi:10.1016/j.eururo.2019.11.010. PMID 31831295."
