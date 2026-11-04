@@ -133,6 +133,8 @@ test("profile: 200 with full HTML, canonical, JSON-LD, and the finder's wording"
     assert.doesNotMatch(r.html, /Confirmed by physician/);
   }
   assert.match((await get(LIKELY.p)).html, /Likely performs:/);
+  // His yes 2026-11-04 (job 32): a Likely profile carries only the one "Details not confirmed" line.
+  assert.doesNotMatch((await get(LIKELY.p)).html, /Based on public information online/);
   assert.match((await get(NEARBY.p)).html, /We don't yet know which procedures this doctor performs\. Call and ask about:/);
 });
 

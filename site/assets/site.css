@@ -543,7 +543,6 @@ nav.az a[aria-current] { background: var(--accent); color: var(--accent-ink); bo
 .dir-head h1 { margin-bottom: 2px; overflow-wrap: anywhere; }
 .dir-head .photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
 .dir-group { margin-bottom: 6px; }
-.dir-note { margin-top: -4px; }
 .dir-procs, .dir-offices { padding-left: 1.1em; }
 .dir-procs li, .dir-offices li { margin: 0 0 12px; overflow-wrap: anywhere; }
 .dir-procs .blurb { display: block; margin-top: 4px; }

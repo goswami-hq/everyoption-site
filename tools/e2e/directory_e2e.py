@@ -111,7 +111,7 @@ def main():
             seen = set()
             for x in people:
                 nojs.goto(BASE + x["p"])
-                seen.add(nojs.evaluate("() => [...document.querySelectorAll('.dir-group strong, .dir-note, .confirm-office')].map(e => e.textContent).join('|')"))
+                seen.add(nojs.evaluate("() => [...document.querySelectorAll('.dir-group strong, .confirm-office')].map(e => e.textContent).join('|')"))
             check(f"identical qualifiers within {g}", len(seen) == 1, seen)
         # Finder cards: the name opens the profile; no link for anyone outside the three groups (test listing has none).
         pg.goto(BASE + "/fibroids/?zip=60605&r=25")
