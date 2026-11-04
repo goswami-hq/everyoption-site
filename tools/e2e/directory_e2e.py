@@ -94,7 +94,7 @@ def main():
         nojs.goto(BASE + likely["p"])
         txt = nojs.inner_text("main")
         check("no script: profile shows name, procedure, office line, report link",
-              likely["n"] in txt and "Likely performs this procedure." in txt and "Confirm this office before you go." in txt and "Report an error" in txt, txt[:300])
+              likely["n"] in txt and "Likely performs:" in txt and "Confirm this office before you go." in txt and "Report an error" in txt, txt[:300])
         nojs.goto(BASE + "/doctors/")
         check("no script: A to Z links on the search page", nojs.locator("nav.az a").count() >= 20)
         nojs.goto(BASE + "/doctors/a/")
@@ -111,7 +111,7 @@ def main():
             seen = set()
             for x in people:
                 nojs.goto(BASE + x["p"])
-                seen.add(nojs.evaluate("() => [...document.querySelectorAll('.dir-procs strong, .confirm-office')].map(e => e.textContent).join('|')"))
+                seen.add(nojs.evaluate("() => [...document.querySelectorAll('.dir-group strong, .dir-note, .confirm-office')].map(e => e.textContent).join('|')"))
             check(f"identical qualifiers within {g}", len(seen) == 1, seen)
         # Finder cards: the name opens the profile; no link for anyone outside the three groups (test listing has none).
         pg.goto(BASE + "/fibroids/?zip=60605&r=25")

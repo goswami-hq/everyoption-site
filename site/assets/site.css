@@ -129,7 +129,7 @@ ol.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template
 .card .offices .odist { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .card .dist-note { margin: 2px 0 0; font-size: 0.90625rem; }
 .card a[href^="tel:"] { white-space: nowrap; }
-.actions .book { border: 1px solid var(--accent); border-radius: 999px; padding: 0 18px; text-decoration: none; font-weight: 600; }
+.actions .book, .actions .page { border: 1px solid var(--accent); border-radius: 999px; padding: 0 18px; text-decoration: none; font-weight: 600; }
 .card h3 { margin: 0; font: 400 1.375rem/1.25 var(--serif); letter-spacing: -0.005em; }
 .dist { white-space: nowrap; font-size: 0.9375rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .badge { display: block; font-size: 0.875rem; color: var(--pine); margin-top: 3px; }
@@ -140,7 +140,8 @@ ol.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template
 .actions a { display: inline-flex; align-items: center; min-height: 44px; }
 .actions .call { background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; border-radius: 999px; padding: 0 20px; transition: transform 140ms var(--ease-out); }
 .actions .call:active { transform: scale(0.97); }
-.claim { font-size: 0.90625rem; color: var(--muted); }
+.claim { font-size: 0.8125rem; color: var(--muted); }
+.claim a { color: var(--muted); }
 .more { margin-top: 14px; }
 
 .prose { max-width: 37em; }
@@ -541,6 +542,8 @@ nav.az a[aria-current] { background: var(--accent); color: var(--accent-ink); bo
 .dir-head { display: flex; gap: 16px; align-items: center; }
 .dir-head h1 { margin-bottom: 2px; overflow-wrap: anywhere; }
 .dir-head .photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+.dir-group { margin-bottom: 6px; }
+.dir-note { margin-top: -4px; }
 .dir-procs, .dir-offices { padding-left: 1.1em; }
 .dir-procs li, .dir-offices li { margin: 0 0 12px; overflow-wrap: anywhere; }
 .dir-procs .blurb { display: block; margin-top: 4px; }

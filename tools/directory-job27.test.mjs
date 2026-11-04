@@ -132,7 +132,7 @@ test("profile: 200 with full HTML, canonical, JSON-LD, and the finder's wording"
     assert.equal(ld.workLocation[0]["@type"], "Place");
     assert.doesNotMatch(r.html, /Confirmed by physician/);
   }
-  assert.match((await get(LIKELY.p)).html, /Likely performs this procedure\./);
+  assert.match((await get(LIKELY.p)).html, /Likely performs:/);
   assert.match((await get(NEARBY.p)).html, /We don't yet know which procedures this doctor performs\. Call and ask about:/);
 });
 
@@ -185,7 +185,7 @@ test("overlay: a new account doctor gets a profile; partial is Likely, full is C
   const partial = db([row(npi, name, "partial", ["ufe"], ["ufe"], { blurbs: { ufe: "Same-week visits." }, photo_key: `${npi}/abcdef0123456789.png` })]);
   let r = await get(`/doctors/newa-accountdoc-${npi}/`, { backend: partial });
   assert.equal(r.status, 200);
-  assert.match(r.html, /Likely performs this procedure/); assert.match(r.html, /Same-week visits\./);
+  assert.match(r.html, /Likely performs:/); assert.match(r.html, /Same-week visits\./);
   assert.doesNotMatch(r.html, /class="photo"/, "no photo on partial");
   assert.match(r.html, /100 Test Plaza, Chicago, IL 60611/);
   const full = db([row(npi, name, "full", ["ufe"], ["ufe"], { photo_key: `${npi}/abcdef0123456789.png` })]);
