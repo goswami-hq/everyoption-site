@@ -442,6 +442,7 @@ fieldset.office legend + * { clear: both; }
 .home-banner svg#s { display: block; width: 100%; height: auto; }
 .home-banner #rp { position: absolute; right: max(4px, env(safe-area-inset-right, 0px)); bottom: 2px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .home-banner #rp svg { width: 20px; height: 20px; }
+.home-banner #sun { transform-box: fill-box; transform-origin: center; transform: scale(1.4, 1); }
 .home-banner .cath { fill: none; stroke: var(--tube); stroke-width: 1.5; stroke-linecap: round; }
 .home-banner .ves { fill: none; stroke: var(--artery); stroke-width: 3.4; stroke-linecap: round; }
 .home-banner .word { font: 400 46px "Ovo", Georgia, serif; fill: var(--ink); letter-spacing: -.01em; }
@@ -468,7 +469,7 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .home-page .hero h1 { color: var(--cream); margin: 0 0 12px; max-width: 12em; font-size: clamp(2.25rem, 5vw, 4.125rem); line-height: 1.05; }
 .home-page .hero .lede { color: #e6d8c6; margin: 0; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); }
 .spine-wave { position: absolute; left: calc(var(--gut) - 30px); top: 0; width: 24px; height: 100%; overflow: visible; pointer-events: none; }
-.spine-wave path { fill: none; stroke: var(--vessel-lit); stroke-width: 3; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+.spine-wave path { fill: none; stroke: url(#wave-fade); stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linecap: round; }
 .home-page .hero label, .home-page .hero .find-label { color: var(--cream); font-weight: 600; }
 .home-page .hero .find-label { margin: 0 0 8px; font-size: 1rem; }
 .home-page .hero label { display: block; font-size: 0.9375rem; margin-bottom: 4px; }
@@ -482,13 +483,12 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .home-page main { padding-top: 0; }
 .home-page main > .wrap { max-width: 1440px; padding: 0 40px 0 0; }
 .spine { position: relative; margin-left: calc(var(--gut) - 18px); padding: 44px 0 8px 0; }
-.spine::before { content: ""; position: absolute; left: -2px; top: 0; bottom: 0; width: 3px; background: var(--vessel); }
 .spine > * { margin-left: 18px; }
 .spine h2:first-child { margin-top: 0; }
 .fork-list.stops { list-style: none; padding: 0; display: block; margin-top: 16px; }
 .stops li { position: relative; border-top: 1px solid var(--line); margin: 0; }
 .stops li:last-child { border-bottom: 1px solid var(--line); }
-.stops li::before { content: ""; position: absolute; left: -29px; top: 50%; width: 18px; height: 18px; margin-top: -9px; box-sizing: border-box; border-radius: 50%; background: var(--bg); border: 3px solid var(--vessel); }
+.more-soon { margin: 18px 0 0 18px; color: var(--muted); font-size: 1.0625rem; }
 .fork-list.stops a { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) auto; gap: 2px 20px; align-items: center; min-height: 104px; padding: 12px 0; margin: 0; background: none; border: 0; border-radius: 0; box-shadow: none; color: var(--ink); text-decoration: none; }
 .stops strong { font: 400 clamp(1.625rem, 3vw, 2.375rem)/1.15 var(--serif); }
 .stops .proc { border: 0; padding: 0; background: none; color: var(--ink); font-size: 1.0625rem; border-radius: 0; display: block; }
@@ -524,7 +524,6 @@ main::before { top: 0; }
 .fork-list.stops li:last-child { border-bottom: 1px solid var(--line); }
 .fork-list.stops a { padding: 12px 20px; min-height: 92px; }
 .stops strong { color: var(--accent); }
-.stops li::before { left: -30px; }
 .home-page .hero-in, .home-page header.site .wrap { max-width: 1440px; }
 
 /* Job 27: doctor directory and profiles. The card name opens the profile and keeps the card's look. */

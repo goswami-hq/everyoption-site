@@ -113,7 +113,7 @@ def photo(key, lazy=True, cls="photo"):
 
 
 LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").read_text()
-WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
+WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#ffb648"/><stop offset=".55" stop-color="#ffb648" stop-opacity=".45"/><stop offset="1" stop-color="#ffb648" stop-opacity="0"/></linearGradient></defs><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
 NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "Physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
@@ -210,6 +210,7 @@ def home():
     body = f"""<div class="spine">
 <h2 id="conditions">Choose a condition</h2>
 <ul class="fork-list stops">{rows}</ul>
+<p class="more-soon">And more options coming soon.</p>
 <div class="plain two">
 <div><h2>Who runs this</h2>
 <p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
