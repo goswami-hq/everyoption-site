@@ -415,7 +415,7 @@ ul.history li { display: flex; align-items: center; justify-content: space-betwe
 ul.history .undo { flex: none; }
 @media (prefers-color-scheme: dark) { input[type="checkbox"][aria-invalid="true"] { outline-color: #f2b8b5; } fieldset[aria-invalid="true"] legend { color: #f2b8b5; } }
 /* Job 22: four menu links on one line on phones (the header wrapped once "For physicians" was added). */
-@media (max-width: 420px) { nav.top { width: 100%; justify-content: space-between; column-gap: 6px; flex-wrap: nowrap; font-size: clamp(0.75rem, 3.55vw, 0.90625rem); white-space: nowrap; } nav.top a { min-width: 0; padding: 0 2px; } }
+@media (max-width: 480px) { nav.top { width: 100%; justify-content: space-between; column-gap: 6px; flex-wrap: nowrap; font-size: clamp(0.75rem, 3.55vw, 0.90625rem); white-space: nowrap; } nav.top a { min-width: 0; padding: 0 2px; } }
 /* Job 22 design pass (phone screenshots, 390 px): sign out on one line; procedure names get the row; office legends
    clear of their divider; breathing room under the search button. */
 #signout { white-space: nowrap; flex: none; }
