@@ -6,6 +6,7 @@
 // duplicate guard (same submission id or same content within 24 h returns the first answer), honeypot field. Errors are
 // logged without the sender's details.
 import { PROCS } from "../../lib/procedures.mjs";
+import { API_SECURITY } from "../../lib/security-headers.mjs";
 
 const MAX_BYTES = 8 * 1024;
 const PER_HOUR = 5;
@@ -13,7 +14,7 @@ export const REASONS = ["not_performed", "contact", "moved", "other"];
 const LIMITS = { doctor: 120, email: 200, note: 2000, listing: 10, procedure: 8, submission_id: 64 };
 
 const json = (status, body) => new Response(JSON.stringify(body), {
-  status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
+  status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...API_SECURITY } });
 
 async function sha256(text) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));

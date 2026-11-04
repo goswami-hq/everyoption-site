@@ -289,7 +289,7 @@ test("removal alert: withdrawing a publicly listed procedure alerts; one not on 
 test("alert text says the doctor is being emailed only when there is an email on file", async () => {
   const w = world(), c = await w.signIn(ANN, EMAIL[ANN], undefined, ["ufe"]);
   await c.put("profile", { offices: [OFF] }); await settle();
-  assert.match(w.backend.alert.sent[0], /The doctor is being emailed\./);
+  assert.match(w.backend.alert.sent[0], /The account's login email is being told \(not proof it is the doctor's\)\./);
   await w.backend.data.update("accounts", { npi: ANN }, { email: null });
   const w2 = w; await c.put("profile", { booking_url: "https://x.example/" }); await settle();
   assert.match(w2.backend.alert.sent[1], /No email on file for this account\./);
