@@ -35,7 +35,7 @@ READ = """() => ({ status: document.getElementById('status').innerText,
   cards: document.querySelectorAll('#results li.card').length })"""
 OVER = """() => { const bad = []; if (document.documentElement.scrollWidth > innerWidth + 1) bad.push('page');
   for (const c of document.querySelectorAll('li.card')) { const r = c.getBoundingClientRect();
-    for (const d of c.querySelectorAll('*')) { const q = d.getBoundingClientRect(); if (q.width && (q.right > r.right + 1 || q.left < r.left - 1)) { bad.push(c.querySelector('h3').textContent + ' ' + d.tagName); break; } } }
+    for (const d of c.querySelectorAll('*:not(.dist)')) { const q = d.getBoundingClientRect(); if (q.width && (q.right > r.right + 1 || q.left < r.left - 1)) { bad.push(c.querySelector('h3').textContent + ' ' + d.tagName); break; } } }
   return bad; }"""
 
 

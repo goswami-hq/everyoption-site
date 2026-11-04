@@ -546,3 +546,4 @@ details.group > summary { font: 400 1.25rem/1.2 var(--serif); }
 .fork-list.stops .count { font-weight: 400; }
 @media (min-width: 1021px) { .results-col .card .dist { left: -112px; width: 76px; } }
 @media (max-width: 760px) { .hero form button, .hero .hs-row button { flex: 1 1 100%; width: 100%; } }
+.results-col .card.card-confirmed { border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }

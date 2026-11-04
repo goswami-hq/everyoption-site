@@ -20,7 +20,7 @@ with sync_playwright() as p:
             ctx = b.new_context(viewport={"width": w, "height": 844}, color_scheme=scheme, reduced_motion=rm)
             pg = ctx.new_page(); errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)))
-            pg.goto(BASE + path)
+            pg.goto(BASE + path); pg.evaluate("document.querySelectorAll('details.how-fold').forEach(d => d.open = true)")
             tag = f"{slug} {w} {scheme} {rm}"
             fig = pg.locator("figure.proc")
             check(f"{tag}: one animation for this procedure", fig.count() == 1 and fig.get_attribute("data-proc") == slug)
