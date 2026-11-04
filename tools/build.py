@@ -110,6 +110,8 @@ def photo(key, lazy=True, cls="photo"):
     return photo_tag(p["file"], p["alt"], lazy, cls) if p else ""
 
 
+LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").read_text()
+WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
 NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/how-we-know/", "How we know"), ("/account/", "Physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
@@ -147,7 +149,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
 <body class="{cls or ("home-page" if path == "/" else ("finder-page t-" + path.strip("/") if scripts else "prose-page"))}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
-<a class="brand" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 12h6c4 0 4-7 8-7h6M8 12h14M8 12c4 0 4 7 8 7h6"/></svg>Every Option</a>
+<a class="brand" href="/">{LOGO}</a>
 <nav class="top" aria-label="Main">{nav}</nav>
 </div></header>
 {banner}<main id="main"><div class="wrap">
@@ -183,29 +185,39 @@ def fork(keys):
 
 
 def home():
+    COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
     HOME_LINK = {"ufe": "/fibroids/"}
 
     def row(k, p):
-        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><span><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
-                f'({p["abbr"]})</span></span>{ARROW}</a></li>')
+        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p["name"])} '
+                f'({p["abbr"]})</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
-    body = f"""<h1>You have more options than you know.</h1>
-<p class="lede">Many common conditions have non-surgical treatments that people never hear about. Find doctors near you who do them.</p>
-<h2 id="conditions" class="sr">Conditions</h2>
-<div class="fork">{fork(list(PROCS))}<ul class="fork-list">{rows}</ul></div>
-{photo("home", cls="photo wide")}
-<div class="plain">
-<h2>Simple to use, and free</h2>
+    opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
+    hero = f"""<section class="hero">{WAVE}<div class="hero-in">
+<div><h1>You have more options than you know.</h1>
+<p class="lede">Many common conditions have non-surgical treatments that people never hear about.</p></div>
+<form id="home-search" class="hero-search" role="search" aria-label="Find a doctor" novalidate>
+<p class="find-label">Find a doctor near you</p>
+<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
+<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
+<button type="submit">Find doctors</button></div>
+<p id="home-status" class="hs-status" role="status"></p>
+</form></div></section>"""
+    banner = (pathlib.Path(__file__).resolve().parent / "diagrams" / "home-banner.html").read_text() + hero
+    body = f"""<div class="spine">
+<h2 id="conditions">Choose a condition</h2>
+<ul class="fork-list stops">{rows}</ul>
+<div class="plain two">
+<div><h2>Who runs this</h2>
+<p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
+<div><h2>Simple to use, and free</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
-<h2>Learn more in short videos</h2>
-<p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p>
-<p class="small muted">{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p>
-</div>"""
+<p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p></div>
+</div></div>"""
     return page("/", "Every Option: find doctors who perform UFE, PAE, and GAE",
                 "Find doctors who perform uterine fibroid embolization, prostate artery embolization, or genicular "
-                "artery embolization near you.", body, ["/assets/banner.js"],
-                banner=(pathlib.Path(__file__).resolve().parent / "diagrams" / "home-banner.html").read_text(), cls="home-page")
+                "artery embolization near you.", body, ["/assets/banner.js", "/assets/home-search.js"], banner=banner, cls="home-page")
 
 
 PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/README.md (his yes, 2026-11-02)
@@ -272,11 +284,16 @@ def intro_html(text):
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(text)).replace("\n", "<br>")
 
 
-def finder_block(k, heading=None, learn="", intro=None, how=None):
+def finder_block(k, heading=None, learn="", intro=None, how=None, split=False):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
     if heading is None:
         heading, intro, how = FIND_TOP[k]
+    results = """<div id="status" class="status" role="status" aria-live="polite"></div>
+<div id="results"></div>
+<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>"""
+    if split:
+        results = ""
     return f"""<section class="find-first">
 <p class="find-intro">{intro_html(intro)} <a href="{e(how)}">How it works</a></p>
 <p class="find-label">Find a doctor near you</p>
@@ -288,9 +305,7 @@ def finder_block(k, heading=None, learn="", intro=None, how=None):
 <select id="radius" name="r"><option value="25">25 miles</option><option value="50" selected>50 miles</option><option value="100">100 miles</option><option value="250">250 miles</option></select></div>
 <button type="submit">Find doctors</button>
 </form>
-<div id="status" class="status" role="status" aria-live="polite"></div>
-<div id="results"></div>
-<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>
+{results}
 </div>
 </section>"""
 
@@ -484,9 +499,9 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, photo_tag, finder_block), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}"))
+                                         cls=f"prose-page condition-page t-{c['color']}", banner=condition.hero(c, finder_block, WAVE)))
     write("sitemap.xml", sitemap())
     write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")

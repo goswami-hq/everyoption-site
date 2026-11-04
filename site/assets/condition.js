@@ -16,6 +16,9 @@
     if (id && location.hash !== "#" + id && history.pushState) history.pushState(null, "", "#" + id);
     open(id);
   });
+  // The animation starts over when "How it works" opens, so nobody finds it already finished.
+  var how = document.querySelector("details.how-fold");
+  if (how) how.addEventListener("toggle", function () { var r = how.querySelector("[data-replay]"); if (how.open && r) r.click(); });
   if (location.hash) open(location.hash.slice(1));
   var bar = document.querySelector(".find-bar"), finder = document.getElementById("finder");
   if (bar && finder && "IntersectionObserver" in window) {

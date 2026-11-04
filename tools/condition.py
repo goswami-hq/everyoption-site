@@ -105,11 +105,13 @@ def option(refs, o, extra, cls="option"):
 
 
 def lead_option(refs, c, diagram_fn):
-    """The condition's IR procedure, always open right after the finder (his yes, 2026-11-02)."""
+    """The condition's IR procedure: a short summary with its details folded (his yes to the redesign, 2026-11-03)."""
     o = next(x for x in c["options"] if x["id"] == c["diagram_at"])
-    rows = "".join(f"<div><dt>{label}</dt><dd>{refs.inline(tail(o[k])).replace(chr(10), '<br>')}</dd></div>" for k, label in FIELDS)
-    return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(o["name"])}</h2>'
-            f'<p>{refs.inline(tail(o["what"]))}</p>{diagram_fn(c["diagram"], vary=False)}<dl class="facts">{rows}</dl>'
+    t = lambda k: refs.inline(tail(o[k])).replace(chr(10), "<br>")
+    how = fold("topic how-fold", "How it works", f'{diagram_fn(c["diagram"], vary=False)}<p>{t("invasive")}</p>')
+    return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>About {html.escape(o["name"][0].lower() + o["name"][1:])}</h2>'
+            f'<p>{refs.inline(tail(o["what"]))}</p>{how}{fold("topic", "How well does it work?", "<p>" + t("works") + "</p>")}'
+            f'{fold("topic", "Side effects", "<p>" + t("side") + "</p>")}'
             f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
             f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p></section>')
 
@@ -173,17 +175,19 @@ def schema(c, url, origin, publisher):
             f'<script type="application/ld+json">{dump(faqs)}</script>')
 
 
-def body(c, diagram_fn, e, photo_fn=None, finder_fn=None):
+def hero(c, finder_fn, wave):
+    """The dark top of a condition page: heading, plain summary, and the ZIP search."""
+    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True)
+    img = (f'<img class="hero-art" src="{html.escape(c["hero_image"], quote=True)}" alt="{html.escape(c.get("hero_alt", ""), quote=True)}" width="780" height="260">'
+           if c.get("hero_image") else "")
+    return f'<section class="hero hero-cond">{wave}<div class="hero-in"><div><h1>{html.escape(c["h1"])}</h1>{find}</div>{img}</div></section>'
+
+
+def body(c, diagram_fn, e):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
     refs = Refs(c["refs"])
-    finder = c["finder"]
-    # the photo slot (job 14): photo = the file stem under /assets/photos/ (a -1600 and -800 WebP); in the first
-    # screen, so not lazy
-    photo = photo_fn(c["photo"], c.get("photo_alt", ""), lazy=True, cls="photo banner") if c.get("photo") and photo_fn else ""
-    # Finder first (his yes, 2026-11-02), then education.
-    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"]) if finder_fn else ""
     lead = lead_option(refs, c, diagram_fn)
-    parts = [f'<h1>{html.escape(c["h1"])}</h1>{find}{photo}{lead}<p class="lede answer">{refs.inline(tail(c["answer"]))}</p>',
+    parts = [f'{lead}<p class="answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c))
     learn = "".join(section(refs, s) for s in c["sections"]) + faq(refs, c)
@@ -197,4 +201,8 @@ def body(c, diagram_fn, e, photo_fn=None, finder_fn=None):
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")
-    return f'<article class="condition t-{c["color"]}">{"".join(parts)}</article><a class="find-bar" href="#finder" hidden>Find a doctor</a>'
+    results = ('<div class="results-col spine"><div id="status" class="status" role="status" aria-live="polite">'
+               'Enter your ZIP code to see doctors near you, nearest first.</div><div id="results"></div>'
+               '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript></div>')
+    return (f'<div class="cond-grid">{results}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
+            '<a class="find-bar" href="#finder" hidden>Find a doctor</a>')
