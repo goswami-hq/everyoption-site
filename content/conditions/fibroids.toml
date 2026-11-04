@@ -27,8 +27,8 @@ author_role = ""               # e.g. "Interventional radiologist"
 
 # Photo slot: photo = the file stem under site/assets/photos/ (needs <stem>-1600.webp and <stem>-800.webp, 12:5).
 # Empty = no photo. Credit it in PHOTOS in tools/build.py (How we know lists it).
-hero_image = "/assets/hero-uterus.jpg"
-hero_alt = "A thin tube reaches a uterus with fibroids."
+hero_image = "/assets/photos/fibroids-woman-path-800.webp"
+hero_alt = "A woman walks along a winding country path on a sunny hillside."
 photo = "fibroids-woman-path"
 photo_alt = "A woman walks along a winding country path on a sunny hillside."
 

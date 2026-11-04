@@ -499,9 +499,9 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.hero(c, finder_block, WAVE) + condition.body(c, diagram, e), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}", banner=condition.hero(c, finder_block, WAVE)))
+                                         cls=f"prose-page condition-page t-{c['color']}"))
     write("sitemap.xml", sitemap())
     write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")

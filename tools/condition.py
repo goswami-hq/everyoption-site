@@ -178,9 +178,9 @@ def schema(c, url, origin, publisher):
 def hero(c, finder_fn, wave):
     """The dark top of a condition page: heading, plain summary, and the ZIP search."""
     find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True)
-    img = (f'<img class="hero-art" src="{html.escape(c["hero_image"], quote=True)}" alt="{html.escape(c.get("hero_alt", ""), quote=True)}" width="780" height="260">'
+    img = (f'<img class="hero-art" src="{html.escape(c["hero_image"], quote=True)}" alt="{html.escape(c.get("hero_alt", ""), quote=True)}" width="800" height="333">'
            if c.get("hero_image") else "")
-    return f'<section class="hero hero-cond">{wave}<div class="hero-in"><div><h1>{html.escape(c["h1"])}</h1>{find}</div>{img}</div></section>'
+    return f'<section class="hero-cond"><div class="hero-in"><div><h1>{html.escape(c["h1"])}</h1>{find}</div>{img}</div></section>'
 
 
 def body(c, diagram_fn, e):
@@ -201,7 +201,7 @@ def body(c, diagram_fn, e):
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")
-    results = ('<div class="results-col spine"><div id="status" class="status" role="status" aria-live="polite">'
+    results = ('<div class="results-col"><div id="status" class="status" role="status" aria-live="polite">'
                'Enter your ZIP code to see doctors near you, nearest first.</div><div id="results"></div>'
                '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript></div>')
     return (f'<div class="cond-grid">{results}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
