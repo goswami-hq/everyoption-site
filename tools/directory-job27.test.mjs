@@ -133,7 +133,7 @@ test("profile: 200 with full HTML, canonical, JSON-LD, and the finder's wording"
     assert.doesNotMatch(r.html, /Confirmed by physician/);
   }
   assert.match((await get(LIKELY.p)).html, /Likely performs this procedure\./);
-  assert.match((await get(NEARBY.p)).html, /We couldn't confirm they perform UFE, PAE, or GAE, so call and ask\./);
+  assert.match((await get(NEARBY.p)).html, /We don't yet know which procedures this doctor performs\. Call and ask about:/);
 });
 
 test("identical qualifiers: every Likely profile and every nearby profile says the same words", async () => {

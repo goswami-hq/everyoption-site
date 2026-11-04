@@ -105,7 +105,7 @@ def main():
         check("confirmed profile: tag, no confirm-office line, no Is this you?",
               "Confirmed by physician" in txt and "Confirm this office" not in txt and "Is this you?" not in txt, txt[:300])
         nojs.goto(BASE + nearby["p"])
-        check("nearby profile: the nearby wording", "We couldn't confirm they perform UFE, PAE, or GAE, so call and ask." in nojs.inner_text("main"))
+        check("nearby profile: the nearby wording", "We don't yet know which procedures this doctor performs. Call and ask about:" in nojs.inner_text("main"))
         # Identical qualifiers within each group.
         for g, people in (("likely", [p for p in d["people"] if p.get("l") == "ufe"][:6]), ("nearby", [p for p in d["people"] if not p.get("l")][:6])):
             seen = set()
