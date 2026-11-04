@@ -313,11 +313,9 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False):
 FIND_BAR = '<a class="find-bar" href="#finder" hidden>Find a doctor</a>'
 
 
-STRIP = {"pae": ("strip-hand", "A hand, with a tiny pinhole at the wrist."), "gae": ("strip-bone", "A thin tube reaches the end of a bone near the knee.")}
-
-
-def strip(stem, alt):
-    return f'<div class="page-strip"><img src="/assets/{stem}.jpg" alt="{e(alt)}" width="1440" height="170"></div>'
+def strip(k):
+    return ('<div class="page-strip"><div class="pb" data-s="' + k + '"></div>'
+            '<button type="button" id="pb-replay" class="pb-replay" aria-label="Replay animation" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button></div>')
 
 
 def finder(k):
@@ -336,8 +334,8 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
-                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
-                banner=strip(*STRIP[k]))
+                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                banner=strip(k))
 
 
 def credits():
@@ -507,9 +505,9 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, condition.hero(c, finder_block)), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, condition.hero(c, finder_block)), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip("strip-uterus", "A thin tube reaches a uterus with fibroids.")))
+                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"])))
     write("sitemap.xml", sitemap())
     write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")

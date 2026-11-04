@@ -513,8 +513,11 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .condition-page header.site .wrap { max-width: 1280px; }
 
 /* Cohesion (2026-11-03): every page shares the dark header; finder pages carry a slim strip of the banner art; home conditions are the same cards as the rest, in each condition's color. */
-.page-strip { background: var(--plum); line-height: 0; }
-.page-strip img { display: block; width: 100%; height: clamp(104px, 12vw, 170px); object-fit: cover; }
+.page-strip { position: relative; --plum: #33272a; --vessel: #f0705f; --tube: #fff1dd; --bead: #86ccff; --org-a: #e39aa0; --org-b: #93495a; --org-edge: #e6a9b0; --hot: #a92f35; --urine: #e9bf4d; --bladder: #e9d9b0; --bone: #8f7f6e; --bone-hi: #e6d8c2; --skin: #4a3a3b; --skin-edge: #8d746a; background: var(--plum); height: clamp(120px, 16.6vw, 240px); overflow: hidden; }
+.page-strip .pb, .page-strip .pb svg { display: block; width: 100%; height: 100%; }
+.pb-replay { position: absolute; right: 8px; bottom: 4px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: #e6d8c6; display: grid; place-items: center; cursor: pointer; }
+.pb-replay[hidden] { display: none; }
+@media (max-width: 359px) { .page-strip { display: none; } }
 main::before { top: 0; }
 .fork-list.stops li { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); margin: 0 0 12px; box-shadow: 0 1px 2px rgba(60, 40, 30, .05); }
 .fork-list.stops li:last-child { border-bottom: 1px solid var(--line); }
