@@ -173,7 +173,7 @@ id = "myomectomy"
 name = "Myomectomy"
 what = "Surgery removes the fibroids and leaves the uterus.[^mpfib]"
 invasive = "It takes a larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
-works = "It removes the fibroids you have, but new ones can grow.[^mpfib][^ccmyo] Women's quality of life improves.[^femme2] About 1 out of 8 women may need another procedure down the line.[^femme4]"
+works = "It removes the fibroids the surgeon can see. Small or deep fibroids can be missed and cause problems later.[^mayomyo][^aktoz] The more fibroids you have, the harder it is to remove them all.[^aktoz] New ones can also grow.[^mpfib][^ccmyo] Women's quality of life improves.[^femme2] About 1 out of 8 women may need another procedure down the line.[^femme4]"
 side = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
 
 [[options]]
@@ -270,6 +270,14 @@ url = "https://doi.org/10.1186/1477-7525-11-139"
 key = "mphysteroscopy"
 cite = "MedlinePlus Medical Tests (U.S. National Library of Medicine). Hysteroscopy. Read November 1, 2026."
 url = "https://medlineplus.gov/lab-tests/hysteroscopy"
+[[refs]]
+key = "mayomyo"
+cite = "Mayo Clinic. Myomectomy. Updated August 9, 2025. Read November 3, 2026."
+url = "https://www.mayoclinic.org/tests-procedures/myomectomy/about/pac-20384710"
+[[refs]]
+key = "aktoz"
+cite = "Aktoz F, Arslan T, Güzel Y. Intraoperative laparoscopic ultrasound during laparoscopic myomectomy: a narrative review. Journal of the Turkish-German Gynecological Association. 2024;25(3):179-183. doi:10.4274/jtgga.galenos.2024.2023-9-7. PMID 39219255."
+url = "https://doi.org/10.4274/jtgga.galenos.2024.2023-9-7"
 [[refs]]
 key = "ccmyo"
 cite = "Cleveland Clinic. Myomectomy. Medically reviewed, updated January 11, 2023. Read November 1, 2026."
