@@ -75,8 +75,20 @@ def acct(pg, base, **match):
     return None
 
 
+def wait_js(pg, expr, arg=None, timeout=30000):
+    """Poll with evaluate. The live site's CSP has no 'unsafe-eval', and Playwright's wait_for_function uses eval in the page
+    (first live run, 2026-11-03: EvalError on /fibroids/). evaluate is not blocked (clear() ran on the live site)."""
+    end = time.monotonic() + timeout / 1000
+    while True:
+        if pg.evaluate(expr, arg):
+            return
+        if time.monotonic() >= end:
+            raise TimeoutError(f"wait_js: not true after {timeout} ms: {expr[:80]}")
+        pg.wait_for_timeout(100)
+
+
 def wait_status(pg, text, timeout=5000):
-    pg.wait_for_function("t => document.getElementById('acct-status').textContent.includes(t)", arg=text, timeout=timeout)
+    wait_js(pg, "t => document.getElementById('acct-status').textContent.includes(t)", arg=text, timeout=timeout)
 
 
 def clear(pg):
@@ -104,7 +116,7 @@ def closed_site(b):
     reqs = []
     pg.on("request", lambda r: reqs.append(r.url))
     pg.goto(CLOSED + "/fibroids/"); pg.fill("#zip", "60611"); pg.click("#zip-form button")
-    pg.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(200)
+    wait_js(pg, "!document.querySelector('#results').hasAttribute('aria-busy')"); pg.wait_for_timeout(200)
     check("closed: UFE finder still finds doctors", pg.locator("li.card").count() > 0)
     check("closed: finder makes no account request (job 25: only the public overlay)", not [u for u in reqs if "/api/" in u and "/api/listings?procedure=" not in u], reqs)
     href = pg.locator("li.card p.claim a", has_text="Is this you?").first.get_attribute("href")
@@ -242,11 +254,11 @@ def photos(b, label, base, vp):
     pg.check("#i-agree"); pg.click("#invite-form button[type=submit]"); pg.wait_for_selector("#photo-pick")
     size = os.path.getsize(f["big"])
     pg.set_input_files("#photo", f["big"]); wait_status(pg, "Photo saved", 20000)
-    pg.wait_for_function("document.getElementById('photo-now').naturalWidth > 0")
+    wait_js(pg, "document.getElementById('photo-now').naturalWidth > 0")
     dims = pg.evaluate("[document.getElementById('photo-now').naturalWidth, document.getElementById('photo-now').naturalHeight]")
     check(f"{label}: a {size / 1e6:.1f} MB phone photo is shrunk in the browser and saved, shown to its owner", size > 10e6 and dims == [1200, 1600], [size, dims])
     pg.set_input_files("#photo", f["side"]); wait_status(pg, "Photo saved", 10000)
-    pg.wait_for_function("document.getElementById('photo-now').naturalWidth > 0")
+    wait_js(pg, "document.getElementById('photo-now').naturalWidth > 0")
     dims = pg.evaluate("[document.getElementById('photo-now').naturalWidth, document.getElementById('photo-now').naturalHeight]")
     check(f"{label}: a photo stored sideways with an EXIF turn is saved upright (portrait)", dims == [300, 400], dims)
     pg.set_input_files("#photo", f["heic"]); wait_status(pg, "HEIC", 10000)
@@ -283,7 +295,7 @@ def flows(b, label, base, vp):
     # a note and insurances, with the screen
     pg.click("#proc-ufe .proc-note summary")
     pg.fill("#b-ufe", "The best UFE in Chicago, guaranteed."); clear(pg); pg.click("#proc-ufe .proc-note button")
-    pg.wait_for_function("document.getElementById('why-b-ufe').textContent.length > 0")
+    wait_js(pg, "document.getElementById('why-b-ufe').textContent.length > 0")
     check(f"{label}: screen blocks a promise word", "promise" in pg.inner_text("#why-b-ufe"))
     pg.fill("#b-ufe", "I perform UFE at Lakeside in Chicago. Call the office to ask whether it fits you.")
     clear(pg); pg.click("#proc-ufe .proc-note button"); wait_status(pg, "Note saved")
@@ -660,7 +672,7 @@ def live_run(cfg):
             q.goto(base + "/fibroids/"); q.fill("#zip", cfg["zip"])
             if q.locator("#radius").count(): q.select_option("#radius", "25")
             q.click("#zip-form button")
-            q.wait_for_function("!document.querySelector('#results').hasAttribute('aria-busy')", timeout=20000)
+            wait_js(q, "!document.querySelector('#results').hasAttribute('aria-busy')", timeout=20000)
             q.wait_for_timeout(300)
             cards = q.locator("#results li.card", has_text=f"{first} {last}")
             inside = q.locator(f"section.{tier} li.card", has_text=f"{first} {last}")
@@ -672,7 +684,7 @@ def live_run(cfg):
                 if want_photo:
                     inside.first.scroll_into_view_if_needed()
                     try:
-                        q.wait_for_function("e => { const i = e.querySelector('img.photo'); return !!i && i.complete }",
+                        wait_js(q, "e => { const i = e.querySelector('img.photo'); return !!i && i.complete }",
                                             arg=inside.first.element_handle(), timeout=5000)
                     except Exception:
                         pass
@@ -769,13 +781,13 @@ def live_run(cfg):
             lcheck("live: the page shows full access", "Full access" in pg.inner_text("#acct-level"), pg.inner_text("#acct-level"))
             pg.click(".add[data-proc=ufe]"); pg.click("#attest-ufe"); pg.wait_for_selector("#proc-ufe.on")
             pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-1.png"), 160, 160)); wait_status(pg, "Photo saved", 30000)
-            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
             w1 = pg.evaluate("document.getElementById('photo-now').naturalWidth")
             lcheck("live: the photo uploads and its owner sees it", w1 > 0, w1)
             pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-2.png"), 240, 240)); wait_status(pg, "Photo saved", 30000)
-            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
             pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
-            pg.wait_for_function("document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
+            wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
             w2 = pg.evaluate("document.getElementById('photo-now').naturalWidth")
             lcheck("live: replacing the photo shows the new one", w2 != w1, [w1, w2])
             shot(pg, "live-3-full")
