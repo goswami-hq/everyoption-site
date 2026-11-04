@@ -442,14 +442,14 @@ fieldset.office legend + * { clear: both; }
 .home-banner svg#s { display: block; width: 100%; height: auto; }
 .home-banner #rp { position: absolute; right: max(4px, env(safe-area-inset-right, 0px)); bottom: 2px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .home-banner #rp svg { width: 20px; height: 20px; }
-.home-banner #sun { transform-box: fill-box; transform-origin: center; transform: scale(1.4, 1); }
+.home-banner #sun { transform-box: fill-box; transform-origin: center; transform: scale(2.2, 1); }
 .home-banner .cath { fill: none; stroke: var(--tube); stroke-width: 1.5; stroke-linecap: round; }
 .home-banner .ves { fill: none; stroke: var(--artery); stroke-width: 3.4; stroke-linecap: round; }
 .home-banner .word { font: 400 46px "Ovo", Georgia, serif; fill: var(--ink); letter-spacing: -.01em; }
 
 /* ===== Redesign 2026-11-03. Home only: dark top, vessel spine, green accent (his yes). Every other page keeps the original
    theme and cards with the new fonts and logo (his words, 2026-11-03: the card layouts, cues, and color theme "were better"). ===== */
-:root { --night: #171311; --plum: #33272a; --vessel: #d9574a; --vessel-lit: #f0705f; --gold: #ffb648; --mint: #8fc4b2; --cream: #fff4e4; --gut: clamp(48px, 11vw, 160px); font-synthesis: none; }
+:root { --night: #171311; --plum: #33272a; --vessel: #d9574a; --vessel-lit: #f0705f; --gold: #ffb648; --mint: #8fc4b2; --cream: #fff4e4; --gut: clamp(20px, 5vw, 72px); font-synthesis: none; }
 .home-page { --accent: #2f5d50; --accent-ink: #fff; --soft: #e6efe9; --sun: #e6efe9; }
 @media (prefers-color-scheme: dark) { .home-page { --accent: #8fc4b2; --accent-ink: #14231d; --soft: #243029; --sun: #243029; --vessel: #e0605a; } }
 .home-page main::before { display: none; }
@@ -458,17 +458,17 @@ h1, h2, .card h3 { letter-spacing: 0; }
 .brand svg, .brand .logo { color: inherit; }
 .logo-disc { fill: var(--mint); } .logo-hole { fill: var(--gold); }
 header.site { background: var(--night); color: var(--cream); }
-.home-page header.site .wrap { max-width: 1440px; padding: 8px 40px 6px var(--gut); }
+.home-page header.site .wrap { max-width: 1440px; padding: 8px var(--gut) 6px var(--gut); }
 .brand { color: var(--cream); }
 nav.top a { color: #e6d8c6; }
 nav.top a[aria-current="page"] { color: var(--cream); }
 @media (hover: hover) and (pointer: fine) { nav.top a:hover { color: var(--gold); } }
 
-.hero-in { max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding: 34px 40px 44px var(--gut); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 56px; align-items: end; }
+.hero-in { max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding: 34px var(--gut) 44px var(--gut); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 56px; align-items: end; }
 .home-page .hero { position: relative; background: var(--night); color: var(--cream); }
 .home-page .hero h1 { color: var(--cream); margin: 0 0 12px; max-width: 12em; font-size: clamp(2.25rem, 5vw, 4.125rem); line-height: 1.05; }
 .home-page .hero .lede { color: #e6d8c6; margin: 0; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); }
-.spine-wave { position: absolute; left: calc(var(--gut) - 30px); top: 0; width: 24px; height: 100%; overflow: visible; pointer-events: none; }
+.spine-wave { position: absolute; left: calc(var(--gut) - 18px); top: 0; width: 12px; height: 100%; overflow: visible; pointer-events: none; }
 .spine-wave path { fill: none; stroke: url(#wave-fade); stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linecap: round; }
 .home-page .hero label, .home-page .hero .find-label { color: var(--cream); font-weight: 600; }
 .home-page .hero .find-label { margin: 0 0 8px; font-size: 1rem; }
@@ -478,10 +478,10 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .hs-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
 .hs-row .f { flex: 1 1 150px; min-width: 0; } .hs-row .f-zip { flex: 1 1 120px; }
 .hs-status { margin: 6px 0 0; min-height: 1.2em; font-size: 0.9375rem; color: var(--gold); }
-@media (max-width: 760px) { .hero-in { grid-template-columns: minmax(0, 1fr); padding: 20px 16px 26px var(--gut); } .home-page .hero h1 { font-size: 2.25rem; } .brand .logo { height: 25px; } header.site .wrap { padding-left: 16px; padding-right: 16px; } .home-page .hs-row button { flex: 1 1 100%; width: 100%; } }
+@media (max-width: 760px) { .hero-in { grid-template-columns: minmax(0, 1fr); padding: 20px var(--gut) 26px var(--gut); } .home-page .hero h1 { font-size: 2.25rem; } .brand .logo { height: 25px; } header.site .wrap { padding-left: 16px; padding-right: 16px; } .home-page .hs-row button { flex: 1 1 100%; width: 100%; } }
 
 .home-page main { padding-top: 0; }
-.home-page main > .wrap { max-width: 1440px; padding: 0 40px 0 0; }
+.home-page main > .wrap { max-width: 1440px; padding: 0 var(--gut) 0 0; }
 .spine { position: relative; margin-left: calc(var(--gut) - 18px); padding: 44px 0 8px 0; }
 .spine > * { margin-left: 18px; }
 .spine h2:first-child { margin-top: 0; }
@@ -497,7 +497,6 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .plain.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 56px; margin-top: 40px; max-width: none; }
 .plain.two h2 { margin-top: 0; font-size: 1.75rem; }
 @media (max-width: 760px) {
-  .home-page main > .wrap { padding-right: 16px; }
   .fork-list.stops a { grid-template-columns: minmax(0, 1fr); min-height: 96px; }
   .stops .proc, .fork-list.stops .count { font-size: 0.9375rem; color: var(--muted); }
   .plain.two { grid-template-columns: minmax(0, 1fr); }
