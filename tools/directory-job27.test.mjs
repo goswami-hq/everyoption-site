@@ -153,8 +153,10 @@ test("addresses: wrong slug and bare NPI redirect; unknown, test, and never-show
   }
   assert.equal((await get("/doctors/nobody-1234567893/")).status, 404);
   assert.equal((await get("/doctors/sample-doctor-1999999990/")).status, 404);
-  const hidden = ROSTER.filter((p) => !finder.rosterShown(p) && !DIR.people.some((x) => npiOf(x) === p.npi));
-  assert.ok(hidden.length > 100);
+  // Job 30: the roster now holds only shown people, so the never-shown are the unplaced list people (name only).
+  const hidden = Object.values(LISTS).flat().filter((p) => !DIR.people.some((x) => npiOf(x) === p.npi));
+  assert.ok(hidden.length >= 1);
+  assert.deepEqual(ROSTER.filter((p) => !finder.rosterShown(p)), []);
   for (const p of hidden.slice(0, 40)) assert.equal((await get(`/doctors/${slug(p.name)}-${p.npi}/`)).status, 404, p.npi);
   assert.equal(await get("/doctors/"), null, "search page is static"); assert.equal(await get("/doctors/a/"), null);
 });
