@@ -322,7 +322,7 @@
     var img = full && p.photo_key ? el("img", { "class": "photo", src: "/api/account/photo?v=" + encodeURIComponent(p.photo_key.slice(-12)), alt: "", width: "64", height: "64" }) : null;
     kids.push(el("div", { "class": "top" }, [img, el("div", { "class": "who" }, [el("h3", { text: a.name }),
       el("span", { "class": "badge", text: "Interventional radiologist" })])]));
-    if (!full && done.length) kids.push(el("p", { "class": "from-account small muted", text: "Details from this doctor's account, not yet confirmed." }));
+    if (!full && done.length) kids.push(el("p", { "class": "confirm-office small muted", text: "Confirm this office before you go." }));
     if (o) kids.push(el("p", { "class": "where" }, [o.practice ? el("span", { "class": "practice", text: o.practice }) : null, o.practice ? el("br") : null,
       o.street ? o.street : null, o.street ? el("br") : null, o.city + ", " + o.state]));
     else kids.push(el("p", { "class": "where muted", text: me.listed_for.length ? "Location from your public listing" : "No office yet" }));

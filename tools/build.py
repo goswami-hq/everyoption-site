@@ -364,7 +364,7 @@ def how():
 <li>ClinicalTrials.gov, the U.S. registry of clinical studies.</li>
 <li>Other websites that copy a doctor’s profile.</li>
 </ul>
-<p>Cities come from the doctor’s newest page. When we only have a city from public records, the card says “City from public records; confirm location with the practice.” Distances start from the center of the ZIP code you type; we never ask where you live. When a doctor who confirmed their listing gives an office address, we measure to that office, and a doctor with several offices is shown at the closest one, with all of their offices listed on the card. Otherwise we measure to the center of the doctor’s ZIP code or city.</p>
+<p>Cities come from the doctor’s newest page or from public records, and they can be out of date. Every card except Confirmed by physician says “Confirm this office before you go.” Distances start from the center of the ZIP code you type; we never ask where you live. When a doctor who confirmed their listing gives an office address, we measure to that office, and a doctor with several offices is shown at the closest one, with all of their offices listed on the card. Otherwise we measure to the center of the doctor’s ZIP code or city.</p>
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
 <h2>When few doctors are near you</h2>

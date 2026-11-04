@@ -17,10 +17,6 @@
 
   // Job 7: one badge only. "verified" is shown as "Interventional radiologist"; any other value is a plain specialty.
   var BADGE = { "verified": "Interventional radiologist", "account": "Interventional radiologist" };
-  var BADGE_TITLE = {
-    "account": "Stated by the doctor in their Every Option account",
-    "verified": "Identified as an interventional radiologist from their own or their practice's page, or from public Medicare billing records"
-  };
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -190,7 +186,7 @@
       photo,
       el("div", { "class": "who" }, [
         el("h3", { text: p.name }),
-        p.badge ? el("span", { "class": "badge", title: BADGE_TITLE[p.badge] || "", text: BADGE[p.badge] || p.badge }) : null
+        p.badge ? el("span", { "class": "badge", text: BADGE[p.badge] || p.badge }) : null
       ]),
       el("span", { "class": "dist", text: mi(p.miles) })
     ]);
@@ -198,18 +194,17 @@
     if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
     if (p.ask) kids.push(el("p", { "class": "ask-tag" }, [askLine()]));
     kids.push(top);
-    // Job 22: a partial-access account's own details sit in Likely performs, labelled as such.
-    if (p.from_account && !p.confirmed) kids.push(el("p", { "class": "from-account small muted", text: "Details from this doctor's account, not yet confirmed." }));
     var practice = lead ? lead.practice : p.practice;
     var where = el("p", { "class": "where" }, [
       practice ? el("span", { "class": "practice", text: practice }) : null,
       practice ? el("br") : null,
       lead && lead.street ? lead.street : null,
       lead && lead.street ? el("br") : null,
-      lead ? lead.city + ", " + lead.state : p.city + ", " + p.state,
-      !lead && p.city_label ? el("span", { "class": "label", text: p.city_label }) : null
+      lead ? lead.city + ", " + lead.state : p.city + ", " + p.state
     ]);
     kids.push(where);
+    // His rule 2026-11-03: within Likely and within nearby, every card carries the same words and no card has its own qualifier.
+    if (!p.confirmed) kids.push(el("p", { "class": "confirm-office small muted", text: "Confirm this office before you go." }));
     if (lead && lead.geo === "address") kids.push(el("p", { "class": "dist-note small muted", text: "Distance is from the center of your ZIP code to this office." }));
     if (p.blurb) kids.push(el("p", { "class": "blurb", text: p.blurb }));
     var ins = (p.insurances || []).slice();

@@ -135,6 +135,11 @@ def run(b, width, scheme, theme):
     bad = [t for t in tags if t["conf"] != t["inA"] or t["tag"] != t["inA"]
            or (t["inA"] and ("Confirmed by physician" not in t["text"] or t["border"] < 2))]
     check(f"{tag}: confirmed cards have the tag and a 2 px border, likely cards neither", not bad, bad[:3])
+    same = pg.evaluate("""() => [...document.querySelectorAll('li.card')].map(c => ({
+      conf: c.classList.contains('card-confirmed'), line: (c.querySelector('.confirm-office') || {}).textContent || '',
+      extra: c.querySelectorAll('.where .label, .from-account').length }))""")
+    check(f"{tag}: every likely card has the one confirm line and no qualifier of its own; confirmed cards have neither",
+          all((x["line"] == "" if x["conf"] else x["line"] == "Confirm this office before you go.") and x["extra"] == 0 for x in same), same[:3])
     split = pg.evaluate("""(() => [...document.querySelectorAll('li.card a[href^="tel:"]')].filter(a => a.getClientRects().length > 1)
         .map(a => a.textContent))()""")
     check(f"{tag}: no phone number breaks across lines", not split, split[:3])

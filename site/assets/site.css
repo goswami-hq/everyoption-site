@@ -381,7 +381,7 @@ fieldset[aria-invalid="true"] legend { color: #a82a1e; }
 .see-line.need { font-weight: 600; }
 .card.preview { animation: none; margin: 0 0 10px; }
 .card.preview .actions span { display: inline-flex; align-items: center; min-height: 40px; }
-.from-account { margin: 6px 0 0; }
+.confirm-office { margin: 6px 0 0; }
 .procs { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
 .proc { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; }
 .proc.on { border-color: var(--accent); }

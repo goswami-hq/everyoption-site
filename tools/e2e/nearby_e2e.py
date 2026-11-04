@@ -106,7 +106,7 @@ def run(b, width, scheme):
 
 def rules(b):
     """Made-up roster: the practice-site-names-it doctor first; billing-only, neuro-only, no-contact and listed NPIs out;
-    a city from public records keeps its label; 5 or more found means no IR group."""
+    a city from public records looks like any other card; 5 or more found means no IR group."""
     ctx = b.new_context(viewport={"width": 1280, "height": 900})
     pg = ctx.new_page()
     c62711 = (39.7701, -89.7091)
@@ -128,7 +128,7 @@ def rules(b):
     check("rules: no billing-only, neuro-only, no-contact, or already-listed doctors", not {"Billing Testdoctor", "Neuro Testdoctor",
           "Nocontact Testdoctor", "Listed Elsewhere Testdoctor"} & set(names), names)
     rec = next((x for x in (c or {}).get("cards", []) if x["name"] == "Records Testdoctor"), {})
-    check("rules: a city from public records keeps its confirm-location label", "confirm location" in rec.get("label", ""), rec)
+    check("rules: a city from public records carries no label of its own", rec.get("label", "") == "" and bool(rec), rec)
     more = [roster_row(f"19999901{i:02d}", f"Crowd {i} Testdoctor", c62711[0] + i * 0.01, c62711[1]) for i in range(6)]
     data = {"procedure": "ufe", "name": "ufe", "counts": {}, "unplaced": 0, "held": 0,
             "people": [dict(p, badge="verified", confirmed=False) for p in more[:5]]}

@@ -239,7 +239,7 @@ def entry_and_find(b, label, base, vp):
     c = [x for x in json.loads(pg.request.get(base + "/__confirmed").text()) if x["npi"] == CARA][0]
     check(f"{label}: a new doctor on partial access sets an office, phone and link on day one, in Likely",
           c["offices"][0]["phone"] == "6085550100" and c["booking_url"] == "https://newdoc-ir.example/" and c["confirmed"] is False, c)
-    check(f"{label}: the preview says not yet confirmed", "not yet confirmed" in pg.inner_text("#see"))
+    check(f"{label}: the preview has the confirm-this-office line", "Confirm this office before you go." in pg.inner_text("#see"))
     fits(pg, f"{label} new doctor account"); shot(pg, f"{label}-0-new-doctor")
     ctx.close()
 
@@ -766,7 +766,7 @@ def live_run(cfg):
             q = last_search.get("page") or pg
             card = q.locator("section.tier-b li.card", has_text=f"{first} {last}")
             lcheck("live: the card shows in Likely performs within about 90 s of saving", secs is not None, secs)
-            lcheck("live: the card says not yet confirmed", card.count() and "not yet confirmed" in card.first.inner_text())
+            lcheck("live: the card has the confirm-this-office line", card.count() and "Confirm this office before you go." in card.first.inner_text())
             R["live"]["likely_seconds"] = secs
             shot(q, "live-2-likely"); done_search()
             pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
