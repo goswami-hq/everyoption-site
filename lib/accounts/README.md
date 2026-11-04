@@ -86,3 +86,18 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
   as Pages variables, posted to the Every Option topic. Never holds up the save.
 - Local: `node tools/dev-server.mjs --accounts [--listings-down | --listings-slow=<ms>]`; tests
   `tools/listings-job25.test.mjs`, browser `tools/e2e/live_e2e.py`.
+
+## Job 31 (2026-11-04): his decisions 3A, 5A, 6A and the new-card alert
+- Every per-connection limit counts IPv6 by its /64 (`connKey` in `util.mjs`; accounts, listings, report form).
+- Sign-in requests and wrong codes count per email and connection together (`login_email`, `code_email`), so a
+  stranger cannot block the doctor's own browser. New sign-ups: 3 an hour per connection.
+- Daily email cap 90; 40 of them stay for sign-in codes to existing accounts (every other email stops at 50).
+- ID check (still off): the exact first name for every upgrade (`id_name_not_exact`). Doximity keeps its old rule.
+- New-card alert: a public card for a doctor not already listed alerts the Every Option topic (`new_card`) with the
+  registry name, NPI, access level, procedures, phone, address and website, each time the card goes public (procedure
+  list empty to not empty) and each time its contact details go from none to some. Other saves alert as contact
+  changes. Never holds up the save. Setup: ai-hq
+  `projects/platform/accounts/alert-and-cloudflare-setup.md`.
+- Report form: with `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set, its hourly limit is counted by `eo_hit`
+  (atomic; no new table), so parallel sends cannot slip past; a report costs 2 KV writes and is deleted after 1 year.
+  No database, or it fails: the old KV counter.

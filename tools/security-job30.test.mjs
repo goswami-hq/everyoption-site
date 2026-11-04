@@ -71,39 +71,8 @@ test("finding: a full-access doctor can accept their own invitation and hold ano
 });
 
 // ---------------------------------------------------------------- 2. Known risks
-test("finding: about 12 requests stop a doctor's sign-in codes for a day (code tries counted per email)", async () => {
-  const w = world();
-  await w.signIn(BEN, EMAIL[BEN]);
-  const evil = w.client("203.0.113.9");
-  for (let i = 0; i < 2; i++) {
-    const { body } = await evil.post("login", { email: EMAIL[BEN] });
-    for (let k = 0; k < 5; k++) await evil.post("code", { challenge: body.challenge, code: "000000" });
-  }
-  const ben = w.client("198.51.100.7");
-  const { body } = await ben.post("login", { email: EMAIL[BEN] });
-  const r = await ben.post("code", { challenge: body.challenge, code: w.lastCode(EMAIL[BEN]) });
-  assert.equal(r.status, 429, "the right code is refused");
-  w.clock.t += 86400 * 1000;
-  const again = await ben.post("login", { email: EMAIL[BEN] });
-  assert.equal((await ben.post("code", { challenge: again.body.challenge, code: w.lastCode(EMAIL[BEN]) })).status, 200);
-});
-
-test("finding: a few connections can use up the site's daily email cap, so nobody gets a sign-in code that day", async () => {
-  const w = world();
-  await w.signIn(BEN, EMAIL[BEN]);
-  let sent = 0;
-  for (let ip = 1; sent < 95 && ip < 30; ip++) {                   // a few addresses; each sign-up mails a code
-    const c = w.client(`203.0.113.${ip}`);
-    for (let i = 0; i < 10; i++) {
-      const r = await c.post("signup", { specialty: "ir", npi: CARA, email: `v${ip}-${i}@victims.example`, agree: true });
-      if (r.status === 202) sent++;
-    }
-  }
-  const ben = w.client("198.51.100.7");
-  assert.equal((await ben.post("login", { email: EMAIL[BEN] })).status, 429);
-  assert.ok(sent <= 90, `sent ${sent}`);
-});
-
+// "finding: about 12 requests ...": fixed on his yes 2026-11-04 (decision 3A, see security-job31.test.mjs).
+// "finding: a few connections can use up ...": fixed on his yes 2026-11-04 (decision 3A, see security-job31.test.mjs).
 test("finding: sign-up sends our code email to any inbox typed (3 an hour per address)", async () => {
   const w = world();
   const c = w.client("203.0.113.50");
@@ -113,13 +82,7 @@ test("finding: sign-up sends our code email to any inbox typed (3 an hour per ad
   assert.equal(w.outbox.filter((m) => m.to === "someone@victims.example").length, 3);
 });
 
-test("finding: with the ID check on, an 'An Testone' ID upgrades an unheld 'Ann Testone' listing (prefix rule)", async () => {
-  const w = world();
-  const c = await w.signIn(ANN, STRANGER);
-  const r = await w.idCheck(c, "An", "Testone");                   // "An" starts "Ann": prefix match on the holder
-  assert.equal(r.level, "full");
-});
-
+// "finding: with the ID check on, an 'An Testone' ...": fixed on his yes 2026-11-04 (decision 6A, see security-job31.test.mjs).
 // ---------------------------------------------------------------- 3. Sign-in
 test("holds: a code works once; the sixth try fails even with the right code; expired codes fail", async () => {
   const w = world();

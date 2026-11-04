@@ -239,7 +239,7 @@ def entry_and_find(b, label, base, vp):
     c = [x for x in json.loads(pg.request.get(base + "/__confirmed").text()) if x["npi"] == CARA][0]
     check(f"{label}: a new doctor on partial access sets an office, phone and link on day one, in Likely",
           c["offices"][0]["phone"] == "6085550100" and c["booking_url"] == "https://newdoc-ir.example/" and c["confirmed"] is False, c)
-    check(f"{label}: the preview has the confirm-this-office line", "Confirm this office before you go." in pg.inner_text("#see"))
+    check(f"{label}: the preview has the confirm-this-office line", "Details not confirmed by this doctor. Check with the office before you go." in pg.inner_text("#see"))
     fits(pg, f"{label} new doctor account"); shot(pg, f"{label}-0-new-doctor")
     ctx.close()
 
@@ -766,7 +766,7 @@ def live_run(cfg):
             q = last_search.get("page") or pg
             card = q.locator("section.tier-b li.card", has_text=f"{first} {last}")
             lcheck("live: the card shows in Likely performs within about 90 s of saving", secs is not None, secs)
-            lcheck("live: the card has the confirm-this-office line", card.count() and "Confirm this office before you go." in card.first.inner_text())
+            lcheck("live: the card has the confirm-this-office line", card.count() and "Details not confirmed by this doctor. Check with the office before you go." in card.first.inner_text())
             R["live"]["likely_seconds"] = secs
             shot(q, "live-2-likely"); done_search()
             pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
@@ -879,6 +879,13 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     with sync_playwright() as p:
         b = p.chromium.launch()
+        # Job 31: each window is its own made-up connection (dev-server X-Test-IP), under the 3-an-hour sign-up limit.
+        _nc, _n = b.new_context, [0]
+        def _ctx(**kw):
+            _n[0] += 1
+            kw["extra_http_headers"] = {**kw.get("extra_http_headers", {}), "X-Test-IP": f"203.0.113.{_n[0] % 250 + 1}"}
+            return _nc(**kw)
+        b.new_context = _ctx
         closed_site(b)
         for label, (base, vp) in RUNS.items():
             flows(b, label, base, vp)

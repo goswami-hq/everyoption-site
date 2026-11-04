@@ -201,13 +201,15 @@ test("hijack alert: phone, address or link change on an existing listing posts N
 test("hijack alert: a new doctor's first save is quiet; their next change alerts; undo alerts", async () => {
   const w = world(), c = await w.signIn(CARA, "cara@home.example", undefined, ["gae"]);
   const o = { practice: "Cara IR", street: "2 Test Ave", city: "Madison", state: "WI", zip: "53703", phone: "6085550100" };
+  // Job 31: a new doctor's card alerts as a new card (security-job31); the contact-change alert keeps its rule.
+  const changes = () => w.backend.alert.sent.filter((t) => /contact change/.test(t));
   await c.put("profile", { offices: [o] }); await settle();
-  assert.equal(w.backend.alert.sent.length, 0);
+  assert.equal(changes().length, 0);
   await c.put("profile", { offices: [{ ...o, phone: "6085550999" }] }); await settle();
-  assert.equal(w.backend.alert.sent.length, 1); assert.match(w.backend.alert.sent[0], /"6085550100" -> "6085550999"/);
+  assert.equal(changes().length, 1); assert.match(changes()[0], /"6085550100" -> "6085550999"/);
   const e = (await c.get("edits")).body.edits.find((x) => x.field === "offices" && x.undoable);
   assert.equal((await c.post("undo", { edit_id: e.id })).status, 200); await settle();
-  assert.match(w.backend.alert.sent[2] || w.backend.alert.sent[1], /"6085550999" -> "6085550100"/);
+  assert.match(changes()[changes().length - 1], /"6085550999" -> "6085550100"/);
 });
 
 test("contactChanges: unchanged fields and brand-new doctors give nothing", () => {

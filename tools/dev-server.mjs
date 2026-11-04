@@ -72,7 +72,11 @@ function testOp(op, npi) {
 async function toRequest(req, url) {
   const chunks = []; for await (const c of req) chunks.push(c);
   const headers = new Headers(); for (const [k, v] of Object.entries(req.headers)) headers.set(k, String(v));
-  headers.set("CF-Connecting-IP", req.socket.remoteAddress || "127.0.0.1");
+  // Job 31: local only. A browser test may name a made-up address per window (X-Test-IP, documentation ranges), so
+  // many made-up doctors can sign up under the 3-an-hour limit per connection. Cloudflare sets the real header.
+  const testIp = /^(203\.0\.113|198\.51\.100|192\.0\.2)\.\d{1,3}$/.test(String(req.headers["x-test-ip"] || "")) ? req.headers["x-test-ip"] : "";
+  headers.delete("x-test-ip");
+  headers.set("CF-Connecting-IP", testIp || req.socket.remoteAddress || "127.0.0.1");
   return new Request(url, { method: req.method, headers, body: ["GET", "HEAD"].includes(req.method) ? undefined : Buffer.concat(chunks) });
 }
 async function send(res, r) {

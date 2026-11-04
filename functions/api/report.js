@@ -1,15 +1,21 @@
 // Cloudflare Pages Function: POST /api/report. Stores an error report about a listing. Anyone can send one.
-// A report never changes a listing: this file writes only to the CLAIMS store, never to listings or accounts.
+// A report never changes a listing: this file writes reports to the CLAIMS store and, with the accounts database
+// configured, one rate counter there (eo_hit, table rate_hits); it never touches listings, accounts or profiles.
 // Claiming a profile is separate (/account/, physicians only, his words 2026-11-02).
 // Storage: the KV namespace bound as CLAIMS. Until that binding exists the endpoint answers 503 and stores nothing.
-// Limits: 8 KB body cap, 5 reports per connection per hour (keyed by a hash of the IP kept 2 hours, never in the record),
-// duplicate guard (same submission id or same content within 24 h returns the first answer), honeypot field. Errors are
-// logged without the sender's details.
+// Limits: 8 KB body cap, 5 reports per connection per hour (IPv6 by /64; keyed by a hash of the IP, never in the record, kept up to 3 days: eo_cleanup deletes counter windows older than 2 days, daily),
+// duplicate guard (same content within 24 h returns the first answer), honeypot field. Errors are logged without the
+// sender's details. Decision 5A (his yes, 2026-11-04): with the accounts database configured, the hourly limit is
+// counted there in one atomic step (eo_hit, its rate_hits table only), so parallel sends cannot slip past it, and a
+// report costs 2 storage writes; reports are deleted after 1 year. Without it, the old storage counter (soft) is used.
 import { PROCS } from "../../lib/procedures.mjs";
 import { API_SECURITY } from "../../lib/security-headers.mjs";
+import { connKey } from "../../lib/accounts/util.mjs";
+import { supabaseData } from "../../lib/accounts/supabase.mjs";
 
 const MAX_BYTES = 8 * 1024;
 const PER_HOUR = 5;
+const KEEP_SECONDS = 365 * 86400;          // decision 5A: a report is deleted after 1 year
 export const REASONS = ["not_performed", "contact", "moved", "other"];
 const LIMITS = { doctor: 120, email: 200, note: 2000, listing: 10, procedure: 8, submission_id: 64 };
 
@@ -72,30 +78,32 @@ export async function onRequestPost({ request, env }) {
     if (!body || typeof body !== "object") return json(400, { error: "bad_json" });
     if (body.website) return json(200, { ok: true });        // honeypot: answer as if stored, store nothing
 
-    const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+    const ip = connKey(request.headers.get("CF-Connecting-IP") || "unknown");
     const ipHash = (await sha256("eo-report:" + ip)).slice(0, 24);
-    const hour = new Date().toISOString().slice(0, 13);
-    const rlKey = `rl:${ipHash}:${hour}`;
-    const n = +((await env.CLAIMS.get(rlKey)) || 0);
-    if (n >= PER_HOUR) return json(429, { error: "rate_limited" });
-
     const { bad, clean } = validate(body);
     if (bad.length) return json(400, { error: "invalid", fields: bad });
 
     const sid = clean.submission_id || crypto.randomUUID();
     const fingerprint = await sha256(JSON.stringify([clean.listing, clean.doctor.toLowerCase(), clean.procedure,
       clean.reason, clean.note, clean.email.toLowerCase()]));
-    for (const k of [`dup:id:${sid}`, `dup:fp:${fingerprint}`]) {
-      const seen = await env.CLAIMS.get(k);
-      if (seen) return json(200, { ok: true, duplicate: true, id: seen });
-    }
+    const seen = await env.CLAIMS.get(`dup:fp:${fingerprint}`);
+    if (seen) return json(200, { ok: true, duplicate: true, id: seen });
 
-    await env.CLAIMS.put(rlKey, String(n + 1), { expirationTtl: 60 * 60 * 2 });
+    const hit = env.__reportHit || (env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY   // __reportHit: tests only
+      ? supabaseData(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY).hit : null);
+    let under = null;
+    if (hit) { try { under = !!(await hit(`report_ip:${ipHash}`, 3600, PER_HOUR)); } catch (e) { await logError(env, "limit", e); } }
+    if (under === false) return json(429, { error: "rate_limited" });
+    if (under === null) {                   // no database, or it failed: the storage counter, as before
+      const rlKey = `rl:${ipHash}:${new Date().toISOString().slice(0, 13)}`;
+      const n = +((await env.CLAIMS.get(rlKey)) || 0);
+      if (n >= PER_HOUR) return json(429, { error: "rate_limited" });
+      await env.CLAIMS.put(rlKey, String(n + 1), { expirationTtl: 60 * 60 * 2 });
+    }
     const id = `${new Date().toISOString()}:${sid}`;
     const record = { ...clean, submission_id: sid, received: new Date().toISOString(), kind: "error report",
-      changes_listing: false };   // no IP or IP hash: the hash lives only in the rate-limit key, which expires in 2 hours
-    await env.CLAIMS.put(`report:${id}`, JSON.stringify(record));
-    await env.CLAIMS.put(`dup:id:${sid}`, id, { expirationTtl: 60 * 60 * 24 });
+      changes_listing: false };   // no IP or IP hash: the hash lives only in the rate counter (KV key 2 hours, or rate_hits up to 3 days)
+    await env.CLAIMS.put(`report:${id}`, JSON.stringify(record), { expirationTtl: KEEP_SECONDS });
     await env.CLAIMS.put(`dup:fp:${fingerprint}`, id, { expirationTtl: 60 * 60 * 24 });
     return json(201, { ok: true, id });
   } catch (err) {

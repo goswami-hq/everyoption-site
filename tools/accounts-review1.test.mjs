@@ -49,9 +49,10 @@ test("4: per-email sign-up limit and a daily cap on all email", async () => {
   assert.equal(last.status, 429, "same inbox from several connections");
   const w2 = world({ env: { emailDailyCap: 3 } });
   for (let i = 0; i < 3; i++) await w2.client("10.8.0." + i).post("login", { email: `n${i}@x.example` }); // no accounts: no sends
-  for (let i = 0; i < 3; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { specialty: "ir", npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, agree: true })).status, 202);
-  assert.equal((await w2.client("10.8.2.2").post("signup", { specialty: "ir", npi: ANN, email: "s9@x.example", agree: true })).status, 429);
-  assert.equal(w2.outbox.length, 3);
+  // Decision 3A (job 31): a share of the cap (40 of 90; 1 of 3 here) is kept for sign-in codes to existing accounts.
+  for (let i = 0; i < 2; i++) assert.equal((await w2.client("10.8.1." + i).post("signup", { specialty: "ir", npi: [ANN, BEN, GIL][i], email: `s${i}@x.example`, agree: true })).status, 202);
+  assert.equal((await w2.client("10.8.2.2").post("signup", { specialty: "ir", npi: GIL, email: "s9@x.example", agree: true })).status, 429);
+  assert.equal(w2.outbox.length, 2);
   assert.equal((await w2.backend.data.many("exceptions", { kind: "email_cap" })).length, 1);
 });
 

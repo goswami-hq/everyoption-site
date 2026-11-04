@@ -98,7 +98,7 @@ def main():
             check(f"{label}: saved change shows in the next search (Likely, office, phone, Website)",
                   c is not None and pg.locator("section.tier-b li.card", has_text="Ann Testone").count() == 1
                   and "Lakeside Test IR" in txt and "100 Test Plaza" in txt and "(312) 555-0100" in txt and "Website" in txt, txt[:200])
-            check(f"{label}: card has the one confirm-this-office line", "Confirm this office before you go." in txt)
+            check(f"{label}: card has the one confirm-this-office line", "Details not confirmed by this doctor. Check with the office before you go." in txt)
             check(f"{label}: seen within a minute of saving", time.time() - t0 < 60, round(time.time() - t0, 1))
             (c.screenshot if c else pg.screenshot)(path=os.path.join(OUT, f"{label}-saved.png"))
             s, _ = api(pg, NORMAL, "POST", "withdraw", {"procedure": "ufe"})

@@ -365,7 +365,7 @@ def how():
 <li>ClinicalTrials.gov, the U.S. registry of clinical studies.</li>
 <li>Other websites that copy a doctor’s profile.</li>
 </ul>
-<p>Cities come from the doctor’s newest page or from public records, and they can be out of date. Every card except Confirmed by physician says “Confirm this office before you go.” Distances start from the center of the ZIP code you type; we never ask where you live. When a doctor who confirmed their listing gives an office address, we measure to that office, and a doctor with several offices is shown at the closest one, with all of their offices listed on the card. Otherwise we measure to the center of the doctor’s ZIP code or city.</p>
+<p>Cities come from the doctor’s newest page or from public records, and they can be out of date. Every card except Confirmed by physician says “Details not confirmed by this doctor. Check with the office before you go.” Distances start from the center of the ZIP code you type; we never ask where you live. When a doctor who confirmed their listing gives an office address, we measure to that office, and a doctor with several offices is shown at the closest one, with all of their offices listed on the card. Otherwise we measure to the center of the doctor’s ZIP code or city.</p>
 <h2>A blank is not a no</h2>
 <p>If a doctor is missing, it usually means we have not found them yet. It does not mean they don’t perform the procedure.</p>
 <h2>When few doctors are near you</h2>
@@ -415,7 +415,7 @@ def report():
 <div><button type="submit">Send</button></div>
 </form>
 <div id="report-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
-<div class="prose"><p class="small muted">We keep what you send to fix the listing. If you give an email, we use it only to reply about this report, and we do not sell or share it. To limit repeated reports, a code made from your connection’s internet address is kept for two hours, then deleted; it is never stored with your report.</p></div>
+<div class="prose"><p class="small muted">We keep what you send to fix the listing. If you give an email, we use it only to reply about this report, and we do not sell or share it. To limit repeated reports, a code made from your connection’s internet address is kept for up to 3 days, then deleted; it is never stored with your report.</p></div>
 <noscript><p class="notice">This form needs JavaScript. You can email <a href="mailto:{CONTACT}">{CONTACT}</a> instead.</p></noscript>"""
     return page("/report/", "Report an error | Every Option",
                 "Anyone can report an error on an Every Option listing.",

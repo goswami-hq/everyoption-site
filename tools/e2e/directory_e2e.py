@@ -94,7 +94,7 @@ def main():
         nojs.goto(BASE + likely["p"])
         txt = nojs.inner_text("main")
         check("no script: profile shows name, procedure, office line, report link",
-              likely["n"] in txt and "Likely performs:" in txt and "Confirm this office before you go." in txt and "Report an error" in txt, txt[:300])
+              likely["n"] in txt and "Likely performs:" in txt and "Details not confirmed by this doctor. Check with the office before you go." in txt and "Report an error" in txt, txt[:300])
         nojs.goto(BASE + "/doctors/")
         check("no script: A to Z links on the search page", nojs.locator("nav.az a").count() >= 20)
         nojs.goto(BASE + "/doctors/a/")
@@ -103,7 +103,7 @@ def main():
         nojs.goto(BASE + data["confirmed"]["p"])
         txt = nojs.inner_text("main")
         check("confirmed profile: tag, no confirm-office line, no Is this you?",
-              "Confirmed by physician" in txt and "Confirm this office" not in txt and "Is this you?" not in txt, txt[:300])
+              "Confirmed by physician" in txt and "Details not confirmed" not in txt and "Is this you?" not in txt, txt[:300])
         nojs.goto(BASE + nearby["p"])
         check("nearby profile: the nearby wording", "We don't yet know which procedures this doctor performs. Call and ask about:" in nojs.inner_text("main"))
         # Identical qualifiers within each group.

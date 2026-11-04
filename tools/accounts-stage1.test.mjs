@@ -163,8 +163,9 @@ test("check by ID: only result and verified name kept; plan's name rule; only a 
 
   const w2 = world(), c2 = await w2.signIn(GIL);
   await w2.idCheck(c2, "Gilberto", "Fourtest");
-  assert.equal((await c2.get("me")).body.account.level, "full", "one first name starts the other: passes");
-  assert.equal((await w2.backend.data.many("exceptions")).length, 0);
+  // Decision 6A (job 31): the exact first name, held listing or not.
+  assert.equal((await c2.get("me")).body.account.level, "basic", "one first name starts the other: no longer passes");
+  assert.deepEqual((await w2.backend.data.many("exceptions")).map((e) => e.kind), ["id_name_not_exact"]);
 
   const w3 = world(), c3 = await w3.signIn(GIL);
   await w3.idCheck(c3, "Gil", "Fourtest-Smith");

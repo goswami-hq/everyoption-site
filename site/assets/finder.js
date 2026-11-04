@@ -210,7 +210,7 @@
     ]);
     kids.push(where);
     // His rule 2026-11-03: within Likely and within nearby, every card carries the same words and no card has its own qualifier.
-    if (!p.confirmed) kids.push(el("p", { "class": "confirm-office small muted", text: "Confirm this office before you go." }));
+    if (!p.confirmed) kids.push(el("p", { "class": "confirm-office small muted", text: "Details not confirmed by this doctor. Check with the office before you go." }));
     if (lead && lead.geo === "address") kids.push(el("p", { "class": "dist-note small muted", text: "Distance is from the center of your ZIP code to this office." }));
     if (p.blurb) kids.push(el("p", { "class": "blurb", text: p.blurb }));
     var ins = (p.insurances || []).slice();

@@ -123,7 +123,7 @@ test("profile: 200 with full HTML, canonical, JSON-LD, and the finder's wording"
     assert.equal(r.status, 200);
     assert.match(r.h.get("Content-Type"), /text\/html/); assert.match(r.h.get("Cache-Control"), /max-age=60/);
     assert.ok(r.html.includes(`<link rel="canonical" href="https://everyoptionmd.com${x.p}">`));
-    assert.ok(r.html.includes("Confirm this office before you go."));
+    assert.ok(r.html.includes("Details not confirmed by this doctor. Check with the office before you go."));
     assert.ok(r.html.includes("Is this you?") && r.html.includes("Report an error"));
     assert.ok(r.html.includes("Education, not medical advice.") && r.html.includes("no one can pay"));
     const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/.exec(r.html)[1]);
@@ -193,7 +193,7 @@ test("overlay: a new account doctor gets a profile; partial is Likely, full is C
   const full = db([row(npi, name, "full", ["ufe"], ["ufe"], { photo_key: `${npi}/abcdef0123456789.png` })]);
   r = await get(`/doctors/newa-accountdoc-${npi}/`, { backend: full });
   assert.match(r.html, /Confirmed by physician/); assert.match(r.html, /class="photo" src="\/api\/photo\/1999000098-abcdef0123456789\.png"/);
-  assert.doesNotMatch(r.html, /Confirm this office before you go\./); assert.doesNotMatch(r.html, /Is this you\?/);
+  assert.doesNotMatch(r.html, /Details not confirmed by this doctor\. Check with the office before you go\./); assert.doesNotMatch(r.html, /Is this you\?/);
   const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/.exec(r.html)[1]);
   assert.equal(ld.knowsAbout[0].name, "Uterine fibroid embolization (UFE)");
   const noOffice = db([row(npi, name, "partial", ["ufe"], ["ufe"], { offices: [] })]);

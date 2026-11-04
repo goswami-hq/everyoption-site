@@ -139,7 +139,7 @@ def run(b, width, scheme, theme):
       conf: c.classList.contains('card-confirmed'), line: (c.querySelector('.confirm-office') || {}).textContent || '',
       extra: c.querySelectorAll('.where .label, .from-account').length }))""")
     check(f"{tag}: every likely card has the one confirm line and no qualifier of its own; confirmed cards have neither",
-          all((x["line"] == "" if x["conf"] else x["line"] == "Confirm this office before you go.") and x["extra"] == 0 for x in same), same[:3])
+          all((x["line"] == "" if x["conf"] else x["line"] == "Details not confirmed by this doctor. Check with the office before you go.") and x["extra"] == 0 for x in same), same[:3])
     split = pg.evaluate("""(() => [...document.querySelectorAll('li.card a[href^="tel:"]')].filter(a => a.getClientRects().length > 1)
         .map(a => a.textContent))()""")
     check(f"{tag}: no phone number breaks across lines", not split, split[:3])

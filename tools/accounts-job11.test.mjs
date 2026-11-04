@@ -257,17 +257,21 @@ test("r1-1b: his invitation over a held listing also starts a fresh card; a remo
   assert.equal((await w.backend.data.many("exceptions", { kind: "holder_removed_no_email" })).length, 1);
 });
 
-test("r1-2: wrong code tries are capped per email across challenges (10 a day)", async () => {
+// Decision 3A (job 31): code tries count per email and connection together, so another connection is not blocked.
+test("r1-2: wrong code tries are capped per email and connection across challenges (10 a day)", async () => {
   const w = world(); await w.signIn();
   let n = 0, ch;
+  const evil = w.client("10.9.2.1");
   for (let i = 0; i < 4 && n < 10; i++) {
-    ch = (await w.client("10.9.2." + i).post("login", { email: "ann@home.example" })).body.challenge;
-    for (let j = 0; j < 3 && n < 10; j++, n++) await w.client("10.9.3." + n).post("code", { challenge: ch, code: "999999" === w.lastCode() ? "999998" : "999999" });
+    ch = (await evil.post("login", { email: "ann@home.example" })).body.challenge;
+    for (let j = 0; j < 3 && n < 10; j++, n++) await evil.post("code", { challenge: ch, code: "999999" === w.lastCode() ? "999998" : "999999" });
   }
   w.clock.t += 3601 * 1000;                           // past the hourly limits, inside the day
-  const last = await w.client("10.9.4.1").post("login", { email: "ann@home.example" });
-  const r = await w.client("10.9.4.1").post("code", { challenge: last.body.challenge, code: w.lastCode("ann@home.example") });
-  assert.equal(r.status, 429, "even the right code waits");
+  const last = await evil.post("login", { email: "ann@home.example" });
+  const r = await evil.post("code", { challenge: last.body.challenge, code: w.lastCode("ann@home.example") });
+  assert.equal(r.status, 429, "on that connection even the right code waits");
+  const own = await w.client("10.9.4.2").post("login", { email: "ann@home.example" });
+  assert.equal((await w.client("10.9.4.2").post("code", { challenge: own.body.challenge, code: w.lastCode("ann@home.example") })).status, 200, "another connection is not blocked");
   w.clock.t += 86400 * 1000;
   const l2 = await w.client("10.9.4.2").post("login", { email: "ann@home.example" });
   assert.equal((await w.client("10.9.4.2").post("code", { challenge: l2.body.challenge, code: w.lastCode("ann@home.example") })).status, 200);

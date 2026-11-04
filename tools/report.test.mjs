@@ -68,7 +68,9 @@ test("no listing change: a report writes only report, limit and duplicate keys, 
   assert.equal(JSON.stringify([...listings.m]), before); assert.equal(accounts.m.size, 0);
   assert.ok([...env.CLAIMS.m.keys()].every((k) => /^(report|rl|dup):/.test(k)), [...env.CLAIMS.m.keys()].join(" "));
   const src = readFileSync(new URL("../functions/api/report.js", import.meta.url), "utf8");
-  assert.ok(!/env\.(?!CLAIMS\b)[A-Z_]+/.test(src), "the endpoint reads no binding but CLAIMS");
+  // Decision 5A (job 31): it may also read the two database variables, and calls only the rate counter there.
+  assert.ok(!/env\.(?!(CLAIMS|SUPABASE_URL|SUPABASE_SERVICE_ROLE_KEY|__reportHit)\b)[A-Z_]+/.test(src), "the endpoint reads no binding but CLAIMS and the database pair");
+  assert.deepEqual([...src.matchAll(/supabaseData\([^)]*\)\.(\w+)/g)].map((m) => m[1]), ["hit"], "only the rate counter");
 });
 test("same submission id twice: one record", async () => {
   const env = { CLAIMS: kv() }; await post(env, good); const r = await post(env, good);
