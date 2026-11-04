@@ -525,3 +525,23 @@ main::before { top: 0; }
 .stops strong { color: var(--accent); }
 .stops li::before { left: -30px; }
 .home-page .hero-in, .home-page header.site .wrap { max-width: 1440px; }
+
+/* Job 27: doctor directory and profiles. The card name opens the profile and keeps the card's look. */
+.card h3 a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--line); }
+.card h3 a:hover { text-decoration-color: currentColor; }
+.dir-search { max-width: 37em; margin: 8px 0 28px; }
+.dir-search label { display: block; font-weight: 600; margin-bottom: 6px; }
+.dir-search input { width: 100%; font-size: 1.125rem; min-height: 48px; }
+.dir-list { list-style: none; padding: 0; margin: 12px 0; }
+.dir-list li { padding: 10px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.dir-list li a { font-weight: 600; }
+nav.az { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 18px; }
+nav.az a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; font-weight: 600; }
+nav.az a[aria-current] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.dir-head { display: flex; gap: 16px; align-items: center; }
+.dir-head h1 { margin-bottom: 2px; overflow-wrap: anywhere; }
+.dir-head .photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+.dir-procs, .dir-offices { padding-left: 1.1em; }
+.dir-procs li, .dir-offices li { margin: 0 0 12px; overflow-wrap: anywhere; }
+.dir-procs .blurb { display: block; margin-top: 4px; }
+.doctor-page .confirmed-tag { color: var(--pine); }

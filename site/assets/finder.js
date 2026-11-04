@@ -106,9 +106,7 @@
   function loadRoster() {
     if (roster) return Promise.resolve(roster);
     if (!rosterLoading) rosterLoading = getJSON("/data/ir-roster.json").then(function (d) {
-      roster = (d.people || []).filter(function (p) {
-        return p.proven && !p.billing_only && !p.neuro_only && (p.phone || p.url) && p.lat != null && p.lon != null;
-      }).map(function (p) {
+      roster = (d.people || []).filter(rosterShown).map(function (p) {
         return { npi: p.npi, name: p.name, badge: "verified", practice: p.practice || "", city: p.city, state: p.state,
           city_label: p.city_label || "", phone: p.phone || "", url: p.url || "", lat: p.lat, lon: p.lon, confirmed: false,
           ask: true, names_it: (p.site_names || []).indexOf(PROC) >= 0 };
@@ -116,6 +114,14 @@
       return roster;
     }, function () { rosterLoading = null; roster = []; return roster; });
     return rosterLoading;
+  }
+  // Job 27: the directory (tools/directory.py) uses this same rule and place(); tools/directory-job27.test.mjs checks they agree.
+  function rosterShown(p) {
+    return !!(p.proven && !p.billing_only && !p.neuro_only && (p.phone || p.url) && p.lat != null && p.lon != null);
+  }
+  function slug(name) {           // same as tools/directory.py slug(): the profile address
+    return String(name || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/['\u2019]/g, "")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "doctor";
   }
   var THIN = 5, FAR = 250, FAR_SHOW = 5;
   var CLOSE = 25;
@@ -185,7 +191,7 @@
     var top = el("div", { "class": "top" }, [
       photo,
       el("div", { "class": "who" }, [
-        el("h3", { text: p.name }),
+        p.test ? el("h3", { text: p.name }) : el("h3", null, [el("a", { href: "/doctors/" + slug(p.name) + "-" + p.npi + "/", text: p.name })]),
         p.badge ? el("span", { "class": "badge", text: BADGE[p.badge] || p.badge }) : null
       ]),
       el("span", { "class": "dist", text: mi(p.miles) })

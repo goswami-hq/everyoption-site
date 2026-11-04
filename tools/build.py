@@ -8,6 +8,7 @@ Standard library only; the built pages are plain static HTML (Cloudflare Pages s
 import pathlib
 import html, json, os, re
 import condition
+import directory
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -159,7 +160,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/how-we-know/">How we know</a></p>
+<p><a href="/doctors/">Find a doctor by name</a> · <a href="/how-we-know/">How we know</a></p>
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
 </body>
@@ -376,6 +377,8 @@ def how():
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
 <p>Confirming is free. Within each group, the order is by distance only, except that interventional radiologists whose practice website names the procedure come first in their group.</p>
+<h2>Find a doctor by name</h2>
+<p>Every doctor who can appear in a search has a profile page. <a href="/doctors/">Find a doctor by name</a>. A doctor leaves the directory when they leave our lists. To ask us to remove a profile, use <a href="/report/">Report an error</a>.</p>
 <h2>Report an error</h2>
 <p>If something on a listing is wrong, anyone can tell us with the <a href="/report/">report form</a> or by email to <a href="mailto:{CONTACT}">{CONTACT}</a>. A report does not change a listing by itself.</p>
 <h2>Claim your profile</h2>
@@ -452,12 +455,13 @@ def not_found():
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
            "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
-SITEMAP_PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/report/", "/account/"]
+SITEMAP_PAGES = ["/", "/fibroids/", "/pae/", "/gae/", "/how-we-know/", "/report/", "/account/", "/doctors/"]
 
 
-def sitemap():
+def sitemap(profiles=()):
     urls = "".join(f"<url><loc>{ORIGIN}{u}</loc><lastmod>{REVIEWED}</lastmod></url>" for u in
                    SITEMAP_PAGES + [f"/{s}/" for s in condition.slugs() if f"/{s}/" not in SITEMAP_PAGES])
+    urls += "".join(f"<url><loc>{ORIGIN}{e(u)}</loc></url>" for u in profiles)   # job 27: indexed groups only
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n'
 
 
@@ -508,14 +512,35 @@ def main():
         write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, condition.hero(c, finder_block)), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
                                          head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"])))
-    write("sitemap.xml", sitemap())
+    # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
+    with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
+        setting = json.load(fh)["index"]
+    recs = directory.load(SITE)
+    directory.write_data(SITE, recs, LISTINGS_AS_OF)
+    by = directory.letters(recs)
+    write("doctors/index.html", page("/doctors/", "Find a doctor by name | Every Option",
+                                     "Look up any doctor listed on Every Option by name and open their profile.",
+                                     directory.index_body(by, e, len(recs)), ["/assets/directory.js"], cls="prose-page dir-page"))
+    for k in by:
+        label = "other letters" if k == "other" else k.upper()
+        write(f"doctors/{k}/index.html", page(f"/doctors/{k}/", f"Doctors by last name: {label} | Every Option",
+                                              f"Doctors listed on Every Option whose last name starts with {label}.",
+                                              directory.letter_body(by, k, e), cls="prose-page dir-page"))
+    write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
+    shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
+    with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
+        fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
+                 "// from content/directory.json. Edit those, not this file.\n"
+                 f"export const SHELL = {json.dumps(shell)};\nexport const INDEX = {json.dumps(setting)};\n"
+                 f"export const ORIGIN = {json.dumps(ORIGIN)};\nexport const PROC_PAGE = {json.dumps(directory.PROC_PAGE)};\n")
+    write("sitemap.xml", sitemap([f"/doctors/{k}/" for k in by] + directory.indexed(recs, setting)))
     write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")
     counts = {}
     for k in PROCS:
         with open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8") as fh:
             counts[k] = json.load(fh)["counts"]
-    print("built", counts)
+    print("built", counts, "directory", len(recs), {g: sum(directory.group(r) == g for r in recs.values()) for g in ("confirmed", "likely", "nearby")})
 
 
 if __name__ == "__main__":

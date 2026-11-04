@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { onRequestPost } from "../functions/api/report.js";
 import { handle } from "../lib/accounts/http.mjs";
 import { handlePublic } from "../lib/accounts/listings.mjs";
+import { handleDoctor } from "../lib/directory.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
 import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
 
@@ -101,6 +102,11 @@ http.createServer(async (req, res) => {
   // Job 25: the live overlay and public photos. --listings-slow=<ms> and --listings-down play a slow or failed database.
   if (url.pathname === "/api/listings" || url.pathname.startsWith("/api/photo/")) return send(res, await handlePublic(await toRequest(req, url), {
     backend: backend && listingsDB(backend), origin, noCache: true, ASSETS: localAssets }));
+  // Job 27: doctor profiles, the same handler as functions/doctors/[[path]].js.
+  if (url.pathname.startsWith("/doctors/")) {
+    const r = await handleDoctor(await toRequest(req, url), { backend: backend ? listingsDB(backend) : null, noCache: true, ASSETS: localAssets });
+    if (r) return send(res, r);
+  }
   if (backend && url.pathname === "/__alerts") return asJSON(res, backend.alert.sent);
   if (backend && url.pathname === "/__outbox") return asJSON(res, backend.email.outbox);
   if (backend && url.pathname === "/__accounts") return asJSON(res, Object.fromEntries(backend.data.tables));

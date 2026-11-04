@@ -1,0 +1,4 @@
+{
+  "_note": "Job 27: which profile groups search engines may index. Change a value and rebuild (python3 tools/build.py). Default: all three on; indexing really starts only at launch (the dev site is behind Access and previews send noindex).",
+  "index": {"confirmed": true, "likely": true, "nearby": true}
+}
