@@ -98,21 +98,21 @@ def run():
             pg = ctx.new_page()
             pg.goto(BASE + "/")
             check(f"home {w}: Fibroids card opens /fibroids/", pg.locator('.fork-list li.t-ufe a[href="/fibroids/"]').count() == 1)
-            check(f"home {w}: no link to the old /ufe/ page", pg.locator('a[href^="/ufe"]').count() == 0)
-            check(f"home {w}: PAE and GAE cards open their pages", pg.locator('.fork-list a[href="/pae/"]').count() == 1 and
+            check(f"home {w}: no link to the old /ufe/ or /pae/ pages", pg.locator('a[href^="/ufe"], a[href^="/pae"]').count() == 0)
+            check(f"home {w}: Enlarged prostate card opens /enlarged-prostate/ (job 32), GAE card its page", pg.locator('.fork-list li.t-pae a[href="/enlarged-prostate/"]').count() == 1 and
                   pg.locator('.fork-list a[href="/gae/"]').count() == 1)
             over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
             check(f"home {w}: no sideways scroll", over <= 0, over)
             if w in (390, 1280):
                 pg.screenshot(path=os.path.join(OUT, f"home-{w}.png"), full_page=True)
-            for card, path in (("t-ufe", "/fibroids/"), ("t-pae", "/pae/"), ("t-gae", "/gae/")):
+            for card, path in (("t-ufe", "/fibroids/"), ("t-pae", "/enlarged-prostate/"), ("t-gae", "/gae/")):
                 pg.goto(BASE + "/")
                 pg.locator(f".fork-list li.{card} a").first.click(); pg.wait_for_load_state("load")
                 box = pg.evaluate("(() => { const r = document.getElementById('zip').getBoundingClientRect(); return [r.top, r.bottom]; })()")
                 check(f"home {w}: {card} card reaches the ZIP box in one tap", pg.url.endswith(path) and box[0] >= 0 and box[1] <= h,
                       [pg.url, box])
             ctx.close()
-        for slug in ("fibroids", "pae", "gae"):
+        for slug in ("fibroids", "enlarged-prostate", "gae"):
             for w, h in [(390, 844), (1280, 900)]:
                 ctx = b.new_context(viewport={"width": w, "height": h}, reduced_motion="reduce")
                 pg = ctx.new_page()
@@ -131,7 +131,7 @@ def run():
                     let shut = 0; for (let n = el; n; n = n.parentElement) if (n.tagName === 'DETAILS' && !n.open) shut++;
                     return [shut, Math.round(r.top)]; }})()""")
                 check(f"{tag}: How it works opens #{target} and shows it", st[0] == 0 and -5 <= st[1] <= h, st)
-                if slug == "fibroids":
+                if slug in ("fibroids", "enlarged-prostate"):
                     check(f"{tag}: How it works goes to the embolization section", target == "embolization", target)
                 # the bar: hidden while the finder shows, shown once it scrolls away, and a tap returns to the ZIP box
                 pg.evaluate("window.scrollTo(0, 0)"); pg.wait_for_timeout(200)
@@ -147,9 +147,9 @@ def run():
                     bar.click(); pg.wait_for_timeout(300)
                     check(f"{tag}: tapping the bar puts focus in the ZIP box", pg.evaluate("document.activeElement.id") == "zip")
                     check(f"{tag}: and the bar hides again", not bar.is_visible())
-                if slug == "fibroids":
+                if slug in ("fibroids", "enlarged-prostate"):
                     # the button inside the embolization section goes back up to the finder too
-                    pg.goto(f"{BASE}/fibroids/#embolization"); pg.wait_for_timeout(200)
+                    pg.goto(f"{BASE}/{slug}/#embolization"); pg.wait_for_timeout(200)
                     pg.locator("#embolization .cta a").click(); pg.wait_for_timeout(300)
                     check(f"{tag}: the embolization section's button returns to the ZIP box",
                           pg.evaluate("document.activeElement.id") == "zip")
@@ -160,11 +160,24 @@ def run():
         check("/ufe/ forwards to /fibroids/", pg.url.endswith("/fibroids/"), pg.url)
         pg.goto(BASE + "/ufe/?zip=60611&r=25"); pg.wait_for_url("**/fibroids/**", timeout=5000)
         check("/ufe/ forwarding lands on the fibroid finder", pg.locator("#finder[data-procedure=ufe]").count() == 1, pg.url)
+        # Job 32: /pae/ forwards to /enlarged-prostate/ the same way, the ZIP query kept
+        pg.goto(BASE + "/pae/"); pg.wait_for_url("**/enlarged-prostate/", timeout=5000)
+        check("/pae/ forwards to /enlarged-prostate/", pg.url.endswith("/enlarged-prostate/"), pg.url)
+        pg.goto(BASE + "/pae/?zip=60611&r=25"); pg.wait_for_url("**/enlarged-prostate/**", timeout=5000)
+        check("/pae/ forwarding keeps the ZIP and lands on the PAE finder",
+              "zip=60611" in pg.url and pg.locator("#finder[data-procedure=pae]").count() == 1, pg.url)
+        pg.goto(BASE + "/enlarged-prostate/")
+        check("prostate page: no fibroid words carried over",
+              not any(x in pg.inner_text("main").lower() for x in ("fibroid", "uterus", "pregnan", "women")), "")
         ctx.close()
         rules = [l.split() for l in open(os.path.join(HERE, "..", "..", "site", "_redirects")) if l.strip() and not l.startswith("#")]
         for src in ("/ufe", "/ufe/"):
             check(f"_redirects sends {src} to /fibroids/ with a 301", [src, "/fibroids/", "301"] in rules, rules)
-        check("sitemap no longer lists /ufe/", "/ufe/" not in open(os.path.join(HERE, "..", "..", "site", "sitemap.xml")).read())
+        for src in ("/pae", "/pae/"):
+            check(f"_redirects sends {src} to /enlarged-prostate/ with a 301", [src, "/enlarged-prostate/", "301"] in rules, rules)
+        sm = open(os.path.join(HERE, "..", "..", "site", "sitemap.xml")).read()
+        check("sitemap no longer lists /ufe/", "/ufe/" not in sm)
+        check("sitemap lists /enlarged-prostate/ and not /pae/", "/enlarged-prostate/" in sm and "/pae/" not in sm)
         b.close()
     ok = sum(c["ok"] for c in R["checks"])
     print(f"{ok}/{len(R['checks'])} checks pass")

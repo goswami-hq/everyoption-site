@@ -94,7 +94,7 @@ def run(b, width, scheme):
     v = search(pg, "fibroids", "60605", 25)
     check(f"{tag} 60605: no IRs nearby group", sec(v, "tier-c") is None and sec(v, "tier-far") is None and v["cards"] >= 5)
     no_dupes(f"{tag} 60605", v)
-    v = search(pg, "pae", "99723", 25)       # Utqiagvik, AK (99701 has an IR at 178 mi since job 17 part 2)
+    v = search(pg, "enlarged-prostate", "99723", 25)       # Utqiagvik, AK (99701 has an IR at 178 mi since job 17 part 2)
     check(f"{tag} 99723 PAE: nobody within 250 miles gives the one referral line", v["refer"] == [REFER] and v["cards"] == 0, v)
     if width == 390:
         pg.locator("#results").screenshot(path=os.path.join(OUT, f"99723-{width}-{scheme}.png"))

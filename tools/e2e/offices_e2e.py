@@ -61,7 +61,7 @@ def run(b, width, scheme):
     ctx = b.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme)
     pg = ctx.new_page(); errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
-    for proc, path in (("ufe", "fibroids"), ("pae", "pae"), ("gae", "gae")):
+    for proc, path in (("ufe", "fibroids"), ("pae", "enlarged-prostate"), ("gae", "gae")):
         pg.goto(f"{BASE}/{path}/")
         cards = search(pg, "60605", 25)
         t = [c for c in cards if c["name"] == TEST]

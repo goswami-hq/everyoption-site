@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Procedure animations on /fibroids/, /pae/, /gae/: loads clean, steps work, reduced motion stays still, no sideways scroll.
+"""Procedure animations on /fibroids/, /enlarged-prostate/, /gae/: loads clean, steps work, reduced motion stays still, no sideways scroll.
   node tools/dev-server.mjs 8793 &
   python3 tools/e2e/anim_e2e.py OUT_DIR
 """
@@ -15,7 +15,7 @@ def check(name, ok, detail=""):
         fails += 1; print("FAIL", name, detail)
 with sync_playwright() as p:
     b = p.chromium.launch()
-    for path, slug in (("/fibroids/", "ufe"), ("/pae/", "pae"), ("/gae/", "gae")):
+    for path, slug in (("/fibroids/", "ufe"), ("/enlarged-prostate/", "pae"), ("/gae/", "gae")):
         for w, scheme, rm in ((390, "dark", "no-preference"), (390, "light", "no-preference"), (1280, "light", "no-preference"), (390, "light", "reduce")):
             ctx = b.new_context(viewport={"width": w, "height": 844}, color_scheme=scheme, reduced_motion=rm)
             pg = ctx.new_page(); errs = []
@@ -36,7 +36,9 @@ with sync_playwright() as p:
             fig.screenshot(path=os.path.join(OUT, f"anim-{slug}-{w}-{scheme}-{rm}.png"))
             ctx.close()
     # without JavaScript all three captions stay readable and no catheter is drawn
-    ctx = b.new_context(java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE + "/pae/")
+    ctx = b.new_context(java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE + "/enlarged-prostate/")
+    # job 32: on the condition page the diagram sits in the folded How it works section (as on /fibroids/); opening it needs no script
+    pg.locator("#embolization details.how-fold > summary").click()
     check("no JavaScript: all captions show", pg.locator(".proc-cap:visible").count() == 3)
     ctx.close(); b.close()
 print(f"{n - fails} of {n} animation checks")
