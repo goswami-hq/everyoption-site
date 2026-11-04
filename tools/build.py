@@ -59,7 +59,7 @@ PROCS = {
         ],
     },
     "gae": {
-        "for": "Knee osteoarthritis pain",
+        "for": "Arthritis pain",
         "title": "Find a doctor for genicular artery embolization (GAE)",
         "about": [
             "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other "
