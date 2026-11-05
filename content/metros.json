@@ -1,5 +1,5 @@
 {
- "_note": "Job 42 (city-pages spec, his yes 2026-11-05): a metro is every listed doctor within 25 miles of a fixed center ZIP (two for Bay Area, South Florida, Dallas-Fort Worth). Centers are fixed here before counting; never move one to clear the bar. A metro gets a page for a procedure when its build count reaches `bar`; live, a page under `floor` sends noindex. `procs` names which procedures get pages (UFE only until he reviews these). `pages` is the batch that gets pages now (job 42: the first 11); a metro outside it waits for his yes even when it clears the bar.",
+ "_note": "Job 42 (city-pages spec, his yes 2026-11-05): a metro is every listed doctor within 25 miles of a fixed center ZIP (two for Bay Area, South Florida, Dallas-Fort Worth). Centers are fixed here before counting; never move one to clear the bar. A metro gets a page for a procedure when its build count reaches `bar`; live, a page under `floor` sends noindex. `procs` names which procedures get pages (UFE only until he reviews these). `pages` is the batch that gets pages now (job 42: the first 11; job 43, his yes 2026-11-05: Phoenix, Dallas-Fort Worth, St. Louis, Memphis); a metro outside it waits for his yes even when it clears the bar.",
  "radius": 25,
  "bar": 8,
  "floor": 5,
@@ -17,7 +17,11 @@
   "denver-co",
   "south-florida",
   "baltimore-md",
-  "houston-tx"
+  "houston-tx",
+  "phoenix-az",
+  "dallas-fort-worth-tx",
+  "st-louis-mo",
+  "memphis-tn"
  ],
  "metros": [
   {

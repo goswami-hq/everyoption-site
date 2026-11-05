@@ -55,11 +55,11 @@ test("the first 11 metros have pages; the recount from the data matches the lens
   const py = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import cities
 cfg, pages, c = cities.plan(${JSON.stringify(new URL("..", SITE).pathname)}, ${JSON.stringify(SITE.pathname)}); print(json.dumps(c["ufe"]))`]));
   const want = { "new-york-city-area": 82, "atlanta-ga": 24, "san-francisco-bay-area-ca": 22, "chicago-il": 21, "washington-dc": 21,
-    "philadelphia-pa": 21, "los-angeles-ca": 13, "denver-co": 12, "south-florida": 12, "baltimore-md": 11, "houston-tx": 9,
-    "dallas-fort-worth-tx": 10, "st-louis-mo": 8, "memphis-tn": 8, "phoenix-az": 7 };
+    "philadelphia-pa": 21, "los-angeles-ca": 13, "denver-co": 12, "south-florida": 12, "baltimore-md": 11, "houston-tx": 10,
+    "dallas-fort-worth-tx": 12, "st-louis-mo": 8, "memphis-tn": 8, "phoenix-az": 8 };   // job 43: Fox, Rees, Hibler, Garby added
   for (const [s, n] of Object.entries(want)) assert.equal(py[s], n, s);
   for (const m of CITIES.metros.ufe) assert.ok(py[m.slug] >= CITIES.bar, `${m.slug} has a page only at the bar`);
-  assert.ok(!slugs.includes("phoenix-az"), "Phoenix is under the bar; its center is not moved");
+  // job 43 (his yes 2026-11-05) added Phoenix, Dallas-Fort Worth, St. Louis and Memphis; tools/cities-job43.test.mjs
 });
 
 test("JavaScript off: every card on every metro page, in the finder's order, with counts matching a recount", async () => {
@@ -135,7 +135,7 @@ test("the database down or slow: the static list is served", async () => {
 });
 
 test("addresses: unknown slug and a metro under the bar 404; no trailing slash 301; hub 200", async () => {
-  for (const p of ["/fibroids/doctors/nowhere/", "/fibroids/doctors/phoenix-az/", "/fibroids/doctors/Atlanta-GA/"]) {
+  for (const p of ["/fibroids/doctors/nowhere/", "/fibroids/doctors/kansas-city-mo/", "/fibroids/doctors/Atlanta-GA/"]) {
     const r = await get(p); assert.equal(r.status, 404, p); assert.match(r.html, /Page not found/);
   }
   let r = await get("/fibroids/doctors/atlanta-ga");
@@ -160,8 +160,8 @@ test("search engines: preview hosts send noindex; production does not, until a p
   assert.equal(r.h.get("X-Robots-Tag"), null); assert.doesNotMatch(r.html, /name="robots"/);
   assert.ok(r.h.get("Content-Security-Policy") && /max-age=60/.test(r.h.get("Cache-Control")));
   assert.ok(r.html.includes('<link rel="canonical" href="https://everyoptionmd.com/fibroids/doctors/atlanta-ga/">'));
-  // live removals drop Houston (9) to 4: noindex
-  const hou = CITIES.metros.ufe.find((m) => m.slug === "houston-tx"), out = metroList(UFE, hou).slice(0, 5);
+  // live removals drop Houston to 4: noindex (job 43: Phoenix has a page now; Kansas City, 6, is the under-bar case)
+  const hou = CITIES.metros.ufe.find((m) => m.slug === "houston-tx"), all = metroList(UFE, hou), out = all.slice(0, all.length - 4);
   const rows = out.map((p) => ({ npi: p.npi, attested: [], held: ["ufe"], account: { npi: p.npi, level: "partial", name: p.name }, offices: [], insurances: [], blurbs: {} }));
   r = await get("/fibroids/doctors/houston-tx/", { backend: { data: { overlay: async () => rows } } }, PROD);
   assert.equal(cards(r.html).length, 4); assert.match(r.html, /<meta name="robots" content="noindex">/);

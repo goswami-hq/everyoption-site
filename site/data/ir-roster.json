@@ -646,20 +646,6 @@
    "site_names": []
   },
   {
-   "npi": "1306835020",
-   "name": "Karen Garby",
-   "proven": true,
-   "practice": "Gilbert",
-   "city": "Gilbert",
-   "state": "AZ",
-   "city_label": "",
-   "phone": "(480) 863-9001",
-   "url": "https://ciccenters.com/karen-garby-md-rphs/",
-   "lat": 33.3524,
-   "lon": -111.8126,
-   "site_names": []
-  },
-  {
    "npi": "1821117912",
    "name": "Benjamin Stradling",
    "proven": true,
@@ -24139,20 +24125,6 @@
    "site_names": []
   },
   {
-   "npi": "1437367042",
-   "name": "William Fox",
-   "proven": true,
-   "practice": "Bellaire",
-   "city": "Bellaire",
-   "state": "TX",
-   "city_label": "",
-   "phone": "(713) 575-3686",
-   "url": "https://memorialhermann.org/doctors/interventional-radiologists/dr-william-fox-md-1437367042",
-   "lat": 29.704,
-   "lon": -95.4609,
-   "site_names": []
-  },
-  {
    "npi": "1417938598",
    "name": "Srinivas Rao",
    "proven": true,
@@ -24262,20 +24234,6 @@
    "url": "https://www.southwesternhealth.org/find-a-provider/medical-staff/brian-han",
    "lat": 32.8326,
    "lon": -96.8491,
-   "site_names": []
-  },
-  {
-   "npi": "1568416329",
-   "name": "Chet Rees",
-   "proven": true,
-   "practice": "Chet R. Rees, MD, FSIR",
-   "city": "Dallas",
-   "state": "TX",
-   "city_label": "",
-   "phone": "214-841-3004",
-   "url": "https://texasinterventionalradiology.com/physicians/chet-rees/",
-   "lat": 32.7925,
-   "lon": -96.7728,
    "site_names": []
   },
   {
@@ -24456,20 +24414,6 @@
    "city_label": "",
    "phone": "",
    "url": "https://www.bswhealth.com/physician/joseph-conley-iv",
-   "lat": 32.7925,
-   "lon": -96.7728,
-   "site_names": []
-  },
-  {
-   "npi": "1518345313",
-   "name": "Kathleen Hibler",
-   "proven": true,
-   "practice": "",
-   "city": "Dallas",
-   "state": "TX",
-   "city_label": "",
-   "phone": "",
-   "url": "https://www.bswhealth.com/physician/kathleen-hibler",
    "lat": 32.7925,
    "lon": -96.7728,
    "site_names": []
