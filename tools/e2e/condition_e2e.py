@@ -192,10 +192,13 @@ def run():
             check(f"_redirects sends {src} to /enlarged-prostate/ with a 301", [src, "/enlarged-prostate/", "301"] in rules, rules)
         for src in ("/gae", "/gae/"):
             check(f"_redirects sends {src} to /arthritis-embolization/ with a 301", [src, "/arthritis-embolization/", "301"] in rules, rules)
-        sm = open(os.path.join(HERE, "..", "..", "site", "sitemap.xml")).read()
+        # Job 42: the sitemap is an index of per-type files; the two draft condition pages stay out until his sign-off.
+        sm = "".join(open(os.path.join(HERE, "..", "..", "site", f)).read() for f in
+                     ("sitemap.xml", "sitemap-pages.xml", "sitemap-cities.xml", "sitemap-doctors.xml"))
         check("sitemap no longer lists /ufe/", "/ufe/" not in sm)
-        check("sitemap lists /enlarged-prostate/ and not /pae/", "/enlarged-prostate/" in sm and "/pae/" not in sm)
-        check("sitemap lists /arthritis-embolization/ and not /gae/", "/arthritis-embolization/" in sm and "/gae/" not in sm)
+        check("sitemap lists /fibroids/", "/fibroids/<" in sm)
+        check("sitemap: draft /enlarged-prostate/ out, and not /pae/", "/enlarged-prostate/<" not in sm and "/pae/" not in sm)
+        check("sitemap: draft /arthritis-embolization/ out, and not /gae/", "/arthritis-embolization/<" not in sm and "/gae/" not in sm)
         b.close()
     ok = sum(c["ok"] for c in R["checks"])
     print(f"{ok}/{len(R['checks'])} checks pass")

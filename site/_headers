@@ -1,3 +1,12 @@
+# Job 42 (seo-audit 2a): static pages on any pages.dev address (the production alias and every branch preview) stay
+# out of search. Cloudflare's documented host-pattern form; Function responses (profiles, city pages) set their own.
+# Unproven until the launch-day header check.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

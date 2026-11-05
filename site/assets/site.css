@@ -545,3 +545,15 @@ nav.az a[aria-current] { background: var(--accent); color: var(--accent-ink); bo
 .dir-procs li, .dir-offices li { margin: 0 0 12px; overflow-wrap: anywhere; }
 .dir-procs .blurb { display: block; margin-top: 4px; }
 .doctor-page .confirmed-tag { color: var(--pine); }
+/* Job 42: city pages (breadcrumbs, town line, city lists) */
+nav.crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 2px 0; padding: 0; margin: 0 0 14px; font-size: 0.9375rem; color: var(--muted); }
+nav.crumbs li + li::before { content: "›"; margin: 0 8px; color: var(--muted); }
+nav.crumbs a { color: var(--muted); }
+.city-page p.answer { font-size: 1.0625rem; }
+.city-page section.tier > h3 { display: flex; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin: 0 0 4px; color: var(--accent); }
+.city-page .towns, .city-page .find-own { margin-top: 10px; }
+.city-page ul.metro-list, .city-page ul.state-list, .city-page ul.near-cities, .city-page ul.others, nav.by-city ul { padding-left: 1.1em; }
+nav.by-city { margin-top: 22px; }
+nav.by-city h2 { font-size: 1.125rem; margin: 0 0 6px; }
+nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
+.doctor-page .metro-link { margin-top: 14px; }

@@ -1,4 +1,4 @@
 {
-  "_note": "Job 27: which profile groups search engines may index. Change a value and rebuild (python3 tools/build.py). Default: all three on; indexing really starts only at launch (the dev site is behind Access and previews send noindex).",
-  "index": {"confirmed": true, "likely": true, "nearby": true}
+  "_note": "Job 27: which profile groups search engines may index. Change a value and rebuild (python3 tools/build.py). Job 42 (his yes, 2026-11-05): nearby is off at launch, so the roster doctors with no known procedure send noindex and stay out of the sitemap; they stay live and linked. A doctor leaves nearby (and is indexed again) once a procedure is known, and a doctor who claims the profile is indexed while it is claimed (lib/directory.mjs indexedProfile). Previews send noindex whatever this says.",
+  "index": {"confirmed": true, "likely": true, "nearby": false}
 }

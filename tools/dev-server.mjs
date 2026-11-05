@@ -15,6 +15,7 @@ import { onRequestPost } from "../functions/api/report.js";
 import { handle } from "../lib/accounts/http.mjs";
 import { handlePublic } from "../lib/accounts/listings.mjs";
 import { handleDoctor } from "../lib/directory.mjs";
+import { handleCity } from "../lib/cities.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
 import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
 
@@ -109,6 +110,11 @@ http.createServer(async (req, res) => {
   // Job 27: doctor profiles, the same handler as functions/doctors/[[path]].js.
   if (url.pathname.startsWith("/doctors/")) {
     const r = await handleDoctor(await toRequest(req, url), { backend: backend ? listingsDB(backend) : null, noCache: true, ASSETS: localAssets });
+    if (r) return send(res, r);
+  }
+  // Job 42: city pages, the same handler as functions/fibroids/doctors/[[path]].js.
+  if (url.pathname === "/fibroids/doctors" || url.pathname.startsWith("/fibroids/doctors/")) {
+    const r = await handleCity(await toRequest(req, url), { backend: backend ? listingsDB(backend) : null, noCache: true, ASSETS: localAssets });
     if (r) return send(res, r);
   }
   if (backend && url.pathname === "/__alerts") return asJSON(res, backend.alert.sent);

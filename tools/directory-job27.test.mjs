@@ -233,11 +233,13 @@ test("live flow through the accounts stand-ins: sign up, attest, profile, withdr
 });
 
 test("sitemap and robots: every indexed profile once, AI crawlers allowed, search and A to Z pages present", () => {
-  const sm = read("sitemap.xml"), locs = [...sm.matchAll(/<loc>https:\/\/everyoptionmd\.com(\/doctors\/[^<]*)<\/loc>/g)].map((m) => m[1]);
+  // Job 42: the sitemap is an index of one file per page type; doctors are in sitemap-doctors.xml.
+  assert.match(read("sitemap.xml"), /<sitemapindex[\s\S]*sitemap-doctors\.xml/);
+  const sm = read("sitemap-doctors.xml"), locs = [...sm.matchAll(/<loc>https:\/\/everyoptionmd\.com(\/doctors\/[^<]*)<\/loc>/g)].map((m) => m[1]);
   const profiles = locs.filter((u) => /-\d{10}\/$/.test(u));
   assert.equal(new Set(profiles).size, profiles.length, "each once");
-  assert.deepEqual([...profiles].sort(), DIR.people.map((p) => p.p).sort(), "default setting: exactly the directory");
-  assert.ok(locs.includes("/doctors/") && locs.includes("/doctors/a/"));
+  assert.deepEqual([...profiles].sort(), DIR.people.filter((p) => p.l).map((p) => p.p).sort(), "launch setting (job 42): listed doctors only, no nearby");
+  assert.ok(read("sitemap-pages.xml").includes("https://everyoptionmd.com/doctors/<") && locs.includes("/doctors/a/"));
   const robots = read("robots.txt");
   for (const bot of ["GPTBot", "ClaudeBot", "PerplexityBot"]) assert.match(robots, new RegExp(`User-agent: ${bot}\\nAllow: /`));
   const routes = JSON.parse(read("_routes.json"));
@@ -256,7 +258,7 @@ test("index setting: one setting by group drives the sitemap and the profile's r
   const setting = JSON.parse(readFileSync(new URL("../content/directory.json", import.meta.url), "utf8")).index;
   const { INDEX } = await import("../lib/directory-shell.mjs");
   assert.deepEqual(INDEX, setting, "the server copy matches content/directory.json (rebuild after a change)");
-  assert.deepEqual(setting, { confirmed: true, likely: true, nearby: true }, "default: all three indexed");
+  assert.deepEqual(setting, { confirmed: true, likely: true, nearby: false }, "launch (his yes 2026-11-05): nearby held back");
   const out = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
 d = json.load(sys.stdin); print(json.dumps(directory.indexed(directory.members(d["lists"], d["roster"]), {"confirmed": True, "likely": True, "nearby": False})))`],
   { input: JSON.stringify({ lists: LISTS, roster: ROSTER }) }));
@@ -314,4 +316,42 @@ test("review round 1: placeholders in data stay text; JSON-LD links the doctor's
   assert.equal((html.match(/<main/g) || []).length, 1); assert.match(html, /<h1>Dr %%BODY%% %%TITLE%% %%HEAD%%<\/h1>/);
   const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)[1]);
   assert.equal(ld.sameAs, undefined); assert.deepEqual(ld.subjectOf, { "@type": "WebPage", url: "https://example.org/team/" });
+});
+
+// Job 42 (his yes, 2026-11-05): the 2,017 nearby profiles send noindex and leave the sitemap but stay live; a profile is
+// indexed again once a procedure is known or the doctor claims it.
+test("job 42: a nearby profile is live with noindex; a procedure or a claim indexes it again", async () => {
+  const npi = npiOf(NEARBY), robots = /<meta name="robots" content="noindex">/;
+  let r = await get(NEARBY.p);
+  assert.equal(r.status, 200, "still live"); assert.match(r.html, robots, "nearby: noindex");
+  assert.ok(DIR.people.length > 2600 && read("doctors/" + (NEARBY.p.split("/")[2][0]) + "/index.html").length, "still linked from the A to Z pages");
+  // claimed, no procedure yet: an account with nothing attested
+  r = await get(NEARBY.p, { backend: db([row(npi, NEARBY.n, "partial", [], [])]) });
+  assert.equal(r.status, 200); assert.doesNotMatch(r.html, robots, "claimed: indexed");
+  // a procedure becomes known (attested from the account): Likely, indexed
+  r = await get(NEARBY.p, { backend: db([row(npi, NEARBY.n, "partial", ["ufe"], ["ufe"])]) });
+  assert.match(r.html, /Likely performs:/); assert.doesNotMatch(r.html, robots, "procedure known: indexed");
+  // an account with no level is not a claim
+  r = await get(NEARBY.p, { backend: db([row(npi, NEARBY.n, "none", [], [])]) });
+  assert.match(r.html, robots, "no holder: still noindex");
+  // the database down: static record, setting decides
+  r = await get(NEARBY.p, { backend: { data: { overlay: async () => { throw new Error("down"); } } } });
+  assert.equal(r.status, 200); assert.match(r.html, robots);
+  assert.doesNotMatch((await get(LIKELY.p)).html, robots, "Likely: indexed");
+});
+
+test("job 42: the static rule matches; a nearby doctor with a procedure in the next export is in the sitemap", () => {
+  const out = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
+d = json.load(sys.stdin); print(json.dumps(directory.indexed(directory.members(d["lists"], d["roster"]), {"confirmed": True, "likely": True, "nearby": False})))`],
+  { input: JSON.stringify({ lists: { ufe: [{ npi: "1000000011", name: "Was Nearby", lat: 41.9, lon: -87.6, city: "Chicago", state: "IL" }], pae: [], gae: [] },
+    roster: [{ npi: "1000000011", name: "Was Nearby", proven: true, phone: "312-555-0100", lat: 41.9, lon: -87.6, city: "Chicago", state: "IL" },
+      { npi: "1000000012", name: "Still Nearby", proven: true, phone: "312-555-0101", lat: 41.9, lon: -87.6, city: "Chicago", state: "IL" }] }) }));
+  assert.deepEqual(out, ["/doctors/was-nearby-1000000011/"]);
+});
+
+test("job 42: profile titles read 'Name, interventional radiologist, City, ST' with no brand", async () => {
+  const r = await get(LIKELY.p);
+  const t = /<title>(.*?)<\/title>/.exec(r.html)[1];
+  assert.equal(t, `${LIKELY.n.replace(/&/g, "&amp;").replace(/'/g, "&#39;")}, interventional radiologist, ${LIKELY.c}, ${LIKELY.s}`);
+  assert.doesNotMatch(t, /Every Option| in /);
 });

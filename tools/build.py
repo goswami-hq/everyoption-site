@@ -7,6 +7,7 @@ Standard library only; the built pages are plain static HTML (Cloudflare Pages s
 """
 import pathlib
 import html, json, os, re
+import cities
 import condition
 import directory
 
@@ -142,7 +143,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-<link rel="canonical" href="{ORIGIN}{path}">
+{"" if path == "/404" else f'<link rel="canonical" href="{ORIGIN}{path}">'}
 <link rel="stylesheet" href="{ver('/assets/site.css')}">
 <meta name="color-scheme" content="light dark">
 {js}
@@ -161,7 +162,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/doctors/">Find a doctor by name</a> · <a href="/how-we-know/">How we know</a></p>
+<p><a href="/doctors/">Find a doctor by name</a> · <a href="/fibroids/doctors/">Doctors by city</a> · <a href="/how-we-know/">How we know</a></p>
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
 </body>
@@ -457,14 +458,34 @@ def not_found():
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot",
            "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot", "Applebot", "DuckDuckBot"]
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
-SITEMAP_PAGES = ["/", "/fibroids/", "/enlarged-prostate/", "/arthritis-embolization/", "/how-we-know/", "/report/", "/account/", "/doctors/"]
+# Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
+# last changed: a condition page's own `reviewed` field, REVIEWED for the others.
+SITEMAP_PAGES = ["/", "/how-we-know/", "/doctors/"]
 
 
-def sitemap(profiles=()):
-    urls = "".join(f"<url><loc>{ORIGIN}{u}</loc><lastmod>{REVIEWED}</lastmod></url>" for u in
-                   SITEMAP_PAGES + [f"/{s}/" for s in condition.slugs() if f"/{s}/" not in SITEMAP_PAGES])
-    urls += "".join(f"<url><loc>{ORIGIN}{e(u)}</loc></url>" for u in profiles)   # job 27: indexed groups only
+def drafts():
+    return {s for s in condition.slugs() if condition.load(s).get("draft")}
+
+
+def condition_dates():
+    return {f"/{s}/": condition.load(s)["reviewed"] for s in condition.slugs() if s not in drafts()}
+
+
+def urlset(entries):
+    urls = "".join(f"<url><loc>{ORIGIN}{e(u)}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>" for u, d in entries)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n'
+
+
+def sitemaps(profiles=(), letters=(), cities=()):
+    """Job 42 (city-pages 4): a sitemap index with one file per page type, so indexing can be read per type."""
+    files = {
+        "sitemap-pages.xml": [(u, REVIEWED) for u in SITEMAP_PAGES] + sorted(condition_dates().items()),
+        "sitemap-cities.xml": list(cities),
+        "sitemap-doctors.xml": [(u, None) for u in letters] + [(u, None) for u in profiles],   # job 27: indexed groups only
+    }
+    index = "".join(f"<sitemap><loc>{ORIGIN}/{f}</loc></sitemap>" for f, v in files.items() if v)
+    return {f: urlset(v) for f, v in files.items() if v}, (
+        f'<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{index}</sitemapindex>\n')
 
 
 def write_procedures():
@@ -497,6 +518,9 @@ def write(rel, text):
 
 
 def main():
+    # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
+    metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)
+    city_entries = cities.sitemap_entries(city_pages, LISTINGS_AS_OF)
     write("index.html", home())
     for k in PROCS:
         if k in MOVED:     # the finder now lives on the condition page; site/_redirects sends a 301
@@ -511,8 +535,17 @@ def main():
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], condition.body(c, diagram, e, condition.hero(c, finder_block)), ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
-                                         head=condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
+        # Job 42 (seo-audit 3): draft = true in the condition file keeps the page out of search (noindex, not in the
+        # sitemap) until he signs off; clear it then.
+        robots = '<meta name="robots" content="noindex">\n' if c.get("draft") else ""
+        nojs = '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>'
+        body = condition.body(c, diagram, e, condition.hero(c, finder_block))
+        block = cities.city_block(c["finder"], city_pages, e)
+        if block:
+            assert nojs in body, "condition page layout changed: place the Doctors by city block again"
+            body = body.replace(nojs, nojs + block, 1)
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                                         head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"])))
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
@@ -531,13 +564,23 @@ def main():
                                               f"Doctors listed on Every Option whose last name starts with {label}.",
                                               directory.letter_body(by, k, e), cls="prose-page dir-page"))
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
+    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page")
+    cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
+                        # the approved finder blurb, with "less invasive" (his yes, 2026-11-05); on his review list
+                        {"ufe": PROCS["ufe"]["about"][0].replace("minimally invasive", "less invasive")}, LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
                  "// from content/directory.json. Edit those, not this file.\n"
                  f"export const SHELL = {json.dumps(shell)};\nexport const INDEX = {json.dumps(setting)};\n"
                  f"export const ORIGIN = {json.dumps(ORIGIN)};\nexport const PROC_PAGE = {json.dumps(directory.PROC_PAGE)};\n")
-    write("sitemap.xml", sitemap([f"/doctors/{k}/" for k in by] + directory.indexed(recs, setting)))
+    files, index = sitemaps(directory.indexed(recs, setting), [f"/doctors/{k}/" for k in by], city_entries)
+    for f in os.listdir(SITE):
+        if f.startswith("sitemap-") and f.endswith(".xml") and f not in files:
+            os.remove(os.path.join(SITE, f))
+    for f, text in files.items():
+        write(f, text)
+    write("sitemap.xml", index)
     write_procedures()
     write("robots.txt", ROBOTS + f"\nSitemap: {ORIGIN}/sitemap.xml\n")
     counts = {}

@@ -2,7 +2,9 @@
  "version": 1,
  "include": [
   "/api/*",
-  "/doctors/*"
+  "/doctors/*",
+  "/fibroids/doctors",
+  "/fibroids/doctors/*"
  ],
  "exclude": [
   "/doctors/",

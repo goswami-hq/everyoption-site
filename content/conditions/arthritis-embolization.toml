@@ -19,6 +19,7 @@ finder = "gae"                 # the finder this page leads to: today's GAE list
 diagram = "gae"                # tools/diagrams/anim-gae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
 reviewed = "2026-11-04"
+draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Osteoarthritis of the knee"
 condition_alt = "Knee osteoarthritis"
 

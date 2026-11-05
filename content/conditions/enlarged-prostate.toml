@@ -16,6 +16,7 @@ finder = "pae"                 # the finder this page leads to
 diagram = "pae"                # tools/diagrams/anim-pae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
 reviewed = "2026-11-04"
+draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Benign prostatic hyperplasia"
 condition_alt = "Enlarged prostate"
 

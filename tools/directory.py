@@ -186,6 +186,7 @@ def index_body(by, e, count):
 <ul id="dir-results" class="dir-list"></ul>
 <noscript><p class="notice">Search needs JavaScript. Use the letters below to browse by last name.</p></noscript>
 </div>
+<p><a href="/fibroids/doctors/">Browse fibroid embolization doctors by city</a></p>
 <h2>Browse by last name</h2>
 {az_nav(by, e)}
 <p class="small muted">This list is not a recommendation or a ranking. It holds every doctor who can appear in a search on this site. <a href="/how-we-know/">How we know</a>.</p>"""
@@ -203,7 +204,7 @@ def letter_body(by, k, e):
 
 def routes(by):
     """site/_routes.json: the profile function runs for /doctors/* except the static search and A to Z pages."""
-    return {"version": 1, "include": ["/api/*", "/doctors/*"], "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
+    return {"version": 1, "include": ["/api/*", "/doctors/*", "/fibroids/doctors", "/fibroids/doctors/*"], "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
 
 
 def indexed(recs, setting):
