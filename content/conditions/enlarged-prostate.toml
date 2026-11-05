@@ -15,7 +15,7 @@ color = "pae"                  # blue, the same color as the PAE finder
 finder = "pae"                 # the finder this page leads to
 diagram = "pae"                # tools/diagrams/anim-pae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
-reviewed = "2026-11-04"
+reviewed = "2026-11-05"
 draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Benign prostatic hyperplasia"
 condition_alt = "Enlarged prostate"
@@ -25,20 +25,15 @@ author_name = ""
 author_credentials = ""
 author_role = ""
 
-# Photo slot: the PAE finder photo (tools/build.py PHOTOS["pae"], credited on How we know).
-hero_image = "/assets/photos/pae-lake-fishing-800.webp"
-hero_alt = "A man in a hat sits on a bench by a lake, fishing."
-photo = "pae-lake-fishing"
-photo_alt = "A man in a hat sits on a bench by a lake, fishing."
 
 title = "Enlarged Prostate (BPH): Every Treatment Option | Every Option"
-description = "An enlarged prostate is common as men age and is not cancer. Learn how invasive each treatment is, how well it works, and its side effects."
+description = "An enlarged prostate is common as men age. This is not cancer. Learn about Every Option for treatment, from how invasive it is, to how well it works, to its side effects."
 h1 = "Shrink an enlarged prostate without surgery"
-answer = "An enlarged prostate is common as men age. It is not cancer and does not raise your risk of prostate cancer. Many men with it have no symptoms.[^mpbph] If you have trouble peeing, embolization is not your only option. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
+answer = "An enlarged prostate is common as men age. This is not cancer and does not raise your risk of prostate cancer. Many men have no symptoms.[^mpbph] If you have trouble peeing, embolization is one of many options. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
 urgent = "If you cannot pee at all, have a fever with chills, see a lot of blood or clots in your urine, have severe pain, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for prostate artery embolization"
 finder_heading = "Shrink an enlarged prostate without surgery"
-finder_intro = "Prostate artery embolization works through a tiny skin nick. Nothing is cut out. Most men go home the same day.\nRecovery takes **about 1 to 2 weeks** instead of 3 to 6 weeks after TURP surgery."
+finder_intro = "Prostate artery embolization works through a tiny skin nick. Nothing is cut out. Most men go home the same day.\nMost men are back to normal activities **within a few days**, instead of 3 to 6 weeks after TURP surgery."
 finder_how = "#embolization"
 options_heading = "Your other options"
 faq_heading = "Common questions"
@@ -51,7 +46,7 @@ terms = ["prostate", "prostatic", "urethra", "bladder", "embolization", "urologi
 [[categories]]
 id = "medicines"
 name = "Medicines"
-summary = "These ease symptoms like going often and a weak stream. No procedure is needed."
+summary = "These ease symptoms like frequent peeing and a weak stream. No procedure is needed."
 options = ["alpha-blockers", "shrinking-pills", "tadalafil"]
 
 [[categories]]
@@ -72,8 +67,8 @@ id = "what"
 place = "after"
 heading = "What is an enlarged prostate?"
 text = [
-  "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age.[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] More than 9 out of 10 men over 80 have it.[^mpbph]",
-  "Symptoms can include going often, a strong and sudden urge to go, getting up at night to pee, a weak or slow stream, straining, and dribbling at the end.[^mpbph][^niddk] See a doctor if your bladder does not feel empty after you pee, or if self-care has not helped after 2 months.[^mpbph] A doctor also checks for other causes, such as infection or cancer.[^mpbph][^niddk]",
+  "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age.[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] As men get older, this gets more common, with more than 9 out of 10 men having it in their 80s.[^mpbph]",
+  "Symptoms can include frequent peeing, a strong and sudden urge to go, getting up at night to pee, a weak or slow stream, straining, and dribbling at the end.[^mpbph][^niddk] See a doctor if your bladder does not feel empty after you pee, or if self-care has not helped after 2 months.[^mpbph] A doctor also checks for other causes, such as infection or cancer.[^mpbph][^niddk]",
 ]
 
 [[sections]]
@@ -93,7 +88,7 @@ a = "Not always. If your symptoms are mild and do not bother you, your doctor ma
 
 [[faq]]
 q = "Is an enlarged prostate cancer?"
-a = "No. It is not cancer, and it does not raise your risk of prostate cancer.[^mpbph] Some symptoms can look alike, so your doctor may check your PSA, a blood test.[^mpbph][^niddk]"
+a = "No. It is not cancer, and it does not raise your risk of prostate cancer.[^mpbph] Some symptoms can look alike, so your doctor may check your PSA, a blood test, to screen you for prostate cancer.[^mpbph][^niddk]"
 
 [[faq]]
 q = "Will treatment affect my sex life?"
@@ -101,12 +96,12 @@ a = "It depends on the treatment. Many surgeries cause dry orgasms, where semen 
 
 [[faq]]
 q = "Do I need surgery for an enlarged prostate?"
-a = "Not always. Medicines and less invasive treatments are also options. Surgery is often used when other treatments have not helped or problems develop.[^niddk]"
+a = "Not always. Medicines and less invasive treatments, such as PAE (prostate artery embolization), are also options. Surgery is often used when other treatments have not helped or problems develop.[^niddk]"
 
 [[options]]
 id = "alpha-blockers"
 name = "Alpha blockers"
-what = "These pills, such as tamsulosin, relax the muscles around the prostate and bladder so urine flows more easily.[^mpbph][^niddk]"
+what = "These include pills (such as tamsulosin). They relax the muscles around the prostate and bladder so urine flows more easily.[^mpbph][^niddk]"
 invasive = "These are pills. No procedure is needed."
 works = "Most men notice their symptoms improve within 3 to 7 days.[^mpbph]"
 side = "You may feel dizzy, mostly when you stand up. Ejaculation may change. If you plan eye surgery for cataracts, tell your eye doctor if you take one or have taken one.[^flomax]"
@@ -114,26 +109,26 @@ side = "You may feel dizzy, mostly when you stand up. Ejaculation may change. If
 [[options]]
 id = "shrinking-pills"
 name = "Prostate-shrinking pills"
-what = "These pills, finasteride or dutasteride, lower a hormone that makes the prostate grow, so it slowly shrinks.[^mpbph][^niddk][^proscar]"
+what = "These are pills (such as finasteride or dutasteride). They lower a hormone that makes the prostate grow, so it slowly shrinks.[^mpbph][^niddk][^proscar]"
 invasive = "These are pills. No procedure is needed."
-works = "It can take 3 to 6 months to feel better.[^mpbph] They lower the chance of needing surgery.[^proscar][^avodart] In a large trial, finasteride cut it about in half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than either alone.[^niddk]"
+works = "It can take 3 to 6 months to feel better.[^mpbph] They lower the chance of needing surgery.[^proscar][^avodart] In a large trial, finasteride cut the chance of needing surgery by about half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than either alone.[^niddk]"
 side = "You may have a lower sex drive or erection problems. They cut your PSA level about in half, so tell your doctor before a PSA test. They may raise the chance of a more serious prostate cancer.[^mpbph][^proscar][^avodart]"
 
 [[options]]
 id = "tadalafil"
 name = "Tadalafil"
-what = "This daily pill, also used for erection problems, relaxes muscles around the bladder and prostate.[^niddk][^cialis]"
+what = "This is a pill. It relaxes muscles around the bladder and prostate. It is also used for erection problems.[^niddk][^cialis]"
 invasive = "This is a pill. No procedure is needed."
 works = "It can ease some symptoms.[^niddk][^cialis]"
-side = "You may have headache, upset stomach, or back pain. Do not take it with nitrate heart medicines. It is not recommended with alpha blockers for this use.[^cialis]"
+side = "You may have a headache, upset stomach, or back pain. Do not take it with nitrate heart medicines. It is not recommended with alpha blockers for this use.[^cialis]"
 
 [[options]]
 id = "embolization"
 name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
-invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out, and most men do not need a urine tube.[^sirpt][^ucla] Most men go home the same day.[^ucla][^gstt] Recovery takes about 1 to 2 weeks,[^gstt] instead of 3 to 6 weeks after TURP surgery.[^mpturpdc]"
-works = "Most men feel much better.[^sham][^pisco] About 8 out of 10 men still felt better one to three years later.[^pisco] In the first year, symptoms may improve about as much as after TURP surgery.[^cochrane]\nSome men may need more treatment: about 1 out of 5 had another procedure within five years, such as a second embolization or surgery.[^bilhim] Results after surgery are more likely to last.[^cochrane][^abt5]"
-side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Many men have less semen afterward. Losing ejaculation completely is less common than after TURP surgery.[^ejac][^cochrane] Serious problems are rare.[^pisco]"
+invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
+works = "Most men feel much better.[^sham][^pisco] About 8 out of 10 men still felt better up to three years later.[^pisco] After a year, men who had PAE may feel their symptoms improve by about the same amount as men who had TURP surgery.[^cochrane]\nSome men may need more treatment: about 1 out of 5 had another procedure within five years, such as a second embolization or surgery.[^bilhim] Results after surgery are more likely to last.[^cochrane][^abt5]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Some men may have less semen afterward, but it is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are rare.[^pisco]"
 
 [[options]]
 id = "urethral-lift"
@@ -146,7 +141,7 @@ side = "Side effects were mostly mild and short-lived. Erections and ejaculation
 [[options]]
 id = "water-vapor"
 name = "Water vapor (steam) therapy"
-what = "Steam is released into the prostate to shrink the extra tissue.[^niddk][^mpmin]"
+what = "Steam is released into the prostate to burn the inside of the prostate. This removes some of the extra tissue and makes the path for urine larger.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
 works = "It was tested only in some prostate sizes. Symptoms improve within 3 months. About 1 out of 25 men needed surgery within 5 years.[^rezum5]"
 side = "Side effects were mostly mild and went away quickly. No lasting erection problems were reported in the trial.[^rezum2][^rezum5]"
@@ -332,3 +327,15 @@ url = "https://www.fda.gov/medical-devices/recently-approved-devices/optilume-bp
 key = "cchernia"
 cite = "Cleveland Clinic. Incisional hernia. Medically reviewed, updated March 24, 2025. Read November 2, 2026."
 url = "https://my.clevelandclinic.org/health/diseases/incisional-hernia"
+[[refs]]
+key = "ukrope"
+cite = "Ray AF, Powell J, Speakman MJ, et al. Efficacy and safety of prostate artery embolization for benign prostatic hyperplasia: an observational study and propensity-matched comparison with transurethral resection of the prostate (the UK-ROPE study). BJU International. 2018;122(2):270-282. doi:10.1111/bju.14249. PMID 29645352."
+url = "https://doi.org/10.1111/bju.14249"
+[[refs]]
+key = "bsir"
+cite = "British Society of Interventional Radiology. Prostate artery embolisation: patient information leaflet. 2025. Read November 5, 2026."
+url = "https://www.bsir.org/patients-1/patient-information-leaflets/adult-procedures/prostate-artery-embolisation/"
+[[refs]]
+key = "penn"
+cite = "Penn Medicine, Interventional Radiology. Prostate artery embolization: frequently asked questions. Read November 5, 2026."
+url = "https://pennmedicine.org/for-patients-and-visitors/find-a-program-or-service/interventional-radiology/prostate-artery-embolization/prostate-artery-embolization-faqs"
