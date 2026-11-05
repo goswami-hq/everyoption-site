@@ -518,6 +518,8 @@ def main():
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
         setting = json.load(fh)["index"]
     recs = directory.load(SITE)
+    with open(os.path.join(ROOT, "content", "known-different.json"), encoding="utf-8") as fh:   # job 38
+        directory.check_duplicates(recs, [p["npis"] for p in json.load(fh)["pairs"]])
     directory.write_data(SITE, recs, LISTINGS_AS_OF)
     by = directory.letters(recs)
     write("doctors/index.html", page("/doctors/", "Find a doctor by name | Every Option",

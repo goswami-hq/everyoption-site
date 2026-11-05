@@ -94,6 +94,24 @@ def members(lists, roster):
     return out
 
 
+def duplicates(recs, known=()):
+    """Job 38: groups of shown people who share an exact name, city and state, unless every NPI in the group is on the
+    written list of known different people (content/known-different.json). [] when there are none."""
+    by = {}
+    for n, r in recs.items():
+        by.setdefault((r["name"], r["city"], r["state"]), []).append(n)
+    ok = [set(k) for k in known]
+    return [(k, sorted(v)) for k, v in sorted(by.items()) if len(v) > 1 and not any(set(v) <= s for s in ok)]
+
+
+def check_duplicates(recs, known=()):
+    bad = duplicates(recs, known)
+    if bad:
+        raise SystemExit("directory: people shown twice under one exact name, city and state (two NPIs). Fix the data, or "
+                         "if they are two real people add the NPIs to content/known-different.json with why: "
+                         + "; ".join(f"{k[0]}, {k[1]}, {k[2]}: {' '.join(v)}" for k, v in bad))
+
+
 def group(rec):
     v = set(rec["procs"].values())
     return "confirmed" if "confirmed" in v else "likely" if v else "nearby"
