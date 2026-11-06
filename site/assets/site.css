@@ -210,9 +210,17 @@ footer.site p { max-width: 60ch; }
 .condition .answer { max-width: 34em; }
 .condition .cta { margin: 18px 0 8px; }
 .btn { display: inline-flex; align-items: center; text-decoration: none; line-height: 1.2; }
-.condition sup.ref { font-size: 0.68em; line-height: 0; margin-left: 1px; }
-.condition sup.ref a { text-decoration: none; padding: 0 2px; }
-.urgent-line { font-weight: 600; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; margin: 14px 0 0; max-width: 34em; }
+/* Citation markers on every page (design review 2026-11-06): one group per run of sources, commas between numbers,
+   ranges for three or more in a row; line-height 0 keeps the line spacing even; each number's tap area is widened
+   past its glyph without moving the text. */
+sup.ref { font-size: 0.72em; line-height: 0; vertical-align: super; margin-left: 1px; }
+sup.ref a { position: relative; text-decoration: none; padding: 0 1px; border-radius: 4px; }
+sup.ref a::after { content: ""; position: absolute; inset: -12px -4px -8px; }
+sup.ref .sep { color: var(--muted); }
+sup.ref .to { color: var(--muted); padding: 0 1px; }
+@media (hover: hover) and (pointer: fine) { sup.ref a:hover { text-decoration: underline; } }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.urgent-line { font-weight: 600; background: var(--soft); border-radius: var(--radius); padding: 12px 16px; margin: 14px 0 0; max-width: 34em; }
 /* Collapsed rows. Groups are cards with one structure; the less invasive group only adds color. */
 .condition details { scroll-margin-top: 14px; }
 .condition summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; padding: 12px 0; list-style: none; border-radius: 8px; }
@@ -252,9 +260,14 @@ dl.facts { margin: 8px 0 0; display: grid; gap: 8px; }
 dl.facts dt { font-weight: 600; font-size: 0.96875rem; color: var(--accent); }
 dl.facts dd { margin: 0; }
 .condition .qa h3 { font: 400 1.3125rem/1.3 var(--serif); margin: 20px 0 4px; }
-ol.refs { font-size: 0.9375rem; color: var(--muted); padding-left: 22px; overflow-wrap: anywhere; }
-ol.refs li { margin-bottom: 8px; }
-ol.refs li:target { color: var(--ink); background: var(--soft); border-radius: 6px; }
+ol.refs { font-size: 1rem; color: var(--muted); padding-left: 22px; overflow-wrap: anywhere; }
+ol.refs li { margin: 0 -10px 6px; padding: 4px 10px; border-radius: 10px; scroll-margin-top: 28vh; transition: background-color 200ms var(--ease-out); }
+ol.refs li:target, ol.refs li.is-target { color: var(--ink); background: var(--soft); }
+ol.refs li:focus { outline: none; }
+ol.refs li:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.ref-back { display: flex; align-items: center; min-height: 44px; margin: 8px 0 4px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font: 600 0.9375rem/1 var(--sans); cursor: pointer; transition: transform 160ms var(--ease-out); }
+.ref-back:active { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) { ol.refs li, .ref-back { transition: none; } }
 .condition figure.photo { margin: 0 0 16px; }
 .condition figure.photo img { width: 100%; height: auto; border-radius: var(--radius); }
 .fork-list .pair { flex: 1; display: flex; flex-direction: column; gap: 6px; margin-left: 10px; }
@@ -293,7 +306,7 @@ a.option-link .option-note { flex: none; font-weight: 400; font-size: 0.9375rem;
 @media (prefers-color-scheme: dark) { .proc { --edge: #f0cdd1; --hot: #e2554c; --mass-hot: #a8302f; --artery: #e0605a; --bead: #7fc0f5; --tube: #f4ede1; --bone-edge: #8f8069; --urine: #e9bf4d; --bladder: #e9d9b0; } }
 .proc-stage { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
 .proc svg.main { display: block; width: 100%; height: auto; }
-.proc .route { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: var(--soft); border-top: 1px solid var(--line); font-size: 0.9375rem; line-height: 1.35; }
+.proc .route { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: var(--soft); font-size: 0.9375rem; line-height: 1.35; }
 .proc .route .inset { flex: none; width: 54px; height: auto; }
 .proc .route span { min-width: 0; }
 .proc-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -562,16 +575,40 @@ nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 /* Deep "every option" page: one wide table, then each treatment in full. */
 .options-page main > .wrap { max-width: 1040px; }
 .options-page main h2 { margin-top: 44px; }
-.options-page p { max-width: 68ch; }
+/* Design review 2026-11-06: one centred reading column (about 68 characters); only the table runs wider. */
+.options-page main > .wrap > :not(.table-scroll) { max-width: 39rem; margin-left: auto; margin-right: auto; }
+.options-page .deep-refs details.topic, .options-page .deep-refs details.topic:last-of-type { border: 0; margin-top: 32px; }
+.options-page .deep-refs details.topic > summary { font: 400 clamp(1.5625rem, 3.4vw, 2rem)/1.2 var(--serif); }
 .see-every { font-weight: 600; margin: 0 0 14px; }
-.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); margin: 12px 0 8px; }
-table.glance { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 0.96875rem; line-height: 1.4; }
+.table-scroll { overflow-x: auto; border-radius: var(--radius); background: var(--card); margin: 12px auto 8px; }
+table.glance { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 1rem; line-height: 1.45; }
 table.glance th, table.glance td { padding: 10px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
 table.glance thead th { border-top: 0; font-weight: 600; }
 table.glance tr.grp th { background: var(--soft); font-weight: 600; }
 table.glance tbody th[scope=row] { font-weight: 600; }
 table.glance tr.lead th[scope=row], table.glance tr.lead td { background: color-mix(in srgb, var(--soft) 45%, transparent); }
-.deep-option { padding: 18px 0; border-top: 1px solid var(--line); scroll-margin-top: 14px; }
-.deep-option.lead-option { border-top: 0; padding: 20px 18px; }
-.deep-option h3 { margin: 0 0 8px; }
-.deep-option h4 { margin: 14px 0 4px; font-size: 1rem; font-weight: 600; }
+/* Design review 2026-11-06: space and a serif name separate the treatments (no rules); the three labels inside each
+   match the simple page's labels (accent, semibold), and every paragraph keeps a reading measure. */
+.options-page main section > h2 { margin-top: 64px; }
+.options-page main section > p { margin-bottom: 4px; }
+.deep-option { padding: 30px 0 4px; scroll-margin-top: 14px; }
+.deep-option.lead-option { padding: 24px 22px 18px; margin: 30px 0 8px; }
+.deep-option h3 { margin: 0 0 8px; font: 400 clamp(1.375rem, 2.6vw, 1.625rem)/1.25 var(--serif); letter-spacing: -0.01em; }
+.deep-option.lead-option h3 { color: var(--accent); }
+.deep-option h4 { margin: 20px 0 4px; font-size: 1rem; font-weight: 600; color: var(--accent); }
+.deep-option h4 + p { margin-top: 0; }
+.deep-option > p:first-of-type { margin-top: 0; }
+@media (max-width: 640px) {
+  /* The table becomes one card per treatment on a phone: nothing runs off the screen edge. */
+  .table-scroll { overflow: visible; border: 0; background: none; }
+  table.glance { min-width: 0; }
+  table.glance thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.glance, table.glance tbody, table.glance tr, table.glance th, table.glance td { display: block; }
+  table.glance tr.grp th { background: none; border: 0; padding: 20px 0 4px; font: 400 1.3125rem/1.25 var(--serif); }
+  table.glance tbody tr:not(.grp) { background: var(--card); border-radius: 14px; padding: 12px 14px; margin: 8px 0; }
+  table.glance tr.lead:not(.grp) { background: var(--soft); }
+  table.glance tr.lead th[scope=row], table.glance tr.lead td { background: none; }
+  table.glance tbody th[scope=row] { border: 0; padding: 0 0 6px; font-size: 1.0625rem; }
+  table.glance td { border: 0; padding: 3px 0; display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 12px; }
+  table.glance td::before { content: attr(data-label); color: var(--muted); font-size: 0.9375rem; line-height: 1.5; }
+}

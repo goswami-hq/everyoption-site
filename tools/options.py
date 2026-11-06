@@ -121,18 +121,22 @@ def render(c, d, f, diagram_fn, finder_href):
     txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts))))
     e = lambda s: html.escape(s, quote=False)
     det = {x["option"]: x for x in d["detail"]}
-    head = "".join(f"<th scope=col>{t}</th>" for t in ("Treatment", "What it involves", "Recovery", "Keeps uterus?", "Treats the fibroids?"))
+    cols = ("Treatment", "What it involves", "Recovery", "Keeps uterus?", "Treats the fibroids?")
+    # Roles stay explicit: on a phone the table shows as one card per row (design review 2026-11-06), and some
+    # browsers drop table semantics when a table's display changes. data-label names each cell on the card.
+    head = "".join(f"<th scope=col role=columnheader>{t}</th>" for t in cols)
     groups = ""
     for k in c["categories"]:
         rows = ""
         for i in k["options"]:
             g = next(x for x in d["glance"] if x["option"] == i)
-            cell = lambda key: e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g[key]))
-            lead = " class=lead" if i == c.get("diagram_at") else ""
-            rows += (f'<tr{lead}><th scope=row><a href="#{i}">{e(names[i])}</a></th><td>{cell("involves")}</td><td>{cell("recovery")}</td>'
-                     f'<td>{cell("uterus")}</td><td>{cell("fibroids")}</td></tr>')
-        groups += f'<tbody><tr class=grp><th colspan=5 scope=rowgroup>{e(k["name"])}</th></tr>{rows}</tbody>'
-    table = f'<div class="table-scroll" tabindex="0" role="region" aria-label="{e(d["glance_heading"])}"><table class="glance"><thead><tr>{head}</tr></thead>{groups}</table></div>'
+            cell = lambda n, key: f'<td role=cell data-label="{cols[n]}">{e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g[key]))}</td>'
+            lead = " lead" if i == c.get("diagram_at") else ""
+            rows += (f'<tr class="row{lead}" role=row><th scope=row role=rowheader><a href="#{i}">{e(names[i])}</a></th>'
+                     f'{cell(1, "involves")}{cell(2, "recovery")}{cell(3, "uterus")}{cell(4, "fibroids")}</tr>')
+        groups += f'<tbody role=rowgroup><tr class=grp role=row><th colspan=5 scope=rowgroup role=rowheader>{e(k["name"])}</th></tr>{rows}</tbody>'
+    table = (f'<div class="table-scroll" tabindex="0" role="region" aria-label="{e(d["glance_heading"])}"><table class="glance" role=table>'
+             f'<thead role=rowgroup><tr role=row>{head}</tr></thead>{groups}</table></div>')
     sections = ""
     for k in c["categories"]:
         items = ""
@@ -153,6 +157,7 @@ def render(c, d, f, diagram_fn, finder_href):
             f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'<p class="urgent-line">{e(c["urgent"])}</p>')
-    body += condition.references(refs)
+    # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
+    body += f'<div class="condition deep-refs">{condition.references(refs)}</div>'
     body += f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {when.strftime("%B")} {when.day}, {when.year}.</p>'
     return body

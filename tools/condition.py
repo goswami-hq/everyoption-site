@@ -53,14 +53,32 @@ class Refs:
             self.order.append(key)
         return self.order.index(key) + 1
 
+    def group(self, keys):
+        """One marker group for a run of sources (design review 2026-11-06, his words: "the citation numbers are
+        congested"). Numbers go in order, separated by commas; three or more in a row become a range (10–15), the
+        usual style in medical writing. Every number shown is its own link."""
+        nums = sorted({self.num(k) for k in keys})
+        runs, out = [], []
+        for n in nums:
+            if runs and n == runs[-1][1] + 1:
+                runs[-1][1] = n
+            else:
+                runs.append([n, n])
+        a = lambda n: f'<a href="#ref-{n}" aria-label="Reference {n}">{n}</a>'
+        for lo, hi in runs:
+            if hi - lo >= 2:
+                out.append(f'{a(lo)}<span class="to" aria-hidden="true">–</span><span class="vh"> to </span>{a(hi)}')
+            else:
+                out.extend(a(n) for n in range(lo, hi + 1))
+        return '<sup class="ref">' + '<span class="sep" aria-hidden="true">, </span>'.join(out) + "</sup>"
+
     def inline(self, s):
         out, pos = [], 0
-        for m in re.finditer(r"\[\^[a-z0-9-]+\]|\[[^\]^][^\]]*\]\([^)\s]+\)|\*\*.+?\*\*", s):
+        for m in re.finditer(r"(?:\[\^[a-z0-9-]+\])+|\[[^\]^][^\]]*\]\([^)\s]+\)|\*\*.+?\*\*", s):
             out.append(html.escape(s[pos:m.start()], quote=False))
             t = m.group(0)
             if t.startswith("[^"):
-                n = self.num(t[2:-1])
-                out.append(f'<sup class="ref"><a href="#ref-{n}" aria-label="Reference {n}">{n}</a></sup>')
+                out.append(self.group(MARK.findall(t)))
             elif t.startswith("**"):
                 out.append(f"<strong>{self.inline(t[2:-2])}</strong>")
             else:
@@ -146,7 +164,7 @@ def references(refs):
     for i, key in enumerate(refs.order, 1):
         r = refs.by_key[key]
         link = f' <a href="{html.escape(r["url"], quote=True)}" rel="noopener">{html.escape(r["url"])}</a>' if r.get("url") else ""
-        lis += f'<li id="ref-{i}">{html.escape(r["cite"])}{link}</li>'
+        lis += f'<li id="ref-{i}" tabindex="-1">{html.escape(r["cite"])}{link}</li>'
     return fold("topic", "References", f'<p class="small muted">The small numbers on this page point to these sources.</p><ol class="refs">{lis}</ol>', "references")
 
 
