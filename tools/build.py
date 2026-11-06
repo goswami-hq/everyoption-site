@@ -534,6 +534,8 @@ def main():
     write("report/index.html", report())
     write("account/index.html", account())
     write("404.html", not_found())
+    with open(os.path.join(ROOT, "content", "redirects.txt"), encoding="utf-8") as fh:   # job platform-main-0015
+        write("_redirects", "".join(l for l in fh if l.strip() and not l.startswith("#")))
     for old in RENAMED:   # a renamed page's old folder goes, so only site/_redirects answers its old address
         shutil.rmtree(os.path.join(SITE, old), ignore_errors=True)
     for slug in condition.slugs():

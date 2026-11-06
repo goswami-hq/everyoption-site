@@ -28,7 +28,7 @@ Procedure-to-page tables that must agree with this list: `PROC_PAGE` (`tools/dir
 ## Changing an address
 
 Only on his word. When one changes: add a 301 from both the old path and the old path without its slash
-to the new one in `site/_redirects`; point any older 301 straight at the new page (no chains); move every
+to the new one in `content/redirects.txt` (the build writes `site/_redirects` from it); point any older 301 straight at the new page (no chains); move every
 page under the old path to the same path under the new one, with its own 301; add the old folder to
 `RENAMED` in `tools/build.py` so the build removes it; extend `tools/addresses.test.mjs`.
 
