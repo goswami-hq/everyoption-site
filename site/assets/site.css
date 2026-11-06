@@ -563,6 +563,8 @@ nav.az a[aria-current] { background: var(--accent); color: var(--accent-ink); bo
 nav.crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 2px 0; padding: 0; margin: 0 0 14px; font-size: 0.9375rem; color: var(--muted); }
 nav.crumbs li + li::before { content: "›"; margin: 0 8px; color: var(--muted); }
 nav.crumbs a { color: var(--muted); }
+/* Architecture review 2026-11-06: a 44px tall hit area on each crumb without moving the line (Emil: hit areas). */
+nav.crumbs a { display: inline-block; padding: 12px 0; margin: -12px 0; }
 .city-page p.answer { font-size: 1.0625rem; }
 .city-page section.tier > h3 { display: flex; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin: 0 0 4px; color: var(--accent); }
 .city-page .towns, .city-page .find-own { margin-top: 10px; }

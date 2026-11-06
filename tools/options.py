@@ -152,7 +152,7 @@ def render(c, d, f, diagram_fn, finder_href):
         sections += f'<section id="{k["id"]}"><h2>{e(k["name"])}</h2><p>{txt(k["summary"])}</p>{items}</section>'
     import datetime
     when = datetime.date.fromisoformat(d["reviewed"])
-    body = (f'<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c["condition_name"])}</a></li>'
+    body = (f'<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{e(d["lede"])}</p>'
             f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'

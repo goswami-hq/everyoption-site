@@ -196,7 +196,7 @@ def letter_body(by, k, e):
     rows = "".join(f'<li><a href="{path(r)}">{e(r["name"])}</a> <span class="muted">{e(r["city"])}, {e(r["state"])}</span></li>'
                    for r in by[k])
     label = "other letters" if k == "other" else k.upper()
-    return f"""<p class="small"><a href="/doctors/">Search by name</a></p>
+    return f"""<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/doctors/">Find a doctor by name</a></li><li><span aria-current="page">{label}</span></li></ol></nav>
 <h1>Doctors: last names starting with {label}</h1>
 {az_nav(by, e, k)}
 <ul class="dir-list">{rows}</ul>"""

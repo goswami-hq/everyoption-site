@@ -17,6 +17,7 @@ diagram = "ufe"                # tools/diagrams/ufe.svg ...
 diagram_at = "embolization"    # ... shown inside this option
 reviewed = "2026-11-02"
 condition_name = "Uterine fibroids"
+nav_name = "Fibroids"              # breadcrumbs and links back to this page (same label as the home card and city pages)
 condition_alt = "Uterine leiomyoma"
 
 # Physician reviewer: empty = no name anywhere, in the page or the schema (his rule, 2026-10-04). To add one, fill
