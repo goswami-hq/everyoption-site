@@ -438,8 +438,9 @@ fieldset.office legend + * { clear: both; }
   background: #171311; color-scheme: dark; position: relative; --card: #171311; --ink: #fff4e4; --muted: #b9a99c; --edge: #8d746a; --body-a: #33272a; --body-b: #2a2023;
   --liv-a: #d0695f; --liv-b: #7d3534; --org-a: #e39aa0; --org-b: #93495a; --org-edge: #e6a9b0; --bone: #8f7f6e; --bone-hi: #e6d8c2;
   --artery: #f0705f; --bead: #86ccff; --tube: #fff1dd; --disc: #8fc4b2; --sun: #ffb648; }
-.home-banner .hb-in { position: relative; max-width: 1600px; margin: 0 auto; }
+.home-banner .hb-in { position: relative; }
 .home-banner svg#s { display: block; width: 100%; height: auto; }
+@media (min-width: 760px) { .home-banner svg#s { height: min(23.6vw, 378px); } }
 .home-banner #rp { position: absolute; right: max(4px, env(safe-area-inset-right, 0px)); bottom: 2px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .home-banner #rp svg { width: 20px; height: 20px; }
 .home-banner #sun { transform-box: fill-box; transform-origin: center; transform: scale(2.2, 1); }
@@ -468,7 +469,7 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .home-page .hero { position: relative; background: var(--night); color: var(--cream); }
 .home-page .hero h1 { color: var(--cream); margin: 0 0 12px; max-width: 12em; font-size: clamp(2.25rem, 5vw, 4.125rem); line-height: 1.05; }
 .home-page .hero .lede { color: #e6d8c6; margin: 0; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); }
-.spine-wave { position: absolute; left: calc(var(--gut) - 18px); top: 0; width: 12px; height: 100%; overflow: visible; pointer-events: none; }
+.spine-wave { position: absolute; left: calc(max(0px, (100% - 1440px) / 2) + var(--gut) - 18px); top: 0; width: 12px; height: 100%; overflow: visible; pointer-events: none; }
 .spine-wave path { fill: none; stroke: url(#wave-fade); stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linecap: round; }
 .home-page .hero label, .home-page .hero .find-label { color: var(--cream); font-weight: 600; }
 .home-page .hero .find-label { margin: 0 0 8px; font-size: 1rem; }
@@ -503,14 +504,14 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 }
 
 /* Fibroid page: original theme, wider layout. Results first, education beside them on a computer. */
-.condition-page main > .wrap { max-width: 1280px; }
+.condition-page main > .wrap { max-width: 1440px; }
 .hero-cond { margin-bottom: 16px; }
 .hero-cond h1 { margin-bottom: 12px; }
-.cond-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 0 40px; align-items: start; }
+.cond-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 48px; align-items: start; }
 .cond-grid .condition { max-width: none; }
 .results-col .status { margin-top: 0; }
 @media (max-width: 1020px) { .cond-grid { grid-template-columns: minmax(0, 1fr); } .cond-grid .condition { margin-top: 28px; } }
-.condition-page header.site .wrap { max-width: 1280px; }
+.condition-page header.site .wrap { max-width: 1440px; }
 
 /* Cohesion (2026-11-03): every page shares the dark header; finder pages carry a slim strip of the banner art; home conditions are the same cards as the rest, in each condition's color. */
 .page-strip { position: relative; --plum: #33272a; --vessel: #f0705f; --tube: #fff1dd; --bead: #86ccff; --org-a: #e39aa0; --org-b: #93495a; --org-edge: #e6a9b0; --hot: #a92f35; --urine: #e9bf4d; --bladder: #e9d9b0; --bone: #8f7f6e; --bone-hi: #e6d8c2; --skin: #4a3a3b; --skin-edge: #8d746a; background: var(--plum); height: clamp(120px, 16.6vw, 240px); overflow: hidden; }
@@ -557,3 +558,20 @@ nav.by-city { margin-top: 22px; }
 nav.by-city h2 { font-size: 1.125rem; margin: 0 0 6px; }
 nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 .doctor-page .metro-link { margin-top: 14px; }
+
+/* Deep "every option" page: one wide table, then each treatment in full. */
+.options-page main > .wrap { max-width: 1040px; }
+.options-page main h2 { margin-top: 44px; }
+.options-page p { max-width: 68ch; }
+.see-every { font-weight: 600; margin: 0 0 14px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); margin: 12px 0 8px; }
+table.glance { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 0.96875rem; line-height: 1.4; }
+table.glance th, table.glance td { padding: 10px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+table.glance thead th { border-top: 0; font-weight: 600; }
+table.glance tr.grp th { background: var(--soft); font-weight: 600; }
+table.glance tbody th[scope=row] { font-weight: 600; }
+table.glance tr.lead th[scope=row], table.glance tr.lead td { background: color-mix(in srgb, var(--soft) 45%, transparent); }
+.deep-option { padding: 18px 0; border-top: 1px solid var(--line); scroll-margin-top: 14px; }
+.deep-option.lead-option { border-top: 0; padding: 20px 18px; }
+.deep-option h3 { margin: 0 0 8px; }
+.deep-option h4 { margin: 14px 0 4px; font-size: 1rem; font-weight: 600; }

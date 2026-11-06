@@ -1,0 +1,126 @@
+# The tie between the simple page (content/conditions/fibroids.toml) and the deep page (content/options/fibroids.toml).
+# His words, 2026-11-05: "not to sync the simple and deep sources so they are exact, but rather have them be tied
+# together in the numbers and sources and relative phrasings". The two pages keep their own text. Each entry names one
+# number or comparison: `simple` must appear in that option's simple text with `refs` cited there; the deep page may
+# state it only as {f:id}, which prints `deep` and its references. A new number on either page fails the build until it
+# is entered here. option = "" means any part of the simple page.
+[[fact]]
+id = "iud-years"
+option = "iud"
+simple = "up to 5 years"
+deep = "up to 5 years"
+refs = ["owh", "mirena"]
+[[fact]]
+id = "ufe-recovery"
+option = ""
+simple = "about 1 week"
+deep = "about 1 week"
+refs = ["sir", "mpuae"]
+[[fact]]
+id = "major-recovery"
+option = ""
+simple = "2 to 6 weeks"
+deep = "2 to 6 weeks"
+refs = ["ccmyo", "mphyst"]
+[[fact]]
+id = "ea-recovery"
+option = "endometrial-ablation"
+simple = "1 to 2 days"
+deep = "1 to 2 days"
+refs = ["mpea"]
+[[fact]]
+id = "gnrh-bleeding"
+option = "hormone-medicines"
+simple = "about 7 out of 10 women"
+deep = "about 7 out of 10 women"
+refs = ["liberty"]
+[[fact]]
+id = "ufe-improve"
+option = "embolization"
+simple = "almost 9 out of 10 women"
+deep = "almost 9 out of 10 women"
+refs = ["iqwig"]
+[[fact]]
+id = "ufe-5yr"
+option = "embolization"
+simple = "about 7 out of 10 women still feel better five years later"
+deep = "about 7 out of 10 women still feel better five years later"
+refs = ["spies"]
+[[fact]]
+id = "ufe-satisfied"
+option = "embolization"
+simple = "just as satisfied as those who had surgery"
+deep = "just as satisfied as women who had surgery"
+refs = ["cochrane", "rest"]
+[[fact]]
+id = "ufe-repeat"
+option = "embolization"
+simple = "about 1 out of 4 may need another procedure"
+deep = "about 1 out of 4 may need another procedure"
+refs = ["spies", "femme4", "rest"]
+[[fact]]
+id = "ufe-10yr"
+option = "embolization"
+simple = "after ten years, about 2 out of 3 women avoided a hysterectomy"
+deep = "after ten years, about 2 out of 3 women avoided a hysterectomy"
+refs = ["emmy"]
+[[fact]]
+id = "ufe-menopause"
+option = "embolization"
+simple = "less than 5 out of 100 women go through menopause early"
+deep = "less than 5 out of 100 women go through menopause early"
+refs = ["sir", "rinfo"]
+[[fact]]
+id = "ufe-serious"
+option = "embolization"
+simple = "serious problems are no more common than after surgery"
+deep = "serious problems are no more common than after surgery"
+refs = ["cochrane", "martin"]
+[[fact]]
+id = "rfa-sonata"
+option = "radiofrequency"
+simple = "about 1 out of 11 women needed surgery within 3 years in one study"
+deep = "about 1 out of 11 women needed surgery within 3 years in one study"
+refs = ["sonata3"]
+[[fact]]
+id = "rfa-dutch"
+option = "radiofrequency"
+simple = "about 2 out of 5 within 2 years in another"
+deep = "about 2 out of 5 within 2 years in another"
+refs = ["dutch"]
+[[fact]]
+id = "ea-hyst"
+option = "endometrial-ablation"
+simple = "about 1 out of 8 women had a hysterectomy within 5 years"
+deep = "about 1 out of 8 women had a hysterectomy within 5 years"
+refs = ["oderkerk"]
+[[fact]]
+id = "myo-repeat"
+option = "myomectomy"
+simple = "about 1 out of 8 women may need another procedure"
+deep = "about 1 out of 8 women may need another procedure"
+refs = ["femme4"]
+[[fact]]
+id = "hernia"
+option = ""
+simple = "up to 1 out of 5 people get a hernia at the scar"
+deep = "up to 1 out of 5 people get a hernia at the scar"
+refs = ["cchernia"]
+[[fact]]
+id = "age50"
+option = ""
+simple = "by age 50, about 2 to 8 out of 10 women"
+deep = "by age 50, about 2 to 8 out of 10 women"
+refs = ["owh"]
+[[fact]]
+id = "soak"
+option = ""
+simple = "every hour for 2 to 3 hours"
+deep = "every hour for 2 to 3 hours"
+refs = ["mpbleed"]
+[[fact]]
+id = "cancer"
+option = ""
+simple = "less than 1 out of 200 women who have fibroid surgery"
+deep = "less than 1 out of 200 women who have fibroid surgery"
+refs = ["owh", "fdamorc"]

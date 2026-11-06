@@ -1,0 +1,136 @@
+# The deep "every option" page for fibroids. First version: every claim comes from the simple page's sources. No number
+# or comparison appears here except through {f:id} (see fibroids.facts.toml). draft = true keeps it out of search until
+# the complete recorded evidence search is done and he signs off.
+slug = "fibroids"
+path = "/fibroids/every-option/"
+draft = true
+reviewed = "2026-11-05"
+title = "Every Fibroid Treatment Option, Side by Side | Every Option"
+description = "Compare every fibroid treatment: medicines, embolization and other less invasive procedures, and surgery. See recovery, results, risks, and what each one keeps."
+h1 = "Every fibroid treatment, side by side"
+lede = "It helps to know all your options before you choose. Here is what each one involves, how well it works, and what it can cost you. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
+glance_heading = "At a glance"
+glance_note = "Tap a treatment name for details."
+
+[[glance]]
+option = "non-hormone-medicines"
+involves = "Pills on period days"
+recovery = "None"
+uterus = "Yes"
+fibroids = "No. Eases bleeding and cramps"
+[[glance]]
+option = "hormone-medicines"
+involves = "Pills or shots"
+recovery = "None"
+uterus = "Yes"
+fibroids = "Eases symptoms, which often return after stopping"
+[[glance]]
+option = "iud"
+involves = "Office visit"
+recovery = "Placed during a visit"
+uterus = "Yes"
+fibroids = "No. Lightens periods"
+[[glance]]
+option = "embolization"
+involves = "Tiny skin nick"
+recovery = "{g:ufe-recovery}"
+uterus = "Yes"
+fibroids = "Yes. Shrinks them"
+[[glance]]
+option = "radiofrequency"
+involves = "Small cuts, or no cuts through the vagina"
+recovery = "Most go home the same day"
+uterus = "Yes"
+fibroids = "Yes. Heat destroys the fibroid"
+[[glance]]
+option = "focused-ultrasound"
+involves = "No cut, in an MRI scanner"
+recovery = "Most recover quickly"
+uterus = "Yes"
+fibroids = "Yes, for some fibroids"
+[[glance]]
+option = "endometrial-ablation"
+involves = "No cuts"
+recovery = "{g:ea-recovery}"
+uterus = "Yes"
+fibroids = "No. Treats the lining"
+[[glance]]
+option = "hysteroscopic"
+involves = "No cuts, through the cervix"
+recovery = "A few days"
+uterus = "Yes"
+fibroids = "Yes, only those inside the uterus"
+[[glance]]
+option = "myomectomy"
+involves = "Surgery: larger cut or a few small cuts"
+recovery = "{g:major-recovery}"
+uterus = "Yes"
+fibroids = "Yes. Removes those the surgeon can see"
+[[glance]]
+option = "hysterectomy"
+involves = "Surgery: removes the uterus"
+recovery = "{g:major-recovery}"
+uterus = "No"
+fibroids = "Yes. They cannot return"
+
+[[detail]]
+option = "non-hormone-medicines"
+intro = "You take tranexamic acid only on the days of your period. Pain relievers and iron can help with cramps and tiredness from blood loss.[^mpfib][^txa][^owh]"
+works = "These medicines ease bleeding and cramps. They do not touch the fibroids, so symptoms come back when you stop.[^mpfib][^txa]"
+risks = "Tranexamic acid can rarely cause blood clots.[^txa]"
+
+[[detail]]
+option = "hormone-medicines"
+intro = "This group includes birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
+works = "In a drug-maker-funded trial, daily hormone-lowering pills greatly reduced bleeding for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
+risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
+
+[[detail]]
+option = "iud"
+intro = "A small device placed in the uterus during an office visit releases hormone and thins the lining. It lasts {f:iud-years}."
+works = "It lightens periods. It does not treat the fibroids.[^owh]"
+risks = "Spotting is common at first. It is more likely to slip out when fibroids are present.[^obg]"
+
+[[detail]]
+option = "embolization"
+diagram = true
+intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
+works = "Most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
+risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
+fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
+
+[[detail]]
+option = "radiofrequency"
+intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
+works = "Results vary from study to study: {f:rfa-sonata}, and {f:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
+risks = "Pain and cramps can happen. Serious problems were rare in studies.[^sonata3][^dutch]"
+
+[[detail]]
+option = "focused-ultrasound"
+intro = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid. There is no cut, and most women recover quickly.[^rinfo]"
+works = "It fits only some fibroids, and some women need more treatment later. Not all insurance covers it, so check first.[^rinfo][^fdapma][^bcbsnc]"
+risks = "Belly pain can happen. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
+
+[[detail]]
+option = "endometrial-ablation"
+intro = "Heat or cold destroys the lining of the uterus to lighten periods. There are no cuts. Most women go home the same day and recover in {f:ea-recovery}."
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] A radiology expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {f:ea-hyst}."
+risks = "Cramps and discharge can last a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
+
+[[detail]]
+option = "hysteroscopic"
+intro = "A thin camera and small tools go through the cervix and remove fibroids growing inside the uterus. There are no cuts, and recovery takes a few days.[^mpfib][^mphysteroscopy][^ccmyo]"
+works = "It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
+
+[[detail]]
+option = "myomectomy"
+intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger cut in the belly or a few small cuts. Recovery takes {f:major-recovery}.[^mpfib]"
+works = "Women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
+risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+
+[[detail]]
+option = "hysterectomy"
+intro = "Surgery removes the whole uterus, through the vagina, small cuts, or a larger cut in the belly. Recovery takes {f:major-recovery}.[^mphyst]"
+works = "It is the only treatment that keeps fibroids from returning, and periods stop. It also ends the chance of pregnancy.[^owh][^ccmyo]"
+risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."

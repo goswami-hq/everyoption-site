@@ -25,7 +25,7 @@ function seek(n){
   var endFade=C(5.7,6.1,t);
   $('tip').style.opacity=t>.4?(1-endFade):0;var ff=C(stops[1].b+.05,stops[1].c-.05,t);[['fa',252,135],['fb',150,190]].forEach(function(q){$(q[0]).setAttribute('transform','translate('+q[1]+' '+q[2]+') scale('+(1-.42*ff).toFixed(3)+') translate('+(-q[1])+' '+(-q[2])+')')});var tf=C(stops[0].b+.05,stops[0].c-.05,t);$('ta').setAttribute('transform','translate(178 214) scale('+(1.4*(1-.66*tf)).toFixed(3)+') translate(-178 -214)');var ths=document.querySelectorAll('.th');for(var k=0;k<ths.length;k++)ths[k].style.opacity=1-tf;var fh=document.querySelectorAll('.fh');for(var ii=0;ii<fh.length;ii++)fh[ii].style.opacity=.75*(1-ff);$('cath').style.opacity=1-endFade;$('lit').style.opacity=1-endFade;$('bg').style.opacity=.3*(1-endFade);
   $('pin').setAttribute('r',4.2*f*pinOn);$('pinh').setAttribute('r',1.3*f*pinOn);$('ha').setAttribute('r',20*f);$('tip').setAttribute('r',2.4*f);$('ha').style.opacity=C(.9,1.3,n)*(1-C(.8,1.2,t));
-  var fx=Math.min(pt.x,wc),cx=fx-100*C(1150,1417,fx)+100*C(1417,1620,fx),cy=camY(fx),wide=WIDE.matches,vw=wide?1000:390;vh=wide?236:130;svg.setAttribute('viewBox',(cx-vw/2).toFixed(2)+' '+(cy-vh/2).toFixed(2)+' '+vw.toFixed(2)+' '+vh.toFixed(2));$('world').style.opacity=C(.5,1.2,n)*(1-C(5.6,6.1,t));
+  var fx=Math.min(pt.x,wc),cx=fx-100*C(1150,1417,fx)+100*C(1417,1620,fx),cy=camY(fx),wide=WIDE.matches,box=svg.getBoundingClientRect(),vw=wide?(box.height?236*box.width/box.height:1000):390;vh=wide?236:130;svg.setAttribute('viewBox',(cx-vw/2).toFixed(2)+' '+(cy-vh/2).toFixed(2)+' '+vw.toFixed(2)+' '+vh.toFixed(2));$('world').style.opacity=C(.5,1.2,n)*(1-C(5.6,6.1,t));
   stops.forEach(function(s,i){
     var fix=C(s.b+.05,s.c-.05,t),calm=1-fix;s.g.setAttribute('r',s.R+3*Math.sin(t*4+i));s.g.style.opacity=calm*(.8+.2*Math.sin(t*4+i));
     s.bd.forEach(function(b,j){var a=j*2.4+i,u=(t-s.b-.02-j*.025)/.55,pr=u<0?0:u>1?1:u,rad=4+pr*s.R*.5*(.55+.45*Math.sin(j*1.7));b.setAttribute('cx',s.x+Math.cos(a)*rad);b.setAttribute('cy',s.y+Math.sin(a)*rad*.7);b.style.opacity=(u>0&&u<1.3)?(u<1?.95:.95*(1.3-u)/.3):0});
@@ -44,5 +44,6 @@ function play(){$('rp').style.opacity=0;t0=null;run=true;requestAnimationFrame(f
 $('rp').onclick=function(){run=false;play()};
 window.__seek=function(x){run=false;seek(x)};
 layout();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){layout();seek(run?0:T)});
+window.addEventListener('resize',function(){if(!run)seek(T)});
 if(reduce){seek(T)}else{seek(0);play()}
 })();

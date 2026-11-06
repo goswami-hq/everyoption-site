@@ -129,7 +129,8 @@ def categories(refs, c):
                 continue
             opts += option(refs, by_id[i], "", "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
-    return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}</section>'
+    see = (f'<p class="see-every"><a href="{html.escape(c["options_page"])}">See every option side by side</a></p>' if c.get("options_page") else "")
+    return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{see}{out}</section>'
 
 
 def faq(refs, c):

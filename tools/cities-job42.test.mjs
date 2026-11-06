@@ -74,7 +74,9 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.ok(r.html.includes(`We list ${want.length} doctors within 25 miles of`), m.slug);
     const ans = /<p class="answer">(.*?)<\/p>/.exec(r.html)[1];
     assert.ok(words(ans) >= 40 && words(ans) <= 60, `${m.slug}: answer ${words(ans)} words`);
-    assert.doesNotMatch(r.html, /Confirmed by physician: 0|Make your free account/, "empty Confirmed block hidden");
+    assert.match(r.html, /Confirmed by physician: 0 nearby\./, "same empty Confirmed line as the ZIP search");
+    assert.ok(r.html.includes('<a href="/account/?procedure=ufe">Make your free account</a>'), "claim link as in the finder");
+    assert.ok(r.html.indexOf("Confirmed by physician: 0") < r.html.indexOf("Likely performs this procedure"), "above Likely");
     assert.match(r.html, /A blank is not a no/); assert.match(r.html, /Listings checked as of October 29, 2026/);
     assert.ok(r.html.includes(`/fibroids/?zip=${m.centers[0].zip}&amp;r=25#finder`), "finder link with the ZIP filled in");
     assert.match(r.html, /<a href="\/fibroids\/">Read about every fibroid treatment option<\/a>/);
