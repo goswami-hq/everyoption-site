@@ -455,6 +455,21 @@ deep = "181 men with prostates of 30 to 80 mL, double-blind, against TURP, spons
 refs = ["water5"]
 read = "full text"
 
+[[fact]]
+id = "rubin"
+option = "embolization"
+simple = ""
+deep = "A U.S. records study of 103,019 men's first BPH procedure (2005 to 2025) gives 23.4% reoperation 10 years after PAE"
+refs = ["rubin"]
+read = "full text"
+[[fact]]
+id = "rubin-all"
+option = ""
+simple = ""
+deep = "The second, of 103,019 men in U.S. records, gives surgical reoperation at 10 years of 6.1% after TURP, 2.4% after laser enucleation, 9.1% after laser vaporization (GreenLight), 0.9% after open prostatectomy and 23.4% after PAE; its authors note that billing codes can catch staged or complication surgery and that gland size and symptoms were not recorded"
+refs = ["rubin"]
+read = "full text"
+
 # Waiting
 [[fact]]
 id = "wasson"

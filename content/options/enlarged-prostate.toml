@@ -22,6 +22,7 @@ reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different men, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
   "Symptom scores are the IPSS, where higher is worse. Erection scores are the IIEF or SHIM, where higher is better.",
+  "Funding is named where we found it; where it is not named, it was not checked.",
   "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
@@ -116,7 +117,7 @@ evidence = "Used for very large prostates"
 [[detail]]
 option = "alpha-blockers"
 certainty = "Good evidence suggests"
-intro = "Tamsulosin and similar pills relax the smooth muscle of the bladder neck and prostate. They do not change the gland's size.[^mpbph][^niddk]"
+intro = "Tamsulosin and similar pills relax the smooth muscle of the bladder neck and prostate.[^mpbph][^niddk]"
 works = "Good evidence suggests alpha blockers ease symptoms for many men, and most notice a change {f:alpha-days}.[^niddk][^mpbph]"
 evidence = ["{d:flomax-trials}."]
 risks = "Dizziness on standing, and a change in ejaculation (less or no semen). The label tells men planning cataract or glaucoma surgery to tell their eye surgeon, because of a floppy-iris problem during the operation.[^flomax]"
@@ -158,8 +159,8 @@ evidence = [
   "{d:sapoval24}.",
 ]
 risks = "After PAE, a burning feeling in the lower belly, frequent peeing and pelvic pain for a few days are common; a little blood in the urine or stool can happen.[^sirpt][^gstt] Serious problems: the Cochrane review gives {d:coch-major}. In cohorts, serious-event rates depend on who counted and how: {d:kristensen}. The multicentre study above gives its own rate. Rare severe harms from particles reaching the bladder, rectum or penis appear mainly as case reports, with no reliable rate.[^cochrane][^sapoval24] How harms were counted matters: only the Swiss trial graded both arms the same way, and older trials may have under-reported harms after TURP, so cohort rates for PAE cannot be set beside surgical series.[^abt18]"
-selection = "The trials enrolled men fit for either treatment, with a mean prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger glands, in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish cohort above. That cuts both ways: sicker men raise harm and failure, while motivated, well-counselled men raise symptom response. No cohort adjusted for frailty.[^cochrane][^kristensen][^ukrope] In retention, cohorts report most men become catheter-free: {d:bhatia25}. No randomized trial of PAE against surgery in catheter-dependent men was found.[^bhatia25][^sapoval24]"
-fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as TURP {f:aua-2y}, with more repeat treatment than TURP. It advises a urologist's assessment before PAE, PAE by interventional radiologists trained in it, and offers PAE, among other options, to men on blood thinners or at high risk of bleeding. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
+selection = "The trials enrolled men fit for either treatment, with a mean prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger glands, in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish cohort above. That cuts both ways (our inference): sicker men raise harm and failure, while motivated, well-counselled men raise symptom response. No cohort adjusted for frailty.[^cochrane][^kristensen][^ukrope] In retention, cohorts report most men become catheter-free: {d:bhatia25}. No randomized trial of PAE against surgery in catheter-dependent men was found.[^bhatia25][^sapoval24]"
+fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as TURP {f:aua-2y}, with more repeat treatment than TURP. It advises a urologist's assessment before PAE, PAE by interventional radiologists trained in it, and offers PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
 unknown = "Whether PAE spares surgery or buys years before it: no trial reports time to surgery. That PAE leaves surgery open is shown; small series of surgery after PAE (robotic, simple prostatectomy, TURP) show no signal of harm, but no good evidence either way.[^bilhim][^cochrane] How it compares with laser enucleation (HoLEP): no randomized trial. Long-term results against a randomized control: the one long trial lost most PAE men to follow-up. Which particle and size work best: not settled.[^cochrane][^abt5]"
 
 [[detail]]
@@ -206,7 +207,7 @@ certainty = "Strong evidence shows"
 intro = "The surgeon removes the inside of the prostate through a scope in the penis, under general or spinal anesthesia. Most men stay in hospital and have a catheter for {f:turp-stay}; recovery takes {f:turp-recovery}.[^mpturp][^mpturpdc]"
 works = "Strong evidence shows TURP relieves symptoms most of the time. It is the comparison most other procedures are measured against.[^mpturp][^bipolar] Over a long time, {f:turp-redo}.[^niddk]"
 evidence = ["{d:bipolar}.", "Against PAE, see the trials above: TURP improved flow and needed fewer repeats.[^abt18][^cochrane]"]
-risks = "Retrograde ejaculation (dry orgasm) is common and can be permanent: {d:calik-re}. Bleeding, infection, erection problems, leaking urine, and scar tissue narrowing the urethra can happen.[^mpturpdc][^mpturp][^nhsturp]"
+risks = "Retrograde ejaculation (dry orgasm) is common and can be permanent; how often depends on how it was counted: {d:calik-re}. In the waterjet trial, loss of ejaculation after TURP was lower (see below).[^water5] Bleeding, infection, erection problems, leaking urine, and scar tissue narrowing the urethra can happen.[^mpturpdc][^mpturp][^nhsturp]"
 selection = "For most gland sizes; very large glands may need enucleation or open surgery.[^mpsimple][^mpmin]"
 
 [[detail]]
@@ -228,7 +229,7 @@ risks = "Loss of ejaculation is less common than after TURP in the same trial, b
 [[detail]]
 option = "open-prostatectomy"
 intro = "Open or robotic simple prostatectomy removes the inner gland through the lower belly. After open surgery, most men stay in hospital {f:open-stay} and recover in {f:open-recovery}.[^mpsimple][^niddk]"
-works = "It is often used when the gland is too large for other surgery, and most men pee as usual afterward.[^mpsimple]"
+works = "It is often used when the gland is too large for other surgery.[^mpsimple] Our sources give no trial of it against TURP or laser surgery."
 evidence = ["Against PAE in very large glands, see the PoPAE trial above: open surgery relieved obstruction more.[^lebani]"]
 risks = "Dry orgasms, leaking urine, bleeding and infection can happen, with the risks of an abdominal operation.[^mpsimple]"
 
@@ -250,7 +251,7 @@ text = [
   "After PAE, studies that asked about retrograde or absent ejaculation find it uncommon. {d:lokesh}. {d:rawash}. {d:amouyal}. {d:peasy-sex}. Pooled against TURP, {d:coch-ejac}.",
   "The higher PAE figure comes from a broad definition. {d:ejac-swiss}.",
   "Erections: no study shows harm on average. {d:coch-ed}. {d:sapoval-ed}. {d:alizadeh}. {d:kawakibi}. {d:larussa}. No study gives a rate of new erection problems large enough to quote.",
-  "After TURP and laser surgery, retrograde ejaculation is the rule rather than the exception: {d:calik-re}. The lift, steam, implant and balloon trials reported no new lasting erection or ejaculation problems, each in its own sponsored trial.[^lift5][^rezum2][^itind][^pinnacle2]",
+  "After TURP and laser surgery, retrograde ejaculation is common: {d:calik-re}, by one review's count. The lift, steam, implant and balloon trials reported no new lasting erection or ejaculation problems, each in its own sponsored trial.[^lift5][^rezum2][^itind][^pinnacle2]",
 ]
 
 [[section]]
@@ -259,8 +260,8 @@ after = "less-invasive"
 heading = "Repeat treatment, and what each figure counts"
 text = [
   "Each option's repeat-treatment figure on the short guide comes from a different kind of study: PAE from a single-centre cohort that counts a second PAE or surgery, the lift from its maker's trial, steam from U.S. health records, and TURP from a government page over a much longer span. They are not a ranking.[^bilhim][^lift5][^cosmos][^niddk]",
-  "For PAE, the cohorts broadly agree, though each counts differently: {d:bilhim}. {d:mabud}. Against TURP in randomized trials, {d:coch-retreat}.[^kristensen][^bhatia25]",
-  "One study counted several options the same way. {d:cosmos-all}.",
+  "For PAE, the cohorts count differently and do not agree in the long run: {d:bilhim}. {d:mabud}. {d:rubin}. Against TURP in randomized trials, {d:coch-retreat}.[^kristensen][^bhatia25]",
+  "Two studies counted several options the same way, each unadjusted for who had which. {d:cosmos-all}. {d:rubin-all}.",
   "Removing more tissue leaves less to re-treat, but costs a bigger operation. A second procedure after a less invasive one is a real cost (time with symptoms, another procedure), counted here beside what the first one spared.[^cochrane][^bilhim]",
 ]
 
@@ -317,6 +318,10 @@ url = "https://doi.org/10.1056/NEJMoa030656"
 key = "bipolar"
 cite = "Alexander CE, Scullion MM, Omar MI, et al. Bipolar versus monopolar transurethral resection of the prostate for lower urinary tract symptoms secondary to benign prostatic obstruction. Cochrane Database of Systematic Reviews. 2019;12:CD009629. doi:10.1002/14651858.CD009629.pub4. PMID 31792928. Full text read."
 url = "https://doi.org/10.1002/14651858.CD009629.pub4"
+[[refs]]
+key = "rubin"
+cite = "Rubin R, et al. Canadian Urological Association Journal. 2026. U.S. TriNetX records study of reoperation after a first BPH procedure (described, not the paper's title). doi:10.5489/cuaj.9601. PMID 42531442. Full text read."
+url = "https://doi.org/10.5489/cuaj.9601"
 [[refs]]
 key = "wasson"
 cite = "Wasson JH, Reda DJ, Bruskewitz RC, et al. A comparison of transurethral surgery with watchful waiting for moderate symptoms of benign prostatic hyperplasia. New England Journal of Medicine. 1995;332(2):75-79. doi:10.1056/NEJM199501123320202. PMID 7527493. Abstract read."
