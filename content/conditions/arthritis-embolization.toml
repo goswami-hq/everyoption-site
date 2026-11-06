@@ -115,7 +115,7 @@ a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^uc
 
 [[faq]]
 q = "Can I still have a knee replacement later?"
-a = "Yes. Studies have found that GAE does not make a later knee replacement harder or less successful.[^sir26]"
+a = "Yes. So far, studies have not found that GAE makes a later knee replacement harder or less successful.[^sir26]"
 
 [[faq]]
 q = "Do I need a knee replacement?"
@@ -150,7 +150,7 @@ id = "embolization"
 name = "Knee artery embolization (GAE)"
 what = "Genicular artery embolization (GAE) is a newer treatment for knee arthritis pain. Tiny particles slow extra blood flow to the lining of the knee. The idea is to calm swelling and ease pain.[^bsir][^ucla] You keep your own knee."
 invasive = "You only need a tiny skin nick, usually in the groin. You stay awake with medicine to help you relax.[^bsir][^ucla] It takes about 1 to 2 hours. Most people go home the same day.[^ucla][^bsir] Relief often starts within about two weeks.[^ucla]"
-works = "Early results are encouraging. In studies, most people said their knee pain and daily function improved after GAE.[^sir26][^amin] In one U.S. study of moderate to severe arthritis, about half had their symptoms cut in half two years later. Of those helped at one year, about 7 out of 10 were still helped at two years.[^cus24][^sir26] Large trials are under way.[^sir26][^gen2]\nIf GAE works for you, it may help you put off a knee replacement. Studies have not yet shown whether it does.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, and who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
+works = "Early results are encouraging. In studies, most people said their knee pain and daily function improved after GAE.[^sir26][^amin] In one U.S. study of moderate to severe arthritis, about half had their symptoms cut in half two years later. Of those helped at one year, about 7 out of 10 were still helped at two years.[^cus24][^sir26] Large trials are under way.[^sir26][^gen2]\nIf GAE works for you, it may help you put off a knee replacement. Studies have not yet shown whether it does.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
 side = "You may have bruising where the tube went in.[^bsir] About 1 to 3 out of 10 people get a patchy skin color change or redness over the knee. It usually fades within a month.[^sir26][^ashraf][^amin] About 3 out of 1,000 people get a small skin sore over the knee.[^sir26] Serious problems are rare.[^sir26]"
 
 [[options]]
@@ -158,7 +158,7 @@ id = "steroid"
 name = "Steroid shot"
 what = "A steroid medicine is injected into the knee.[^mpoa]"
 invasive = "It is a shot given during an office visit."
-works = "Studies disagree on how much a steroid shot helps. It often eases pain for a while.[^mpoa] In studies, the benefit got smaller by about 3 months.[^juni] Repeat shots every 3 months for 2 years did not ease pain more than salt water.[^mcalindon]"
+works = "Studies disagree on how much a steroid shot helps. It often eases pain for a while.[^mpoa] In studies, the benefit got smaller by about 3 months.[^juni] Repeat shots every 3 months for 2 years did not ease pain more than salt water.[^mcalindon] In one study, people who had physical therapy were doing better after a year than people who had steroid shots.[^deyle]"
 side = "Repeat shots caused slightly more loss of the knee cushion than salt water shots.[^mcalindon]"
 
 [[options]]
@@ -174,7 +174,7 @@ id = "prp"
 name = "Platelet-rich plasma (PRP)"
 what = "Platelets from your own blood are injected into the knee.[^cus26]"
 invasive = "Blood is drawn and the shots are given during office visits.[^restore]"
-works = "Studies disagree on whether PRP helps. In the largest careful study, people felt about as much better as those given salt water shots at one year.[^restore] Reviews of smaller studies found some relief for up to 6 months, but these results are uncertain.[^auroux]"
+works = "Studies disagree on whether PRP helps. In the largest careful study, people felt about as much better as those given salt water shots at one year.[^restore] A review of smaller studies found some relief for up to 6 months, but these results are uncertain.[^auroux]"
 side = "In studies, side effects were mild and short-lived. The knee can be sore or swollen for a short time.[^restore]"
 
 [[options]]
@@ -182,7 +182,7 @@ id = "nerve-ablation"
 name = "Nerve ablation"
 what = "Heat quiets the nerves that carry pain from the knee.[^cus26]"
 invasive = "Ask your doctor how it is done and how long recovery takes."
-works = "Early studies suggest it can ease pain for about 3 months. Longer relief has not been shown.[^almeida]"
+works = "Studies disagree on whether it helps. Some studies found less pain for about 3 months.[^almeida] In one careful study, it did no better than a fake procedure at one year.[^malaithong] Longer relief has not been shown.[^almeida]"
 side = "In studies, serious problems were not more common than with a fake procedure.[^almeida]"
 
 [[options]]
@@ -190,7 +190,7 @@ id = "knee-replacement"
 name = "Knee replacement"
 what = "Surgery removes the worn cartilage and bone. Metal and plastic parts replace them.[^tkr]"
 invasive = "Surgery takes 1 to 2 hours. Most people leave the hospital in 1 to 4 days.[^tkr][^nhsrec] Most daily activities return in 3 to 6 weeks. Full recovery can take several months.[^tkr][^nhsrec]"
-works = "Strong evidence shows most new knees last a long time. About 8 out of 10 still have their original parts 25 years later.[^evans] In one careful study of people with severe arthritis, those who had a knee replacement felt better after a year than those who had a strong non-surgery program.[^skou15] About 1 to 2 out of 10 people are not satisfied with their new knee.[^bourne][^defrance]"
+works = "Strong evidence shows most new knees last a long time. About 8 out of 10 still have their original parts 25 years later.[^evans] In one careful study of people with moderate to severe arthritis, those who had a knee replacement felt better after a year than those who had a strong non-surgery program.[^skou15] About 1 to 2 out of 10 people are not satisfied with their new knee.[^bourne][^defrance]"
 side = "Serious problems, like a knee infection, happen in less than 2 out of 100 people.[^tkr] In that one study, serious problems were more common after surgery than without it.[^skou15] Some people have ongoing pain or stiffness.[^nhscomp]"
 
 [[options]]
@@ -198,7 +198,7 @@ id = "partial-replacement"
 name = "Partial knee replacement"
 what = "Surgery replaces only the worn part of the knee.[^mpoa]"
 invasive = "Recovery should be shorter than after a full replacement. You may drive again after about 3 weeks instead of 6.[^nhsrec]"
-works = "It is an option when only one part of the knee is worn.[^mpoa] In one large study, results after 5 years were about the same as a full replacement, with fewer complications.[^topkat] Partial knees need to be redone more often over 25 years.[^evans]"
+works = "It is an option when only one part of the knee is worn.[^topkat] In one large study, results after 5 years were about the same as a full replacement.[^topkat] Partial knees need to be redone more often over 25 years.[^evans]"
 side = "Infection, blood clots, and ongoing pain or stiffness can happen after knee replacement.[^nhscomp]"
 
 [[options]]
@@ -414,3 +414,11 @@ url = "https://doi.org/10.1136/bmj.h2747"
 key = "singh26"
 cite = "Singh A, Shah M, Vij R, Fountain C, Prologo JD. Intra-articular injection use and total knee arthroplasty after genicular artery embolization for knee osteoarthritis: a matched national claims analysis. Journal of Vascular and Interventional Radiology. 2026:109144. doi:10.1016/j.jvir.2026.109144. PMID 42874703."
 url = "https://doi.org/10.1016/j.jvir.2026.109144"
+[[refs]]
+key = "malaithong"
+cite = "Malaithong W, Tontisirin N, Seangrung R, Wongsak S, Cohen SP. Bipolar radiofrequency ablation of the superomedial, superolateral and inferomedial genicular nerves for chronic osteoarthritis knee pain: a randomized double-blind placebo-controlled trial with 12-month follow-up. Regional Anesthesia and Pain Medicine. 2023;48(4):151-160. doi:10.1136/rapm-2022-103976. PMID 36543391."
+url = "https://doi.org/10.1136/rapm-2022-103976"
+[[refs]]
+key = "deyle"
+cite = "Deyle GD, Allen CS, Allison SC, et al. Physical therapy versus glucocorticoid injection for osteoarthritis of the knee. New England Journal of Medicine. 2020;382(15):1420-1429. doi:10.1056/NEJMoa1905877. PMID 32268027."
+url = "https://doi.org/10.1056/NEJMoa1905877"
