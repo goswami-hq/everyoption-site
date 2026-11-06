@@ -1,0 +1,368 @@
+# The tie between the knee simple page (content/conditions/knee-arthritis.toml) and the knee every-option page
+# (content/options/knee-arthritis.toml). Job platform-main-0020, built on the fibroid pattern (tools/options.py).
+# Shared facts: `simple` must appear in that option's simple text with `refs` cited there; the deep page states it only
+# as {f:id}. Deep-only facts (simple = ""): study details for the advanced reader (his words, 2026-11-05: "All of these
+# specific details we can include on the in depth page"), written {d:id}; `read` says how the source was read, and
+# "abstract" prints "(abstract only)". Every number on the deep page is one of these lines; any other fails the build.
+# Sources and how each was read: ai-hq projects/platform/arthritis-page/evidence.md (sections 2, 5, 6 to 9).
+
+# ---- Shared with the simple page ----
+[[fact]]
+id = "stiff"
+option = ""
+simple = "30 minutes or less"
+deep = "30 minutes or less"
+refs = ["mpoa"]
+[[fact]]
+id = "skou18"
+option = ""
+simple = "still have not had surgery 2 years later"
+deep = "still had not had surgery 2 years later"
+refs = ["skou18"]
+[[fact]]
+id = "fs-3yr"
+option = ""
+simple = "this can take up to 3 years"
+deep = "this can take up to 3 years"
+refs = ["fm26"]
+[[fact]]
+id = "apap-max"
+option = "pain-relievers"
+simple = "4,000 mg of acetaminophen a day"
+deep = "4,000 mg of acetaminophen a day"
+refs = ["mpoa"]
+[[fact]]
+id = "gae-skin"
+option = "embolization"
+simple = "about 1 to 3 out of 10 people"
+deep = "about 1 to 3 out of 10 people (10% to 30% in the society's summary of more than 1,000 reported cases)"
+refs = ["sir26", "ashraf", "amin"]
+[[fact]]
+id = "steroid-fade"
+option = "steroid"
+simple = "the relief usually fades by about 3 months"
+deep = "the relief usually fades by about 3 months"
+refs = ["mpoa", "juni"]
+[[fact]]
+id = "prp-6mo"
+option = "prp"
+simple = "it may ease pain for up to 6 months"
+deep = "it may ease pain for up to 6 months"
+refs = ["auroux"]
+[[fact]]
+id = "rfa-3mo"
+option = "nerve-ablation"
+simple = "it may ease pain for about 3 months"
+deep = "it may ease pain for about 3 months"
+refs = ["almeida"]
+[[fact]]
+id = "tkr-hours"
+option = "knee-replacement"
+simple = "surgery takes 1 to 2 hours"
+deep = "surgery takes 1 to 2 hours"
+refs = ["tkr"]
+[[fact]]
+id = "tkr-stay"
+option = "knee-replacement"
+simple = "1 to 4 days"
+deep = "1 to 4 days"
+refs = ["tkr", "nhsrec"]
+[[fact]]
+id = "tkr-recovery"
+option = "knee-replacement"
+simple = "3 to 6 weeks"
+deep = "3 to 6 weeks"
+refs = ["tkr", "nhsrec"]
+[[fact]]
+id = "tkr-last"
+option = "knee-replacement"
+simple = "about 8 out of 10 still have their original parts 25 years later"
+deep = "about 8 out of 10 still have their original parts 25 years later (implant survival, not pain relief)"
+refs = ["evans"]
+[[fact]]
+id = "tkr-unsat"
+option = "knee-replacement"
+simple = "about 1 to 2 out of 10 people are not satisfied"
+deep = "about 1 to 2 out of 10 people are not satisfied (19% of 1,703 knees in an older Ontario study that counted neutral answers; 10% averaged across 21 studies from 2010 to 2022)"
+refs = ["bourne", "defrance"]
+[[fact]]
+id = "tkr-infect"
+option = "knee-replacement"
+simple = "fewer than 2 out of 100 people"
+deep = "fewer than 2 out of 100 people"
+refs = ["tkr"]
+[[fact]]
+id = "pkr-drive"
+option = "partial-replacement"
+simple = "about 3 weeks instead of 6"
+deep = "about 3 weeks instead of 6"
+refs = ["nhsrec"]
+[[fact]]
+id = "hto-tkr"
+option = "osteotomy"
+simple = "about 1 out of 10 people have a knee replacement more than 10 years later"
+deep = "about 1 out of 10 people have a knee replacement more than 10 years later"
+refs = ["loke"]
+
+# ---- Deep page only: GAE ----
+[[fact]]
+id = "sham-pool"
+option = "embolization"
+simple = ""
+deep = "Three sham-controlled trials have reported, 138 people in all, measured at different times (1, 4 and 12 months). Pooled, the pain difference was a standardized mean difference of -0.23 (95% CI -0.71 to 0.25): the interval allows a moderate true benefit or none"
+refs = ["lanza"]
+read = "abstract"
+[[fact]]
+id = "bagla"
+option = "embolization"
+simple = ""
+deep = "21 people with mild to moderate arthritis, several centres, single-blind, randomized 2 to 1. At 1 month, pain on a 100 mm scale fell 50.1 mm more with GAE than with sham (95% CI 29.0 to 72.3). Every sham patient then crossed over to GAE, so there is no blinded comparison after 1 month; 5 people were excluded for taking more pain medicine. Its grant list names a device maker"
+refs = ["bagla22"]
+read = "abstract"
+[[fact]]
+id = "landers"
+option = "embolization"
+simple = ""
+deep = "59 people with early arthritis (Kellgren-Lawrence grade 2), one centre, triple-blind, 12 months. No significant difference on the main or secondary outcomes: knee pain (KOOS) improved 41.3% with GAE and 29.4% with sham. In a subgroup whose arteries were fully embolized (17 people, against 29 controls), 76.5% against 37.9% felt moderately or much better; that subgroup was not randomized, so it is a lead, not a result. Funding is not stated in the record"
+refs = ["landers23"]
+read = "abstract"
+[[fact]]
+id = "vz24"
+option = "embolization"
+simple = ""
+deep = "58 people (29 GAE, 29 sham), Kellgren-Lawrence grade 1 to 3, one centre and one operator, double-blind, no dropouts. At 4 months, knee pain (KOOS, 0 to 100) improved 21.4 points with GAE and 18.4 with sham, a difference of 3.0 (95% CI -7.1 to 13.0). Both groups passed the 12-point minimal important difference. 3 of 29 people in the GAE group had no target vessels and were not embolized but were analysed as GAE, as the trial design requires. Grant support includes a device maker"
+refs = ["vz24"]
+read = "full text"
+[[fact]]
+id = "vz26"
+option = "embolization"
+simple = ""
+deep = "The same trial at 12 months: a difference of 7.46 points (95% CI -13.63 to 28.56), not significant; synovitis on MRI, assessed to 4 months, did not change. The authors read this as a sustained placebo effect; the upper end of the interval still includes a benefit above the 12-point minimal important difference, and published letters dispute the reading"
+refs = ["vz26"]
+read = "full text"
+[[fact]]
+id = "kumar"
+option = "embolization"
+simple = ""
+deep = "50 people (Kellgren-Lawrence grade 2 to 4), GAE plus usual care against usual care alone, randomized but not blinded. Technical success was 82.8% of knees (24 of 29). At 1 year, pain on a visual scale improved 72.7% against 24.2%. A pain flare of about 2 weeks followed in 7 of 28 embolized knees, and one superficial abscess needed treatment. With no sham group, this cannot separate the procedure from placebo"
+refs = ["kumar26"]
+read = "abstract"
+[[fact]]
+id = "amin-pool"
+option = "embolization"
+simple = ""
+deep = "45 studies and 2,205 patients, mostly without a comparison group: pain fell about 37 points on a 100-point scale at 12 months, with certainty rated very low to low"
+refs = ["amin"]
+read = "abstract"
+[[fact]]
+id = "cus24"
+option = "embolization"
+simple = ""
+deep = "40 people with moderate to severe arthritis at one U.S. centre: 18 of 38 (47.4%) had at least a 50% drop in WOMAC score at 2 years. Of the 25 who responded at 1 year, 18 (72.0%) still responded at 2 years and 7 (28.0%) relapsed. Grant support includes a device maker"
+refs = ["cus24"]
+read = "abstract"
+[[fact]]
+id = "genesis"
+option = "embolization"
+simple = ""
+deep = "46 people treated with permanent beads in the UK: average pain on a 100-point scale fell from 58.6 to 37.7 at 2 years, but only 28 of 46 had 2-year data. The total MRI damage score rose (worse) while synovitis fell. Funded by a device maker"
+refs = ["genesis"]
+read = "full text"
+[[fact]]
+id = "okuno"
+option = "embolization"
+simple = ""
+deep = "72 people (95 knees) in Japan, Kellgren-Lawrence grade 1 to 3, mostly a temporary embolic agent: cumulative clinical success 86.3% at 6 months and 79.8% at 3 years, with success not defined in the abstract"
+refs = ["okuno17k"]
+read = "abstract"
+[[fact]]
+id = "sir-harms"
+option = "embolization"
+simple = ""
+deep = "about 0.3% get a small skin ulcer and fewer than 0.1% a focal bone infarct on MRI, generally without symptoms; most reports find no permanent nerve injury, joint infection or bone death"
+refs = ["sir26"]
+read = "full text"
+[[fact]]
+id = "padia-harms"
+option = "embolization"
+simple = ""
+deep = "In the UCLA cohort treated with 100-micron permanent beads, 7 of 40 had a small skin ulcer that healed on its own, and 2 of 40 had a silent bone infarct"
+refs = ["padia"]
+read = "abstract"
+[[fact]]
+id = "vz-harms"
+option = "embolization"
+simple = ""
+deep = "In the 58-person sham trial there were 23 mild adverse events with GAE and 5 with sham; 11 of 29 had brief skin redness (gone in 1 to 4 weeks), and 2 of 29 had numbness or tingling at the outer ankle, which in one had resolved at 8 months and in the other was still present at 12 months"
+refs = ["vz24", "vz26"]
+read = "full text"
+[[fact]]
+id = "registry"
+option = "embolization"
+simple = ""
+deep = "A German national registry recorded 11 complications in 2,335 procedures (0.5%) at 109 centres; its authors call this a lower limit, because the registry was not built to catch complications"
+refs = ["registry26"]
+read = "abstract"
+[[fact]]
+id = "repeat"
+option = "embolization"
+simple = ""
+deep = "about 8% had a repeat GAE over up to 2 years in a pooled analysis of 9 studies (270 patients)"
+refs = ["taslak23"]
+read = "abstract"
+[[fact]]
+id = "singh"
+option = "embolization"
+simple = ""
+deep = "In U.S. insurance claims, knee replacement within 12 months was 13.1% after GAE and 12.8% in matched people who did not have it, no difference; a 12-month claims comparison cannot show whether surgery is delayed"
+refs = ["singh26"]
+read = "abstract"
+[[fact]]
+id = "sir-select"
+option = "embolization"
+simple = ""
+deep = "Trials usually required age over 40, pain above 4 out of 10, and at least 3 months of failed conservative care. They excluded significant artery disease in the legs, pain coming from the spine, and fibromyalgia. In severe (grade 4) arthritis, some studies found lower effectiveness and others equal results"
+refs = ["sir26"]
+read = "full text"
+[[fact]]
+id = "gill"
+option = "embolization"
+simple = ""
+deep = "In one 33-person study, 81.8% with mild X-ray changes responded at 6 months against 36.4% with moderate to severe changes"
+refs = ["gill23"]
+read = "abstract"
+[[fact]]
+id = "trials"
+option = "embolization"
+simple = ""
+deep = "Trials under way include sham-controlled trials of 110 people (enrolled), 130 and 40, a three-arm trial of 150 against nerve treatment and sham, trials against a steroid shot, and a 117-person trial against observation"
+refs = ["sir26"]
+read = "full text"
+
+# ---- Deep page only: other knee options ----
+[[fact]]
+id = "lawford"
+option = "exercise"
+simple = ""
+deep = "A Cochrane review found pain 8.7 points better on a 100-point scale than placebo or attention control (low certainty), 13.1 points better than no treatment (low certainty), and 10.4 points better when added to another treatment (moderate certainty), against a 12-point minimal important difference. Function improved with moderate certainty"
+refs = ["lawford"]
+read = "full text"
+[[fact]]
+id = "idea"
+option = "exercise"
+simple = ""
+deep = "In a publicly funded trial of 454 overweight or obese adults aged 55 and over, followed 18 months, diet plus exercise gave 10.6 kg (11.4%) weight loss and less pain (3.6 on a 0 to 20 scale) than exercise alone (4.7) or diet alone (4.8)"
+refs = ["idea"]
+read = "abstract"
+[[fact]]
+id = "juni"
+option = "steroid"
+simple = ""
+deep = "A Cochrane review of 27 trials (1,767 people) found a moderate benefit at 1 to 2 weeks (standardized mean difference -0.48) that shrank to -0.22 at 13 weeks and -0.07 at 26 weeks. Most trials were small and of low quality"
+refs = ["juni"]
+read = "abstract"
+[[fact]]
+id = "mcalindon"
+option = "steroid"
+simple = ""
+deep = "In a publicly funded trial of 140 people at one centre, shots every 3 months for 2 years thinned cartilage more than saline (-0.21 mm against -0.10 mm) without easing pain more (-1.2 against -1.9). The saline group also improved"
+refs = ["mcalindon"]
+read = "abstract"
+[[fact]]
+id = "deyle"
+option = "steroid"
+simple = ""
+deep = "In a trial of 156 people, physical therapy beat steroid shots at 1 year (WOMAC difference 18.8, 95% CI 5.0 to 32.6)"
+refs = ["deyle"]
+read = "abstract"
+[[fact]]
+id = "yang"
+option = "steroid"
+simple = ""
+deep = "Across 8 retrospective cohorts, a shot within 3 months before knee replacement was linked to more joint infection (risk ratio 1.26, 95% CI 1.18 to 1.35); no link was found beyond 3 months"
+refs = ["yang22"]
+read = "full text"
+[[fact]]
+id = "pereira"
+option = "hyaluronic"
+simple = ""
+deep = "A review of 169 trials (21,163 people) found that in the 24 large trials (8,997 people) pain differed from placebo by about 2 mm on a 100 mm scale (standardized mean difference -0.08), below the minimal important difference. Serious adverse events were more common with gel shots (risk ratio 1.49, 95% CI 1.12 to 1.98)"
+refs = ["pereira"]
+read = "abstract"
+[[fact]]
+id = "restore"
+option = "prp"
+simple = ""
+deep = "The largest placebo-controlled trial, 288 people aged 50 and over with Kellgren-Lawrence grade 2 to 3 arthritis, found pain changed -2.1 with PRP and -1.8 with saline at 12 months (difference -0.4, 95% CI -0.9 to 0.2), well below the 1.8-point minimal important difference. It tested one leukocyte-poor product"
+refs = ["restore"]
+read = "abstract"
+[[fact]]
+id = "almeida"
+option = "nerve-ablation"
+simple = ""
+deep = "A review of 25 trials rated the certainty low to very low"
+refs = ["almeida"]
+read = "abstract"
+[[fact]]
+id = "malaithong"
+option = "nerve-ablation"
+simple = ""
+deep = "A double-blind sham-controlled trial of 64 people found no difference at 12 months"
+refs = ["malaithong"]
+read = "full text"
+[[fact]]
+id = "davis"
+option = "nerve-ablation"
+simple = ""
+deep = "Against a single steroid shot, not a sham, a trial of 151 people found 74.1% against 16.2% had at least half their pain gone at 6 months"
+refs = ["davis18"]
+read = "abstract"
+[[fact]]
+id = "skou15"
+option = "knee-replacement"
+simple = ""
+deep = "In the one randomized trial of replacement against a non-surgical program (100 people with moderate to severe arthritis), replacement eased pain more at 1 year, and serious adverse events were more common with surgery"
+refs = ["skou15"]
+read = "abstract"
+[[fact]]
+id = "hannon"
+option = "knee-replacement"
+simple = ""
+deep = "a 2023 guideline from the American College of Rheumatology and the hip and knee surgeons' society conditionally recommends against delaying surgery to try more non-surgical treatment, on low or very low quality evidence"
+refs = ["hannon23"]
+read = "abstract"
+[[fact]]
+id = "topkat"
+option = "partial-replacement"
+simple = ""
+deep = "In a randomized trial of 528 people with arthritis on the inner side of the knee, results at 5 years were about the same with partial and total replacement"
+refs = ["topkat"]
+read = "full text"
+[[fact]]
+id = "albrecht"
+option = ""
+simple = ""
+deep = "In 48 knee replacements done a mean of 512 days after GAE, 8.3% had an adverse event and 4.2% a wound-healing problem, all resolved. There was no control group, and the authors are GAE operators"
+refs = ["albrecht25"]
+read = "full text"
+[[fact]]
+id = "lee-hand"
+option = ""
+simple = ""
+deep = "one study of 9 people with no comparison group"
+refs = ["lee24"]
+read = "abstract"
+[[fact]]
+id = "gaucho"
+option = "embolization"
+simple = ""
+deep = "The one randomized comparison of embolic agents, 60 people with mild to moderate arthritis followed 12 months, found no difference between a temporary agent and permanent microspheres (pain 3.95 against 3.88 out of 10 at 1 year)"
+refs = ["gaucho"]
+read = "abstract"
+[[fact]]
+id = "lanza-bone"
+option = "embolization"
+simple = ""
+deep = "A 2026 meta-analysis found focal bone death without symptoms reported only with permanent microspheres, and pooled minor adverse events of 18.3%"
+refs = ["lanza"]
+read = "abstract"

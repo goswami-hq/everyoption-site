@@ -28,7 +28,8 @@ class PatternTest(unittest.TestCase):
         errs, checked = pattern.check()
         self.assertEqual(errs, [])
         self.assertIn("fibroids: simple and every-option", checked)
-        self.assertTrue(any("knee-arthritis" in c and "skipped" in c for c in checked))
+        self.assertIn("knee-arthritis: simple and every-option", checked)   # job platform-main-0020
+        self.assertTrue(any("pelvic-vein-pain" in c and "skipped" in c for c in checked))
 
     def test_shared_title_phrasing_fails(self):
         errs = self.site(("fibroids/every-option/index.html", "<title>UFE vs. Myomectomy vs. Hysterectomy, Compared",
