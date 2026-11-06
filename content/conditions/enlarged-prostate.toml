@@ -84,7 +84,7 @@ list = [
 
 [[faq]]
 q = "Do I need treatment?"
-a = "Not always. If your symptoms are mild and do not bother you, your doctor may watch them with yearly checkups. Drinking less before bed and cutting back on alcohol and caffeine can help.[^niddk]"
+a = "Not always. If your symptoms are mild and do not bother you, your doctor may watch them with yearly checkups. You can also drink less before bed and cut back on alcohol and caffeine.[^niddk] These changes can help, and they're safe to try."
 
 [[faq]]
 q = "Is an enlarged prostate cancer?"
@@ -111,7 +111,7 @@ id = "shrinking-pills"
 name = "Prostate-shrinking pills"
 what = "These are pills (such as finasteride or dutasteride). They lower a hormone that makes the prostate grow, so it slowly shrinks.[^mpbph][^niddk][^proscar]"
 invasive = "These are pills. No procedure is needed."
-works = "It can take 3 to 6 months to feel better.[^mpbph] Strong evidence shows they lower the chance of needing surgery.[^proscar][^avodart] Finasteride cut that chance about in half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than either alone.[^niddk]"
+works = "It can take 3 to 6 months to feel better.[^mpbph] Strong evidence shows they lower the chance of needing surgery.[^proscar][^avodart] Finasteride cut that chance about in half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than an alpha blocker alone for men with larger prostates.[^niddk][^combat]"
 side = "You may have a lower sex drive or erection problems. They cut your PSA level about in half, so tell your doctor before a PSA test. They may raise the chance of a more serious prostate cancer.[^mpbph][^proscar][^avodart]"
 
 [[options]]
@@ -119,7 +119,7 @@ id = "tadalafil"
 name = "Tadalafil"
 what = "This is a pill. It relaxes muscles around the bladder and prostate. It is also used for erection problems.[^niddk][^cialis]"
 invasive = "This is a pill. No procedure is needed."
-works = "Good evidence suggests it eases symptoms a little.[^niddk][^cialis]"
+works = "Early studies suggest it eases symptoms a little.[^niddk][^cialis][^pde5]"
 side = "You may have a headache, upset stomach, or back pain. Do not take it with nitrate heart medicines. It is not recommended with alpha blockers for this use.[^cialis]"
 
 [[options]]
@@ -127,8 +127,8 @@ id = "embolization"
 name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
 invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
-works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE improved symptoms about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
-side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Some men may have less semen afterward, but it is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are uncommon.[^pisco][^cochrane]"
+works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erection problems are uncommon.[^cochrane] Some men have less semen afterward. Losing ejaculation completely is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are uncommon.[^pisco][^cochrane]"
 
 [[options]]
 id = "urethral-lift"
@@ -143,7 +143,7 @@ id = "water-vapor"
 name = "Water vapor (steam) therapy"
 what = "Steam is released into the prostate to burn the inside of the prostate. This removes some of the extra tissue and makes the path for urine larger.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
-works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits. Fewer than 1 out of 20 men need surgery within 5 years.[^rezum5]"
+works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits.[^rezum5] About 1 out of 7 men need more surgery within 5 years.[^cosmos]"
 side = "Side effects are mostly mild and go away quickly. Lasting erection problems are rare.[^rezum2][^rezum5]"
 
 [[options]]
@@ -175,7 +175,7 @@ id = "laser"
 name = "Laser surgery"
 what = "A laser passed through the penis removes or vaporizes the blocking tissue. One type is called HoLEP.[^mpmin]"
 invasive = "There are no cuts in the skin. Most men go home the same day or the next day, with a urine tube for a few days.[^mpmin] There is less bleeding and a shorter hospital stay than with TURP.[^holep]"
-works = "Good evidence suggests HoLEP works at least as well as TURP.[^holep] It improves the flow of urine.[^mpmin]"
+works = "Early studies suggest HoLEP works at least as well as TURP.[^holep][^holepcochrane] It improves the flow of urine.[^mpmin]"
 side = "Many men have dry orgasms afterward.[^calik][^mpmin] Erection problems and leaking urine can happen.[^mpmin]"
 
 [[options]]
@@ -184,7 +184,7 @@ name = "Waterjet surgery"
 what = "High-pressure jets of water, passed through the penis, remove the blocking tissue.[^mpmin]"
 invasive = "There are no cuts in the skin. You have a urine tube for a few days.[^mpmin]"
 works = "Early studies suggest it works about as well as TURP for at least 5 years, in small to medium prostates.[^water5]"
-side = "Ejaculation problems are less common than after TURP, but about 1 out of 14 men still have them.[^water5] Erection problems and leaking urine can happen.[^mpmin]"
+side = "Ejaculation problems are less common than after TURP, but about 1 out of 14 men still have them in the first months.[^water5] Erection problems and leaking urine can happen.[^mpmin]"
 
 [[options]]
 id = "open-prostatectomy"
@@ -192,7 +192,7 @@ name = "Open or robotic prostate removal"
 what = "Surgery through the belly removes the inside of a very large prostate.[^mpsimple]"
 invasive = "It takes a cut in the lower belly, or small cuts with a robot.[^mpsimple][^niddk] After open surgery, most men stay in the hospital for 2 to 4 days with a urine tube. Recovery takes about 6 weeks.[^mpsimple]"
 works = "It is often used when the prostate is too large for other surgery. Most men can pee as usual afterward.[^mpsimple]"
-side = "Dry orgasms, leaking urine, bleeding, and infection can happen.[^mpsimple] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
+side = "Dry orgasms, leaking urine, bleeding, and infection can happen.[^mpsimple]"
 
 # References, in no particular order: the page numbers them by first use. How each was read: evidence.md (top).
 [[refs]]
@@ -268,6 +268,22 @@ key = "rezum5"
 cite = "McVary KT, Gittelman MC, Goldberg KA, et al. Final 5-year outcomes of the multicenter randomized sham-controlled trial of a water vapor thermal therapy for treatment of moderate to severe lower urinary tract symptoms secondary to benign prostatic hyperplasia. Journal of Urology. 2021;206(3):715-724. doi:10.1097/JU.0000000000001778. PMID 33872051. Sponsored by the device maker (NCT01912339)."
 url = "https://doi.org/10.1097/JU.0000000000001778"
 [[refs]]
+key = "cosmos"
+cite = "Carletti F, Tamborino F, Turcan A, et al. Five-year retreatment and medication restart rates following benign prostate hyperplasia treatments: a nationwide real-world analysis using Epic Cosmos. European Urology Focus. 2026;12(3):383-392. doi:10.1016/j.euf.2026.01.003. PMID 41558957."
+url = "https://doi.org/10.1016/j.euf.2026.01.003"
+[[refs]]
+key = "combat"
+cite = "Roehrborn CG, Siami P, Barkin J, et al. The effects of combination therapy with dutasteride and tamsulosin on clinical outcomes in men with symptomatic benign prostatic hyperplasia: 4-year results from the CombAT study. European Urology. 2010;57(1):123-131. doi:10.1016/j.eururo.2009.09.035. PMID 19825505. Funded by the drug maker (NCT00090103)."
+url = "https://doi.org/10.1016/j.eururo.2009.09.035"
+[[refs]]
+key = "pde5"
+cite = "Pattanaik S, Mavuduru RS, Panda A, et al. Phosphodiesterase inhibitors for lower urinary tract symptoms consistent with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2018;11:CD010060. doi:10.1002/14651858.CD010060.pub2. PMID 30480763."
+url = "https://doi.org/10.1002/14651858.CD010060.pub2"
+[[refs]]
+key = "holepcochrane"
+cite = "Sathianathen N, Hwang EC, Brown SJ, et al. Holmium laser enucleation of the prostate for the treatment of lower urinary tract symptoms in men with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2026;9:CD013291. doi:10.1002/14651858.CD013291.pub2. PMID 42713842."
+url = "https://doi.org/10.1002/14651858.CD013291.pub2"
+[[refs]]
 key = "itind"
 cite = "Chughtai B, Elterman D, Shore N, et al. The iTind temporarily implanted nitinol device for the treatment of lower urinary tract symptoms secondary to benign prostatic hyperplasia: a multicenter, randomized, controlled trial. Urology. 2021;153:270-276. doi:10.1016/j.urology.2020.12.022. PMID 33373708. Sponsored by the device maker (NCT02506465)."
 url = "https://doi.org/10.1016/j.urology.2020.12.022"
@@ -323,10 +339,6 @@ url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=960797b3-09b1-4d
 key = "fdaopt"
 cite = "U.S. Food and Drug Administration. Optilume BPH catheter system, P220029, approved June 30, 2023. Read November 4, 2026."
 url = "https://www.fda.gov/medical-devices/recently-approved-devices/optilume-bph-catheter-system-p220029"
-[[refs]]
-key = "cchernia"
-cite = "Cleveland Clinic. Incisional hernia. Medically reviewed, updated March 24, 2025. Read November 2, 2026."
-url = "https://my.clevelandclinic.org/health/diseases/incisional-hernia"
 [[refs]]
 key = "ukrope"
 cite = "Ray AF, Powell J, Speakman MJ, et al. Efficacy and safety of prostate artery embolization for benign prostatic hyperplasia: an observational study and propensity-matched comparison with transurethral resection of the prostate (the UK-ROPE study). BJU International. 2018;122(2):270-282. doi:10.1111/bju.14249. PMID 29645352."
