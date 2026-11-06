@@ -127,7 +127,7 @@ id = "embolization"
 name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
 invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
-works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE improved symptoms about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] This is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
+works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE improved symptoms about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
 side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Some men may have less semen afterward, but it is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are uncommon.[^pisco][^cochrane]"
 
 [[options]]
@@ -143,7 +143,7 @@ id = "water-vapor"
 name = "Water vapor (steam) therapy"
 what = "Steam is released into the prostate to burn the inside of the prostate. This removes some of the extra tissue and makes the path for urine larger.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
-works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits. About 1 out of 25 men need surgery within 5 years.[^rezum5]"
+works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits. Fewer than 1 out of 20 men need surgery within 5 years.[^rezum5]"
 side = "Side effects are mostly mild and go away quickly. Lasting erection problems are rare.[^rezum2][^rezum5]"
 
 [[options]]
