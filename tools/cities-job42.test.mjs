@@ -68,7 +68,9 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.equal(r.status, 200, m.slug);
     assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json")/, "no script needed or loaded");
     const want = finderMetro(UFE, m).map((p) => p.npi);
-    assert.deepEqual(cards(r.html), want, `${m.slug}: same doctors, same order as the finder`);
+    // job platform-main-0013: pages with 5+ towns group the cards by town (order checked in cities-facts-towns.test.mjs)
+    if (/<div class="town-group">/.test(r.html)) assert.deepEqual([...cards(r.html)].sort(), [...want].sort(), `${m.slug}: same doctors`);
+    else assert.deepEqual(cards(r.html), want, `${m.slug}: same doctors, same order as the finder`);
     assert.deepEqual(metroList(UFE, m).map((p) => p.npi), want);
     assert.match(r.html, new RegExp(`Likely performs this procedure<span class="count">${want.length} doctors`), m.slug);
     assert.ok(r.html.includes(`We list ${want.length} doctors within 25 miles of`), m.slug);

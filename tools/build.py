@@ -573,8 +573,10 @@ def main():
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
     city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page t-fibroids")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
-                        # the approved finder blurb, with "less invasive" (his yes, 2026-11-05); on his review list
-                        {"ufe": PROCS["ufe"]["about"][0].replace("minimally invasive", "less invasive")}, LISTINGS_AS_OF, SITE)
+                        # one sentence from the approved finder blurb, its own words and claims only (job platform-main-0013:
+                        # less text shared by every city page); "less invasive" (his yes, 2026-11-05); on his review list
+                        {"ufe": "Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy "
+                                "periods, pain, or pressure, and you keep your uterus."}, LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
