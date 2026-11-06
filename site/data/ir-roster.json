@@ -28575,6 +28575,48 @@
    "lat": 41.7825,
    "lon": -87.6027,
    "site_names": []
+  },
+  {
+   "npi": "1811158504",
+   "name": "Bartley Thornburg",
+   "proven": true,
+   "practice": "Northwestern Medical Faculty Foundation",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "City from public records; confirm location with the practice.",
+   "phone": "312-503-8194",
+   "url": "",
+   "lat": 41.8947,
+   "lon": -87.6151,
+   "site_names": []
+  },
+  {
+   "npi": "1194906560",
+   "name": "Kush Desai",
+   "proven": true,
+   "practice": "Northwestern Medical Faculty Foundation",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "City from public records; confirm location with the practice.",
+   "phone": "312-503-8194",
+   "url": "",
+   "lat": 41.8947,
+   "lon": -87.6151,
+   "site_names": []
+  },
+  {
+   "npi": "1164447645",
+   "name": "Riad Salem",
+   "proven": true,
+   "practice": "Northwestern Medical Faculty Foundation",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "City from public records; confirm location with the practice.",
+   "phone": "312-503-8194",
+   "url": "",
+   "lat": 41.8947,
+   "lon": -87.6151,
+   "site_names": []
   }
  ]
 }
