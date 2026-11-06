@@ -18,7 +18,7 @@ color = "gae"                  # green, the same color as the GAE finder
 finder = "gae"                 # the finder this page leads to: today's GAE list, knee only
 diagram = "gae"                # tools/diagrams/anim-gae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
-reviewed = "2026-11-04"
+reviewed = "2026-11-05"
 draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Osteoarthritis of the knee"
 condition_alt = "Knee osteoarthritis"
@@ -119,14 +119,14 @@ a = "Yes. Studies have found that GAE does not make a later knee replacement har
 
 [[faq]]
 q = "Do I need a knee replacement?"
-a = "Not always. It is usually for severe arthritis when other treatments no longer help.[^mpoa][^tkr] Many people try exercise, medicines, or injections first. Some also consider embolization."
+a = "Not always. It is usually for severe arthritis when other treatments no longer help.[^mpoa][^tkr] Many people try exercise, medicines, or injections first. Some also consider embolization. In one study of people who could have had a knee replacement, about 2 out of 3 who tried a full non-surgery program had not had one 2 years later.[^skou18] If other treatments have stopped helping, waiting longer for surgery is usually not advised.[^hannon]"
 
 [[options]]
 id = "exercise"
 name = "Exercise and weight loss"
 what = "Exercise and physical therapy build strength and keep the knee moving. Losing weight, if you are overweight, takes stress off the knee.[^mpoa]"
 invasive = "No procedure is needed. A physical therapist can show you what to do.[^mpoa]"
-works = "Staying active helps keep the joint moving.[^mpoa] In one study, people who lost about 1 out of 10 pounds of body weight with diet and exercise had less pain than with exercise alone.[^idea] If physical therapy has not helped after 6 to 12 weeks, it likely will not.[^mpoa]"
+works = "Good evidence suggests exercise helps you use your knee better. It may also ease pain a little.[^lawford] If you are overweight, losing weight helps too. In one study, people who lost about 1 out of 10 pounds of body weight with diet and exercise had less pain than with exercise alone.[^idea] If physical therapy has not helped after 6 to 12 weeks, it likely will not.[^mpoa]"
 side = "Pain can make it hard to keep active. Ask your doctor for an exercise routine.[^mpoa]"
 
 [[options]]
@@ -134,23 +134,23 @@ id = "pain-relievers"
 name = "Pain relievers"
 what = "These include acetaminophen and anti-inflammatory pills like ibuprofen and naproxen. Creams that go on the skin are another option.[^mpoa]"
 invasive = "These are pills or creams. No procedure is needed."
-works = "They can ease pain. They do not fix the knee.[^mpoa]"
+works = "Strong evidence shows anti-inflammatory pills ease knee pain. Anti-inflammatory gels on the skin also help some people, with fewer side effects.[^dacosta21] Acetaminophen helps very little.[^machado] None of these fix the knee.[^mpoa]"
 side = "Do not take more than 4,000 mg of acetaminophen a day.[^mpoa] Anti-inflammatory pills can raise the risk of heart attack, stroke, and stomach bleeding. Talk with your doctor before taking them often.[^ibu][^mpoa]"
 
 [[options]]
 id = "other-medicines"
 name = "Other medicines"
-what = "Duloxetine is a prescription pill that can help long-term arthritis pain.[^mpoa]"
+what = "Duloxetine is a prescription pill that can help long-term arthritis pain.[^mpoa] Opioid pain pills, including tramadol, are another kind of prescription pill."
 invasive = "These are pills. No procedure is needed."
-works = "It can help some people with long-term pain.[^mpoa]"
-side = "Ask your doctor about side effects. Strong opioid pain pills are not usually advised for arthritis.[^aaos]"
+works = "Good evidence suggests duloxetine eases long-term knee pain a little.[^bhandari] Opioid pills ease arthritis pain only slightly.[^dacosta14][^toupin]"
+side = "More people stop duloxetine because of side effects than stop a fake pill.[^bhandari] Opioid pills cause more side effects than they are worth for most people with arthritis.[^dacosta21][^dacosta14]"
 
 [[options]]
 id = "embolization"
 name = "Knee artery embolization (GAE)"
 what = "Genicular artery embolization (GAE) is a newer treatment for knee arthritis pain. Tiny particles slow extra blood flow to the lining of the knee. The idea is to calm swelling and ease pain.[^bsir][^ucla] You keep your own knee."
 invasive = "You only need a tiny skin nick, usually in the groin. You stay awake with medicine to help you relax.[^bsir][^ucla] It takes about 1 to 2 hours. Most people go home the same day.[^ucla][^bsir] Relief often starts within about two weeks.[^ucla]"
-works = "In studies, most people said their knee pain and daily function improved after GAE.[^sir26][^amin] In one U.S. study of moderate to severe arthritis, about half had their symptoms cut in half two years later. Of those helped at one year, about 7 out of 10 were still helped at two years.[^cus24][^sir26] Large trials are under way.[^sir26][^gen2]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, and who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
+works = "Early results are encouraging. In studies, most people said their knee pain and daily function improved after GAE.[^sir26][^amin] In one U.S. study of moderate to severe arthritis, about half had their symptoms cut in half two years later. Of those helped at one year, about 7 out of 10 were still helped at two years.[^cus24][^sir26] Large trials are under way.[^sir26][^gen2]\nIf GAE works for you, it may help you put off a knee replacement. Studies have not yet shown whether it does.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, and who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
 side = "You may have bruising where the tube went in.[^bsir] About 1 to 3 out of 10 people get a patchy skin color change or redness over the knee. It usually fades within a month.[^sir26][^ashraf][^amin] About 3 out of 1,000 people get a small skin sore over the knee.[^sir26] Serious problems are rare.[^sir26]"
 
 [[options]]
@@ -158,7 +158,7 @@ id = "steroid"
 name = "Steroid shot"
 what = "A steroid medicine is injected into the knee.[^mpoa]"
 invasive = "It is a shot given during an office visit."
-works = "It often eases pain for a while.[^mpoa] In studies, the benefit got smaller by about 3 months.[^juni] Repeat shots every 3 months for 2 years did not ease pain more than salt water.[^mcalindon]"
+works = "Studies disagree on how much a steroid shot helps. It often eases pain for a while.[^mpoa] In studies, the benefit got smaller by about 3 months.[^juni] Repeat shots every 3 months for 2 years did not ease pain more than salt water.[^mcalindon]"
 side = "Repeat shots caused slightly more loss of the knee cushion than salt water shots.[^mcalindon]"
 
 [[options]]
@@ -166,7 +166,7 @@ id = "hyaluronic"
 name = "Gel shots (hyaluronic acid)"
 what = "A gel is injected into the knee. It aims to replace the joint fluid that thins with arthritis.[^cus26]"
 invasive = "They are shots given during office visits."
-works = "In a large review of studies, they eased pain about as much as a fake shot.[^pereira]"
+works = "Current evidence says gel shots improve pain for some people, but overall they have not been shown to work any better than fake shots.[^pereira]"
 side = "Serious problems were more common than with a fake shot.[^pereira] The knee can be sore or swollen for a short time.[^cus26]"
 
 [[options]]
@@ -174,39 +174,39 @@ id = "prp"
 name = "Platelet-rich plasma (PRP)"
 what = "Platelets from your own blood are injected into the knee.[^cus26]"
 invasive = "Blood is drawn and the shots are given during office visits.[^restore]"
-works = "In a large careful study, people felt about as much better as those given salt water shots at one year.[^restore] Other studies have found some benefit.[^cus26]"
-side = "In studies, side effects were mild and short-lived.[^cus26]"
+works = "Studies disagree on whether PRP helps. In the largest careful study, people felt about as much better as those given salt water shots at one year.[^restore] Reviews of smaller studies found some relief for up to 6 months, but these results are uncertain.[^auroux]"
+side = "In studies, side effects were mild and short-lived. The knee can be sore or swollen for a short time.[^restore]"
 
 [[options]]
 id = "nerve-ablation"
 name = "Nerve ablation"
 what = "Heat quiets the nerves that carry pain from the knee.[^cus26]"
 invasive = "Ask your doctor how it is done and how long recovery takes."
-works = "In one study, about 7 out of 10 people had their pain cut in half at 6 months. That was much more than with one steroid shot. This study did not compare it with a fake procedure.[^davis] Nerves can grow back, so pain can return.[^cus26]"
-side = "No serious problems from the procedure were seen in that study.[^davis]"
+works = "Early studies suggest it can ease pain for about 3 months. Longer relief has not been shown.[^almeida]"
+side = "In studies, serious problems were not more common than with a fake procedure.[^almeida]"
 
 [[options]]
 id = "knee-replacement"
 name = "Knee replacement"
 what = "Surgery removes the worn cartilage and bone. Metal and plastic parts replace them.[^tkr]"
 invasive = "Surgery takes 1 to 2 hours. Most people leave the hospital in 1 to 4 days.[^tkr][^nhsrec] Most daily activities return in 3 to 6 weeks. Full recovery can take several months.[^tkr][^nhsrec]"
-works = "It works well for many people. More than 9 out of 10 new knees still work well 15 years later.[^tkr] About 1 out of 5 people were not satisfied in one large study.[^bourne]"
-side = "Serious problems, like a knee infection, happen in less than 2 out of 100 people.[^tkr] Some people have ongoing pain or stiffness.[^nhscomp]"
+works = "Strong evidence shows most new knees last a long time. About 8 out of 10 still have their original parts 25 years later.[^evans] In one careful study of people with severe arthritis, those who had a knee replacement felt better after a year than those who had a strong non-surgery program.[^skou15] About 1 to 2 out of 10 people are not satisfied with their new knee.[^bourne][^defrance]"
+side = "Serious problems, like a knee infection, happen in less than 2 out of 100 people.[^tkr] In that one study, serious problems were more common after surgery than without it.[^skou15] Some people have ongoing pain or stiffness.[^nhscomp]"
 
 [[options]]
 id = "partial-replacement"
 name = "Partial knee replacement"
 what = "Surgery replaces only the worn part of the knee.[^mpoa]"
 invasive = "Recovery should be shorter than after a full replacement. You may drive again after about 3 weeks instead of 6.[^nhsrec]"
-works = "It replaces only part of the knee.[^mpoa] Ask your surgeon whether your knee fits."
+works = "It is an option when only one part of the knee is worn.[^mpoa] In one large study, results after 5 years were about the same as a full replacement, with fewer complications.[^topkat] Partial knees need to be redone more often over 25 years.[^evans]"
 side = "Infection, blood clots, and ongoing pain or stiffness can happen after knee replacement.[^nhscomp]"
 
 [[options]]
 id = "osteotomy"
 name = "Bone realignment (osteotomy)"
-what = "Surgery reshapes a leg bone to take weight off the worn part of the knee.[^mpoa]"
+what = "Surgery reshapes the shin bone to shift weight off the worn inner side of the knee. It is mainly for younger, active people with bow legs.[^loke][^birmingham]"
 invasive = "It is surgery on the bone near the knee.[^mpoa]"
-works = "It is an option for some people with severe arthritis.[^mpoa]"
+works = "Early studies suggest it eases symptoms more than a non-surgery program.[^birmingham] About 1 out of 10 people have a knee replacement more than 10 years later.[^loke]"
 side = "Ask your surgeon about its risks and how long recovery takes."
 
 [[options]]
@@ -214,8 +214,8 @@ id = "scope"
 name = "Knee scope clean-out"
 what = "A camera and small tools wash out or trim the inside of the knee.[^mpoa][^moseley]"
 invasive = "It is surgery done through the skin with a camera.[^mpoa]"
-works = "In a careful study, it did no better than a fake surgery for knee arthritis.[^moseley] A major guideline advises against it for knee arthritis.[^aaos]"
-side = "Ask your surgeon about its risks."
+works = "Strong evidence shows a knee scope clean-out does not help knee arthritis more than fake surgery or physical therapy.[^moseley][^kirkley] A major guideline advises against it for knee arthritis.[^aaos]"
+side = "It carries the risks of surgery, such as blood clots and infection.[^thorlund]"
 
 # References, in no particular order: the page numbers them by first use. How each was read: evidence.md.
 [[refs]]
@@ -315,10 +315,6 @@ key = "restore"
 cite = "Bennell KL, Paterson KL, Metcalf BR, et al. Effect of intra-articular platelet-rich plasma vs placebo injection on pain and medial tibial cartilage volume in patients with knee osteoarthritis: the RESTORE randomized clinical trial. JAMA. 2021;326(20):2021-2030. doi:10.1001/jama.2021.19415. PMID 34812863."
 url = "https://doi.org/10.1001/jama.2021.19415"
 [[refs]]
-key = "davis"
-cite = "Davis T, Loudermilk E, DePalma M, et al. Prospective, multicenter, randomized, crossover clinical trial comparing the safety and effectiveness of cooled radiofrequency ablation with corticosteroid injection in the management of knee pain from osteoarthritis. Regional Anesthesia and Pain Medicine. 2018;43(1):84-91. doi:10.1097/AAP.0000000000000690. PMID 29095245."
-url = "https://doi.org/10.1097/AAP.0000000000000690"
-[[refs]]
 key = "tkr"
 cite = "OrthoInfo, American Academy of Orthopaedic Surgeons. Total knee replacement. Read November 4, 2026."
 url = "https://orthoinfo.aaos.org/en/treatment/total-knee-replacement/"
@@ -342,3 +338,79 @@ url = "https://doi.org/10.1056/NEJMoa013259"
 key = "sir26"
 cite = "Ahmed O, Taslakian B, Okuno Y, et al. Society of Interventional Radiology position statement on genicular artery embolization for symptomatic knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2026;37(7):108803. doi:10.1016/j.jvir.2026.108803. Open access."
 url = "https://doi.org/10.1016/j.jvir.2026.108803"
+[[refs]]
+key = "lawford"
+cite = "Lawford BJ, Hall M, Hinman RS, et al. Exercise for osteoarthritis of the knee. Cochrane Database of Systematic Reviews. 2024;(12):CD004376. doi:10.1002/14651858.CD004376.pub4. PMID 39625083."
+url = "https://doi.org/10.1002/14651858.CD004376.pub4"
+[[refs]]
+key = "dacosta21"
+cite = "da Costa BR, Pereira TV, Saadat P, et al. Effectiveness and safety of non-steroidal anti-inflammatory drugs and opioid treatment for knee and hip osteoarthritis: network meta-analysis. BMJ. 2021;375:n2321. doi:10.1136/bmj.n2321. PMID 34642179."
+url = "https://doi.org/10.1136/bmj.n2321"
+[[refs]]
+key = "machado"
+cite = "Machado GC, Maher CG, Ferreira PH, et al. Efficacy and safety of paracetamol for spinal pain and osteoarthritis: systematic review and meta-analysis of randomised placebo controlled trials. BMJ. 2015;350:h1225. doi:10.1136/bmj.h1225. PMID 25828856."
+url = "https://doi.org/10.1136/bmj.h1225"
+[[refs]]
+key = "bhandari"
+cite = "Bhandari B, Bisht K, Purohit G, et al. Navigating the efficacy and safety landscape of duloxetine in osteoarthritis management: a meta-analysis of randomized controlled trials. Indian Journal of Orthopaedics. 2025;59(8):1123-1136. doi:10.1007/s43465-025-01372-y. PMID 40852552."
+url = "https://doi.org/10.1007/s43465-025-01372-y"
+[[refs]]
+key = "dacosta14"
+cite = "da Costa BR, Nüesch E, Kasteler R, et al. Oral or transdermal opioids for osteoarthritis of the knee or hip. Cochrane Database of Systematic Reviews. 2014;(9):CD003115. doi:10.1002/14651858.CD003115.pub4. PMID 25229835."
+url = "https://doi.org/10.1002/14651858.CD003115.pub4"
+[[refs]]
+key = "toupin"
+cite = "Toupin April K, Bisaillon J, Welch V, et al. Tramadol for osteoarthritis. Cochrane Database of Systematic Reviews. 2019;(5):CD005522. doi:10.1002/14651858.CD005522.pub3. PMID 31132298. Most included trials were industry funded."
+url = "https://doi.org/10.1002/14651858.CD005522.pub3"
+[[refs]]
+key = "auroux"
+cite = "Auroux M, Debionne T, Mainbourg S, Chapurlat R. Efficacy of intra-articular platelet-rich plasma compared with placebo in knee osteoarthritis: a systematic review and meta-analysis. Joint Bone Spine. 2025;92(6):105947. doi:10.1016/j.jbspin.2025.105947. PMID 40653151."
+url = "https://doi.org/10.1016/j.jbspin.2025.105947"
+[[refs]]
+key = "almeida"
+cite = "Almeida M, Saragiotto BT, Hunter DJ, et al. Efficacy and safety of minimally invasive interventions targeting the genicular nerves for knee osteoarthritis: a meta-analysis. Osteoarthritis and Cartilage. 2025;33(5):535-547. doi:10.1016/j.joca.2025.02.780. PMID 40054598."
+url = "https://doi.org/10.1016/j.joca.2025.02.780"
+[[refs]]
+key = "evans"
+cite = "Evans JT, Walker RW, Evans JP, Blom AW, Sayers A, Whitehouse MR. How long does a knee replacement last? A systematic review and meta-analysis of case series and national registry reports with more than 15 years of follow-up. Lancet. 2019;393(10172):655-663. doi:10.1016/S0140-6736(18)32531-5. PMID 30782341."
+url = "https://doi.org/10.1016/S0140-6736(18)32531-5"
+[[refs]]
+key = "skou15"
+cite = "Skou ST, Roos EM, Laursen MB, et al. A randomized, controlled trial of total knee replacement. New England Journal of Medicine. 2015;373(17):1597-1606. doi:10.1056/NEJMoa1505467. PMID 26488691."
+url = "https://doi.org/10.1056/NEJMoa1505467"
+[[refs]]
+key = "skou18"
+cite = "Skou ST, Roos EM, Laursen MB, et al. Total knee replacement and non-surgical treatment of knee osteoarthritis: 2-year outcome from two parallel randomized controlled trials. Osteoarthritis and Cartilage. 2018;26(9):1170-1180. doi:10.1016/j.joca.2018.04.014. PMID 29723634."
+url = "https://doi.org/10.1016/j.joca.2018.04.014"
+[[refs]]
+key = "hannon"
+cite = "Hannon CP, Goodman SM, Austin MS, et al. 2023 American College of Rheumatology and American Association of Hip and Knee Surgeons clinical practice guideline for the optimal timing of elective hip or knee arthroplasty. Arthritis Care and Research. 2023. doi:10.1002/acr.25175. Conditional recommendation, low-quality evidence."
+url = "https://doi.org/10.1002/acr.25175"
+[[refs]]
+key = "defrance"
+cite = "DeFrance MJ, Scuderi GR. Are 20% of patients actually dissatisfied following total knee arthroplasty? A systematic review of the literature. Journal of Arthroplasty. 2023;38(3):594-599. doi:10.1016/j.arth.2022.10.011."
+url = "https://doi.org/10.1016/j.arth.2022.10.011"
+[[refs]]
+key = "topkat"
+cite = "Beard DJ, Davies LJ, Cook JA, et al. The clinical and cost-effectiveness of total versus partial knee replacement in patients with medial compartment osteoarthritis (TOPKAT): 5-year outcomes of a randomised controlled trial. Lancet. 2019;394(10200):746-756. doi:10.1016/S0140-6736(19)31281-4. PMID 31326135."
+url = "https://doi.org/10.1016/S0140-6736(19)31281-4"
+[[refs]]
+key = "birmingham"
+cite = "Birmingham TB, Primeau CA, Moyer RF, et al. High tibial osteotomy for medial compartment knee osteoarthritis: a randomized trial with parallel preference arm. Annals of Internal Medicine. 2025;178(9):1238-1248. doi:10.7326/ANNALS-25-00920. PMID 40720836. One center."
+url = "https://doi.org/10.7326/ANNALS-25-00920"
+[[refs]]
+key = "loke"
+cite = "Loke RWK, Chan YK, Lim YH, Tan BWL, Hui JHP. Conversion to total knee arthroplasty after high tibial osteotomy: a systematic review and meta-analysis. Orthopaedic Journal of Sports Medicine. 2025;13(2):23259671241310963. doi:10.1177/23259671241310963. PMID 39916951."
+url = "https://doi.org/10.1177/23259671241310963"
+[[refs]]
+key = "kirkley"
+cite = "Kirkley A, Birmingham TB, Litchfield RB, et al. A randomized trial of arthroscopic surgery for osteoarthritis of the knee. New England Journal of Medicine. 2008;359(11):1097-1107. doi:10.1056/NEJMoa0708333. PMID 18784099."
+url = "https://doi.org/10.1056/NEJMoa0708333"
+[[refs]]
+key = "thorlund"
+cite = "Thorlund JB, Juhl CB, Roos EM, Lohmander LS. Arthroscopic surgery for degenerative knee: systematic review and meta-analysis of benefits and harms. BMJ. 2015;350:h2747. doi:10.1136/bmj.h2747. PMID 26080045."
+url = "https://doi.org/10.1136/bmj.h2747"
+[[refs]]
+key = "singh26"
+cite = "Singh A, Shah M, Vij R, Fountain C, Prologo JD. Intra-articular injection use and total knee arthroplasty after genicular artery embolization for knee osteoarthritis: a matched national claims analysis. Journal of Vascular and Interventional Radiology. 2026:109144. doi:10.1016/j.jvir.2026.109144. PMID 42874703."
+url = "https://doi.org/10.1016/j.jvir.2026.109144"
