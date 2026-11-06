@@ -3,7 +3,7 @@
 # for knees vs other joints"; "use the same type of language as the UFE page". Section match:
 # goswami-hq/ai-hq projects/platform/arthritis-page/section-match.md. Evidence table, grades and how each source was read:
 # projects/platform/arthritis-page/evidence.md.
-# Build: python3 tools/build.py. Reading level: python3 tools/readability.py arthritis-embolization.
+# Build: python3 tools/build.py. Reading level: python3 tools/readability.py knee-arthritis.
 # Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point. Citations stay.
 # Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
 # no trial names or evidence grades in the reading text; each option states its own limits and side effects (his
@@ -13,7 +13,7 @@
 # using it on this page is an inference, on his list (evidence.md (d)8). Sources say "checked straight away" (NHS) or
 # "contact your provider" (MedlinePlus).
 
-slug = "arthritis-embolization"
+slug = "knee-arthritis"
 color = "gae"                  # green, the same color as the GAE finder
 finder = "gae"                 # the finder this page leads to: today's GAE list, knee only
 diagram = "gae"                # tools/diagrams/anim-gae.svgfrag ...

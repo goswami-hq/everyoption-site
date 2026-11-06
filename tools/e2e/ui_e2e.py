@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 BASE = "http://localhost:8791"
-PAGES = ["/", "/fibroids/", "/enlarged-prostate/", "/arthritis-embolization/", "/how-we-know/", "/report/", "/account/"]
+PAGES = ["/", "/fibroids/", "/enlarged-prostate/", "/knee-arthritis/", "/how-we-know/", "/report/", "/account/"]
 R = {"checks": []}
 
 

@@ -2,7 +2,9 @@
 /ufe/ /fibroids/ 301
 /pae /enlarged-prostate/ 301
 /pae/ /enlarged-prostate/ 301
-/gae /arthritis-embolization/ 301
-/gae/ /arthritis-embolization/ 301
+/gae /knee-arthritis/ 301
+/gae/ /knee-arthritis/ 301
+/arthritis-embolization /knee-arthritis/ 301
+/arthritis-embolization/ /knee-arthritis/ 301
 /claim /report/ 301
 /claim/ /report/ 301

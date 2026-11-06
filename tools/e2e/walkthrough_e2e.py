@@ -31,7 +31,7 @@ def search(pg, zipc):
 
 with sync_playwright() as p:
     b = p.chromium.launch()
-    for path in ("/fibroids/", "/enlarged-prostate/", "/arthritis-embolization/"):
+    for path in ("/fibroids/", "/enlarged-prostate/", "/knee-arthritis/"):
         ctx = b.new_context(viewport={"width": 390, "height": 844}); pg = ctx.new_page()
         pg.goto(BASE + path); search(pg, "60611")
         pg.locator("#radius").select_option("25")

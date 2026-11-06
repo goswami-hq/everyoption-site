@@ -6,7 +6,7 @@ The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq s
 Standard library only; the built pages are plain static HTML (Cloudflare Pages serves site/ with no build step).
 """
 import pathlib
-import html, json, os, re
+import html, json, os, re, shutil
 import cities
 import condition
 import directory
@@ -191,7 +191,7 @@ def fork(keys):
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
-    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}
+    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}
 
     def row(k, p):
         return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))} '
@@ -273,7 +273,8 @@ def diagram(k, vary=True):
 </figure>"""
 
 
-MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/arthritis-embolization/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
+MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
+RENAMED = ["arthritis-embolization"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
 FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
@@ -533,6 +534,8 @@ def main():
     write("report/index.html", report())
     write("account/index.html", account())
     write("404.html", not_found())
+    for old in RENAMED:   # a renamed page's old folder goes, so only site/_redirects answers its old address
+        shutil.rmtree(os.path.join(SITE, old), ignore_errors=True)
     for slug in condition.slugs():
         c = condition.load(slug)
         path = f"/{slug}/"

@@ -203,7 +203,7 @@ test("sitemaps: an index of one file per page type; drafts, /account/ and /repor
   assert.match(read("robots.txt"), /Sitemap: https:\/\/everyoptionmd\.com\/sitemap\.xml/);
   const pages = read("sitemap-pages.xml");
   assert.ok(pages.includes("<loc>https://everyoptionmd.com/fibroids/</loc><lastmod>2026-11-02</lastmod>"), "fibroids reviewed date");
-  for (const u of ["/account/", "/report/", "/enlarged-prostate/", "/arthritis-embolization/"]) assert.ok(!pages.includes(`com${u}<`), u);
+  for (const u of ["/account/", "/report/", "/enlarged-prostate/", "/knee-arthritis/"]) assert.ok(!pages.includes(`com${u}<`), u);
   const city = [...read("sitemap-cities.xml").matchAll(/<loc>https:\/\/everyoptionmd\.com([^<]*)<\/loc><lastmod>2026-10-29<\/lastmod>/g)].map((m) => m[1]);
   assert.deepEqual(city.sort(), ["/fibroids/doctors/", ...CITIES.metros.ufe.map((m) => `/fibroids/doctors/${m.slug}/`)].sort());
   const all = idx + pages + read("sitemap-cities.xml") + read("sitemap-doctors.xml");
@@ -211,10 +211,10 @@ test("sitemaps: an index of one file per page type; drafts, /account/ and /repor
 });
 
 test("draft condition pages send noindex; fibroids does not; 404 has no canonical; no third-party script on condition pages", () => {
-  for (const s of ["enlarged-prostate", "arthritis-embolization"]) assert.match(read(`${s}/index.html`), /<meta name="robots" content="noindex">/, s);
+  for (const s of ["enlarged-prostate", "knee-arthritis"]) assert.match(read(`${s}/index.html`), /<meta name="robots" content="noindex">/, s);
   assert.doesNotMatch(read("fibroids/index.html"), /name="robots"/);
   assert.doesNotMatch(read("404.html"), /rel="canonical"/);
-  for (const s of ["fibroids", "enlarged-prostate", "arthritis-embolization"]) {
+  for (const s of ["fibroids", "enlarged-prostate", "knee-arthritis"]) {
     const h = read(`${s}/index.html`);
     for (const m of h.matchAll(/<script\b([^>]*)>/g)) {
       if (/type="application\/ld\+json"/.test(m[1])) continue;
