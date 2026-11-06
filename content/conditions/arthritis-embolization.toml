@@ -115,18 +115,18 @@ a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^uc
 
 [[faq]]
 q = "Can I still have a knee replacement later?"
-a = "Yes. GAE does not seem to make a later knee replacement harder or less successful, but doctors are still checking.[^sir26]"
+a = "Yes. GAE does not seem to make a later knee replacement harder, but doctors are still checking.[^sir26]"
 
 [[faq]]
 q = "Do I need a knee replacement?"
-a = "Not always. It is usually for severe arthritis when other treatments no longer help.[^mpoa][^tkr] Many people try exercise, medicines, or injections first. Some also consider embolization. Many people who could have a knee replacement try a full non-surgery program first and still have not had surgery 2 years later.[^skou18] If other treatments have stopped helping, waiting longer for surgery is usually not advised.[^hannon]"
+a = "Not always. It is usually for severe arthritis when other treatments no longer help.[^mpoa][^tkr] Many people try exercise, medicines, or injections first. Some also consider embolization. Many people who could have a knee replacement try a full non-surgery program first and still have not had surgery 2 years later.[^skou18]"
 
 [[options]]
 id = "exercise"
 name = "Exercise and weight loss"
 what = "Exercise and physical therapy build strength and keep the knee moving. Losing weight, if you are overweight, takes stress off the knee.[^mpoa]"
 invasive = "No procedure is needed. A physical therapist can show you what to do.[^mpoa]"
-works = "Good evidence suggests exercise helps you use your knee better. It may also ease pain a little.[^lawford] If you are overweight, losing weight with diet and exercise can ease pain more than exercise alone.[^idea] If physical therapy has not helped after 6 to 12 weeks, it likely will not.[^mpoa]"
+works = "Good evidence suggests exercise helps you use your knee better. It may also ease pain a little.[^lawford] If you are overweight, losing weight with diet and exercise can ease pain more than exercise alone.[^idea]"
 side = "Pain can make it hard to keep active. Ask your doctor for an exercise routine.[^mpoa]"
 
 [[options]]
@@ -151,7 +151,7 @@ name = "Knee artery embolization (GAE)"
 what = "Genicular artery embolization (GAE) is a newer treatment for knee arthritis pain. Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee."
 invasive = "It is done through a tiny skin nick, usually in the groin. You stay awake, with medicine to help you relax. Most people go home the same day.[^bsir][^ucla] Relief often starts within about two weeks.[^ucla]"
 works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
-side = "You may have a bruise where the tube went in.[^bsir] About 1 to 3 out of 10 people get a patchy color change or redness on the skin over the knee. It usually fades within a month.[^sir26][^ashraf][^amin] Some people get a small skin sore over the knee. It usually heals on its own.[^sir26][^padia] Rarely, numbness or tingling in the lower leg can last for months.[^vz26] Serious problems are rare.[^sir26]"
+side = "You may have a bruise where the tube went in.[^bsir] About 1 to 3 out of 10 people get a patchy color change or redness on the skin over the knee. It usually fades within a month.[^sir26][^ashraf][^amin] Some people get a small skin sore over the knee. It usually heals on its own.[^sir26][^padia] Some people have numbness or tingling in the lower leg. Rarely, it lasts for months.[^vz26] Serious problems are rare.[^sir26]"
 
 [[options]]
 id = "steroid"
@@ -159,14 +159,14 @@ name = "Steroid shot"
 what = "A steroid medicine is injected into the knee.[^mpoa]"
 invasive = "It is a shot given during an office visit."
 works = "Studies disagree on how much a steroid shot helps. It often eases pain for a while, but the relief usually fades by about 3 months.[^mpoa][^juni] Getting shots again and again does not seem to give more relief.[^mcalindon] Physical therapy may help more than shots over a year.[^deyle]"
-side = "Repeat shots may wear down the knee cushion a little faster.[^mcalindon]"
+side = "Repeat shots may wear down the knee cushion a little faster.[^mcalindon] If you are planning a knee replacement, tell your surgeon about any recent shot.[^yang22]"
 
 [[options]]
 id = "hyaluronic"
 name = "Gel shots (hyaluronic acid)"
 what = "A gel is injected into the knee. It aims to replace the joint fluid that thins with arthritis.[^cus26]"
 invasive = "They are shots given during office visits."
-works = "Gel shots ease pain only slightly more than fake shots, too little for most people to notice.[^pereira]"
+works = "Strong evidence shows gel shots ease pain only slightly more than fake shots, too little for most people to notice.[^pereira]"
 side = "Serious problems are a bit more common than with fake shots.[^pereira] The knee can be sore or swollen for a short time.[^cus26]"
 
 [[options]]
@@ -383,10 +383,6 @@ key = "skou18"
 cite = "Skou ST, Roos EM, Laursen MB, et al. Total knee replacement and non-surgical treatment of knee osteoarthritis: 2-year outcome from two parallel randomized controlled trials. Osteoarthritis and Cartilage. 2018;26(9):1170-1180. doi:10.1016/j.joca.2018.04.014. PMID 29723634."
 url = "https://doi.org/10.1016/j.joca.2018.04.014"
 [[refs]]
-key = "hannon"
-cite = "Hannon CP, Goodman SM, Austin MS, et al. 2023 American College of Rheumatology and American Association of Hip and Knee Surgeons clinical practice guideline for the optimal timing of elective hip or knee arthroplasty. Arthritis Care and Research. 2023. doi:10.1002/acr.25175. Conditional recommendation, low-quality evidence."
-url = "https://doi.org/10.1002/acr.25175"
-[[refs]]
 key = "defrance"
 cite = "DeFrance MJ, Scuderi GR. Are 20% of patients actually dissatisfied following total knee arthroplasty? A systematic review of the literature. Journal of Arthroplasty. 2023;38(3):594-599. doi:10.1016/j.arth.2022.10.011."
 url = "https://doi.org/10.1016/j.arth.2022.10.011"
@@ -434,3 +430,7 @@ url = "https://doi.org/10.1007/s00330-026-12505-8"
 key = "deyle"
 cite = "Deyle GD, Allen CS, Allison SC, et al. Physical therapy versus glucocorticoid injection for osteoarthritis of the knee. New England Journal of Medicine. 2020;382(15):1420-1429. doi:10.1056/NEJMoa1905877. PMID 32268027."
 url = "https://doi.org/10.1056/NEJMoa1905877"
+[[refs]]
+key = "yang22"
+cite = "Yang X, Li L, Ren X, Nie L. Do preoperative intra-articular injections of corticosteroids or hyaluronic acid increase the risk of infection after total knee arthroplasty? A meta-analysis. Bone and Joint Research. 2022;11(3):171-179. doi:10.1302/2046-3758.113.BJR-2021-0350.R1. PMID 35311571. Retrospective studies; higher infection risk with a shot in the 3 months before surgery."
+url = "https://doi.org/10.1302/2046-3758.113.BJR-2021-0350.R1"
