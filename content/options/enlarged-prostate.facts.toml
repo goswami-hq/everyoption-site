@@ -1,0 +1,465 @@
+# The tie between the prostate simple page (content/conditions/enlarged-prostate.toml) and the prostate every-option
+# page (content/options/enlarged-prostate.toml). Job platform-main-0019, built on the fibroid pattern (tools/options.py)
+# and the knee page's deep-only facts.
+# Shared facts: `simple` must appear in that option's simple text with `refs` cited there; the deep page states it only
+# as {f:id}. Deep-only facts (simple = ""): study details for the advanced reader (his words, 2026-11-05: "All of these
+# specific details we can include on the in depth page"), written {d:id}; `read` says how the source was read, and
+# "abstract" prints "(abstract only)". Every number on either page is one of these lines; any other fails the build.
+# Sources and how each was read: ai-hq projects/platform/pae-page/evidence.md, search/2026-11-06-*.md and
+# notes/sexual-function-2026-11-06.md.
+
+# ---- Shared with the simple page ----
+[[fact]]
+id = "over-80"
+option = ""
+simple = "more than 9 out of 10 men having it in their 80s"
+deep = "more than 9 out of 10 men in their 80s"
+refs = ["mpbph"]
+[[fact]]
+# not a number: "out of" trips the number check, so the phrase is tied rather than reworded on the simple page
+id = "urethra-words"
+option = ""
+simple = "carries urine out of the body"
+deep = "carries urine out of the body"
+refs = ["mpbph"]
+[[fact]]
+id = "selfcare"
+option = ""
+simple = "self-care has not helped after 2 months"
+deep = "self-care has not helped after 2 months"
+refs = ["mpbph"]
+[[fact]]
+id = "alpha-days"
+option = "alpha-blockers"
+simple = "within 3 to 7 days"
+deep = "within 3 to 7 days"
+refs = ["mpbph"]
+[[fact]]
+id = "ari-months"
+option = "shrinking-pills"
+simple = "3 to 6 months"
+deep = "3 to 6 months"
+refs = ["mpbph"]
+[[fact]]
+id = "pless-half"
+option = "shrinking-pills"
+simple = "about in half over 4 years"
+deep = "about in half over 4 years"
+refs = ["pless", "proscar"]
+[[fact]]
+id = "turp-recovery"
+option = ""
+simple = "3 to 6 weeks"
+deep = "3 to 6 weeks"
+refs = ["mpturpdc"]
+[[fact]]
+id = "aua-year"
+option = "embolization"
+simple = "2026 guideline"
+deep = "2026 guideline"
+refs = ["aua"]
+[[fact]]
+id = "aua-2y"
+option = "embolization"
+simple = "for up to 2 years"
+deep = "for up to 2 years"
+refs = ["aua", "cochrane"]
+[[fact]]
+id = "pae-retreat"
+option = "embolization"
+simple = "about 1 out of 5 within five years"
+deep = "about 1 out of 5 within five years"
+refs = ["bilhim"]
+[[fact]]
+id = "lift-2wk"
+option = "urethral-lift"
+simple = "within 2 weeks"
+deep = "within 2 weeks"
+refs = ["lift5"]
+[[fact]]
+id = "lift-week"
+option = "urethral-lift"
+simple = "about 1 week"
+deep = "about 1 week"
+refs = ["lift5"]
+[[fact]]
+id = "lift-retreat"
+option = "urethral-lift"
+simple = "about 1 out of 7 men need another procedure within 5 years"
+deep = "about 1 out of 7 men need another procedure within 5 years"
+refs = ["lift5"]
+[[fact]]
+id = "steam-3mo"
+option = "water-vapor"
+simple = "within 3 months"
+deep = "within 3 months"
+refs = ["rezum5"]
+[[fact]]
+id = "steam-retreat"
+option = "water-vapor"
+simple = "about 1 out of 7 men need more surgery within 5 years"
+deep = "about 1 out of 7 men need more surgery within 5 years"
+refs = ["cosmos"]
+[[fact]]
+id = "balloon-2y"
+option = "balloon"
+simple = "at least 2 years"
+deep = "at least 2 years"
+refs = ["pinnacle", "pinnacle2"]
+[[fact]]
+id = "turp-stay"
+option = "turp"
+simple = "1 to 3 days"
+deep = "1 to 3 days"
+refs = ["mpturp"]
+[[fact]]
+id = "turp-redo"
+option = "turp"
+simple = "about 1 out of 10 men need more surgery within 20 years"
+deep = "about 1 out of 10 men need more surgery within 20 years"
+refs = ["niddk"]
+[[fact]]
+id = "water-5y"
+option = "waterjet"
+simple = "for at least 5 years"
+deep = "for at least 5 years"
+refs = ["water5"]
+[[fact]]
+id = "water-ejac"
+option = "waterjet"
+simple = "about 1 out of 14 men"
+deep = "about 1 out of 14 men"
+refs = ["water5"]
+[[fact]]
+id = "open-stay"
+option = "open-prostatectomy"
+simple = "2 to 4 days"
+deep = "2 to 4 days"
+refs = ["mpsimple"]
+[[fact]]
+id = "open-recovery"
+option = "open-prostatectomy"
+simple = "about 6 weeks"
+deep = "about 6 weeks"
+refs = ["mpsimple"]
+
+# ---- Deep page only ----
+# Medicines
+[[fact]]
+id = "flomax-trials"
+option = "alpha-blockers"
+simple = ""
+deep = "In the label's placebo-controlled trials of tamsulosin 0.4 mg, dizziness was reported by 14.9% against 10.1% on placebo, and abnormal ejaculation by 8.4% against 0.2%"
+refs = ["flomax"]
+read = "page"
+[[fact]]
+id = "pless-trial"
+option = "shrinking-pills"
+simple = ""
+deep = "PLESS randomized 3,040 men with enlarged prostates to finasteride or placebo for 4 years: 69 of 1,513 men on finasteride (5%) and 152 of 1,503 on placebo (10%) had surgery"
+refs = ["pless"]
+read = "abstract"
+[[fact]]
+id = "mtops"
+option = "shrinking-pills"
+simple = ""
+deep = "MTOPS randomized 3,047 men to placebo, doxazosin (an alpha blocker), finasteride, or both, for a mean of about 4.5 years. Clinical progression (a symptom score rise of 4 points or more, urinary retention, incontinence, kidney insufficiency or recurrent infection) was cut by 66% with the combination against placebo, and the combination and finasteride alone lowered retention and invasive treatment"
+refs = ["mtops"]
+read = "abstract"
+[[fact]]
+id = "pde5"
+option = "tadalafil"
+simple = ""
+deep = "In the Cochrane review of these pills, the symptom score (IPSS) fell 1.89 points more than with placebo (95% CI 1.50 to 2.27) over 6 to 12 weeks, low-certainty evidence; adverse events were more common (risk ratio 1.42)"
+refs = ["pde5"]
+read = "full text"
+
+# PAE
+[[fact]]
+id = "ukrope"
+option = "embolization"
+simple = ""
+deep = "In the UK registry, 71% of PAE procedures were day cases or outpatient, while 80% of men having TURP stayed at least 1 night"
+refs = ["ukrope"]
+read = "abstract"
+[[fact]]
+id = "sham"
+option = "embolization"
+simple = ""
+deep = "80 men with severe symptoms at one private clinic, run by the group that developed the technique. At 6 months the symptom score had fallen 12.07 points more after PAE than after the sham (95% CI 8.69 to 15.45; moderate certainty in the Cochrane review). The blinded comparison ends at 6 months, when sham patients could cross over"
+refs = ["sham", "cochrane"]
+read = "full text"
+[[fact]]
+id = "coch-turp"
+option = "embolization"
+simple = ""
+deep = "Cochrane review, searched to November 2021, mean prostate size 72.8 mL. Against TURP up to 12 months: 6 randomized trials, 360 men, symptom score difference 1.72 points in favour of TURP (95% CI -0.37 to 3.81), low certainty. At 24 months: 2 trials, 176 men, 2.58 points (-1.54 to 6.71), low certainty. Both intervals include the 3-point smallest difference men notice, so a gap that matters has not been ruled out"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "abt18"
+option = "embolization"
+simple = ""
+deep = "The Swiss trial randomized 103 men at one centre, open label, against TURP. At 12 weeks the adjusted symptom score gap was 2.87 points in favour of TURP (95% CI 0.53 to 5.21). Harms were counted the same way in both arms (modified Clavien grading, prospectively, with independent monitoring): 36 adverse events after PAE against 70 after TURP, and two or more events in 16.7% against 45.1%. Severe pain in the first 12 to 24 hours was more common after PAE (18.8% against 4.3%, p = 0.06)"
+refs = ["abt18"]
+read = "full text"
+[[fact]]
+id = "abt5"
+option = "embolization"
+simple = ""
+deep = "At 5 years in the same trial, only 18 of 48 PAE men and 38 of 51 TURP men were still followed. The symptom score had fallen 7.78 points after PAE and 11.57 after TURP (difference 3.79, 95% CI -0.66 to 8.24, p = 0.092), and urine flow rose 3.59 against 9.30 mL/s"
+refs = ["abt5"]
+read = "abstract"
+[[fact]]
+id = "coch-retreat"
+option = "embolization"
+simple = ""
+deep = "Repeat treatment against TURP in the Cochrane review: risk ratio 3.20 (95% CI 1.41 to 7.27) at 6 to 12 months, 4 trials, 303 men, about 118 against 37 per 1,000; and 3.80 (1.32 to 10.93) at 13 to 24 months, 1 trial, 81 men. Both moderate certainty"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "partem"
+option = "embolization"
+simple = ""
+deep = "PARTEM randomized 90 men with prostates of 50 mL or more, still bothered on an alpha blocker, to PAE or dutasteride plus tamsulosin, open label, for 9 months: the symptom score fell 10.0 points against 5.7 (difference 4.4, 95% CI 1.9 to 6.9). Sponsored by the Paris public hospitals with the French Ministry of Health; the abstract also names a grant from an embolic maker"
+refs = ["partem"]
+read = "abstract"
+[[fact]]
+id = "peasy"
+option = "embolization"
+simple = ""
+deep = "P-EASY ADVANCE randomized 39 men with no earlier treatment and prostates of about 86 mL to PAE or tamsulosin plus dutasteride, open label: 63% against 28% were no longer obstructed on pressure-flow testing (p = 0.03), and the symptom score fell more after PAE"
+refs = ["peasy"]
+read = "abstract"
+[[fact]]
+id = "lebani"
+option = "embolization"
+simple = ""
+deep = "PoPAE randomized 48 men with prostates over 80 mL to PAE (23) or open simple prostatectomy (25), 6 months: symptom scores and leftover urine fell similarly, but urine flow rose 8.3 against 15.1 mL/s, and 70% of PAE men against 12% after open surgery were still obstructed on pressure-flow testing"
+refs = ["lebani"]
+read = "abstract"
+[[fact]]
+id = "pisco16"
+option = "embolization"
+simple = ""
+deep = "630 consecutive men at one centre, no comparison group: clinical success by the authors' own definition was 81.9% at 1 to 3 years and 76.3% at more than 3 to 6.5 years"
+refs = ["pisco"]
+read = "abstract"
+[[fact]]
+id = "bilhim"
+option = "embolization"
+simple = ""
+deep = "1,072 men at one centre over 10 years, read back from records: repeat treatment 3.4% at 1 year, 21.1% at 5 years and 58.1% at 10 years. At 5 years that was a second PAE in 9.5% and prostate surgery in 11.6%. Going back on prostate medicine (31.3% of men) is not counted in it"
+refs = ["bilhim"]
+read = "abstract"
+[[fact]]
+id = "kristensen"
+option = "embolization"
+simple = ""
+deep = "A Danish nationwide prospective cohort of 336 men (median prostate 101 mL; 26% dependent on a urine tube): serious adverse events 7.7%; repeat treatment 9.5% at 2 years and 18% at 5 years; 60% of the tube-dependent men were tube-free within 6 months"
+refs = ["kristensen"]
+read = "abstract"
+[[fact]]
+id = "mabud"
+option = "embolization"
+simple = ""
+deep = "A U.S. insurance-claims study of 959 men whose first BPH procedure was PAE: any repeat treatment 7.5% at 1 year, 17.1% at 3 years and 25.8% at 5 years (95% CI 16.2 to 34.3; only 23 men still followed at 5 years). TURP was the most common repeat, 9.1% at 5 years"
+refs = ["mabud"]
+read = "abstract"
+[[fact]]
+id = "bhatia25"
+option = "embolization"
+simple = ""
+deep = "1,075 men at one U.S. centre, read back from records, mean follow-up 458 days, harms graded by the Society of Interventional Radiology system: 16% of men eligible for a repeat had one, up to 60 months; 94% of 126 men in retention were catheter-free at 3 months"
+refs = ["bhatia25"]
+read = "abstract"
+[[fact]]
+id = "sapoval24"
+option = "embolization"
+simple = ""
+deep = "An international multicentre prospective study of 478 men (405 with symptoms, 73 in retention), funded by an embolic maker: symptom score 21.8 before and 11.2 at 24 months; 65.8% of men in retention became and stayed catheter-free; any adverse event 11.5%, serious 2.1%"
+refs = ["sapoval24"]
+read = "full text"
+[[fact]]
+id = "coch-major"
+option = "embolization"
+simple = ""
+deep = "major adverse events against TURP, risk ratio 0.91 (95% CI 0.20 to 4.05), very low certainty"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "aua-rec"
+option = "embolization"
+simple = ""
+deep = "a conditional recommendation, evidence grade B, for PAE with particle embolics in prostates of 50 cc or more"
+refs = ["aua"]
+read = "full text"
+
+# Sexual function (his yes 2026-11-06 to the simple lines; the full picture here, with each study's definition)
+[[fact]]
+id = "ejac-swiss"
+option = "embolization"
+simple = ""
+deep = "In the Swiss trial against TURP, re-read for ejaculation, any ejaculatory disorder was counted, including less semen: 56% after PAE (14 of 25 men who could be assessed) against 84% after TURP (21 of 25) at 12 weeks. Complete loss of ejaculation (anejaculation) was 16% after PAE against 52% after TURP, and less semen 40% after PAE. One urology-led trial with one embolization operator"
+refs = ["ejac"]
+read = "full text"
+[[fact]]
+id = "coch-ejac"
+option = "embolization"
+simple = ""
+deep = "the Cochrane review found ejaculatory disorders less likely after PAE than TURP, risk ratio 0.67 (95% CI 0.45 to 0.98) in 1 randomized trial of 50 men and 0.51 (0.35 to 0.73) in 1 non-randomized study of 260 men, both low certainty"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "lokesh"
+option = "embolization"
+simple = ""
+deep = "A systematic review of men randomized in 19 studies of newer less invasive treatments counted retrograde ejaculation (semen going into the bladder): under 2% by 1 year for PAE, steam, the lift and waterjet"
+refs = ["lokesh"]
+read = "abstract"
+[[fact]]
+id = "rawash"
+option = "embolization"
+simple = ""
+deep = "In 147 men at one Italian centre who were not suitable for or declined surgery, 130 (88.5%) said at 12 months that ejaculation was preserved (forward, not into the bladder); erection scores (IIEF) were stable"
+refs = ["rawash"]
+read = "abstract"
+[[fact]]
+id = "amouyal"
+option = "embolization"
+simple = ""
+deep = "In 32 consecutive men at one French centre, referred after medicines failed and surgery was refused or not possible, there was no retrograde ejaculation"
+refs = ["amouyal"]
+read = "abstract"
+[[fact]]
+id = "peasy-sex"
+option = "embolization"
+simple = ""
+deep = "In the trial against two pills in untreated men, ejaculation changed in 1 man (5%) after PAE against 20% on the pills, and 40% on the pills reported lower sex drive"
+refs = ["peasy"]
+read = "full text"
+[[fact]]
+id = "coch-ed"
+option = "embolization"
+simple = ""
+deep = "Against TURP, the Cochrane review found little to no difference in erection score (IIEF-5 difference -0.50 points, 95% CI -5.88 to 4.88; 2 trials, 120 men; low certainty)"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "sapoval-ed"
+option = "embolization"
+simple = ""
+deep = "In the multicentre study, the erection score (SHIM) was 13.8 before and 13.9 at 12 months (p = 0.912)"
+refs = ["sapoval24"]
+read = "full text"
+[[fact]]
+id = "alizadeh"
+option = "embolization"
+simple = ""
+deep = "In 551 procedures at one centre, erection scores (IIEF) stayed stable"
+refs = ["alizadeh"]
+read = "abstract"
+[[fact]]
+id = "kawakibi"
+option = "embolization"
+simple = ""
+deep = "In 183 men at one U.S. centre, greater urinary improvement went with greater erection-score (SHIM) improvement, most in men who had erection problems beforehand (26.3% against 3.8% of weaker responders reached the smallest change men notice), and with no change in ejaculation score"
+refs = ["kawakibi"]
+read = "abstract"
+[[fact]]
+id = "larussa"
+option = "embolization"
+simple = ""
+deep = "A meta-analysis of 35 studies and 2,653 men across four less invasive treatments found that only PAE improved the IIEF-5 erection score, from 6 to 12 months; these are different studies, not compared directly"
+refs = ["larussa"]
+read = "abstract"
+
+# Office procedures
+[[fact]]
+id = "lift5"
+option = "urethral-lift"
+simple = ""
+deep = "206 men with prostates of 30 to 80 cc, randomized against a sham, then followed without a comparison group to 5 years; sponsored by the maker. Surgical retreatment was 13.6% over 5 years, and men returned to their usual activity in a mean of 8.6 days"
+refs = ["lift5"]
+read = "abstract"
+[[fact]]
+id = "rezum5"
+option = "water-vapor"
+simple = ""
+deep = "197 men with prostates of 30 to 80 cc, randomized against a sham at first, then followed to 5 years; sponsored by the maker. Surgical retreatment in the trial was 4.4% at 5 years, a lower figure than the health-records study gives"
+refs = ["rezum5"]
+read = "abstract"
+[[fact]]
+id = "cosmos-all"
+option = ""
+simple = ""
+deep = "In one U.S. health-records study of 420,611 procedures from 2014 to 2024 (unadjusted for who had which), surgical retreatment at 5 years was 16% after the lift, 14% after steam, 7.1% after TURP, 4.4% after laser enucleation (HoLEP or ThuLEP) and 1.2% after simple prostatectomy. It reports no PAE figure"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "itind"
+option = "temporary-implant"
+simple = ""
+deep = "175 men, randomized against a sham, sponsored by the maker: at 3 months 78.6% against 60% after the sham improved by at least 3 symptom-score points, a low bar. Adverse events were 38.1% against 17.5%"
+refs = ["itind"]
+read = "abstract"
+[[fact]]
+id = "itind4"
+option = "temporary-implant"
+simple = ""
+deep = "A single-group follow-up had results for 41 men at 50 to 79 months"
+refs = ["itind4"]
+read = "abstract"
+[[fact]]
+id = "pinnacle"
+option = "balloon"
+simple = ""
+deep = "148 men with prostates of 20 to 80 g, randomized 2 to 1 against a sham, double-blind, sponsored by the maker. The sham arm's symptom score fell 8.0 points at 3 months, a large sham response; the treated arm's fell 11.5 at 1 year"
+refs = ["pinnacle"]
+read = "full text"
+[[fact]]
+id = "pinnacle2"
+option = "balloon"
+simple = ""
+deep = "At 2 years, with no comparison group after year 1, 67.5% (56 of 83 with data) had improved by 30% or more without retreatment"
+refs = ["pinnacle2"]
+read = "abstract"
+
+# Surgery
+[[fact]]
+id = "bipolar"
+option = "turp"
+simple = ""
+deep = "A Cochrane review of 59 randomized trials and 8,924 men found bipolar and standard (monopolar) TURP relieve symptoms about equally (moderate certainty); bipolar lowered transfusion (risk ratio 0.42) and TUR syndrome, a fluid-absorption problem (risk ratio 0.17). Only 4 trials reported funding"
+refs = ["bipolar"]
+read = "full text"
+[[fact]]
+id = "calik-re"
+option = ""
+simple = ""
+deep = "42% to 75% of men have retrograde ejaculation after standard TURP or laser surgery"
+refs = ["calik"]
+read = "abstract"
+[[fact]]
+id = "holep"
+option = "laser"
+simple = ""
+deep = "A meta-analysis of 8 randomized trials, 764 men with prostates under 100 mL: fewer transfusions after HoLEP (risk ratio 0.16), and shorter catheter time and hospital stay; moderate to low certainty"
+refs = ["holep"]
+read = "abstract"
+[[fact]]
+id = "water5"
+option = "waterjet"
+simple = ""
+deep = "181 men with prostates of 30 to 80 mL, double-blind, against TURP, sponsored by the maker. At 5 years the symptom score had improved 15.1 points against 13.2 (p = 0.2764), a test for superiority that found no difference. Loss of ejaculation, counted as a lasting event at 3 months, was 7% against 25%; no 5-year rate is given"
+refs = ["water5"]
+read = "full text"
+
+# Waiting
+[[fact]]
+id = "wasson"
+option = ""
+simple = ""
+deep = "A Veterans Affairs trial randomized 556 men with moderate symptoms to TURP or watchful waiting: treatment failure in 23 against 47 men (risk ratio 0.48), and 24% of the waiting men had surgery within 3 years"
+refs = ["wasson"]
+read = "abstract"

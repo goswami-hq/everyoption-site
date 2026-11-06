@@ -35,6 +35,8 @@ finder_button = "Find a doctor for prostate artery embolization"
 finder_heading = "Shrink an enlarged prostate without surgery"
 finder_intro = "Prostate artery embolization works through a tiny skin nick. Nothing is cut out. Most men go home the same day.\nMost men are back to normal activities **within a few days**, instead of 3 to 6 weeks after TURP surgery."
 finder_how = "#embolization"
+options_page = "/enlarged-prostate/every-option/"
+options_link = "Compare them side by side: embolization vs. TURP, laser surgery, office procedures, and medicines"
 options_heading = "Your other options"
 faq_heading = "Common questions"
 learn_heading = "Learn more"
@@ -128,7 +130,7 @@ name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
 invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
 works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
-side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erection problems are uncommon.[^cochrane] Some men have less semen afterward. Losing ejaculation completely is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are uncommon.[^pisco][^cochrane]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Most men keep normal ejaculation. Some notice less semen. Losing ejaculation completely is uncommon, and much less common than after TURP surgery.[^ejac][^cochrane][^lokesh][^rawash] PAE does not seem to affect erections.[^cochrane][^sapoval24] Serious problems are uncommon.[^pisco][^cochrane]"
 
 [[options]]
 id = "urethral-lift"
@@ -355,3 +357,15 @@ url = "https://pennmedicine.org/for-patients-and-visitors/find-a-program-or-serv
 key = "aua"
 cite = "Goueli R, Badlani GH, Welliver C, et al. Management of lower urinary tract symptoms attributed to benign prostatic hyperplasia: AUA guideline (2026) part III: procedural/surgical management. Journal of Urology. Published May 6, 2026, as submitted. doi:10.1097/JU.0000000000005099. Prostate artery embolization: conditional recommendation, evidence grade B, prostates 50 cc or larger."
 url = "https://www.auanet.org/2026BPHGuideline"
+[[refs]]
+key = "lokesh"
+cite = "Lokeshwar SD, Valancy D, Lima TFN, et al. A systematic review of reported ejaculatory dysfunction in clinical trials evaluating minimally invasive treatment modalities for BPH. Current Urology Reports. 2020;21(12):54. doi:10.1007/s11934-020-01012-y. PMID 33104947."
+url = "https://doi.org/10.1007/s11934-020-01012-y"
+[[refs]]
+key = "rawash"
+cite = "Al Rawashdah SF, Pastore AL, Velotti G, et al. Sexual and functional outcomes of prostate artery embolisation: a prospective long-term follow-up, large cohort study. International Journal of Clinical Practice. 2020;74(3):e13454. doi:10.1111/ijcp.13454. PMID 31769906."
+url = "https://doi.org/10.1111/ijcp.13454"
+[[refs]]
+key = "sapoval24"
+cite = "Sapoval MR, Bhatia S, Déan C, et al. Two-year outcomes of prostatic artery embolization for symptomatic benign prostatic hyperplasia: an international, multicenter, prospective study. CardioVascular and Interventional Radiology. 2024;47(11):1515-1524. doi:10.1007/s00270-024-03802-0. PMID 39230672. Funded by an embolic maker (NCT03527589)."
+url = "https://doi.org/10.1007/s00270-024-03802-0"
