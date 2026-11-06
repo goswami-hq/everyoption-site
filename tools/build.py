@@ -70,8 +70,8 @@ PROCS = {
             "option. Talk to a doctor about whether it’s right for you.",
         ],
         "sources": [
-            ("Systematic review of sham-controlled trials of genicular artery embolization (PubMed Central)",
-             "https://pmc.ncbi.nlm.nih.gov/articles/PMC12320538/"),
+            ("Society of Interventional Radiology position statement on genicular artery embolization (JVIR, 2026)",
+             "https://doi.org/10.1016/j.jvir.2026.108803"),
         ],
     },
 }
