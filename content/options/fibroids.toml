@@ -5,12 +5,23 @@ slug = "fibroids"
 path = "/fibroids/every-option/"
 draft = true
 reviewed = "2026-11-05"
-title = "Every Fibroid Treatment Option, Side by Side | Every Option"
-description = "Compare every fibroid treatment: medicines, embolization and other less invasive procedures, and surgery. See recovery, results, risks, and what each one keeps."
-h1 = "Every fibroid treatment, side by side"
+# Search targets: the comparisons (pattern: docs/condition-pattern.md). The simple page owns "fibroid treatment options".
+targets = ["ufe vs myomectomy", "myomectomy vs hysterectomy", "ufe vs hysterectomy", "fibroid medication", "best treatment for fibroids", "ufe recovery time", "myomectomy recovery time"]
+title = "UFE vs. Myomectomy vs. Hysterectomy, Compared | Every Option"
+description = "Fibroid embolization (UFE) vs. myomectomy, hysterectomy, and medicines: recovery, results, risks, and which treatments keep the uterus, side by side."
+h1 = "Fibroid treatments compared, side by side"
 lede = "It helps to know all your options before you choose. Here is what each one involves, how well it works, and what it can cost you. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
-glance_heading = "At a glance"
+glance_heading = "Compared at a glance: recovery and which keep the uterus"
 glance_note = "Tap a treatment name for details."
+simple_link = "New to fibroids? Start with the short guide to your fibroid treatment options"
+find_heading = "Find a fibroid embolization doctor"
+city_link = "Fibroid embolization doctors by city"
+# Section headings phrased as the comparisons (the simple page's category names stay as they are there)
+[compare_headings]
+medicines = "Fibroid medicines compared"
+less-invasive = "Embolization vs. other less invasive treatments"
+surgery = "Myomectomy vs. hysterectomy, and other surgery"
+
 
 [[glance]]
 option = "non-hormone-medicines"

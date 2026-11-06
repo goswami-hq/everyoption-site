@@ -11,6 +11,7 @@ import cities
 import condition
 import directory
 import options
+import pattern
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -556,8 +557,11 @@ def main():
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
         robots = '<meta name="robots" content="noindex">\n' if d.get("draft") else ""
-        write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], options.render(c, d, f, diagram, f"/{slug}/#finder"),
-                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"], head=robots,
+        hub = cities.HUB.get(c.get("finder"), "") if city_pages.get(c.get("finder")) else ""
+        body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
+        write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
+                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                                                         head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
@@ -601,6 +605,7 @@ def main():
     for k in PROCS:
         with open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8") as fh:
             counts[k] = json.load(fh)["counts"]
+    pattern.main()   # docs/condition-pattern.md: fails the build when a condition breaks the page pattern (job platform-main-0016)
     print("built", counts, "directory", len(recs), {g: sum(directory.group(r) == g for r in recs.values()) for g in ("confirmed", "likely", "nearby")})
 
 

@@ -81,7 +81,7 @@ def run():
                     ld = pg.evaluate("""() => [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent))""")
                     faq = next((d for d in ld if d["@type"] == "FAQPage"), None)
                     vis = pg.evaluate("[...document.querySelectorAll('#faq h3')].map(h => h.textContent)")
-                    check(f"{tag}: FAQ schema matches visible questions", faq and [q["name"] for q in faq["mainEntity"]] == vis)
+                    check(f"{tag}: no FAQ markup (pattern, job platform-main-0016)", faq is None and len(vis) > 0)
                     page = next((d for d in ld if d["@type"] == "MedicalWebPage"), {})
                     check(f"{tag}: no author in schema while the setting is empty",
                           bool(c.get("author_name")) == ("author" in page))

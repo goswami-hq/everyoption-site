@@ -114,7 +114,7 @@ def _cap(s):
     return re.sub(r"(^|[.:?!]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s) if s else s
 
 
-def render(c, d, f, diagram_fn, finder_href):
+def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     check(c, d, f)
     facts = {x["id"]: x for x in f["fact"]}
     refs, names = condition.Refs(c["refs"]), {o["id"]: o["name"] for o in c["options"]}
@@ -149,15 +149,49 @@ def render(c, d, f, diagram_fn, finder_href):
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
             cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if lead else ""
             items += f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}"><h3>{e(names[i])}</h3><p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>'
-        sections += f'<section id="{k["id"]}"><h2>{e(k["name"])}</h2><p>{txt(k["summary"])}</p>{items}</section>'
+        # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
+        h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
+        sections += f'<section id="{k["id"]}"><h2>{e(h2)}</h2><p>{txt(k["summary"])}</p>{items}</section>'
     import datetime
     when = datetime.date.fromisoformat(d["reviewed"])
     body = (f'<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{e(d["lede"])}</p>'
+            f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
-            f'<p class="urgent-line">{e(c["urgent"])}</p>')
+            f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
     body += f'<div class="condition deep-refs">{condition.references(refs)}</div>'
     body += f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {when.strftime("%B")} {when.day}, {when.year}.</p>'
     return body
+
+
+def find_block(c, d, finder_href, city_hub, city_links=""):
+    """The page's last stop: a ZIP box that opens the simple page's finder, and the city list (pattern: every-option page
+    ends with find-a-doctor). A plain GET form, so it works without this page loading the finder script."""
+    if not c.get("finder"):
+        return ""
+    e = lambda s: html.escape(s, quote=True)
+    action = finder_href.split("#")[0]
+    city = f'<p class="small"><a href="{e(city_hub)}">{e(d["city_link"])}</a></p>' if city_hub else ""
+    return (f'<section class="find-end" id="find" aria-labelledby="find-h"><h2 id="find-h">{e(d["find_heading"])}</h2>'
+            f'<form class="zip" method="get" action="{e(action)}#finder" role="search" aria-label="Find doctors by ZIP code">'
+            '<div class="f"><label for="end-zip">Your ZIP code</label>'
+            '<input id="end-zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 60611" required></div>'
+            f'<button type="submit">Find doctors</button></form>{city_links}{city}</section>')
+
+
+def schema(c, d, origin, publisher):
+    """MedicalWebPage and BreadcrumbList from the text the page shows (pattern: docs/condition-pattern.md; no FAQ markup)."""
+    url = origin + d["path"]
+    page = {"@context": "https://schema.org", "@type": "MedicalWebPage", "name": d["h1"], "headline": d["h1"],
+            "description": d["description"], "url": url, "inLanguage": "en-US", "lastReviewed": d["reviewed"],
+            "audience": {"@type": "Patient"},
+            "about": {"@type": "MedicalCondition", "name": c["condition_name"],
+                      **({"alternateName": c["condition_alt"]} if c.get("condition_alt") else {}),
+                      "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
+            "publisher": {"@type": "Organization", "name": publisher, "url": origin + "/"}}
+    crumbs = [("Home", "/"), (c.get("nav_name", c["condition_name"]), f'/{c["slug"]}/'), ("Every option", d["path"])]
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+          "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": origin + u} for i, (n, u) in enumerate(crumbs, 1)]}
+    return condition.ld(page) + "\n" + condition.ld(bc)

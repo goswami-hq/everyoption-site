@@ -33,8 +33,12 @@ hero_alt = "A woman walks along a winding country path on a sunny hillside."
 photo = "fibroids-woman-path"
 photo_alt = "A woman walks along a winding country path on a sunny hillside."
 
-title = "Fibroids: Every Treatment Option | Every Option"
-description = "Fibroids are common, non-cancerous growths in the uterus. Learn how invasive each treatment is, how well it works, and its side effects."
+# Search targets (job platform-main-0016, his yes 2026-11-06; pattern: docs/condition-pattern.md). This page owns "what are
+# my options"; the every-option page owns the comparisons. The first target must appear in the title; the two pages'
+# targets never overlap (tools/pattern.py fails the build otherwise). US volumes, DataForSEO 2026-11-06.
+targets = ["fibroid treatment options", "fibroid treatment", "fibroid treatment without surgery", "alternatives to hysterectomy", "non surgical fibroid treatment"]
+title = "Fibroid Treatment Options, With or Without Surgery | Every Option"
+description = "Your fibroid treatment options, including ones without surgery and alternatives to hysterectomy: how invasive each is, how well it works, and side effects."
 h1 = "Shrink fibroids without surgery"
 answer = "Fibroids are growths in the uterus. They are not cancer. Many women have no symptoms and need no treatment.[^mpfib] If you have heavy periods, pain, or pressure, embolization is not your only option. You can also consider medicines, other less invasive treatments, or surgery.[^mpfib] The right choice depends on your symptoms and goals."
 urgent = "If you have severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."
@@ -42,8 +46,9 @@ finder_button = "Find a doctor for fibroid embolization"
 finder_heading = "Shrink fibroids without surgery"
 finder_intro = "Fibroid embolization works through a tiny skin nick. Your uterus stays in place. Most people go home the same day.\nRecovery takes **about 1 week** instead of 2 to 6 weeks after major surgery."
 finder_how = "#embolization"
-options_heading = "Your other options"
+options_heading = "Your other fibroid treatment options"
 options_page = "/fibroids/every-option/"
+options_link = "Compare them side by side: embolization vs. myomectomy, hysterectomy, and medicines"
 faq_heading = "Common questions"
 learn_heading = "Learn more"
 not_advice = "Education, not medical advice. Talk to your doctor about your own care."

@@ -150,7 +150,7 @@ def categories(refs, c):
                 continue
             opts += option(refs, by_id[i], "", "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
-    see = (f'<p class="see-every"><a href="{html.escape(c["options_page"])}">See every option side by side</a></p>' if c.get("options_page") else "")
+    see = (f'<p class="see-every"><a href="{html.escape(c["options_page"])}">{html.escape(c.get("options_link", "See every option side by side"))}</a></p>' if c.get("options_page") else "")
     return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{see}{out}</section>'
 
 
@@ -169,7 +169,8 @@ def references(refs):
 
 
 def schema(c, url, origin, publisher):
-    """MedicalWebPage and FAQPage, built from the same text the page shows (nothing added)."""
+    """MedicalWebPage, built from the same text the page shows (nothing added). No FAQPage: Google ended FAQ rich results
+    on 2026-05-07 and the pattern (docs/condition-pattern.md) carries no FAQ markup (job platform-main-0016)."""
     page = {
         "@context": "https://schema.org", "@type": "MedicalWebPage", "name": c["h1"], "headline": c["h1"],
         "description": c["description"], "url": url, "inLanguage": "en-US", "lastReviewed": c["reviewed"],
@@ -189,12 +190,12 @@ def schema(c, url, origin, publisher):
             who["jobTitle"] = c["author_role"]
         page["reviewedBy"] = who
         page["author"] = who
-    faqs = {"@context": "https://schema.org", "@type": "FAQPage",
-            "mainEntity": [{"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": plain(q["a"])}}
-                           for q in c["faq"]]}
-    dump = lambda d: json.dumps(d, ensure_ascii=False, indent=1).replace("</", "<\\/")
-    return (f'<script type="application/ld+json">{dump(page)}</script>\n'
-            f'<script type="application/ld+json">{dump(faqs)}</script>')
+    return ld(page)
+
+
+def ld(d):
+    text = json.dumps(d, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    return f'<script type="application/ld+json">{text}</script>'
 
 
 def hero(c, finder_fn):

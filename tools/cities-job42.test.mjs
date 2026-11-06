@@ -81,7 +81,7 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.ok(r.html.indexOf("Confirmed by physician: 0") < r.html.indexOf("Likely performs this procedure"), "above Likely");
     assert.match(r.html, /A blank is not a no/); assert.match(r.html, /Listings checked as of October 29, 2026/);
     assert.ok(r.html.includes(`/fibroids/?zip=${m.centers[0].zip}&amp;r=25#finder`), "finder link with the ZIP filled in");
-    assert.match(r.html, /<a href="\/fibroids\/">Read about every fibroid treatment option<\/a>/);
+    assert.match(r.html, /<a href="\/fibroids\/">Read about your fibroid treatment options<\/a>/);
     assert.match(r.html, /uterine fibroid embolization \(UFE\)/); assert.match(r.html, /less invasive/);
     assert.match(r.html, /"@type":"BreadcrumbList"/); assert.match(r.html, /<nav class="crumbs"/);
     assert.match(r.html, /<h1>Who does fibroid embolization \(UFE\) (near|in) /);
