@@ -68,7 +68,7 @@ id = "found"
 place = "after"
 heading = "How is it found?"
 text = [
-  "Doctors may use an ultrasound, a CT or MRI scan, or a dye test of the veins called a venogram.[^krambeck]",
+  "Doctors may use an ultrasound, a CT or MRI scan, or a dye test of the veins called a venogram.[^krambeck][^jurga][^zlotnik]",
   "Wide or squeezed veins are common on scans in women who have no pain.[^kibbe][^rozenblit][^jurga] So a scan alone does not prove your veins cause your pain. Pelvic pain often has more than one cause, such as endometriosis. Your doctor should check for these too.[^zlotnik][^beard91]",
 ]
 
@@ -85,7 +85,7 @@ list = [
 
 [[faq]]
 q = "Do I need treatment?"
-a = "Not always. Wide veins with no symptoms do not need treatment.[^esvs] If pain limits your life, talk with your doctor about medicines first. Procedures are an option when they do not help.[^lepennec]"
+a = "Not always. If pain limits your life, talk with your doctor about medicines first. Procedures are an option when they do not help.[^lepennec][^baccellieri]"
 
 [[faq]]
 q = "Does the pain stop after menopause?"
@@ -93,7 +93,7 @@ a = "This is often said, but it has not been well studied.[^bartl]"
 
 [[faq]]
 q = "Can I get pregnant after treatment?"
-a = "Little is known about pregnancy after embolization. Small reports describe pregnancies afterward.[^daniels][^kim06] After a stent, doctors may suggest a blood thinner during pregnancy.[^villalba] Removing the uterus ends the chance of pregnancy.[^beard91]"
+a = "Little is known about pregnancy after embolization.[^daniels] Some women have become pregnant afterward.[^kim06] After a stent, doctors may suggest a blood thinner during pregnancy.[^villalba] Removing the uterus ends the chance of pregnancy.[^beard91]"
 
 [[options]]
 id = "hormones"
@@ -106,7 +106,7 @@ side = "Weight gain and bloating are common.[^cheong]"
 [[options]]
 id = "vein-pills"
 name = "Vein pills (flavonoids)"
-what = "These are plant-based pills used for vein problems in the legs and pelvis.[^gloviczki]"
+what = "These are plant-based pills used for vein problems.[^gloviczki]"
 invasive = "No procedure is needed."
 works = "Early studies suggest they may ease pain.[^gloviczki]"
 side = "Side effects are few. Some people get a headache, nausea, or an upset stomach.[^venotreat]"
@@ -116,8 +116,8 @@ id = "embolization"
 name = "Pelvic vein embolization"
 what = "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins.[^strobl]"
 invasive = "It is done through a tiny skin nick.[^strobl]"
-works = "Early results are encouraging. Many women have less pain, and for some the relief lasts several years.[^hanna][^strobl][^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] Larger trials are under way.[^embolize] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
-side = "Pain in the belly or back for a few days afterward is common. Serious problems are rare, about 1 in 100. Most of these are fixed with another procedure.[^hanna] Pain comes back in some women, and some need a second treatment.[^sutanto]"
+works = "Early results are encouraging. Many women have less pain, and for some the relief lasts several years.[^hanna][^strobl][^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] More research is under way.[^embolize] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
+side = "Pain in the belly or back right afterward is common. Serious problems are rare, about 1 in 100. Most of these are fixed with another procedure.[^hanna] Pain comes back in some women, and some need a second treatment.[^sutanto]"
 
 [[options]]
 id = "stent"
@@ -125,7 +125,7 @@ name = "Opening a squeezed vein with a stent"
 what = "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]"
 invasive = "It is done through a tiny skin nick. Nothing is cut out of your body.[^desai]"
 works = "Studies disagree on how often a stent alone eases pelvic pain. Some women also need embolization afterward.[^alenichev][^mokhtar] Most of what we know about stents is about leg pain and swelling, not pelvic pain.[^razavi] A squeezed vein is common in people with no symptoms, so it is not always the cause.[^kibbe]"
-side = "Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 in 100 or fewer.[^wenda] Doctors may suggest a blood thinner during a later pregnancy.[^villalba]"
+side = "Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 to 2 in 100.[^wenda] Doctors may suggest a blood thinner during a later pregnancy.[^villalba]"
 
 [[options]]
 id = "hysterectomy"
@@ -178,10 +178,6 @@ url = "https://doi.org/10.1016/j.clinsp.2026.100895"
 key = "beard91"
 cite = "Beard RW, Kennedy RG, Gangar KF, et al. Bilateral oophorectomy and hysterectomy in the treatment of intractable pelvic pain associated with pelvic congestion. British Journal of Obstetrics and Gynaecology. 1991;98(10):988-992. doi:10.1111/j.1471-0528.1991.tb15336.x. PMID 1751445."
 url = "https://doi.org/10.1111/j.1471-0528.1991.tb15336.x"
-[[refs]]
-key = "esvs"
-cite = "De Maeseneer MG, Kakkos SK, Aherne T, et al. European Society for Vascular Surgery (ESVS) 2022 clinical practice guidelines on the management of chronic venous disease of the lower limbs. European Journal of Vascular and Endovascular Surgery. 2022;63(2):184-267. doi:10.1016/j.ejvs.2021.12.024. PMID 35027279."
-url = "https://doi.org/10.1016/j.ejvs.2021.12.024"
 [[refs]]
 key = "bartl"
 cite = "Bartl T, Wolf F, Dadak C. Pelvic congestion syndrome (PCS) as a pathology of postmenopausal women: a case report with literature review. BMC Women's Health. 2021;21(1):181. doi:10.1186/s12905-021-01323-3. PMID 33906668."
@@ -258,3 +254,7 @@ url = "https://doi.org/10.1177/0268355515596474"
 key = "emad"
 cite = "Emad El Din M, Soliman M, El Kiran Y, et al. Ovarian vein surgical ablation versus endovascular technique for treatment of pelvic vein incompetence. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2023;11(4):801-808. doi:10.1016/j.jvsv.2022.10.018. PMID 37003463."
 url = "https://doi.org/10.1016/j.jvsv.2022.10.018"
+[[refs]]
+key = "baccellieri"
+cite = "Baccellieri D, Basile A, Arena A, et al. Delphi consensus on diagnostic and therapeutic pathways for pelvic venous disorders: a multidisciplinary algorithm. Vasa. 2026;55(6):379-388. doi:10.1024/0301-1526/a001267. PMID 41782320."
+url = "https://doi.org/10.1024/0301-1526/a001267"
