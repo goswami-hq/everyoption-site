@@ -103,7 +103,7 @@ id = "alpha-blockers"
 name = "Alpha blockers"
 what = "These include pills (such as tamsulosin). They relax the muscles around the prostate and bladder so urine flows more easily.[^mpbph][^niddk]"
 invasive = "These are pills. No procedure is needed."
-works = "Most men notice their symptoms improve within 3 to 7 days.[^mpbph]"
+works = "Good evidence suggests these pills ease symptoms for many men.[^niddk] Most men notice a change within 3 to 7 days.[^mpbph]"
 side = "You may feel dizzy, mostly when you stand up. Ejaculation may change. If you plan eye surgery for cataracts, tell your eye doctor if you take one or have taken one.[^flomax]"
 
 [[options]]
@@ -111,7 +111,7 @@ id = "shrinking-pills"
 name = "Prostate-shrinking pills"
 what = "These are pills (such as finasteride or dutasteride). They lower a hormone that makes the prostate grow, so it slowly shrinks.[^mpbph][^niddk][^proscar]"
 invasive = "These are pills. No procedure is needed."
-works = "It can take 3 to 6 months to feel better.[^mpbph] They lower the chance of needing surgery.[^proscar][^avodart] In a large trial, finasteride cut the chance of needing surgery by about half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than either alone.[^niddk]"
+works = "It can take 3 to 6 months to feel better.[^mpbph] Strong evidence shows they lower the chance of needing surgery.[^proscar][^avodart] Finasteride cut that chance about in half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than either alone.[^niddk]"
 side = "You may have a lower sex drive or erection problems. They cut your PSA level about in half, so tell your doctor before a PSA test. They may raise the chance of a more serious prostate cancer.[^mpbph][^proscar][^avodart]"
 
 [[options]]
@@ -119,7 +119,7 @@ id = "tadalafil"
 name = "Tadalafil"
 what = "This is a pill. It relaxes muscles around the bladder and prostate. It is also used for erection problems.[^niddk][^cialis]"
 invasive = "This is a pill. No procedure is needed."
-works = "It can ease some symptoms.[^niddk][^cialis]"
+works = "Good evidence suggests it eases symptoms a little.[^niddk][^cialis]"
 side = "You may have a headache, upset stomach, or back pain. Do not take it with nitrate heart medicines. It is not recommended with alpha blockers for this use.[^cialis]"
 
 [[options]]
@@ -127,55 +127,55 @@ id = "embolization"
 name = "Prostate artery embolization (PAE)"
 what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
 invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
-works = "Most men feel much better.[^sham][^pisco] About 8 out of 10 men still felt better up to three years later.[^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE improved symptoms about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men may need more treatment: about 1 out of 5 had another procedure within five years, such as a second embolization or surgery.[^bilhim] Results after surgery are more likely to last.[^cochrane][^abt5]"
-side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Some men may have less semen afterward, but it is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are rare.[^pisco]"
+works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE improved symptoms about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] This is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Erections usually stay the same.[^cochrane] Some men may have less semen afterward, but it is much less common than after TURP surgery.[^ejac][^cochrane] Serious problems are uncommon.[^pisco][^cochrane]"
 
 [[options]]
 id = "urethral-lift"
 name = "Urethral lift"
 what = "Small implants lift and hold the prostate away from the urethra, like tiebacks on a curtain.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin.[^mpmin] Most men need little or no urine tube time and return to normal activity in about 1 week.[^lift5]"
-works = "It was tested only in some prostate sizes. Symptoms improve within 2 weeks. About 1 out of 7 men needed another procedure within 5 years.[^lift5]"
-side = "Side effects were mostly mild and short-lived. Erections and ejaculation stayed the same in the trial.[^lift5]"
+works = "Early studies suggest it eases symptoms, often within 2 weeks. It works only for some prostate sizes, so ask if yours fits. About 1 out of 7 men need another procedure within 5 years.[^lift5]"
+side = "Side effects are mostly mild and short-lived. Erections and ejaculation usually stay the same.[^lift5]"
 
 [[options]]
 id = "water-vapor"
 name = "Water vapor (steam) therapy"
 what = "Steam is released into the prostate to burn the inside of the prostate. This removes some of the extra tissue and makes the path for urine larger.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
-works = "It was tested only in some prostate sizes. Symptoms improve within 3 months. About 1 out of 25 men needed surgery within 5 years.[^rezum5]"
-side = "Side effects were mostly mild and went away quickly. No lasting erection problems were reported in the trial.[^rezum2][^rezum5]"
+works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits. About 1 out of 25 men need surgery within 5 years.[^rezum5]"
+side = "Side effects are mostly mild and go away quickly. Lasting erection problems are rare.[^rezum2][^rezum5]"
 
 [[options]]
 id = "temporary-implant"
 name = "Temporary implant"
 what = "A small folded device is placed in the prostate for about a week. As it opens, it makes small cuts that widen the passage. Then it is removed.[^mpmin][^itind]"
 invasive = "It is placed and later removed through the penis, with no cuts in the skin.[^mpmin][^itind]"
-works = "Symptoms improved for about 8 out of 10 men at 3 months. But about 6 out of 10 men improved after a fake procedure, too.[^itind] Longer results come from a smaller study.[^itind4]"
-side = "Side effects were mostly mild and short-lived. No new erection or ejaculation problems were seen in the trial.[^itind]"
+works = "Early studies suggest it helps some men. Many men also felt better after a fake procedure, so doctors are still learning how much of the relief comes from the implant.[^itind] We do not yet know how long it lasts.[^itind4]"
+side = "Side effects are mostly mild and short-lived. New erection or ejaculation problems seem uncommon.[^itind]"
 
 [[options]]
 id = "balloon"
 name = "Medicine-coated balloon"
 what = "A balloon passed through the penis widens the space where the prostate squeezes the urethra. The balloon is coated with a medicine that helps keep it from closing again.[^fdaopt]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the office.[^pinnacle]"
-works = "It was tested only in some prostate sizes.[^pinnacle] About 7 out of 10 men had a good response at 2 years.[^pinnacle2]"
-side = "You may have blood in your urine or a bladder infection. Sexual function stayed the same in the trial.[^pinnacle2]"
+works = "Early studies suggest it eases symptoms for at least 2 years.[^pinnacle][^pinnacle2] It works only for some prostate sizes, so ask if yours fits.[^pinnacle]"
+side = "You may have blood in your urine or a bladder infection. Sex life usually stays the same.[^pinnacle2]"
 
 [[options]]
 id = "turp"
 name = "Transurethral resection (TURP)"
 what = "Surgery removes the inside of the prostate with a small tool passed through the penis.[^mpturp]"
 invasive = "There are no cuts in the skin. You are asleep or numb from the waist down. Most men stay in the hospital for 1 to 3 days and have a urine tube for 1 to 3 days.[^mpturp] Recovery takes about 3 to 6 weeks.[^mpturpdc]"
-works = "It relieves symptoms most of the time.[^mpturp] About 1 out of 10 men need more surgery within 20 years.[^niddk]"
+works = "Strong evidence shows it relieves symptoms most of the time.[^mpturp] About 1 out of 10 men need more surgery within 20 years.[^niddk]"
 side = "Many men have dry orgasms afterward, where semen goes into the bladder. This can be permanent.[^mpturpdc][^calik] Bleeding, infection, erection problems, and leaking urine can happen. Scar tissue can narrow the urethra.[^mpturp][^niddk][^nhsturp]"
 
 [[options]]
 id = "laser"
 name = "Laser surgery"
 what = "A laser passed through the penis removes or vaporizes the blocking tissue. One type is called HoLEP.[^mpmin]"
-invasive = "There are no cuts in the skin. Most men go home the same day or the next day, with a urine tube for a few days.[^mpmin] Compared with TURP, men had less bleeding and shorter hospital stays.[^holep]"
-works = "It improves the flow of urine.[^mpmin] HoLEP removed more tissue than TURP in trials.[^holep]"
+invasive = "There are no cuts in the skin. Most men go home the same day or the next day, with a urine tube for a few days.[^mpmin] There is less bleeding and a shorter hospital stay than with TURP.[^holep]"
+works = "Good evidence suggests HoLEP works at least as well as TURP.[^holep] It improves the flow of urine.[^mpmin]"
 side = "Many men have dry orgasms afterward.[^calik][^mpmin] Erection problems and leaking urine can happen.[^mpmin]"
 
 [[options]]
@@ -183,8 +183,8 @@ id = "waterjet"
 name = "Waterjet surgery"
 what = "High-pressure jets of water, passed through the penis, remove the blocking tissue.[^mpmin]"
 invasive = "There are no cuts in the skin. You have a urine tube for a few days.[^mpmin]"
-works = "In a trial, it worked as well as TURP for 5 years, for prostates of small to medium size.[^water5]"
-side = "Fewer men had ejaculation problems than after TURP, but some still did: about 1 out of 14.[^water5] Erection problems and leaking urine can happen.[^mpmin]"
+works = "Early studies suggest it works about as well as TURP for at least 5 years, in small to medium prostates.[^water5]"
+side = "Ejaculation problems are less common than after TURP, but about 1 out of 14 men still have them.[^water5] Erection problems and leaking urine can happen.[^mpmin]"
 
 [[options]]
 id = "open-prostatectomy"
