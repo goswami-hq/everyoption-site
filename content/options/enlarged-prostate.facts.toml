@@ -13,7 +13,7 @@
 id = "over-80"
 option = ""
 simple = "more than 9 out of 10 men having it in their 80s"
-deep = "more than 9 out of 10 men in their 80s"
+deep = "more than 9 out of 10 men over 80"
 refs = ["mpbph"]
 [[fact]]
 # not a number: "out of" trips the number check, so the phrase is tied rather than reworded on the simple page
@@ -186,9 +186,9 @@ read = "abstract"
 id = "sham"
 option = "embolization"
 simple = ""
-deep = "80 men with severe symptoms at one private clinic, run by the group that developed the technique. At 6 months the symptom score had fallen 12.07 points more after PAE than after the sham (95% CI 8.69 to 15.45; moderate certainty in the Cochrane review). The blinded comparison ends at 6 months, when sham patients could cross over"
+deep = "80 men with severe symptoms at one private clinic, run by the group that developed the technique. At 6 months the trial reports a symptom score difference of 13.2 points in favour of PAE (95% CI 10.2 to 16.2); the Cochrane review's figure for the same trial is 12.07 points (8.69 to 15.45), moderate certainty. The blinded comparison ends at 6 months, when sham patients could cross over"
 refs = ["sham", "cochrane"]
-read = "full text"
+read = "abstract"
 [[fact]]
 id = "coch-turp"
 option = "embolization"
@@ -221,7 +221,7 @@ read = "full text"
 id = "partem"
 option = "embolization"
 simple = ""
-deep = "PARTEM randomized 90 men with prostates of 50 mL or more, still bothered on an alpha blocker, to PAE or dutasteride plus tamsulosin, open label, for 9 months: the symptom score fell 10.0 points against 5.7 (difference 4.4, 95% CI 1.9 to 6.9). Sponsored by the Paris public hospitals with the French Ministry of Health; the abstract also names a grant from an embolic maker"
+deep = "PARTEM randomized 90 men with prostates of 50 mL or more, still bothered on an alpha blocker, to PAE or dutasteride plus tamsulosin, open label, for 9 months: the symptom score fell 10.0 points against 5.7 (difference 4.4, 95% CI 1.9 to 6.9). Funded by the French Ministry of Health, with a grant from an embolic maker named in the abstract"
 refs = ["partem"]
 read = "abstract"
 [[fact]]
@@ -284,7 +284,7 @@ read = "full text"
 id = "coch-major"
 option = "embolization"
 simple = ""
-deep = "major adverse events against TURP, risk ratio 0.91 (95% CI 0.20 to 4.05), very low certainty"
+deep = "major adverse events against TURP, risk ratio 0.75 (95% CI 0.19 to 2.97) up to 12 months (4 trials, 250 men) and 0.91 (0.20 to 4.05) at 13 to 24 months (2 trials, 206 men), both very low certainty"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
@@ -307,7 +307,7 @@ read = "full text"
 id = "coch-ejac"
 option = "embolization"
 simple = ""
-deep = "the Cochrane review found ejaculatory disorders less likely after PAE than TURP, risk ratio 0.67 (95% CI 0.45 to 0.98) in 1 randomized trial of 50 men and 0.51 (0.35 to 0.73) in 1 non-randomized study of 260 men, both low certainty"
+deep = "the Cochrane review found ejaculatory disorders less likely after PAE than TURP, risk ratio 0.67 (95% CI 0.45 to 0.98) at 13 to 24 months in 1 randomized trial of 50 men, and 0.51 (0.35 to 0.73) up to 12 months in 1 non-randomized study of 260 men, both low certainty"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
@@ -321,7 +321,7 @@ read = "abstract"
 id = "rawash"
 option = "embolization"
 simple = ""
-deep = "In 147 men at one Italian centre who were not suitable for or declined surgery, 130 (88.5%) said at 12 months that ejaculation was preserved (forward, not into the bladder); erection scores (IIEF) were stable"
+deep = "In 147 men in Italy who were not suitable for or declined surgery, 130 (88.5%) said at 12 months that ejaculation was preserved (forward, not into the bladder); erection scores (IIEF) rose slightly, not significantly, at 12 months and significantly at 18"
 refs = ["rawash"]
 read = "abstract"
 [[fact]]
@@ -342,7 +342,7 @@ read = "full text"
 id = "coch-ed"
 option = "embolization"
 simple = ""
-deep = "Against TURP, the Cochrane review found little to no difference in erection score (IIEF-5 difference -0.50 points, 95% CI -5.88 to 4.88; 2 trials, 120 men; low certainty)"
+deep = "Against TURP, the Cochrane review found little to no difference in erection score: IIEF-5 difference -0.50 points (95% CI -5.88 to 4.88; 2 trials, 120 men) in the first year and 3.09 points (-0.76 to 6.94; 1 trial, 81 men) at 13 to 24 months, both low certainty"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
@@ -363,7 +363,7 @@ read = "abstract"
 id = "kawakibi"
 option = "embolization"
 simple = ""
-deep = "In 183 men at one U.S. centre, greater urinary improvement went with greater erection-score (SHIM) improvement, most in men who had erection problems beforehand (26.3% against 3.8% of weaker responders reached the smallest change men notice), and with no change in ejaculation score"
+deep = "In 183 men at one U.S. centre, greater urinary improvement went with greater erection-score (SHIM) improvement, most in men who had erection problems beforehand (26.3% against 3.8% of weaker responders reached the smallest change men notice), and found no link between urinary improvement and ejaculation score (MSHQ-EjD)"
 refs = ["kawakibi"]
 read = "abstract"
 [[fact]]
@@ -451,7 +451,7 @@ read = "abstract"
 id = "water5"
 option = "waterjet"
 simple = ""
-deep = "181 men with prostates of 30 to 80 mL, double-blind, against TURP, sponsored by the maker. At 5 years the symptom score had improved 15.1 points against 13.2 (p = 0.2764), a test for superiority that found no difference. Loss of ejaculation, counted as a lasting event at 3 months, was 7% against 25%; no 5-year rate is given"
+deep = "181 men with prostates of 30 to 80 mL, double-blind, against TURP, sponsored by the maker. At 5 years the symptom score had improved 15.1 points against 13.2 (p = 0.2764), a test for superiority that found no difference. Procedure-related ejaculatory dysfunction (in the full text, loss of ejaculation counted as a lasting event at 3 months) was 7% against 25%; no 5-year rate is given"
 refs = ["water5"]
 read = "full text"
 

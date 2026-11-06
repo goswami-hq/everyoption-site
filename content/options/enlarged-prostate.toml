@@ -224,7 +224,7 @@ certainty = "Early studies suggest"
 intro = "A high-pressure water jet through a scope removes the blocking tissue; a catheter stays in for a few days.[^mpmin][^water5]"
 works = "Early studies suggest it works about as well as TURP {f:water-5y}, in small to medium prostates, from one maker-sponsored trial.[^water5]"
 evidence = ["{d:water5}."]
-risks = "Loss of ejaculation is less common than after TURP in the same trial, but {f:water-ejac} still had it in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
+risks = "Ejaculation problems were less common than after TURP in the same trial, but {f:water-ejac} still had it in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
 
 [[detail]]
 option = "open-prostatectomy"
