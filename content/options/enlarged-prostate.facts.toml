@@ -214,7 +214,7 @@ read = "abstract"
 id = "coch-retreat"
 option = "embolization"
 simple = ""
-deep = "Repeat treatment against TURP in the Cochrane review: risk ratio 3.20 (95% CI 1.41 to 7.27) at 6 to 12 months, 4 trials, 303 men, about 118 against 37 per 1,000; and 3.80 (1.32 to 10.93) at 13 to 24 months, 1 trial, 81 men. Both moderate certainty"
+deep = "Repeat treatment against TURP in the Cochrane review, risk ratio 3.20 (95% CI 1.41 to 7.27) at 6 to 12 months, 4 trials, 303 men, about 118 against 37 per 1,000; and 3.80 (1.32 to 10.93) at 13 to 24 months, 1 trial, 81 men. Both moderate certainty"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
@@ -249,7 +249,7 @@ read = "abstract"
 id = "bilhim"
 option = "embolization"
 simple = ""
-deep = "1,072 men at one centre over 10 years, read back from records: repeat treatment 3.4% at 1 year, 21.1% at 5 years and 58.1% at 10 years. At 5 years that was a second PAE in 9.5% and prostate surgery in 11.6%. Going back on prostate medicine (31.3% of men) is not counted in it"
+deep = "1,072 men at one centre over 10 years, read back from records; repeat treatment 3.4% at 1 year, 21.1% at 5 years and 58.1% at 10 years. At 5 years that was a second PAE in 9.5% and prostate surgery in 11.6%. Going back on prostate medicine (31.3% of men) is not counted in it"
 refs = ["bilhim"]
 read = "abstract"
 [[fact]]
@@ -263,14 +263,14 @@ read = "abstract"
 id = "mabud"
 option = "embolization"
 simple = ""
-deep = "A U.S. insurance-claims study of 959 men whose first BPH procedure was PAE: any repeat treatment 7.5% at 1 year, 17.1% at 3 years and 25.8% at 5 years (95% CI 16.2 to 34.3; only 23 men still followed at 5 years). TURP was the most common repeat, 9.1% at 5 years"
+deep = "A U.S. insurance-claims study of 959 men whose first BPH procedure was PAE; any repeat treatment 7.5% at 1 year, 17.1% at 3 years and 25.8% at 5 years (95% CI 16.2 to 34.3; only 23 men still followed at 5 years). TURP was the most common repeat, 9.1% at 5 years"
 refs = ["mabud"]
 read = "abstract"
 [[fact]]
 id = "bhatia25"
 option = "embolization"
 simple = ""
-deep = "1,075 men at one U.S. centre, read back from records, mean follow-up 458 days, harms graded by the Society of Interventional Radiology system: 16% of men eligible for a repeat had one, up to 60 months; 94% of 126 men in retention were catheter-free at 3 months"
+deep = "1,075 men at one centre in the U.S., read back from records, mean follow-up 458 days, harms graded by the Society of Interventional Radiology system: 16% of men eligible for a repeat had one, up to 60 months; 94% of 126 men in retention were catheter-free at 3 months"
 refs = ["bhatia25"]
 read = "abstract"
 [[fact]]
@@ -342,7 +342,7 @@ read = "full text"
 id = "coch-ed"
 option = "embolization"
 simple = ""
-deep = "Against TURP, the Cochrane review found little to no difference in erection score: IIEF-5 difference -0.50 points (95% CI -5.88 to 4.88; 2 trials, 120 men) in the first year and 3.09 points (-0.76 to 6.94; 1 trial, 81 men) at 13 to 24 months, both low certainty"
+deep = "Against TURP, the Cochrane review found little to no difference in erection score, IIEF-5 difference -0.50 points (95% CI -5.88 to 4.88; 2 trials, 120 men) in the first year and 3.09 points (-0.76 to 6.94; 1 trial, 81 men) at 13 to 24 months, both low certainty"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
@@ -363,7 +363,7 @@ read = "abstract"
 id = "kawakibi"
 option = "embolization"
 simple = ""
-deep = "In 183 men at one U.S. centre, greater urinary improvement went with greater erection-score (SHIM) improvement, most in men who had erection problems beforehand (26.3% against 3.8% of weaker responders reached the smallest change men notice), and found no link between urinary improvement and ejaculation score (MSHQ-EjD)"
+deep = "In 183 men at one centre in the U.S., greater urinary improvement went with greater erection-score (SHIM) improvement, most in men who had erection problems beforehand (26.3% against 3.8% of weaker responders reached the smallest change men notice), and found no link between urinary improvement and ejaculation score (MSHQ-EjD)"
 refs = ["kawakibi"]
 read = "abstract"
 [[fact]]
