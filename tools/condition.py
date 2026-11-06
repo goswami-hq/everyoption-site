@@ -108,12 +108,15 @@ def lead_option(refs, c, diagram_fn):
     """The condition's IR procedure: a short summary with its details folded (his yes to the redesign, 2026-11-03)."""
     o = next(x for x in c["options"] if x["id"] == c["diagram_at"])
     t = lambda k: refs.inline(tail(o[k])).replace(chr(10), "<br>")
-    how = fold("topic how-fold", "How it works", f'{diagram_fn(c["diagram"], vary=False)}<p>{t("invasive")}</p>')
+    # job platform-main-0010: a page with no finder or diagram of its own (the pelvic page) leaves both out
+    pic = diagram_fn(c["diagram"], vary=False) if c.get("diagram") else ""
+    how = fold("topic how-fold", "How it works", f'{pic}<p>{t("invasive")}</p>')
+    cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
     return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>About {html.escape(o["name"][0].lower() + o["name"][1:])}</h2>'
             f'<p>{refs.inline(tail(o["what"]))}</p>{how}{fold("topic", "How well does it work?", "<p>" + t("works") + "</p>")}'
             f'{fold("topic", "Side effects", "<p>" + t("side") + "</p>")}'
             f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
-            f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p></section>')
+            f'{cta}</section>')
 
 
 def categories(refs, c):
@@ -178,6 +181,8 @@ def schema(c, url, origin, publisher):
 
 def hero(c, finder_fn):
     """The top of a condition page: heading, plain summary, and the ZIP search."""
+    if not c.get("finder"):
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p></section>'
     find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True)
     return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{find}</section>'
 
@@ -208,5 +213,7 @@ def body(c, diagram_fn, e, top=""):
     results = ('<div class="results-col">' + top + '<div id="status" class="status" role="status" aria-live="polite">'
                'Enter your ZIP code to see doctors near you, nearest first.</div><div id="results"></div>'
                '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript></div>')
+    if not c.get("finder"):
+        return f'<div class="cond-grid">{top}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
     return (f'<div class="cond-grid">{results}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
             '<a class="find-bar" href="#finder" hidden>Find a doctor</a>')

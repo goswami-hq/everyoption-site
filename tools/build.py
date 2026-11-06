@@ -541,13 +541,13 @@ def main():
         robots = '<meta name="robots" content="noindex">\n' if c.get("draft") else ""
         nojs = '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>'
         body = condition.body(c, diagram, e, condition.hero(c, finder_block))
-        block = cities.city_block(c["finder"], city_pages, e)
+        block = cities.city_block(c["finder"], city_pages, e) if c.get("finder") else ""
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
         write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
                                          head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"])))
+                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
         robots = '<meta name="robots" content="noindex">\n' if d.get("draft") else ""
