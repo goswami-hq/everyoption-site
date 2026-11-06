@@ -7,7 +7,7 @@
 # Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point. Citations stay.
 # Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
 # no trial names or evidence grades in the reading text; each option states its own limits and side effects (his
-# correction, 2026-11-03). Job 33 rules: sham results stated plainly; knee numbers never used for another joint;
+# correction, 2026-11-03). Job 33 rules (sham-results rule replaced 2026-11-05, his words: "Just drop the sham trial. Instead jump into 'Large trials are currently underway'. Also use the SIR reference for the rest of the page accordingly"); knee numbers never used for another joint;
 # frozen shoulder is not arthritis; the finder is knee only.
 # The 911 line applies his 2026-11-01 fibroid-page rule (his words: "911 advice should be super catch all generic");
 # using it on this page is an inference, on his list (evidence.md (d)8). Sources say "checked straight away" (NHS) or
@@ -111,11 +111,11 @@ a = "Not always. Many people manage with exercise, weight loss if needed, and pa
 
 [[faq]]
 q = "Does embolization fix the arthritis?"
-a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^ucla] Scans have not shown that it slows the arthritis.[^genesis][^vz26]"
+a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^ucla] Scans have not shown that it slows the arthritis.[^genesis]"
 
 [[faq]]
 q = "Can I still have a knee replacement later?"
-a = "Yes. In one small study, 9 people later had a knee replacement. Their surgeons reported no extra difficulty.[^genesis]"
+a = "Yes. Studies have found that GAE does not make a later knee replacement harder or less successful.[^sir26]"
 
 [[faq]]
 q = "Do I need a knee replacement?"
@@ -150,8 +150,8 @@ id = "embolization"
 name = "Knee artery embolization (GAE)"
 what = "Genicular artery embolization (GAE) is a newer treatment for knee arthritis pain. Tiny particles slow extra blood flow to the lining of the knee. The idea is to calm swelling and ease pain.[^bsir][^ucla] You keep your own knee."
 invasive = "You only need a tiny skin nick, usually in the groin. You stay awake with medicine to help you relax.[^bsir][^ucla] It takes about 1 to 2 hours. Most people go home the same day.[^ucla][^bsir] Relief often starts within about two weeks.[^ucla]"
-works = "Many people feel better in studies without a comparison group.[^amin] In one study of moderate to severe arthritis, about half had their symptoms cut in half two years later.[^cus24]\nSome studies compared it with a fake procedure. In a small one, embolization worked better after one month.[^bagla] In the two largest, people who had the fake procedure also felt much better. Embolization was not clearly better than the fake procedure at 4 months or at one year.[^landers][^vz24][^vz26]\nSo doctors do not yet know how much of the relief comes from the procedure itself. Larger studies are under way.[^gen2][^bsir]"
-side = "You may have bruising where the tube went in.[^bsir] About 1 to 2 out of 10 people get a patchy skin color change over the knee. It usually fades on its own.[^ashraf][^amin][^bsir] Rarely, the skin over the knee can break down into a sore. This usually heals without treatment.[^bsir] Serious problems were rare in studies.[^bagla][^landers][^vz24]"
+works = "In studies, most people said their knee pain and daily function improved after GAE.[^sir26][^amin] In one U.S. study of moderate to severe arthritis, about half had their symptoms cut in half two years later. Of those helped at one year, about 7 out of 10 were still helped at two years.[^cus24][^sir26] Large trials are under way.[^sir26][^gen2]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, and who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
+side = "You may have bruising where the tube went in.[^bsir] About 1 to 3 out of 10 people get a patchy skin color change or redness over the knee. It usually fades within a month.[^sir26][^ashraf][^amin] About 3 out of 1,000 people get a small skin sore over the knee.[^sir26] Serious problems are rare.[^sir26]"
 
 [[options]]
 id = "steroid"
@@ -238,22 +238,6 @@ url = "https://uclahealth.org/medical-services/radiology/interventional-radiolog
 key = "cus24"
 cite = "Cusumano LR, Sparks HD, Masterson KE, Genshaft SJ, Plotnik AN, Padia SA. Genicular artery embolization for treatment of symptomatic knee osteoarthritis: 2-year outcomes from a prospective IDE trial. Journal of Vascular and Interventional Radiology. 2024;35(12):1768-1775. doi:10.1016/j.jvir.2024.08.028. PMID 39322180. Single group, no comparison. Grant support includes a device maker."
 url = "https://doi.org/10.1016/j.jvir.2024.08.028"
-[[refs]]
-key = "bagla"
-cite = "Bagla S, Piechowiak R, Sajan A, Orlando J, Hartman T, Isaacson A. Multicenter randomized sham controlled study of genicular artery embolization for knee pain secondary to osteoarthritis. Journal of Vascular and Interventional Radiology. 2022;33(1):2-10.e2. doi:10.1016/j.jvir.2021.09.019. PMID 34610422. Grant support listed from a device maker."
-url = "https://doi.org/10.1016/j.jvir.2021.09.019"
-[[refs]]
-key = "landers"
-cite = "Landers S, Hely R, Hely A, et al. Genicular artery embolization for early-stage knee osteoarthritis: results from a triple-blind single-centre randomized controlled trial. Bone and Joint Open. 2023;4(3):158-167. doi:10.1302/2633-1462.43.BJO-2022-0161.R2. PMID 37051829."
-url = "https://doi.org/10.1302/2633-1462.43.BJO-2022-0161.R2"
-[[refs]]
-key = "vz24"
-cite = "van Zadelhoff TA, Bos PK, Moelker A, Bierma-Zeinstra SMA, van der Heijden RA, Oei EHG. Genicular artery embolisation versus sham embolisation for symptomatic osteoarthritis of the knee: a randomised controlled trial. BMJ Open. 2024;14(10):e087047. doi:10.1136/bmjopen-2024-087047. PMID 39353688. Grant support listed from a device maker."
-url = "https://doi.org/10.1136/bmjopen-2024-087047"
-[[refs]]
-key = "vz26"
-cite = "van Zadelhoff TA, van der Heijden RA, Bierma-Zeinstra SMA, Bos PK, Oei EHG. Long-term outcomes of genicular artery embolization for knee osteoarthritis: 12-month efficacy and secondary outcomes from a randomized sham-controlled trial. European Radiology. 2026;36(8):6624-6633. doi:10.1007/s00330-026-12505-8. PMID 42009866."
-url = "https://doi.org/10.1007/s00330-026-12505-8"
 [[refs]]
 key = "gen2"
 cite = "Little MW, Harrison R, MacGill S, et al. Genicular artery embolisation in patients with osteoarthritis of the knee (GENESIS 2): protocol for a double-blind randomised sham-controlled trial. CardioVascular and Interventional Radiology. 2023;46(9):1276-1282. PMID 37337060. Funded by a device maker."
@@ -354,3 +338,7 @@ url = "https://doi.org/10.1007/s11999-009-1119-9"
 key = "moseley"
 cite = "Moseley JB, O'Malley K, Petersen NJ, et al. A controlled trial of arthroscopic surgery for osteoarthritis of the knee. New England Journal of Medicine. 2002;347(2):81-88. doi:10.1056/NEJMoa013259. PMID 12110735."
 url = "https://doi.org/10.1056/NEJMoa013259"
+[[refs]]
+key = "sir26"
+cite = "Ahmed O, Taslakian B, Okuno Y, et al. Society of Interventional Radiology position statement on genicular artery embolization for symptomatic knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2026;37(7):108803. doi:10.1016/j.jvir.2026.108803. Open access."
+url = "https://doi.org/10.1016/j.jvir.2026.108803"
