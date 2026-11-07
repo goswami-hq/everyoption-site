@@ -4,7 +4,11 @@
   "/api/*",
   "/doctors/*",
   "/fibroids/doctors",
-  "/fibroids/doctors/*"
+  "/fibroids/doctors/*",
+  "/enlarged-prostate/doctors",
+  "/enlarged-prostate/doctors/*",
+  "/knee-arthritis/doctors",
+  "/knee-arthritis/doctors/*"
  ],
  "exclude": [
   "/doctors/",
