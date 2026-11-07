@@ -212,6 +212,7 @@ def index_body(by, e, count):
 <p><a href="/fibroids/doctors/">Browse fibroid embolization doctors by city</a></p>
 <h2>Browse by last name</h2>
 {az_nav(by, e)}
+<p>If a doctor is missing, it usually means we have not found them yet.</p>
 <p class="small muted">This list is not a recommendation or a ranking. It holds every doctor who can appear in a search on this site. <a href="/how-we-know/">How we know</a>.</p>"""
 
 

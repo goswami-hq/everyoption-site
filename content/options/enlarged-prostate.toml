@@ -225,7 +225,7 @@ certainty = "Early studies suggest"
 intro = "A high-pressure water jet through a scope removes the blocking tissue; a catheter stays in for a few days.[^mpmin][^water5]"
 works = "Early studies suggest it works about as well as TURP {f:water-5y}, in small to medium prostates, from one maker-sponsored trial.[^water5]"
 evidence = ["{d:water5}."]
-risks = "Ejaculation problems were less common than after TURP in the same trial, but {f:water-ejac} still had it in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
+risks = "Ejaculation problems were less common than after TURP in the same trial, but {f:water-ejac} still had them in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
 
 [[detail]]
 option = "open-prostatectomy"
@@ -261,7 +261,7 @@ after = "less-invasive"
 heading = "Repeat treatment, and what each figure counts"
 text = [
   "Each option's repeat-treatment figure on the short guide comes from a different kind of study: PAE from a single-centre cohort that counts a second PAE or surgery, the lift from its maker's trial, steam from U.S. health records, and TURP from a government page over a much longer span. They are not a ranking.[^bilhim][^lift5][^cosmos][^niddk]",
-  "For PAE, the cohorts count differently and do not agree in the long run: {d:bilhim}. {d:mabud}. {d:rubin}. Against TURP in randomized trials, {d:coch-retreat}.[^kristensen][^bhatia25]",
+  "For PAE, the cohorts count differently and do not agree in the long run: {d:bilhim}. {d:mabud}. {d:rubin}. In randomized trials: {d:coch-retreat}.[^kristensen][^bhatia25]",
   "Two studies counted several options the same way, each unadjusted for who had which. {d:cosmos-all}. {d:rubin-all}.",
   "Removing more tissue leaves less to re-treat, but costs a bigger operation. A second procedure after a less invasive one is a real cost (time with symptoms, another procedure), counted here beside what the first one spared.[^cochrane][^bilhim]",
 ]

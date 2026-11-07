@@ -200,7 +200,9 @@ def _fill(t, facts):
 
 def _cap(s):
     """A sentence that begins with a filled-in fact still begins with a capital."""
-    return re.sub(r"(^|[.:?!]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s) if s else s
+    # Not after a colon (American style: lower case unless a proper noun follows) and not after "U.S."; a bold
+    # label ("**Hand and fingers.** one study") still counts as a sentence end (clear-writing pass, 2026-11-07).
+    return re.sub(r"(^|(?<!U\.S)[.?!](?:\*\*)?\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s) if s else s
 
 
 def _works(g, x, facts):
