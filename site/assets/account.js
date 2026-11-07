@@ -158,7 +158,7 @@
       ]),
       el("p", { "class": "small muted acct-foot" }, ["Lost access to your email? Ask a colleague with full access for a new invitation, or ",
         el("a", { href: "mailto:errors@everyoptionmd.com", text: "email us" }), "."])
-    ], "Manage how you appear to patients. Listings are free.");
+    ], "Claim your free listing. Once we confirm the account is yours, your card shows under Confirmed by physician, above Likely performs, for each procedure you confirm, with your photo and whether you see patients by video. Your edits show at once. No one can pay for placement, and we do not send or sell patients.");
   }
 
   // ---- Find yourself: our listings and the NPI Registry together, by name and state.

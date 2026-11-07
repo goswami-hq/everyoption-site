@@ -256,7 +256,7 @@
     // Job 19: one quiet line. Claiming needs an account (physicians only); anyone can report an error.
     var report = el("a", { href: "/report/" + q, text: "Report an error" });
     kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed ? [report]
-      : [el("a", { href: "/account/" + q, text: "Is this you?" }), el("span", { "class": "sep", "aria-hidden": "true", text: "·" }), report]));
+      : [el("a", { href: "/account/" + q, text: "Is this you? Claim this free profile" }), el("span", { "class": "sep", "aria-hidden": "true", text: "·" }), report]));
     return el("li", { "class": p.confirmed ? "card card-confirmed" : "card" }, kids);
   }
 
