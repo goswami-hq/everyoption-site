@@ -366,3 +366,55 @@ simple = ""
 deep = "A 2026 meta-analysis found focal bone death without symptoms reported only with permanent microspheres, and pooled minor adverse events of 18.3%"
 refs = ["lanza"]
 read = "abstract"
+
+# ---- Grid: "How well it works" (job platform-main-0023, his words 2026-11-07). Short restatements of figures already
+# in the deep-only lines above, same source and same reading, for the grid's first column. ----
+[[fact]]
+id = "g-ex-pain"
+option = "exercise"
+simple = ""
+deep = "pain 8.7 points better than placebo on a 100-point scale, under the 12-point smallest change that matters"
+refs = ["lawford"]
+read = "full text"
+[[fact]]
+id = "g-gae-pool"
+option = "embolization"
+simple = ""
+deep = "pain fell about 37 points on a 100-point scale at 12 months, in studies mostly without a comparison group"
+refs = ["amin"]
+read = "abstract"
+[[fact]]
+id = "g-ha"
+option = "hyaluronic"
+simple = ""
+deep = "pain about 2 points better than placebo on a 100-point scale, too little to notice"
+refs = ["pereira"]
+read = "abstract"
+[[fact]]
+id = "g-prp-12"
+option = "prp"
+simple = ""
+deep = "no better than saline at 12 months in the largest placebo-controlled trial"
+refs = ["restore"]
+read = "abstract"
+[[fact]]
+id = "g-rfa-12"
+option = "nerve-ablation"
+simple = ""
+deep = "no different from a sham at 12 months in one double-blind trial"
+refs = ["malaithong"]
+read = "full text"
+[[fact]]
+id = "g-tkr"
+option = "knee-replacement"
+simple = ""
+deep = "eased pain more than a non-surgical program at 1 year in the one randomized trial"
+refs = ["skou15"]
+read = "abstract"
+[[fact]]
+id = "g-topkat"
+option = "partial-replacement"
+simple = ""
+deep = "results about the same as a full replacement at 5 years, in one randomized trial of 528 people"
+refs = ["topkat"]
+read = "full text"

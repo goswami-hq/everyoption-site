@@ -478,3 +478,34 @@ simple = ""
 deep = "A Veterans Affairs trial randomized 556 men with moderate symptoms to TURP or watchful waiting: treatment failure in 23 against 47 men (risk ratio 0.48), and 24% of the waiting men had surgery within 3 years"
 refs = ["wasson"]
 read = "abstract"
+
+# ---- Grid: "How well it works" (job platform-main-0023, his words 2026-11-07). Short restatements of figures already
+# in the deep-only lines above, same source and same reading, for the grid's first column. ----
+[[fact]]
+id = "g-pde5"
+option = "tadalafil"
+simple = ""
+deep = "symptom score 1.89 points better than placebo over 6 to 12 weeks, a small effect"
+refs = ["pde5"]
+read = "full text"
+[[fact]]
+id = "g-pae-sham"
+option = "embolization"
+simple = ""
+deep = "symptom score 13.2 points better than a sham at 6 months, in one trial"
+refs = ["sham", "cochrane"]
+read = "abstract"
+[[fact]]
+id = "g-itind"
+option = "temporary-implant"
+simple = ""
+deep = "78.6% improved by 3 or more symptom-score points at 3 months, against 60% after a sham"
+refs = ["itind"]
+read = "abstract"
+[[fact]]
+id = "g-water"
+option = "waterjet"
+simple = ""
+deep = "symptom score 15.1 points better at 5 years, against 13.2 with TURP, in one maker-sponsored trial"
+refs = ["water5"]
+read = "full text"

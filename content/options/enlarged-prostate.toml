@@ -27,10 +27,11 @@ reading_note = [
 ]
 glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
 glance_note = "Tap a treatment name for the studies."
+works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Symptom-score figures use the same urinary symptom score (IPSS) but come from different studies, comparisons (placebo, sham, or TURP) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to an enlarged prostate? Start with the short guide to your options"
 find_heading = "Find a prostate artery embolization doctor"
 city_link = ""
-glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["sex", "Sex life"], ["evidence", "How sure we are"]]
+glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["sex", "Sex life"]]
 
 [compare_headings]
 medicines = "BPH medicines compared"
@@ -43,76 +44,76 @@ risks = "Harms, and how they were counted"
 
 [[glance]]
 option = "alpha-blockers"
+works = "Ease symptoms for many men; most notice a change {f:alpha-days}"
 involves = "A daily pill"
 recovery = "None"
 sex = "Ejaculation may change"
-evidence = "Good evidence suggests they ease symptoms"
 [[glance]]
 option = "shrinking-pills"
+works = "Lower the chance of surgery: finasteride cut it {f:pless-half}"
 involves = "A daily pill, for months"
 recovery = "None"
 sex = "Lower sex drive or erection problems can happen"
-evidence = "Strong evidence they lower the chance of surgery"
 [[glance]]
 option = "tadalafil"
+works = "{d:g-pde5}"
 involves = "A daily pill"
 recovery = "None"
 sex = "Also used for erection problems"
-evidence = "Early studies suggest a small effect"
 [[glance]]
 option = "embolization"
+works = "{d:g-pae-sham}; against TURP, a gap that matters has not been ruled out"
 involves = "A thin tube through a tiny skin nick to the prostate arteries"
 recovery = "Most go home the same day; back to normal within a few days"
 sex = "Most keep normal ejaculation; erections do not seem affected"
-evidence = "Early results are encouraging"
 [[glance]]
 option = "urethral-lift"
+works = "Eases symptoms, often {f:lift-2wk}; {f:lift-retreat}"
 involves = "Implants placed through the penis"
 recovery = "{g:lift-week} to normal activity"
 sex = "Usually unchanged"
-evidence = "Early studies suggest it helps"
 [[glance]]
 option = "water-vapor"
+works = "Eases symptoms, often {f:steam-3mo}; {f:steam-retreat}"
 involves = "Steam through the penis, often in the office"
 recovery = "Not stated in our sources"
 sex = "Lasting erection problems rare"
-evidence = "Early studies suggest it helps"
 [[glance]]
 option = "temporary-implant"
+works = "{d:g-itind}"
 involves = "A device left in the prostate for about a week"
 recovery = "Removed after about a week"
 sex = "New problems seem uncommon"
-evidence = "Early studies suggest it helps some men"
 [[glance]]
 option = "balloon"
+works = "Eases symptoms for {f:balloon-2y}, in the prostate sizes tested"
 involves = "A coated balloon through the penis, in the office"
 recovery = "Not stated in our sources"
 sex = "Usually unchanged"
-evidence = "Early studies suggest it helps"
 [[glance]]
 option = "turp"
+works = "Relieves symptoms most of the time; {f:turp-redo}"
 involves = "Surgery through the penis, in hospital"
 recovery = "{g:turp-recovery}"
 sex = "Dry orgasms are common"
-evidence = "Strong evidence it relieves symptoms"
 [[glance]]
 option = "laser"
+works = "HoLEP relieves symptoms at least as well as TURP"
 involves = "Laser surgery through the penis"
 recovery = "Home the same day or the next"
 sex = "Dry orgasms are common"
-evidence = "Early studies suggest it matches TURP"
 [[glance]]
 option = "waterjet"
+works = "{d:g-water}"
 involves = "Water-jet surgery through the penis"
 recovery = "Urine tube for a few days"
 sex = "Ejaculation problems less common than after TURP"
-evidence = "Early studies suggest it matches TURP"
 [[glance]]
 option = "open-prostatectomy"
+works = "Often used when the gland is too large for other surgery; our sources give no trial of it against TURP or laser surgery"
 involves = "Surgery through the belly, open or robotic"
 recovery = "{g:open-recovery} after open surgery"
 sex = "Dry orgasms can happen"
-evidence = "Used for very large prostates"
 
 [[detail]]
 option = "alpha-blockers"

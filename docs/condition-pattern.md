@@ -72,10 +72,16 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
   compared"; "Embolization vs. other less invasive treatments"; "Myomectomy vs. hysterectomy, and other surgery". A
   heading that restates a claim must match the page text and the tie file; prefer headings that name the comparison
   without a claim.
-- **Section order:** breadcrumbs; H1; lede; link to the simple page; finder button; "What is <condition>?" box (the
-  same content as the simple page's, not a copy); glance table; one section per
-  category (each option: intro, how well it works, side effects and risks, what experts say); find-a-doctor block;
-  urgent line; references; "Page last reviewed <date>".
+- **Section order:** breadcrumbs; H1; lede; link to the simple page; finder button; contents list ("On this page":
+  every section, and each category's options by name; `src-assets/deep-nav.js` pins a copy while reading, a rail from
+  1180 px and a bar below, with "Back to top"); "What is <condition>?" box (the same content as the simple page's, not a
+  copy); glance table; one section per category (each option: its grid row as a summary, intro, how well it works, side
+  effects and risks, what experts say); find-a-doctor block; urgent line; references; "Page last reviewed <date>".
+- **Grid (his words, 2026-11-07: "how well does it work? For each option"):** the first column after the name is "How
+  well it works": the option's certainty word from its detail (the simple page's word; none if the simple page uses
+  none) and a short effect phrase in the glance row's `works`, numbers only as ledger facts. `works_note` under the grid
+  says the figures come from different studies and do not rank. A blank cell or a certainty word typed into the cell
+  fails the build (`tools/options-grid.test.mjs`).
 - **Links out (required):** simple page, descriptive anchor (fibroids: "New to fibroids? Start with the short guide to
   your fibroid treatment options"); find-a-doctor block at the end: a ZIP box (GET to `/<condition>/#finder`) and the
   city list (fibroids: "Fibroid embolization doctors by city" to `/fibroids/doctors/`). **Links in:** simple page, every

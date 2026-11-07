@@ -586,7 +586,7 @@ def main():
         hub = cities.HUB.get(c.get("finder"), "") if city_pages.get(c.get("finder")) else ""
         body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
-                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.

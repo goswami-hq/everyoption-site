@@ -24,10 +24,11 @@ reading_note = [
 ]
 glance_heading = "Compared at a glance: how sure we are"
 glance_note = "Tap a treatment name for the studies."
+works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Pain figures are on the same kind of scale but come from different studies, comparisons (placebo, sham, or other care) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to knee arthritis? Start with the short guide to your options"
 find_heading = "Find a knee embolization doctor"
 city_link = ""
-glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["knee", "Keeps your own knee?"], ["evidence", "How sure we are"]]
+glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["knee", "Keeps your own knee?"]]
 
 [compare_headings]
 medicines = "Exercise vs. medicines"
@@ -40,76 +41,76 @@ risks = "Harms, and how they were counted"
 
 [[glance]]
 option = "exercise"
+works = "Better use of the knee; {d:g-ex-pain}"
 involves = "An exercise program, often with a physical therapist"
 recovery = "None"
 knee = "Yes"
-evidence = "Good evidence suggests better use of the knee"
 [[glance]]
 option = "pain-relievers"
+works = "Anti-inflammatory pills ease knee pain; acetaminophen adds very little"
 involves = "Pills or skin gels"
 recovery = "None"
 knee = "Yes"
-evidence = "Strong evidence for anti-inflammatory pills"
 [[glance]]
 option = "other-medicines"
+works = "Duloxetine eases long-term pain a little; opioids only slightly"
 involves = "Daily prescription pills"
 recovery = "None"
 knee = "Yes"
-evidence = "Good evidence suggests a small benefit from duloxetine"
 [[glance]]
 option = "embolization"
+works = "{d:g-gae-pool}; against a sham, not clearly better when the blinded trials are pooled"
 involves = "A thin tube through a tiny skin nick to the knee arteries"
 recovery = "Most go home the same day"
 knee = "Yes"
-evidence = "Early results are encouraging"
 [[glance]]
 option = "steroid"
+works = "Relief for a while, but {f:steroid-fade}"
 involves = "A shot during an office visit"
 recovery = "None"
 knee = "Yes"
-evidence = "Studies disagree"
 [[glance]]
 option = "hyaluronic"
+works = "{d:g-ha}"
 involves = "Shots during office visits"
 recovery = "None"
 knee = "Yes"
-evidence = "Strong evidence: little better than fake shots"
 [[glance]]
 option = "prp"
+works = "{f:prp-6mo}; {d:g-prp-12}"
 involves = "A blood draw, then shots"
 recovery = "None"
 knee = "Yes"
-evidence = "Studies disagree"
 [[glance]]
 option = "nerve-ablation"
+works = "{f:rfa-3mo}; {d:g-rfa-12}"
 involves = "Heat applied to the knee's pain nerves"
 recovery = "Not well reported"
 knee = "Yes"
-evidence = "Studies disagree"
 [[glance]]
 option = "knee-replacement"
+works = "Most new knees last a long time; {d:g-tkr}"
 involves = "Surgery and a hospital stay"
 recovery = "Daily activities in {g:tkr-recovery}"
 knee = "No. The worn surfaces are replaced"
-evidence = "Strong evidence that most new knees last"
 [[glance]]
 option = "partial-replacement"
+works = "{d:g-topkat}"
 involves = "Surgery on one part of the knee"
 recovery = "Shorter than a full replacement"
 knee = "Partly"
-evidence = "Similar to a full replacement in one large trial"
 [[glance]]
 option = "osteotomy"
+works = "Eases symptoms more than non-surgical care, in one trial"
 involves = "Surgery to reshape the shin bone"
 recovery = "Not well reported"
 knee = "Yes"
-evidence = "Early studies suggest it helps"
 [[glance]]
 option = "scope"
+works = "Does not help knee arthritis; a major guideline advises against it"
 involves = "Camera surgery through small cuts"
 recovery = "Not well reported"
 knee = "Yes"
-evidence = "Strong evidence that it does not help"
 
 [[detail]]
 option = "exercise"

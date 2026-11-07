@@ -28,6 +28,10 @@ LADDER = ("strong evidence shows", "good evidence suggests", "early studies sugg
           "studies disagree", "not yet well studied")
 GLANCE_COLS = (("involves", "What it involves"), ("recovery", "Recovery"), ("uterus", "Keeps uterus?"),
                ("fibroids", "Treats the fibroids?"))
+# His words, 2026-11-07: "the grids, while fine, are missing the most important info - how well does it work? For each
+# option". Every grid's first column after the name: the option's certainty word (from its detail, which check() ties
+# to the simple page) and a short effect phrase from the glance row's `works`, numbers only through the ledger.
+WORKS_COL = ("works", "How well it works")
 HEADINGS = {"works": "How well does it work?", "evidence": "The studies", "risks": "Side effects and risks",
             "selection": "Who was studied, and who it is for", "fit": "What experts say", "unknown": "What is not known"}
 
@@ -156,11 +160,24 @@ def check(c, d, f):
     for t in _notes(d):
         if NUM.search(t):
             errs.append(f'reading note: number outside the ledger: "{t[:120]}"')
+    det = {x["option"]: x for x in d["detail"]}
+    if not d.get("works_note") or NUM.search(d.get("works_note", "")):
+        errs.append("works_note: the note under the grid on how its results compare is required, with no number")
     for g in d["glance"]:
-        for k, _ in d.get("glance_columns", GLANCE_COLS):
-            if NUM.search(PH.sub("", g[k])):
+        w = g.get("works", "").strip()
+        if not w:
+            errs.append(f'glance {g["option"]}.works: "How well it works" is required (say what is known, never a blank)')
+        if any(word in w.lower() for word in LADDER):
+            errs.append(f'glance {g["option"]}.works: the certainty word comes from the option\'s detail; do not write one here')
+        for m in PH.finditer(w):
+            x = facts.get(m.group(2))
+            if x and m.group(1) != "g" and (m.group(1) == "d") != (not x["simple"]):
+                errs.append(f'glance {g["option"]}.works: {m.group(2)} is a {"shared" if x["simple"] else "deep-only"} fact; '
+                            f'write it {{{"f" if x["simple"] else "d"}:{m.group(2)}}}')
+        for k, _ in (WORKS_COL,) + tuple(d.get("glance_columns", GLANCE_COLS)):
+            if NUM.search(PH.sub("", g.get(k, ""))):
                 errs.append(f'glance {g["option"]}.{k}: number outside the ledger')
-            for m in PH.finditer(g[k]):
+            for m in PH.finditer(g.get(k, "")):
                 if m.group(2) not in facts:
                     errs.append(f'glance {g["option"]}: unknown fact {m.group(2)}')
     if {g["option"] for g in d["glance"]} != ids or {x["option"] for x in d["detail"]} != ids:
@@ -184,6 +201,32 @@ def _cap(s):
     return re.sub(r"(^|[.:?!]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s) if s else s
 
 
+def _works(g, x, facts):
+    """The grid's "How well it works" cell: the certainty word in bold, then the effect phrase (abstract-only figures
+    labelled as in the text). An option whose simple page uses no certainty word shows the phrase alone."""
+    def one(m):
+        y = facts[m.group(2)]
+        return y["deep"] + (" (abstract only)" if m.group(1) == "d" and y.get("read") == "abstract" else "")
+    phrase, cert = PH.sub(one, g["works"]).strip(), x.get("certainty", "")
+    phrase = html.escape(phrase[:1].upper() + phrase[1:], quote=False)
+    return (f'<strong class="cert">{html.escape(cert, quote=False)}</strong> ' if cert else "") + f'<span class="eff">{phrase}</span>'
+
+
+
+def toc(c, d, names, extra):
+    """The contents list (his words, 2026-11-07: "readability and navigability on the page"): every section, and under
+    each category its options, so a skimmer finds a treatment by name. deep-nav.js pins a copy while reading."""
+    e = lambda s: html.escape(s, quote=False)
+    li = lambda i, t, sub="": f'<li><a href="#{i}">{e(t)}</a>{sub}</li>'
+    secs = lambda where: "".join(li(sec["id"], sec.get("toc", sec["heading"])) for sec in extra.get(where, []))
+    items = secs("top") + li("glance", "At a glance")
+    for k in c["categories"]:
+        sub = "<ol>" + "".join(li(i, names[i]) for i in k["options"]) + "</ol>"
+        items += li(k["id"], k["name"], sub) + secs(k["id"])
+    items += secs("end") + (li("find", d["find_heading"]) if c.get("finder") else "") + li("references", "References")
+    return f'<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page</p><ol>{items}</ol></nav>'
+
+
 def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     check(c, d, f)
     facts = {x["id"]: x for x in f["fact"]}
@@ -191,9 +234,16 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts))))
     e = lambda s: html.escape(s, quote=False)
     det = {x["option"]: x for x in d["detail"]}
-    gcols = d.get("glance_columns", GLANCE_COLS)
+    gcols = (WORKS_COL,) + tuple(tuple(x) for x in d.get("glance_columns", GLANCE_COLS))
     cols = ("Treatment",) + tuple(label for _, label in gcols)
     heads = {**HEADINGS, **d.get("detail_headings", {})}
+    glance = {g["option"]: g for g in d["glance"]}
+
+    def value(i, key):
+        g = glance[i]
+        if key == "works":
+            return _works(g, det[i], facts)
+        return e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g[key]))
     # Roles stay explicit: on a phone the table shows as one card per row (design review 2026-11-06), and some
     # browsers drop table semantics when a table's display changes. data-label names each cell on the card.
     head = "".join(f"<th scope=col role=columnheader>{t}</th>" for t in cols)
@@ -201,14 +251,18 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     for k in c["categories"]:
         rows = ""
         for i in k["options"]:
-            g = next(x for x in d["glance"] if x["option"] == i)
-            cell = lambda n, key: f'<td role=cell data-label="{cols[n]}">{e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g[key]))}</td>'
             lead = " lead" if i == c.get("diagram_at") else ""
             rows += (f'<tr class="row{lead}" role=row><th scope=row role=rowheader><a href="#{i}">{e(names[i])}</a></th>'
-                     + "".join(cell(n, key) for n, (key, _) in enumerate(gcols, 1)) + '</tr>')
+                     + "".join(f'<td role=cell class="c-{key}" data-label="{cols[n]}">{value(i, key)}</td>' for n, (key, _) in enumerate(gcols, 1)) + '</tr>')
         groups += f'<tbody role=rowgroup><tr class=grp role=row><th colspan={len(cols)} scope=rowgroup role=rowheader>{e(k["name"])}</th></tr>{rows}</tbody>'
     table = (f'<div class="table-scroll" tabindex="0" role="region" aria-label="{e(d["glance_heading"])}"><table class="glance" role=table>'
-             f'<thead role=rowgroup><tr role=row>{head}</tr></thead>{groups}</table></div>')
+             f'<thead role=rowgroup><tr role=row>{head}</tr></thead>{groups}</table></div>'
+             f'<p class="small muted glance-after">{e(d["works_note"])}</p>')
+
+    def summary(i):
+        """The option's grid row, repeated at the top of its section: the answer before the detail (2026-11-07)."""
+        return ('<dl class="opt-sum">' + "".join(f'<div class="c-{key}"><dt>{e(label)}</dt><dd>{value(i, key)}</dd></div>'
+                                              for key, label in gcols) + '</dl>')
 
     def block(key, val):
         if isinstance(val, list):
@@ -219,7 +273,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     sections, extra = "", {}
     for sec in d.get("section", []):
         extra.setdefault(sec.get("after", "end"), []).append(sec)
-    show = lambda sec: f'<section id="{sec["id"]}" class="deep-extra"><h2>{e(sec["heading"])}</h2>' + "".join(f"<p>{txt(t)}</p>" for t in sec["text"]) + "</section>"
+    show = lambda sec: (f'<section id="{sec["id"]}" class="deep-extra" aria-labelledby="{sec["id"]}-h"><h2 id="{sec["id"]}-h">{e(sec["heading"])}</h2>'
+                        + "".join(f"<p>{txt(t)}</p>" for t in sec["text"]) + "</section>")
     for k in c["categories"]:
         items = ""
         for i in k["options"]:
@@ -228,18 +283,19 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             rows = "".join(block(key, x[key]) for key in DETAIL_FIELDS[1:] if x.get(key))
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
             cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if lead else ""
-            items += f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}"><h3>{e(names[i])}</h3><p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>'
+            items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
+                      f'{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
         h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
-        sections += f'<section id="{k["id"]}"><h2>{e(h2)}</h2><p>{txt(k["summary"])}</p>{items}</section>'
+        sections += f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2><p>{txt(k["summary"])}</p>{items}</section>'
         sections += "".join(show(sec) for sec in extra.get(k["id"], []))
     sections += "".join(show(sec) for sec in extra.get("end", []))
     top = "".join(show(sec) for sec in extra.get("top", []))
     when = datetime.date.fromisoformat(d["reviewed"])
-    body = (f'<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
+    body = (f'<nav class="crumbs" id="top" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{e(d["lede"])}</p>'
             + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
-            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{box}{top}'
+            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{toc(c, d, names, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
