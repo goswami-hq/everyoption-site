@@ -132,7 +132,7 @@ id = "hormone-medicines"
 name = "Hormone medicines"
 what = "These include birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
 invasive = "These are pills or shots. No procedure is needed."
-works = "Daily hormone-lowering pills greatly reduced bleeding for about 7 out of 10 women.[^liberty] Symptoms often return after stopping.[^owh]"
+works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding, for about 7 out of 10 women.[^liberty] Symptoms often return after stopping.[^owh]"
 side = "You may have hot flashes. Some of these medicines weaken bones, so use is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
 [[options]]
@@ -148,7 +148,7 @@ id = "embolization"
 name = "Fibroid embolization (UFE)"
 what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
 invasive = "You only need a tiny skin nick. There is no cut in the belly, so no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
-works = "Most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
+works = "Good evidence suggests most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
 side = "You may have cramps, nausea, and a low fever for up to a week. Less than 5 out of 100 women go through menopause early.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
 
 [[options]]
@@ -188,7 +188,7 @@ id = "myomectomy"
 name = "Myomectomy"
 what = "Surgery removes the fibroids and leaves the uterus.[^mpfib]"
 invasive = "It takes a larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
-works = "It removes the fibroids the surgeon can see. Small or deep fibroids can be missed and cause problems later.[^mayomyo][^aktoz] The more fibroids you have, the harder it is to remove them all.[^aktoz] New ones can also grow.[^mpfib][^ccmyo] Women's quality of life improves.[^femme2] About 1 out of 8 women may need another procedure down the line.[^femme4]"
+works = "Good evidence suggests women's quality of life improves.[^femme2] It removes the fibroids the surgeon can see. Small or deep fibroids can be missed and cause problems later.[^mayomyo][^aktoz] The more fibroids you have, the harder it is to remove them all.[^aktoz] New ones can also grow.[^mpfib][^ccmyo] About 1 out of 8 women may need another procedure down the line.[^femme4]"
 side = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
 
 [[options]]

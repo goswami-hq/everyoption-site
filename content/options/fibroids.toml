@@ -103,8 +103,9 @@ risks = "Tranexamic acid can rarely cause blood clots.[^txa]"
 
 [[detail]]
 option = "hormone-medicines"
+certainty = "Strong evidence shows"
 intro = "This group includes birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
-works = "In a drug-maker-funded trial, daily hormone-lowering pills greatly reduced bleeding for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
+works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding. In a drug-maker-funded trial, bleeding fell greatly for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
 risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
 [[detail]]
@@ -115,9 +116,10 @@ risks = "Spotting is common at first. It is more likely to slip out when fibroid
 
 [[detail]]
 option = "embolization"
+certainty = "Good evidence suggests"
 diagram = true
 intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
-works = "Most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
+works = "Good evidence suggests most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
 risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
 fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
 
@@ -147,8 +149,9 @@ risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infectio
 
 [[detail]]
 option = "myomectomy"
+certainty = "Good evidence suggests"
 intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger cut in the belly or a few small cuts. Recovery takes {f:major-recovery}.[^mpfib]"
-works = "Women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
+works = "Good evidence suggests women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
 risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
 
 [[detail]]
