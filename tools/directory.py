@@ -18,6 +18,26 @@ TEST_NPIS = {"1999999990"}
 CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"]
 OFFICE_KEYS = ["practice", "street", "city", "state", "zip", "phone"]
 PHOTO = re.compile(r"^/(photos|api/photo)/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$")
+# Job platform-directory-0007: as lib/telehealth.mjs (the test compares them).
+TELE_STATES = ("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ "
+               "NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR VI GU AS MP").split()
+
+
+def public_telehealth(v):
+    """{offers: true, states} or {offers: false, states: []} from a valid answer; None for anything else."""
+    if not isinstance(v, dict) or set(v) - {"offers", "states"}:
+        return None
+    offers, states = v.get("offers"), v.get("states", [])
+    if offers not in (True, False) or not isinstance(states, list) or len(states) > 56:
+        return None
+    if any(not isinstance(x, str) or x not in TELE_STATES for x in states):
+        return None
+    states = [x for x in TELE_STATES if x in states]
+    if offers and not states:
+        return None
+    return {"offers": True, "states": states} if offers else {"offers": False, "states": []}
+
+
 SUFFIX = {"jr", "sr", "ii", "iii", "iv", "md", "do", "phd", "mph"}
 
 
@@ -63,6 +83,9 @@ def public(p, proc):
             r[k] = p[k]
     if p.get("confirmed") and PHOTO.match(p.get("photo") or ""):
         r["photo"] = p["photo"]
+    tele = public_telehealth(p.get("telehealth")) if p.get("confirmed") else None   # job platform-directory-0007
+    if tele:
+        r["telehealth"] = tele
     if p.get("blurb") and proc:
         r["blurbs"] = {proc: p["blurb"]}
     return r

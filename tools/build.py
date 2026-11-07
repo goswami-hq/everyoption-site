@@ -342,7 +342,7 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
-                ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
                 banner=strip(k))
 
 
@@ -445,7 +445,7 @@ def account():
 <noscript><p class="notice">This page needs JavaScript. To report an error, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
     return page("/account/", "For physicians | Every Option",
                 "Physicians can claim their Every Option profile with a free account. Accounts are not open yet.",
-                body, ["/assets/procedures.js", "/assets/account.js"])
+                body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/account.js"])
 
 
 def not_found():
@@ -521,6 +521,19 @@ def write(rel, text):
         fh.write(text)
 
 
+def write_telehealth():
+    """Job platform-directory-0007: the browser copy of lib/telehealth.mjs (window.EO_TELE), so the finder and the
+    account page use the server's checks and markup. The module keeps to top-level `export const` / `export function`."""
+    with open(os.path.join(ROOT, "lib", "telehealth.mjs"), encoding="utf-8") as fh:
+        src = fh.read()
+    names = re.findall(r"^export (?:const|function) ([A-Za-z_]\w*)", src, re.M)
+    body = re.sub(r"^export ", "", src, flags=re.M)
+    if re.search(r"^\s*(import|export)\b", body, re.M):
+        raise SystemExit("lib/telehealth.mjs: only top-level export const / export function can be copied to the browser")
+    write("assets/telehealth.js", "// Written by tools/build.py from lib/telehealth.mjs. Edit that file, not this one.\n"
+          "(function () {\n" + body + "\nwindow.EO_TELE = { " + ", ".join(names) + " };\n})();\n")
+
+
 def copy_src_assets():
     """Hand-written assets kept outside site/ (src-assets/README.md), copied in before any page is written so ver()
     tags them by content."""
@@ -533,6 +546,7 @@ def copy_src_assets():
 
 def main():
     copy_src_assets()
+    write_telehealth()
     # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
     metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)
     city_entries = cities.sitemap_entries(city_pages, LISTINGS_AS_OF)
@@ -563,7 +577,7 @@ def main():
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/city-fold.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/city-fold.js"],
                                          css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py

@@ -25,7 +25,10 @@ const port = +process.argv.find((a) => /^\d+$/.test(a)) || 8787;
 const noKV = process.argv.includes("--no-kv");
 const withAccounts = process.argv.includes("--accounts");
 const FIX = JSON.parse(readFileSync(path.join(HERE, "fixtures", "accounts.json"), "utf8"));
-const backend = withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity"), geocodes: FIX.geocodes }) : null;
+// --seed=<module>: a module whose seed() returns { backend, env, cookies } (made-up accounts for browser checks).
+const seedArg = process.argv.find((a) => a.startsWith("--seed="));
+const seeded = seedArg ? await (await import(path.resolve(seedArg.slice(7)))).seed() : null;
+const backend = seeded ? seeded.backend : withAccounts ? localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: process.argv.includes("--doximity"), geocodes: FIX.geocodes }) : null;
 const origin = `http://localhost:${port}`;
 const slowArg = process.argv.find((a) => a.startsWith("--listings-slow="));
 const SLOW = slowArg ? +slowArg.split("=")[1] : 0, DOWN = process.argv.includes("--listings-down");
@@ -103,7 +106,8 @@ http.createServer(async (req, res) => {
     if (url.searchParams.has("dump")) console.log([...store.keys()]);
     return;
   }
-  if (url.pathname.startsWith("/api/account/")) return send(res, await handle(await toRequest(req, url), { backend, origin }));
+  if (url.pathname.startsWith("/api/account/")) return send(res, await handle(await toRequest(req, url), { backend, origin, ...(seeded ? { now: seeded.env.now } : {}) }));
+  if (seeded && url.pathname === "/__seed") return asJSON(res, seeded.cookies);
   // Job 25: the live overlay and public photos. --listings-slow=<ms> and --listings-down play a slow or failed database.
   if (url.pathname === "/api/listings" || url.pathname.startsWith("/api/photo/")) return send(res, await handlePublic(await toRequest(req, url), {
     backend: backend && listingsDB(backend), origin, noCache: true, ASSETS: localAssets }));

@@ -101,3 +101,9 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
 - Report form: with `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set, its hourly limit is counted by `eo_hit`
   (atomic; no new table), so parallel sends cannot slip past; a report costs 2 KV writes and is deleted after 1 year.
   No database, or it fails: the old KV counter.
+
+## Job platform-directory-0007 (2026-11-06): video visits
+- Profile field `telehealth` `{ offers: true | false | null, states: [...] }` (`lib/telehealth.mjs`; 56 codes; a yes needs a
+  state). Any holder saves it on the account page (logged, undoable, no contact alert or email); only full access sends it
+  out (`/api/listings`, the export). A takeover resets it. Column: `supabase/schema.sql`, migration in
+  `supabase/migrations/2026-11-06-telehealth.sql` (not applied anywhere).

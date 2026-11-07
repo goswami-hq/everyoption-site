@@ -36,8 +36,10 @@ function grab(name) {
   for (; j < FINDER.length; j++) { if (FINDER[j] === "{") depth++; if (FINDER[j] === "}" && --depth === 0) break; }
   return FINDER.slice(i, j + 1);
 }
-const finder = new Function(`var CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"];
-${grab("miles")}\n${grab("place")}\n${grab("mergeOverlay")}\nreturn { place, mergeOverlay };`)();
+// Job platform-directory-0007: the browser copy of lib/telehealth.mjs the build writes, as the finder sees it.
+const TELE = new Function("window", read("assets/telehealth.js") + "\nreturn window.EO_TELE;")({});
+const finder = new Function("TELE", `var CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"];
+${grab("miles")}\n${grab("place")}\n${grab("mergeOverlay")}\nreturn { place, mergeOverlay };`)(TELE);
 // The finder's search, run from each center ZIP at 25 miles; two centers: the union, each doctor at the nearer center.
 function finderMetro(people, m) {
   const best = new Map();

@@ -48,6 +48,14 @@ test("allow-list: only public fields; never email, proof, history or waitlist", 
   assert.deepEqual(Object.keys(p).sort(), ["blurb", "booking_url", "confirmed", "insurance_confirm", "insurance_other", "insurances",
     "name", "npi", "offices", "photo"]);
   assert.deepEqual(Object.keys(p.offices[0]).sort(), ["city", "geo", "lat", "lon", "phone", "practice", "state", "street", "zip"]);
+  // Job platform-directory-0007: a full-access card adds video visits, and nothing else.
+  await c.put("profile", { telehealth: { offers: true, states: ["IL", "WI"] } });
+  assert.equal("telehealth" in (await get(w, "/api/listings?procedure=ufe")).body.people[0], false, "partial: not public");
+  await w.idCheck(c);
+  const fp = (await get(w, "/api/listings?procedure=ufe")).body.people[0];
+  assert.deepEqual(Object.keys(fp).sort(), ["blurb", "booking_url", "confirmed", "insurance_confirm", "insurance_other", "insurances",
+    "name", "npi", "offices", "photo", "telehealth"]);
+  assert.deepEqual(fp.telehealth, { offers: true, states: ["IL", "WI"] });
   const text = JSON.stringify(r.body);
   for (const bad of [EMAIL[ANN], "proof", "attest", "level", "account_id", "waitlist", "terms", "edits"]) assert.ok(!text.includes(bad), bad);
   assert.equal(p.blurb, "Same-week visits.");

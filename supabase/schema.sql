@@ -46,6 +46,11 @@ create table profiles (
   offices jsonb not null default '[]',
   blurbs jsonb not null default '{}',
   attested jsonb not null default '[]',
+  -- job platform-directory-0007: video visits; offers true, false or null (not answered); states: two-letter codes.
+  -- The service checks the codes; the database keeps the shape. Same as supabase/migrations/2026-11-06-telehealth.sql.
+  telehealth jsonb not null default '{"offers":null,"states":[]}' check (jsonb_typeof(telehealth) = 'object'
+    and jsonb_typeof(telehealth->'states') = 'array' and jsonb_array_length(telehealth->'states') <= 56
+    and coalesce(jsonb_typeof(telehealth->'offers'), 'null') in ('boolean', 'null')),
   updated_at timestamptz not null default now()
 );
 
