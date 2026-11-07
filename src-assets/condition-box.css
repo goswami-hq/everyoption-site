@@ -1,0 +1,30 @@
+/* "What is <condition>?" box and the phone city fold (job platform-condition-pages-0004, his "B2 yes" 2026-11-06).
+   Shared by every condition's simple and every-option pages; loaded after site.css. */
+.what-box { margin: 0 0 22px; padding: 18px 18px 4px 20px; background: var(--card); border: 0; border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0; scroll-margin-top: 14px; }
+.condition-page .what-box > h2 { margin: 0 0 8px; font-size: clamp(1.4375rem, 3.4vw, 1.75rem); }
+.what-box > p { margin: 0 0 10px; }
+.what-box .what-label { margin: 14px 0 8px; font-weight: 600; font-size: 0.9375rem; }
+.what-box ul.what-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 14px; }
+.what-box ul.what-tags li { background: var(--soft); color: var(--ink); border-radius: 1em; padding: 5px 12px; font-size: 0.9375rem; line-height: 1.35;
+  max-width: 100%; overflow-wrap: anywhere; }
+/* no rule above the fold inside the box: the + marks it, and the box edge already frames it */
+.what-box details.topic, .what-box details.topic:last-of-type { border: 0; }
+.city-fold { border-top: 1px solid var(--line); }
+.what-box summary, .city-fold summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  min-height: 48px; padding: 10px 0; list-style: none; border-radius: 8px; font-weight: 600; }
+.what-box summary::-webkit-details-marker, .city-fold summary::-webkit-details-marker { display: none; }
+.what-box summary::after, .city-fold summary::after { content: "+"; flex: none; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+.what-box details[open] > summary::after, .city-fold[open] > summary::after { content: "\2013"; }
+.what-box .fold-body > p { margin: 0 0 4px; }
+/* The city list is a fold at every width: open as shipped (desktop, JavaScript off), closed on phones by
+   assets/city-fold.js. A real fold everywhere, so a keyboard user who closes it can see how to open it again. */
+nav.by-city details.city-fold { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.city-fold > summary > h2 { margin: 0; font-size: 1.0625rem; font-family: inherit; font-weight: 600; }
+.city-fold > .fold-body > ul { margin-top: 0; }
+/* the every-option page: the box sits in the reading column, between the lede and the table */
+.options-page .what-box { margin: 22px 0 26px; max-width: 46rem; }
+@media (prefers-reduced-motion: reduce) { .what-box .fold-body, .city-fold > .fold-body { animation: none; } }
+/* Prostate deep-page design review 2026-11-06 (fixes.diff there, not shipped then because site/ is generated): no
+   resting shadow or outline on the every-option page's ZIP form (inspector "shadow" FAIL). */
+.options-page form.zip { box-shadow: none; border: 0; }

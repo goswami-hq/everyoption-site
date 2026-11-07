@@ -66,7 +66,9 @@ def blocks(c):
     for o in c["options"]:
         out.append(("Option: " + o["name"], [o[k] for k in ("what", "invasive", "works", "side")]))
     for s in c["sections"]:
-        if s.get("place") in ("after", "lead"):
+        if s.get("place") == "box":
+            out.append((s["heading"], condition.box_texts(c)))
+        elif s.get("place") in ("after", "lead"):
             out.append((s["heading"], s.get("text", []) + s.get("list", []) + s.get("after", [])))
     out.append((c["faq_heading"] if c.get("faq_heading") else "Common questions", [x for q in c["faq"] for x in (q["q"], q["a"])]))
     out.append((c["find_heading"], c["find_text"]))

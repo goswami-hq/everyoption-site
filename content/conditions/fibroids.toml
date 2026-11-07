@@ -77,12 +77,20 @@ options = ["hysteroscopic", "myomectomy", "hysterectomy"]
 
 [[sections]]
 id = "what"
-place = "after"
+# place = "box": the "What is <condition>?" box at the top of the simple page (top of the right column on desktop,
+# after the ZIP search on phones) and near the top of the every-option page, from this one entry (job
+# platform-condition-pages-0004, his "B2 yes" 2026-11-06; docs/condition-pattern.md). `symptoms` are the tags, in the
+# words of the sentence they came from ("Symptoms can include ..."); `symptoms_cite` keeps that sentence's sources.
+place = "box"
 heading = "What are fibroids?"
 text = [
   "Fibroids are muscle growths in or on the wall of the uterus. They are very common. By age 50, about 2 to 8 out of 10 women have them.[^owh]",
-  "Symptoms can include heavy or long periods, tiredness from blood loss, pelvic pain or pressure, frequent urination, and pain during sex.[^mpfib][^owh] See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed]",
 ]
+symptoms_label = "Common symptoms"
+symptoms = ["Heavy or long periods", "Tiredness from blood loss", "Pelvic pain or pressure", "Frequent urination", "Pain during sex"]
+symptoms_cite = "[^mpfib][^owh]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed]"
 
 [[sections]]
 id = "ask"

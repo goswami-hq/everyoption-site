@@ -61,6 +61,30 @@ def text_limits(errs, tag, p, targets):
         errs.append(f'{tag}: no "Page last reviewed" date')
 
 
+def box_errors(tag, p, c):
+    """The "What is <condition>?" box (job platform-condition-pages-0004): heading, definition, symptom tags and a
+    "When to see a doctor" fold, all from the condition's place = "box" section."""
+    s = next((x for x in c["sections"] if x.get("place") == "box"), None)
+    m = re.search(r'<section class="what-box".*?</section>', p["html"], re.S)
+    if not m:
+        return [f'{tag}: no "{s["heading"] if s else "What is <condition>?"}" box']
+    b, errs = m.group(0), []
+    if not re.search(r"<h2[^>]*>What (is|are) [^<]+\?</h2>", b):
+        errs.append(f'{tag}: the box heading is not "What is <condition>?"')
+    if "<p>" not in b:
+        errs.append(f"{tag}: the box has no definition")
+    if not re.search(r'<ul class="what-tags"[^>]*>(<li>[^<]+</li>){2,}</ul>', b):
+        errs.append(f"{tag}: the box has no symptom tags")
+    if not re.search(r'<details class="topic what-when"><summary>When to see a doctor</summary>', b):
+        errs.append(f'{tag}: the box has no "When to see a doctor" fold')
+    return errs
+
+
+def has_box(c):
+    s = next((x for x in c["sections"] if x.get("place") == "box"), None)
+    return bool(s and s.get("text") and s.get("symptoms") and s.get("see_doctor"))
+
+
 def check(site=SITE):
     errs, checked = [], []
     deep = {s: options.load(s) for s in options.slugs()}
@@ -77,10 +101,15 @@ def check(site=SITE):
         if "FAQPage" in sp["types"]:
             errs.append(f"{tag}: FAQ markup (the pattern carries none)")
         adopted = bool(c.get("targets")) or not c.get("draft")
+        # the box: required on every condition; a draft without the content yet is skipped (and says so)
+        box = has_box(c) or not c.get("draft")
+        if box:
+            errs += box_errors(tag, sp, c)
         if adopted:
             text_limits(errs, tag, sp, c.get("targets"))
+        nobox = "" if box else "; no box content yet (draft), box skipped"
         if slug not in deep:
-            checked.append(f"{slug}: simple{'' if adopted else ' (draft, structured data only)'}; no every-option page yet, skipped")
+            checked.append(f"{slug}: simple{'' if adopted else ' (draft, structured data only)'}{nobox}; no every-option page yet, skipped")
             continue
         _, d, _ = deep[slug]
         g = site / d["path"].strip("/") / "index.html"
@@ -90,6 +119,8 @@ def check(site=SITE):
         dp = page_parts(g)
         dtag = f"{slug} every-option"
         text_limits(errs, dtag, dp, d.get("targets"))
+        if box:
+            errs += box_errors(dtag, dp, c)
         for a, b in (("title", "title"), ("h1", "h1"), ("title", "h1"), ("h1", "title")):
             shared = runs(sp[a]) & runs(dp[b])
             if shared or words(sp[a]) == words(dp[b]):
@@ -118,7 +149,7 @@ def check(site=SITE):
                 by_city = re.search(r'<nav class="by-city".*?<a href="([^"]+)">All cities and states</a>', sp["html"], re.S)
                 if by_city and f'href="{by_city.group(1)}"' not in end.group(0):
                     errs.append(f"{dtag}: find-a-doctor block has no link to the city list {by_city.group(1)}")
-        checked.append(f"{slug}: simple and every-option")
+        checked.append(f"{slug}: simple and every-option{nobox}")
     return errs, checked
 
 

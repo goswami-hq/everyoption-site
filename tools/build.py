@@ -134,7 +134,8 @@ def ver(url):
     return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
 
 
-def page(path, title, desc, body, scripts=(), head="", cls=None, banner=""):
+def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=()):
+    head = "".join(f'<link rel="stylesheet" href="{ver(s)}">' for s in css) + head
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
@@ -520,7 +521,18 @@ def write(rel, text):
         fh.write(text)
 
 
+def copy_src_assets():
+    """Hand-written assets kept outside site/ (src-assets/README.md), copied in before any page is written so ver()
+    tags them by content."""
+    src = os.path.join(ROOT, "src-assets")
+    for name in sorted(os.listdir(src)):
+        if name.endswith((".css", ".js")):
+            with open(os.path.join(src, name), encoding="utf-8") as fh:
+                write("assets/" + name, fh.read())
+
+
 def main():
+    copy_src_assets()
     # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
     metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)
     city_entries = cities.sitemap_entries(city_pages, LISTINGS_AS_OF)
@@ -551,8 +563,8 @@ def main():
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
-                                         head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/city-fold.js"],
+                                         css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
@@ -561,7 +573,7 @@ def main():
         body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
-                                                         head=robots + options.schema(c, d, ORIGIN, "Every Option"),
+                                                         css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:

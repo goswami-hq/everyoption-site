@@ -114,6 +114,32 @@ def section(refs, s):
     return fold("topic", s["heading"], body, s["id"])
 
 
+def what_box(refs, c, h="h2"):
+    """The "What is <condition>?" box (job platform-condition-pages-0004, his "B2 yes" 2026-11-06): definition, symptom
+    tags and a "When to see a doctor" fold, from the condition's place = "box" section. The simple page and the
+    every-option page both call this, so the text lives once. Empty when the condition has no box yet."""
+    s = next((x for x in c["sections"] if x.get("place") == "box"), None)
+    if not s:
+        return ""
+    sid = html.escape(s["id"])
+    lede = paras(refs, s.get("text", []))   # rendered first: markers number in reading order
+    tags = "".join(f"<li>{html.escape(t)}</li>" for t in s.get("symptoms", []))
+    sym = (f'<p class="what-label" id="{sid}-sym">{html.escape(s.get("symptoms_label", "Common symptoms"))}'
+           f'{refs.inline(s.get("symptoms_cite", ""))}</p><ul class="what-tags" aria-labelledby="{sid}-sym">{tags}</ul>' if tags else "")
+    see = fold("topic what-when", s.get("see_doctor_heading", "When to see a doctor"), paras(refs, [s["see_doctor"]])) if s.get("see_doctor") else ""
+    return (f'<section class="what-box" id="{sid}" aria-labelledby="{sid}-h"><{h} id="{sid}-h">{html.escape(s["heading"])}</{h}>'
+            f'{lede}{sym}{see}</section>')
+
+
+def box_texts(c):
+    """The box's reading text, for the tie check and the readability report."""
+    s = next((x for x in c["sections"] if x.get("place") == "box"), None)
+    if not s:
+        return []
+    tags = [f'{s.get("symptoms_label", "Common symptoms")}: {", ".join(x[0].lower() + x[1:] for x in s["symptoms"])}.'] if s.get("symptoms") else []
+    return s.get("text", []) + tags + ([s["see_doctor"]] if s.get("see_doctor") else [])
+
+
 FIELDS = [("invasive", "How invasive is it?"), ("works", "How well does it work?"), ("side", "Side effects")]
 
 
@@ -209,7 +235,8 @@ def hero(c, finder_fn):
 def body(c, diagram_fn, e, top=""):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
     refs = Refs(c["refs"])
-    lead = lead_option(refs, c, diagram_fn)
+    box = what_box(refs, c)   # first on the page, so its sources number from 1
+    lead = box + lead_option(refs, c, diagram_fn)
     # place = "lead": a section shown open right after the lead procedure, not folded in Learn more (job 33: the
     # arthritis page's "other joints" block, so it sits with embolization instead of below every other option)
     lead += "".join(f'<section class="lead-extra" id="{html.escape(s["id"])}"><h2>{html.escape(s["heading"])}</h2>'
@@ -218,7 +245,7 @@ def body(c, diagram_fn, e, top=""):
     parts = [f'{lead}<p class="answer">{refs.inline(tail(c["answer"]))}</p>',
              f'<p class="urgent-line">{html.escape(c["urgent"])}</p>']
     parts.append(categories(refs, c))
-    learn = "".join(section(refs, s) for s in c["sections"] if s.get("place") != "lead") + faq(refs, c)
+    learn = "".join(section(refs, s) for s in c["sections"] if s.get("place") not in ("lead", "box")) + faq(refs, c)
     parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
     author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'

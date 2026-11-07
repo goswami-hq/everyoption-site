@@ -93,8 +93,10 @@ def city_block(k, pages, e):
     if not ms:
         return ""
     links = "".join(f'<li><a href="{HUB[k]}{m["slug"]}/">{e(m["name"])}</a></li>' for m in sorted(ms, key=lambda m: m["name"]))
-    return (f'<nav class="by-city" aria-label="Doctors by city"><h2>Doctors by city</h2><ul>{links}</ul>'
-            f'<p class="small"><a href="{HUB[k]}">All cities and states</a></p></nav>')
+    # A fold, open in the HTML (so it shows with JavaScript off and on desktop); assets/city-fold.js closes it under
+    # 760 px, where 16 cities would push the page down (job platform-condition-pages-0004, his "B2 yes" 2026-11-06).
+    return (f'<nav class="by-city" aria-label="Doctors by city"><details class="topic city-fold" open><summary><h2>Doctors by city</h2></summary>'
+            f'<div class="fold-body"><ul>{links}</ul><p class="small"><a href="{HUB[k]}">All cities and states</a></p></div></details></nav>')
 
 
 def metro_of(cfg, pages, site):

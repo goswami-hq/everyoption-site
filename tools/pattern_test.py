@@ -28,7 +28,7 @@ class PatternTest(unittest.TestCase):
         errs, checked = pattern.check()
         self.assertEqual(errs, [])
         self.assertIn("fibroids: simple and every-option", checked)
-        self.assertIn("knee-arthritis: simple and every-option", checked)   # job platform-main-0020
+        self.assertIn("knee-arthritis: simple and every-option; no box content yet (draft), box skipped", checked)
         self.assertTrue(any("pelvic-vein-pain" in c and "skipped" in c for c in checked))
 
     def test_shared_title_phrasing_fails(self):
@@ -55,6 +55,26 @@ class PatternTest(unittest.TestCase):
         self.assertTrue(any("no BreadcrumbList" in e for e in errs), errs)
         errs = self.site(("knee-arthritis/index.html", '"@type": "MedicalWebPage"', '"@type": "FAQPage"'))
         self.assertTrue(any("knee-arthritis simple: no MedicalWebPage" in e for e in errs), errs)
+
+
+    def test_box_missing_or_incomplete_fails(self):
+        # job platform-condition-pages-0004: the "What is <condition>?" box on both fibroid pages
+        for path in ("fibroids/index.html", "fibroids/every-option/index.html"):
+            errs = self.site((path, '<section class="what-box"', '<section class="gone"'))
+            self.assertTrue(any('no "What are fibroids?" box' in e for e in errs), errs)
+            errs = self.site((path, '<ul class="what-tags"', '<ul class="gone"'))
+            self.assertTrue(any("no symptom tags" in e for e in errs), errs)
+            errs = self.site((path, "<summary>When to see a doctor</summary>", "<summary>More</summary>"))
+            self.assertTrue(any("When to see a doctor" in e for e in errs), errs)
+
+    def test_published_condition_without_box_content_fails(self):
+        c = condition.load("knee-arthritis")
+        c.pop("draft")
+        orig = condition.load
+        condition.load = lambda slug: c if slug == "knee-arthritis" else orig(slug)
+        self.addCleanup(setattr, condition, "load", orig)
+        errs = pattern.check()[0]
+        self.assertTrue(any(e.startswith("knee-arthritis simple: no") and "box" in e for e in errs), errs)
 
 
 if __name__ == "__main__":

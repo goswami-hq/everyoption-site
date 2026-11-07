@@ -43,7 +43,8 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
   hysterectomy: how invasive each is, how well it works, and side effects."
 - **H1:** the patient's goal, not the title. Fibroids: "Shrink fibroids without surgery". Must share no three words in
   a row with the every-option title or H1.
-- **Section order:** H1 and ZIP finder; lead procedure (open) with diagram; plain answer; urgent line; "Your other
+- **Section order:** H1 and ZIP finder; "What is <condition>?" box (top of the right column on desktop, after the
+  finder and the folded Doctors by city on phones; see Shared rules); lead procedure (open) with diagram; plain answer; urgent line; "Your other
   <condition> treatment options" (categories folded: Medicines; Less invasive treatments, IR first; Surgery) with the
   every-option link at its top; Doctors by city block under the finder results; Learn more (sections, Common questions,
   References); "Page last reviewed <date>".
@@ -71,7 +72,8 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
   compared"; "Embolization vs. other less invasive treatments"; "Myomectomy vs. hysterectomy, and other surgery". A
   heading that restates a claim must match the page text and the tie file; prefer headings that name the comparison
   without a claim.
-- **Section order:** breadcrumbs; H1; lede; link to the simple page; finder button; glance table; one section per
+- **Section order:** breadcrumbs; H1; lede; link to the simple page; finder button; "What is <condition>?" box (the
+  same content as the simple page's, not a copy); glance table; one section per
   category (each option: intro, how well it works, side effects and risks, what experts say); find-a-doctor block;
   urgent line; references; "Page last reviewed <date>".
 - **Links out (required):** simple page, descriptive anchor (fibroids: "New to fibroids? Start with the short guide to
@@ -121,6 +123,16 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
 
 ## Shared rules
 
+- **"What is <condition>?" box** (job platform-condition-pages-0004; his words 2026-11-06: "The description of the
+  condition needs to come higher than it already is ... also need to not clutter everything", then "B2 yes"). On every
+  condition's simple and every-option pages: the heading "What is <condition>?" (or "What are ...?"), the definition
+  with its citation, a "Common symptoms" label carrying the symptom sentence's citations, the symptoms as tags, and a
+  "When to see a doctor" fold. One source: the condition toml's section with `place = "box"` (`text`, `symptoms`,
+  `symptoms_cite`, `see_doctor`; fibroids is the worked example), rendered by `condition.what_box()` on both pages.
+  Styles in `src-assets/condition-box.css` (copied into `site/assets/` by the build). The Doctors by city list is a fold,
+  open on desktop and with JavaScript off, closed under 760 px (`src-assets/city-fold.js`). `tools/pattern.py` fails a
+  page without the box or with any part missing; a draft condition without the box content is skipped and named.
+
 - **Information-gain sentence** (content-strategy gate): every simple and every-option page holds at least one line no
   ranking page has. Fibroids: the plain-frequency side-by-side of recovery and keeping the uterus, number-tied to the
   simple page's sources, and the free nearest-first list of every embolization doctor, Confirmed and Likely.
@@ -130,7 +142,8 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
 
 ## Checklist for a new condition (run in the page job)
 
-1. Simple page toml: `targets` (first target in the title), title 65 or fewer with brand, description 110 to 160, H1
+1. Simple page toml: the `place = "box"` section (definition, symptoms as tags, see-a-doctor line, each with its
+   existing sources); `targets` (first target in the title), title 65 or fewer with brand, description 110 to 160, H1
    as the patient's goal, `options_heading` "Your other <condition> treatment options".
 2. If an every-option page exists: `targets` disjoint from the simple page's; comparison title and H1;
    `compare_headings` for each category; `simple_link`, `find_heading`, `city_link`; `options_page` and `options_link`
