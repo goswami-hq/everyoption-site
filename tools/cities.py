@@ -11,7 +11,8 @@ reuse). Nothing here holds a ZIP a patient typed.
 """
 import json, math, os
 
-PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}   # condition page each hangs under (S3: pae, gae, job platform-main-0024)
+PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/",
+        "pelvic": "/chronic-pelvic-pain/"}   # job platform-directory-0009   # condition page each hangs under (S3: pae, gae, job platform-main-0024)
 HUB = {k: v + "doctors/" for k, v in PAGE.items()}
 REVIEWED = "2026-11-05"                 # the city page template text
 

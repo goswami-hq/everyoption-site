@@ -117,7 +117,7 @@ http.createServer(async (req, res) => {
     if (r) return send(res, r);
   }
   // Job 42: city pages, the same handler as functions/fibroids/doctors/[[path]].js.
-  if (/^\/(fibroids|enlarged-prostate|knee-arthritis)\/doctors(\/|$)/.test(url.pathname)) {   // S3: prostate and knee too
+  if (/^\/(fibroids|enlarged-prostate|knee-arthritis|chronic-pelvic-pain)\/doctors(\/|$)/.test(url.pathname)) {   // S3: prostate and knee too
     const r = await handleCity(await toRequest(req, url), { backend: backend ? listingsDB(backend) : null, noCache: true, ASSETS: localAssets });
     if (r) return send(res, r);
   }

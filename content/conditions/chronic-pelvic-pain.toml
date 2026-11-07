@@ -3,13 +3,15 @@
 # both pages similarly"). Written with the patient-centric skill: no study descriptions on this page; study details stay
 # in goswami-hq/ai-hq projects/platform/pelvic-page/evidence-table.md (rows cited there) for the in-depth page.
 # Framework (his words, 2026-11-01): Medicines; Less Invasive Treatments, IR option always first; Surgery.
-# No doctor finder yet: there is no pelvic vein embolization list, so finder and diagram are left out (tools/condition.py
-# skips both when absent). His seven calls and the new ones: projects/platform/pelvic-page/questions-for-him.md.
+# Finder since job platform-directory-0009 (his go 2026-11-07: "Yes to both changes and the builder"): the pelvic vein
+# list (site/data/pelvic.json). Still no diagram (tools/condition.py skips it when absent). The finder block below is the
+# only text added; its wording is on his review list (ai-hq projects/platform/design/pelvic-finder-2026-11-07/list-for-him.md). His seven calls and the new ones: projects/platform/pelvic-page/questions-for-him.md.
 # Rules: no brand or drug names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies
 # only; no trial names or evidence grades in the reading text; each option states its own limits and side effects.
 
 slug = "chronic-pelvic-pain"   # job platform-main-0024: was pelvic-vein-pain; the address names the condition (docs/addresses.md)
-color = "cpp"                  # its own color (teal), as on the home card; no finder of its own
+color = "cpp"                  # its own color (teal), as on the home card
+finder = "pelvic"              # the finder this page leads to: the pelvic vein list (job platform-directory-0009)
 nav_name = "Chronic pelvic pain"  # the home card name (his words, 2026-11-04)
 reviewed = "2026-11-06"
 draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
@@ -32,6 +34,11 @@ description = "Chronic pelvic pain sometimes comes from veins (pelvic congestion
 h1 = "Chronic pelvic pain from veins: every option"
 hero_intro = "Long-term pelvic pain can have many causes. Sometimes it comes from veins in the pelvis. This page explains every option, starting with treatments that need no surgery."
 diagram_at = "embolization"    # the lead option (no diagram on this page)
+# The finder block (job platform-directory-0009). The intro restates the "Less invasive treatments" summary below.
+finder_button = "Find a doctor for pelvic vein treatment"
+finder_heading = "Find a doctor for pelvic vein treatment"
+finder_intro = "Pelvic vein treatments are done through a tiny skin nick, without surgery. Nothing is cut out of your body."
+finder_how = "#embolization"
 answer = "Long-term pelvic pain is common in women.[^ahangari] Sometimes it comes from veins in the pelvis that are wide or squeezed.[^svp] Embolization is one option. You can also consider medicines or surgery.[^lepennec] The right choice depends on your symptoms and goals."
 urgent = "If you have severe pain, heavy bleeding, a fever, a swollen and painful leg, or feel very sick or faint, call 911."
 options_heading = "Your other pelvic congestion treatment options"

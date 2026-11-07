@@ -13,7 +13,8 @@ Profiles themselves are rendered by lib/directory.mjs on request; none are commi
 """
 import json, os, re, unicodedata
 
-PROC_PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}
+PROC_PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/",
+             "pelvic": "/chronic-pelvic-pain/"}   # job platform-directory-0009
 TEST_NPIS = {"1999999990"}
 CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"]
 OFFICE_KEYS = ["practice", "street", "city", "state", "zip", "phone"]
@@ -135,8 +136,16 @@ def check_duplicates(recs, known=()):
                          + "; ".join(f"{k[0]}, {k[1]}, {k[2]}: {' '.join(v)}" for k, v in bad))
 
 
-def group(rec):
-    v = set(rec["procs"].values())
+def draft_procs():
+    """Procedures marked draft in content/procedures.json (job platform-directory-0009): their tags show on profiles, but
+    they do not make a profile indexable while the condition page is a draft (lib/directory.mjs indexedProfile)."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, "content", "procedures.json"), encoding="utf-8") as fh:
+        return {p["key"] for p in json.load(fh) if p.get("draft")}
+
+
+def group(rec, skip=()):
+    v = {g for k, g in rec["procs"].items() if k not in skip}
     return "confirmed" if "confirmed" in v else "likely" if v else "nearby"
 
 
@@ -232,4 +241,5 @@ def routes(by):
 
 
 def indexed(recs, setting):
-    return [path(r) for r in sorted(recs.values(), key=sort_key) if setting.get(group(r), False)]
+    skip = draft_procs()
+    return [path(r) for r in sorted(recs.values(), key=sort_key) if setting.get(group(r, skip), False)]

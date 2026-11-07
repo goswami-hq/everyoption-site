@@ -98,13 +98,14 @@ test("store failure: 500 and an error line without details", async () => {
 test("one procedure list: every copy matches content/procedures.json", () => {
   const src = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8"));
   assert.deepEqual(PROCEDURES, src);
-  assert.deepEqual(PROCS, ["ufe", "pae", "gae"]); assert.deepEqual(ACCOUNT_PROCS, PROCS);
+  assert.deepEqual(PROCS, ["ufe", "pae", "gae", "pelvic"]); assert.deepEqual(ACCOUNT_PROCS, PROCS);   // pelvic: job 0009
   assert.equal(PROC_NAMES.gae, "genicular artery embolization (GAE)");
   const browser = readFileSync(new URL("../site/assets/procedures.js", import.meta.url), "utf8");
   const w = {}; new Function("window", browser)(w);
   assert.deepEqual(w.EO_PROCS.keys, PROCS); assert.equal(w.EO_PROCS.long.ufe, "Uterine fibroid embolization (UFE)");
   const sql = readFileSync(new URL("../supabase/schema.sql", import.meta.url), "utf8");
-  assert.ok(sql.includes("check (procedure in ('ufe', 'pae', 'gae'))"));
+  assert.ok(sql.includes("check (procedure in ('ufe', 'pae', 'gae', 'pelvic'))"));
+  assert.equal(w.EO_PROCS.short.pelvic, "pelvic vein treatment"); assert.equal(w.EO_PROCS.long.pelvic, "Pelvic vein treatment");
   for (const f of ["../site/assets/account.js", "../site/assets/finder.js", "../functions/api/report.js", "../lib/accounts/util.mjs",
     "../lib/accounts/service.mjs", "../lib/accounts/vendors.mjs"]) {
     const t = readFileSync(new URL(f, import.meta.url), "utf8");

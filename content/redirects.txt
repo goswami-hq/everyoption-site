@@ -5,6 +5,8 @@
 /pae/ /enlarged-prostate/ 301
 /gae /knee-arthritis/ 301
 /gae/ /knee-arthritis/ 301
+/pelvic /chronic-pelvic-pain/ 301
+/pelvic/ /chronic-pelvic-pain/ 301
 /arthritis-embolization /knee-arthritis/ 301
 /arthritis-embolization/ /knee-arthritis/ 301
 /claim /report/ 301
