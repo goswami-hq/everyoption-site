@@ -271,7 +271,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     def block(key, val):
         if isinstance(val, list):
             return f'<h4>{e(heads[key])}</h4><ul class="evidence">' + "".join(f"<li>{txt(v)}</li>" for v in val) + "</ul>"
-        return f'<h4>{e(heads[key])}</h4><p>{txt(val)}</p>'
+        # A line break splits a long field into paragraphs (copy edit, job platform-main-0026); each keeps its sources.
+        return f'<h4>{e(heads[key])}</h4>' + "".join(f"<p>{txt(v.strip())}</p>" for v in val.split("\n") if v.strip())
 
     box = condition.what_box(refs, c)   # before the sections, so its sources number first, in reading order
     sections, extra = "", {}
@@ -298,8 +299,10 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     when = datetime.date.fromisoformat(d["reviewed"])
     body = (f'<nav class="crumbs" id="top" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{e(d["lede"])}</p>'
-            + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
-            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{toc(c, d, names, extra)}{box}{top}'
+            + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
+            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
+            # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
+            + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).

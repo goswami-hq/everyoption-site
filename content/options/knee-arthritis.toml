@@ -23,7 +23,7 @@ reading_note = [
   "Every Option's physician performs knee embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: how sure we are"
-glance_note = "Tap a treatment name for the studies."
+glance_note = "Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Pain figures are on the same kind of scale but come from different studies, comparisons (placebo, sham, or other care) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to knee arthritis? Start with the short guide to your options"
 find_heading = "Find a knee embolization doctor"
@@ -155,10 +155,10 @@ evidence = [
   "A UK single-group study. {d:genesis}.",
   "A Japanese single-group study. {d:okuno}.",
 ]
-risks = "Temporary skin color change or redness over the knee affects {f:gae-skin}, usually fading within a month. The society's summary puts it at {d:sir-harms}. {d:padia-harms}. {d:lanza-bone}. {d:vz-harms}. {d:registry}. Embolization studies look for and report skin changes that surgical series rarely list, and knee replacement harms are defined differently, so these rates are not comparable with surgical complication rates."
-selection = "{d:sir-select}. The sham trials enrolled mild to moderate knees, where uncontrolled studies look best and placebo responses are large; people having GAE in the U.S. are often older, with more severe arthritis, or cannot have or do not want surgery, so the trials may not represent them. That is an inference: the papers do not report it.[^vz24][^landers23][^sir26] On who does best, uncontrolled studies conflict. {d:gill}. Yet the null sham trials were in exactly those milder knees, so the difference may be largely placebo.[^gill23][^vz24]"
+risks = "Temporary skin color change or redness over the knee affects {f:gae-skin}, usually fading within a month. The society's summary puts it at {d:sir-harms}.\n{d:padia-harms}. {d:lanza-bone}. {d:vz-harms}. {d:registry}.\nEmbolization studies look for and report skin changes that surgical series rarely list, and knee replacement harms are defined differently, so these rates are not comparable with surgical complication rates."
+selection = "{d:sir-select}.\nThe sham trials enrolled mild to moderate knees, where uncontrolled studies look best and placebo responses are large; people having GAE in the U.S. are often older, with more severe arthritis, or cannot have or do not want surgery, so the trials may not represent them. That is an inference: the papers do not report it.[^vz24][^landers23][^sir26]\nOn who does best, uncontrolled studies conflict. {d:gill}. Yet the null sham trials were in exactly those milder knees, so the difference may be largely placebo.[^gill23][^vz24]"
 fit = "The Society of Interventional Radiology says GAE should be offered to people with knee arthritis pain who have failed conservative therapy and are ineligible for, unwilling to undergo, or seeking to delay knee replacement. Most of its authors disclose device-industry consulting; it does not cite the larger null sham trial, and it calls for larger randomized trials.[^sir26]"
-unknown = "Whether GAE beats sham in adequately sized trials. {d:trials}. Whether it delays knee replacement: no study has measured time to replacement against a randomized control. {d:singh}. Repeat treatment: {d:repeat}. Which embolic agent is best: {d:gaucho}. Whether it slows arthritis: in one single-group study the MRI damage score worsened.[^genesis]"
+unknown = "Whether GAE beats sham in adequately sized trials. {d:trials}.\nWhether it delays knee replacement: no study has measured time to replacement against a randomized control. {d:singh}.\nRepeat treatment: {d:repeat}. Which embolic agent is best: {d:gaucho}. Whether it slows arthritis: in one single-group study the MRI damage score worsened.[^genesis]"
 
 [[detail]]
 option = "steroid"

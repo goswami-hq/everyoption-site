@@ -17,7 +17,7 @@ targets = ["pae vs turp", "prostate artery embolization vs turp", "bph medicatio
 title = "PAE vs. TURP vs. Laser Surgery, Compared | Every Option"
 description = "Prostate artery embolization (PAE) vs. TURP, laser surgery, office procedures, and BPH medication: study sizes, results, sex life, harms, and what is unknown."
 h1 = "Enlarged prostate treatments compared, side by side"
-lede = "This page is for readers who want the studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the same certainty words the short guide uses. Then come the study sizes, designs, comparison groups, follow-up, harms and how they were counted, who was studied, funding, and what is not known."
+lede = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different men, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
@@ -26,7 +26,7 @@ reading_note = [
   "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
-glance_note = "Tap a treatment name for the studies."
+glance_note = "Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Symptom-score figures use the same urinary symptom score (IPSS) but come from different studies, comparisons (placebo, sham, or TURP) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to an enlarged prostate? Start with the short guide to your options"
 find_heading = "Find a prostate artery embolization doctor"
@@ -159,8 +159,8 @@ evidence = [
   "Without a comparison group, the long series. {d:pisco16}.",
   "{d:sapoval24}.",
 ]
-risks = "After PAE, a burning feeling in the lower belly, frequent peeing and pelvic pain for a few days are common; a little blood in the urine or stool can happen.[^sirpt][^gstt] Serious problems: the Cochrane review gives {d:coch-major}. In cohorts, serious-event rates depend on who counted and how: {d:kristensen}. The multicentre study above gives its own rate. Rare severe harms from particles reaching the bladder, rectum or penis appear mainly as case reports, with no reliable rate.[^cochrane][^sapoval24] How harms were counted matters: only the Swiss trial graded both arms the same way, and older trials may have under-reported harms after TURP, so cohort rates for PAE cannot be set beside surgical series.[^abt18]"
-selection = "The trials enrolled men fit for either treatment, with a mean prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger glands, in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish cohort above. That cuts both ways (our inference): sicker men raise harm and failure, while motivated, well-counselled men raise symptom response. No cohort adjusted for frailty.[^cochrane][^kristensen][^ukrope] In retention, cohorts report most men become catheter-free: {d:bhatia25}. No randomized trial of PAE against surgery in catheter-dependent men was found.[^bhatia25][^sapoval24]"
+risks = "After PAE, a burning feeling in the lower belly, frequent peeing and pelvic pain for a few days are common; a little blood in the urine or stool can happen.[^sirpt][^gstt]\nSerious problems: the Cochrane review gives {d:coch-major}. In cohorts, serious-event rates depend on who counted and how: {d:kristensen}. The multicentre study above gives its own rate. Rare severe harms from particles reaching the bladder, rectum or penis appear mainly as case reports, with no reliable rate.[^cochrane][^sapoval24]\nHow harms were counted matters: only the Swiss trial graded both arms the same way, and older trials may have under-reported harms after TURP, so cohort rates for PAE cannot be set beside surgical series.[^abt18]"
+selection = "The trials enrolled men fit for either treatment, with a mean prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger glands, in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish cohort above. That cuts both ways (our inference): sicker men raise harm and failure, while motivated, well-counselled men raise symptom response. No cohort adjusted for frailty.[^cochrane][^kristensen][^ukrope]\nIn retention, cohorts report most men become catheter-free: {d:bhatia25}. No randomized trial of PAE against surgery in catheter-dependent men was found.[^bhatia25][^sapoval24]"
 fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as TURP {f:aua-2y}, with more repeat treatment than TURP. It advises a urologist's assessment before PAE, PAE by interventional radiologists trained in it, and offers PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
 unknown = "Whether PAE spares surgery or buys years before it: no trial reports time to surgery. That PAE leaves surgery open is shown; small series of surgery after PAE (robotic, simple prostatectomy, TURP) show no signal of harm, but no good evidence either way.[^bilhim][^cochrane] How it compares with laser enucleation (HoLEP): no randomized trial. Long-term results against a randomized control: the one long trial lost most PAE men to follow-up. Which particle and size work best: not settled.[^cochrane][^abt5]"
 
@@ -249,9 +249,11 @@ after = "less-invasive"
 heading = "Sex life after each treatment: how the studies counted it"
 text = [
   "Ejaculation can be measured three ways: any change (including less semen), retrograde ejaculation (semen going into the bladder), or complete loss of ejaculation. They are different outcomes and cannot be ranked against each other.[^ejac][^lokesh]",
-  "After PAE, studies that asked about retrograde or absent ejaculation find it uncommon. {d:lokesh}. {d:rawash}. {d:amouyal}. {d:peasy-sex}. Pooled against TURP, {d:coch-ejac}.",
+  "After PAE, studies that asked about retrograde or absent ejaculation find it uncommon. {d:lokesh}. {d:rawash}. {d:amouyal}. {d:peasy-sex}.",
+  "Pooled against TURP, {d:coch-ejac}.",
   "The higher PAE figure comes from a broad definition. {d:ejac-swiss}.",
-  "On erections, no study shows harm on average. {d:coch-ed}. {d:sapoval-ed}. {d:alizadeh}. {d:kawakibi}. {d:larussa}. No study gives a rate of new erection problems large enough to quote.",
+  "On erections, no study shows harm on average. {d:coch-ed}. {d:sapoval-ed}. {d:alizadeh}.",
+  "{d:kawakibi}. {d:larussa}. No study gives a rate of new erection problems large enough to quote.",
   "After TURP and laser surgery, retrograde ejaculation is common: {d:calik-re}, by one review's count. The lift, steam, implant and balloon trials reported no new lasting erection or ejaculation problems, each in its own sponsored trial.[^lift5][^rezum2][^itind][^pinnacle2]",
 ]
 
