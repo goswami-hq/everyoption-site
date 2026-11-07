@@ -15,6 +15,9 @@ const ASSETS = { async fetch(req) {
   catch (_) { return new Response("", { status: 404 }); }
 } };
 const DIR = JSON.parse(read("data/directory.json"));
+// Job platform-directory-0009: a profile is indexed for its non-draft procedures only (content/procedures.json "draft").
+const DRAFT = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8")).filter((p) => p.draft).map((p) => p.key);
+const INDEXED = (p) => (p.l || "").split(" ").filter((k) => k && !DRAFT.includes(k)).length > 0;
 const npiOf = (x) => x.p.slice(-11, -1);
 const LISTS = Object.fromEntries(["ufe", "pae", "gae"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
 const ROSTER = JSON.parse(read("data/ir-roster.json")).people;
@@ -238,7 +241,7 @@ test("sitemap and robots: every indexed profile once, AI crawlers allowed, searc
   const sm = read("sitemap-doctors.xml"), locs = [...sm.matchAll(/<loc>https:\/\/everyoptionmd\.com(\/doctors\/[^<]*)<\/loc>/g)].map((m) => m[1]);
   const profiles = locs.filter((u) => /-\d{10}\/$/.test(u));
   assert.equal(new Set(profiles).size, profiles.length, "each once");
-  assert.deepEqual([...profiles].sort(), DIR.people.filter((p) => p.l).map((p) => p.p).sort(), "launch setting (job 42): listed doctors only, no nearby");
+  assert.deepEqual([...profiles].sort(), DIR.people.filter(INDEXED).map((p) => p.p).sort(), "launch setting (job 42): listed doctors only, no nearby; a draft procedure alone does not index (job 0009)");
   assert.ok(read("sitemap-pages.xml").includes("https://everyoptionmd.com/doctors/<") && locs.includes("/doctors/a/"));
   const robots = read("robots.txt");
   for (const bot of ["GPTBot", "ClaudeBot", "PerplexityBot"]) assert.match(robots, new RegExp(`User-agent: ${bot}\\nAllow: /`));
@@ -262,7 +265,7 @@ test("index setting: one setting by group drives the sitemap and the profile's r
   const out = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
 d = json.load(sys.stdin); print(json.dumps(directory.indexed(directory.members(d["lists"], d["roster"]), {"confirmed": True, "likely": True, "nearby": False})))`],
   { input: JSON.stringify({ lists: LISTS, roster: ROSTER }) }));
-  assert.equal(out.length, DIR.people.filter((p) => p.l).length, "nearby off: only listed doctors stay in the sitemap");
+  assert.equal(out.length, DIR.people.filter(INDEXED).length, "nearby off: only listed doctors stay in the sitemap");
   assert.doesNotMatch((await get(LIKELY.p)).html, /name="robots"/, "indexed group: no robots tag");
 });
 

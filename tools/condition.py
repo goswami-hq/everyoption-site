@@ -229,7 +229,9 @@ def hero(c, finder_fn):
     if not c.get("finder"):
         return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p></section>'
     find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True)
-    return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{find}</section>'
+    # job platform-directory-0009: a page that had an intro before its finder came (the pelvic page) keeps it
+    lede = f'<p class="lede">{html.escape(c["hero_intro"])}</p>' if c.get("hero_intro") else ""
+    return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{lede}{find}</section>'
 
 
 def body(c, diagram_fn, e, top=""):

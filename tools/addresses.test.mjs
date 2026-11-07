@@ -55,7 +55,7 @@ test("old pelvic address: one 301 to /chronic-pelvic-pain/, which answers 200", 
   } finally { srv.kill(); }
 });
 
-test("no built page keeps the old pelvic address, except _redirects; home lists Chronic pelvic pain", () => {
+test("no built page keeps the old pelvic address, except _redirects; home lists Chronic pelvic pain with its finder", () => {
   assert.ok(!existsSync(path.join(SITE, "pelvic-vein-pain")), "old folder removed");
   const hits = [];
   const walk = (d) => { for (const f of readdirSync(d)) { const p = path.join(d, f);
@@ -66,7 +66,10 @@ test("no built page keeps the old pelvic address, except _redirects; home lists 
   const home = readFileSync(path.join(SITE, "index.html"), "utf8");
   const list = home.match(/<ul class="fork-list stops">(.*?)<\/ul>/s)[1];
   assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/"><strong>Chronic pelvic pain<\/strong>/);
-  assert.ok(!/<option value="\/chronic-pelvic-pain\/"/.test(home), "no ZIP option without a finder");
+  // job platform-directory-0009: the pelvic finder came, so the home ZIP list offers it and the card shows the count
+  assert.match(home, /<option value="\/chronic-pelvic-pain\/">Chronic pelvic pain<\/option>/, "ZIP option now the finder exists");
+  assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/"><strong>Chronic pelvic pain<\/strong><span class="proc">Pelvic vein treatment<\/span><span class="count">\d+ doctors listed<\/span>/);
+  assert.doesNotMatch(home, /Doctor list coming/);
   const page = readFileSync(path.join(SITE, "chronic-pelvic-pain", "index.html"), "utf8");
   assert.match(page, /<meta name="robots" content="noindex/, "still a draft");
 });

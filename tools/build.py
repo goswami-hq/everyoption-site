@@ -76,11 +76,30 @@ PROCS = {
              "https://doi.org/10.1016/j.jvir.2026.108803"),
         ],
     },
+    # Job platform-directory-0009 (his go 2026-11-07): the pelvic vein list. Its finder lives on /chronic-pelvic-pain/
+    # (MOVED), so no stand-alone finder page and no blurb of its own; "color" is the condition page's teal.
+    "pelvic": {
+        "for": "Chronic pelvic pain",
+        "color": "cpp",
+        "title": "Find a doctor for pelvic vein treatment",
+        "about": [],
+        "sources": [],
+    },
 }
 
 assert list(PROCS) == [p["key"] for p in PROCEDURES], "PROCS copy must match content/procedures.json"
 for _p in PROCEDURES:
     PROCS[_p["key"]].update(name=_p["name"], abbr=_p["abbr"])
+# The name in running text: the abbreviation, or (no abbreviation, job platform-directory-0009) the "short" words.
+SHORT = {p["key"]: p["abbr"] or p.get("short") or p["name"].lower() for p in PROCEDURES}
+PAREN = {p["key"]: f' ({p["abbr"]})' if p["abbr"] else "" for p in PROCEDURES}
+# Job platform-directory-0009: the pelvic city pages' "Is it right for me?" line, word for word from the pelvic page
+# (the embolization option's "what", then the stent option's first sentence), citations dropped as on other city pages.
+PELVIC_BLURB = ("A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. "
+                "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.")
+# Procedures whose condition page is still a draft: profile tags show, but a profile listed only for these stays
+# noindex and out of the sitemap (job platform-directory-0009). Delete "draft" in content/procedures.json at sign-off.
+DRAFT_PROCS = [p["key"] for p in PROCEDURES if p.get("draft")]
 
 # Photos (job 14): free-license stock from Pexels (pexels.com/license: free to use, attribution not required; credited on
 # How we know anyway). Self-hosted WebP under site/assets/photos/; sources and license reads in goswami-hq/ai-hq
@@ -193,11 +212,11 @@ def fork(keys):
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
-    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}
+    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}
 
     def row(k, p):
-        return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))} '
-                f'({p["abbr"]})</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
+        return (f'<li class="t-{p.get("color", k)}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))}'
+                f'{PAREN[k]}</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
     # Conditions with a page but no doctor list yet (job platform-main-0024; his words 2026-11-07: "get the chronic pelvic
     # pain page on the home page, navigation, etc"). Same list and look; no count, no ZIP option, until a finder exists.
@@ -280,8 +299,9 @@ def diagram(k, vary=True):
 
 
 # A condition page with no finder yet: (color key, address, home card name, procedure line). Not in the home ZIP list.
-PAGE_ONLY = [("cpp", "/chronic-pelvic-pain/", "Chronic pelvic pain", "Pelvic vein embolization")]
-MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
+# Empty since job platform-directory-0009: chronic pelvic pain has its finder (PROCS["pelvic"]).
+PAGE_ONLY = []
+MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
 RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
@@ -503,16 +523,18 @@ def sitemaps(profiles=(), letters=(), cities=()):
 
 def write_procedures():
     """The browser, server and database copies of content/procedures.json."""
-    short = {p["key"]: p["abbr"] for p in PROCEDURES}
-    long_ = {p["key"]: f'{p["name"]} ({p["abbr"]})' for p in PROCEDURES}
+    short = dict(SHORT)
+    long_ = {p["key"]: p["name"] + PAREN[p["key"]] for p in PROCEDURES}
     head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
         {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_}) + ";\n")
     with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
         fh.write(head + "export const PROCEDURES = " + json.dumps(PROCEDURES) + ";\n"
                  "export const PROCS = PROCEDURES.map((p) => p.key);\n"
-                 "export const PROC_SHORT = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr]));\n"
-                 "export const PROC_LONG = Object.fromEntries(PROCEDURES.map((p) => [p.key, `${p.name} (${p.abbr})`]));\n")
+                 "// The name in running text: the abbreviation, else the procedure's short words (job platform-directory-0009).\n"
+                 "export const PROC_SHORT = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr || p.short || p.name.toLowerCase()]));\n"
+                 "export const PROC_LONG = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr ? `${p.name} (${p.abbr})` : p.name]));\n"
+                 "export const DRAFT_PROCS = PROCEDURES.filter((p) => p.draft).map((p) => p.key);\n")
     sql = os.path.join(ROOT, "supabase", "schema.sql")
     with open(sql, encoding="utf-8") as fh:
         text = fh.read()
@@ -625,7 +647,11 @@ def main():
                          "pae": "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like "
                                 "going often, getting up at night, or a weak stream.",
                          "gae": "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with "
-                                "other treatments."}, LISTINGS_AS_OF, SITE)
+                                "other treatments.",
+                         # job platform-directory-0009: no approved finder text exists for pelvic veins, so the city pages
+                         # reuse the pelvic page's own embolization sentence (content/conditions/chronic-pelvic-pain.toml,
+                         # option "embolization", "what"), its words and claim only; on his review list
+                         "pelvic": PELVIC_BLURB}, LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
