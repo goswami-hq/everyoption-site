@@ -6,7 +6,7 @@
   "use strict";
   var q = document.getElementById("dir-q"), list = document.getElementById("dir-results"), status = document.getElementById("dir-status");
   if (!q) return;
-  var PROCS = ["ufe", "pae", "gae"], MAX = 30, OVERLAY_MS = 2500;
+  var PROCS = ["ufe", "pae", "gae", "pelvic"], MAX = 30, OVERLAY_MS = 2500;   // pelvic: job platform-directory-0009
   var people = null, base = null, overlays = {};
 
   function fold(s) {

@@ -15,6 +15,9 @@
   var lede = document.getElementById("acct-lede");
   var STATUS = null;
   var PROC = window.EO_PROCS.short, PROC_LONG = window.EO_PROCS.long;   // site/assets/procedures.js, the shared list
+  // Job platform-directory-0009: a procedure with no abbreviation (pelvic) shows its name once, capitalized.
+  function PROC_HEAD(k) { return PROC[k].toLowerCase() === PROC_LONG[k].toLowerCase() ? PROC_LONG[k] : PROC[k]; }
+  function PROC_SUB(k) { return PROC[k].toLowerCase() === PROC_LONG[k].toLowerCase() ? "" : " " + PROC_LONG[k]; }
   var QS = new URLSearchParams(location.search);
   var STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
   var PHOTO_CAP = 2 * 1024 * 1024, PHOTO_EDGE = 1600;
@@ -378,7 +381,7 @@
           });
         } });
         return el("li", { "class": "proc on", id: "proc-" + k }, [
-          el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC[k] }), el("span", { "class": "muted", text: " " + PROC_LONG[k] }),
+          el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC_HEAD(k) }), el("span", { "class": "muted", text: PROC_SUB(k) }),
             el("span", { "class": "proc-state", text: "✓ You perform this" })])]),
           el("details", { "class": "proc-note", open: !!t.value }, [el("summary", { text: t.value ? "Your note" : "Add a note for patients" }),
             el("label", { "for": "b-" + k }, ["Note for " + PROC[k] + " ", count]), t, el("p", { "class": "err small", id: "why-b-" + k }),
@@ -401,7 +404,7 @@
       ]);
       var add = el("button", { type: "button", "class": "secondary add", "data-proc": k, text: "Add", "aria-label": "Add " + PROC[k], onclick: function () { add.hidden = true; stmt.hidden = false; stmt.querySelector("button").focus(); } });
       return el("li", { "class": "proc", id: "proc-" + k }, [
-        el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC[k] }), el("span", { "class": "muted", text: " " + PROC_LONG[k] })]), add]),
+        el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC_HEAD(k) }), el("span", { "class": "muted", text: PROC_SUB(k) })]), add]),
         stmt]);
     });
     return panel("procs", "Procedures", [

@@ -123,7 +123,7 @@ create table attestations (
   id uuid primary key default gen_random_uuid(),
   account_id uuid not null references accounts(id),
   npi text not null,
-  procedure text not null check (procedure in ('ufe', 'pae', 'gae')),
+  procedure text not null check (procedure in ('ufe', 'pae', 'gae', 'pelvic')),
   statement text not null,                                           -- the exact wording ticked
   agreement text not null default '',                                -- the one agreement on the page
   at timestamptz not null default now()
