@@ -164,7 +164,7 @@ id = "focused-ultrasound"
 name = "Focused ultrasound"
 what = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid.[^rinfo]"
 invasive = "There is no cut. Most women recover quickly.[^rinfo]"
-works = "It fits only some fibroids. Some women need more treatment later. Not all insurance covers it.[^rinfo][^fdapma][^bcbsnc]"
+works = "Early studies suggest it eases symptoms. It fits only some fibroids. Some women need more treatment later. Not all insurance covers it.[^rinfo][^fdapma][^bcbsnc]"
 side = "You may have belly pain. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
 
 [[options]]
@@ -172,7 +172,7 @@ id = "endometrial-ablation"
 name = "Endometrial ablation"
 what = "Heat or cold destroys the lining of the uterus to lighten periods.[^mpea]"
 invasive = "There are no cuts. Most women go home the same day and recover in 1 to 2 days.[^mpea]"
-works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] A radiology group rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, about 1 out of 8 women had a hysterectomy within 5 years.[^oderkerk]"
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] It is usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, about 1 out of 8 women had a hysterectomy within 5 years.[^oderkerk]"
 side = "You may have cramps and discharge for a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[options]]
@@ -180,7 +180,7 @@ id = "hysteroscopic"
 name = "Removal through the cervix"
 what = "A thin camera and small tools remove fibroids growing inside the uterus.[^mpfib][^mphysteroscopy]"
 invasive = "There are no cuts. Recovery takes a few days.[^ccmyo]"
-works = "It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+works = "Early studies suggest it helps. It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
 side = "You may have cramps and light bleeding for a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
 
 [[options]]
@@ -343,8 +343,8 @@ cite = "Martin J, Bhanot K, Athreya S. Complications and reinterventions in uter
 url = "https://doi.org/10.1007/s00270-012-0505-y"
 [[refs]]
 key = "oderkerk"
-cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrical and Gynecological Survey. 2023;78(10):575-576. doi:10.1097/OGX.0000000000001206."
-url = "https://doi.org/10.1097/OGX.0000000000001206"
+cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrics and Gynecology. 2023;142(1):51-60. doi:10.1097/AOG.0000000000005223. PMID 37290114."
+url = "https://doi.org/10.1097/AOG.0000000000005223"
 [[refs]]
 key = "asrm"
 cite = "Practice Committee of the American Society for Reproductive Medicine. Postoperative adhesions in gynecologic surgery: a committee opinion. Fertility and Sterility. 2019;112:458-463. Read November 2, 2026."

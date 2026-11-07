@@ -33,7 +33,7 @@ uterus = "Yes"
 fibroids = "No. Eases bleeding and cramps"
 [[glance]]
 option = "hormone-medicines"
-works = "Greatly reduced bleeding for {f:gnrh-bleeding} in a drug-maker-funded trial; symptoms often return after stopping"
+works = "Greatly reduce bleeding; symptoms often return after stopping"
 involves = "Pills or shots"
 recovery = "None"
 uterus = "Yes"
@@ -47,7 +47,7 @@ uterus = "Yes"
 fibroids = "No. Lightens periods"
 [[glance]]
 option = "embolization"
-works = "Symptoms improve for {f:ufe-improve}; {f:ufe-5yr}"
+works = "Most women feel much better"
 involves = "Tiny skin nick"
 recovery = "{g:ufe-recovery}"
 uterus = "Yes"
@@ -61,7 +61,7 @@ uterus = "Yes"
 fibroids = "Yes. Heat destroys the fibroid"
 [[glance]]
 option = "focused-ultrasound"
-works = "Fits only some fibroids; some women need more treatment later"
+works = "Eases symptoms; fits only some fibroids"
 involves = "No cut, in an MRI scanner"
 recovery = "Most recover quickly"
 uterus = "Yes"
@@ -75,14 +75,14 @@ uterus = "Yes"
 fibroids = "No. Treats the lining"
 [[glance]]
 option = "hysteroscopic"
-works = "Works only for fibroids inside the uterus; new ones can form later"
+works = "Helps; works only for fibroids inside the uterus"
 involves = "No cuts, through the cervix"
 recovery = "A few days"
 uterus = "Yes"
 fibroids = "Yes, only those inside the uterus"
 [[glance]]
 option = "myomectomy"
-works = "Quality of life improves; {f:myo-repeat} down the line"
+works = "Quality of life improves"
 involves = "Surgery: larger cut or a few small cuts"
 recovery = "{g:major-recovery}"
 uterus = "Yes"
@@ -106,6 +106,7 @@ option = "hormone-medicines"
 certainty = "Strong evidence shows"
 intro = "This group includes birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
 works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding. In a drug-maker-funded trial, bleeding fell greatly for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
+evidence = ["The strong evidence is for bleeding {d:gnrh-6mo}. Use beyond that rests mostly on open-label extensions, plus one study that randomly switched some women to a dummy pill: most of those who stopped saw heavy bleeding return.[^libext][^libwd]", "Some women taking a dummy pill also improved: {d:gnrh-placebo}. The medicine's real effect is the gap between the two groups."]
 risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
 [[detail]]
@@ -120,6 +121,7 @@ certainty = "Good evidence suggests"
 diagram = true
 intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
 works = "Good evidence suggests most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
+evidence = ["{d:ufe-range}.", "Satisfaction compared with surgery: {d:ufe-sat}.", "Quality of life compared with myomectomy: {d:femme-qol}. No clear difference in satisfaction was found, but on this quality-of-life measure myomectomy came out ahead at first.[^cochrane][^femme2]"]
 risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
 fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
 
@@ -127,24 +129,29 @@ fit = "A radiology expert panel rates embolization usually appropriate or possib
 option = "radiofrequency"
 intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
 works = "Results vary from study to study: {f:rfa-sonata}, and {f:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
+evidence = ["The two figures differ mainly in what they count. The first study counted only surgery for heavy bleeding. The second counted any surgery, most often removing other fibroids through the cervix, and it looked back at one center's records.[^sonata3][^dutch]", "{d:rfa-pool}.", "{d:rfa-esonata}."]
 risks = "Pain and cramps can happen. Serious problems were rare in studies.[^sonata3][^dutch]"
 
 [[detail]]
 option = "focused-ultrasound"
 intro = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid. There is no cut, and most women recover quickly.[^rinfo]"
-works = "It fits only some fibroids, and some women need more treatment later. Not all insurance covers it, so check first.[^rinfo][^fdapma][^bcbsnc]"
+certainty = "Early studies suggest"
+works = "Early studies suggest it eases symptoms. It fits only some fibroids, and some women need more treatment later. Not all insurance covers it, so check first.[^rinfo][^fdapma][^bcbsnc]"
+evidence = ["{d:fus-sham}.", "Repeat treatment is common and rises with time: {d:fus-repeat}.", "{d:fus-firstt}."]
 risks = "Belly pain can happen. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
 
 [[detail]]
 option = "endometrial-ablation"
 intro = "Heat or cold destroys the lining of the uterus to lighten periods. There are no cuts. Most women go home the same day and recover in {f:ea-recovery}."
-works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] A radiology expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {f:ea-hyst}."
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] The American College of Radiology's expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {f:ea-hyst}."
+evidence = ["That hysterectomy figure comes from women with heavy bleeding in general, not women with fibroids.[^oderkerk] Studies of women with fibroids are records-based, with no trial.", "{d:ea-finland}.", "{d:ea-kaiser}."]
 risks = "Cramps and discharge can last a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[detail]]
 option = "hysteroscopic"
 intro = "A thin camera and small tools go through the cervix and remove fibroids growing inside the uterus. There are no cuts, and recovery takes a few days.[^mpfib][^mphysteroscopy][^ccmyo]"
-works = "It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+certainty = "Early studies suggest"
+works = "Early studies suggest it helps. It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
 risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
 
 [[detail]]
@@ -152,6 +159,7 @@ option = "myomectomy"
 certainty = "Good evidence suggests"
 intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger cut in the belly or a few small cuts. Recovery takes {f:major-recovery}.[^mpfib]"
 works = "Good evidence suggests women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
+evidence = ["Repeat procedures rise over time: {d:myo-time}.", "{d:myo-pool}."]
 risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
 
 [[detail]]
@@ -159,3 +167,57 @@ option = "hysterectomy"
 intro = "Surgery removes the whole uterus, through the vagina, small cuts, or a larger cut in the belly. Recovery takes {f:major-recovery}.[^mphyst]"
 works = "It is the only treatment that keeps fibroids from returning, and periods stop. It also ends the chance of pregnancy.[^owh][^ccmyo]"
 risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+
+# Deep page references (job platform-main-0027): sources of the deep-only facts.
+[[refs]]
+key = "schlaff"
+cite = "Schlaff WD, Ackerman RT, Al-Hendy A, et al. Elagolix for heavy menstrual bleeding in women with uterine fibroids. New England Journal of Medicine. 2020;382(4):328-340. doi:10.1056/NEJMoa1904351. PMID 31971678. Abstract read."
+url = "https://doi.org/10.1056/NEJMoa1904351"
+[[refs]]
+key = "sandberg18"
+cite = "Sandberg EM, Tummers FHMP, Cohen SL, et al. Reintervention risk and quality of life outcomes after uterine-sparing interventions for fibroids: a systematic review and meta-analysis. Fertility and Sterility. 2018;109(4):698-707.e1. doi:10.1016/j.fertnstert.2017.11.033. PMID 29653718. Abstract read."
+url = "https://doi.org/10.1016/j.fertnstert.2017.11.033"
+[[refs]]
+key = "mitro24"
+cite = "Mitro SD, Xu F, Lee C, et al. Long-term risk of reintervention after surgical leiomyoma treatment in an integrated health care system. Obstetrics and Gynecology. 2024;143(5):619-626. doi:10.1097/AOG.0000000000005557. PMID 38547478. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000005557"
+[[refs]]
+key = "xu21"
+cite = "Xu F, Deng L, Zhang L, et al. The comparison of myomectomy, UAE and MRgFUS in the treatment of uterine fibroids: a meta analysis. International Journal of Hyperthermia. 2021;38(2):24-29. doi:10.1080/02656736.2021.1933216. PMID 34420449. Abstract read."
+url = "https://doi.org/10.1080/02656736.2021.1933216"
+[[refs]]
+key = "bradley19"
+cite = "Bradley LD, Pasic RP, Miller LE. Clinical performance of radiofrequency ablation for treatment of uterine fibroids: systematic review and meta-analysis of prospective studies. Journal of Laparoendoscopic and Advanced Surgical Techniques, Part A. 2019;29(12):1507-1517. doi:10.1089/lap.2019.0550. PMID 31702440. Abstract read."
+url = "https://doi.org/10.1089/lap.2019.0550"
+[[refs]]
+key = "esonata"
+cite = "Cooijmans TH, Dujardin Z, van der Meulen JF, et al. Evaluation of the clinical and cost-effectiveness of transcervical ultrasound-guided radiofrequency ablation of leiomyomas (ESONATA): a prospective cohort study. European Journal of Obstetrics, Gynecology, and Reproductive Biology. 2025;311:114062. doi:10.1016/j.ejogrb.2025.114062. PMID 40435802. Abstract read."
+url = "https://doi.org/10.1016/j.ejogrb.2025.114062"
+[[refs]]
+key = "promise"
+cite = "Jacoby VL, Kohi MP, Poder L, et al. PROMISe trial: a pilot, randomized, placebo-controlled trial of magnetic resonance guided focused ultrasound for uterine fibroids. Fertility and Sterility. 2016;105(3):773-780. doi:10.1016/j.fertnstert.2015.11.014. PMID 26658133. Abstract read."
+url = "https://doi.org/10.1016/j.fertnstert.2015.11.014"
+[[refs]]
+key = "gorny14"
+cite = "Gorny KR, Borah BJ, Brown DL, et al. Incidence of additional treatments in women treated with MR-guided focused US for symptomatic uterine fibroids: review of 138 patients with an average follow-up of 2.8 years. Journal of Vascular and Interventional Radiology. 2014;25(10):1506-1512. doi:10.1016/j.jvir.2014.05.012. PMID 24998103. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2014.05.012"
+[[refs]]
+key = "quinn14"
+cite = "Quinn SD, Vedelago J, Gedroyc W, Regan L. Safety and five-year re-intervention following magnetic resonance-guided focused ultrasound (MRgFUS) for uterine fibroids. European Journal of Obstetrics, Gynecology, and Reproductive Biology. 2014;182:247-251. doi:10.1016/j.ejogrb.2014.09.039. PMID 25445107. Abstract read."
+url = "https://doi.org/10.1016/j.ejogrb.2014.09.039"
+[[refs]]
+key = "firstt"
+cite = "Laughlin-Tommaso S, Barnard EP, AbdElmagied AM, et al. FIRSTT study: randomized controlled trial of uterine artery embolization vs focused ultrasound surgery. American Journal of Obstetrics and Gynecology. 2019;220(2):174.e1-174.e13. doi:10.1016/j.ajog.2018.10.032. PMID 30696556. Full text read (PMC6355152)."
+url = "https://doi.org/10.1016/j.ajog.2018.10.032"
+[[refs]]
+key = "soini17"
+cite = "Soini T, Rantanen M, Paavonen J, et al. Long-term follow-up after endometrial ablation in Finland: cancer risks and later hysterectomies. Obstetrics and Gynecology. 2017;130(3):554-560. doi:10.1097/AOG.0000000000002166. PMID 28796675. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000002166"
+[[refs]]
+key = "libext"
+cite = "Al-Hendy A, Lukes AS, Poindexter AN 3rd, et al. Long-term relugolix combination therapy for symptomatic uterine leiomyomas. Obstetrics and Gynecology. 2022;140(6):920-930. doi:10.1097/AOG.0000000000004988. PMID 36357960. Full text read (PMC). Funded by the drug maker."
+url = "https://doi.org/10.1097/AOG.0000000000004988"
+[[refs]]
+key = "libwd"
+cite = "Al-Hendy A, Venturella R, Arjona Ferreira JC, et al. LIBERTY randomized withdrawal study: relugolix combination therapy for heavy menstrual bleeding associated with uterine fibroids. American Journal of Obstetrics and Gynecology. 2023;229(6):662.e1-662.e25. doi:10.1016/j.ajog.2023.08.030. PMID 37666383. Abstract read. Funded by the drug maker."
+url = "https://doi.org/10.1016/j.ajog.2023.08.030"
