@@ -159,9 +159,17 @@ def check(c, d, f):
         for key in condition.MARK.findall(t):
             if key not in keys | own:
                 errs.append(f'{where}: reference {key} is not on the simple page' + (" or this page" if own else ""))
-    for t in _notes(d):
+    for t in _notes(d) + _as_list(d.get("read_intro", "")):
         if NUM.search(t):
             errs.append(f'reading note: number outside the ledger: "{t[:120]}"')
+    # The lede opens with the answer (agreed list item 2, his "Fine" 2026-11-07): its numbers come only from the ledger.
+    for m in PH.finditer(d["lede"]):
+        if m.group(2) not in facts:
+            errs.append(f'lede: unknown fact {m.group(2)}')
+        elif m.group(1) == "f" and not facts[m.group(2)]["simple"]:
+            errs.append(f'lede: {m.group(2)} is a deep-only fact; write it {{d:{m.group(2)}}}')
+    if NUM.search(condition.MARK.sub("", PH.sub("", d["lede"]))):
+        errs.append(f'lede: number outside the ledger: "{d["lede"][:120]}"')
     det = {x["option"]: x for x in d["detail"]}
     if not d.get("works_note") or NUM.search(d.get("works_note", "")):
         errs.append("works_note: the note under the grid on how its results compare is required, with no number")
@@ -274,6 +282,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         # A line break splits a long field into paragraphs (copy edit, job platform-main-0026); each keeps its sources.
         return f'<h4>{e(heads[key])}</h4>' + "".join(f"<p>{txt(v.strip())}</p>" for v in val.split("\n") if v.strip())
 
+    # not through _cap: "vs." is not a sentence end ("UFE vs. myomectomy")
+    lede = refs.inline(condition.tail(_fill(d["lede"], facts)))   # first in reading order, so its sources number first
+    # "How to read this page": the old lede's method text, then the reading notes (agreed list item 2, 2026-11-07)
+    how = (f'<h2 class="reading-h">How to read this page</h2>' + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _as_list(d.get("read_intro", "")))
+           if d.get("read_intro") else "")
     box = condition.what_box(refs, c)   # before the sections, so its sources number first, in reading order
     sections, extra = "", {}
     for sec in d.get("section", []):
@@ -298,11 +311,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     top = "".join(show(sec) for sec in extra.get("top", []))
     when = datetime.date.fromisoformat(d["reviewed"])
     body = (f'<nav class="crumbs" id="top" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
-            f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{e(d["lede"])}</p>'
+            f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{lede}</p>'
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
-            + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
+            + how + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
@@ -335,7 +348,7 @@ def schema(c, d, origin, publisher):
             "about": {"@type": "MedicalCondition", "name": c["condition_name"],
                       **({"alternateName": c["condition_alt"]} if c.get("condition_alt") else {}),
                       "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
-            "publisher": {"@type": "Organization", "name": publisher, "url": origin + "/"}}
+            "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"}}
     crumbs = [("Home", "/"), (c.get("nav_name", c["condition_name"]), f'/{c["slug"]}/'), ("Every option", d["path"])]
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList",
           "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": origin + u} for i, (n, u) in enumerate(crumbs, 1)]}

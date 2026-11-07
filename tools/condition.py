@@ -156,7 +156,9 @@ def lead_option(refs, c, diagram_fn):
     pic = diagram_fn(c["diagram"], vary=False) if c.get("diagram") else ""
     how = fold("topic how-fold", "How it works", f'{pic}<p>{t("invasive")}</p>')
     cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
-    return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>About {html.escape(o["name"][0].lower() + o["name"][1:])}</h2>'
+    # "What is <procedure>?" answer block (agreed list item 1, his yes 2026-11-07): `lead_heading` on the lead option
+    h2 = o.get("lead_heading") or "About " + o["name"][0].lower() + o["name"][1:]
+    return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(h2)}</h2>'
             f'<p>{refs.inline(tail(o["what"]))}</p>{how}{fold("topic", "How well does it work?", "<p>" + t("works") + "</p>")}'
             f'{fold("topic", "Side effects", "<p>" + t("side") + "</p>")}'
             f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
@@ -204,7 +206,7 @@ def schema(c, url, origin, publisher):
         "about": {"@type": "MedicalCondition", "name": c["condition_name"],
                   **({"alternateName": c["condition_alt"]} if c.get("condition_alt") else {}),
                   "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
-        "publisher": {"@type": "Organization", "name": publisher, "url": origin + "/"},
+        "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"},
     }
     if c.get("author_name"):
         # Off until he decides (his words, 2026-11-01: "if we truly need a name, I can figure out how to put my name on
@@ -228,7 +230,9 @@ def hero(c, finder_fn):
     """The top of a condition page: heading, plain summary, and the ZIP search."""
     if not c.get("finder"):
         return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p></section>'
-    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True)
+    # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)
+    note = {"note": c["finder_note"]} if c.get("finder_note") else {}
+    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True, **note)
     # job platform-directory-0009: a page that had an intro before its finder came (the pelvic page) keeps it
     lede = f'<p class="lede">{html.escape(c["hero_intro"])}</p>' if c.get("hero_intro") else ""
     return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{lede}{find}</section>'

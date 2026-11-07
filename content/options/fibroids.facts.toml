@@ -67,7 +67,7 @@ refs = ["emmy"]
 [[fact]]
 id = "ufe-menopause"
 option = "embolization"
-simple = "less than 5 out of 100 women go through menopause early"
+simple = "less than 5 out of 100 women go through it"
 deep = "less than 5 out of 100 women go through menopause early"
 refs = ["sir", "rinfo"]
 [[fact]]

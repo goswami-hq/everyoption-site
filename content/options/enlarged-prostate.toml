@@ -17,7 +17,10 @@ targets = ["pae vs turp", "prostate artery embolization vs turp", "bph medicatio
 title = "PAE vs. TURP vs. Laser Surgery, Compared | Every Option"
 description = "Prostate artery embolization (PAE) vs. TURP, laser surgery, office procedures, and BPH medication: study sizes, results, sex life, harms, and what is unknown."
 h1 = "Enlarged prostate treatments compared, side by side"
-lede = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
+# The lede opens with the answer and the first target (agreed list item 2, his "Fine" 2026-11-07); the old lede is
+# `read_intro`, under "How to read this page". Numbers in the lede only as ledger facts.
+lede = "PAE vs. TURP: strong evidence shows TURP surgery relieves symptoms most of the time. Early results for prostate artery embolization (PAE) are encouraging, and the American Urological Association's {f:aua-year} lists PAE as an option for men with larger prostates. Some men need another treatment later, and early studies suggest this is more likely than after surgery."
+read_intro = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different men, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
@@ -26,7 +29,7 @@ reading_note = [
   "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
-glance_note = "Select a treatment name to read its studies."
+glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Symptom-score figures use the same urinary symptom score (IPSS) but come from different studies, comparisons (placebo, sham, or TURP) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to an enlarged prostate? Start with the short guide to your options"
 find_heading = "Find a prostate artery embolization doctor"

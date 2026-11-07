@@ -90,12 +90,14 @@ symptoms_label = "Common symptoms"
 symptoms = ["Heavy or long periods", "Tiredness from blood loss", "Pelvic pain or pressure", "Frequent urination", "Pain during sex"]
 symptoms_cite = "[^mpfib][^owh]"
 see_doctor_heading = "When to see a doctor"
-see_doctor = "See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed]"
+see_doctor = "See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed] A doctor can check what is causing your symptoms and go over your options."
 
 [[sections]]
 id = "ask"
 place = "after"
 heading = "What should I ask my doctor?"
+# agreed list item 6 (his "Agree", 2026-11-07)
+text = ["You can ask about any option on this page, even one your doctor does not offer."]
 list = [
   "Which options could work for me, and which could not?",
   "How would each option affect a future pregnancy?",
@@ -146,10 +148,12 @@ side = "You may have spotting at first. It is more likely to slip out when fibro
 [[options]]
 id = "embolization"
 name = "Fibroid embolization (UFE)"
-what = "Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae]"
-invasive = "You only need a tiny skin nick. There is no cut in the belly, so no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
+# "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07); the lines it now holds left `invasive`
+lead_heading = "What is uterine fibroid embolization (UFE)?"
+what = "Uterine fibroid embolization (UFE), also called uterine artery embolization, treats fibroids without surgery.[^mpuae] A thin tube goes through a tiny skin nick in the wrist or groin.[^sir][^mpuae] Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae] Most women go home the same day.[^sir][^mpuae]"
+invasive = "There is no cut in the belly, so no belly scar where a hernia can form.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
 works = "Good evidence suggests most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
-side = "You may have cramps, nausea, and a low fever for up to a week. Less than 5 out of 100 women go through menopause early.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
+side = "You may have cramps, nausea, and a low fever for up to a week. Early menopause is uncommon: less than 5 out of 100 women go through it.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
 
 [[options]]
 id = "radiofrequency"

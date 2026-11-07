@@ -136,7 +136,7 @@ def photo(key, lazy=True, cls="photo"):
 
 LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").read_text()
 WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#ffb648"/><stop offset=".55" stop-color="#ffb648" stop-opacity=".45"/><stop offset="1" stop-color="#ffb648" stop-opacity="0"/></linearGradient></defs><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
-NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "Physicians")]
+NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -209,6 +209,32 @@ def fork(keys):
             f"{draw}{light}</svg>")
 
 
+# agreed list item 7 (his words 2026-11-07: stents, ablation, TARE and -plasty are coming, so one line for every
+# image-guided treatment, not an embolization definition): true of UFE, PAE, GAE, pelvic vein embolization and stenting.
+HOME_HOW = ("The procedures our listed doctors perform work from inside the body, guided by imaging, through a tiny skin "
+            "nick instead of a surgical cut.")
+ORG_ID = ORIGIN + "/#organization"
+
+
+def home_schema():
+    """One Organization (with @id, url, logo, the brand accounts) and the WebSite, on the home page only (agreed list
+    item 19; visibility addendum item 8). No founder, no parent company. Condition pages point to it by @id."""
+    import json
+    org = {"@context": "https://schema.org", "@type": "Organization", "@id": ORG_ID, "name": "Every Option",
+           "url": ORIGIN + "/", "logo": ORIGIN + "/assets/logo.svg", "sameAs": [u for _, u in SOCIAL]}
+    site = {"@context": "https://schema.org", "@type": "WebSite", "@id": ORIGIN + "/#website", "name": "Every Option",
+            "url": ORIGIN + "/", "publisher": {"@id": ORG_ID}, "inLanguage": "en-US"}
+    return "".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+                   for x in (org, site))
+
+
+def logo_file():
+    """A standalone copy of the header logo for the Organization record (colors fixed: no page CSS applies)."""
+    svg = LOGO.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ', 1).replace(' role="img" aria-label="Every Option"', "")
+    svg = svg.replace('fill="currentColor"', 'fill="#22302b"')
+    return svg.replace('class="logo-disc"', 'class="logo-disc" fill="#2f5d50"').replace('class="logo-hole"', 'class="logo-hole" fill="#f0a04b"')
+
+
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
@@ -225,7 +251,8 @@ def home():
     opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
     hero = f"""<section class="hero">{WAVE}<div class="hero-in">
 <div><h1>You have more options than you know.</h1>
-<p class="lede">Many common conditions have non-surgical treatments that people never hear about.</p></div>
+<p class="lede">Many common conditions have non-surgical treatments that people never hear about.</p>
+<p class="lede-sub">{e(HOME_HOW)}</p></div>
 <form id="home-search" class="hero-search" role="search" aria-label="Find a doctor" novalidate>
 <p class="find-label">Find a doctor near you</p>
 <div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
@@ -241,13 +268,15 @@ def home():
 <div class="plain two">
 <div><h2>Who runs this</h2>
 <p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
-<div><h2>Simple to use, and free</h2>
+<div><h2>How it works</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
 <p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p></div>
 </div></div>"""
-    return page("/", "Every Option: find doctors who perform UFE, PAE, and GAE",
-                "Find doctors who perform uterine fibroid embolization, prostate artery embolization, or genicular "
-                "artery embolization near you.", body, ["/assets/banner.js", "/assets/home-search.js"], banner=banner, cls="home-page")
+    # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
+    return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
+                "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, and pelvic vein pain, "
+                "and for most, doctors nearby who perform embolization.", body, ["/assets/banner.js", "/assets/home-search.js"],
+                head=home_schema(), banner=banner, cls="home-page")
 
 
 PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/README.md (his yes, 2026-11-02)
@@ -318,7 +347,7 @@ def intro_html(text):
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(text)).replace("\n", "<br>")
 
 
-def finder_block(k, heading=None, learn="", intro=None, how=None, split=False):
+def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, note=""):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
     if heading is None:
@@ -341,6 +370,7 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False):
 </form>
 {results}
 </div>
+{f'<p class="small muted find-scope">{e(note)}</p>' if note else ""}
 </section>"""
 
 
@@ -390,6 +420,9 @@ def how():
 <div><dt>Confirmed by physician</dt><dd>The doctor told us they perform it, and we have confirmed the account is theirs.</dd></div>
 <div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it, or the doctor told us so from an account we have not yet confirmed (the card says so). Call the office to confirm.</dd></div>
 </dl>
+<h2>Who runs this</h2>
+<p>{e(DISCLOSURE)}</p>
+<p>Confirming is free.</p>
 <h2>Where the information comes from</h2>
 <ul>
 <li>Doctors’ profiles on hospital, university, and practice websites, and search results for those pages.</li>
@@ -407,9 +440,6 @@ def how():
 <p>Any doctor on any card can claim their listing, for free.</p>
 <h2>The badge under a name</h2>
 <p><strong>Interventional radiologist:</strong> their own page or their practice’s page says so, or, when no page does, public Medicare billing records show they perform interventional radiology procedures. When we cannot tell, the doctor is not listed.</p>
-<h2>Who runs this</h2>
-<p>{e(DISCLOSURE)}</p>
-<p>Confirming is free.</p>
 <h2>How cards are ordered</h2>
 <p>Within each group, the order is by distance only, except that interventional radiologists whose practice website names the procedure come first in their group.</p>
 <h2>Find a doctor by name</h2>
@@ -421,7 +451,7 @@ def how():
 {credits()}
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
-    return page("/how-we-know/", "How we know | Every Option",
+    return page("/how-we-know/", "How We Find and List Doctors | Every Option",
                 "What the two groups on Every Option mean, where the information comes from, and how to report an error.",
                 body)
 
@@ -447,7 +477,7 @@ def report():
 <div><label for="r-note">Details <span class="hint">(optional) Please do not include patient information.</span></label><textarea id="r-note" name="note" rows="4" maxlength="2000"></textarea></div>
 <div><label for="r-email">Your email <span class="hint">(optional) Only if you want a reply.</span></label><input id="r-email" name="email" type="email" maxlength="200" autocomplete="email"></div>
 <div class="hp" aria-hidden="true"><label for="r-website">Leave this empty</label><input id="r-website" name="website" tabindex="-1" autocomplete="off"></div>
-<div><button type="submit">Send</button></div>
+<div><button type="submit">Send report</button></div>
 </form>
 <div id="report-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
 <div class="prose"><p class="small muted">We keep what you send to fix the listing. If you give an email, we use it only to reply about this report, and we do not sell or share it. To limit repeated reports, a code made from your connection’s internet address is kept for up to 3 days, then deleted; it is never stored with your report.</p></div>
@@ -466,7 +496,7 @@ def account():
 <div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> When they open, physicians can claim their profile here. To tell us about an error now, use the <a id="closed-report" href="/report/">report form</a>.</p></div>
 </div>
 <div id="acct" hidden>
-<div class="prose"><p class="lede" id="acct-lede">Manage how you appear to patients. Listings are free.</p></div>
+<div class="prose"><p class="lede" id="acct-lede">Claim your free listing. Once we confirm the account is yours, your card shows under Confirmed by physician, above Likely performs, for each procedure you confirm, with your photo and whether you see patients by video. Your edits show at once. No one can pay for placement, and we do not send or sell patients.</p></div>
 <div id="acct-status" class="status" role="status" aria-live="polite" tabindex="-1"></div>
 <div id="acct-out"></div>
 </div>
@@ -577,6 +607,7 @@ def copy_src_assets():
 
 def main():
     copy_src_assets()
+    write("assets/logo.svg", logo_file())
     write_telehealth()
     # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
     metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)

@@ -16,14 +16,17 @@ targets = ["gae vs knee replacement", "genicular artery embolization vs knee rep
 title = "GAE vs. Knee Replacement vs. Injections, Compared | Every Option"
 description = "Knee embolization (GAE) vs. knee replacement, injections, nerve ablation, and medicines: study sizes, results, harms, and what is still unknown."
 h1 = "Knee arthritis treatments compared, side by side"
-lede = "This page is for readers who want the studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the same certainty words the short guide uses. Then come the study sizes, designs, comparison groups, follow-up, harms and how they were counted, who was studied, funding, and what is not known."
+# The lede opens with the answer and the first target (agreed list item 2, his "Fine" 2026-11-07); the old lede is
+# `read_intro`, under "How to read this page". Numbers in the lede only as ledger facts.
+lede = "GAE vs. knee replacement: strong evidence shows anti-inflammatory pills ease knee pain and most new knees last a long time. Good evidence suggests exercise helps you use your knee better. Early results for genicular (knee) artery embolization (GAE) are encouraging, though doctors are still learning how much of the relief comes from the treatment itself."
+read_intro = "This page is for readers who want the studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the same certainty words the short guide uses. Then come the study sizes, designs, comparison groups, follow-up, harms and how they were counted, who was studied, funding, and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome measures, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
   "Every Option's physician performs knee embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: how sure we are"
-glance_note = "Select a treatment name to read its studies."
+glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Pain figures are on the same kind of scale but come from different studies, comparisons (placebo, sham, or other care) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to knee arthritis? Start with the short guide to your options"
 find_heading = "Find a knee embolization doctor"

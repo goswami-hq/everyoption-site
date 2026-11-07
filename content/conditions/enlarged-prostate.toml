@@ -88,6 +88,8 @@ see_doctor = "See a doctor if your bladder does not feel empty after you pee, or
 id = "ask"
 place = "after"
 heading = "What should I ask my doctor?"
+# agreed list item 6 (his "Agree", 2026-11-07)
+text = ["You can ask about any option on this page, even one your doctor does not offer."]
 list = [
   "Which options could work for me, and which could not?",
   "How would each option affect my erections and ejaculation?",
@@ -138,8 +140,10 @@ side = "You may have a headache, upset stomach, or back pain. Do not take it wit
 [[options]]
 id = "embolization"
 name = "Prostate artery embolization (PAE)"
-what = "Tiny beads slow blood flow to the prostate so it shrinks. Urine can then flow more easily.[^sirpt][^ucla]"
-invasive = "You only need a tiny skin nick in the wrist or groin. You stay awake, with medicine to help you relax. Nothing is cut out. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
+# "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07); the lines it now holds left `invasive`
+lead_heading = "What is prostate artery embolization (PAE)?"
+what = "Prostate artery embolization (PAE) treats an enlarged prostate without surgery.[^sirpt][^ucla] A thin tube goes through a small puncture in the wrist or groin.[^sirpt][^ucla] Tiny beads slow blood flow to the prostate so it shrinks, and urine can flow more easily.[^sirpt][^ucla] Nothing is cut out.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope]"
+invasive = "You stay awake, with medicine to help you relax. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
 works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
 side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Most men keep normal ejaculation. Some notice less semen. Losing ejaculation completely is uncommon, and much less common than after TURP surgery.[^ejac][^cochrane][^lokesh][^rawash] PAE does not seem to affect erections.[^cochrane][^sapoval24] Serious problems are uncommon.[^pisco][^cochrane]"
 
@@ -148,13 +152,13 @@ id = "urethral-lift"
 name = "Urethral lift"
 what = "Small implants lift and hold the prostate away from the urethra, like tiebacks on a curtain.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin.[^mpmin] Most men need little or no urine tube time and return to normal activity in about 1 week.[^lift5]"
-works = "Early studies suggest it eases symptoms, often within 2 weeks. It works only for some prostate sizes, so ask if yours fits. About 1 out of 7 men need another procedure within 5 years.[^lift5]"
+works = "Early studies suggest it eases symptoms, often within 2 weeks. It works only for some prostate sizes, so ask if yours fits. Some men need another procedure: about 1 out of 7 within 5 years.[^lift5]"
 side = "Side effects are mostly mild and short-lived. Erections and ejaculation usually stay the same.[^lift5]"
 
 [[options]]
 id = "water-vapor"
 name = "Water vapor (steam) therapy"
-what = "Steam is released into the prostate to burn the inside of the prostate. This removes some of the extra tissue and makes the path for urine larger.[^niddk][^mpmin]"
+what = "Steam released into the prostate burns away some of the inner tissue. This makes the path for urine larger.[^niddk][^mpmin]"
 invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
 works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits.[^rezum5] About 1 out of 7 men need more surgery within 5 years.[^cosmos]"
 side = "Side effects are mostly mild and go away quickly. Lasting erection problems are rare.[^rezum2][^rezum5]"

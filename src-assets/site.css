@@ -741,3 +741,9 @@ table.glance thead th:first-child, table.glance tbody th[scope=row] { min-width:
 @media (prefers-reduced-motion: reduce) { .tele-switch, .tele-switch::after { transition: none; } }
 .tele-chip .tele-x { margin-left: 6px; font-weight: 400; font-size: 1.125rem; line-height: 1; }
 .tele-add { margin-bottom: 16px; }
+
+/* "How to read this page" on every-option pages (agreed list item 2, 2026-11-07): a small heading over the method notes */
+.reading-h { font-size: 1rem; margin: 18px 0 4px; }
+.find-scope { margin: 8px 0 0; }
+/* home: the one line on how these procedures work (agreed list item 7, 2026-11-07) */
+.home-page .hero .lede-sub { color: #e6d8c6; margin: 10px 0 0; max-width: 32em; font-size: clamp(1rem, 1.4vw, 1.125rem); }
