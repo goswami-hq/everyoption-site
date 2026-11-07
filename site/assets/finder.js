@@ -46,6 +46,8 @@
   // down or slower than OVERLAY_MS, results come from the static file; a late overlay applies to the next search.
   var OVERLAY_MS = 2500;
   var CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"];
+  var TELE = (typeof window !== "undefined" && window.EO_TELE) || null;    // site/assets/telehealth.js, written by the build from lib/telehealth.mjs
+  function teleOn(p) { return !!(p.confirmed && TELE && TELE.publicTelehealth(p.telehealth) && p.telehealth.offers === true); }
   function wait(ms, v) { return new Promise(function (ok) { setTimeout(function () { ok(v); }, ms); }); }
   function loadOverlay() {
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
@@ -77,6 +79,9 @@
         // export put in the static file (a removed link, photo, note, insurance or office).
         CARD_KEYS.forEach(function (k) { if (c[k] && !(Array.isArray(c[k]) && !c[k].length)) p[k] = c[k]; else delete p[k]; });
         if (p.confirmed && c.photo) p.photo = c.photo; else delete p.photo;
+        // Job platform-directory-0007: video visits only on a Confirmed card (the overlay sends it only for full access).
+        var tele = p.confirmed && TELE ? TELE.publicTelehealth(c.telehealth) : null;
+        if (tele) p.telehealth = tele; else delete p.telehealth;
         if (c.blurb) p.blurb = c.blurb; else delete p.blurb;
         if (i === undefined) { at[c.npi] = people.length; people.push(p); } else people[i] = p;
         delete gone[c.npi];
@@ -197,7 +202,12 @@
       el("span", { "class": "dist", text: mi(p.miles) })
     ]);
     var lead = p.lead || null;            // job 16: the doctor's closest office inside the radius leads the card
-    if (p.confirmed) kids.push(el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"]));
+    if (p.confirmed) {
+      // Job platform-directory-0007: the video visits badge sits beside "Confirmed by physician" (shared markup).
+      var tags = el("div", { "class": "card-tags" }, [el("p", { "class": "confirmed-tag" }, ["\u2713 Confirmed by physician"])]);
+      if (teleOn(p)) tags.insertAdjacentHTML("beforeend", TELE.teleBadge(p.telehealth));
+      kids.push(tags);
+    }
     if (p.ask) kids.push(el("p", { "class": "ask-tag" }, [askLine()]));
     kids.push(top);
     var practice = lead ? lead.practice : p.practice;
@@ -271,6 +281,38 @@
     return s;
   }
 
+  // Job platform-directory-0007: a "Video visits" switch above the results, shown only when a Confirmed card here offers
+  // them. On: the Confirmed group keeps only doctors who can see a patient in the searched ZIP's state. Likely is untouched.
+  var videoOnly = false;
+  function confirmedTier(confirmed, zip) {
+    var NOTE = "These doctors confirmed they perform this procedure. Nearest first.";
+    var any = confirmed.some(teleOn), st = TELE ? TELE.zipState(zip) : "";
+    if (!any) return section(confirmed, "tier-a", "Confirmed by physician", NOTE);
+    var box = el("div", { "class": "tele-wrap" });
+    var sw = el("button", { type: "button", "class": "tele-filter", role: "switch", "aria-checked": videoOnly ? "true" : "false" }, [
+      el("span", { "class": "tele-switch", "aria-hidden": "true" }), "Video visits only"]);
+    var bar = el("div", { "class": "tele-bar" }, [sw]);
+    function draw() {
+      sw.setAttribute("aria-checked", videoOnly ? "true" : "false");
+      while (box.childNodes.length > 1) box.removeChild(box.lastChild);
+      var list = videoOnly ? confirmed.filter(function (p) { return teleOn(p) && TELE.teleServes(p.telehealth, st); }) : confirmed;
+      if (videoOnly) bar.appendChild(el("p", { "class": "tele-note small", role: "status", text: st
+        ? "Showing confirmed doctors who can see a patient in " + st + " by video. Likely performs is unchanged."
+        : "We couldn't tell the state of ZIP " + zip + ", so no doctor matches. Turn this off to see everyone." }));
+      if (list.length) box.appendChild(section(list, "tier-a", "Confirmed by physician", NOTE));
+      else box.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
+        el("p", null, [el("strong", { text: "Confirmed by physician: 0 with video visits in " + (st || "your state") + "." })])]));
+    }
+    sw.addEventListener("click", function () {
+      videoOnly = !videoOnly;
+      var n = bar.querySelector(".tele-note"); if (n) n.remove();
+      draw();
+    });
+    box.appendChild(bar);
+    draw();
+    return box;
+  }
+
   function run(zip, r) {
     out.innerHTML = "";
     if (!/^\d{5}$/.test(zip)) { say("Enter a 5-digit ZIP code.", "err"); zipIn.focus(); return; }
@@ -314,8 +356,7 @@
         }
         say(total ? total + (total === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first."
           : "No doctors within " + r + " miles of " + zip + ". The nearest we know of are below.");
-        if (confirmed.length) out.appendChild(section(confirmed, "tier-a", "Confirmed by physician",
-          "These doctors confirmed they perform this procedure. Nearest first."));
+        if (confirmed.length) out.appendChild(confirmedTier(confirmed, zip));
         else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
           el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." })]),
           el("p", null, ["Are you a doctor who performs this? ",

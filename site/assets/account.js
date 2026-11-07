@@ -318,7 +318,11 @@
     var o = (p.offices || [])[0] || null;
     var full = a.level === "full";
     var kids = [];
-    if (full && done.length) kids.push(el("p", { "class": "confirmed-tag", text: "✓ Confirmed by physician" }));
+    if (full && done.length) {
+      var tags = el("div", { "class": "card-tags" }, [el("p", { "class": "confirmed-tag", text: "✓ Confirmed by physician" })]);
+      if (window.EO_TELE) tags.insertAdjacentHTML("beforeend", window.EO_TELE.teleBadge(p.telehealth));
+      kids.push(tags);
+    }
     var img = full && p.photo_key ? el("img", { "class": "photo", src: "/api/account/photo?v=" + encodeURIComponent(p.photo_key.slice(-12)), alt: "", width: "64", height: "64" }) : null;
     kids.push(el("div", { "class": "top" }, [img, el("div", { "class": "who" }, [el("h3", { text: a.name }),
       el("span", { "class": "badge", text: "Interventional radiologist" })])]));
@@ -467,6 +471,67 @@
     });
     return panel("offices-panel", "Offices and phone", [
       el("p", { "class": "small muted", text: "Patients see your closest office to them, with each office listed on your card. We email you when these change." }), f]);
+  }
+
+  // Job platform-directory-0007: video visits. Any holder saves it; only a Confirmed card shows it. The states start
+  // from the doctor's office states the first time it is switched on; each can be added or removed.
+  function telePanel(me) {
+    var T = window.EO_TELE, p = me.profile || {}, full = me.account.level === "full";
+    var saved = (T && T.cleanTelehealth(p.telehealth)) || { offers: null, states: [] };
+    var on = saved.offers === true, states = saved.states.slice(), everOn = on || states.length > 0;
+    var sw = el("button", { type: "button", id: "tele-on", "class": "tele-filter", role: "switch", "aria-checked": on ? "true" : "false",
+      "aria-describedby": "tele-help" }, [el("span", { "class": "tele-switch", "aria-hidden": "true" }), "I offer video visits"]);
+    var chips = el("ul", { "class": "tele-chips", id: "tele-chips", "aria-label": "States where you can see patients" });
+    var pick = el("select", { id: "tele-add", name: "tele_add" });
+    var addBtn = el("button", { type: "button", "class": "secondary", id: "tele-add-btn", text: "Add state" });
+    var where = el("div", { "class": "tele-where", id: "tele-where", hidden: !on }, [
+      el("p", { "class": "k", id: "tele-states-h", text: "States where you can see a patient by video or phone" }), chips,
+      el("div", { "class": "tele-add" }, [field("tele-add", "Add a state", pick), addBtn])]);
+    var save = el("button", { type: "button", id: "tele-save", text: "Save video visits" });
+    function drawStates() {
+      chips.innerHTML = "";
+      states.forEach(function (x) {
+        chips.appendChild(el("li", null, [el("button", { type: "button", "class": "tele-chip", "aria-label": "Remove " + x, onclick: function () {
+          var i = states.indexOf(x); states.splice(i, 1); drawStates();
+          var next = chips.querySelectorAll("button")[Math.min(i, states.length - 1)]; (next || pick).focus();
+        } }, [x, el("span", { "class": "tele-x", "aria-hidden": "true", text: "\u00d7" })])]));
+      });
+      if (!states.length) chips.appendChild(el("li", { "class": "muted small", text: "No states yet. Add each state where you are licensed." }));
+      pick.innerHTML = "";
+      pick.appendChild(el("option", { value: "", text: "Choose a state" }));
+      (T ? T.TELE_STATES : []).filter(function (x) { return states.indexOf(x) < 0; }).sort()
+        .forEach(function (x) { pick.appendChild(el("option", { value: x, text: x })); });
+    }
+    addBtn.addEventListener("click", function () {
+      var x = pick.value; if (!x) { pick.focus(); return; }
+      if (states.indexOf(x) < 0) states.push(x);
+      states = T.TELE_STATES.filter(function (s) { return states.indexOf(s) >= 0; });
+      drawStates(); pick.focus();
+    });
+    sw.addEventListener("click", function () {
+      on = !on; sw.setAttribute("aria-checked", on ? "true" : "false"); where.hidden = !on;
+      if (on && !everOn && !states.length) {          // first time on: the office states
+        (p.offices || []).forEach(function (o) { if (o.state && T.TELE_STATES.indexOf(o.state) >= 0 && states.indexOf(o.state) < 0) states.push(o.state); });
+        states = T.TELE_STATES.filter(function (s) { return states.indexOf(s) >= 0; });
+        drawStates();
+      }
+      everOn = everOn || on;
+    });
+    save.addEventListener("click", function () {
+      if (on && !states.length) { say("Add at least one state where you can see patients by video.", "err"); pick.focus(); return; }
+      busy(save, true);
+      api("PUT", "profile", { telehealth: { offers: on, states: states } }).then(function (j) {
+        busy(save, false);
+        if (j.ok) { say(j.changed.length ? "Video visits saved." : "No changes.", "ok"); return load(); }
+        say(words(j), "err");
+      });
+    });
+    drawStates();
+    return panel("tele-panel", "Video visits", [
+      el("p", { "class": "small muted", id: "tele-help", text: "Do you see patients by video or phone? Patients can look for doctors who do. Add each state where you are licensed to see a patient." }),
+      el("div", { "class": "tele-row" }, [sw, full ? null : el("p", { "class": "tele-partial small", id: "tele-partial",
+        text: "Saved now; patients see it once you have full access." })]),
+      where, el("div", { "class": "acct-actions" }, [save])]);
   }
 
   // Phone photos are often 3 to 12 MB, sideways in their raw pixels, or HEIC. The browser decodes the photo (turned the
@@ -648,7 +713,7 @@
   }
 
   var FIELD = { blurbs: "Notes", insurances: "Insurance plans", insurance_other: "Other plans", insurance_confirm: "Confirm with the office",
-    booking_url: "Website link", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
+    booking_url: "Website link", telehealth: "Video visits", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
     takeover: "Listing moved to you", lost_npi: "Listing lost", login_email: "Login email", invite: "Invitation made", doximity: "Doximity linked" };
   var WHEN = { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" };
   function when(t) {
@@ -688,7 +753,7 @@
     ]);
     var parts = [head];
     if (a.npi) {
-      parts.push(seePanel(me), procPanel(me), officePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me), emailPanel(me), historyPanel());
+      parts.push(seePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me), emailPanel(me), historyPanel());
     } else {
       parts.push(accessPanel(me), emailPanel(me));
     }
