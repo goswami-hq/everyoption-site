@@ -199,6 +199,10 @@ def home():
         return (f'<li class="t-{k}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))} '
                 f'({p["abbr"]})</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
+    # Conditions with a page but no doctor list yet (job platform-main-0024; his words 2026-11-07: "get the chronic pelvic
+    # pain page on the home page, navigation, etc"). Same list and look; no count, no ZIP option, until a finder exists.
+    rows += "".join(f'<li class="t-{k}"><a href="{href}"><strong>{e(name)}</strong><span class="proc">{e(proc)}</span>'
+                    f'<span class="count">Doctor list coming</span></a></li>' for k, href, name, proc in PAGE_ONLY)
     opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
     hero = f"""<section class="hero">{WAVE}<div class="hero-in">
 <div><h1>You have more options than you know.</h1>
@@ -275,8 +279,10 @@ def diagram(k, vary=True):
 </figure>"""
 
 
+# A condition page with no finder yet: (color key, address, home card name, procedure line). Not in the home ZIP list.
+PAGE_ONLY = [("cpp", "/chronic-pelvic-pain/", "Chronic pelvic pain", "Pelvic vein embolization")]
 MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
-RENAMED = ["arthritis-embolization"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
+RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
 FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
@@ -452,7 +458,8 @@ def not_found():
     body = """<h1>Page not found</h1><p>Find a doctor for:</p>
 <ul class="finders">""" + "".join(
         f'<li><a href="{MOVED.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong></a></li>'
-        for k, p in PROCS.items()) + "</ul>"
+        for k, p in PROCS.items()) + "</ul>" + "<p>Read about:</p><ul class=\"finders\">" + "".join(
+        f'<li><a href="{href}"><strong>{e(name)}</strong></a> (doctor list coming)</li>' for _, href, name, _ in PAGE_ONLY) + "</ul>"
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 
 
@@ -606,12 +613,17 @@ def main():
                                               f"Doctors listed on Every Option whose last name starts with {label}.",
                                               directory.letter_body(by, k, e), cls="prose-page dir-page"))
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
-    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page t-fibroids")
+    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
                         # one sentence from the approved finder blurb, its own words and claims only (job platform-main-0013:
                         # less text shared by every city page); "less invasive" (his yes, 2026-11-05); on his review list
                         {"ufe": "Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy "
-                                "periods, pain, or pressure, and you keep your uterus."}, LISTINGS_AS_OF, SITE)
+                                "periods, pain, or pressure, and you keep your uterus.",
+                         # S3 (job platform-main-0024): the first sentence of each procedure's approved finder text (PROCS above)
+                         "pae": "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like "
+                                "going often, getting up at night, or a weak stream.",
+                         "gae": "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with "
+                                "other treatments."}, LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"

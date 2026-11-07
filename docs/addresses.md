@@ -20,7 +20,7 @@ His yes, 2026-11-06: "Yes change the addresses now" (change 1 of the architectur
 | Fibroids | `/fibroids/` | UFE |
 | Enlarged prostate | `/enlarged-prostate/` | PAE |
 | Knee arthritis | `/knee-arthritis/` | GAE (knee only) |
-| Pelvic vein pain | `/pelvic-vein-pain/` | pelvic vein embolization |
+| Chronic pelvic pain | `/chronic-pelvic-pain/` | pelvic vein embolization (no doctor list yet) |
 
 Procedure-to-page tables that must agree with this list: `PROC_PAGE` (`tools/directory.py`, written into
 `lib/directory-shell.mjs`), `PAGE_OF` (`lib/cities.mjs`), `HOME_LINK` and `MOVED` (`tools/build.py`).
@@ -40,4 +40,5 @@ page under the old path to the same path under the new one, with its own 301; ad
 | `/gae/`, `/gae` | `/knee-arthritis/` (301, straight, no chain) |
 | `/ufe/`, `/ufe` | `/fibroids/` (301) |
 | `/pae/`, `/pae` | `/enlarged-prostate/` (301) |
+| `/pelvic-vein-pain/`, `/pelvic-vein-pain` | `/chronic-pelvic-pain/` (301, 2026-11-07, job platform-main-0024) |
 | `/claim/`, `/claim` | `/report/` (301) |

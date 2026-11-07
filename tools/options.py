@@ -68,6 +68,8 @@ def _simple_texts(c):
                 yield "", t
         if s.get("see_doctor"):
             yield "", s["see_doctor"]
+        if s.get("symptoms"):   # the box's symptom tags are read as claims too (job platform-main-0024)
+            yield "", "; ".join(s["symptoms"]) + s.get("symptoms_cite", "")
     for q in c["faq"]:
         yield "", q["a"]
     yield "", c["answer"]

@@ -28,8 +28,10 @@ class PatternTest(unittest.TestCase):
         errs, checked = pattern.check()
         self.assertEqual(errs, [])
         self.assertIn("fibroids: simple and every-option", checked)
-        self.assertIn("knee-arthritis: simple and every-option; no box content yet (draft), box skipped", checked)
-        self.assertTrue(any("pelvic-vein-pain" in c and "skipped" in c for c in checked))
+        # job platform-main-0024: prostate and knee now pass the whole pattern, box included (no skip)
+        self.assertIn("knee-arthritis: simple and every-option", checked)
+        self.assertIn("enlarged-prostate: simple and every-option", checked)
+        self.assertIn("chronic-pelvic-pain: simple; no every-option page yet, skipped", checked)
 
     def test_shared_title_phrasing_fails(self):
         errs = self.site(("fibroids/every-option/index.html", "<title>UFE vs. Myomectomy vs. Hysterectomy, Compared",
@@ -70,10 +72,12 @@ class PatternTest(unittest.TestCase):
     def test_published_condition_without_box_content_fails(self):
         c = condition.load("knee-arthritis")
         c.pop("draft")
+        # job platform-main-0024: knee has the box now; take its content away to test the rule
+        c["sections"] = [x for x in c["sections"] if x.get("place") != "box"]
         orig = condition.load
         condition.load = lambda slug: c if slug == "knee-arthritis" else orig(slug)
         self.addCleanup(setattr, condition, "load", orig)
-        errs = pattern.check()[0]
+        errs = self.site(("knee-arthritis/index.html", '<section class="what-box"', '<section class="gone"'))
         self.assertTrue(any(e.startswith("knee-arthritis simple: no") and "box" in e for e in errs), errs)
 
 

@@ -34,8 +34,13 @@ hero_alt = "A woman walks toward a wide set of stone steps in a sunny park."
 photo = "gae-stone-stairs"
 photo_alt = "A woman walks toward a wide set of stone steps in a sunny park."
 
-title = "Arthritis Embolization (GAE): Every Treatment Option | Every Option"
-description = "Knee arthritis is common and can be painful. Learn about knee artery embolization (GAE), embolization for other joints, and every other option: how invasive each is, how well it works, and its side effects."
+# Search targets (job platform-main-0024; pattern: docs/condition-pattern.md). This page owns "what are my options"; the
+# every-option page owns the comparisons. US volumes, DataForSEO 2026-11-07: knee arthritis treatment 14,800; knee
+# osteoarthritis treatment 9,900; alternatives to knee replacement 2,400; knee replacement alternatives 2,400; what is
+# knee arthritis 1,600; knee arthritis treatment options 170; non surgical knee arthritis treatment 70.
+targets = ["knee arthritis treatment options", "knee arthritis treatment", "knee osteoarthritis treatment", "alternatives to knee replacement", "knee replacement alternatives", "what is knee arthritis", "non surgical knee arthritis treatment"]
+title = "Knee Arthritis Treatment Options, Without Surgery | Every Option"
+description = "Your knee arthritis treatment options, including alternatives to knee replacement: how invasive each is, how well it works, and side effects."
 h1 = "A newer option for knee arthritis pain, without surgery"
 answer = "Osteoarthritis is the most common joint problem. It happens when the cushion in a joint wears down over time.[^mpoa] It cannot be cured, but the pain can often be eased.[^mpoa] If knee pain limits your life, embolization is not your only option. You can also consider exercise, medicines, injections, or surgery.[^mpoa] The right choice depends on your symptoms and goals."
 urgent = "If a joint suddenly turns hot, red, and swollen, you cannot put weight on it, you have a fever, or you feel very sick or faint, call 911."
@@ -43,7 +48,7 @@ finder_button = "Find a doctor for knee embolization (GAE)"
 finder_heading = "A newer option for knee arthritis pain, without surgery"
 finder_intro = "Knee artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. Most people go home the same day.\nThe finder lists doctors who perform **knee** embolization."
 finder_how = "#embolization"
-options_heading = "Your other options for knee arthritis"
+options_heading = "Your other knee arthritis treatment options"
 # Job platform-main-0020: the every-option page link (pattern, docs/condition-pattern.md). A link only; no text changed.
 options_page = "/knee-arthritis/every-option/"
 options_link = "Compare them side by side: knee embolization vs. knee replacement, shots, and medicines"
@@ -90,12 +95,18 @@ text = [
 
 [[sections]]
 id = "what"
-place = "after"
-heading = "What is arthritis of the knee?"
+# place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
+# Every sentence and tag is the old "What is arthritis of the knee?" section's, with its source; nothing new.
+place = "box"
+heading = "What is knee arthritis?"
 text = [
   "In arthritis, the cushion between the bones wears away. The bones can rub together. This causes pain, swelling, and stiffness.[^mpoa] Arthritis is the most common disease of the knee.[^mpknee]",
-  "Pain is often worse when you walk or put weight on the knee. Stiffness after waking often lasts 30 minutes or less. Later, pain can come even at rest or wake you at night.[^mpoa] See a doctor if your symptoms bother you or get worse.[^mpoa]",
 ]
+symptoms_label = "Common symptoms"
+symptoms = ["Pain when you walk or put weight on the knee", "Swelling", "Stiffness after waking, often 30 minutes or less", "Later, pain at rest or at night"]
+symptoms_cite = "[^mpoa]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor if your symptoms bother you or get worse.[^mpoa]"
 
 [[sections]]
 id = "ask"

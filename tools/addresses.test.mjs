@@ -38,3 +38,35 @@ test("no built page keeps the old knee address, except _redirects", () => {
   const rules = readFileSync(path.join(SITE, "_redirects"), "utf8").split("\n").filter((l) => l.includes("arthritis-embolization"));
   assert.deepEqual(rules, ["/arthritis-embolization /knee-arthritis/ 301", "/arthritis-embolization/ /knee-arthritis/ 301"]);
 });
+
+// Job platform-main-0024: the pelvic page moved from /pelvic-vein-pain/ to /chronic-pelvic-pain/ (the condition's patient
+// name, "Chronic pelvic pain"). One 301 straight to the new page, which answers 200; no built page keeps the old address.
+test("old pelvic address: one 301 to /chronic-pelvic-pain/, which answers 200", async () => {
+  const port = 8802;
+  const srv = spawn(process.execPath, [new URL("./dev-server.mjs", import.meta.url).pathname, String(port)], { stdio: ["ignore", "pipe", "inherit"] });
+  try {
+    await new Promise((ok) => srv.stdout.once("data", ok));
+    for (const from of ["/pelvic-vein-pain/", "/pelvic-vein-pain"]) {
+      const r = await fetch(`http://localhost:${port}${from}`, { redirect: "manual" });
+      assert.equal(r.status, 301, from); assert.equal(r.headers.get("location"), "/chronic-pelvic-pain/", from);
+    }
+    const next = await fetch(`http://localhost:${port}/chronic-pelvic-pain/`, { redirect: "manual" });
+    assert.equal(next.status, 200, "one hop");
+  } finally { srv.kill(); }
+});
+
+test("no built page keeps the old pelvic address, except _redirects; home lists Chronic pelvic pain", () => {
+  assert.ok(!existsSync(path.join(SITE, "pelvic-vein-pain")), "old folder removed");
+  const hits = [];
+  const walk = (d) => { for (const f of readdirSync(d)) { const p = path.join(d, f);
+    if (statSync(p).isDirectory()) walk(p);
+    else if (/\.(html|xml|js|mjs|json|txt)$/.test(f) && readFileSync(p, "utf8").includes("pelvic-vein-pain")) hits.push(p); } };
+  walk(SITE);
+  assert.deepEqual(hits, []);
+  const home = readFileSync(path.join(SITE, "index.html"), "utf8");
+  const list = home.match(/<ul class="fork-list stops">(.*?)<\/ul>/s)[1];
+  assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/"><strong>Chronic pelvic pain<\/strong>/);
+  assert.ok(!/<option value="\/chronic-pelvic-pain\/"/.test(home), "no ZIP option without a finder");
+  const page = readFileSync(path.join(SITE, "chronic-pelvic-pain", "index.html"), "utf8");
+  assert.match(page, /<meta name="robots" content="noindex/, "still a draft");
+});

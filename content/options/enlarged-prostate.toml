@@ -30,7 +30,7 @@ glance_note = "Tap a treatment name for the studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Symptom-score figures use the same urinary symptom score (IPSS) but come from different studies, comparisons (placebo, sham, or TURP) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to an enlarged prostate? Start with the short guide to your options"
 find_heading = "Find a prostate artery embolization doctor"
-city_link = ""
+city_link = "Prostate artery embolization doctors by city"
 glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["sex", "Sex life"]]
 
 [compare_headings]

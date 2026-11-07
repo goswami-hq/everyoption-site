@@ -11,7 +11,7 @@ reuse). Nothing here holds a ZIP a patient typed.
 """
 import json, math, os
 
-PAGE = {"ufe": "/fibroids/"}            # procedures with city pages: condition page each hangs under
+PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/"}   # condition page each hangs under (S3: pae, gae, job platform-main-0024)
 HUB = {k: v + "doctors/" for k, v in PAGE.items()}
 REVIEWED = "2026-11-05"                 # the city page template text
 
@@ -74,14 +74,20 @@ def plan(root, site):
         c = counts(cfg, people)
         allc[k] = c
         order = {m["slug"]: i for i, m in enumerate(cfg["metros"])}
-        pages[k] = sorted((m for m in cfg["metros"] if c[m["slug"]] >= cfg["bar"] and m["slug"] in cfg["pages"]), key=lambda m: (-c[m["slug"]], order[m["slug"]]))
+        pages[k] = sorted((m for m in cfg["metros"] if c[m["slug"]] >= cfg["bar"] and m["slug"] in cfg["pages"].get(k, [])), key=lambda m: (-c[m["slug"]], order[m["slug"]]))
     return cfg, pages, allc
 
 
+def drafts():
+    """Procedures whose condition page is still a draft: their city pages send noindex and stay out of the sitemap."""
+    import condition
+    return sorted(k for k, v in PAGE.items() if condition.load(v.strip("/")).get("draft"))
+
+
 def sitemap_entries(pages, as_of):
-    out = []
+    out, draft = [], set(drafts())
     for k, ms in pages.items():
-        if ms:
+        if ms and k not in draft:
             out.append((HUB[k], as_of))
             out += [(HUB[k] + m["slug"] + "/", as_of) for m in ms]
     return out
@@ -118,7 +124,7 @@ def metro_of(cfg, pages, site):
 
 def write_module(root, cfg, pages, shell, blurbs, as_of, site):
     data = {
-        "radius": cfg["radius"], "bar": cfg["bar"], "floor": cfg["floor"], "page": PAGE, "hub": HUB, "reviewed": REVIEWED,
+        "radius": cfg["radius"], "bar": cfg["bar"], "floor": cfg["floor"], "page": PAGE, "hub": HUB, "reviewed": REVIEWED, "draft": drafts(),
         "as_of": as_of, "blurbs": blurbs,
         "metros": {k: [{"slug": m["slug"], "name": m["name"], "place": m["place"],
                         "centers": [{"zip": c["zip"], "label": c["label"], "ll": c["ll"]} for c in m["centers"]]} for m in ms]

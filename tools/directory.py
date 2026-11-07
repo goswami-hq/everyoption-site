@@ -227,7 +227,7 @@ def letter_body(by, k, e):
 
 def routes(by):
     """site/_routes.json: the profile function runs for /doctors/* except the static search and A to Z pages."""
-    return {"version": 1, "include": ["/api/*", "/doctors/*", "/fibroids/doctors", "/fibroids/doctors/*"], "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
+    return {"version": 1, "include": ["/api/*", "/doctors/*", "/fibroids/doctors", "/fibroids/doctors/*", "/enlarged-prostate/doctors", "/enlarged-prostate/doctors/*", "/knee-arthritis/doctors", "/knee-arthritis/doctors/*"], "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
 
 
 def indexed(recs, setting):

@@ -8,8 +8,9 @@
 # Rules: no brand or drug names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies
 # only; no trial names or evidence grades in the reading text; each option states its own limits and side effects.
 
-slug = "pelvic-vein-pain"
-color = "ufe"                  # the women's-health color; no finder of its own
+slug = "chronic-pelvic-pain"   # job platform-main-0024: was pelvic-vein-pain; the address names the condition (docs/addresses.md)
+color = "cpp"                  # its own color (teal), as on the home card; no finder of its own
+nav_name = "Chronic pelvic pain"  # the home card name (his words, 2026-11-04)
 reviewed = "2026-11-06"
 draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Pelvic venous disorders"
@@ -20,14 +21,20 @@ author_name = ""
 author_credentials = ""
 author_role = ""
 
-title = "Pelvic Pain From Veins (Pelvic Congestion): Every Treatment Option | Every Option"
-description = "Long-term pelvic pain sometimes comes from wide or squeezed veins. Learn about Every Option for treatment: how invasive it is, how well it works, and side effects."
-h1 = "Pelvic pain from veins: every option"
+# Search targets (job platform-main-0024; pattern: docs/condition-pattern.md). Simple page only until his review calls
+# are answered; procedure searches (pelvic vein embolization 1,300, ovarian vein embolization 1,300, pelvic congestion
+# syndrome embolization 1,600) are left for a future every-option page. US volumes, DataForSEO 2026-11-07: pelvic
+# congestion syndrome 49,500; pelvic congestion syndrome treatment 8,100; pelvic congestion syndrome symptoms 5,400;
+# chronic pelvic pain 2,900; what is pelvic congestion syndrome 2,900; chronic pelvic pain treatment 320.
+targets = ["pelvic congestion syndrome treatment", "pelvic congestion syndrome", "chronic pelvic pain", "chronic pelvic pain treatment", "what is pelvic congestion syndrome", "pelvic congestion syndrome symptoms"]
+title = "Pelvic Congestion Syndrome Treatment Options | Every Option"
+description = "Chronic pelvic pain sometimes comes from veins (pelvic congestion syndrome). Your treatment options: how invasive each is, how well it works, and side effects."
+h1 = "Chronic pelvic pain from veins: every option"
 hero_intro = "Long-term pelvic pain can have many causes. Sometimes it comes from veins in the pelvis. This page explains every option, starting with treatments that need no surgery."
 diagram_at = "embolization"    # the lead option (no diagram on this page)
 answer = "Long-term pelvic pain is common in women.[^ahangari] Sometimes it comes from veins in the pelvis that are wide or squeezed.[^svp] Embolization is one option. You can also consider medicines or surgery.[^lepennec] The right choice depends on your symptoms and goals."
 urgent = "If you have severe pain, heavy bleeding, a fever, a swollen and painful leg, or feel very sick or faint, call 911."
-options_heading = "Your other options"
+options_heading = "Your other pelvic congestion treatment options"
 faq_heading = "Common questions"
 learn_heading = "Learn more"
 not_advice = "Education, not medical advice. Talk to your doctor about your own care."
@@ -56,11 +63,28 @@ options = ["hysterectomy", "vein-surgery"]
 
 [[sections]]
 id = "what"
-place = "after"
-heading = "What is it?"
+# place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
+# From the old "What is it?" section, with its sources. Two new sentences (listed for him in ai-hq
+# projects/platform/design/rest-of-pages-2026-11-07/list-for-him.md): the 6-month definition [^ahangari] and the
+# see-a-doctor line, which restates the page's "more than one cause" sentence [^zlotnik][^beard91].
+place = "box"
+heading = "What is pelvic congestion syndrome?"
+# Kept short, as on fibroids (design review 2026-11-07: 12 lines at 390 was clutter); the vein detail is the next section.
 text = [
-  "Veins carry blood back to the heart. In the pelvis, veins near the ovaries and uterus can widen and let blood flow the wrong way. A large vein can also be squeezed by an artery, so blood backs up into the pelvic veins. A vein near the kidney can be squeezed too. Doctors now group these vein problems together.[^svp] You may hear the name pelvic congestion syndrome.[^krambeck]",
-  "The pain is often a dull ache. It is often worse when you stand, late in the day, after sex, or before your period. It is most common in women before menopause who have been pregnant.[^krambeck]",
+  "Pelvic pain that lasts more than 6 months is called chronic pelvic pain.[^ahangari] Sometimes it comes from veins in the pelvis that are wide or squeezed.[^svp] You may hear the name pelvic congestion syndrome.[^krambeck] It is most common in women before menopause who have been pregnant.[^krambeck]",
+]
+symptoms_label = "Common symptoms"
+symptoms = ["A dull ache", "Worse when you stand", "Worse late in the day", "Worse after sex", "Worse before your period"]
+symptoms_cite = "[^krambeck]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor about pelvic pain that keeps coming back, since it often has more than one cause, such as endometriosis.[^zlotnik][^beard91]"
+
+[[sections]]
+id = "veins"
+place = "after"
+heading = "How can veins cause pelvic pain?"
+text = [
+  "Veins carry blood back to the heart. In the pelvis, veins near the ovaries and uterus can widen and let blood flow the wrong way. A large vein can also be squeezed by an artery, so blood backs up into the pelvic veins. A vein near the kidney can be squeezed too. Doctors now group these vein problems together.[^svp]",
 ]
 
 [[sections]]

@@ -27,6 +27,14 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
 210; ufe recovery time 210; ufe vs myomectomy 170; ufe vs hysterectomy 140; fibroid doctor nyc 90; single cities about
 10 each. Raw file: ai-hq-data `dataforseo/keywords-2026-11-06/`.
 
+Adopted (job platform-main-0024, his words 2026-11-07: "Let's build the rest of the pages to be similar"): prostate and
+knee pass the whole check, box included; chronic pelvic pain (`/chronic-pelvic-pain/`) has the simple page only (no
+every-option page or city pages until his review calls and a doctor list). Their volumes (DataForSEO 2026-11-07) are in
+each condition toml beside `targets`; raw files in ai-hq-data `dataforseo/keywords-2026-11-07/`. City pages for PAE (8
+metros) and GAE (4) follow the same rule as UFE (`content/metros.json`, `pages` per procedure); a condition still a draft
+keeps its city pages noindex and out of the sitemap (`cities.drafts()`). A condition page with no doctor list yet sits in
+the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not in the ZIP dropdown.
+
 ## Page types
 
 ### 1. Simple page `/<condition>/`
