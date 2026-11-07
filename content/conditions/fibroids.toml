@@ -1,0 +1,363 @@
+# Fibroids: the first condition education page and the template for the rest.
+# Framework for every condition (his words, 2026-11-01): Medicines; Less Invasive Treatments, IR option always first;
+# Surgery. Everything collapsed by default. Each option answers what patients care about: how invasive, how well it works,
+# side effects. American spelling; Oxford comma.
+# Build: python3 tools/build.py. Reading level: python3 tools/readability.py fibroids.
+# Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point ("about 7 out of 10"),
+# modeled on the embolization "works" text below. Citations stay.
+# Every clinical claim carries a [^key] marker pointing at [[refs]] below. Sources: goswami-hq/ai-hq
+# projects/platform/content/pages/sources/fibroids.md.
+# Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
+# no trial names or evidence grades in the reading text; full citations in the References list.
+
+slug = "fibroids"
+color = "fibroids"             # plum, the same color as the UFE finder
+finder = "ufe"                 # the finder this page leads to
+diagram = "ufe"                # tools/diagrams/ufe.svg ...
+diagram_at = "embolization"    # ... shown inside this option
+reviewed = "2026-11-02"
+condition_name = "Uterine fibroids"
+nav_name = "Fibroids"              # breadcrumbs and links back to this page (same label as the home card and city pages)
+condition_alt = "Uterine leiomyoma"
+
+# Physician reviewer: empty = no name anywhere, in the page or the schema (his rule, 2026-10-04). To add one, fill
+# these three (his words, 2026-11-01: "if we truly need a name, I can figure out how to put my name on it").
+author_name = ""
+author_credentials = ""        # e.g. "MD"
+author_role = ""               # e.g. "Interventional radiologist"
+
+# Photo slot: photo = the file stem under site/assets/photos/ (needs <stem>-1600.webp and <stem>-800.webp, 12:5).
+# Empty = no photo. Credit it in PHOTOS in tools/build.py (How we know lists it).
+hero_image = "/assets/photos/fibroids-woman-path-800.webp"
+hero_alt = "A woman walks along a winding country path on a sunny hillside."
+photo = "fibroids-woman-path"
+photo_alt = "A woman walks along a winding country path on a sunny hillside."
+
+# Search targets (job platform-main-0016, his yes 2026-11-06; pattern: docs/condition-pattern.md). This page owns "what are
+# my options"; the every-option page owns the comparisons. The first target must appear in the title; the two pages'
+# targets never overlap (tools/pattern.py fails the build otherwise). US volumes, DataForSEO 2026-11-06.
+targets = ["fibroid treatment options", "fibroid treatment", "fibroid treatment without surgery", "alternatives to hysterectomy", "non surgical fibroid treatment"]
+title = "Fibroid Treatment Options, With or Without Surgery | Every Option"
+description = "Your fibroid treatment options, including ones without surgery and alternatives to hysterectomy: how invasive each is, how well it works, and side effects."
+h1 = "Shrink fibroids without surgery"
+answer = "Fibroids are growths in the uterus. They are not cancer. Many women have no symptoms and need no treatment.[^mpfib] If you have heavy periods, pain, or pressure, embolization is not your only option. You can also consider medicines, other less invasive treatments, or surgery.[^mpfib] The right choice depends on your symptoms and goals."
+urgent = "If you have severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."
+finder_button = "Find a doctor for fibroid embolization"
+finder_heading = "Shrink fibroids without surgery"
+finder_intro = "Fibroid embolization works through a tiny skin nick. Your uterus stays in place. Most people go home the same day.\nRecovery takes **about 1 week** instead of 2 to 6 weeks after major surgery."
+finder_how = "#embolization"
+options_heading = "Your other fibroid treatment options"
+options_page = "/fibroids/every-option/"
+options_link = "Compare them side by side: embolization vs. myomectomy, hysterectomy, and medicines"
+faq_heading = "Common questions"
+learn_heading = "Learn more"
+not_advice = "Education, not medical advice. Talk to your doctor about your own care."
+find_heading = "Find a doctor"
+find_text = ["Our free finder lists doctors near you who perform fibroid embolization. It is not a ranking."]
+terms = ["fibroids", "fibroid", "uterus", "uterine", "menopause", "ultrasound", "tranexamic acid", "hormones", "hormone", "IUD", "MRI", "embolization", "radiofrequency", "ablation", "cervix", "hysteroscopic", "endometrial", "myomectomy", "hysterectomy", "gynecologist", "interventional radiology", "interventional radiologist", "ovaries"]
+
+[[categories]]
+id = "medicines"
+name = "Medicines"
+summary = "These treat symptoms like heavy bleeding and pain. No procedure is needed."
+options = ["non-hormone-medicines", "hormone-medicines", "iud"]
+
+[[categories]]
+id = "less-invasive"
+name = "Less invasive treatments"
+highlight = "embolization"
+summary = "These treat fibroids or bleeding without major surgery. Your uterus stays in place. Before you agree to surgery, ask about these."
+options = ["embolization", "radiofrequency", "focused-ultrasound", "endometrial-ablation"]
+
+[[categories]]
+id = "surgery"
+name = "Surgery"
+summary = "Surgery removes the fibroids or the whole uterus."
+options = ["hysteroscopic", "myomectomy", "hysterectomy"]
+
+[[sections]]
+id = "what"
+# place = "box": the "What is <condition>?" box at the top of the simple page (top of the right column on desktop,
+# after the ZIP search on phones) and near the top of the every-option page, from this one entry (job
+# platform-condition-pages-0004, his "B2 yes" 2026-11-06; docs/condition-pattern.md). `symptoms` are the tags, in the
+# words of the sentence they came from ("Symptoms can include ..."); `symptoms_cite` keeps that sentence's sources.
+place = "box"
+heading = "What are fibroids?"
+text = [
+  "Fibroids are muscle growths in or on the wall of the uterus. They are very common. By age 50, about 2 to 8 out of 10 women have them.[^owh]",
+]
+symptoms_label = "Common symptoms"
+symptoms = ["Heavy or long periods", "Tiredness from blood loss", "Pelvic pain or pressure", "Frequent urination", "Pain during sex"]
+symptoms_cite = "[^mpfib][^owh]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor if you have any of these, or if you soak through a pad or tampon every hour for 2 to 3 hours.[^mpbleed] A doctor can check what is causing your symptoms and go over your options."
+
+[[sections]]
+id = "ask"
+place = "after"
+heading = "What should I ask my doctor?"
+# agreed list item 6 (his "Agree", 2026-11-07)
+text = ["You can ask about any option on this page, even one your doctor does not offer."]
+list = [
+  "Which options could work for me, and which could not?",
+  "How would each option affect a future pregnancy?",
+  "How long would I need to recover?",
+  "Do you offer embolization, or can you refer me to someone who does?",
+]
+
+[[faq]]
+q = "Do I need treatment?"
+a = "Not always. If you have no symptoms or only mild ones, your doctor can watch the fibroids with exams or an ultrasound. They often shrink after menopause.[^mpfib][^owh]"
+
+[[faq]]
+q = "Are fibroids cancer?"
+a = "No. Rarely, a growth that looks like a fibroid turns out to be cancer. This happens in less than 1 out of 200 women who have fibroid surgery.[^owh][^fdamorc]"
+
+[[faq]]
+q = "Can I get pregnant after treatment?"
+a = "It depends on the treatment and your situation. If you hope to get pregnant, ask your doctor which options fit you before you choose. Pregnancy is not possible after a hysterectomy and can be dangerous after endometrial ablation.[^ccmyo][^fdaea]"
+
+[[faq]]
+q = "Do I need a hysterectomy for fibroids?"
+a = "Not always. Many women never need one. It is the only treatment that keeps fibroids from returning. Medicines, less invasive treatments, and surgery that removes only the fibroids are also options.[^mpfib][^owh]"
+
+[[options]]
+id = "non-hormone-medicines"
+name = "Medicines without hormones"
+what = "These include tranexamic acid, which you take only on period days, plus pain relievers and iron.[^mpfib][^txa][^owh]"
+invasive = "These are pills. No procedure is needed."
+works = "They ease bleeding and cramps. They do not treat the fibroids, so symptoms return when you stop.[^mpfib][^txa]"
+side = "Tranexamic acid can rarely cause blood clots.[^txa]"
+
+[[options]]
+id = "hormone-medicines"
+name = "Hormone medicines"
+what = "These include birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
+invasive = "These are pills or shots. No procedure is needed."
+works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding, for about 7 out of 10 women.[^liberty] Symptoms often return after stopping.[^owh]"
+side = "You may have hot flashes. Some of these medicines weaken bones, so use is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
+
+[[options]]
+id = "iud"
+name = "Hormone IUD"
+what = "A small device placed in the uterus thins the lining. It lasts up to 5 years.[^owh][^mirena]"
+invasive = "It is placed during an office visit."
+works = "It lightens periods. It does not treat the fibroids.[^owh]"
+side = "You may have spotting at first. It is more likely to slip out when fibroids are present.[^obg]"
+
+[[options]]
+id = "embolization"
+name = "Fibroid embolization (UFE)"
+# "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07); the lines it now holds left `invasive`
+lead_heading = "What is uterine fibroid embolization (UFE)?"
+what = "Uterine fibroid embolization (UFE), also called uterine artery embolization, treats fibroids without surgery.[^mpuae] A thin tube goes through a tiny skin nick in the wrist or groin.[^sir][^mpuae] Tiny beads block blood flow to the fibroids so they shrink. You keep your uterus.[^sir][^mpfib][^mpuae] Most women go home the same day.[^sir][^mpuae]"
+invasive = "There is no cut in the belly, so no belly scar where a hernia can form.[^sir][^mpuae] Recovery takes about 1 week,[^sir][^mpuae] instead of 2 to 6 weeks after major surgery.[^ccmyo][^mphyst]"
+works = "Good evidence suggests most women feel much better. Almost 9 out of 10 women see their symptoms improve.[^iqwig] About 7 out of 10 women still feel better five years later.[^spies] Most women feel just as satisfied as those who had surgery.[^cochrane][^rest]\nSome women may need more treatment: about 1 out of 4 may need another procedure down the line.[^spies][^femme4][^rest]\nAfter ten years, about 2 out of 3 women avoided a hysterectomy entirely.[^emmy]"
+side = "You may have cramps, nausea, and a low fever for up to a week. Early menopause is uncommon: less than 5 out of 100 women go through it.[^sir][^rinfo] Serious problems are no more common than after surgery.[^cochrane][^martin]"
+
+[[options]]
+id = "radiofrequency"
+name = "Radiofrequency ablation"
+what = "Heat from a small needle destroys the fibroid.[^mpfib]"
+invasive = "The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^sonata3][^halt]"
+works = "Results vary from study to study. About 1 out of 11 women needed surgery within 3 years in one study, and about 2 out of 5 within 2 years in another.[^sonata3][^dutch]"
+side = "You may have pain and cramps. Serious problems were rare in studies.[^sonata3][^dutch]"
+
+[[options]]
+id = "focused-ultrasound"
+name = "Focused ultrasound"
+what = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid.[^rinfo]"
+invasive = "There is no cut. Most women recover quickly.[^rinfo]"
+works = "Early studies suggest it eases symptoms. It fits only some fibroids. Some women need more treatment later. Not all insurance covers it.[^rinfo][^fdapma][^bcbsnc]"
+side = "You may have belly pain. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
+
+[[options]]
+id = "endometrial-ablation"
+name = "Endometrial ablation"
+what = "Heat or cold destroys the lining of the uterus to lighten periods.[^mpea]"
+invasive = "There are no cuts. Most women go home the same day and recover in 1 to 2 days.[^mpea]"
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] It is usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, about 1 out of 8 women had a hysterectomy within 5 years.[^oderkerk]"
+side = "You may have cramps and discharge for a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
+
+[[options]]
+id = "hysteroscopic"
+name = "Removal through the cervix"
+what = "A thin camera and small tools remove fibroids growing inside the uterus.[^mpfib][^mphysteroscopy]"
+invasive = "There are no cuts. Recovery takes a few days.[^ccmyo]"
+works = "Early studies suggest it helps. It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+side = "You may have cramps and light bleeding for a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
+
+[[options]]
+id = "myomectomy"
+name = "Myomectomy"
+what = "Surgery removes the fibroids and leaves the uterus.[^mpfib]"
+invasive = "It takes a larger cut in the belly or a few small cuts. Recovery takes about 2 to 6 weeks.[^ccmyo]"
+works = "Good evidence suggests women's quality of life improves.[^femme2] It removes the fibroids the surgeon can see. Small or deep fibroids can be missed and cause problems later.[^mayomyo][^aktoz] The more fibroids you have, the harder it is to remove them all.[^aktoz] New ones can also grow.[^mpfib][^ccmyo] About 1 out of 8 women may need another procedure down the line.[^femme4]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It can make organs stick together. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
+
+[[options]]
+id = "hysterectomy"
+name = "Hysterectomy"
+what = "Surgery removes the whole uterus.[^mphyst]"
+invasive = "The doctor goes through the vagina, small cuts, or a larger cut in the belly. Recovery takes about 2 to 6 weeks.[^mphyst]"
+works = "It is the only treatment that keeps fibroids from returning. Periods stop.[^owh][^ccmyo]"
+side = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
+
+# References, in no particular order: the page numbers them by first use. Full details and how each was read are in
+# the sources file named at the top.
+[[refs]]
+key = "mpfib"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Uterine fibroids. Reviewed March 17, 2026. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/000914.htm"
+[[refs]]
+key = "owh"
+cite = "Office on Women’s Health, U.S. Department of Health and Human Services. Uterine fibroids. Updated February 28, 2025. Read November 1, 2026."
+url = "https://womenshealth.gov/a-z-topics/uterine-fibroids"
+[[refs]]
+key = "mpbleed"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Vaginal or uterine bleeding. Reviewed October 15, 2024. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/007496.htm"
+[[refs]]
+key = "txa"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Tranexamic acid tablets. Label updated January 15, 2024. Read November 1, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=128c39ce-f625-47ec-9efe-4de696e5220f"
+[[refs]]
+key = "liberty"
+cite = "Al-Hendy A, Lukes AS, Poindexter AN 3rd, et al. Treatment of uterine fibroid symptoms with relugolix combination therapy. New England Journal of Medicine. 2021;384(7):630-642. doi:10.1056/NEJMoa2008283. PMID 33596357. Funded by the drug maker."
+url = "https://doi.org/10.1056/NEJMoa2008283"
+[[refs]]
+key = "oriahnn"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Elagolix, estradiol and norethindrone acetate capsules, for heavy menstrual bleeding with uterine fibroids. Revised December 2025. Read November 1, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=99f6eee7-7e52-6999-7eb8-488d06dd1710"
+[[refs]]
+key = "myfembree"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Relugolix, estradiol and norethindrone acetate tablets. Revised August 2025. Read November 1, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=fc3feb73-cc84-43a8-aa32-b262460495e8&type=display"
+[[refs]]
+key = "lupron"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Leuprolide acetate for depot suspension 3.75 mg. Revised September 2025. Read November 1, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=00c486b0-bd7b-4898-834d-8c656e5e73cb"
+[[refs]]
+key = "mirena"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Levonorgestrel-releasing intrauterine system 52 mg. Revised October 2025. Read November 1, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=dcbd6aa2-b3fa-479a-a676-56ea742962fc&type=display"
+[[refs]]
+key = "obg"
+cite = "American College of Obstetricians and Gynecologists. Management of symptomatic uterine leiomyomas: ACOG Practice Bulletin No. 228. Obstetrics and Gynecology. 2021;137(6):e100-e115. doi:10.1097/AOG.0000000000004401. PMID 34011888. Read through the ObG Project summary of the bulletin (June 27, 2021); the bulletin itself is behind a paywall."
+url = "https://www.obgproject.com/2021/06/27/managing-fibroids-medical-and-surgical-options/"
+[[refs]]
+key = "rinfo"
+cite = "RadiologyInfo.org (Radiological Society of North America and American College of Radiology). Uterine fibroid treatments: UFE and MRgFUS. Last reviewed October 31, 2024. Read November 1, 2026."
+url = "https://www.radiologyinfo.org/en/info/uterine-fibroid-treatment"
+[[refs]]
+key = "fdapma"
+cite = "U.S. Food and Drug Administration. Premarket approval P040003, supplement S015: magnetic resonance-guided focused ultrasound system for uterine fibroids, indications changed August 31, 2015 (first approved October 22, 2004). Read November 1, 2026."
+url = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P040003S015"
+[[refs]]
+key = "bcbsnc"
+cite = "Blue Cross and Blue Shield of North Carolina. Corporate medical policy: MRI-guided focused ultrasound. Last reviewed May 2026. Read November 1, 2026."
+url = "https://www.bcbsnc.com/providers/policies-guidelines-codes/commercial/radiology/updates/mri-guided-focused-ultrasound"
+[[refs]]
+key = "sir"
+cite = "Society of Interventional Radiology. Uterine fibroids and uterine fibroid embolization (UFE). Read November 1, 2026."
+url = "https://www.sirweb.org/for-patients/conditions-and-treatments/uterine-fibroids/"
+[[refs]]
+key = "mpuae"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Uterine artery embolization. Reviewed February 3, 2025. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/007384.htm"
+[[refs]]
+key = "acr"
+cite = "Expert Panel on Interventional Radiology. ACR Appropriateness Criteria: Management of Uterine Fibroids, 2023 update. Journal of the American College of Radiology. 2024;21(6S):S203-S218. doi:10.1016/j.jacr.2024.02.022. PMID 38823944. Ratings read on the ACR web narrative (revised 2023), November 1, 2026."
+url = "https://acsearch.acr.org/docs/69508/Narrative/"
+[[refs]]
+key = "rest"
+cite = "Moss JG, Cooper KG, Khaund A, et al. Randomised comparison of uterine artery embolisation (UAE) with surgical treatment in patients with symptomatic uterine fibroids (REST trial): 5-year results. BJOG. 2011;118(8):936-944. doi:10.1111/j.1471-0528.2011.02952.x. PMID 21481151."
+url = "https://doi.org/10.1111/j.1471-0528.2011.02952.x"
+[[refs]]
+key = "sonata3"
+cite = "Lukes A, Green MA. Three-year results of the SONATA pivotal trial of transcervical fibroid ablation for symptomatic uterine myomata. Journal of Gynecologic Surgery. 2020;36(5):228-233. doi:10.1089/gyn.2020.0021. PMID 33061253. Funded by the device maker."
+url = "https://doi.org/10.1089/gyn.2020.0021"
+[[refs]]
+key = "dutch"
+cite = "van der Meulen JF, Cooijmans TH, van Zutven VJ, et al. Long-term results of transcervical, intrauterine ultrasound-guided radiofrequency ablation of uterine fibroids: a retrospective follow-up study. AJOG Global Reports. 2022;2(4):100087. doi:10.1016/j.xagr.2022.100087. PMID 36536842."
+url = "https://doi.org/10.1016/j.xagr.2022.100087"
+[[refs]]
+key = "halt"
+cite = "Guido RS, Macer JA, Abbott K, Falls JL, Tilley IB, Chudnoff SG. Radiofrequency volumetric thermal ablation of fibroids: a prospective, clinical analysis of two years’ outcome from the Halt trial. Health and Quality of Life Outcomes. 2013;11:139. doi:10.1186/1477-7525-11-139. PMID 23941588."
+url = "https://doi.org/10.1186/1477-7525-11-139"
+[[refs]]
+key = "mphysteroscopy"
+cite = "MedlinePlus Medical Tests (U.S. National Library of Medicine). Hysteroscopy. Read November 1, 2026."
+url = "https://medlineplus.gov/lab-tests/hysteroscopy"
+[[refs]]
+key = "mayomyo"
+cite = "Mayo Clinic. Myomectomy. Updated August 9, 2025. Read November 3, 2026."
+url = "https://www.mayoclinic.org/tests-procedures/myomectomy/about/pac-20384710"
+[[refs]]
+key = "aktoz"
+cite = "Aktoz F, Arslan T, Güzel Y. Intraoperative laparoscopic ultrasound during laparoscopic myomectomy: a narrative review. Journal of the Turkish-German Gynecological Association. 2024;25(3):179-183. doi:10.4274/jtgga.galenos.2024.2023-9-7. PMID 39219255."
+url = "https://doi.org/10.4274/jtgga.galenos.2024.2023-9-7"
+[[refs]]
+key = "ccmyo"
+cite = "Cleveland Clinic. Myomectomy. Medically reviewed, updated January 11, 2023. Read November 1, 2026."
+url = "https://my.clevelandclinic.org/health/articles/myomectomy"
+[[refs]]
+key = "mpea"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Endometrial ablation. Reviewed October 15, 2024. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/007632.htm"
+[[refs]]
+key = "fdaea"
+cite = "U.S. Food and Drug Administration. Endometrial ablation for heavy menstrual bleeding. Content current as of October 25, 2021. Read November 1, 2026."
+url = "https://www.fda.gov/medical-devices/surgery-devices/endometrial-ablation-heavy-menstrual-bleeding"
+[[refs]]
+key = "mphyst"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Hysterectomy. Reviewed March 17, 2026. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/002915.htm"
+[[refs]]
+key = "fdamorc"
+cite = "U.S. Food and Drug Administration. Power morcellation during gynecologic laparoscopic surgeries. Content current as of August 20, 2026. Read November 1, 2026."
+url = "https://www.fda.gov/medical-devices/surgery-devices/power-morcellation-during-gynecologic-laparoscopic-surgeries"
+[[refs]]
+key = "iqwig"
+cite = "InformedHealth.org (Institute for Quality and Efficiency in Health Care, Germany). What are the pros and cons of uterine artery embolization? Updated June 24, 2025. Read November 2, 2026."
+url = "https://www.informedhealth.org/what-are-the-pros-and-cons-of-uterine-artery-embolization.html"
+[[refs]]
+key = "spies"
+cite = "Long-term outcome of uterine artery embolization of leiomyomata. Obstetrics and Gynecology. 2005;106(5 Pt 1):933-939. doi:10.1097/01.AOG.0000182582.64088.84. PMID 16260509."
+url = "https://doi.org/10.1097/01.AOG.0000182582.64088.84"
+[[refs]]
+key = "cochrane"
+cite = "Gupta JK, Sinha A, Lumsden MA, Hickey M. Uterine artery embolization for symptomatic uterine fibroids. Cochrane Database of Systematic Reviews. 2014;(12):CD005073. doi:10.1002/14651858.CD005073.pub4. PMID 25541260."
+url = "https://doi.org/10.1002/14651858.CD005073.pub4"
+[[refs]]
+key = "femme4"
+cite = "Daniels J, Middleton LJ, Cheed V, et al. Uterine artery embolization or myomectomy for women with uterine fibroids: four-year follow-up of a randomised controlled trial. European Journal of Obstetrics and Gynecology and Reproductive Biology: X. 2022;13:100139. doi:10.1016/j.eurox.2021.100139. PMID 34877531."
+url = "https://doi.org/10.1016/j.eurox.2021.100139"
+[[refs]]
+key = "femme2"
+cite = "Manyonda I, Belli AM, Lumsden MA, et al. Uterine-artery embolization or myomectomy for uterine fibroids. New England Journal of Medicine. 2020;383(5):440-451. doi:10.1056/NEJMoa1914735. PMID 32726530."
+url = "https://doi.org/10.1056/NEJMoa1914735"
+[[refs]]
+key = "emmy"
+cite = "Uterine artery embolization vs hysterectomy in the treatment of symptomatic uterine fibroids: 10-year outcomes from the randomized EMMY trial. American Journal of Obstetrics and Gynecology. 2016;215(6):745.e1-745.e12. doi:10.1016/j.ajog.2016.06.051. PMID 27393268."
+url = "https://doi.org/10.1016/j.ajog.2016.06.051"
+[[refs]]
+key = "martin"
+cite = "Martin J, Bhanot K, Athreya S. Complications and reinterventions in uterine artery embolization for symptomatic uterine fibroids: a literature review and meta analysis. CardioVascular and Interventional Radiology. 2013;36(2):395-402. doi:10.1007/s00270-012-0505-y."
+url = "https://doi.org/10.1007/s00270-012-0505-y"
+[[refs]]
+key = "oderkerk"
+cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrics and Gynecology. 2023;142(1):51-60. doi:10.1097/AOG.0000000000005223. PMID 37290114."
+url = "https://doi.org/10.1097/AOG.0000000000005223"
+[[refs]]
+key = "asrm"
+cite = "Practice Committee of the American Society for Reproductive Medicine. Postoperative adhesions in gynecologic surgery: a committee opinion. Fertility and Sterility. 2019;112:458-463. Read November 2, 2026."
+url = "https://www.asrm.org/practice-guidance/practice-committee-documents/postoperative-adhesions-in-gynecologic-surgery-a-committee-opinion-2019"
+[[refs]]
+key = "ccadh"
+cite = "Cleveland Clinic. Abdominal adhesions. Medically reviewed, updated April 1, 2024. Read November 2, 2026."
+url = "https://my.clevelandclinic.org/health/articles/abdominal-adhesions"
+[[refs]]
+key = "cchernia"
+cite = "Cleveland Clinic. Incisional hernia. Medically reviewed, updated March 24, 2025. Read November 2, 2026."
+url = "https://my.clevelandclinic.org/health/diseases/incisional-hernia"

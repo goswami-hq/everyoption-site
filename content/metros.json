@@ -1,0 +1,474 @@
+{
+ "_note": "Job 42 (city-pages spec, his yes 2026-11-05): a metro is every listed doctor within 25 miles of a fixed center ZIP (two for Bay Area, South Florida, Dallas-Fort Worth). Centers are fixed here before counting; never move one to clear the bar. A metro gets a page for a procedure when its build count reaches `bar`; live, a page under `floor` sends noindex. `procs` names which procedures get pages (UFE only until he reviews these). `pages` is the batch that gets pages now (job 42: the first 11; job 43, his yes 2026-11-05: Phoenix, Dallas-Fort Worth, St. Louis, Memphis); a metro outside it waits for his yes even when it clears the bar. Job platform-main-0024 (S3, his go 2026-11-07, addendum change 4): PAE and GAE get pages by the same rule (build count of listed doctors within 25 miles reaches the bar of 8); `pages` is now per procedure. PAE: the 8 metros at or over 8; GAE: the 4 at or over 8 (counts in ai-hq records/runs/2026-11-07-prostate-knee-and-pelvic-pages-to-the-fibroid-pattern-chroni.md). They stay noindex while their condition page is a draft. Job platform-directory-0009 (his go 2026-11-07): pelvic vein treatment gets pages by the same rule: New York City, Washington DC, Baltimore and Philadelphia (the 4 at or over 8 in ai-hq projects/platform/directory/research/pelvic-finder-2026-11-07/metros.csv, recounted after the Politi and Schwartz fixes); noindex while the pelvic page is a draft.",
+ "radius": 25,
+ "bar": 8,
+ "floor": 5,
+ "procs": [
+  "ufe",
+  "pae",
+  "gae",
+  "pelvic"
+ ],
+ "pages": {
+  "ufe": [
+   "new-york-city-area",
+   "atlanta-ga",
+   "san-francisco-bay-area-ca",
+   "chicago-il",
+   "washington-dc",
+   "philadelphia-pa",
+   "los-angeles-ca",
+   "denver-co",
+   "south-florida",
+   "baltimore-md",
+   "houston-tx",
+   "phoenix-az",
+   "dallas-fort-worth-tx",
+   "st-louis-mo",
+   "memphis-tn"
+  ],
+  "pae": [
+   "new-york-city-area",
+   "washington-dc",
+   "philadelphia-pa",
+   "atlanta-ga",
+   "baltimore-md",
+   "chicago-il",
+   "denver-co",
+   "phoenix-az"
+  ],
+  "gae": [
+   "new-york-city-area",
+   "washington-dc",
+   "chicago-il",
+   "philadelphia-pa"
+  ],
+  "pelvic": [
+   "new-york-city-area",
+   "washington-dc",
+   "philadelphia-pa",
+   "baltimore-md"
+  ]
+ },
+ "metros": [
+  {
+   "slug": "new-york-city-area",
+   "name": "New York City area",
+   "place": "near New York City",
+   "centers": [
+    {
+     "zip": "10001",
+     "label": "Manhattan"
+    }
+   ]
+  },
+  {
+   "slug": "atlanta-ga",
+   "name": "Atlanta",
+   "place": "near Atlanta",
+   "centers": [
+    {
+     "zip": "30303",
+     "label": "downtown Atlanta"
+    }
+   ]
+  },
+  {
+   "slug": "san-francisco-bay-area-ca",
+   "name": "San Francisco Bay Area",
+   "place": "in the San Francisco Bay Area",
+   "centers": [
+    {
+     "zip": "94102",
+     "label": "San Francisco"
+    },
+    {
+     "zip": "95113",
+     "label": "San Jose"
+    }
+   ]
+  },
+  {
+   "slug": "chicago-il",
+   "name": "Chicago",
+   "place": "near Chicago",
+   "centers": [
+    {
+     "zip": "60601",
+     "label": "downtown Chicago"
+    }
+   ]
+  },
+  {
+   "slug": "washington-dc",
+   "name": "Washington, DC",
+   "place": "near Washington, DC",
+   "centers": [
+    {
+     "zip": "20001",
+     "label": "downtown Washington"
+    }
+   ]
+  },
+  {
+   "slug": "philadelphia-pa",
+   "name": "Philadelphia",
+   "place": "near Philadelphia",
+   "centers": [
+    {
+     "zip": "19103",
+     "label": "Center City Philadelphia"
+    }
+   ]
+  },
+  {
+   "slug": "los-angeles-ca",
+   "name": "Los Angeles",
+   "place": "near Los Angeles",
+   "centers": [
+    {
+     "zip": "90012",
+     "label": "downtown Los Angeles"
+    }
+   ]
+  },
+  {
+   "slug": "denver-co",
+   "name": "Denver",
+   "place": "near Denver",
+   "centers": [
+    {
+     "zip": "80202",
+     "label": "downtown Denver"
+    }
+   ]
+  },
+  {
+   "slug": "south-florida",
+   "name": "South Florida",
+   "place": "in South Florida",
+   "centers": [
+    {
+     "zip": "33130",
+     "label": "Miami"
+    },
+    {
+     "zip": "33301",
+     "label": "Fort Lauderdale"
+    }
+   ]
+  },
+  {
+   "slug": "baltimore-md",
+   "name": "Baltimore",
+   "place": "near Baltimore",
+   "centers": [
+    {
+     "zip": "21202",
+     "label": "downtown Baltimore"
+    }
+   ]
+  },
+  {
+   "slug": "houston-tx",
+   "name": "Houston",
+   "place": "near Houston",
+   "centers": [
+    {
+     "zip": "77002",
+     "label": "downtown Houston"
+    }
+   ]
+  },
+  {
+   "slug": "dallas-fort-worth-tx",
+   "name": "Dallas-Fort Worth",
+   "place": "in Dallas-Fort Worth",
+   "centers": [
+    {
+     "zip": "75201",
+     "label": "Dallas"
+    },
+    {
+     "zip": "76102",
+     "label": "Fort Worth"
+    }
+   ]
+  },
+  {
+   "slug": "st-louis-mo",
+   "name": "St. Louis",
+   "place": "near St. Louis",
+   "centers": [
+    {
+     "zip": "63101",
+     "label": "downtown St. Louis"
+    }
+   ]
+  },
+  {
+   "slug": "memphis-tn",
+   "name": "Memphis",
+   "place": "near Memphis",
+   "centers": [
+    {
+     "zip": "38103",
+     "label": "downtown Memphis"
+    }
+   ]
+  },
+  {
+   "slug": "phoenix-az",
+   "name": "Phoenix",
+   "place": "near Phoenix",
+   "centers": [
+    {
+     "zip": "85004",
+     "label": "downtown Phoenix"
+    }
+   ]
+  },
+  {
+   "slug": "kansas-city-mo",
+   "name": "Kansas City",
+   "place": "near Kansas City",
+   "centers": [
+    {
+     "zip": "64106",
+     "label": "downtown Kansas City"
+    }
+   ]
+  },
+  {
+   "slug": "indianapolis-in",
+   "name": "Indianapolis",
+   "place": "near Indianapolis",
+   "centers": [
+    {
+     "zip": "46204",
+     "label": "downtown Indianapolis"
+    }
+   ]
+  },
+  {
+   "slug": "norfolk-va",
+   "name": "Norfolk",
+   "place": "near Norfolk",
+   "centers": [
+    {
+     "zip": "23510",
+     "label": "downtown Norfolk"
+    }
+   ]
+  },
+  {
+   "slug": "boston-ma",
+   "name": "Boston",
+   "place": "near Boston",
+   "centers": [
+    {
+     "zip": "02108",
+     "label": "downtown Boston"
+    }
+   ]
+  },
+  {
+   "slug": "seattle-wa",
+   "name": "Seattle",
+   "place": "near Seattle",
+   "centers": [
+    {
+     "zip": "98101",
+     "label": "downtown Seattle"
+    }
+   ]
+  },
+  {
+   "slug": "minneapolis-mn",
+   "name": "Minneapolis",
+   "place": "near Minneapolis",
+   "centers": [
+    {
+     "zip": "55401",
+     "label": "downtown Minneapolis"
+    }
+   ]
+  },
+  {
+   "slug": "san-diego-ca",
+   "name": "San Diego",
+   "place": "near San Diego",
+   "centers": [
+    {
+     "zip": "92101",
+     "label": "downtown San Diego"
+    }
+   ]
+  },
+  {
+   "slug": "detroit-mi",
+   "name": "Detroit",
+   "place": "near Detroit",
+   "centers": [
+    {
+     "zip": "48226",
+     "label": "downtown Detroit"
+    }
+   ]
+  },
+  {
+   "slug": "tampa-fl",
+   "name": "Tampa",
+   "place": "near Tampa",
+   "centers": [
+    {
+     "zip": "33602",
+     "label": "downtown Tampa"
+    }
+   ]
+  },
+  {
+   "slug": "san-antonio-tx",
+   "name": "San Antonio",
+   "place": "near San Antonio",
+   "centers": [
+    {
+     "zip": "78205",
+     "label": "downtown San Antonio"
+    }
+   ]
+  },
+  {
+   "slug": "austin-tx",
+   "name": "Austin",
+   "place": "near Austin",
+   "centers": [
+    {
+     "zip": "78701",
+     "label": "downtown Austin"
+    }
+   ]
+  },
+  {
+   "slug": "columbus-oh",
+   "name": "Columbus",
+   "place": "near Columbus",
+   "centers": [
+    {
+     "zip": "43215",
+     "label": "downtown Columbus"
+    }
+   ]
+  },
+  {
+   "slug": "orlando-fl",
+   "name": "Orlando",
+   "place": "near Orlando",
+   "centers": [
+    {
+     "zip": "32801",
+     "label": "downtown Orlando"
+    }
+   ]
+  },
+  {
+   "slug": "las-vegas-nv",
+   "name": "Las Vegas",
+   "place": "near Las Vegas",
+   "centers": [
+    {
+     "zip": "89101",
+     "label": "downtown Las Vegas"
+    }
+   ]
+  },
+  {
+   "slug": "cincinnati-oh",
+   "name": "Cincinnati",
+   "place": "near Cincinnati",
+   "centers": [
+    {
+     "zip": "45202",
+     "label": "downtown Cincinnati"
+    }
+   ]
+  },
+  {
+   "slug": "charlotte-nc",
+   "name": "Charlotte",
+   "place": "near Charlotte",
+   "centers": [
+    {
+     "zip": "28202",
+     "label": "downtown Charlotte"
+    }
+   ]
+  },
+  {
+   "slug": "sacramento-ca",
+   "name": "Sacramento",
+   "place": "near Sacramento",
+   "centers": [
+    {
+     "zip": "95814",
+     "label": "downtown Sacramento"
+    }
+   ]
+  },
+  {
+   "slug": "pittsburgh-pa",
+   "name": "Pittsburgh",
+   "place": "near Pittsburgh",
+   "centers": [
+    {
+     "zip": "15222",
+     "label": "downtown Pittsburgh"
+    }
+   ]
+  },
+  {
+   "slug": "portland-or",
+   "name": "Portland",
+   "place": "near Portland",
+   "centers": [
+    {
+     "zip": "97204",
+     "label": "downtown Portland"
+    }
+   ]
+  },
+  {
+   "slug": "riverside-ca",
+   "name": "Riverside",
+   "place": "near Riverside",
+   "centers": [
+    {
+     "zip": "92501",
+     "label": "downtown Riverside"
+    }
+   ]
+  },
+  {
+   "slug": "cleveland-oh",
+   "name": "Cleveland",
+   "place": "near Cleveland",
+   "centers": [
+    {
+     "zip": "44113",
+     "label": "downtown Cleveland"
+    }
+   ]
+  },
+  {
+   "slug": "nashville-tn",
+   "name": "Nashville",
+   "place": "near Nashville",
+   "centers": [
+    {
+     "zip": "37203",
+     "label": "downtown Nashville"
+    }
+   ]
+  }
+ ]
+}

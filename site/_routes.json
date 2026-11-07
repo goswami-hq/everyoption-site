@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "include": [
+  "/api/*",
+  "/doctors/*",
+  "/fibroids/doctors",
+  "/fibroids/doctors/*",
+  "/enlarged-prostate/doctors",
+  "/enlarged-prostate/doctors/*",
+  "/knee-arthritis/doctors",
+  "/knee-arthritis/doctors/*"
+ ],
+ "exclude": [
+  "/doctors/",
+  "/doctors/a/",
+  "/doctors/b/",
+  "/doctors/c/",
+  "/doctors/d/",
+  "/doctors/e/",
+  "/doctors/f/",
+  "/doctors/g/",
+  "/doctors/h/",
+  "/doctors/i/",
+  "/doctors/j/",
+  "/doctors/k/",
+  "/doctors/l/",
+  "/doctors/m/",
+  "/doctors/n/",
+  "/doctors/o/",
+  "/doctors/p/",
+  "/doctors/q/",
+  "/doctors/r/",
+  "/doctors/s/",
+  "/doctors/t/",
+  "/doctors/u/",
+  "/doctors/v/",
+  "/doctors/w/",
+  "/doctors/y/",
+  "/doctors/z/"
+ ]
+}

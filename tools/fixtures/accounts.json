@@ -1,0 +1,168 @@
+{
+  "_note": "Made-up test people only. Used by the tests and by `node tools/dev-server.mjs --accounts`. No real doctor is in this file.",
+  "nppes": {
+    "1999000015": {
+      "type": "NPI-1",
+      "first": "Ann",
+      "last": "Testone",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Chicago",
+      "state": "IL"
+    },
+    "1999000023": {
+      "type": "NPI-1",
+      "first": "Ben",
+      "last": "Sampletwo",
+      "taxonomy": "2085R0202X",
+      "taxonomy_desc": "Radiology, Diagnostic Radiology",
+      "city": "Evanston",
+      "state": "IL"
+    },
+    "1999000031": {
+      "type": "NPI-1",
+      "first": "Cara",
+      "last": "Newdoc",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Madison",
+      "state": "WI"
+    },
+    "1999000049": {
+      "type": "NPI-1",
+      "first": "Dan",
+      "last": "Orthotest",
+      "taxonomy": "207X00000X",
+      "taxonomy_desc": "Orthopaedic Surgery",
+      "city": "Chicago",
+      "state": "IL"
+    },
+    "1999000056": {
+      "type": "NPI-1",
+      "first": "Eve",
+      "last": "Nursetest",
+      "taxonomy": "363L00000X",
+      "taxonomy_desc": "Nurse Practitioner",
+      "city": "Chicago",
+      "state": "IL"
+    },
+    "1999000064": {
+      "type": "NPI-2",
+      "org": "Test Imaging Group LLC",
+      "taxonomy": "261QR0200X",
+      "taxonomy_desc": "Clinic/Center, Radiology"
+    },
+    "1999000072": {
+      "type": "NPI-1",
+      "first": "Gil",
+      "last": "Fourtest",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Skokie",
+      "state": "IL"
+    },
+    "1999000080": {
+      "type": "NPI-1",
+      "first": "Anna",
+      "last": "Testone",
+      "taxonomy": "207R00000X",
+      "taxonomy_desc": "Internal Medicine",
+      "credential": "MD",
+      "city": "Austin",
+      "state": "TX"
+    },
+    "1999000106": {
+      "type": "NPI-1",
+      "first": "Hal",
+      "last": "Phototest",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Peoria",
+      "state": "IL"
+    },
+    "1999000114": {
+      "type": "NPI-1",
+      "first": "Aleksandra",
+      "last": "Wiśniewska-Kowalczyk",
+      "credential": "M.D., Ph.D., FSIR",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Rancho Santa Margarita",
+      "state": "CA"
+    }
+  },
+  "listings": {
+    "1999000015": {
+      "name": "Ann Testone",
+      "procedures": [
+        "ufe",
+        "pae"
+      ],
+      "urls": [
+        "https://www.lakesideir.example/team/ann-testone"
+      ],
+      "city": "Chicago",
+      "state": "IL"
+    },
+    "1999000023": {
+      "name": "Ben Sampletwo",
+      "procedures": [
+        "gae"
+      ],
+      "urls": [
+        "https://www.healthgrades.com/physician/dr-ben-sampletwo"
+      ],
+      "city": "Evanston",
+      "state": "IL"
+    },
+    "1999000072": {
+      "name": "Gil Fourtest",
+      "procedures": [
+        "ufe"
+      ],
+      "urls": [
+        "https://fourtest-vascular.example/about"
+      ],
+      "city": "Skokie",
+      "state": "IL"
+    }
+  },
+  "radiologists": {
+    "_note": "national list keyed by last name + first initial; npi only when n is 1",
+    "testone|a": {
+      "n": 1,
+      "npi": "1999000015"
+    },
+    "fourtest|g": {
+      "n": 1,
+      "npi": "1999000072"
+    },
+    "newdoc|c": {
+      "n": 1,
+      "npi": "1999000031"
+    },
+    "sampletwo|b": {
+      "n": 2,
+      "npi": null
+    }
+  },
+  "geocodes": {
+    "_note": "Made-up addresses for the geocoder stand-in (job 16).",
+    "100 test plaza|chicago|il|60611": [
+      41.89212,
+      -87.62185
+    ],
+    "200 sample road|evanston|il|60201": [
+      42.04771,
+      -87.68422
+    ],
+    "300 example court|naperville|il|60540": [
+      41.76589,
+      -88.14423
+    ],
+    "400 faraway lane|springfield|il|62701": [
+      39.80172,
+      -89.64371
+    ]
+  }
+}
