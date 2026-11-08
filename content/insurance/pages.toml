@@ -87,7 +87,7 @@ changes = [
 ]
 method = [
   "Where an insurer's written policy could be read, we read the newest version we could find. For Medicare, we read the national decision and checked local decisions and articles by title.",
-  "Some policies and lists could not be opened or read. Those entries say so, and some say \"Not yet checked.\"",,
+  "Some policies and lists could not be opened or read. Those entries say so, and some say \"Not yet checked.\"",
   "We wrote each entry in our own words and link to the policy, so you can check it yourself. Each entry shows the date we checked it. Every check was made on November 7 or 8, 2026.",
   "Where a plan publishes no policy, we say so, and we say what we searched. Finding no policy does not mean a procedure is covered.",
   "Not included: Medicaid, and Blue Cross Blue Shield companies other than Anthem and HCSC.",
