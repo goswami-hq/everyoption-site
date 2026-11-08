@@ -9,6 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA, COPY = ROOT / "content/insurance/coverage-2026-11.toml", ROOT / "content/insurance/pages.toml"
 ROBOTS = '<meta name="robots" content="noindex">\n'
 CSS = ["/assets/insurance.css"]
+JS = ["/assets/insurance.js"]   # opens the card details at 768 px and up; with no script the details still open on tap
 # A shape for every label, so the meaning never rests on color. Text always says it too.
 ICON = {
     "conditions": '<path d="M5 13l4 4 7-9"/><path d="M19 17h.01"/>', "covered": '<path d="M5 13l4 4 10-11"/>',
@@ -45,11 +46,32 @@ def policy_line(cell, data):
     return " · ".join(bits)
 
 
-def card(key, proc, data, copy):
+def split_lead(text):
+    """(first sentence, the rest): the first sentence is the card's one visible line on phones. Nothing is reworded."""
+    m = re.match(r"(.+?[.!?])\s+(?=[A-Z])(.*)$", text, re.S)
+    return (m.group(1), m.group(2)) if m else (text, "")
+
+
+def card(key, proc, data, copy, fold=True):
+    """A card. fold=True (the three coverage pages, phone-length job 0008): the chip and first sentence are the summary
+    of a native <details>; all text stays in the HTML. fold=False: the hub's HAE cards, unchanged (folding the hub is his open call)."""
     c = data["cells"][proc][key]
     items = f'<ul>{"".join(f"<li>{e(i)}</li>" for i in c["items"])}</ul>' if c.get("items") else ""
-    return (f'<article class="card ins-card" id="{proc}-{key}"><h3>{e(data["names"][key])}</h3>{chip(c["chip"], copy)}'
-            f'<p>{e(c["text"])}</p>{items}<p class="ins-meta">{policy_line(c, data)}</p></article>')
+    meta = f'<p class="ins-meta">{policy_line(c, data)}</p>'
+    head = f'<article class="card ins-card" id="{proc}-{key}"><h3>{e(data["names"][key])}</h3>'
+    if not fold:
+        return f'{head}{chip(c["chip"], copy)}<p>{e(c["text"])}</p>{items}{meta}</article>'
+    lead, rest = split_lead(c["text"])
+    more = f"<p>{e(rest)}</p>" if rest else ""
+    return (f'{head}<details class="ins-more"><summary>{chip(c["chip"], copy)}<span class="ins-lead">{e(lead)}</span></summary>'
+            f'{more}{items}{meta}</details></article>')
+
+
+def jump(p, data, copy):
+    """Top of the coverage pages: tap your insurer, go to its card. Plain links in the cards' fixed order; no script."""
+    links = "".join(f'<li><a href="#{p["key"]}-{i}">{e(copy["jump_names"].get(i, data["names"][i]))}</a></li>' for i in data["insurers"])
+    return (f'<nav class="ins-jump" aria-labelledby="ins-jump-label"><p id="ins-jump-label">{e(copy["jump_label"])}</p><ul>{links}</ul>'
+            f'<p class="ins-jump-no"><a href="#if-no">What if my insurer says no?</a></p></nav>')
 
 
 def legend(kinds, copy):
@@ -97,7 +119,7 @@ def procedure_body(p, data, copy):
     no, refs = says_no(copy)
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
     return (crumbs([("Home", "/"), (p["condition"], f'/{p["slug"]}/'), ("Insurance coverage", None)]) +
-            f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{header_notice(copy)}'
+            f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{header_notice(copy)}{jump(p, data, copy)}'
             f'<h2 id="by-insurer">Coverage by insurer</h2>{legend(kinds, copy)}<div class="ins-cards">{cards}</div>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>{no}'
             f'<h2 id="next">Next steps</h2><ul class="ins-links"><li><a href="/{p["slug"]}/">{e(p["guide"])}</a></li>'
@@ -128,7 +150,7 @@ def hub_body(data, copy):
     changes = "".join(f'<li>{e(c).replace("{notice}", notice)}</li>' for c in hub["changes"])
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
-    hae = "".join(card(i, "hae", data, copy) for i in data["insurers"])
+    hae = "".join(card(i, "hae", data, copy, fold=False) for i in data["insurers"])
     return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>{header_notice(copy)}'
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
             f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}<li><a href="#hae">{e(hub["hae_label"])}: coverage by insurer, with conditions</a></li></ul>'
@@ -172,7 +194,7 @@ def write_all(page, write, origin):
     for p in copy["pages"]:
         path = f'/{p["slug"]}/insurance/'
         write(f'{p["slug"]}/insurance/index.html',
-              page(path, p["title"], p["description"], procedure_body(p, data, copy), css=CSS, head=ROBOTS + procedure_schema(p, copy, origin),
+              page(path, p["title"], p["description"], procedure_body(p, data, copy), css=CSS, scripts=JS, head=ROBOTS + procedure_schema(p, copy, origin),
                    cls=f'prose-page insurance-page t-{p["color"]}'))
     write("insurance/index.html", page("/insurance/", copy["hub"]["title"], copy["hub"]["description"], hub_body(data, copy), css=CSS,
                                        head=ROBOTS + hub_schema(data, copy, origin), cls="prose-page insurance-page"))

@@ -19,6 +19,36 @@ p.ins-meta { margin-top: 12px; }
   .ins-not_covered { color: #f0a58a; }
   .ins-case_by_case { color: #e6bf7a; }
 }
+/* Top of the coverage pages: tap your insurer, go to its card (job 0008). */
+.ins-jump { margin: 22px 0 0; }
+#ins-jump-label { margin: 0 0 6px; font-weight: 600; }
+.ins-jump ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; }
+.ins-jump li { margin: 0; }
+.ins-jump ul a { display: flex; align-items: center; min-height: 44px; padding: 6px 0; line-height: 1.25; font-size: 1rem; }
+.ins-jump-no { margin: 8px 0 0; }
+.ins-jump-no a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.ins-card { scroll-margin-top: 14px; }
+/* Card details: native details, closed in the HTML so phones paint closed. insurance.js opens them at 768 px and up. */
+.ins-more > summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: start; min-height: 44px; border-radius: 8px; }
+.ins-more > summary::-webkit-details-marker { display: none; }
+.ins-more > summary::after { content: "+"; grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+.ins-more[open] > summary::after { content: "\2013"; }
+.ins-more > summary > .ins-chip { grid-column: 1; justify-self: start; }
+.ins-lead { grid-column: 1; margin-top: 8px; }
+@media (max-width: 767px) {
+  .ins-cards:has(.ins-more) { gap: 10px; }
+  .ins-card:has(.ins-more) { padding: 14px 16px; }
+  .ins-card:has(.ins-more) h3 { margin-bottom: 6px; }
+}
+@media (min-width: 768px) { .ins-jump ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) {
+  .ins-more:not(.ins-ready)::details-content { content-visibility: visible; display: block; height: auto; }
+  .ins-more:not(.ins-ready) > summary::after { display: none; }
+}
+@media print {
+  .ins-more::details-content { content-visibility: visible; display: block; height: auto; }
+  .ins-more > summary::after { display: none; }
+}
 .ins-legend { margin: 12px 0 0; display: grid; gap: 12px; }
 .ins-legend div { display: grid; gap: 4px; }
 .ins-legend dd { margin: 0; color: var(--ink); }

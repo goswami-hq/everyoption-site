@@ -86,4 +86,39 @@ test("the hub carries Dataset data, method, next check, and both dated changes",
   for (const c of ["/fibroids/insurance/", "/enlarged-prostate/insurance/", "/knee-arthritis/insurance/"]) assert.ok(t.includes(`href="${c}"`), c);
 });
 
-test("the source file is present", () => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));
+// Phone-length job platform-condition-pages-0008 (his "Yes", 2026-11-08 11:15 CT).
+const COVERAGE = [["fibroids/insurance", "ufe"], ["enlarged-prostate/insurance", "pae"], ["knee-arthritis/insurance", "gae"]];
+
+test("the jump list comes before the cards, in their order, with plain links and the says-no link", () => {
+  for (const [p, key] of COVERAGE) {
+    const t = read(p);
+    const nav = t.split('<nav class="ins-jump"')[1].split("</nav>")[0];
+    const jumps = [...nav.matchAll(/<li><a href="#([a-z-]+)">/g)].map((m) => m[1]);
+    const cards = [...t.matchAll(new RegExp(`<article class="card ins-card" id="(${key}-[a-z-]+)"`, "g"))].map((m) => m[1]);
+    assert.deepEqual(jumps, cards, p);
+    assert.match(nav, /<a href="#if-no">What if my insurer says no\?<\/a>/, p);
+    assert.ok(t.indexOf('class="ins-jump"') < t.indexOf('id="by-insurer"'), p);
+    assert.match(t, /<h2 id="if-no">/, p);
+  }
+});
+
+test("card details are native, closed in the HTML, with chip and first line in the summary and all text in the page", () => {
+  for (const [p] of COVERAGE) {
+    const t = read(p);
+    for (const c of t.split('<article class="card ins-card"').slice(1)) {
+      const card = c.split("</article>")[0];
+      assert.match(card, /<details class="ins-more"><summary><span class="ins-chip [^"]+"><svg/, "chip in the summary");
+      assert.match(card, /<span class="ins-lead">[^<]+<\/span><\/summary>/, "one line in the summary");
+      assert.match(card.split("</summary>")[1], /Checked [A-Z][a-z]+ \d{1,2}, 2026/, "date in the details");
+    }
+    assert.doesNotMatch(t, /<details class="ins-more" open/, p);
+    assert.match(t, /<script src="\/assets\/insurance\.js[^"]*" defer><\/script>/, p);
+  }
+});
+
+test("the hub is not folded", () => {
+  const t = read("insurance");
+  assert.doesNotMatch(t, /ins-more|ins-jump|insurance\.js/);
+});
+
+test("the source file is present",() => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));

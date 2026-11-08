@@ -3,6 +3,10 @@
 reviewed = "2026-11-08"
 plan_line = "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan."
 advice_line = "Education, not medical advice. Talk to your doctor about your own care. We cannot advise you on your own claim or prior authorization."
+jump_label = "Find your insurer"
+
+[jump_names]
+hcsc = "HCSC (Blue Cross in 5 states)"
 
 [chips]
 conditions = "Covered with conditions"
