@@ -91,6 +91,29 @@ def wait_status(pg, text, timeout=5000):
     wait_js(pg, "t => document.getElementById('acct-status').textContent.includes(t)", arg=text, timeout=timeout)
 
 
+def mark(pg):
+    """Before an action whose answer redraws the account page: remember the current page head."""
+    pg.evaluate("window.__e2eHead = document.getElementById('acct-head')")
+
+
+def wait_saved(pg, text, timeout=15000):
+    """The page shows its status line first, then reloads the profile and redraws everything (account.js: say, then load).
+    Wait for both, so the next click lands on the new page. Live run 2026-11-08T00:28Z: Page.click timed out in step 3
+    (inferred redraw race, not proven; records/runs/2026-11-07-sign-up-test-fix-the-second-procedure-timeout-add-the-pelvic.md).
+    Call mark(pg) before the action."""
+    wait_status(pg, text, timeout)
+    wait_js(pg, "() => { const h = document.getElementById('acct-head'); return !!h && h !== window.__e2eHead; }", timeout=timeout)
+
+
+def add_proc(pg, proc):
+    """Add one procedure, then wait for the redraw: that procedure on, and every other Add button attached and visible."""
+    pg.click(f".add[data-proc={proc}]")
+    pg.wait_for_selector(f"#attest-{proc}", state="visible"); pg.click(f"#attest-{proc}")
+    pg.wait_for_selector(f"#proc-{proc}.on", state="visible")
+    for b in pg.locator("li.proc:not(.on) .add").all():
+        b.wait_for(state="visible")
+
+
 def clear(pg):
     pg.evaluate("document.getElementById('acct-status').textContent = ''")
 
@@ -743,16 +766,27 @@ def live_run(cfg):
             # 3 partial access: add and remove, note, office, phone, link; refresh; photo refused; finder in Likely
             step("3 partial access")
             for proc in ("ufe", "pae"):
-                pg.click(f".add[data-proc={proc}]"); pg.click(f"#attest-{proc}"); pg.wait_for_selector(f"#proc-{proc}.on")
-            pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pae .remove"); wait_status(pg, "PAE removed", 15000)
+                add_proc(pg, proc)
+            mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pae .remove"); wait_saved(pg, "PAE removed", 15000)
+            # pelvic (database change 2026-11-07-pelvic-procedure.sql, applied 2026-11-07): add, on, remove
+            pelvic_err = ""
+            try:
+                add_proc(pg, "pelvic")
+            except Exception as e:
+                pelvic_err = type(e).__name__ + ": " + scrub(e)[:200]
+            pelvic_on = pg.locator("#proc-pelvic.on").count() == 1
+            lcheck("live: pelvic vein treatment can be added (the test database allows pelvic)", pelvic_on and not pelvic_err, pelvic_err)
+            if pelvic_on:
+                mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pelvic .remove"); wait_saved(pg, "vein treatment removed", 15000)
             pg.click("#proc-ufe .proc-note summary"); pg.fill("#b-ufe", note); clear(pg)
-            pg.click("#proc-ufe .proc-note button"); wait_status(pg, "Note saved", 15000)
+            mark(pg); pg.click("#proc-ufe .proc-note button"); wait_saved(pg, "Note saved", 15000)
             pg.fill("#o0-practice", office["practice"]); pg.fill("#o0-street", office["street"]); pg.fill("#o0-city", office["city"])
             pg.select_option("#o0-state", office["state"]); pg.fill("#o0-zip", office["zip"]); pg.fill("#o0-phone", office["phone"])
             pg.fill("#p-book", "https://example.com/every-option-test")
-            clear(pg); pg.click("#office-form button[type=submit]"); wait_status(pg, "Saved", 20000)
+            clear(pg); mark(pg); pg.click("#office-form button[type=submit]"); wait_saved(pg, "Saved", 20000)
             pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
             kept = {"ufe on": pg.locator("#proc-ufe.on").count() == 1, "pae off": pg.locator("#proc-pae.on").count() == 0,
+                    "pelvic off": pg.locator("#proc-pelvic.on").count() == 0,
                     "note": pg.input_value("#b-ufe") == note, "office": pg.input_value("#o0-practice") == office["practice"],
                     "phone": re.sub(r"\D", "", pg.input_value("#o0-phone")) == office["phone"],
                     "link": "example.com/every-option-test" in pg.input_value("#p-book")}
@@ -770,7 +804,7 @@ def live_run(cfg):
             R["live"]["likely_seconds"] = secs
             shot(q, "live-2-likely"); done_search()
             pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
-            pg.once("dialog", lambda d: d.accept()); pg.click("#proc-ufe .remove"); wait_status(pg, "UFE removed", 15000)
+            mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-ufe .remove"); wait_saved(pg, "UFE removed", 15000)
             secs = find_card(pg, "tier-b", gone=True)
             lcheck("live: after removing UFE the card leaves the UFE list", secs is not None, secs)
             R["live"]["removed_seconds"] = secs; done_search()
@@ -779,12 +813,12 @@ def live_run(cfg):
             lcheck("live: the test account was raised to full in the test database", site.promote() == 1)
             pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
             lcheck("live: the page shows full access", "Full access" in pg.inner_text("#acct-level"), pg.inner_text("#acct-level"))
-            pg.click(".add[data-proc=ufe]"); pg.click("#attest-ufe"); pg.wait_for_selector("#proc-ufe.on")
-            pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-1.png"), 160, 160)); wait_status(pg, "Photo saved", 30000)
+            add_proc(pg, "ufe")
+            mark(pg); pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-1.png"), 160, 160)); wait_saved(pg, "Photo saved", 30000)
             wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
             w1 = pg.evaluate("document.getElementById('photo-now').naturalWidth")
             lcheck("live: the photo uploads and its owner sees it", w1 > 0, w1)
-            pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-2.png"), 240, 240)); wait_status(pg, "Photo saved", 30000)
+            mark(pg); pg.set_input_files("#photo", png_file(os.path.join(OUT, "_live-photo-2.png"), 240, 240)); wait_saved(pg, "Photo saved", 30000)
             wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
             pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
             wait_js(pg, "document.getElementById('photo-now') && document.getElementById('photo-now').naturalWidth > 0", timeout=20000)
