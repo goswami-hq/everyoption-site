@@ -153,3 +153,34 @@ test("the sources list is folded at every width, every source number points insi
   const js = readFileSync(path.join(SITE, "assets", "insurance.js"), "utf8");
   assert.match(js, /tagName === "DETAILS"\) p\.open = true/);
 });
+
+test("the hub grid: every insurer has four rows in order, each with its full name, status, policy link and own date, plus one phone date line", () => {   // his "Yes", 2026-11-08 12:06 CT
+  const t = read("insurance");
+  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="hae"'));
+  const cards = grid.split('<section class="card ins-hub-card">').slice(1);
+  assert.equal(cards.length, 12);
+  for (const c of cards) {
+    const rows = c.split('<div class="ins-row">').slice(1);
+    assert.deepEqual(rows.map((r) => r.match(/>([A-Z]{3})<span class="ins-proc-rest">/)[1]), ["UFE", "PAE", "GAE", "HAE"]);
+    for (const [r, full] of rows.map((r, n) => [r, ["Fibroids (UFE)", "Enlarged prostate (PAE)", "Knee arthritis (GAE)", "Hemorrhoids (HAE)"][n]])) {
+      assert.equal(r.split("</a>")[0].replace(/<[^>]+>/g, ""), full, "full name in the link for screen readers");
+      assert.match(r, /class="ins-chip ins-[a-z_]+"><svg/, "status has a shape");
+      assert.ok(CHIPS.includes(r.match(/<\/svg>([^<]+)<\/span>/)[1]), "status in words");
+      assert.match(r, /<a href="https:[^"]+" rel="noopener" aria-label="[^"]+">Policy( list)?<\/a>/, "policy link");
+      assert.match(r, /<span class="ins-row-date"> · Checked [A-Z][a-z]+ \d{1,2}, 2026<\/span>/, "its own date");
+    }
+    const dates = new Set([...c.matchAll(/ins-row-date"> · Checked ([^<]+)</g)].map((m) => m[1]));
+    assert.equal(dates.size, 1, "the phone line stands for all four dates only when they agree");
+    assert.ok(c.includes(`<p class="ins-meta ins-hub-checked">Checked ${[...dates][0]}</p>`), "one date line");
+  }
+});
+
+test("each hub row links to that insurer's card for that procedure", () => {
+  const t = read("insurance");
+  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="hae"'));
+  for (const c of grid.split('<section class="card ins-hub-card">').slice(1)) {
+    const hrefs = [...c.matchAll(/<dt><a href="([^"]+)"/g)].map((m) => m[1]);
+    const i = hrefs[0].split("#ufe-")[1];
+    assert.deepEqual(hrefs, [`/fibroids/insurance/#ufe-${i}`, `/enlarged-prostate/insurance/#pae-${i}`, `/knee-arthritis/insurance/#gae-${i}`, `#hae-${i}`]);
+  }
+});

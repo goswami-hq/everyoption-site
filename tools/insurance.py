@@ -128,13 +128,36 @@ def procedure_body(p, data, copy):
             f'<li><a href="/insurance/">See every procedure and how we checked</a></li></ul>{refs}{reviewed(copy)}')
 
 
+def proc_label(label):
+    """"Fibroids (UFE)" with the words around the abbreviation in their own spans: under 768 px they are visually hidden, so
+    the chip reads UFE and a screen reader still hears the full name. The text in the page does not change."""
+    m = re.fullmatch(r"(.*\()([A-Z]+)(\))", label)
+    if not m:
+        return e(label)
+    return f'<span class="ins-proc-rest">{e(m.group(1))}</span>{e(m.group(2))}<span class="ins-proc-rest">{e(m.group(3))}</span>'
+
+
 def hub_row(i, proc, label, href, data, copy):
+    """One procedure for one insurer. Under 768 px the whole row is one compact chip linking to the insurer's card; the Policy
+    link stays beside it, and the date moves to one line per insurer (see hub_checked)."""
     c = data["cells"][proc][i]
     p = data["policies"][c["policy"]]
     what = "Policy list" if c["chip"] == "no_policy" and not p["dated"] else "Policy"
     short = f'<span class="ins-meta">{e(c["short"])}</span>' if c.get("short") else ""   # no bare "Covered": its condition sits beside it
-    return (f'<div class="ins-row"><dt><a href="{href}">{e(label)}</a></dt><dd>{chip(c["chip"], copy)}{short}'
-            f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a> · Checked {long_date(c["checked"])}</span></dd></div>')
+    return (f'<div class="ins-row"><dt><a href="{href}">{proc_label(label)}</a></dt><dd>{chip(c["chip"], copy)}{short}'
+            f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a>'
+            f'<span class="ins-row-date"> · Checked {long_date(c["checked"])}</span></span></dd></div>')
+
+
+def hub_checked(i, procs, data):
+    """The phone line for an insurer's dates (at 768 px and up each row shows its own). One date when all four agree; if a
+    later refresh makes them differ, each procedure keeps its own date here, so no date is ever merged away."""
+    dates = {k: data["cells"][k][i]["checked"] for k, _ in procs}
+    if len(set(dates.values())) == 1:
+        text = f"Checked {long_date(next(iter(dates.values())))}"
+    else:
+        text = "; ".join(f"{re.sub(r'.*[(]|[)]', '', label)} checked {long_date(dates[k])}" for k, label in procs)
+    return f'<p class="ins-meta ins-hub-checked">{text}</p>'
 
 
 def hub_body(data, copy):
@@ -144,7 +167,8 @@ def hub_body(data, copy):
         r = "".join(hub_row(i, p["key"], p["hub_label"], f'/{p["slug"]}/insurance/#{p["key"]}-{i}', data, copy) for p in pages)
         r += hub_row(i, "hae", hub["hae_label"], f"#hae-{i}", data, copy)
         note = f'<p class="ins-meta">{e(data["hub_notes"][i])}</p>' if i in data["hub_notes"] else ""
-        rows.append(f'<section class="card ins-hub-card"><h3>{e(data["names"][i])}</h3>{note}<dl>{r}</dl></section>')
+        procs = [(p["key"], p["hub_label"]) for p in pages] + [("hae", hub["hae_label"])]
+        rows.append(f'<section class="card ins-hub-card"><h3>{e(data["names"][i])}</h3>{note}<dl>{r}</dl>{hub_checked(i, procs, data)}</section>')
     kinds = {data["cells"][k][i]["chip"] for k in data["cells"] for i in data["insurers"]}
     links = "".join(f'<li><a href="/{p["slug"]}/insurance/">{e(p["hub_label"])}: coverage by insurer, with conditions</a></li>' for p in pages)
     notice = f'<a href="{e(data["notice_url"])}" rel="noopener">{e(data["notice_label"])}</a>'
