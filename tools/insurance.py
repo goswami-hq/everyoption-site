@@ -40,6 +40,8 @@ def policy_line(cell, data):
     bits = [f'Checked {long_date(cell["checked"])}', f'<a href="{e(p["link"])}" rel="noopener">{e(p["name"])}</a>']
     if p["dated"]:
         bits.append(e(p["dated"]))
+    if cell.get("notice"):
+        bits.append(f'<a href="{e(data["notice_url"])}" rel="noopener">{e(data["notice_label"])}</a>')
     return " · ".join(bits)
 
 
@@ -106,9 +108,10 @@ def procedure_body(p, data, copy):
 def hub_row(i, proc, label, href, data, copy):
     c = data["cells"][proc][i]
     p = data["policies"][c["policy"]]
+    what = "Policy list" if c["chip"] == "no_policy" and not p["dated"] else "Policy"
     short = f'<span class="ins-meta">{e(c["short"])}</span>' if c.get("short") else ""   # no bare "Covered": its condition sits beside it
     return (f'<div class="ins-row"><dt><a href="{href}">{e(label)}</a></dt><dd>{chip(c["chip"], copy)}{short}'
-            f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} policy for {e(label)}">Policy</a> · Checked {long_date(c["checked"])}</span></dd></div>')
+            f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a> · Checked {long_date(c["checked"])}</span></dd></div>')
 
 
 def hub_body(data, copy):
@@ -121,7 +124,8 @@ def hub_body(data, copy):
         rows.append(f'<section class="card ins-hub-card"><h3>{e(data["names"][i])}</h3>{note}<dl>{r}</dl></section>')
     kinds = {data["cells"][k][i]["chip"] for k in data["cells"] for i in data["insurers"]}
     links = "".join(f'<li><a href="/{p["slug"]}/insurance/">{e(p["hub_label"])}: coverage by insurer, with conditions</a></li>' for p in pages)
-    changes = "".join(f"<li>{e(c)}</li>" for c in hub["changes"])
+    notice = f'<a href="{e(data["notice_url"])}" rel="noopener">{e(data["notice_label"])}</a>'
+    changes = "".join(f'<li>{e(c).replace("{notice}", notice)}</li>' for c in hub["changes"])
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
     hae = "".join(card(i, "hae", data, copy) for i in data["insurers"])

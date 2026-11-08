@@ -5,6 +5,8 @@
 checked_from = "2026-11-07"
 checked_to = "2026-11-08"
 next_check = "February 2027"
+notice_url = "https://www.uhcprovider.com/en/resource-library/news/2026/therapeutic-vascular-embolism-policy.html"
+notice_label = "UnitedHealthcare notice, read November 8, 2026"
 
 # Fixed order on every page, never sorted by coverage. Medicare Advantage products sit under their parent insurer.
 insurers = ["medicare", "uhc", "uhc-ma", "anthem", "aetna", "aetna-ma", "cigna", "humana", "hcsc", "ambetter", "molina", "kaiser"]
@@ -300,10 +302,11 @@ checked = "2026-11-07"
 text = "Knee arthritis is listed as unproven, in a policy that takes effect December 1, 2026."
 [cells.gae.uhc-ma]
 cell = "C43"
+notice = true
 chip = "no_policy"
 policy = "uhcma-list"
 checked = "2026-11-08"
-text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on these plans, and we could not confirm that this applies to knee embolization. Ask your plan."
+text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on most of these plans, and we could not confirm that this applies to knee embolization. Ask your plan."
 [cells.gae.anthem]
 cell = "C11"
 chip = "not_covered"
@@ -375,10 +378,11 @@ checked = "2026-11-07"
 text = "Hemorrhoids are listed as unproven, in a policy that takes effect December 1, 2026."
 [cells.hae.uhc-ma]
 cell = "C44"
+notice = true
 chip = "no_policy"
 policy = "uhcma-list"
 checked = "2026-11-08"
-text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on these plans, and we could not confirm that this applies to hemorrhoid embolization. Ask your plan."
+text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on most of these plans, and we could not confirm that this applies to hemorrhoid embolization. Ask your plan."
 [cells.hae.anthem]
 cell = "C12"
 chip = "not_covered"
