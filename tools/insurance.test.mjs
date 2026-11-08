@@ -127,9 +127,16 @@ test("what decides coverage or hedges a firm line stays visible with the details
   assert.match(visible("knee-arthritis/insurance", "gae-molina"), /Medicare decision overrides this policy/);
 });
 
-test("the hub is not folded", () => {
+test("the hub folds only its HAE cards: 12 folds, the script loads, the dataset grid stays open", () => {   // his "Yes", 2026-11-08 12:00 CT
   const t = read("insurance");
-  assert.doesNotMatch(t, /ins-more|ins-jump|insurance\.js/);
+  assert.equal((t.match(/<details class="ins-more">/g) || []).length, 12);
+  assert.match(t, /insurance\.js/);
+  const grid = t.slice(t.indexOf('id="dataset"'), t.indexOf('id="hae"'));
+  assert.doesNotMatch(grid, /<details/);
+  for (const k of ["hae-uhc-ma", "hae-anthem", "hae-aetna", "hae-molina"]) {
+    const card = t.slice(t.indexOf(`id="${k}"`), t.indexOf("</article>", t.indexOf(`id="${k}"`)));
+    assert.match(card, /<span class="ins-lead">[^<]*\.\s+\S/, `${k}: whole text in the summary`);
+  }
 });
 
 test("the source file is present",() => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));

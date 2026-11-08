@@ -55,7 +55,7 @@ def split_lead(text):
 
 def card(key, proc, data, copy, fold=True):
     """A card. fold=True (the three coverage pages, phone-length job 0008): the chip and first sentence are the summary
-    of a native <details>; all text stays in the HTML. fold=False: the hub's HAE cards, unchanged (folding the hub is his open call)."""
+    of a native <details>; all text stays in the HTML. fold=False: kept for callers that want an open card (the hub's HAE cards fold since 2026-11-08)."""
     c = data["cells"][proc][key]
     items = f'<ul>{"".join(f"<li>{e(i)}</li>" for i in c["items"])}</ul>' if c.get("items") else ""
     meta = f'<p class="ins-meta">{policy_line(c, data)}</p>'
@@ -151,7 +151,7 @@ def hub_body(data, copy):
     changes = "".join(f'<li>{e(c).replace("{notice}", notice)}</li>' for c in hub["changes"])
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
-    hae = "".join(card(i, "hae", data, copy, fold=False) for i in data["insurers"])
+    hae = "".join(card(i, "hae", data, copy) for i in data["insurers"])   # folded on phones like the coverage pages (his "Yes", 2026-11-08 12:00 CT)
     return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>{header_notice(copy)}'
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
             f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}<li><a href="#hae">{e(hub["hae_label"])}: coverage by insurer, with conditions</a></li></ul>'
@@ -197,5 +197,5 @@ def write_all(page, write, origin):
         write(f'{p["slug"]}/insurance/index.html',
               page(path, p["title"], p["description"], procedure_body(p, data, copy), css=CSS, scripts=JS, head=ROBOTS + procedure_schema(p, copy, origin),
                    cls=f'prose-page insurance-page t-{p["color"]}'))
-    write("insurance/index.html", page("/insurance/", copy["hub"]["title"], copy["hub"]["description"], hub_body(data, copy), css=CSS,
+    write("insurance/index.html", page("/insurance/", copy["hub"]["title"], copy["hub"]["description"], hub_body(data, copy), css=CSS, scripts=JS,
                                        head=ROBOTS + hub_schema(data, copy, origin), cls="prose-page insurance-page"))
