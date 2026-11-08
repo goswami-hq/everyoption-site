@@ -133,3 +133,16 @@ test("the hub is not folded", () => {
 });
 
 test("the source file is present",() => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));
+
+test("the sources list is folded at every width, every source number points inside it, and the script opens it", () => {   // his "Collapse sources for sure", 2026-11-08
+  for (const p of PAGES.slice(0, 3)) {
+    const h = read(p);
+    const fold = h.match(/<details class="ins-sources"><summary><h2 id="sources">Sources \((\d+)\)<\/h2><\/summary><ol class="refs">([\s\S]*?)<\/ol><\/details>/);
+    assert.ok(fold, `${p}: sources folded in a closed details with a counted heading`);
+    const items = (fold[2].match(/<li id="ref-\d+">/g) || []).length;
+    assert.equal(items, Number(fold[1]), `${p}: count matches the list`);
+    for (const m of h.matchAll(/href="#ref-(\d+)"/g)) assert.ok(fold[2].includes(`id="ref-${m[1]}"`), `${p}: ref-${m[1]} is inside the fold`);
+  }
+  const js = readFileSync(path.join(SITE, "assets", "insurance.js"), "utf8");
+  assert.match(js, /tagName === "DETAILS"\) p\.open = true/);
+});

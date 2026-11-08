@@ -64,3 +64,10 @@ p.ins-meta { margin-top: 12px; }
   .ins-legend div { grid-template-columns: 240px 1fr; align-items: start; }
   .ins-row { grid-template-columns: 200px 1fr; align-items: center; }
 }
+
+/* Sources folded at every width (HQ chat 2026-11-08, his "Collapse sources for sure"). */
+.ins-sources > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.ins-sources > summary::-webkit-details-marker { display: none; }
+.ins-sources > summary > h2 { margin: 0; }
+.ins-sources > summary::after { content: "+"; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+.ins-sources[open] > summary::after { content: "\2013"; }

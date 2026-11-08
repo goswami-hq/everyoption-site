@@ -102,7 +102,7 @@ def says_no(copy):
     if unused:
         raise ValueError(f"insurance: sources listed but never cited: {sorted(unused)}")
     return (f'<h2 id="if-no">What if my insurer says no?</h2><p>{e(copy["says_no"]["intro"])}</p>' + "".join(out),
-            f'<h2 id="sources">Sources</h2><ol class="refs">{refs}</ol>')
+            f'<details class="ins-sources"><summary><h2 id="sources">Sources ({len(order)})</h2></summary><ol class="refs">{refs}</ol></details>')
 
 
 def crumbs(items):
