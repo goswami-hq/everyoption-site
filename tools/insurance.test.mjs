@@ -123,6 +123,8 @@ test("what decides coverage or hedges a firm line stays visible with the details
   assert.match(humana, /wants to keep the uterus/);
   assert.match(humana, /3 months or more/);
   assert.match(visible("knee-arthritis/insurance", "gae-anthem"), /appear to use/);
+  assert.match(visible("enlarged-prostate/insurance", "pae-kaiser"), /only inside an approved device study/);
+  assert.match(visible("knee-arthritis/insurance", "gae-molina"), /Medicare decision overrides this policy/);
 });
 
 test("the hub is not folded", () => {

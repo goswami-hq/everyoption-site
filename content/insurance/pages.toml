@@ -6,7 +6,7 @@ advice_line = "Education, not medical advice. Talk to your doctor about your own
 jump_label = "Find your insurer"
 # Cards whose whole text stays in the closed summary on phones: the first sentence alone would hide a deciding exclusion,
 # a stated requirement, or the hedge on a firm line (reviewer, job platform-condition-pages-0008, 2026-11-08).
-full_summary = ["ufe-uhc", "ufe-uhc-ma", "ufe-humana", "gae-anthem"]
+full_summary = ["ufe-uhc", "ufe-uhc-ma", "ufe-humana", "gae-anthem", "pae-kaiser", "gae-molina"]
 
 [jump_names]
 hcsc = "HCSC (Blue Cross in 5 states)"
