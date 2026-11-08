@@ -110,7 +110,7 @@ text = "Your doctor may be able to talk with a reviewer at your insurer about wh
 
 [[says_no.steps]]
 heading = "External review: an independent decision"
-text = "If your appeal fails, you can ask an independent reviewer to decide. External review covers denials that involve medical judgment, and denials that call a treatment experimental or investigational. You must ask in writing within 4 months of the final denial. Your insurer has to accept the decision. It costs nothing or at most $25, depending on the process your insurer uses. In urgent cases, you can ask before your appeal is finished.{ref:internal} Employer plans that pay their own claims may use a state process or a federal one.{ref:cfr147}"
+text = "If your appeal fails, you can ask an independent reviewer to decide. External review covers denials that involve medical judgment, and denials that call a treatment experimental or investigational. You must ask in writing within 4 months of the final denial. Your insurer has to accept the decision. It costs nothing or at most $25, depending on the process your insurer uses.{ref:external} In urgent cases, you can ask before your appeal is finished.{ref:internal} Employer plans that pay their own claims may use a state process or a federal one.{ref:cfr147}"
 
 [[says_no.steps]]
 heading = "If you have Original Medicare"
