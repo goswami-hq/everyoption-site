@@ -65,6 +65,32 @@ p.ins-meta { margin-top: 12px; }
   .ins-row { grid-template-columns: 200px 1fr; align-items: center; }
 }
 
+/* The "Every insurer, every procedure" grid on phones (his "Yes", 2026-11-08 12:06 CT): each row is one compact chip, abbreviation
+   then status in words and a shape, the whole row linking to the insurer's card. The Policy link sits on top at the right. */
+.ins-hub-card > .ins-hub-checked { margin: 8px 0 0; }
+@media (min-width: 768px) { .ins-hub-card > .ins-hub-checked { display: none; } }
+@media (max-width: 767px) {
+  .ins-hub { gap: 10px; }
+  .ins-hub-card { padding: 14px 16px; }
+  .ins-hub-card h3 { margin-bottom: 8px; }
+  .ins-hub-card > .ins-meta:not(.ins-hub-checked) { margin-bottom: 8px; }
+  .ins-hub-card dl { gap: 6px; }
+  .ins-proc-rest { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ins-row { position: relative; display: flex; align-items: center; gap: 0 8px; min-height: 44px; padding: 0 8px 0 10px; border-radius: 10px; background: var(--soft); }
+  .ins-row dt { flex: none; width: 2.3em; }
+  .ins-row dt a { padding: 0; }
+  .ins-row dt a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .ins-row dt a:focus-visible { outline: none; }
+  .ins-row dt a:focus-visible::after { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .ins-row dd { flex: 1; min-width: 0; gap: 0 6px; }
+  .ins-row .ins-chip { padding: 0; background: none; }
+  .ins-row dd > .ins-meta:not(:last-child) { flex: 1 1 190px; padding-bottom: 8px; }
+  .ins-row dd > .ins-meta:last-child { position: relative; z-index: 1; margin-left: auto; }
+  .ins-row .ins-meta a { display: inline-flex; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px; padding: 0; }
+  .ins-row-date:not(.ins-row-date-keep) { display: none; }
+}
+@media (max-width: 380px) { .ins-row { padding: 0 6px 0 8px; } .ins-row dt { font-size: 1rem; } .ins-row dd { gap: 0 4px; } .ins-row .ins-chip { gap: 4px; font-size: 0.875rem; } .ins-row .ins-chip svg { width: 14px; height: 14px; } }
+
 /* Sources folded at every width (HQ chat 2026-11-08, his "Collapse sources for sure"). */
 .ins-sources > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
 .ins-sources > summary::-webkit-details-marker { display: none; }
