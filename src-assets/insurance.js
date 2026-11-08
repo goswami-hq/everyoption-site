@@ -16,4 +16,6 @@
   apply();
   wide.addEventListener("change", apply);
   window.addEventListener("hashchange", openTarget);
+  var jump = document.querySelector(".ins-jump");   // a repeat tap on the same link fires no hashchange
+  if (jump) jump.addEventListener("click", function () { setTimeout(openTarget, 0); });
 })();

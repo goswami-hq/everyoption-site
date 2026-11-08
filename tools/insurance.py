@@ -47,7 +47,8 @@ def policy_line(cell, data):
 
 
 def split_lead(text):
-    """(first sentence, the rest): the first sentence is the card's one visible line on phones. Nothing is reworded."""
+    """(first sentence, the rest): the first sentence is the card's visible line on phones, except the cards in
+    full_summary (pages.toml), whose whole text stays visible because the first sentence misleads alone. Nothing is reworded."""
     m = re.match(r"(.+?[.!?])\s+(?=[A-Z])(.*)$", text, re.S)
     return (m.group(1), m.group(2)) if m else (text, "")
 
@@ -61,7 +62,7 @@ def card(key, proc, data, copy, fold=True):
     head = f'<article class="card ins-card" id="{proc}-{key}"><h3>{e(data["names"][key])}</h3>'
     if not fold:
         return f'{head}{chip(c["chip"], copy)}<p>{e(c["text"])}</p>{items}{meta}</article>'
-    lead, rest = split_lead(c["text"])
+    lead, rest = (c["text"], "") if f"{proc}-{key}" in copy["full_summary"] else split_lead(c["text"])   # see pages.toml
     more = f"<p>{e(rest)}</p>" if rest else ""
     return (f'{head}<details class="ins-more"><summary>{chip(c["chip"], copy)}<span class="ins-lead">{e(lead)}</span></summary>'
             f'{more}{items}{meta}</details></article>')

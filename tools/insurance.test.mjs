@@ -116,6 +116,15 @@ test("card details are native, closed in the HTML, with chip and first line in t
   }
 });
 
+test("what decides coverage or hedges a firm line stays visible with the details closed", () => {
+  const visible = (p, id) => read(p).split(`id="${id}"`)[1].split("</summary>")[0];
+  for (const id of ["ufe-uhc", "ufe-uhc-ma"]) assert.match(visible("fibroids/insurance", id), /Not covered when the purpose is to preserve the ability to have children\./, id);
+  const humana = visible("fibroids/insurance", "ufe-humana");
+  assert.match(humana, /wants to keep the uterus/);
+  assert.match(humana, /3 months or more/);
+  assert.match(visible("knee-arthritis/insurance", "gae-anthem"), /appear to use/);
+});
+
 test("the hub is not folded", () => {
   const t = read("insurance");
   assert.doesNotMatch(t, /ins-more|ins-jump|insurance\.js/);
