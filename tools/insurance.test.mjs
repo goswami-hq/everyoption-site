@@ -167,11 +167,15 @@ test("the hub grid: every insurer has four rows in order, each with its full nam
       assert.match(r, /class="ins-chip ins-[a-z_]+"><svg/, "status has a shape");
       assert.ok(CHIPS.includes(r.match(/<\/svg>([^<]+)<\/span>/)[1]), "status in words");
       assert.match(r, /<a href="https:[^"]+" rel="noopener" aria-label="[^"]+">Policy( list)?<\/a>/, "policy link");
-      assert.match(r, /<span class="ins-row-date"> · Checked [A-Z][a-z]+ \d{1,2}, 2026<\/span>/, "its own date");
+      assert.match(r, /<span class="ins-row-date(?: ins-row-date-keep)?"> · Checked [A-Z][a-z]+ \d{1,2}, 2026<\/span>/, "its own date");
     }
-    const dates = new Set([...c.matchAll(/ins-row-date"> · Checked ([^<]+)</g)].map((m) => m[1]));
-    assert.equal(dates.size, 1, "the phone line stands for all four dates only when they agree");
-    assert.ok(c.includes(`<p class="ins-meta ins-hub-checked">Checked ${[...dates][0]}</p>`), "one date line");
+    const notChecked = rows.filter((r) => r.includes("ins-not_checked"));
+    for (const r of notChecked) assert.match(r, /class="ins-row-date ins-row-date-keep"> · Checked/, "a Not yet checked row keeps its date beside its Policy link");
+    const line = c.match(/<p class="ins-meta ins-hub-checked">([^<]+)<\/p>/);
+    if (notChecked.length === 4) { assert.equal(line, null, "no lone Checked line under four Not yet checked rows"); continue; }
+    const dates = rows.filter((r) => !r.includes("ins-not_checked")).map((r) => r.match(/ins-row-date"> · Checked ([^<]+)</)[1]);
+    if (new Set(dates).size === 1) assert.equal(line[1], `Checked ${dates[0]}`, "one date line stands for all the dates when they agree");
+    else for (const d of dates) assert.ok(line[1].includes(d), "differing dates are each kept");
   }
 });
 

@@ -87,7 +87,7 @@ p.ins-meta { margin-top: 12px; }
   .ins-row dd > .ins-meta:not(:last-child) { flex: 1 1 190px; padding-bottom: 8px; }
   .ins-row dd > .ins-meta:last-child { position: relative; z-index: 1; margin-left: auto; }
   .ins-row .ins-meta a { display: inline-flex; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px; padding: 0; }
-  .ins-row-date { display: none; }
+  .ins-row-date:not(.ins-row-date-keep) { display: none; }
 }
 @media (max-width: 380px) { .ins-row { padding: 0 6px 0 8px; } .ins-row dt { font-size: 1rem; } .ins-row dd { gap: 0 4px; } .ins-row .ins-chip { gap: 4px; font-size: 0.875rem; } .ins-row .ins-chip svg { width: 14px; height: 14px; } }
 

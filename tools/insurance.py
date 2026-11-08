@@ -146,17 +146,21 @@ def hub_row(i, proc, label, href, data, copy):
     short = f'<span class="ins-meta">{e(c["short"])}</span>' if c.get("short") else ""   # no bare "Covered": its condition sits beside it
     return (f'<div class="ins-row"><dt><a href="{href}">{proc_label(label)}</a></dt><dd>{chip(c["chip"], copy)}{short}'
             f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a>'
-            f'<span class="ins-row-date"> · Checked {long_date(c["checked"])}</span></span></dd></div>')
+            f'<span class="ins-row-date{" ins-row-date-keep" if c["chip"] == "not_checked" else ""}"> · Checked {long_date(c["checked"])}</span></span></dd></div>')
 
 
 def hub_checked(i, procs, data):
-    """The phone line for an insurer's dates (at 768 px and up each row shows its own). One date when all four agree; if a
-    later refresh makes them differ, each procedure keeps its own date here, so no date is ever merged away."""
-    dates = {k: data["cells"][k][i]["checked"] for k, _ in procs}
+    """The phone line for an insurer's dates (at 768 px and up each row shows its own). One date when all agree; if a later
+    refresh makes them differ, each procedure keeps its own date here, so no date is merged away. A "Not yet checked" row keeps
+    its date beside its Policy link at every width and is left out here: a lone "Checked <date>" line under "Not yet checked"
+    would read as a contradiction (reviewer, 2026-11-08)."""
+    dates = {k: data["cells"][k][i]["checked"] for k, _ in procs if data["cells"][k][i]["chip"] != "not_checked"}
+    if not dates:
+        return ""
     if len(set(dates.values())) == 1:
         text = f"Checked {long_date(next(iter(dates.values())))}"
     else:
-        text = "; ".join(f"{re.sub(r'.*[(]|[)]', '', label)} checked {long_date(dates[k])}" for k, label in procs)
+        text = "; ".join(f"{re.sub(r'.*[(]|[)]', '', label)} checked {long_date(dates[k])}" for k, label in procs if k in dates)
     return f'<p class="ins-meta ins-hub-checked">{text}</p>'
 
 
