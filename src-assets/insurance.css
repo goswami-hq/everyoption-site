@@ -1,0 +1,36 @@
+/* The insurance pages (job platform-condition-pages-0005). Cards, phones first; a label is always words and a shape. */
+.ins-notice strong { font-weight: 600; }
+.ins-cards, .ins-hub { display: grid; gap: 14px; margin-top: 16px; }
+.ins-card, .ins-hub-card { border: 0; }
+.ins-card h3, .ins-hub-card h3 { font: 400 1.3125rem/1.25 var(--serif); margin: 0 0 10px; }
+.ins-card p { margin: 10px 0 0; }
+.ins-card ul { margin: 8px 0 0; padding-left: 22px; }
+.ins-card li + li { margin-top: 4px; }
+.ins-meta { display: block; color: var(--muted); font-size: 0.9375rem; line-height: 1.45; overflow-wrap: anywhere; }
+p.ins-meta { margin-top: 12px; }
+.ins-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px 4px 8px; border-radius: 999px; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; background: var(--soft); }
+.ins-chip svg { flex: none; width: 16px; height: 16px; }
+.ins-conditions, .ins-covered { color: #1f6042; }
+.ins-not_covered { color: #9c3119; }
+.ins-no_policy, .ins-not_checked { color: var(--muted); }
+.ins-case_by_case { color: #7a4e10; }
+@media (prefers-color-scheme: dark) {
+  .ins-conditions, .ins-covered { color: #9ccab9; }
+  .ins-not_covered { color: #f0a58a; }
+  .ins-case_by_case { color: #e6bf7a; }
+}
+.ins-legend { margin: 12px 0 0; display: grid; gap: 12px; }
+.ins-legend div { display: grid; gap: 4px; }
+.ins-legend dd { margin: 0; color: var(--ink); }
+.ins-links { padding-left: 22px; }
+.ins-links li + li { margin-top: 6px; }
+.ins-hub-card > .ins-meta { margin: 0 0 12px; }
+.ins-hub-card dl { margin: 0; display: grid; gap: 12px; }
+.ins-row { display: grid; gap: 4px; }
+.ins-row dt { font-weight: 600; }
+.ins-row dd { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.ins-row dt a, .ins-row .ins-meta a { display: inline-block; padding: 7px 0; }
+@media (min-width: 720px) {
+  .ins-legend div { grid-template-columns: 240px 1fr; align-items: start; }
+  .ins-row { grid-template-columns: 200px 1fr; align-items: center; }
+}

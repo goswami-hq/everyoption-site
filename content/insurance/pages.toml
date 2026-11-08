@@ -1,0 +1,174 @@
+# Copy for the insurance pages (ai-hq job platform-condition-pages-0005). Search targets have no volume data yet:
+# [NEED: volume]; a pull costs money and waits on his yes.
+reviewed = "2026-11-08"
+plan_line = "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan."
+advice_line = "Education, not medical advice. Talk to your doctor about your own care. We cannot advise you on your own claim or prior authorization."
+
+[chips]
+conditions = "Covered with conditions"
+covered = "Covered"
+not_covered = "Not covered"
+no_policy = "No specific policy"
+case_by_case = "Decided case by case"
+not_checked = "Not yet checked"
+
+[legend]
+conditions = "The insurer's written policy covers it only when the listed conditions are met."
+covered = "The written policy covers it and states no further conditions."
+not_covered = "The written policy calls it not covered, experimental, investigational, or unproven."
+no_policy = "We found no written policy. That does not mean it is covered, and it does not mean it is not covered."
+case_by_case = "No Medicare document names this procedure. Each case gets its own decision."
+not_checked = "We have not read this plan's rules for this procedure."
+
+[[pages]]
+key = "ufe"
+slug = "fibroids"
+color = "fibroids"
+condition = "Fibroids"
+procedure = "uterine fibroid embolization (UFE)"
+short = "fibroid embolization"
+title = "Does Insurance Cover Fibroid Embolization (UFE)? | Every Option"
+description = "Which U.S. insurers cover uterine fibroid embolization (UFE), under what conditions, with each policy linked and the date we checked it."
+h1 = "Does insurance cover fibroid embolization?"
+targets = ["does insurance cover fibroid embolization", "is ufe covered by insurance", "uterine fibroid embolization insurance coverage"]
+answer = "Often yes, when certain conditions are met. Six of the 10 insurers we checked have written policies that cover uterine fibroid embolization (UFE), and the conditions differ. Medicare has no specific policy and decides case by case. We found no written policy at three others. Your plan may differ."
+guide = "Read about your fibroid treatment options"
+compare = "Compare fibroid embolization with myomectomy, hysterectomy, and medicines"
+finder = "Find a doctor for fibroid embolization"
+hub_label = "Fibroids (UFE)"
+
+[[pages]]
+key = "pae"
+slug = "enlarged-prostate"
+color = "pae"
+condition = "Enlarged prostate"
+procedure = "prostate artery embolization (PAE)"
+short = "prostate artery embolization"
+title = "Does Insurance Cover Prostate Embolization (PAE)? | Every Option"
+description = "Which U.S. insurers cover prostate artery embolization (PAE), under what conditions, with each policy linked and the date we checked it."
+h1 = "Does insurance cover prostate embolization?"
+targets = ["does insurance cover prostate artery embolization", "is pae covered by medicare", "prostate artery embolization insurance coverage"]
+answer = "Often yes, with conditions that can be narrow. Five of the 10 insurers we checked have written policies that cover prostate artery embolization (PAE). Medicare has no specific policy and decides case by case. Three others have no written policy we could find, and Kaiser's Washington region does not cover it. Your plan may differ."
+guide = "Read about your enlarged prostate treatment options"
+compare = "Compare enlarged prostate treatments side by side"
+finder = "Find a doctor for prostate artery embolization"
+hub_label = "Enlarged prostate (PAE)"
+
+[[pages]]
+key = "gae"
+slug = "knee-arthritis"
+color = "gae"
+condition = "Knee arthritis"
+procedure = "genicular (knee) artery embolization (GAE)"
+short = "knee embolization"
+title = "Does Insurance Cover Knee Embolization (GAE)? | Every Option"
+description = "Which U.S. insurers cover genicular (knee) artery embolization (GAE), with any conditions, each policy linked, and the date we checked it."
+h1 = "Does insurance cover knee embolization?"
+targets = ["does insurance cover genicular artery embolization", "is gae covered by medicare", "knee embolization insurance coverage"]
+answer = "Usually not yet. Of the 10 insurers we checked, only Cigna has a written policy that covers genicular (knee) artery embolization (GAE), and only under set conditions. Six others list it as not covered. Medicare has no specific policy and decides case by case. Your plan may differ."
+guide = "Read about your knee arthritis treatment options"
+compare = "Compare knee arthritis treatments side by side"
+finder = "Find a doctor for knee embolization"
+hub_label = "Knee arthritis (GAE)"
+
+[hub]
+title = "Insurance Coverage for Embolization, by Insurer | Every Option"
+description = "What Medicare and 9 large U.S. insurers' written policies say about embolization for fibroids, enlarged prostate, knee arthritis, and hemorrhoids."
+h1 = "What insurers' policies say about embolization"
+targets = ["embolization insurance coverage", "insurance coverage for embolization by insurer"]
+answer = "We read the written policies of Medicare and 9 large U.S. insurers for four embolization procedures: for fibroids (UFE), enlarged prostate (PAE), knee arthritis (GAE), and hemorrhoids (HAE). Coverage often has conditions, and it differs by procedure. Knee and hemorrhoid embolization are covered least often. Your plan may differ."
+hae_label = "Hemorrhoids (HAE)"
+hae_name = "hemorrhoid artery embolization (HAE)"
+dataset_name = "Insurance coverage of embolization procedures by U.S. insurer, November 2026"
+dataset_description = "For Medicare and 9 large U.S. insurers: the coverage status of uterine fibroid, prostate artery, genicular artery, and hemorrhoid artery embolization in their written medical policies, in plain words, with each policy's link and the date checked."
+changes = [
+  "UnitedHealthcare: a new policy takes effect December 1, 2026. It lists knee (GAE) and hemorrhoid (HAE) embolization as unproven. On the same date, UnitedHealthcare adds an approval step for one embolization billing code on its Medicare Advantage plans.",
+  "Anthem: the Carelon guideline that Anthem plans appear to use has a new version that takes effect November 15, 2026. Our Anthem entries use the new version. The earlier version applies until then.",
+]
+method = [
+  "We read each insurer's written medical policies from its public website, and for Medicare, its national and local coverage decisions. We read the newest version we could find.",
+  "We wrote each entry in our own words and link to the policy, so you can check it yourself. Each entry shows the date we checked it. Every check was made on November 7 or 8, 2026.",
+  "Where a plan publishes no policy, we say so, and we say what we searched. Finding no policy does not mean a procedure is covered.",
+  "Not included: Medicaid, and Blue Cross Blue Shield companies outside HCSC.",
+]
+
+[says_no]
+intro = "This is general information. Your doctor's office and your plan can tell you what applies to you. Your denial letter lists your own deadlines."
+
+[[says_no.steps]]
+heading = "Prior authorization: approval before the procedure"
+text = "Some plans want to approve a procedure before you have it. This is called prior authorization or preauthorization. An approval is not a promise that the plan will pay.{ref:glossary}"
+
+[[says_no.steps]]
+heading = "Appeal: ask your plan to look again"
+text = "If your plan says no, you can ask it for a full review of its decision. This is called an internal appeal.{ref:appeals} For most plans, you have 180 days from the denial notice to file, and for a procedure you have not had yet, the plan must decide within 30 days.{ref:internal} Some older plans follow different rules.{ref:cfr147}"
+
+[[says_no.steps]]
+heading = "Peer-to-peer call: your doctor talks with the insurer"
+text = "Your doctor may be able to talk with a reviewer at your insurer about why you need the procedure. This is called a peer-to-peer call, and it can be used to seek approval or to appeal a denial.{ref:ama} Ask your doctor's office whether it can request one."
+
+[[says_no.steps]]
+heading = "External review: an independent decision"
+text = "If your appeal fails, you can ask an independent reviewer to decide. External review covers denials that involve medical judgment, and denials that call a treatment experimental or investigational. You must ask in writing within 4 months of the final denial. Your insurer has to accept the decision. It costs nothing or at most $25, depending on the process your insurer uses. In urgent cases, you can ask before your appeal is finished.{ref:external} Employer plans that pay their own claims may use a state process or a federal one.{ref:cfr147}"
+
+[[says_no.steps]]
+heading = "If you have Original Medicare"
+text = "Before a service, your doctor's office may give you an Advance Beneficiary Notice. It tells you that Medicare may not pay. You choose one of three options, and the office cannot choose for you. If you have the service and ask the office to bill Medicare, you accept the cost if Medicare does not pay, and you keep your right to appeal. The other two options end with no claim and no appeal.{ref:abn} Your Medicare Summary Notice gives the date to file an appeal, which is called a redetermination.{ref:mediorig}"
+
+[[says_no.steps]]
+heading = "If you have a Medicare Advantage plan"
+text = "These plans must cover what Original Medicare covers and follow Medicare's coverage decisions. Where Medicare's rules are not fully set, a plan can write its own public rules.{ref:cfr422} To appeal, follow the directions in your denial notice within 65 days of its date. Your doctor can ask for you if you have not had the procedure yet.{ref:mediplan}"
+
+[[says_no.steps]]
+heading = "A clinical trial"
+text = "Some insurers cover a procedure inside an approved study. Medicare covers the routine costs of qualifying trials. The procedure being studied is covered only if Medicare covers it outside the trial.{ref:trials} Ask the study team what you would pay. You can search for studies at <a href=\"https://clinicaltrials.gov\">ClinicalTrials.gov</a>."
+
+[[says_no.steps]]
+heading = "Paying yourself"
+text = "If you do not use insurance, the office must give you a written good faith estimate of the cost before the procedure. If your bill is at least $400 above that estimate, you may be able to dispute it. You must start within 120 days of the date on the original bill.{ref:gfe}"
+
+[[asks]]
+text = "Does my plan cover this procedure, and under what conditions?"
+[[asks]]
+text = "Which written policy applies to my plan?"
+[[asks]]
+text = "Do I need approval first (prior authorization)?"
+[[asks]]
+text = "What will I pay out of pocket?"
+
+[sources.glossary]
+cite = "HealthCare.gov. Glossary: Preauthorization. Read 2026-11-08."
+url = "https://www.healthcare.gov/glossary/preauthorization"
+[sources.appeals]
+cite = "HealthCare.gov. How to appeal an insurance company decision. Read 2026-11-08."
+url = "https://www.healthcare.gov/appeal-insurance-company-decision/appeals/"
+[sources.internal]
+cite = "HealthCare.gov. Internal appeals. Read 2026-11-08."
+url = "https://www.healthcare.gov/how-do-i-appeal-a-health-insurance-companys-decision/internal-appeals/"
+[sources.cfr147]
+cite = "45 CFR 147.136, Internal claims and appeals and external review processes, paragraphs (a)(1)(ii) and (c)(1)(ii). Read 2026-11-08."
+url = "https://www.law.cornell.edu/cfr/text/45/147.136"
+[sources.ama]
+cite = "American Medical Association. Fixing prior auth: Give doctors a true peer to talk with, stat. April 24, 2025. Read 2026-11-08."
+url = "https://www.ama-assn.org/practice-management/prior-authorization/fixing-prior-auth-give-doctors-true-peer-talk-stat"
+[sources.external]
+cite = "HealthCare.gov. External review. Read 2026-11-08."
+url = "https://www.healthcare.gov/how-do-i-appeal-a-health-insurance-companys-decision/external-review/"
+[sources.abn]
+cite = "CMS Medicare Learning Network. Advance Beneficiary Notice of Noncoverage interactive tutorial, text version. Read 2026-11-08."
+url = "https://cms.gov/files/document/advance-beneficiary-notice-noncoverage-interactive-tutorial-text-only-2pdf"
+[sources.mediorig]
+cite = "Medicare.gov. Appeals in Original Medicare. Read 2026-11-08."
+url = "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals/original-medicare"
+[sources.cfr422]
+cite = "42 CFR 422.101, Requirements relating to basic benefits, paragraphs (a), (b), and (b)(6). Read 2026-11-08."
+url = "https://www.law.cornell.edu/cfr/text/42/422.101"
+[sources.mediplan]
+cite = "Medicare.gov. Appeals in Medicare health plans. Read 2026-11-08."
+url = "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals/medicare-health-plans"
+[sources.trials]
+cite = "CMS. National Coverage Determination 310.1, Routine Costs in Clinical Trials. Read 2026-11-08."
+url = "https://www.cms.gov/medicare-coverage-database/view/ncd.aspx?NCDId=1"
+[sources.gfe]
+cite = "CMS. Understanding the Good Faith Estimate and Patient-Provider Dispute Resolution Process. February 2022. Read 2026-11-08."
+url = "https://www.cms.gov/marketplace/technical-assistance-resources/understanding-good-faith-estimate-and-dispute-resolution-process.pdf"

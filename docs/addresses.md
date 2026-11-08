@@ -9,6 +9,8 @@ His yes, 2026-11-06: "Yes change the addresses now" (change 1 of the architectur
    - `/<condition>/`: the simple page
    - `/<condition>/every-option/`: the deep page
    - `/<condition>/doctors/<metro>/`: a city page
+   - `/<condition>/insurance/`: the coverage page for that condition's procedure (his yes, 2026-11-08; noindex until launch)
+   One page sits outside a condition: `/insurance/`, the coverage hub across procedures.
 2. Addresses name the condition, never the procedure. `/knee-arthritis/`, not `/arthritis-embolization/` or `/gae/`.
 3. A procedure that treats two conditions keeps one city list, under its main condition. The other
    condition's page links to that list; it does not get a second copy.

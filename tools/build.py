@@ -10,6 +10,7 @@ import html, json, os, re, shutil
 import cities
 import condition
 import directory
+import insurance
 import options
 import pattern
 
@@ -651,6 +652,7 @@ def main():
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
+    insurance.write_all(page, write, ORIGIN)   # noindex, out of the sitemap, no link from live pages, until launch
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
         setting = json.load(fh)["index"]
