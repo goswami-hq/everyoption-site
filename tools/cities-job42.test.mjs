@@ -89,7 +89,9 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.match(r.html, /<h1>Who does fibroid embolization \(UFE\) (near|in) /);
     const text = r.html.replace(/<[^>]+>/g, " ");
     assert.doesNotMatch(text, /\b(best|top-rated|top \d|rating|rated|stars?)\b/i, `${m.slug}: no best, top or ratings`);
-    assert.doesNotMatch(text, /insurance/i, "no insurance yet");
+    // job platform-condition-pages-0013: the only insurance words are the menu, footer and coverage links (his words, 2026-11-08 21:35 CT)
+    assert.equal((r.html.match(/<p class="cov-link"><a href="\/fibroids\/insurance\/">Does insurance cover fibroid embolization\?<\/a><\/p>/g) || []).length, 2, `${m.slug}: two coverage links`);
+    assert.doesNotMatch(r.html.replace(/<nav class="top".*?<\/nav>|<p class="cov-link">.*?<\/p>|<footer.*?<\/footer>/gs, "").replace(/<[^>]+>/g, " "), /insurance/i, "no insurance claims on a city page");
     assert.ok(!/(Grady|Emory|Northwestern)/.test(ans), "no practice names in the answer");
   }
 });

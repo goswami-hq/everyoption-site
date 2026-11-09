@@ -56,6 +56,12 @@ the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not i
   <condition> treatment options" (categories folded: Medicines; Less invasive treatments, IR first; Surgery) with the
   every-option link at its top; Doctors by city block under the finder results; Learn more (sections, Common questions,
   References); "Page last reviewed <date>".
+- **Coverage link** (job platform-condition-pages-0013, his words 2026-11-08 21:35 CT: "actual links to the insurance pages
+  everywhere"): under the lead option's finder button, text = the coverage page's H1 (one source: `content/procedures.json`
+  `coverage`). A procedure with no coverage page (pelvic) has no link. Also on: every-option (lead option, contents list),
+  city pages (after the answer; after "Is <ABBR> right for me?"), finder results (above the list), doctor profile (under the
+  plans field), home (under the condition list; hub), footer and wide-screen menu (hub). Placements and rejections:
+  ai-hq `projects/platform/design/insurance-links-2026-11-08/`.
 - **Links out (required):** every-option page, descriptive anchor naming the comparisons (fibroids: "Compare them side
   by side: embolization vs. myomectomy, hysterectomy, and medicines"); city list and each city page (Doctors by city
   block); references. **Links in:** home card, every-option page, every city page, city hub breadcrumb.

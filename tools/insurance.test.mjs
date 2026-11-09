@@ -29,11 +29,30 @@ test("the new pages are noindex and out of every sitemap", () => {
   }
 });
 
-test("no page outside the insurance set links to them", () => {
-  const own = PAGES.map((p) => path.join(SITE, p, "index.html"));
-  for (const f of htmlFiles(SITE)) {
-    if (own.includes(f)) continue;
-    assert.doesNotMatch(readFileSync(f, "utf8"), /href="\/(?:[a-z-]+\/)?insurance\//, f);
+// Job platform-condition-pages-0013 (his words 2026-11-08 21:35 CT): live pages link here, placed from patient walkthroughs.
+// The links must keep the coverage page's own H1 as their text, and the pelvic pages must not link: they have no coverage data.
+test("the coverage links land where the walkthroughs put them, with the target page's words", () => {
+  const procs = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8"));
+  const COV = procs.filter((p) => p.coverage);
+  assert.deepEqual(COV.map((p) => p.key), ["ufe", "pae", "gae"]);
+  for (const p of COV) {
+    const page = read(p.coverage.path.slice(1, -1));
+    const h1 = page.match(/<h1[^>]*>([^<]+)<\/h1>/)[1].replace(/&#x27;/g, "'");
+    assert.equal(p.coverage.link, h1, `${p.key}: link text matches the page's H1`);
+    const slug = p.coverage.path.split("/")[1];
+    const link = `<p class="cov-link"><a href="${p.coverage.path}">${h1}</a></p>`;
+    assert.ok(read(slug).includes(link), `${slug}: under the lead option's button`);
+    const deep = read(`${slug}/every-option`);
+    assert.ok(deep.includes(link), `${slug} every-option: under the lead option's button`);
+    assert.ok(deep.includes(`<li class="toc-out"><a href="${p.coverage.path}">${h1}</a></li>`), `${slug} every-option: contents list`);
+  }
+  assert.ok(read("").includes('<p class="cov-link home-cov"><a href="/insurance/">Does insurance cover embolization?</a></p>'), "home line");
+  for (const p of ["", "fibroids", "doctors", "how-we-know"]) {
+    assert.match(read(p).split('<footer class="site">')[1], /<a href="\/insurance\/">Insurance coverage<\/a>/, `${p}: footer`);
+    assert.match(read(p).split("</header>")[0], /<a href="\/insurance\/">Insurance<\/a>/, `${p}: menu`);
+  }
+  for (const f of htmlFiles(path.join(SITE, "chronic-pelvic-pain"))) {
+    assert.doesNotMatch(readFileSync(f, "utf8").split('<footer class="site">')[0].replace(/<header.*?<\/header>/s, ""), /href="\/(?:[a-z-]+\/)?insurance\//, f);
   }
 });
 

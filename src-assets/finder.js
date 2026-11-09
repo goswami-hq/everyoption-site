@@ -356,6 +356,9 @@
         }
         say(total ? total + (total === 1 ? " doctor" : " doctors") + " within " + r + " miles of " + zip + ", nearest first."
           : "No doctors within " + r + " miles of " + zip + ". The nearest we know of are below.");
+        // Job platform-condition-pages-0013: choosing whom to call is when coverage matters; one line above the list.
+        var cov = window.EO_PROCS && window.EO_PROCS.coverage && window.EO_PROCS.coverage[PROC];
+        if (cov && total) out.appendChild(el("p", { "class": "cov-link" }, [el("a", { href: cov.path, text: cov.link })]));
         if (confirmed.length) out.appendChild(confirmedTier(confirmed, zip));
         else out.appendChild(el("section", { "class": "tier tier-empty", "aria-label": "Confirmed by physician" }, [
           el("p", null, [el("strong", { text: "Confirmed by physician: 0 nearby." })]),

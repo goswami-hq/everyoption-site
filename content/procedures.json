@@ -1,6 +1,6 @@
 [
-  {"key": "ufe", "abbr": "UFE", "name": "Uterine fibroid embolization"},
-  {"key": "pae", "abbr": "PAE", "name": "Prostate artery embolization"},
-  {"key": "gae", "abbr": "GAE", "name": "Genicular artery embolization"},
+  {"key": "ufe", "abbr": "UFE", "name": "Uterine fibroid embolization", "coverage": {"path": "/fibroids/insurance/", "link": "Does insurance cover fibroid embolization?"}},
+  {"key": "pae", "abbr": "PAE", "name": "Prostate artery embolization", "coverage": {"path": "/enlarged-prostate/insurance/", "link": "Does insurance cover prostate embolization?"}},
+  {"key": "gae", "abbr": "GAE", "name": "Genicular artery embolization", "coverage": {"path": "/knee-arthritis/insurance/", "link": "Does insurance cover knee embolization?"}},
   {"key": "pelvic", "abbr": "", "short": "pelvic vein treatment", "name": "Pelvic vein treatment", "draft": true}
 ]

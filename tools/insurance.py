@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """The insurance pages (ai-hq job platform-condition-pages-0005; his "Yes", 2026-11-08 09:00 CT): one coverage page per
 procedure, /<condition>/insurance/, and the dataset hub, /insurance/. Data: content/insurance/coverage-YYYY-MM.toml,
-copy: content/insurance/pages.toml. These pages stay noindex, out of the sitemap, and unlinked from live pages until he
-says otherwise; publishing is launch. Cards, in a fixed order, never a table: phones come first."""
+copy: content/insurance/pages.toml. These pages stay noindex and out of the sitemap until launch (his word alone); live pages link to them since his
+2026-11-08 21:35 words (job platform-condition-pages-0013, placements in ai-hq projects/platform/design/insurance-links-2026-11-08/). Cards, in a fixed order, never a table: phones come first."""
 import datetime, html, json, pathlib, re, tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent

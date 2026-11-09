@@ -16,6 +16,19 @@ import html, json, pathlib, re, tomllib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "conditions"
 
+PROCEDURES = json.loads((ROOT / "content" / "procedures.json").read_text(encoding="utf-8"))
+
+
+def coverage_link(c):
+    """The link to this condition's insurance coverage page, or "" when none exists (the pelvic page has no coverage data).
+    One text everywhere: the coverage page's own H1, in content/procedures.json (job platform-condition-pages-0013)."""
+    p = next((x for x in PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
+    if not p:
+        return ""
+    cov = p["coverage"]
+    return f'<p class="cov-link"><a href="{html.escape(cov["path"], quote=True)}">{html.escape(cov["link"], quote=False)}</a></p>'
+
+
 LINK = re.compile(r"\[([^\]^][^\]]*)\]\(([^)\s]+)\)")
 MARK = re.compile(r"\[\^([a-z0-9-]+)\]")
 BOLD = re.compile(r"\*\*(.+?)\*\*")
@@ -162,7 +175,7 @@ def lead_option(refs, c, diagram_fn):
             f'<p>{refs.inline(tail(o["what"]))}</p>{how}{fold("topic", "How well does it work?", "<p>" + t("works") + "</p>")}'
             f'{fold("topic", "Side effects", "<p>" + t("side") + "</p>")}'
             f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
-            f'{cta}</section>')
+            f'{cta}{coverage_link(c)}</section>')
 
 
 def categories(refs, c):

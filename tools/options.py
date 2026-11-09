@@ -235,7 +235,9 @@ def toc(c, d, names, extra):
     for k in c["categories"]:
         sub = "<ol>" + "".join(li(i, names[i]) for i in k["options"]) + "</ol>"
         items += li(k["id"], k["name"], sub) + secs(k["id"])
-    items += secs("end") + (li("find", d["find_heading"]) if c.get("finder") else "") + li("references", "References")
+    cov = next((x["coverage"] for x in condition.PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
+    out = f'<li class="toc-out"><a href="{html.escape(cov["path"], quote=True)}">{e(cov["link"])}</a></li>' if cov else ""   # the one entry that leaves the page
+    items += secs("end") + (li("find", d["find_heading"]) if c.get("finder") else "") + out + li("references", "References")
     return f'<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page</p><ol>{items}</ol></nav>'
 
 
@@ -300,7 +302,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             lead = i == c.get("diagram_at")
             rows = "".join(block(key, x[key]) for key in DETAIL_FIELDS[1:] if x.get(key))
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
-            cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if lead else ""
+            cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{condition.coverage_link(c)}' if lead else ""
             items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
                       f'{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]

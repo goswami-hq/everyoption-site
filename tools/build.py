@@ -137,7 +137,7 @@ def photo(key, lazy=True, cls="photo"):
 
 LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").read_text()
 WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#ffb648"/><stop offset=".55" stop-color="#ffb648" stop-opacity=".45"/><stop offset="1" stop-color="#ffb648" stop-opacity="0"/></linearGradient></defs><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
-NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
+NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/insurance/", "Insurance"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -185,7 +185,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/doctors/">Find a doctor by name</a> · <a href="/fibroids/doctors/">Doctors by city</a> · <a href="/how-we-know/">How we know</a></p>
+<p><a href="/doctors/">Find a doctor by name</a> · <a href="/fibroids/doctors/">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/how-we-know/">How we know</a></p>
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
 </body>
@@ -266,6 +266,7 @@ def home():
 <h2 id="conditions">Choose a condition</h2>
 <ul class="fork-list stops">{rows}</ul>
 <p class="more-soon">And more options coming soon.</p>
+<p class="cov-link home-cov"><a href="/insurance/">Does insurance cover embolization?</a></p>
 <div class="plain two">
 <div><h2>Who runs this</h2>
 <p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
@@ -558,14 +559,17 @@ def write_procedures():
     long_ = {p["key"]: p["name"] + PAREN[p["key"]] for p in PROCEDURES}
     head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
-        {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_}) + ";\n")
+        {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_,
+         "coverage": {p["key"]: p["coverage"] for p in PROCEDURES if p.get("coverage")}}) + ";\n")
     with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
         fh.write(head + "export const PROCEDURES = " + json.dumps(PROCEDURES) + ";\n"
                  "export const PROCS = PROCEDURES.map((p) => p.key);\n"
                  "// The name in running text: the abbreviation, else the procedure's short words (job platform-directory-0009).\n"
                  "export const PROC_SHORT = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr || p.short || p.name.toLowerCase()]));\n"
                  "export const PROC_LONG = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr ? `${p.name} (${p.abbr})` : p.name]));\n"
-                 "export const DRAFT_PROCS = PROCEDURES.filter((p) => p.draft).map((p) => p.key);\n")
+                 "export const DRAFT_PROCS = PROCEDURES.filter((p) => p.draft).map((p) => p.key);\n"
+                 "// The coverage page and its link text, for a procedure that has one (job platform-condition-pages-0013).\n"
+                 "export const COVERAGE = Object.fromEntries(PROCEDURES.filter((p) => p.coverage).map((p) => [p.key, p.coverage]));\n")
     sql = os.path.join(ROOT, "supabase", "schema.sql")
     with open(sql, encoding="utf-8") as fh:
         text = fh.read()
@@ -660,7 +664,7 @@ def main():
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
-    insurance.write_all(page, write, ORIGIN)   # noindex, out of the sitemap, no link from live pages, until launch
+    insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
         setting = json.load(fh)["index"]

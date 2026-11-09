@@ -594,6 +594,14 @@ nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 .options-page .deep-refs details.topic, .options-page .deep-refs details.topic:last-of-type { border: 0; margin-top: 32px; }
 .options-page .deep-refs details.topic > summary { font: 400 clamp(1.5625rem, 3.4vw, 2rem)/1.2 var(--serif); }
 .see-every { font-weight: 600; margin: 0 0 14px; }
+/* job platform-condition-pages-0013: the link to a coverage page (one look everywhere; the padding makes a 44 px target) */
+.cov-link { font-weight: 600; margin: 10px 0 0; }
+.cov-link a { display: inline-block; padding: 10px 0; }
+.cov-several .k { margin: 14px 0 0; }
+.cov-several ul { list-style: none; margin: 0; padding: 0; }
+.cov-several a { padding: 8px 0; }
+.home-cov { margin: 10px 0 0 18px; }
+@media (max-width: 559px) { nav.top a[href="/insurance/"] { display: none; } }   /* no room for a sixth item without a second row; footer and contextual links carry it */
 .table-scroll { overflow-x: auto; border-radius: var(--radius); background: var(--card); margin: 12px auto 8px; }
 table.glance { border-collapse: collapse; width: 100%; font-size: 1rem; line-height: 1.45; }
 table.glance th, table.glance td { padding: 10px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
