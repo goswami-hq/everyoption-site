@@ -90,8 +90,8 @@ the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not i
   heading that restates a claim must match the page text and the tie file; prefer headings that name the comparison
   without a claim.
 - **Section order:** breadcrumbs; H1; first-screen view of the grid (`glance_peek`: the procedure and its main comparators, in grid order;
-  `glance_peek_columns`: "How sure we are", the option's whole certainty word or its full effect phrase when it has none,
-  and Recovery; the cell text the grid uses; walkthrough finding 2, his yes 2026-11-09); finder button; lede; link to the simple page; contents list ("On this page":
+  `glance_peek_columns`: "What the evidence says", the option's whole certainty word or its full effect phrase when it has none,
+  and Recovery; the cell text the grid uses; never list an option whose certainty word certifies no benefit (it would read as "works" without its phrase); walkthrough finding 2, his yes 2026-11-09); finder button; lede; link to the simple page; contents list ("On this page":
   every section, and each category's options by name; `src-assets/deep-nav.js` pins a copy while reading, a rail from
   1180 px and a bar below, with "Back to top"); "What is <condition>?" box (the same content as the simple page's, not a
   copy); glance table; one section per category (each option: its grid row as a summary, intro, how well it works, side

@@ -279,7 +279,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         option's whole certainty word, or its full effect phrase when it has none, so the view states how sure the
         evidence is; recovery alone would favour the procedure (reviewer, 2026-11-09)."""
         ids, keys = d["glance_peek"], d["glance_peek_columns"]
-        labels = {**dict(gcols), "certainty": "How sure we are"}
+        labels = {**dict(gcols), "certainty": "What the evidence says"}
 
         def cell(i, k):
             if k != "certainty":

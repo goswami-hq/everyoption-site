@@ -31,10 +31,10 @@ test("peek cells carry the grid's own text", () => {
     const html = page(p.slice(1)), start = html.indexOf('class="glance-peek"');
     const peek = html.slice(start, html.indexOf("</table>", start)), grid = html.slice(html.indexOf('class="glance"'));
     for (const m of peek.matchAll(/<td data-label="([^"]+)">(.*?)<\/td>/g)) {
-      const found = m[1] === "How sure we are" ? grid.includes(m[2]) : grid.includes(`data-label="${m[1]}">${m[2]}</td>`);
+      const found = m[1] === "What the evidence says" ? grid.includes(m[2]) : grid.includes(`data-label="${m[1]}">${m[2]}</td>`);
       assert.ok(found, `${p}: "${m[2]}" (${m[1]}) is not in the full grid`);
     }
-    assert.match(peek, /How sure we are/, `${p}: the view states how sure the evidence is`);
+    assert.match(peek, /What the evidence says/, `${p}: the view states how sure the evidence is`);
   }
 });
 
