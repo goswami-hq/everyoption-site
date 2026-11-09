@@ -143,10 +143,12 @@ def hub_row(i, proc, label, href, data, copy):
     c = data["cells"][proc][i]
     p = data["policies"][c["policy"]]
     what = "Policy list" if c["chip"] == "no_policy" and not p["dated"] else "Policy"
-    short = f'<span class="ins-meta">{e(c["short"])}</span>' if c.get("short") else ""   # no bare "Covered": its condition sits beside it
+    short = f'<span class="ins-meta ins-row-note">{e(c["short"])}</span>' if c.get("short") else ""   # no bare "Covered": its condition sits beside it
+    keep = c["chip"] == "not_checked"
+    verb = "Looked" if keep else "Checked"   # "Not yet checked" beside "Checked <date>" read as a contradiction (his yes, 2026-11-08 19:19 CT)
     return (f'<div class="ins-row"><dt><a href="{href}">{proc_label(label)}</a></dt><dd>{chip(c["chip"], copy)}{short}'
-            f'<span class="ins-meta"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a>'
-            f'<span class="ins-row-date{" ins-row-date-keep" if c["chip"] == "not_checked" else ""}"> · Checked {long_date(c["checked"])}</span></span></dd></div>')
+            f'<span class="ins-meta ins-row-link"><a href="{e(p["link"])}" rel="noopener" aria-label="{e(data["names"][i])} {what.lower()} for {e(label)}">{what}</a>'
+            f'<span class="ins-row-date{" ins-row-date-keep" if keep else ""}"><span class="ins-sep"> · </span>{verb} {long_date(c["checked"])}</span></span></dd></div>')
 
 
 def hub_checked(i, procs, data):
