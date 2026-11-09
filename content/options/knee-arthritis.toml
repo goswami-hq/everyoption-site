@@ -97,7 +97,7 @@ knee = "Yes"
 option = "knee-replacement"
 works = "Most new knees last a long time; {d:g-tkr}"
 involves = "Surgery and a hospital stay"
-recovery = "Daily activities in {g:tkr-recovery}"
+recovery = "Home in {g:tkr-stay}; daily activities in {g:tkr-recovery}"
 knee = "No. The worn surfaces are replaced"
 [[glance]]
 option = "partial-replacement"
