@@ -6,17 +6,25 @@ step a fresh, tool-less patient model decides from the persona, the task and wha
     "/Library/Application Support/ai-hq/browser/venv/bin/python" -I tools/walkthrough/run.py \
     --origin http://localhost:8799 --out <dir> --patient-prompt <patient.md> [--engines chromium,webkit] [--personas a,b]
     [--workers 3] [--model claude-sonnet-5-5] [--budget-usd 10]
-  ... run.py --prove-guard --local-page --engines webkit --out <dir>     (network guard proof, no model; exits non-zero on any failed check)
+  ... run.py --prove-guard --engines webkit --out <dir>     (network guard proof on its own local page, no model; exits non-zero on any failed check)
 
-Serve the build first: node tools/dev-server.mjs 8799 --accounts. Nothing is submitted or sent; every request that is not
-to the exact origin is aborted, WebSockets are closed and service workers are blocked. Per step it saves the screenshot,
-the accessibility snapshot, the axe result, the URL and what was tapped. Per task: steps.jsonl and result.json."""
-import argparse, base64, hashlib, http.server, json, os, re, subprocess, threading, time
+Serve the build first: node tools/dev-server.mjs 8799 --accounts. The browser and Playwright's driver run as the locked-down macOS user _hqbrowser (driver-as-hqbrowser.sh);
+this runner and the patient model stay as his user. Only a local http origin is accepted. Each browser launch has one empty temporary profile and each context is isolated inside it.
+Forms the patient submits go only to the local dev server. Every page request not to the exact origin is aborted, WebSockets are routed and never connected, and service workers are
+blocked; below the route, a launch-level proxy to a dead port catches what the route cannot see (redirects, preconnect). What does leave the mini: each sighted step's screenshot, and the page
+text, accessibility text, persona and task, go to Anthropic through the patient model (claude -p). Per step it saves the screenshot, the accessibility snapshot, the axe result, the URL and
+what was tapped. Per task: steps.jsonl and result.json. Per run: outside-connections.json; any outside connection seen from the browser user's processes fails the run."""
+import argparse, base64, hashlib, http.server, json, os, re, subprocess, sys, threading, time
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlsplit
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# Playwright's Python client starts this instead of its node driver, so the driver and the browser run as the locked-down user. Fixed here, not an option.
+os.environ["PLAYWRIGHT_NODEJS_PATH"] = os.path.join(HERE, "driver-as-hqbrowser.sh")
+BROWSER_UID = 493  # _hqbrowser (scripts/mini_browser_user.sh in ai-hq)
+PROOF_PORT = 8799  # the one loopback port the browser user's firewall rule passes (ops/pf/ai-hq-browser.conf in ai-hq)
+DEAD_PROXY = "http://127.0.0.1:8796"  # nothing listens there and the browser user's firewall drops it; see launch()
 DEVICES = {
     "phone390": dict(viewport={"width": 390, "height": 844}, device_scale_factor=2, has_touch=True, is_mobile=True),
     "desktop1440": dict(viewport={"width": 1440, "height": 900}, device_scale_factor=1),
@@ -48,6 +56,25 @@ VISIBLE_TEXT = r"""() => {
     const d = p.closest('details'); if (d && !d.open && !p.closest('summary')) continue;
     seen.add(p); o.push(t); }
   return o.join('\n'); }"""
+
+
+def check_origin(origin):
+    """Only a local http origin, exactly http://localhost:<port> or http://127.0.0.1:<port>; refused before any browser starts."""
+    m = re.fullmatch(r"http://(localhost|127\.0\.0\.1):([1-9][0-9]{0,4})", origin)
+    if not m or int(m.group(2)) > 65535:
+        raise SystemExit(f"refused --origin {origin!r}: only http://localhost:<port> or http://127.0.0.1:<port> is accepted")
+    return origin
+
+
+def launch(p, engine, origin=None):
+    """Sandbox on for Chromium. With an origin (every guarded launch): a launch-level proxy to a dead port with only that exact origin bypassed, so whatever the
+    context route cannot see (a followed redirect, preconnect, dns-prefetch; Playwright continues redirects without a route) has nowhere to go."""
+    # The map: the firewall passes 127.0.0.1:8799 only and silently drops ::1, and Chromium trying localhost on ::1 first failed the navigation (ERR_SOCKET_NOT_CONNECTED, seen 2026-11-09).
+    kw = {"chromium_sandbox": True, "args": ["--host-resolver-rules=MAP localhost 127.0.0.1"]} if engine == "chromium" else {}
+    if origin:
+        # Chromium: <-loopback> first, or its implicit loopback bypass would also let 127.0.0.1 and other local ports past the proxy; later rules win, so the origin stays exempt.
+        kw["proxy"] = {"server": DEAD_PROXY, "bypass": ("<-loopback>," if engine == "chromium" else "") + urlsplit(origin).netloc}
+    return getattr(p, engine).launch(**kw)
 
 
 def allowed(url, origin):
@@ -319,7 +346,7 @@ def run_persona(args):
     cwd = os.path.join(a.out, "_patient_cwd"); os.makedirs(cwd, exist_ok=True)
     results = []
     with sync_playwright() as p:
-        browser = getattr(p, engine).launch()
+        browser = launch(p, engine, a.origin)
         for task in persona["tasks"]:
             if spend.over():
                 break
@@ -342,7 +369,7 @@ def check_axe_lock(path):
     return lock
 
 
-POSITIVE_URL = "http://example.com/"  # plain HTTP on purpose: HTTP/3 would use UDP, which this sampler does not read. On the egress allowlist (window playwright-render)
+POSITIVE_URL = "http://example.com/"  # plain HTTP on purpose: HTTP/3 would use UDP, which this sampler does not read (the browser user's firewall drops all UDP). On the egress allowlist (window playwright-render)
 
 
 def browser_root(exe):
@@ -353,36 +380,46 @@ def browser_root(exe):
 
 
 def browser_pids(root):
-    """PIDs of this runner's process tree, plus any process of this macOS user started from the engine's install folder (another job's browser may run the
-    same folder under the browser user; not counted) and its descendants. Returns (pids, names started from the folder)."""
-    kids, roots, names = {}, {os.getpid()}, set()
+    """PIDs of the browser user's processes started from the browsers folder or the driver, and their descendants of that user. Not the runner's own tree: the patient model is a child of the
+    runner and talks to Anthropic. Another job's browser under the same user is counted too (its helpers have parent PID 1, so it cannot be told apart): a false alarm, never a miss.
+    Returns (pids, names started from the folder, command lines)."""
+    kids, roots, names, cmds = {}, set(), set(), {}
+    driver = "/Library/Application Support/ai-hq/browser/venv/"
+    uid_of = {}
     for l in subprocess.run(["ps", "-axww", "-o", "pid=,ppid=,uid=,command="], capture_output=True, text=True, check=True).stdout.splitlines():
         f = l.split(None, 3)
         if len(f) < 4:
             continue
         pid, ppid, uid, cmd = int(f[0]), int(f[1]), int(f[2]), f[3]
-        kids.setdefault(ppid, []).append(pid)
-        if uid == os.getuid() and cmd.startswith(root):
-            roots.add(pid); names.add(os.path.basename(cmd[len(root):].split()[0]))
+        kids.setdefault(ppid, []).append(pid); uid_of[pid] = uid
+        if uid == BROWSER_UID and (cmd.startswith(root) or cmd.startswith(driver)):
+            roots.add(pid); cmds[pid] = cmd
+            if cmd.startswith(root):
+                names.add(os.path.basename(cmd[len(root):].split()[0]))
     tree, todo = set(roots), list(roots)
     while todo:
         for k in kids.get(todo.pop(), []):
-            if k not in tree:
+            if k not in tree and uid_of.get(k) == BROWSER_UID:
                 tree.add(k); todo.append(k)
-    return tree, names
+    return tree, names, cmds
 
 
 def sample_outside(state, stop, root):
-    """While state["now"] names a phase, record the established TCP connections of the browser's PIDs that do not end on loopback. A route guard cannot
-    see a browser's own traffic; this can, within limits: TCP only, and a connection opened and closed between two samples is missed."""
+    """While state["now"] names a phase, record the browser user's TCP connections that do not end on loopback, in any state (SYN_SENT included). A route guard cannot see a browser's own
+    traffic; this can, within limits: TCP only, only these PIDs (macOS daemons such as trustd or nsurlsessiond that fetch on the browser's behalf are invisible), and a connection opened and closed between two samples is missed.
+    sudo because lsof shows another user's sockets only to root."""
     while not stop.is_set():
         phase = state["now"]
         if phase is None:
             stop.wait(0.05); continue
         try:
-            pids, names = browser_pids(root)
+            pids, names, cmds = browser_pids(root)
+            state["pids_seen"] = state.get("pids_seen", 0) + len(pids)
+            state["no_sandbox_seen"] = state.get("no_sandbox_seen", False) or any("--no-sandbox" in c for c in cmds.values())
+            if not pids:
+                stop.wait(0.05); continue
             # Scoped to these PIDs: each sample is quicker, so fewer short connections fall between samples.
-            r = subprocess.run(["lsof", "+c", "0", "-nP", "-a", "-iTCP", "-p", ",".join(map(str, sorted(pids)))], capture_output=True, text=True)
+            r = subprocess.run(["sudo", "-n", "lsof", "+c", "0", "-nP", "-a", "-iTCP", "-p", ",".join(map(str, sorted(pids)))], capture_output=True, text=True)
             if r.returncode not in (0, 1):  # 1 means nothing matched
                 raise RuntimeError(f"lsof exit {r.returncode}: {r.stderr[:200]}")
         except Exception as ex:
@@ -390,32 +427,33 @@ def sample_outside(state, stop, root):
         found = state["sets"].setdefault(phase, set())
         for l in r.stdout.splitlines()[1:]:
             m = re.search(r"\s(\d+)\s", l)  # the PID is the first all-digit column; +c 0 names may hold spaces
-            if m and int(m.group(1)) in pids and "(ESTABLISHED)" in l and not re.search(r"->(127\.|\[::1\])", l):
+            if m and int(m.group(1)) in pids and "->" in l and not re.search(r"->(127\.|\[::1\])", l):
                 found.add(re.sub(r"\s+", " ", l)[:200])
         state["samples"][phase] = state["samples"].get(phase, 0) + 1
         state["procs"].setdefault(phase, set()).update(names)
-        stop.wait(0.05)
+        stop.wait(state.get("wait", 0.05))
 
 
 def wait_browser_gone(root, seconds=20):
     """Between the two launches: a connection held by the unguarded browser must not be counted against the guarded one."""
     end = time.time() + seconds
     while time.time() < end:
-        if not browser_pids(root)[1]:
+        if not browser_pids(root)[1]:  # names started from the browsers folder: the driver stays up between launches
             return True
         time.sleep(0.25)
     return False
 
 
 PAGE = b'<!doctype html><html lang="en"><title>Guard proof page</title><main><h1>Guard proof page</h1><p>Local page for the network guard proof.</p></main></html>'
+PRECONNECT = b'<!doctype html><html lang="en"><title>Preconnect</title><link rel="preconnect" href="http://example.com"><link rel="dns-prefetch" href="http://example.com"><main><h1>Preconnect test</h1></main></html>'
 
 
 def prove_engine(p, engine, a, can, hits, attempt):
     state, halt, failures = {"now": None, "sets": {}, "samples": {}, "procs": {}, "errors": []}, threading.Event(), []
     root = browser_root(getattr(p, engine).executable_path)
     sampler = threading.Thread(target=sample_outside, args=(state, halt, root), daemon=True); sampler.start()
-    # First browser, no guard: the positive control (a deliberate outside connection the sampler must catch), then the canary control.
-    b = getattr(p, engine).launch()
+    # First browser, no guard and no proxy: the positive control (a deliberate outside connection the sampler must catch), then the canary and the redirect controls.
+    b = launch(p, engine)
     state["now"] = "baseline"; time.sleep(1.5)
     c0 = b.new_context(bypass_csp=True); pg = c0.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000)
     state["now"] = "positive"
@@ -428,58 +466,81 @@ def prove_engine(p, engine, a, can, hits, attempt):
     state["now"] = None; print("positive control", engine, seen, len(caught), flush=True)
     if not caught:
         failures.append("positive control: the sampler did not catch the deliberate outside connection")
-    before = len(hits); ctl = pg.evaluate(attempt, [can, engine + "-noguard"]); pg.wait_for_timeout(500); ctl_hits = hits[before:]; print("canary control", ctl, flush=True); c0.close(); b.close()
-    for kind in ("fetch", "img"):
+    before = len(hits); ctl = pg.evaluate(attempt, [can, engine + "-noguard"]); pg.wait_for_timeout(500); ctl_hits = hits[before:]; print("canary control", ctl, flush=True)
+    for kind in ("fetch", "img", "beacon", "ws"):  # all four: a kind the control cannot hit says nothing when the guarded run shows 0 hits
         if not any(f"/{kind}-" in h for h in ctl_hits):
             failures.append(f"canary control: no {kind} hit without the guard, so the canary cannot speak for it")
-    not_confirmed = [k for k in ("beacon", "ws") if not any(f"/{k}-" in h for h in ctl_hits)]
+    redirect_noguard = {}
+    try:
+        pg.goto(a.origin + "/redirect-out/", wait_until="load", timeout=15000); redirect_noguard = {"went_to": pg.url}
+    except Exception as ex:
+        redirect_noguard = {"error": str(ex).splitlines()[0][:160]}
+    if "example.com" not in redirect_noguard.get("went_to", ""):
+        failures.append("redirect control: without guard or proxy the test page did not reach the outside host, so it proves nothing")
+    pg3 = c0.new_page(); pg3.goto(a.origin + "/preconnect/", wait_until="load", timeout=15000); pg3.wait_for_timeout(1000); c0.close(); b.close()
     gone = wait_browser_gone(root)
     if not gone:
         failures.append("the first browser's processes did not exit, so the guarded phase cannot start clean")
-    # Second browser, guarded. Sampled from before launch to after its context closes.
+    # Second browser, guarded, with the dead-port proxy. Sampled from before launch to after its context closes. pf's log counts what reached the firewall at the dead port.
+    pflog = subprocess.Popen(["sudo", "-n", "tcpdump", "-n", "-l", "-e", "-i", "pflog0", "dst", "host", "127.0.0.1", "and", "dst", "port", DEAD_PROXY.rsplit(":", 1)[1]], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    time.sleep(1.5)
     state["now"] = "guarded"
-    b = getattr(p, engine).launch()
+    b = launch(p, engine, a.origin)
     blocked = []; c1 = new_context(b, "phone390", a.origin, blocked, bypass_csp=True); pg = c1.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000)
     before = len(hits); gd = pg.evaluate(attempt, [can, engine + "-guard"]); pg.wait_for_timeout(1000); gd_hits = hits[before:]; print("guarded done", gd, flush=True)
-    axe = axe_check(pg, a.axe); sw = pg.evaluate("'serviceWorker' in navigator ? 'present' : 'absent'"); c1.close()
-    state["now"] = None; time.sleep(0.3); b.close(); halt.set(); sampler.join(10)
+    axe = axe_check(pg, a.axe); sw = pg.evaluate("'serviceWorker' in navigator ? 'present' : 'absent'")
+    redirect_guarded = {}
+    try:
+        r = pg.goto(a.origin + "/redirect-out/", wait_until="load", timeout=8000); redirect_guarded = {"went_to": pg.url, "status": r.status if r else None}
+    except Exception as ex:
+        redirect_guarded = {"stopped": str(ex).splitlines()[0][:160], "address_after": pg.url}
+    if "example.com" in redirect_guarded.get("went_to", "") or "example.com" in redirect_guarded.get("address_after", ""):
+        failures.append("guarded: the redirect reached the outside host")
+    pg2 = c1.new_page(); pg2.goto(a.origin + "/preconnect/", wait_until="load", timeout=15000); pg2.wait_for_timeout(1500)
+    route_saw_redirect_target = any("example.com/wt-redirect" in u for u in blocked)
+    c1.close(); state["now"] = None; time.sleep(0.3); b.close(); halt.set(); sampler.join(10)
+    subprocess.run(["sudo", "-n", "pkill", "-INT", "-f", "tcpdump -n -l -e -i pflog0 dst host 127.0.0.1"]); drops = [l for l in pflog.communicate(timeout=15)[0].splitlines() if "block" in l]
     guarded_set = sorted(state["sets"].get("guarded", set())); samples = state["samples"].get("guarded", 0)
     if gd_hits:
         failures.append("guarded: the canary was reached")
     if guarded_set:
-        failures.append("guarded: outside connections seen from the browser's own processes")
+        failures.append("guarded: outside connections seen from the browser user's processes")
     if samples < 5:
         failures.append(f"guarded: only {samples} samples, too few to mean anything")
     if not any("example.com" in u for u in blocked):
         failures.append("guarded: the outside request was not aborted by the guard")
     if state["errors"]:
         failures.append("sampler errors: " + "; ".join(state["errors"][:3]))
-    return {"browser_folder": root, "passed": not failures, "failures": failures, "samples_per_phase": state["samples"],
+    if not state.get("pids_seen"):
+        failures.append("the sampler saw no processes of the browser user, so the browser did not run as _hqbrowser")
+    if state.get("no_sandbox_seen"):
+        failures.append("the browser ran with --no-sandbox")
+    return {"browser_folder": root, "browser_user_uid": BROWSER_UID, "no_sandbox_flag_seen": state.get("no_sandbox_seen", False), "passed": not failures, "failures": failures, "samples_per_phase": state["samples"],
             "processes_started_from_folder": {k: sorted(v) for k, v in state["procs"].items()},
             "positive_control": {"url": POSITIVE_URL, "page_saw": seen, "fetches_until_caught": tries, "connections_caught": caught, "baseline": sorted(state["sets"].get("baseline", set()))},
             "outside_connections_guarded": guarded_set, "first_browser_gone_before_guarded": gone,
-            "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits, "kinds_control_did_not_confirm": not_confirmed}, "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked},
+            "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits, "redirect": redirect_noguard, "outside_connections_seen_unguarded": sorted(state["sets"].get("positive", set()))},
+            "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked, "redirect": redirect_guarded, "route_guard_saw_redirect_target": route_saw_redirect_target,
+                        "pf_drops_at_dead_proxy": len(drops), "pf_drop_lines": drops[:6]},
             "axe_version": axe.get("version"), "axe_error": axe.get("error"), "axe_violations_on_home": len(axe.get("violations", [])), "service_worker_api": sw}
 
 
 def prove_guard(a):
+    # The proof page and the canary share the one port the browser user may reach. The canary is reached as 127.0.0.1, which is not the origin (localhost), so the guard must abort it.
     hits = []
     class H(http.server.BaseHTTPRequestHandler):
         def do_GET(self):
-            hits.append(self.path); self.send_response(200); self.send_header("Access-Control-Allow-Origin", "*"); self.end_headers(); self.wfile.write(b"ok")
+            if self.path.startswith("/redirect-out"):
+                self.send_response(302); self.send_header("Location", "http://example.com/wt-redirect"); self.end_headers(); return
+            if re.match(r"/(fetch|img|beacon|ws)-", self.path):
+                hits.append(self.path); self.send_response(200); self.send_header("Access-Control-Allow-Origin", "*"); self.end_headers(); self.wfile.write(b"ok"); return
+            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers(); self.wfile.write(PRECONNECT if self.path.startswith("/preconnect") else PAGE)
         def do_POST(self): self.do_GET()
         def log_message(self, *x): pass
-    class Page(http.server.BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers(); self.wfile.write(PAGE)
-        def log_message(self, *x): pass
-    srv = http.server.ThreadingHTTPServer(("127.0.0.1", a.canary_port), H)
+    srv = http.server.ThreadingHTTPServer(("127.0.0.1", PROOF_PORT), H)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
-    if a.local_page:  # a page of its own on loopback, so the proof needs no built site or dev server
-        page_srv = http.server.ThreadingHTTPServer(("127.0.0.1", a.canary_port - 1), Page)
-        threading.Thread(target=page_srv.serve_forever, daemon=True).start()
-        a.origin = f"http://localhost:{a.canary_port - 1}"
-    can = f"http://127.0.0.1:{a.canary_port}"
+    a.origin = f"http://localhost:{PROOF_PORT}"
+    can = f"http://127.0.0.1:{PROOF_PORT}"
     attempt = """async ([can, tag]) => { const out = {};
       try { await fetch(can + '/fetch-' + tag, {mode: 'no-cors'}); out.fetch = 'sent'; } catch (e) { out.fetch = 'failed'; }
       await new Promise(r => { const i = new Image(); i.onload = i.onerror = () => r(); i.src = can + '/img-' + tag; });
@@ -487,7 +548,7 @@ def prove_guard(a):
       await new Promise(r => { let w; try { w = new WebSocket(can.replace('http', 'ws') + '/ws-' + tag); w.onopen = w.onerror = w.onclose = () => r(); } catch (e) { r(); } setTimeout(r, 2500); });
       try { await fetch('http://example.com/', {mode: 'no-cors'}); out.example = 'sent'; } catch (e) { out.example = 'failed'; }
       await new Promise(r => setTimeout(r, 800)); return out; }"""
-    report = {"origin": a.origin, "prefix_test": {a.origin + ".example.com/": allowed(a.origin + ".example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
+    report = {"origin": a.origin, "canary": can, "prefix_test": {a.origin + ".example.com/": allowed(a.origin + ".example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
     with sync_playwright() as p:
         for engine in a.engines.split(","):
             report[engine] = prove_engine(p, engine, a, can, hits, attempt)
@@ -504,9 +565,10 @@ def main():
     ap.add_argument("--panel", default=os.path.join(HERE, "panel.json")); ap.add_argument("--out", required=True); ap.add_argument("--origin", default="http://localhost:8799")
     ap.add_argument("--engines", default="chromium"); ap.add_argument("--personas", default=""); ap.add_argument("--tasks", default=""); ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--model", default="claude-sonnet-5-5"); ap.add_argument("--budget-usd", type=float, default=10.0); ap.add_argument("--patient-prompt")
-    ap.add_argument("--prove-guard", action="store_true"); ap.add_argument("--canary-port", type=int, default=8798); ap.add_argument("--local-page", action="store_true", help="prove-guard only: serve a page of its own on the port below the canary")
+    ap.add_argument("--prove-guard", action="store_true")
     ap.add_argument("--axe", default=os.path.expanduser("~/ai-hq-data/tools/axe-core/4.14.0/package/axe.min.js"))
     a = ap.parse_args()
+    check_origin(a.origin)
     a.out = os.path.abspath(a.out); check_axe_lock(a.axe)
     if a.prove_guard:
         prove_guard(a)
@@ -525,10 +587,20 @@ def main():
                 p["tasks"] = [t for t in persona["tasks"] if t["id"] in only]
             jobs.append((engine, p, a, spend, system))
     os.makedirs(a.out, exist_ok=True)
+    # The whole run is sampled, not only the proof; any outside connection seen from the browser user's processes fails it (exit 3).
+    state, halt = {"now": "run", "sets": {}, "samples": {}, "procs": {}, "errors": [], "wait": 0.25}, threading.Event()
+    sampler = threading.Thread(target=sample_outside, args=(state, halt, "/Library/Application Support/ai-hq/browser/ms-playwright/"), daemon=True); sampler.start()
     with ThreadPoolExecutor(max_workers=max(1, min(a.workers, 3))) as ex:
         results = [r for rs in ex.map(run_persona, jobs) for r in rs]
-    json.dump({"results": results, "spend_usd": round(spend.total, 4), "calls": spend.calls, "model": a.model, "origin": a.origin}, open(os.path.join(a.out, "results.json"), "w"), indent=1)
-    print("spend", round(spend.total, 4), "calls", spend.calls)
+    halt.set(); sampler.join(10)
+    outside = sorted(state["sets"].get("run", set()))
+    json.dump({"samples": state["samples"].get("run", 0), "outside_connections": outside, "sampler_errors": state["errors"][:20], "note": "Sampled while the run lasted: TCP only, the browser user's processes only, a connection between two samples is missed; another job's browser under the same user would show here too."},
+              open(os.path.join(a.out, "outside-connections.json"), "w"), indent=1)
+    json.dump({"results": results, "spend_usd": round(spend.total, 4), "calls": spend.calls, "model": a.model, "origin": a.origin, "outside_connections": len(outside)}, open(os.path.join(a.out, "results.json"), "w"), indent=1)
+    print("spend", round(spend.total, 4), "calls", spend.calls, "samples", state["samples"].get("run", 0), "outside connections", len(outside))
+    if outside or state["errors"] or not state["samples"].get("run"):
+        print("FAILED: outside connection, sampler error or no samples; see outside-connections.json", file=sys.stderr)
+        raise SystemExit(3)
 
 
 if __name__ == "__main__":
