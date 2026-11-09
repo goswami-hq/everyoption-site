@@ -123,10 +123,10 @@ def run():
                     return !!(f && h && edu && (h.compareDocumentPosition(f) & 4) && (f.compareDocumentPosition(edu) & 4)); })()""")
                 check(f"{tag}: headline, then the finder, then the education", order)
                 check(f"{tag}: one benefit sentence with a How it works link",
-                      pg.locator(".find-intro").count() == 1 and pg.locator(".find-intro a", has_text="How it works").count() == 1)
+                      pg.locator(".find-intro").count() == 1 and pg.locator(".find-links a", has_text="How it works").count() == 1)
                 # How it works opens the procedure's section and brings it into view
-                target = pg.locator(".find-intro a").get_attribute("href")[1:]
-                pg.locator(".find-intro a").click(); pg.wait_for_timeout(200)
+                target = pg.locator(".find-links a").first.get_attribute("href")[1:]
+                pg.locator(".find-links a").first.click(); pg.wait_for_timeout(200)
                 st = pg.evaluate(f"""(() => {{ const el = document.getElementById('{target}'); const r = el.getBoundingClientRect();
                     let shut = 0; for (let n = el; n; n = n.parentElement) if (n.tagName === 'DETAILS' && !n.open) shut++;
                     return [shut, Math.round(r.top)]; }})()""")

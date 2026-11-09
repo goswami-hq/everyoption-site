@@ -62,6 +62,9 @@ the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not i
   city pages (after the answer; after "Is <ABBR> right for me?"), finder results (above the list), doctor profile (under the
   plans field), home (under the condition list; hub), footer and wide-screen menu (hub). Placements and rejections:
   ai-hq `projects/platform/design/insurance-links-2026-11-08/`.
+- **First-screen comparison link** (walkthrough finding 1, his words 2026-11-09: "1-4 changes let's do them"): "Compare
+  your options" beside "How it works", to the every-option page; a condition with no every-option page has none. The
+  link in "Your other options" stays.
 - **Links out (required):** every-option page, descriptive anchor naming the comparisons (fibroids: "Compare them side
   by side: embolization vs. myomectomy, hysterectomy, and medicines"); city list and each city page (Doctors by city
   block); references. **Links in:** home card, every-option page, every city page, city hub breadcrumb.
@@ -86,7 +89,8 @@ the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not i
   compared"; "Embolization vs. other less invasive treatments"; "Myomectomy vs. hysterectomy, and other surgery". A
   heading that restates a claim must match the page text and the tie file; prefer headings that name the comparison
   without a claim.
-- **Section order:** breadcrumbs; H1; lede; link to the simple page; finder button; contents list ("On this page":
+- **Section order:** breadcrumbs; H1; first-screen view of the grid (`glance_peek`: the options in the title, the columns in
+  `glance_peek_columns`, the cell text the grid uses; walkthrough finding 2, his yes 2026-11-09); finder button; lede; link to the simple page; contents list ("On this page":
   every section, and each category's options by name; `src-assets/deep-nav.js` pins a copy while reading, a rail from
   1180 px and a bar below, with "Back to top"); "What is <condition>?" box (the same content as the simple page's, not a
   copy); glance table; one section per category (each option: its grid row as a summary, intro, how well it works, side

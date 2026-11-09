@@ -40,7 +40,7 @@ test("the pelvic page has the ZIP finder, keeps its intro, links the city pages,
   assert.match(page, /<meta name="robots" content="noindex">/);
   assert.match(page, /<div id="finder" data-procedure="pelvic" data-learn="#options">/);
   assert.match(page, /<p class="lede">Long-term pelvic pain can have many causes\./, "the page's own intro stays");
-  assert.match(page, /Pelvic vein treatments are done through a tiny skin nick, without surgery\. Nothing is cut out of your body\. <a href="#embolization">How it works<\/a>/);
+  assert.match(page, /Pelvic vein treatments are done through a tiny skin nick, without surgery\. Nothing is cut out of your body\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><\/p>/);
   assert.match(page, /<a class="btn" href="#finder">Find a doctor for pelvic vein treatment<\/a>/);
   assert.match(page, /Enter your ZIP code to see doctors near you, nearest first\./);
   for (const s of SLUGS) assert.ok(page.includes(`href="/chronic-pelvic-pain/doctors/${s}/"`), s);

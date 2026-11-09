@@ -273,6 +273,20 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
              f'<thead role=rowgroup><tr role=row>{head}</tr></thead>{groups}</table></div>'
              f'<p class="small muted glance-after">{e(d["works_note"])}</p>')
 
+    def peek():
+        """A short view of the grid for the first screen (walkthrough finding 2, his yes 2026-11-09): the options in the
+        page's title and the columns in `glance_peek_columns`, cell text from the same value() as the full grid."""
+        ids, keys = d["glance_peek"], d["glance_peek_columns"]
+        labels = dict(gcols)
+        missing = [i for i in ids if i not in glance] + [k for k in keys if k not in labels]
+        if missing:
+            raise TieError(f'glance_peek: unknown option or column: {missing}')
+        rows = "".join(f'<tr><th scope=row><a href="#{i}">{e(names[i])}</a></th>'
+                       + "".join(f'<td data-label="{labels[k]}">{value(i, k)}</td>' for k in keys) + '</tr>' for i in ids)
+        heads = "".join(f"<th scope=col>{labels[k]}</th>" for k in keys)
+        return (f'<div class="glance-peek"><table><caption>At a glance</caption><thead><tr><th scope=col>Treatment</th>{heads}</tr></thead>'
+                f'<tbody>{rows}</tbody></table><p class="peek-more"><a href="#glance">See every treatment and how well it works</a></p></div>')
+
     def summary(i):
         """The option's grid row, repeated at the top of its section: the answer before the detail (2026-11-07)."""
         return ('<dl class="opt-sum">' + "".join(f'<div class="c-{key}"><dt>{e(label)}</dt><dd>{value(i, key)}</dd></div>'
@@ -313,9 +327,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     top = "".join(show(sec) for sec in extra.get("top", []))
     when = datetime.date.fromisoformat(d["reviewed"])
     body = (f'<nav class="crumbs" id="top" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/{c["slug"]}/">{e(c.get("nav_name", c["condition_name"]))}</a></li>'
-            f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1><p class="lede">{lede}</p>'
+            f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1>{peek()}'
+            # The comparison and the finder button first, so the first screen on a phone reads as a comparison (the button
+            # stays on it: his call 3, 2026-11-07); then the lede and the guide link.
+            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p><p class="lede">{lede}</p>'
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
-            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
             + how + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'

@@ -15,6 +15,9 @@ h1 = "Fibroid treatments compared, side by side"
 lede = "UFE vs. myomectomy: both keep the uterus, and good evidence suggests women improve after either one. Some women need another procedure later after either. Embolization works through a tiny skin nick, with no cut in the belly, and recovery takes {f:ufe-recovery} instead of {f:major-recovery}. Hysterectomy is the only treatment that keeps fibroids from returning."
 read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
 glance_heading = "Compared at a glance: recovery and which keep the uterus"
+# The first-screen view of the grid: the options in the title (walkthrough finding 2, his yes 2026-11-09).
+glance_peek = ["embolization", "myomectomy", "hysterectomy"]
+glance_peek_columns = ["recovery", "uterus"]
 glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read more about it."
 works_note = "Results in the first column come from different studies that measured different things (symptoms, bleeding, or needing more treatment later), so they do not rank one treatment above another."
 simple_link = "New to fibroids? Start with the short guide to your fibroid treatment options"

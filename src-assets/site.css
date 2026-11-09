@@ -79,13 +79,18 @@ form.zip label { display: block; font-size: 0.9375rem; color: var(--muted); marg
 form.zip .f { flex: 1 1 140px; }
 input, select, textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px; width: 100%; min-height: 48px; transition: border-color 160ms ease; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+/* Fields: a calm pine ring, not the accent. On the physician form the accent is a red and its thick ring read like an error (walkthrough style item, 2026-11-09). */
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--pine); outline-offset: 2px; border-color: var(--pine); }
 ::placeholder { color: var(--muted); }
 button, .btn { font: 600 1.03125rem/1 var(--sans); background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 999px; padding: 15px 24px; min-height: 48px; cursor: pointer; transition: transform 140ms var(--ease-out), opacity 160ms ease; }
 button:active { transform: scale(0.97); }
 button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 button[disabled] { opacity: .6; cursor: progress; }
 
-.status { margin: 18px 0; min-height: 1.4em; }
+.status { margin: 18px 0; min-height: 1.4em; scroll-margin-top: 12px; }
+.find-bar.over-results { display: none; }
+.results-learn { font-weight: 600; margin: 18px 0 0; }
+.results-learn a { display: inline-flex; align-items: center; min-height: 44px; }
 .notice { background: var(--soft); border-radius: var(--radius); padding: 16px 18px; margin: 16px 0; }
 .notice p:last-child { margin: 0; }
 
@@ -250,7 +255,10 @@ details.option.featured > .fold-body { border-top: 0; }
 .find-first { margin: 6px 0 22px; }
 .find-first > h2 { margin: 0 0 6px; font-size: clamp(1.4375rem, 3.4vw, 1.75rem); }
 .find-intro { margin: 0 0 14px; max-width: 34em; font-size: clamp(1.125rem, 2vw, 1.25rem); }
-.find-intro a { white-space: nowrap; }
+/* The two links under the finder intro (walkthrough finding 1 and style item, 2026-11-09): 44 px targets, one row at 390. */
+.find-links { display: flex; flex-wrap: wrap; gap: 0 20px; margin: -8px 0 6px; }
+.find-links a { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; }
+.find-links .find-compare { font-weight: 600; }
 .find-label { margin: 0 0 8px; font-weight: 600; }
 .learn-link { margin: 0 0 4px; font-weight: 600; }
 .find-bar { position: fixed; left: 16px; right: 16px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; align-items: center; min-height: 50px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; border-radius: 999px; box-shadow: 0 8px 24px -10px rgba(40, 20, 10, .6); }
@@ -594,6 +602,19 @@ nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 .options-page .deep-refs details.topic, .options-page .deep-refs details.topic:last-of-type { border: 0; margin-top: 32px; }
 .options-page .deep-refs details.topic > summary { font: 400 clamp(1.5625rem, 3.4vw, 2rem)/1.2 var(--serif); }
 .see-every { font-weight: 600; margin: 0 0 14px; }
+/* The comparison page's first-screen view of its grid (walkthrough finding 2, 2026-11-09). */
+.glance-peek { margin: 12px auto 12px; background: var(--card); border-radius: var(--radius); padding: 4px 14px 2px; }
+.glance-peek table { width: 100%; border-collapse: collapse; font-size: 1rem; line-height: 1.35; }
+.glance-peek caption { text-align: left; padding: 6px 0 2px; font: 400 1.125rem/1.25 var(--serif); }
+.glance-peek th, .glance-peek td { padding: 6px 8px 6px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+.glance-peek thead th { border-top: 0; padding-top: 2px; font-size: 0.9375rem; font-weight: 600; color: var(--muted); }
+.glance-peek tbody th { font-weight: 600; }
+.glance-peek tbody th a { display: block; padding: 6px 0; margin: -6px 0; color: var(--ink); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .glance-peek tbody th a:hover { text-decoration: underline; } }
+.glance-peek tbody tr:first-child th a { color: var(--accent); }
+.glance-peek tbody th { width: 30%; }
+.peek-more { font-weight: 600; font-size: 1rem; margin: 2px 0 0; }
+.peek-more a { display: inline-flex; align-items: center; min-height: 44px; }
 /* job platform-condition-pages-0013: the link to a coverage page (one look everywhere; the padding makes a 44 px target) */
 .cov-link { font-weight: 600; margin: 10px 0 0; }
 .cov-link a { display: inline-block; padding: 10px 0; }

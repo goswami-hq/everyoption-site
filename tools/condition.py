@@ -245,7 +245,9 @@ def hero(c, finder_fn):
         return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p></section>'
     # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)
     note = {"note": c["finder_note"]} if c.get("finder_note") else {}
-    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True, **note)
+    # compare: the condition's every-option page, on the first screen; a condition with none (pelvic) has no link
+    find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True,
+                     compare=c.get("options_page", ""), **note)
     # job platform-directory-0009: a page that had an intro before its finder came (the pelvic page) keeps it
     lede = f'<p class="lede">{html.escape(c["hero_intro"])}</p>' if c.get("hero_intro") else ""
     return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{lede}{find}</section>'

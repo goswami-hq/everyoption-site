@@ -156,7 +156,11 @@ def ver(url):
 
 def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=()):
     head = "".join(f'<link rel="stylesheet" href="{ver(s)}">' for s in css) + head
-    nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
+    # Walkthrough finding 3 (his yes, 2026-11-09): "Conditions" from a condition's short page opens the home list with
+    # that condition's card changed (src-assets/home-from.js), so the list cannot send the reader back where they were.
+    slug = path.strip("/")
+    back_to = f"/?from={slug}#conditions" if slug in condition.slugs() else "/#conditions"
+    nav = "".join(f'<a href="{back_to if h == "/#conditions" else h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
     return f"""<!doctype html>
@@ -242,7 +246,9 @@ def home():
     HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}
 
     def row(k, p):
-        return (f'<li class="t-{p.get("color", k)}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))}'
+        slug = HOME_LINK.get(k, "").strip("/")
+        compare = condition.load(slug).get("options_page", "") if slug in condition.slugs() else ""
+        return (f'<li class="t-{p.get("color", k)}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"{f" data-compare={compare!r}" if compare else ""}><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))}'
                 f'{PAREN[k]}</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
     rows = "".join(row(k, p) for k, p in PROCS.items())
     # Conditions with a page but no doctor list yet (job platform-main-0024; his words 2026-11-07: "get the chronic pelvic
@@ -261,7 +267,9 @@ def home():
 <button type="submit">Find doctors</button></div>
 <p id="home-status" class="hs-status" role="status"></p>
 </form></div></section>"""
-    banner = (pathlib.Path(__file__).resolve().parent / "diagrams" / "home-banner.html").read_text() + hero
+    # The film and the hero sit in a labelled landmark, so nothing on the page is outside one (axe "region", 2026-11-09).
+    banner = ('<section class="home-top" aria-label="Introduction">'
+              + (pathlib.Path(__file__).resolve().parent / "diagrams" / "home-banner.html").read_text() + hero + "</section>")
     body = f"""<div class="spine">
 <h2 id="conditions">Choose a condition</h2>
 <ul class="fork-list stops">{rows}</ul>
@@ -277,7 +285,7 @@ def home():
     # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
     return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
                 "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, and pelvic vein pain, "
-                "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js"],
+                "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js", "/assets/home-from.js"],
                 head=home_schema(), banner=banner, cls="home-page")
 
 
@@ -336,6 +344,8 @@ MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthri
 RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
+# Patient walkthrough finding 1 (his "1-4 changes let's do them", 2026-11-09): the comparison page, from the first screen.
+COMPARE_LINK = "Compare your options"
 FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
     "pae": ("Shrink an enlarged prostate without surgery",
             "Prostate artery embolization works through a small puncture in the wrist or groin.", "#how-it-works"),
@@ -349,7 +359,7 @@ def intro_html(text):
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(text)).replace("\n", "<br>")
 
 
-def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, note=""):
+def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, note="", compare=""):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
     if heading is None:
@@ -360,7 +370,8 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, n
     if split:
         results = ""
     return f"""<section class="find-first">
-<p class="find-intro">{intro_html(intro)} <a href="{e(how)}">How it works</a></p>
+<p class="find-intro">{intro_html(intro)}</p>
+<p class="find-links"><a href="{e(how)}">How it works</a>{f'<a class="find-compare" href="{e(compare)}">{COMPARE_LINK}</a>' if compare else ""}</p>
 <p class="find-label">Find a doctor near you</p>
 <div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
