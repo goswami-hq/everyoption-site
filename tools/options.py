@@ -274,15 +274,23 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
              f'<p class="small muted glance-after">{e(d["works_note"])}</p>')
 
     def peek():
-        """A short view of the grid for the first screen (walkthrough finding 2, his yes 2026-11-09): the options in the
-        page's title and the columns in `glance_peek_columns`, cell text from the same value() as the full grid."""
+        """A short view of the grid for the first screen (walkthrough finding 2, his yes 2026-11-09): the options in
+        `glance_peek` and the columns in `glance_peek_columns`, cell text from the grid's own values. "certainty" is the
+        option's whole certainty word, or its full effect phrase when it has none, so the view states how sure the
+        evidence is; recovery alone would favour the procedure (reviewer, 2026-11-09)."""
         ids, keys = d["glance_peek"], d["glance_peek_columns"]
-        labels = dict(gcols)
+        labels = {**dict(gcols), "certainty": "How sure we are"}
+
+        def cell(i, k):
+            if k != "certainty":
+                return value(i, k)
+            c = det[i].get("certainty", "")
+            return f'<strong class="cert">{e(c)}</strong>' if c else _works(glance[i], det[i], facts)
         missing = [i for i in ids if i not in glance] + [k for k in keys if k not in labels]
         if missing:
             raise TieError(f'glance_peek: unknown option or column: {missing}')
         rows = "".join(f'<tr><th scope=row><a href="#{i}">{e(names[i])}</a></th>'
-                       + "".join(f'<td data-label="{labels[k]}">{value(i, k)}</td>' for k in keys) + '</tr>' for i in ids)
+                       + "".join(f'<td data-label="{labels[k]}">{cell(i, k)}</td>' for k in keys) + '</tr>' for i in ids)
         heads = "".join(f"<th scope=col>{labels[k]}</th>" for k in keys)
         return (f'<div class="glance-peek"><table><caption>At a glance</caption><thead><tr><th scope=col>Treatment</th>{heads}</tr></thead>'
                 f'<tbody>{rows}</tbody></table><p class="peek-more"><a href="#glance">See every treatment and how well it works</a></p></div>')

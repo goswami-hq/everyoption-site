@@ -29,9 +29,9 @@ reading_note = [
   "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
-# The first-screen view of the grid: the options in the title (walkthrough finding 2, his yes 2026-11-09).
+# The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
 glance_peek = ["embolization", "turp"]
-glance_peek_columns = ["recovery", "sex"]
+glance_peek_columns = ["certainty", "recovery"]
 glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Symptom-score figures use the same urinary symptom score (IPSS) but come from different studies, comparisons (placebo, sham, or TURP) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to an enlarged prostate? Start with the short guide to your options"

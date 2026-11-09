@@ -612,7 +612,6 @@ nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 .glance-peek tbody th { font-weight: 600; }
 .glance-peek tbody th a { display: block; padding: 6px 0; margin: -6px 0; color: var(--ink); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .glance-peek tbody th a:hover { text-decoration: underline; } }
-.glance-peek tbody tr:first-child th a { color: var(--accent); }
 .glance-peek tbody th { width: 30%; }
 .peek-more { font-weight: 600; font-size: 1rem; margin: 2px 0 0; }
 .peek-more a { display: inline-flex; align-items: center; min-height: 44px; }

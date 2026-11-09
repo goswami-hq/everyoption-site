@@ -26,9 +26,9 @@ reading_note = [
   "Every Option's physician performs knee embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: how sure we are"
-# The first-screen view of the grid: the options in the title (walkthrough finding 2, his yes 2026-11-09).
+# The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
 glance_peek = ["embolization", "knee-replacement", "steroid"]
-glance_peek_columns = ["recovery", "knee"]
+glance_peek_columns = ["certainty", "recovery"]
 glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. Pain figures are on the same kind of scale but come from different studies, comparisons (placebo, sham, or other care) and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to knee arthritis? Start with the short guide to your options"
