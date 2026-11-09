@@ -1,0 +1,11 @@
+{
+  "package": "axe-core",
+  "version": "4.14.0",
+  "licence": "MPL-2.0",
+  "tarball": "https://registry.npmjs.org/axe-core/-/axe-core-4.14.0.tgz",
+  "integrity": "sha512-9WTZxEjsZ7b13TH8JPmbV2z8CHbl80/2hm3XPEG4JgNdQLK81IBRXmSxHfMAOkSqQeRxT/0dwNDz2GOm3zzpcQ==",
+  "git_tag_commit": "e797173108eadfa4355fe06af331791734e1757f",
+  "axe_min_js_sha256": "20c09fe157a8a34a30e241aaa1fcdade657734f08ab379ecfbeb7d45cc46e878",
+  "installed_at": "~/ai-hq-data/tools/axe-core/4.14.0/package/axe.min.js",
+  "note": "A new version needs a new review. Reviewer PASS 2026-11-08."
+}
