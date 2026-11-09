@@ -46,7 +46,7 @@ test("the coverage links land where the walkthroughs put them, with the target p
     assert.ok(deep.includes(link), `${slug} every-option: under the lead option's button`);
     assert.ok(deep.includes(`<li class="toc-out"><a href="${p.coverage.path}">${h1}</a></li>`), `${slug} every-option: contents list`);
   }
-  assert.ok(read("").includes('<p class="cov-link home-cov"><a href="/insurance/">Does insurance cover embolization?</a></p>'), "home line");
+  assert.ok(read("").includes('<p class="cov-link home-cov"><a href="/insurance/">Will insurance cover it?</a></p>'), "home line");
   for (const p of ["", "fibroids", "doctors", "how-we-know"]) {
     assert.match(read(p).split('<footer class="site">')[1], /<a href="\/insurance\/">Insurance coverage<\/a>/, `${p}: footer`);
     assert.match(read(p).split("</header>")[0], /<a href="\/insurance\/">Insurance<\/a>/, `${p}: menu`);

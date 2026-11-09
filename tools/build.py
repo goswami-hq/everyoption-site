@@ -266,7 +266,7 @@ def home():
 <h2 id="conditions">Choose a condition</h2>
 <ul class="fork-list stops">{rows}</ul>
 <p class="more-soon">And more options coming soon.</p>
-<p class="cov-link home-cov"><a href="/insurance/">Does insurance cover embolization?</a></p>
+<p class="cov-link home-cov"><a href="/insurance/">Will insurance cover it?</a></p>
 <div class="plain two">
 <div><h2>Who runs this</h2>
 <p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
