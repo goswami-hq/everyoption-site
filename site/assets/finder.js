@@ -313,7 +313,18 @@
     return box;
   }
 
-  function run(zip, r) {
+  // Walkthrough finding 6: after a search the results come on screen; if they already are (a wide screen), nothing moves.
+  function reveal() {
+    if (document.activeElement === zipIn && matchMedia("(pointer: coarse)").matches) zipIn.blur();   // a phone keyboard would cover the list
+    if (statusEl.getBoundingClientRect().bottom <= innerHeight * 0.55) return;
+    statusEl.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  }
+
+  // The "Find a doctor" bar goes while the list is on screen: the reader is already there and it would sit over the first card.
+  var bar = document.querySelector(".find-bar");
+  if (bar && "IntersectionObserver" in window) new IntersectionObserver(function (e) { bar.classList.toggle("over-results", e[0].isIntersecting); }).observe(out);
+
+  function run(zip, r, quiet) {
     out.innerHTML = "";
     if (!/^\d{5}$/.test(zip)) { say("Enter a 5-digit ZIP code.", "err"); zipIn.focus(); return; }
     var btn = form.querySelector("button");
@@ -371,11 +382,14 @@
           "These doctors are interventional radiologists near you. We couldn't confirm they perform this procedure, so call and ask."));
         if (far.length) out.appendChild(section(far, "tier-far", "Nearest doctors farther away",
           "The nearest doctors we know of beyond " + r + " miles. Nearest first."));
+        // Walkthrough finding 6 (his yes, 2026-11-09): this link goes to treatments and sat in the count line, where
+        // patients took it for more doctors. It now says where it goes and comes after the list.
+        var learn = root.getAttribute("data-learn");
+        if (learn && total) out.appendChild(el("p", { "class": "results-learn" }, [el("a", { href: learn, text: "See all treatment options" })]));
         out.appendChild(el("p", { "class": "small muted", style: "margin-top:18px" }, [
           "Distances run from the center of your ZIP code: to the doctor's office when we could place its street address on the map, otherwise to the center of the doctor's ZIP code. ",
           el("a", { href: "/how-we-know/", text: "How we know" })]));
-        var learn = root.getAttribute("data-learn"), sp = statusEl.querySelector("p");
-        if (learn && sp && total) { sp.appendChild(document.createTextNode(" ")); sp.appendChild(el("a", { href: learn, text: "See all options." })); }
+        if (!quiet) reveal();
       });
     }).catch(function () {
       var retry = el("button", { "class": "secondary", type: "button", text: "Try again" });
@@ -397,6 +411,8 @@
   var qs = new URLSearchParams(location.search);
   var z = qs.get("zip"), rr = parseInt(qs.get("r"), 10);
   if (RADII.indexOf(rr) >= 0) radiusIn.value = String(rr);
-  if (z && /^\d{5}$/.test(z)) { zipIn.value = z; run(z, parseInt(radiusIn.value, 10)); }
+  // Coming Back to this page keeps the reader's place; arriving with a ZIP (from the home search) is a search.
+  var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  if (z && /^\d{5}$/.test(z)) { zipIn.value = z; run(z, parseInt(radiusIn.value, 10), nav && nav.type === "back_forward"); }
   else loadData().catch(function () {});   // warm the list while the ZIP is typed
 })();
