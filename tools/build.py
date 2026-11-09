@@ -276,7 +276,7 @@ def home():
     # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
     return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
                 "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, and pelvic vein pain, "
-                "and for most, doctors nearby who perform embolization.", body, ["/assets/banner.js", "/assets/home-search.js"],
+                "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js"],
                 head=home_schema(), banner=banner, cls="home-page")
 
 
@@ -604,6 +604,14 @@ def copy_src_assets():
         if name.endswith((".css", ".js")):
             with open(os.path.join(src, name), encoding="utf-8") as fh:
                 write("assets/" + name, fh.read())
+    # Home banner film (W13 ride c2 v5, his "Put it on dev site", 2026-11-08 19:40 CT): binary files, copied as they are.
+    media = os.path.join(src, "media")
+    if os.path.isdir(media):
+        import shutil
+        os.makedirs(os.path.join(SITE, "assets", "media"), exist_ok=True)
+        for name in sorted(os.listdir(media)):
+            if name.endswith((".mp4", ".png")):
+                shutil.copyfile(os.path.join(media, name), os.path.join(SITE, "assets", "media", name))
 
 
 def main():
