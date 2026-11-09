@@ -46,7 +46,7 @@ answer = "Osteoarthritis is the most common joint problem. It happens when the c
 urgent = "If a joint suddenly turns hot, red, and swollen, you cannot put weight on it, you have a fever, or you feel very sick or faint, call 911."
 finder_button = "Find a doctor for knee embolization (GAE)"
 finder_heading = "A newer option for knee arthritis pain, without surgery"
-finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. Most people go home the same day."
+finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. You go home the same day."
 # agreed list item 13: the scope note sits under the finder
 finder_note = "This finder lists doctors who perform knee embolization, not other joints."
 finder_how = "#embolization"
@@ -169,7 +169,7 @@ name = "Knee artery embolization (GAE)"
 # "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07; his GAE name, item 14); the skin-nick line left `invasive`
 lead_heading = "What is genicular (knee) artery embolization (GAE)?"
 what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin.[^bsir][^ucla] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
-invasive = "You stay awake, with medicine to help you relax. Most people go home the same day.[^bsir][^ucla] Relief often starts within about two weeks.[^ucla]"
+invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Relief often starts within about two weeks.[^ucla]"
 works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
 side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin] Some people get a small skin sore over the knee. It usually heals on its own.[^sir26][^padia] A few people have numbness or tingling in the lower leg, and it can last for months.[^vz26] Serious problems are rare.[^sir26]"
 

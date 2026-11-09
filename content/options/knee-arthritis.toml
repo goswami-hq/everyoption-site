@@ -67,7 +67,7 @@ knee = "Yes"
 option = "embolization"
 works = "{d:g-gae-pool}; against a sham, not clearly better when the blinded trials are pooled"
 involves = "A thin tube through a tiny skin nick to the knee arteries"
-recovery = "Most go home the same day"
+recovery = "Home the same day"
 knee = "Yes"
 [[glance]]
 option = "steroid"
@@ -147,7 +147,7 @@ risks = "Side effects make some people stop duloxetine. For most people with art
 option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
-intro = "Genicular artery embolization (GAE) blocks small abnormal vessels that grow into the inflamed lining of the knee (synovium). An interventional radiologist passes a catheter, usually from the groin, under local anesthetic or light sedation, and injects small particles into the genicular arteries feeding those vessels. Most people go home the same day.[^bsir][^ucla][^cus26] Less synovial inflammation and fewer nerve endings beside the new vessels is the proposed mechanism, not an established one.[^cus26][^vz26]"
+intro = "Genicular artery embolization (GAE) blocks small abnormal vessels that grow into the inflamed lining of the knee (synovium). An interventional radiologist passes a catheter, usually from the groin, under local anesthetic or light sedation, and injects small particles into the genicular arteries feeding those vessels. You go home the same day.[^bsir][^ucla][^cus26] Less synovial inflammation and fewer nerve endings beside the new vessels is the proposed mechanism, not an established one.[^cus26][^vz26]"
 works = "Early results are encouraging. Studies without a comparison group consistently report large drops in pain that last at least a year. But in the blinded trials, people who had a sham (fake) procedure also improved substantially, and pooled together GAE was not clearly better than sham. Larger trials are under way.[^lanza][^amin][^gen2]"
 evidence = [
   "Sham-controlled trials, pooled. {d:sham-pool}.",
