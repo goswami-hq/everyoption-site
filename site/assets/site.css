@@ -608,6 +608,7 @@ a.compare-link { display: flex; align-items: center; justify-content: space-betw
 a.compare-link:hover { background: var(--soft); }
 a.compare-link:active { transform: scale(0.99); }
 .compare-arrow { flex: none; font-size: 1.25rem; line-height: 1; }
+@media (prefers-reduced-motion: reduce) { a.compare-link { transition: none; } a.compare-link:active { transform: none; } }
 /* The comparison page's first-screen view of its grid (walkthrough finding 2, 2026-11-09). */
 .glance-peek { margin: 12px auto 12px; background: var(--card); border-radius: var(--radius); padding: 4px 14px 2px; }
 .glance-peek table { width: 100%; border-collapse: collapse; font-size: 1rem; line-height: 1.35; }
