@@ -603,6 +603,11 @@ nav.by-city ul { columns: 2; column-gap: 24px; margin: 0 0 6px; }
 .options-page .deep-refs details.topic, .options-page .deep-refs details.topic:last-of-type { border: 0; margin-top: 32px; }
 .options-page .deep-refs details.topic > summary { font: 400 clamp(1.5625rem, 3.4vw, 2rem)/1.2 var(--serif); }
 .see-every { font-weight: 600; margin: 0 0 14px; }
+/* The condition page's link to the comparison page: a control below the option rows, not text above them (his words, 2026-11-09). */
+a.compare-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 54px; margin: 16px 0 0; padding: 14px 16px; border: 1px solid var(--accent); border-radius: 14px; color: var(--accent); font-weight: 600; font-size: 1.0625rem; line-height: 1.3; text-decoration: none; transition: background-color 160ms ease, transform 140ms var(--ease-out); }
+a.compare-link:hover { background: var(--soft); }
+a.compare-link:active { transform: scale(0.99); }
+.compare-arrow { flex: none; font-size: 1.25rem; line-height: 1; }
 /* The comparison page's first-screen view of its grid (walkthrough finding 2, 2026-11-09). */
 .glance-peek { margin: 12px auto 12px; background: var(--card); border-radius: var(--radius); padding: 4px 14px 2px; }
 .glance-peek table { width: 100%; border-collapse: collapse; font-size: 1rem; line-height: 1.35; }
