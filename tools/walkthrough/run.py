@@ -6,7 +6,7 @@ step a fresh, tool-less patient model decides from the persona, the task and wha
     "/Library/Application Support/ai-hq/browser/venv/bin/python" -I tools/walkthrough/run.py \
     --origin http://localhost:8799 --out <dir> --patient-prompt <patient.md> [--engines chromium,webkit] [--personas a,b]
     [--workers 3] [--model claude-sonnet-5-5] [--budget-usd 10]
-  ... run.py --prove-guard --origin http://localhost:8799 --engines webkit --out <dir>     (network guard proof, no model)
+  ... run.py --prove-guard --local-page --engines webkit --out <dir>     (network guard proof, no model; exits non-zero on any failed check)
 
 Serve the build first: node tools/dev-server.mjs 8799 --accounts. Nothing is submitted or sent; every request that is not
 to the exact origin is aborted, WebSockets are closed and service workers are blocked. Per step it saves the screenshot,
@@ -342,25 +342,124 @@ def check_axe_lock(path):
     return lock
 
 
-def lsof_outside(phases, stop):
-    """Sample established outside TCP connections of this runner's browser processes, per phase, since a route guard cannot see a browser's
-    own traffic. Matches by process tree, so another browser on the machine is not counted (first version matched by name and caught his own Chrome,
-    2026-11-08). phases["now"] names the phase being sampled."""
+POSITIVE_URL = "http://example.com/"  # plain HTTP on purpose: HTTP/3 would use UDP, which this sampler does not read. On the egress allowlist (window playwright-render)
+
+
+def browser_root(exe):
+    """Playwright's browsers folder. Matching on it catches what a process tree misses: WebKit's Networking and WebContent services start through launchd on
+    macOS, and Chromium headless runs from a sibling folder of the one executable_path names."""
+    m = re.match(r"(.*/ms-playwright/)", exe)
+    return m.group(1) if m else os.path.dirname(exe) + "/"
+
+
+def browser_pids(root):
+    """PIDs of this runner's process tree, plus any process of this macOS user started from the engine's install folder (another job's browser may run the
+    same folder under the browser user; not counted) and its descendants. Returns (pids, names started from the folder)."""
+    kids, roots, names = {}, {os.getpid()}, set()
+    for l in subprocess.run(["ps", "-axww", "-o", "pid=,ppid=,uid=,command="], capture_output=True, text=True, check=True).stdout.splitlines():
+        f = l.split(None, 3)
+        if len(f) < 4:
+            continue
+        pid, ppid, uid, cmd = int(f[0]), int(f[1]), int(f[2]), f[3]
+        kids.setdefault(ppid, []).append(pid)
+        if uid == os.getuid() and cmd.startswith(root):
+            roots.add(pid); names.add(os.path.basename(cmd[len(root):].split()[0]))
+    tree, todo = set(roots), list(roots)
+    while todo:
+        for k in kids.get(todo.pop(), []):
+            if k not in tree:
+                tree.add(k); todo.append(k)
+    return tree, names
+
+
+def sample_outside(state, stop, root):
+    """While state["now"] names a phase, record the established TCP connections of the browser's PIDs that do not end on loopback. A route guard cannot
+    see a browser's own traffic; this can, within limits: TCP only, and a connection opened and closed between two samples is missed."""
     while not stop.is_set():
-        kids, tree = {}, {os.getpid()}
-        for l in subprocess.run(["ps", "-axo", "pid=,ppid="], capture_output=True, text=True).stdout.splitlines():
-            pid, ppid = l.split(); kids.setdefault(int(ppid), []).append(int(pid))
-        todo = [os.getpid()]
-        while todo:
-            for k in kids.get(todo.pop(), []):
-                if k not in tree:
-                    tree.add(k); todo.append(k)
-        out = subprocess.run(["lsof", "+c", "0", "-nP", "-iTCP", "-sTCP:ESTABLISHED"], capture_output=True, text=True).stdout
-        for l in out.splitlines()[1:]:
-            parts = l.split()
-            if len(parts) > 1 and parts[1].isdigit() and int(parts[1]) in tree and not re.search(r"->(127\.|\[::1\])", l):
-                phases.setdefault(phases["now"], set()).add(re.sub(r"\s+", " ", l)[:200])
-        stop.wait(0.1)
+        phase = state["now"]
+        if phase is None:
+            stop.wait(0.05); continue
+        try:
+            pids, names = browser_pids(root)
+            # Scoped to these PIDs: each sample is quicker, so fewer short connections fall between samples.
+            r = subprocess.run(["lsof", "+c", "0", "-nP", "-a", "-iTCP", "-p", ",".join(map(str, sorted(pids)))], capture_output=True, text=True)
+            if r.returncode not in (0, 1):  # 1 means nothing matched
+                raise RuntimeError(f"lsof exit {r.returncode}: {r.stderr[:200]}")
+        except Exception as ex:
+            state["errors"].append(f"{phase}: {str(ex)[:200]}"); stop.wait(0.2); continue
+        found = state["sets"].setdefault(phase, set())
+        for l in r.stdout.splitlines()[1:]:
+            m = re.search(r"\s(\d+)\s", l)  # the PID is the first all-digit column; +c 0 names may hold spaces
+            if m and int(m.group(1)) in pids and "(ESTABLISHED)" in l and not re.search(r"->(127\.|\[::1\])", l):
+                found.add(re.sub(r"\s+", " ", l)[:200])
+        state["samples"][phase] = state["samples"].get(phase, 0) + 1
+        state["procs"].setdefault(phase, set()).update(names)
+        stop.wait(0.05)
+
+
+def wait_browser_gone(root, seconds=20):
+    """Between the two launches: a connection held by the unguarded browser must not be counted against the guarded one."""
+    end = time.time() + seconds
+    while time.time() < end:
+        if not browser_pids(root)[1]:
+            return True
+        time.sleep(0.25)
+    return False
+
+
+PAGE = b'<!doctype html><html lang="en"><title>Guard proof page</title><main><h1>Guard proof page</h1><p>Local page for the network guard proof.</p></main></html>'
+
+
+def prove_engine(p, engine, a, can, hits, attempt):
+    state, halt, failures = {"now": None, "sets": {}, "samples": {}, "procs": {}, "errors": []}, threading.Event(), []
+    root = browser_root(getattr(p, engine).executable_path)
+    sampler = threading.Thread(target=sample_outside, args=(state, halt, root), daemon=True); sampler.start()
+    # First browser, no guard: the positive control (a deliberate outside connection the sampler must catch), then the canary control.
+    b = getattr(p, engine).launch()
+    state["now"] = "baseline"; time.sleep(1.5)
+    c0 = b.new_context(bypass_csp=True); pg = c0.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000)
+    state["now"] = "positive"
+    # An HTTP fetch here lasts about 100 ms and a sample takes longer, so one fetch can fall between samples: repeat, with gaps, until caught (at most 40 requests).
+    seen, caught, tries = "not run", [], 0
+    while not caught and tries < 40:
+        seen = pg.evaluate("async u => { try { await fetch(u, {mode: 'no-cors', cache: 'no-store'}); return 'sent'; } catch (e) { return 'failed'; } }", f"{POSITIVE_URL}?wt={tries}")
+        tries += 1; time.sleep(0.25)
+        caught = sorted(l for l in state["sets"].get("positive", set()) - state["sets"].get("baseline", set()) if re.search(r"->\S+:(80|443) ", l))
+    state["now"] = None; print("positive control", engine, seen, len(caught), flush=True)
+    if not caught:
+        failures.append("positive control: the sampler did not catch the deliberate outside connection")
+    before = len(hits); ctl = pg.evaluate(attempt, [can, engine + "-noguard"]); pg.wait_for_timeout(500); ctl_hits = hits[before:]; print("canary control", ctl, flush=True); c0.close(); b.close()
+    for kind in ("fetch", "img"):
+        if not any(f"/{kind}-" in h for h in ctl_hits):
+            failures.append(f"canary control: no {kind} hit without the guard, so the canary cannot speak for it")
+    not_confirmed = [k for k in ("beacon", "ws") if not any(f"/{k}-" in h for h in ctl_hits)]
+    gone = wait_browser_gone(root)
+    if not gone:
+        failures.append("the first browser's processes did not exit, so the guarded phase cannot start clean")
+    # Second browser, guarded. Sampled from before launch to after its context closes.
+    state["now"] = "guarded"
+    b = getattr(p, engine).launch()
+    blocked = []; c1 = new_context(b, "phone390", a.origin, blocked, bypass_csp=True); pg = c1.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000)
+    before = len(hits); gd = pg.evaluate(attempt, [can, engine + "-guard"]); pg.wait_for_timeout(1000); gd_hits = hits[before:]; print("guarded done", gd, flush=True)
+    axe = axe_check(pg, a.axe); sw = pg.evaluate("'serviceWorker' in navigator ? 'present' : 'absent'"); c1.close()
+    state["now"] = None; time.sleep(0.3); b.close(); halt.set(); sampler.join(10)
+    guarded_set = sorted(state["sets"].get("guarded", set())); samples = state["samples"].get("guarded", 0)
+    if gd_hits:
+        failures.append("guarded: the canary was reached")
+    if guarded_set:
+        failures.append("guarded: outside connections seen from the browser's own processes")
+    if samples < 5:
+        failures.append(f"guarded: only {samples} samples, too few to mean anything")
+    if not any("example.com" in u for u in blocked):
+        failures.append("guarded: the outside request was not aborted by the guard")
+    if state["errors"]:
+        failures.append("sampler errors: " + "; ".join(state["errors"][:3]))
+    return {"browser_folder": root, "passed": not failures, "failures": failures, "samples_per_phase": state["samples"],
+            "processes_started_from_folder": {k: sorted(v) for k, v in state["procs"].items()},
+            "positive_control": {"url": POSITIVE_URL, "page_saw": seen, "fetches_until_caught": tries, "connections_caught": caught, "baseline": sorted(state["sets"].get("baseline", set()))},
+            "outside_connections_guarded": guarded_set, "first_browser_gone_before_guarded": gone,
+            "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits, "kinds_control_did_not_confirm": not_confirmed}, "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked},
+            "axe_version": axe.get("version"), "axe_error": axe.get("error"), "axe_violations_on_home": len(axe.get("violations", [])), "service_worker_api": sw}
 
 
 def prove_guard(a):
@@ -370,8 +469,16 @@ def prove_guard(a):
             hits.append(self.path); self.send_response(200); self.send_header("Access-Control-Allow-Origin", "*"); self.end_headers(); self.wfile.write(b"ok")
         def do_POST(self): self.do_GET()
         def log_message(self, *x): pass
+    class Page(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers(); self.wfile.write(PAGE)
+        def log_message(self, *x): pass
     srv = http.server.ThreadingHTTPServer(("127.0.0.1", a.canary_port), H)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
+    if a.local_page:  # a page of its own on loopback, so the proof needs no built site or dev server
+        page_srv = http.server.ThreadingHTTPServer(("127.0.0.1", a.canary_port - 1), Page)
+        threading.Thread(target=page_srv.serve_forever, daemon=True).start()
+        a.origin = f"http://localhost:{a.canary_port - 1}"
     can = f"http://127.0.0.1:{a.canary_port}"
     attempt = """async ([can, tag]) => { const out = {};
       try { await fetch(can + '/fetch-' + tag, {mode: 'no-cors'}); out.fetch = 'sent'; } catch (e) { out.fetch = 'failed'; }
@@ -380,25 +487,15 @@ def prove_guard(a):
       await new Promise(r => { let w; try { w = new WebSocket(can.replace('http', 'ws') + '/ws-' + tag); w.onopen = w.onerror = w.onclose = () => r(); } catch (e) { r(); } setTimeout(r, 2500); });
       try { await fetch('http://example.com/', {mode: 'no-cors'}); out.example = 'sent'; } catch (e) { out.example = 'failed'; }
       await new Promise(r => setTimeout(r, 800)); return out; }"""
-    report = {"prefix_test": {"http://localhost:8799.example.com/": allowed("http://localhost:8799.example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
+    report = {"origin": a.origin, "prefix_test": {a.origin + ".example.com/": allowed(a.origin + ".example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
     with sync_playwright() as p:
         for engine in a.engines.split(","):
-            b = getattr(p, engine).launch(); phases, halt = {"now": "control"}, threading.Event()
-            threading.Thread(target=lsof_outside, args=(phases, halt), daemon=True).start()
-            # Control: no guard, so a canary hit proves the canary can see each kind of request.
-            c0 = b.new_context(bypass_csp=True); pg = c0.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000); print("control page open", engine, flush=True)
-            before = len(hits); ctl = pg.evaluate(attempt, [can, engine + "-noguard"]); print("control done", ctl, flush=True); pg.wait_for_timeout(500); ctl_hits = hits[before:]; c0.close()
-            phases["now"] = "settle"; time.sleep(1.5); phases["now"] = "guarded"
-            blocked = []; c1 = new_context(b, "phone390", a.origin, blocked, bypass_csp=True); pg = c1.new_page(); pg.goto(a.origin + "/how-we-know/", wait_until="load", timeout=20000); print("guarded page open", engine, flush=True)
-            before = len(hits); gd = pg.evaluate(attempt, [can, engine + "-guard"]); pg.wait_for_timeout(1000); gd_hits = hits[before:]; print("guarded done", gd, flush=True)
-            axe = axe_check(pg, a.axe); print("axe done", axe.get("version"), axe.get("error"), flush=True); sw = pg.evaluate("'serviceWorker' in navigator ? 'present' : 'absent'"); c1.close(); b.close(); halt.set()
-            report[engine] = {"outside_connections_control": sorted(phases.get("control", [])), "outside_connections_guarded": sorted(phases.get("guarded", [])), "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits}, "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked},
-                              "axe_version": axe.get("version"), "axe_error": axe.get("error"), "axe_violations_on_home": len(axe.get("violations", [])), "service_worker_api": sw}
+            report[engine] = prove_engine(p, engine, a, can, hits, attempt)
     srv.shutdown()
     os.makedirs(a.out, exist_ok=True)
     json.dump(report, open(os.path.join(a.out, "guard-proof.json"), "w"), indent=1)
     print(json.dumps(report, indent=1))
-    bad = [e for e in a.engines.split(",") if report[e]["guarded"]["canary_hits"] or report[e]["outside_connections_guarded"]]
+    bad = [e for e in a.engines.split(",") if not report[e]["passed"]] or list(report["prefix_test"].values()) != [False, True, False]
     raise SystemExit(1 if bad else 0)
 
 
@@ -407,7 +504,7 @@ def main():
     ap.add_argument("--panel", default=os.path.join(HERE, "panel.json")); ap.add_argument("--out", required=True); ap.add_argument("--origin", default="http://localhost:8799")
     ap.add_argument("--engines", default="chromium"); ap.add_argument("--personas", default=""); ap.add_argument("--tasks", default=""); ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--model", default="claude-sonnet-5-5"); ap.add_argument("--budget-usd", type=float, default=10.0); ap.add_argument("--patient-prompt")
-    ap.add_argument("--prove-guard", action="store_true"); ap.add_argument("--canary-port", type=int, default=8798)
+    ap.add_argument("--prove-guard", action="store_true"); ap.add_argument("--canary-port", type=int, default=8798); ap.add_argument("--local-page", action="store_true", help="prove-guard only: serve a page of its own on the port below the canary")
     ap.add_argument("--axe", default=os.path.expanduser("~/ai-hq-data/tools/axe-core/4.14.0/package/axe.min.js"))
     a = ap.parse_args()
     a.out = os.path.abspath(a.out); check_axe_lock(a.axe)
