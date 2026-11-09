@@ -13,8 +13,13 @@ this runner and the patient model stay as his user. Only a local http origin is 
 Forms the patient submits go only to the local dev server. Every page request not to the exact origin is aborted, WebSockets are routed and never connected, and service workers are
 blocked; below the route, a launch-level proxy to a dead port catches what the route cannot see (redirects, preconnect). What does leave the mini: each sighted step's screenshot, and the page
 text, accessibility text, persona and task, go to Anthropic through the patient model (claude -p). Per step it saves the screenshot, the accessibility snapshot, the axe result, the URL and
-what was tapped. Per task: steps.jsonl and result.json. Per run: outside-connections.json; any outside connection seen from the browser user's processes fails the run."""
-import argparse, base64, hashlib, http.server, json, os, re, subprocess, sys, threading, time
+what was tapped. Per task: steps.jsonl and result.json. Per run: outside-connections.json; any outside connection seen from the browser user's processes fails the run.
+
+Sight first (job platform-web-design-0007): a sighted patient gets the screenshot and the visible text, never roles or numbers, and names what it taps by the words on it and where it is; resolve() turns that
+into a control or a miss (a miss counts as a tap and nothing happens, like a real tap on text that is not a link). Screen-reader patients keep the accessibility tree. The affordance check (--affordance-prompt) is a separate
+fresh process that sees one screenshot at a time, once per distinct page and device, and lists what looks tappable; compare_page() sets that against the real controls. Explorers (mode: explore in panel.json) have a
+situation and no finish line; random tracks (--random-tracks, --seed) draw persona, start page, function and device; both are reported apart from the fixed panel and never in before-and-after."""
+import argparse, base64, hashlib, http.server, json, math, os, random, re, subprocess, sys, threading, time
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlsplit
 from playwright.sync_api import sync_playwright
@@ -30,7 +35,9 @@ DEVICES = {
     "desktop1440": dict(viewport={"width": 1440, "height": 900}, device_scale_factor=1),
     # A 1280x800 screen at 200% browser zoom lays out as 640x800 CSS pixels at twice the density.
     "zoom200": dict(viewport={"width": 640, "height": 800}, device_scale_factor=2),
+    "phone390dark": dict(viewport={"width": 390, "height": 844}, device_scale_factor=2, has_touch=True, is_mobile=True, color_scheme="dark"),
 }
+FIELD_TAGS = ("input", "textarea", "select")
 CONTROLS = r"""(fullPage) => {
   document.querySelectorAll('[data-wt]').forEach(e => e.removeAttribute('data-wt'));
   const sel = 'a[href],button,input:not([type=hidden]),select,textarea,summary,[role=button],[role=link],[role=tab],[tabindex]:not([tabindex="-1"])';
@@ -44,6 +51,8 @@ CONTROLS = r"""(fullPage) => {
     i++; e.setAttribute('data-wt', i);
     out.push({n: i, tag: e.tagName.toLowerCase(), type: e.type || '', href: e.getAttribute('href') || '', value: (e.value || '').slice(0, 60),
       placeholder: e.placeholder || '', checked: !!e.checked, x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height),
+      top: Math.round(r.y + scrollY), vis: (e.innerText || '').trim().replace(/\s+/g, ' ').slice(0, 100),
+      label: e.labels && e.labels[0] ? e.labels[0].innerText.trim().replace(/\s+/g, ' ').slice(0, 100) : '',
       text: (e.innerText || e.getAttribute('aria-label') || e.value || '').trim().replace(/\s+/g, ' ').slice(0, 100)});
   }
   return out; }"""
@@ -102,7 +111,8 @@ def guard(ctx, origin, blocked):
 
 
 def new_context(browser, device, origin, blocked, bypass_csp=False):
-    ctx = browser.new_context(color_scheme="light", service_workers="block", bypass_csp=bypass_csp, **DEVICES[device])
+    opts = dict(DEVICES[device]); scheme = opts.pop("color_scheme", "light")
+    ctx = browser.new_context(color_scheme=scheme, service_workers="block", bypass_csp=bypass_csp, **opts)
     guard(ctx, origin, blocked)
     return ctx
 
@@ -177,7 +187,7 @@ def observe(page, persona, device_sees_screen, step_dir, n, axe_path, sr_pos):
     axe = axe_check(page, axe_path)
     json.dump(axe, open(os.path.join(step_dir, f"step-{n:02d}-axe.json"), "w"), indent=1)
     sr = not device_sees_screen
-    controls = page.evaluate(CONTROLS, sr)[:120 if sr else 45]
+    controls = page.evaluate(CONTROLS, sr)[:120]
     for c in controls:
         try:
             first = page.locator(f'[data-wt="{c["n"]}"]').first.aria_snapshot(timeout=800).splitlines()[0]
@@ -197,23 +207,234 @@ def describe_controls(controls):
     return "\n".join(rows) or "(no controls)"
 
 
+TAP_FIELDS = ('"tap_words": "the words on the thing you tap, or on or beside the box you type in, copied as they appear; if it has no words, what it looks like", '
+              '"where": "where it is on the screen, in your own words", "down_pct": <how far down the screen it is, 0 to 100>, "across_pct": <how far across, 0 to 100>, ')
+EXPLORE_FIELDS = ('"expected": "what you expected your last tap to show, or (nothing yet)", "met": "yes|no|partly|nothing yet", "surprise": "anything that surprised or stopped you, or empty", ')
+
+
 def build_message(persona, task, sees, trail, taps, budget, url_path, visible, aria, controls, sr_pos):
-    head = [f'You are: {persona["who"]}', f'You came here after: {persona.get("query") or "following a link"}', f'What you want right now: {task["goal"]}',
+    explore = persona.get("kind") == "explorer"
+    want = (f'Your situation: {task["goal"]}\n\nYou have no set goal and no finish line. Look around as this person would, for as long as they would. At each step say what you expected your last tap to show and whether the page met it.'
+            if explore else f'What you want right now: {task["goal"]}')
+    head = [f'You are: {persona["who"]}', f'You came here after: {persona.get("query") or "following a link"}', want,
             f'Words you would look for: {", ".join(task.get("words") or persona.get("words") or [])}',
             f'Taps used: {taps} of {budget}.' + (" You have used all your taps. If what you need is in front of you, answer done; otherwise give_up." if taps >= budget else ""),
             f"Address bar: {url_path}"]
     head.append("What you have done so far:\n" + ("\n".join(trail) if trail else "(nothing yet)"))
     if sees:
-        head += ["The screenshot is exactly what is on your screen now.", "Text on the screen:\n" + visible[:2500], "Things you can tap on this screen:\n" + describe_controls(controls)]
+        head += ["The screenshot is exactly what is on your screen now.", "Text on the screen:\n" + visible[:2500]]
     else:
         lines = aria.splitlines()
         heads = [f"line {i}: {l.strip()[2:60]}" for i, l in enumerate(lines) if "heading " in l]
         head += ["You cannot see the screen. Your screen reader gives you this.", "Headings on the page:\n" + "\n".join(heads[:40]),
                  f"Reading from line {sr_pos} of {len(lines)}:\n" + "\n".join(lines[sr_pos:sr_pos + 90]), "Links, buttons and fields on the page:\n" + describe_controls(controls)]
-    head.append('Answer with one JSON object only: {"looking_for": "what you are looking for, in your own words", "thinking": "one short sentence", '
-                '"action": "tap|type|scroll_down|scroll_up|back|read_more|read_from|done|give_up", "target": <number of the control, or heading line for read_from>, '
-                '"text": "what you type, if type", "submit": false, "why": "one short sentence"}')
+    extra = EXPLORE_FIELDS if explore else ""
+    if sees:
+        head.append('Answer with one JSON object only: {"looking_for": "what you are looking for, in your own words", "thinking": "one short sentence", '
+                    '"action": "tap|type|scroll_down|scroll_up|back|done|give_up", ' + TAP_FIELDS + extra +
+                    '"text": "what you type, if type", "submit": false, "why": "one short sentence"}')
+    else:
+        head.append('Answer with one JSON object only: {"looking_for": "what you are looking for, in your own words", "thinking": "one short sentence", '
+                    '"action": "tap|type|scroll_down|scroll_up|back|read_more|read_from|done|give_up", "target": <number of the control, or heading line for read_from>, ' + extra +
+                    '"text": "what you type, if type", "submit": false, "why": "one short sentence"}')
     return "\n\n".join(head)
+
+
+FILLER = set("the a an this that on button link tab icon text line word words please".split())
+
+
+def norm(s):
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def control_names(c):
+    """What a sighted person could call this control: the words on it, a field's visible label, hint or current value, and the aria name of a control with no words on it (an icon button)."""
+    names = [c.get("vis") or ""]
+    if c.get("tag") in FIELD_TAGS:
+        names += [c.get("label") or "", c.get("placeholder") or "", c.get("value") or ""]
+    if not (c.get("vis") or "").strip():
+        names.append(c.get("text") or "")
+    return [n for n in (norm(x) for x in names) if n]
+
+
+def match_score(t, names):
+    """3: the same words. 2: one is inside the other, at word boundaries. 1: most of the words in common. 0: no match."""
+    best, tt = 0, set(t.split()) - FILLER
+    for n in names:
+        if t == n:
+            return 3
+        if (len(t) >= 3 and re.search(r"(^| )" + re.escape(t) + r"( |$)", n)) or (len(n) >= 3 and len(n) / len(t) >= 0.5 and re.search(r"(^| )" + re.escape(n) + r"( |$)", t)):
+            best = max(best, 2)
+        nt = set(n.split()) - FILLER
+        if tt and nt and len(tt & nt) / len(tt | nt) >= 0.6:
+            best = max(best, 1)
+    return best
+
+
+def where_to_point(down, across, where):
+    """Percent down and across, as the patient gave them; failing that, from its words (top, bottom, left, right)."""
+    def pct(v):
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            return None
+        return v if 0 <= v <= 100 else None
+    d, x, w = pct(down), pct(across), (where or "").lower()
+    if d is None:
+        d = 10.0 if re.search(r"\btop\b", w) else 90.0 if re.search(r"\bbottom\b", w) else 50.0 if re.search(r"\bmiddle\b|\bcent(?:er|re)\b", w) else None
+    if x is None:
+        x = 15.0 if re.search(r"\bleft\b", w) else 85.0 if re.search(r"\bright\b", w) else None
+    return d, x
+
+
+def resolve(words, where, down, across, controls, vw, vh, visible=(), want_field=False):
+    """Turn what a sighted patient named into a control. Returns (control, how) or (None, why it missed):
+    "plain_text" (the words are on the screen but not on a control), "ambiguous" (several controls fit and position cannot separate them), "no_match"."""
+    pool = [c for c in controls if not want_field or c.get("tag") in FIELD_TAGS]
+    t, lines = norm(words), {norm(l) for l in visible}
+    d, x = where_to_point(down, across, where)
+    point = None if d is None else ((x if x is not None else 50.0) * vw / 100, d * vh / 100)
+    def dist(c):
+        return math.hypot(c["x"] + c["w"] / 2 - point[0], c["y"] + c["h"] / 2 - point[1])
+    if t:
+        scored = [(match_score(t, control_names(c)), c) for c in pool]
+        top = max([s for s, _ in scored], default=0)
+        cands = [c for s, c in scored if s == top and s > 0]
+        if cands:
+            if top < 3 and t in lines and not any(re.search(r"(^| )" + re.escape(t) + r"( |$)", n) for c in cands for n in control_names(c)):
+                return None, "plain_text"  # e.g. the words are a heading next to a link whose words are close
+            if len(cands) == 1:
+                return cands[0], "text"
+            hrefs = {c.get("href") or "" for c in cands}
+            if len(hrefs) == 1 and "" not in hrefs:
+                return (min(cands, key=dist) if point else cands[0]), "text, same destination"
+            if point:
+                ordered = sorted(cands, key=dist)
+                if dist(ordered[1]) - dist(ordered[0]) >= 0.08 * vh:
+                    return ordered[0], "text and position"
+            return None, "ambiguous"
+        if t in lines or any(t and t in l for l in lines):
+            return None, "plain_text"
+    if want_field and len(pool) == 1:
+        return pool[0], "only field on screen"
+    if point:
+        inside = []
+        for c in pool:
+            tol = 40 if not (c.get("vis") or "").strip() else 0  # no words on it: an icon, so the position is all a person can give
+            if c["x"] - tol <= point[0] <= c["x"] + c["w"] + tol and c["y"] - tol <= point[1] <= c["y"] + c["h"] + tol:
+                inside.append(c)
+        if inside:
+            return min(inside, key=dist), "position"
+    return None, "no_match"
+
+
+def control_key(c):
+    names = control_names(c)
+    return (names[0] if names else "", c.get("href") or "")
+
+
+def fully_on_screen(c, vh):
+    return c["y"] >= 0 and c["y"] + c["h"] <= vh and c["w"] >= 8 and c["h"] >= 8
+
+
+def listed_controls(item, controls):
+    """The real controls one listed item names: the best word match, or for an item with no words, a wordless control where it said it was."""
+    t = norm(item.get("words"))
+    if t:
+        scored = [(match_score(t, control_names(c)), c) for c in controls]
+        top = max([s for s, _ in scored], default=0)
+        if top:
+            return [c for s, c in scored if s == top]
+    return []
+
+
+def compare_page(screens):
+    """screens: [{"controls": every control in view, "listed": the checker's items, "vh": viewport height, "shot": path, "error": ""}]. A control counts as listed if any screen listed it;
+    "does not look tappable" needs a screen that showed it whole and nobody listing it on any screen (a partly cut-off control or a checker error proves nothing)."""
+    state, phantoms = {}, []
+    for sc in screens:
+        for c in sc["controls"]:
+            k = control_key(c)
+            st = state.setdefault(k, {"control": c, "whole_on": None, "listed": False, "clear": False})
+            if fully_on_screen(c, sc["vh"]) and st["whole_on"] is None and not sc.get("error"):
+                st["whole_on"] = sc["shot"]
+        for item in sc.get("listed") or []:
+            hits = listed_controls(item, sc["controls"])
+            if not hits:
+                if norm(item.get("words")):
+                    phantoms.append({"words": item.get("words"), "where": item.get("where"), "shot": sc["shot"]})
+                continue
+            clear = str(item.get("sure") or "clear").lower() != "unclear"
+            for c in hits:
+                st = state[control_key(c)]
+                st["listed"] = True
+                st["clear"] = st["clear"] or clear
+    unlisted = [{"words": st["control"].get("vis") or st["control"].get("text") or "(no words)", "href": st["control"].get("href", ""), "shot": st["whole_on"]} for st in state.values() if st["whole_on"] and not st["listed"]]
+    unclear = [{"words": st["control"].get("vis") or st["control"].get("text") or "(no words)", "href": st["control"].get("href", ""), "shot": st["whole_on"]} for st in state.values() if st["listed"] and not st["clear"] and st["whole_on"]]
+    return {"controls": len(state), "does_not_look_tappable": unlisted, "unclear": unclear, "looks_tappable_is_not": phantoms}
+
+
+def page_key(url_path):
+    """One entry per distinct page: the fragment dropped, query values dropped (the same finder screen with another ZIP is the same page), and every doctor profile counted as one template."""
+    path, _, q = url_path.split("#")[0].partition("?")
+    path = re.sub(r"^/doctors/[^/]+/$", "/doctors/*/", path)
+    return path + ("?" + "&".join(sorted(x.split("=")[0] for x in q.split("&"))) if q else "")
+
+
+class Affordance:
+    """Shared across workers: which page and device pairs are already claimed, the model budget for this check, and the findings."""
+    def __init__(self, prompt, budget, screens):
+        self.system, self.spend, self.max_screens, self.lock, self.claimed, self.results = prompt, Spend(budget), screens, threading.Lock(), set(), []
+
+    def claim(self, device, key):
+        with self.lock:
+            if (device, key) in self.claimed:
+                return False
+            self.claimed.add((device, key)); return True
+
+
+def affordance_sweep(browser, device, path, a, aff, repeat=0):
+    """Every screen of the page, one fresh screenshot-only process per screen, in a fresh context, so the check never disturbs a patient's session."""
+    blocked = []
+    ctx = new_context(browser, device, a.origin, blocked)
+    page = ctx.new_page()
+    slug = re.sub(r"[^a-z0-9]+", "-", path.lower()).strip("-") or "home"
+    d = os.path.join(a.out, "affordance", device, slug + (f"-r{repeat}" if repeat else ""))
+    os.makedirs(d, exist_ok=True)
+    cwd = os.path.join(a.out, "_patient_cwd"); os.makedirs(cwd, exist_ok=True)
+    screens, vh = [], DEVICES[device]["viewport"]["height"]
+    try:
+        page.goto(a.origin + path, wait_until="load", timeout=30000); page.wait_for_timeout(900)
+        height = page.evaluate("document.documentElement.scrollHeight")
+        ys, step = [], int(vh * 0.85)
+        while True:
+            ys.append(min(len(ys) * step, max(0, height - vh)))
+            if ys[-1] >= height - vh or len(ys) >= aff.max_screens:
+                break
+        word = "phone" if DEVICES[device].get("has_touch") else "computer"
+        for i, y in enumerate(ys):
+            if aff.spend.over():
+                break
+            page.evaluate("y => window.scrollTo(0, y)", y); page.wait_for_timeout(300)
+            shot = os.path.join(d, f"screen-{i:02d}.jpg")
+            page.screenshot(path=shot, type="jpeg", quality=70)
+            controls = page.evaluate(CONTROLS, False)
+            msg = f"One screen of a website on a {word}."
+            r, cost = ask_patient(aff.system, msg + ' Answer with one JSON object only: {"items": [{"words": "the words on it as they appear, or what it looks like if it has no words", "where": "where it is", "down_pct": 0, "across_pct": 0, "sure": "clear|unclear"}]}', open(shot, "rb").read(), a.model, cwd, aff.spend)
+            items = r.get("items") if isinstance(r, dict) else None
+            screens.append({"controls": controls, "listed": items if isinstance(items, list) else [], "vh": vh, "shot": os.path.relpath(shot, a.out), "error": "" if isinstance(items, list) else str(r)[:200], "cost_usd": cost, "y": y})
+            json.dump(screens[-1], open(os.path.join(d, f"screen-{i:02d}.json"), "w"), indent=1)
+    finally:
+        ctx.close()
+    out = {"device": device, "path": path, "page_key": page_key(path), "repeat": repeat, "height": page_height(screens), "screens": len(screens), "cost_usd": round(sum(s.get("cost_usd", 0) for s in screens), 4), "errors": sum(1 for s in screens if s.get("error")), "blocked": sorted(set(blocked))[:10], **compare_page(screens)}
+    json.dump(out, open(os.path.join(d, "result.json"), "w"), indent=1)
+    with aff.lock:
+        aff.results.append(out)
+    return out
+
+
+def page_height(screens):
+    return max([s["y"] + s["vh"] for s in screens], default=0)
 
 
 def finish_met(page, finish, url_path, called, whole_page):
@@ -248,7 +469,9 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
     budget = task["tap_budget"]
     max_steps = min(budget * 2 + 6, 18)
     trail, steps = [], []
-    taps = scrolls = backs = fails = 0
+    kind = persona.get("kind", "fixed")
+    visited, vw, vh = {}, DEVICES[device]["viewport"]["width"], DEVICES[device]["viewport"]["height"]
+    taps = scrolls = backs = fails = misses = 0
     called = False
     finish_step = None
     outcome, sr_pos = None, 0
@@ -257,6 +480,8 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
         if spend.over():
             outcome = "stopped_budget"; break
         url_path = page.url.replace(a.origin, "") or "/"
+        if sees:
+            visited.setdefault(page_key(url_path), url_path.split("#")[0])
         shot, aria, axe, controls = observe(page, persona, sees, tdir, n, a.axe, sr_pos)
         if finish_step is None and finish_met(page, task["finish"], url_path, called, not sees):
             finish_step = n
@@ -265,16 +490,25 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
         d, cost = ask_patient(system, msg, open(shot, "rb").read() if sees else None, a.model, cwd, spend)
         act = d.get("action", "error")
         rec = {"step": n, "engine": engine, "persona": persona["id"], "task": task["id"], "device": device, "url": url_path, "screenshot": os.path.basename(shot),
-               "looking_for": d.get("looking_for", ""), "thinking": d.get("thinking", ""), "action": act, "why": d.get("why", ""), "cost_usd": cost, "finish_met_now": finish_step is not None,
+               "looking_for": d.get("looking_for", ""), "thinking": d.get("thinking", ""), "action": act, "why": d.get("why", ""), "cost_usd": cost, "finish_met_now": finish_step is not None, "kind": kind,
+               "expected": d.get("expected", ""), "met": d.get("met", ""), "surprise": d.get("surprise", ""),
                "axe": {"violations": len(axe.get("violations", [])), "incomplete": len(axe.get("incomplete", [])), "error": axe.get("error")}}
-        target = next((c for c in controls if c["n"] == d.get("target")), None)
-        rec["target"] = {k: target[k] for k in ("n", "aria", "href", "x", "y", "w", "h") if k in target} if target else d.get("target")
+        how, words = "", ""
+        if sees and act in ("tap", "type"):
+            words = str(d.get("tap_words") or "")
+            target, how = resolve(words, d.get("where"), d.get("down_pct"), d.get("across_pct"), controls, vw, vh, visible.splitlines(), want_field=act == "type")
+            rec["named"] = {"tap_words": words, "where": d.get("where", ""), "down_pct": d.get("down_pct"), "across_pct": d.get("across_pct"), "resolved_how": how, "miss": target is None}
+        else:
+            target = next((c for c in controls if c["n"] == d.get("target")), None)
+        rec["target"] = {k: target[k] for k in ("n", "aria", "href", "x", "y", "w", "h") if k in target} if target else (d.get("target") if not sees else f'MISS "{words}" ({how})')
         result = ""
         try:
             if act in ("done", "give_up", "error"):
                 rec["result"] = act; steps.append(rec); log.write(json.dumps(rec) + "\n"); outcome = act; break
             if act == "tap":
-                if not target:
+                if not target and sees:
+                    taps += 1; misses += 1; result = "you tapped there and nothing happened"
+                elif not target:
                     result = "tap on nothing (no such control)"; fails += 1
                 elif target["href"].startswith(("tel:", "mailto:")):
                     taps += 1; called = target["href"].startswith("tel:"); result = "tapped a " + target["href"].split(":")[0] + " link"
@@ -292,7 +526,9 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
                     if blocked and not allowed(target["href"], a.origin) and target["href"].startswith("http"):
                         result = "tapped an outside link (blocked in this test): " + target["href"]
             elif act == "type":
-                if not target:
+                if not target and sees:
+                    misses += 1; result = "you could not find a box there to type in"
+                elif not target:
                     result = "type into nothing"; fails += 1
                 else:
                     loc = page.locator(f'[data-wt="{target["n"]}"]').first
@@ -316,7 +552,7 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
             result = "FAILED: " + str(ex).splitlines()[0][:160]; fails += 1
         if finish_step is None and finish_met(page, task["finish"], page.url.replace(a.origin, "") or "/", called, not sees):
             finish_step = n + 1
-        label = (target or {}).get("aria", "") if isinstance(target, dict) else ""
+        label = ((target or {}).get("aria", "") if isinstance(target, dict) else "") if not sees else f'"{words}"' if words else ""
         trail.append(f'{n + 1}. Looked for: {d.get("looking_for", "")}. Did: {act} {label}. Result: {result}.')
         rec.update(result=result, taps=taps, scrolls=scrolls)
         steps.append(rec); log.write(json.dumps(rec) + "\n"); log.flush()
@@ -332,9 +568,11 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
     log.close()
     met = finish_step is not None
     status = "found" if met and outcome == "done" else "found_late_or_unclaimed" if met else "claimed_done_not_met" if outcome == "done" else "not_found"
+    if kind != "fixed":  # no finish line: the patient's own word and what it did are the result, reported apart from the panel
+        status = {"explorer": "explored"}.get(kind, "stopped_on_page") if outcome == "done" else "gave_up" if outcome == "give_up" else "ran_out"
     within = taps <= budget
-    result_rec = dict(engine=engine, persona=persona["id"], task=task["id"], function=task["function"], device=device, mode=mode, outcome=outcome, status=status, taps=taps, budget=budget,
-                      within_budget=within, scrolls=scrolls, backs=backs, fails=fails, finish_step=finish_step, steps=len(steps), blocked=sorted(set(blocked))[:20],
+    result_rec = dict(engine=engine, persona=persona["id"], task=task["id"], function=task["function"], device=device, mode=mode, kind=kind, outcome=outcome, status=status, taps=taps, budget=budget, visited=visited,
+                      within_budget=within, scrolls=scrolls, backs=backs, fails=fails, misses=misses, finish_step=finish_step, steps=len(steps), blocked=sorted(set(blocked))[:20],
                       page_errors=errors[:5], final_url=page.url.replace(a.origin, ""), cost_usd=round(sum(s.get("cost_usd", 0) for s in steps), 4))
     json.dump(result_rec, open(os.path.join(tdir, "result.json"), "w"), indent=1)
     ctx.close()
@@ -342,7 +580,7 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
 
 
 def run_persona(args):
-    engine, persona, a, spend, system = args
+    engine, persona, a, spend, system, aff = args
     cwd = os.path.join(a.out, "_patient_cwd"); os.makedirs(cwd, exist_ok=True)
     results = []
     with sync_playwright() as p:
@@ -356,9 +594,102 @@ def run_persona(args):
             except Exception as ex:
                 r = dict(engine=engine, persona=persona["id"], task=task["id"], function=task["function"], status="runner_error", error=str(ex)[:400])
             results.append(r)
-            print(" ", r.get("status"), "taps", r.get("taps"), "/", r.get("budget"), "cost", r.get("cost_usd"), flush=True)
+            print(" ", r.get("status"), "taps", r.get("taps"), "/", r.get("budget"), "misses", r.get("misses"), "cost", r.get("cost_usd"), flush=True)
+            if aff and persona.get("mode") != "screen_reader":
+                for key, path in (r.get("visited") or {}).items():
+                    if aff.claim(persona["device"], key):
+                        try:
+                            res = affordance_sweep(browser, persona["device"], path, a, aff)
+                            print("  affordance", persona["device"], key, "screens", res["screens"], "not tappable-looking", len(res["does_not_look_tappable"]), "phantom", len(res["looks_tappable_is_not"]), flush=True)
+                        except Exception as ex:
+                            print("  affordance ERROR", persona["device"], key, str(ex)[:200], flush=True)
         browser.close()
     return results
+
+
+def expand_persona(persona):
+    """An explorer (mode: explore) carries a situation and a tap budget and no tasks; everything else passes through. kind is what keeps it out of before-and-after."""
+    p = dict(persona)
+    if p.get("mode") == "explore":
+        p["kind"] = "explorer"
+        p["tasks"] = [{"id": "explore", "function": "explore", "goal": p["situation"], "tap_budget": p["tap_budget"], "finish": {}, "words": p.get("words") or []}]
+    else:
+        p.setdefault("kind", "fixed")
+    return p
+
+
+RANDOM_GOALS = {
+    "understand the condition": "Find out what your condition is and what can be done about it, in words you understand.",
+    "compare options": "See your treatment choices side by side, including surgery and how long recovery takes.",
+    "find a doctor near a ZIP": "Find a doctor near you who does this kind of treatment. Your ZIP code is 60614.",
+    "pick one to call": "Pick a doctor near you (your ZIP code is 60614) and get a phone number to call.",
+    "check insurance": "Find out whether your insurance is likely to cover this.",
+    "understand how we know": "Find out where this site's information comes from and whether you can trust it.",
+    "report a problem": "Find how to tell this site that something on it is wrong.",
+    "find a doctor by name": "Look up a doctor by name: Dr. Fischman.",
+    "claim a profile": "You are a doctor listed on this site. Find how to claim your profile.",
+}
+RANDOM_DEVICES = ("phone390", "desktop1440", "zoom200", "phone390dark")
+SITEMAP_LOC = re.compile(r"<loc>https?://[^/]+(/[^<]*)</loc>")
+
+
+def site_pages(site_root):
+    """Built pages by kind, from the build's own files: every index.html plus the three sitemaps (city and doctor profile pages are served by functions, so they exist only in the sitemaps)."""
+    groups = {k: set() for k in ("home", "condition", "every-option", "insurance", "city", "doctor-profile", "directory")}
+    for d, _, files in os.walk(site_root):
+        if "index.html" not in files:
+            continue
+        rel = os.path.relpath(d, site_root)
+        p = "/" if rel == "." else "/" + rel + "/"
+        if p == "/": groups["home"].add(p)
+        elif p.endswith("/every-option/"): groups["every-option"].add(p)
+        elif p.endswith("/insurance/"): groups["insurance"].add(p)
+        elif p == "/doctors/": groups["directory"].add(p)
+        elif re.fullmatch(r"/[a-z-]+/", p) and (os.path.exists(os.path.join(site_root, rel, "every-option")) or p == "/chronic-pelvic-pain/"): groups["condition"].add(p)
+    for name, kind in (("sitemap-cities.xml", "city"), ("sitemap-doctors.xml", "doctor-profile")):
+        f = os.path.join(site_root, name)
+        if os.path.exists(f):
+            found = SITEMAP_LOC.findall(open(f, encoding="utf8").read())
+            groups[kind].update(u for u in found if kind == "city" or not re.fullmatch(r"/doctors/[a-z]/", u))  # a letter index is a list, not a profile
+    return {k: sorted(v) for k, v in groups.items() if v}
+
+
+def draw_random_tracks(seed, n, personas, pages):
+    """Each track: persona, start page, function, device, drawn with this seed alone; the same seed and the same inputs give the same draw. A page kind is drawn first so that the handful of doctor and city pages do not swamp the pool."""
+    rnd = random.Random(seed)
+    sighted = [p for p in personas if p.get("mode") not in ("screen_reader", "explore")]
+    tracks = []
+    for i in range(1, n + 1):
+        base = rnd.choice(sighted)
+        kind = rnd.choice(sorted(pages))
+        start = rnd.choice(pages[kind])
+        fn = rnd.choice(sorted(f for f in RANDOM_GOALS if f != "claim a profile" or base["id"] == "physician"))
+        device = rnd.choice(RANDOM_DEVICES)
+        tracks.append({"id": f"random-{i:02d}", "kind": "random", "base_persona": base["id"], "who": base["who"], "device": device, "mode": "sighted", "start": start, "start_kind": kind, "query": "following a link", "words": base.get("words"),
+                       "tasks": [{"id": "track", "function": fn, "goal": RANDOM_GOALS[fn], "tap_budget": 6, "finish": {}, "words": base.get("words") or []}]})
+    return tracks
+
+
+def run_affordance_only(a, aff):
+    """The affordance check alone: --affordance-pages on --affordance-devices, each pair --affordance-repeats times, no patient. Used for a before and after of one fix. Sampled like a full run."""
+    os.makedirs(a.out, exist_ok=True)
+    pairs = [(d, p) for d in a.affordance_devices.split(",") for p in filter(None, a.affordance_pages.split(","))]
+    state, halt = {"now": "run", "sets": {}, "samples": {}, "procs": {}, "errors": [], "wait": 0.25}, threading.Event()
+    sampler = threading.Thread(target=sample_outside, args=(state, halt, "/Library/Application Support/ai-hq/browser/ms-playwright/"), daemon=True); sampler.start()
+    with sync_playwright() as p:
+        browser = launch(p, "chromium", a.origin)
+        for device, path in pairs:
+            for rep in range(a.affordance_repeats):
+                res = affordance_sweep(browser, device, path, a, aff, rep)
+                print(device, path, "r", rep, "screens", res["screens"], "not tappable-looking", len(res["does_not_look_tappable"]), "phantom", len(res["looks_tappable_is_not"]), "unclear", len(res["unclear"]), "cost", res["cost_usd"], flush=True)
+        browser.close()
+    halt.set(); sampler.join(10)
+    outside = sorted(state["sets"].get("run", set()))
+    json.dump({"spend_usd": round(aff.spend.total, 4), "calls": aff.spend.calls, "results": aff.results, "outside_connections": outside, "sampler_errors": state["errors"][:20], "samples": state["samples"].get("run", 0)}, open(os.path.join(a.out, "affordance.json"), "w"), indent=1)
+    print("spend", round(aff.spend.total, 4), "calls", aff.spend.calls, "outside connections", len(outside))
+    if outside or state["errors"] or not state["samples"].get("run"):
+        print("FAILED: outside connection, sampler error or no samples", file=sys.stderr)
+        raise SystemExit(3)
 
 
 def check_axe_lock(path):
@@ -583,37 +914,53 @@ def main():
     ap.add_argument("--engines", default="chromium"); ap.add_argument("--personas", default=""); ap.add_argument("--tasks", default=""); ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--model", default="claude-sonnet-5-5"); ap.add_argument("--budget-usd", type=float, default=10.0); ap.add_argument("--patient-prompt")
     ap.add_argument("--prove-guard", action="store_true")
+    ap.add_argument("--affordance-prompt"); ap.add_argument("--affordance-budget-usd", type=float, default=4.0); ap.add_argument("--affordance-max-screens", type=int, default=16)
+    ap.add_argument("--affordance-only", action="store_true"); ap.add_argument("--affordance-pages", default=""); ap.add_argument("--affordance-devices", default="phone390,phone390dark,desktop1440"); ap.add_argument("--affordance-repeats", type=int, default=3)
+    ap.add_argument("--random-tracks", type=int, default=6); ap.add_argument("--seed", type=int, default=None); ap.add_argument("--site-root", default=os.path.join(HERE, "..", "..", "site"))
     ap.add_argument("--axe", default=os.path.expanduser("~/ai-hq-data/tools/axe-core/4.14.0/package/axe.min.js"))
     a = ap.parse_args()
     check_origin(a.origin)
     a.out = os.path.abspath(a.out); check_axe_lock(a.axe)
     if a.prove_guard:
         prove_guard(a)
+    strip = lambda f: re.sub(r"\A---.*?---\s*", "", open(f, encoding="utf8").read(), flags=re.S)
+    aff = Affordance(strip(a.affordance_prompt), a.affordance_budget_usd, a.affordance_max_screens) if a.affordance_prompt else None
+    if a.affordance_only:
+        run_affordance_only(a, aff)
+        return
     panel = json.load(open(a.panel))
-    system = re.sub(r"\A---.*?---\s*", "", open(a.patient_prompt, encoding="utf8").read(), flags=re.S)
+    system = strip(a.patient_prompt)
     wanted = set(filter(None, a.personas.split(",")))
     only = set(filter(None, a.tasks.split(",")))
     jobs = []
     spend = Spend(a.budget_usd)
+    os.makedirs(a.out, exist_ok=True)
+    extra = []
+    if a.random_tracks and not wanted and not only:
+        seed = a.seed if a.seed is not None else int(time.time())
+        pages = site_pages(os.path.abspath(a.site_root))
+        extra = draw_random_tracks(seed, a.random_tracks, panel["personas"], pages)
+        json.dump({"seed": seed, "n": a.random_tracks, "site_root_pages": {k: len(v) for k, v in pages.items()}, "tracks": extra}, open(os.path.join(a.out, "random-tracks.json"), "w"), indent=1)
     for engine in a.engines.split(","):
-        for persona in panel["personas"]:
+        for persona in panel["personas"] + extra:
             if wanted and persona["id"] not in wanted:
                 continue
-            p = dict(persona)
+            p = expand_persona(persona)
             if only:
-                p["tasks"] = [t for t in persona["tasks"] if t["id"] in only]
-            jobs.append((engine, p, a, spend, system))
-    os.makedirs(a.out, exist_ok=True)
+                p["tasks"] = [t for t in p["tasks"] if t["id"] in only]
+            jobs.append((engine, p, a, spend, system, aff))
     # The whole run is sampled, not only the proof; any outside connection seen from the browser user's processes fails it (exit 3).
     state, halt = {"now": "run", "sets": {}, "samples": {}, "procs": {}, "errors": [], "wait": 0.25}, threading.Event()
     sampler = threading.Thread(target=sample_outside, args=(state, halt, "/Library/Application Support/ai-hq/browser/ms-playwright/"), daemon=True); sampler.start()
     with ThreadPoolExecutor(max_workers=max(1, min(a.workers, 3))) as ex:
         results = [r for rs in ex.map(run_persona, jobs) for r in rs]
     halt.set(); sampler.join(10)
+    if aff:
+        json.dump({"spend_usd": round(aff.spend.total, 4), "calls": aff.spend.calls, "results": aff.results}, open(os.path.join(a.out, "affordance.json"), "w"), indent=1)
     outside = sorted(state["sets"].get("run", set()))
     json.dump({"samples": state["samples"].get("run", 0), "outside_connections": outside, "sampler_errors": state["errors"][:20], "note": "Sampled while the run lasted: TCP only, the browser user's processes only, a connection between two samples is missed; another job's browser under the same user would show here too."},
               open(os.path.join(a.out, "outside-connections.json"), "w"), indent=1)
-    json.dump({"results": results, "spend_usd": round(spend.total, 4), "calls": spend.calls, "model": a.model, "origin": a.origin, "outside_connections": len(outside)}, open(os.path.join(a.out, "results.json"), "w"), indent=1)
+    json.dump({"results": results, "spend_usd": round(spend.total, 4), "calls": spend.calls, "affordance_spend_usd": round(aff.spend.total, 4) if aff else 0, "model": a.model, "origin": a.origin, "outside_connections": len(outside)}, open(os.path.join(a.out, "results.json"), "w"), indent=1)
     print("spend", round(spend.total, 4), "calls", spend.calls, "samples", state["samples"].get("run", 0), "outside connections", len(outside))
     if outside or state["errors"] or not state["samples"].get("run"):
         print("FAILED: outside connection, sampler error or no samples; see outside-connections.json", file=sys.stderr)

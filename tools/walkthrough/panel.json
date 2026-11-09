@@ -838,6 +838,80 @@
     }
    ],
    "note": "Fewer than five report data points on physician behaviour on the site; physician flows use the local fixture accounts."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-knee",
+   "who": "A man, 68. Bad knee for six years, retired, reads on his phone.",
+   "device": "phone390",
+   "start": "/knee-arthritis/",
+   "query": "Searched: alternatives to knee replacement",
+   "words": [
+    "knee",
+    "without surgery"
+   ],
+   "situation": "Your doctor said your knee needs replacing. You want to know if there is anything else.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Knee arthritis audience and content research.md"
+   ],
+   "note": "Situation from his 2026-11-09 chat; explorers never enter before-and-after."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-fibroid",
+   "who": "A woman, 44, heavy periods for years, told about a hysterectomy at her last appointment. Tired and skeptical.",
+   "device": "phone390dark",
+   "start": "/fibroids/",
+   "query": "Searched: do I really need a hysterectomy",
+   "words": [
+    "hysterectomy",
+    "fibroids"
+   ],
+   "situation": "Your doctor brought up a hysterectomy and you are not sure you want one. You are looking around to see what else there is and who you could talk to.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "note": "Dark mode on a phone, the setting of his screenshot."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-prostate",
+   "who": "A man, 71, up four times a night. His wife is using the computer with him. Low vision; reads with the browser zoomed.",
+   "device": "zoom200",
+   "start": "/enlarged-prostate/",
+   "query": "Searched: enlarged prostate treatment no surgery",
+   "words": [
+    "prostate",
+    "up at night"
+   ],
+   "situation": "You have been told you have an enlarged prostate and you have tried pills. You want to see what else is out there before your next appointment.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md"
+   ]
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-daughter",
+   "who": "A woman, 52, sitting at a desk, looking things up for her mother. Her mother has pelvic pain nobody has explained.",
+   "device": "desktop1440",
+   "start": "/",
+   "query": "Searched: chronic pelvic pain no diagnosis",
+   "words": [
+    "pelvic pain",
+    "no answers"
+   ],
+   "situation": "Your mother has had pelvic pain for years and no doctor has explained it. You landed on this website and do not know yet if it can help. You want to know if there is something here for her.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Pelvic vein pain audience and content research.md"
+   ]
   }
  ]
 }
