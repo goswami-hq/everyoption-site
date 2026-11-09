@@ -434,6 +434,17 @@ def sample_outside(state, stop, root):
         stop.wait(state.get("wait", 0.05))
 
 
+def browser_processes(root):
+    """What ps shows of the browser while it runs: uid and process type and sandbox flags, for the proof's JSON."""
+    out = []
+    for l in subprocess.run(["ps", "-axww", "-o", "uid=,command="], capture_output=True, text=True, check=True).stdout.splitlines():
+        f = l.split(None, 1)
+        if len(f) == 2 and f[1].startswith(root):
+            flags = [x for x in f[1].split() if x.startswith(("--type=", "--service-sandbox-type=", "--utility-sub-type=", "--no-sandbox"))]
+            out.append({"uid": int(f[0]), "flags": flags})
+    return out
+
+
 def wait_browser_gone(root, seconds=20):
     """Between the two launches: a connection held by the unguarded browser must not be counted against the guarded one."""
     end = time.time() + seconds
@@ -477,7 +488,7 @@ def prove_engine(p, engine, a, can, hits, attempt):
         redirect_noguard = {"error": str(ex).splitlines()[0][:160]}
     if "example.com" not in redirect_noguard.get("went_to", ""):
         failures.append("redirect control: without guard or proxy the test page did not reach the outside host, so it proves nothing")
-    pg3 = c0.new_page(); pg3.goto(a.origin + "/preconnect/", wait_until="load", timeout=15000); pg3.wait_for_timeout(1000); c0.close(); b.close()
+    state["now"] = "preconnect_control"; pg3 = c0.new_page(); pg3.goto(a.origin + "/preconnect/", wait_until="load", timeout=15000); pg3.wait_for_timeout(2000); state["now"] = None; c0.close(); b.close()
     gone = wait_browser_gone(root)
     if not gone:
         failures.append("the first browser's processes did not exit, so the guarded phase cannot start clean")
@@ -498,6 +509,9 @@ def prove_engine(p, engine, a, can, hits, attempt):
         failures.append("guarded: the redirect reached the outside host")
     pg2 = c1.new_page(); pg2.goto(a.origin + "/preconnect/", wait_until="load", timeout=15000); pg2.wait_for_timeout(1500)
     route_saw_redirect_target = any("example.com/wt-redirect" in u for u in blocked)
+    procs = browser_processes(root)
+    if not procs or any(x["uid"] != BROWSER_UID for x in procs):
+        failures.append("a browser process was not running as the browser user: " + json.dumps(procs)[:300])
     c1.close(); state["now"] = None; time.sleep(0.3); b.close(); halt.set(); sampler.join(10)
     subprocess.run(["sudo", "-n", "pkill", "-INT", "-f", "tcpdump -n -l -e -i pflog0 dst host 127.0.0.1"]); drops = [l for l in pflog.communicate(timeout=15)[0].splitlines() if "block" in l]
     guarded_set = sorted(state["sets"].get("guarded", set())); samples = state["samples"].get("guarded", 0)
@@ -519,8 +533,8 @@ def prove_engine(p, engine, a, can, hits, attempt):
             "processes_started_from_folder": {k: sorted(v) for k, v in state["procs"].items()},
             "positive_control": {"url": POSITIVE_URL, "page_saw": seen, "fetches_until_caught": tries, "connections_caught": caught, "baseline": sorted(state["sets"].get("baseline", set()))},
             "outside_connections_guarded": guarded_set, "first_browser_gone_before_guarded": gone,
-            "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits, "redirect": redirect_noguard, "outside_connections_seen_unguarded": sorted(state["sets"].get("positive", set()))},
-            "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked, "redirect": redirect_guarded, "route_guard_saw_redirect_target": route_saw_redirect_target,
+            "control_no_guard": {"page_saw": ctl, "canary_hits": ctl_hits, "redirect": redirect_noguard, "outside_connections_seen_unguarded": sorted(state["sets"].get("positive", set())), "preconnect_connections_sampled_unguarded": sorted(state["sets"].get("preconnect_control", set()))},
+            "guarded": {"page_saw": gd, "canary_hits": gd_hits, "blocked_by_guard": blocked, "browser_processes_observed": procs, "redirect": redirect_guarded, "route_guard_saw_redirect_target": route_saw_redirect_target,
                         "pf_drops_at_dead_proxy": len(drops), "pf_drop_lines": drops[:6]},
             "axe_version": axe.get("version"), "axe_error": axe.get("error"), "axe_violations_on_home": len(axe.get("violations", [])), "service_worker_api": sw}
 
@@ -548,7 +562,10 @@ def prove_guard(a):
       await new Promise(r => { let w; try { w = new WebSocket(can.replace('http', 'ws') + '/ws-' + tag); w.onopen = w.onerror = w.onclose = () => r(); } catch (e) { r(); } setTimeout(r, 2500); });
       try { await fetch('http://example.com/', {mode: 'no-cors'}); out.example = 'sent'; } catch (e) { out.example = 'failed'; }
       await new Promise(r => setTimeout(r, 800)); return out; }"""
-    report = {"origin": a.origin, "canary": can, "prefix_test": {a.origin + ".example.com/": allowed(a.origin + ".example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
+    head = subprocess.run(["git", "-C", HERE, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+    dirty = subprocess.run(["git", "-C", HERE, "status", "--porcelain", "--", "."], capture_output=True, text=True).stdout.strip()
+    code = {"git_head": head, "uncommitted_in_walkthrough_folder": dirty, "run_py_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest(), "wrapper_sha256": hashlib.sha256(open(os.path.join(HERE, "driver-as-hqbrowser.sh"), "rb").read()).hexdigest()}
+    report = {"code": code, "origin": a.origin, "canary": can, "prefix_test": {a.origin + ".example.com/": allowed(a.origin + ".example.com/", a.origin), a.origin + "/x": allowed(a.origin + "/x", a.origin), can + "/x": allowed(can + "/x", a.origin)}}
     with sync_playwright() as p:
         for engine in a.engines.split(","):
             report[engine] = prove_engine(p, engine, a, can, hits, attempt)
