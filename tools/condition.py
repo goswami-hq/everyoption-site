@@ -191,8 +191,9 @@ def categories(refs, c):
                 continue
             opts += option(refs, by_id[i], "", "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
-    see = (f'<p class="see-every"><a href="{html.escape(c["options_page"])}">{html.escape(c.get("options_link", "See every option side by side"))}</a></p>' if c.get("options_page") else "")
-    return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{see}{out}</section>'
+    # Sits below the option rows and is styled as a control: above them it read as their heading (his words, 2026-11-09, HQ chat).
+    see = (f'<a class="compare-link" href="{html.escape(c["options_page"])}"><span>{html.escape(c.get("options_link", "See every option side by side"))}</span><span class="compare-arrow" aria-hidden="true">&rarr;</span></a>' if c.get("options_page") else "")
+    return f'<section id="options"><h2>{html.escape(c["options_heading"])}</h2>{out}{see}</section>'
 
 
 def faq(refs, c):
