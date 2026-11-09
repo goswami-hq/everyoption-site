@@ -5,9 +5,10 @@
 .condition-page .what-box > h2 { margin: 0 0 8px; font-size: clamp(1.4375rem, 3.4vw, 1.75rem); }
 .what-box > p { margin: 0 0 10px; }
 .what-box .what-label { margin: 14px 0 8px; font-weight: 600; font-size: 0.9375rem; }
-.what-box ul.what-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 14px; }
-.what-box ul.what-tags li { background: var(--soft); color: var(--ink); border-radius: 1em; padding: 5px 12px; font-size: 0.9375rem; line-height: 1.35;
-  max-width: 100%; overflow-wrap: anywhere; }
+/* Symptoms are a plain list, not pills: pills read as tappable (patient walkthrough v2, his words 2026-11-09 16:20 CT: "Fix that, no pills") */
+.what-box ul.what-tags { list-style: disc; padding: 0 0 0 1.25em; margin: 0 0 14px; }
+.what-box ul.what-tags li { color: var(--ink); line-height: 1.5; margin: 0 0 4px; padding-left: 2px; overflow-wrap: anywhere; }
+.what-box ul.what-tags li::marker { color: var(--accent); }
 /* no rule above the fold inside the box: the + marks it, and the box edge already frames it */
 .what-box details.topic, .what-box details.topic:last-of-type { border: 0; }
 .city-fold { border-top: 1px solid var(--line); }
