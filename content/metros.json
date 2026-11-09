@@ -1,5 +1,5 @@
 {
- "_note": "Job 42 (city-pages spec, his yes 2026-11-05): a metro is every listed doctor within 25 miles of a fixed center ZIP (two for Bay Area, South Florida, Dallas-Fort Worth). Centers are fixed here before counting; never move one to clear the bar. A metro gets a page for a procedure when its build count reaches `bar`; live, a page under `floor` sends noindex. `procs` names which procedures get pages (UFE only until he reviews these). `pages` is the batch that gets pages now (job 42: the first 11; job 43, his yes 2026-11-05: Phoenix, Dallas-Fort Worth, St. Louis, Memphis); a metro outside it waits for his yes even when it clears the bar. Job platform-main-0024 (S3, his go 2026-11-07, addendum change 4): PAE and GAE get pages by the same rule (build count of listed doctors within 25 miles reaches the bar of 8); `pages` is now per procedure. PAE: the 8 metros at or over 8; GAE: the 4 at or over 8 (counts in ai-hq records/runs/2026-11-07-prostate-knee-and-pelvic-pages-to-the-fibroid-pattern-chroni.md). They stay noindex while their condition page is a draft. Job platform-directory-0009 (his go 2026-11-07): pelvic vein treatment gets pages by the same rule: New York City, Washington DC, Baltimore and Philadelphia (the 4 at or over 8 in ai-hq projects/platform/directory/research/pelvic-finder-2026-11-07/metros.csv, recounted after the Politi and Schwartz fixes); noindex while the pelvic page is a draft.",
+ "_note": "Job 42 (city-pages spec, his yes 2026-11-05): a metro is every listed doctor within 25 miles of a fixed center ZIP (two for Bay Area, South Florida, Dallas-Fort Worth). Centers are fixed here before counting; never move one to clear the bar. A metro gets a page for a procedure when its build count reaches `bar`; live, a page under `floor` sends noindex. `procs` names which procedures get pages (UFE only until he reviews these). `pages` is the batch that gets pages now (job 42: the first 11; job 43, his yes 2026-11-05: Phoenix, Dallas-Fort Worth, St. Louis, Memphis); a metro outside it waits for his yes even when it clears the bar. Job platform-main-0024 (S3, his go 2026-11-07, addendum change 4): PAE and GAE get pages by the same rule (build count of listed doctors within 25 miles reaches the bar of 8); `pages` is now per procedure. PAE: the 8 metros at or over 8; GAE: the 4 at or over 8 (counts in ai-hq records/runs/2026-11-07-prostate-knee-and-pelvic-pages-to-the-fibroid-pattern-chroni.md). They stay noindex while their condition page is a draft. Job platform-directory-0009 (his go 2026-11-07): pelvic vein treatment gets pages by the same rule: New York City, Washington DC, Baltimore and Philadelphia (the 4 at or over 8 in ai-hq projects/platform/directory/research/pelvic-finder-2026-11-07/metros.csv, recounted after the Politi and Schwartz fixes); noindex while the pelvic page is a draft. Job platform-directory-0015 (his yes 2026-11-09): Chicago added, 4 to 11 at 25 miles after the page-saver pairs (ai-hq projects/platform/directory/research/page-saver-fix-2026-11-08/pelvic-metros-after-42.csv); noindex like the others.",
  "radius": 25,
  "bar": 8,
  "floor": 5,
@@ -47,8 +47,9 @@
    "new-york-city-area",
    "washington-dc",
    "philadelphia-pa",
-   "baltimore-md"
-  ]
+   "baltimore-md",
+   "chicago-il"
+ ]
  },
  "metros": [
   {
