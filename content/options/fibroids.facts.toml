@@ -165,21 +165,21 @@ read = "abstract"
 id = "myo-time"
 option = "myomectomy"
 simple = ""
-deep = "about 1 in 8 at 4 to 5 years (13% at 4 years in FEMME; 12.2% at 5 years pooled across studies), and about 1 in 5 by 7 years (20.6% in a large U.S. health system study)"
+deep = "about 1 out of 8 at 4 to 5 years (13% at 4 years in FEMME; 12.2% at 5 years pooled across studies), and about 1 out of 5 by 7 years (20.6% in a large U.S. health system study)"
 refs = ["femme4", "sandberg18", "mitro24"]
 read = "abstract"
 [[fact]]
 id = "myo-pool"
 option = "myomectomy"
 simple = ""
-deep = "A second pooled analysis disagrees with the first, finding about 1 in 5 by 5 years (19%), lower than after embolization (21%) or focused ultrasound (49%)"
+deep = "A second pooled analysis disagrees with the first, finding about 1 out of 5 by 5 years (19%), lower than after embolization (21%) or focused ultrasound (49%)"
 refs = ["xu21"]
 read = "abstract"
 [[fact]]
 id = "rfa-pool"
 option = "radiofrequency"
 simple = ""
-deep = "Pooled across prospective studies, about 1 in 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
+deep = "Pooled across prospective studies, about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
 refs = ["bradley19"]
 read = "abstract"
 [[fact]]

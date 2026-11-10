@@ -261,6 +261,8 @@ details.option.featured > .fold-body { border-top: 0; }
 .find-links { display: flex; flex-wrap: wrap; gap: 0 20px; margin: -8px 0 6px; }
 .find-links a { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; }
 .find-links .find-compare { font-weight: 600; }
+.hero-compare { margin: 4px 0 8px; }
+.hero-compare a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }   /* 44 px tap target, same as the finder-page compare link (page reference first-screen check, 2026-11-09) */
 @media (max-width: 359px) { .find-links { gap: 0 12px; } .find-links a { font-size: 0.9375rem; } }   /* the smallest phones: both links on one row, so the ZIP box stays on the first screen */
 .find-label { margin: 0 0 8px; font-weight: 600; }
 .learn-link { margin: 0 0 4px; font-weight: 600; }

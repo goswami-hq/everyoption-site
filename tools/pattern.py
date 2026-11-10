@@ -175,6 +175,12 @@ def ruling_errors(tag, t, c):
         text = re.sub(r"<[^>]+>", " ", t)
         if re.search(r"\b(Most|Many|Some|Usually|often)\b[^.]{0,40}\b(home|discharged)\b[^.]{0,20}same day", text, re.I):
             errs.append(f"{tag}: hedges the GAE same-day stay (GAE is strictly outpatient)")
+    # Frequencies read "1 out of 5", never "1 in 5" (his words 2026-11-09 22:39 CT: "1. Yes"). Patient text only:
+    # the reference list is cut off first, since study titles may say "in".
+    body = re.sub(r"<[^>]+>", " ", re.split(r'id="references"|<h2[^>]*>References', t)[0])
+    m = re.search(r"\b\d+(?: to \d+)? in \d[\d,]*\b(?! (?:years?|months?|weeks?|days?|hours?|minutes?|mi|miles?)\b)", body)
+    if m:
+        errs.append(f'{tag}: frequency written "{m.group(0)}"; write "out of"')
     return errs
 
 

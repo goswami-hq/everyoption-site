@@ -348,10 +348,12 @@ review before launch.
     didn't know dr names were clickable until now"); the profile address comes from one source, the build's address,
     never built in a browser script (L618: "need to make sure the links stay from one source of truth"; node
     `profile-links.test.mjs`; underline `first-screen` on a city page);
-  - "Interventional radiologist" badge where it applies; distance; practice; city and state. Street: his rule of
-    2026-10-28 (L291) took street addresses off the rendered views; today the finder, city pages and profiles show the
-    street when the office row has one (`src-assets/finder.js`, `lib/cities.mjs`, `lib/directory.mjs`). Open with him
-    (list-for-him question 3); not checked;
+  - "Interventional radiologist" badge where it applies; distance; practice; city and state. Street: shown only for
+    a confirmed office, meaning an office row the doctor entered in their account or one a directory job added from an
+    official source page it saved (for example the hospital's profile of that doctor); every other card shows city and
+    state only (his words 2026-11-09 22:39 CT ("1. Yes / 2. Keep / 3. Agree"), question 3; this narrows his 2026-10-28 rule, L291). The code shows the street whenever the office
+    row has one (`src-assets/finder.js`, `lib/cities.mjs`, `lib/directory.mjs`), so the rule is kept at data entry: a
+    street goes into an office row only with its source. Not checked;
   - every Likely and nearby card carries the same one line and no qualifier of its own: "Details not confirmed by this
     doctor. Check with the office before you go." (his yes 2026-11-04, L413; node `directory-job27.test.mjs`);
   - buttons "Call <phone>" and "Doctor's website ↗" (screen readers: "Doctor's website, opens in a new tab"; opens a new
@@ -435,8 +437,8 @@ Exact strings; change one only on his word, then update the code and this table 
   the simple page and the grid (node `options-*.test.mjs`).
 - **Numbers:** few, one plain figure per point, as the simplest fraction ("1 out of 4", not "25 out of 100"; his words
   2026-11-07, L534: "It's easier for someone to visualize 1 out 4 vs 25 out of 100"), with a word beside each risk
-  number ("uncommon"). Open with him: "1 in 5" and "1 out of 5" both appear today (ai-hq
-  `projects/platform/design/page-reference-2026-11-09/list-for-him.md` question 1). Tied numbers: node tie tests.
+  number ("uncommon"). Frequencies are always written "1 out of 5", never "1 in 5" (his words 2026-11-09 22:39 CT ("1. Yes / 2. Keep / 3. Agree"), question 1; site
+  the six "in" lines reworded, no number changed; `pattern`). Tied numbers: node tie tests.
 - **Wording:** short, plain, whole sentences, modeled on his UFE text (his words 2026-11-02, L334: "Use this type of
   phrasing for everything"); plain but not childlike, each section grade 9 or lower, aim about 7 (L318; `readability`);
   American spelling and the Oxford comma (his words 2026-11-01, L319); never discourage exercise (his words 2026-11-06,
@@ -453,9 +455,9 @@ Exact strings; change one only on his word, then update the code and this table 
 
 ## Visual rules
 
-- **No pills or tag shapes for text that cannot be tapped.** Symptoms are a plain bulleted list (L617; `pattern`). Open
-  with him: whether this extends to the "✓ Confirmed by physician" tag and the "Video visits" badge, both rounded shapes
-  today (list-for-him question 2).
+- **No pills or tag shapes for text that cannot be tapped.** Symptoms are a plain bulleted list (L617; `pattern`). The
+  "✓ Confirmed by physician" tag and the "Video visits" badge keep their rounded shape: short status labels, not lists
+  (his words 2026-11-09 22:39 CT ("1. Yes / 2. Keep / 3. Agree"), question 2).
 - **Links look like links.** Text links underlined; doctor names underlined (L618); the comparison control outlined
   with an arrow; links are judged by sight in the walkthrough's affordance check.
 - **Tap targets at least 44 px tall** (house standard from the design reviews, ai-hq

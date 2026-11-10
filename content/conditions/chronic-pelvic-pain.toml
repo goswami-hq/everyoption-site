@@ -148,7 +148,7 @@ name = "Pelvic vein embolization"
 what = "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins.[^strobl]"
 invasive = "It is done through a tiny skin nick.[^strobl]"
 works = "Early results are encouraging. Many women have less pain, and for some the relief lasts several years.[^hanna][^strobl][^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] More research is under way.[^embolize] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
-side = "Pain in the belly or back right afterward is common. Serious problems are rare, about 1 in 100. Most of these are fixed with another procedure.[^hanna] Pain comes back in some women, and some need a second treatment.[^sutanto]"
+side = "Pain in the belly or back right afterward is common. Serious problems are rare, about 1 out of 100. Most of these are fixed with another procedure.[^hanna] Pain comes back in some women, and some need a second treatment.[^sutanto]"
 
 [[options]]
 id = "stent"
@@ -156,7 +156,7 @@ name = "Opening a squeezed vein with a stent"
 what = "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]"
 invasive = "It is done through a tiny skin nick. Nothing is cut out of your body.[^desai]"
 works = "Studies disagree on how often a stent alone eases pelvic pain. Some women also need embolization afterward.[^alenichev][^mokhtar] Most of what we know about stents is about leg pain and swelling, not pelvic pain.[^razavi] A squeezed vein is common in people with no symptoms, so it is not always the cause.[^kibbe]"
-side = "Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 to 2 in 100.[^wenda] Doctors may suggest a blood thinner during a later pregnancy.[^villalba]"
+side = "Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 to 2 out of 100.[^wenda] Doctors may suggest a blood thinner during a later pregnancy.[^villalba]"
 
 [[options]]
 id = "hysterectomy"

@@ -133,6 +133,10 @@ class PatternTest(unittest.TestCase):
         errs = self.site(("knee-arthritis/index.html", "You go home the same day", "Most people go home the same day"))
         self.assertTrue(any("strictly outpatient" in e for e in errs), errs)
 
+    def test_frequency_in_fails(self):
+        errs = self.site(("chronic-pelvic-pain/index.html", "about 1 out of 100", "about 1 in 100"))
+        self.assertTrue(any('write "out of"' in e for e in errs), errs)
+
     def test_source_rules_fail(self):
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
