@@ -465,8 +465,6 @@ fieldset.office legend + * { clear: both; }
 .home-banner .hb-in { position: relative; }
 .home-banner svg#s { display: block; width: 100%; height: auto; }
 @media (min-width: 760px) { .home-banner svg#s { height: min(23.6vw, 378px); } }
-.home-banner #rp { position: absolute; right: max(4px, env(safe-area-inset-right, 0px)); bottom: 2px; width: 44px; height: 44px; min-height: 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
-.home-banner #rp svg { width: 20px; height: 20px; }
 .home-banner #sun { transform-box: fill-box; transform-origin: center; transform: scale(2.2, 1); }
 .home-banner .cath { fill: none; stroke: var(--tube); stroke-width: 1.5; stroke-linecap: round; }
 .home-banner .ves { fill: none; stroke: var(--artery); stroke-width: 3.4; stroke-linecap: round; }
@@ -551,8 +549,11 @@ main::before { top: 0; }
 .home-page .hero-in, .home-page header.site .wrap { max-width: 1440px; }
 
 /* Job 27: doctor directory and profiles. The card name opens the profile and keeps the card's look. */
-.card h3 a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--line); }
-.card h3 a:hover { text-decoration-color: currentColor; }
+/* Job platform-web-design-0008 (his 3A, 2026-11-09): the name reads as a link at every width, light and dark: an
+   accent underline instead of the near-invisible line colour, and a hit area of at least 44 px without moving the card. */
+.card h3 a { display: inline-block; padding: 9px 0; margin: -9px 0; color: inherit; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent); transition: text-decoration-color 160ms ease; }
+@media (hover: hover) and (pointer: fine) { .card h3 a:hover { color: var(--accent); text-decoration-color: currentColor; } }
+.card h3 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 .dir-search { max-width: 37em; margin: 8px 0 28px; }
 .dir-search label { display: block; font-weight: 600; margin-bottom: 6px; }
 .dir-search input { width: 100%; font-size: 1.125rem; min-height: 48px; }
@@ -624,6 +625,10 @@ a.compare-link:active { transform: scale(0.99); }
 /* job platform-condition-pages-0013: the link to a coverage page (one look everywhere; the padding makes a 44 px target) */
 .cov-link { font-weight: 600; margin: 10px 0 0; }
 .cov-link a { display: inline-block; padding: 10px 0; }
+/* Job platform-web-design-0008 (his 2A): the coverage line under the treatment's heading; quiet, one line, 44 px tall. */
+.cov-near { margin: -4px 0 6px; font-size: 0.9375rem; }
+.cov-near a { display: inline-flex; align-items: center; min-height: 44px; }
+.cov-near a span { display: inline-block; text-decoration: none; }
 .cov-several .k { margin: 14px 0 0; }
 .cov-several ul { list-style: none; margin: 0; padding: 0; }
 .cov-several a { padding: 8px 0; }

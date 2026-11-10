@@ -13,7 +13,6 @@
     return String(s || "").normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase()
       .replace(/['’]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
   }
-  function slug(name) { return fold(name).replace(/ /g, "-") || "doctor"; }   // same as tools/directory.py slug()
   function wait(ms) { return new Promise(function (ok) { setTimeout(function () { ok(null); }, ms); }); }
   function overlay(proc) {
     return fetch("/api/listings?procedure=" + proc, { credentials: "same-origin" })
@@ -34,8 +33,8 @@
         var x = at[c.npi], f = (c.offices || []).filter(function (o) { return o && o.city; })[0];
         var placed = (x && x.l.indexOf(proc) >= 0) || (c.offices || []).some(hasPoint);
         if (!x) {
-          if (!placed || !f) return;
-          x = at[c.npi] = { n: c.name, c: f.city, s: f.state, p: "/doctors/" + slug(c.name) + "-" + c.npi + "/", l: [], ros: false };
+          if (!placed || !f || !c.path) return;   // job platform-web-design-0008: the overlay carries the profile link
+          x = at[c.npi] = { n: c.name, c: f.city, s: f.state, p: c.path, l: [], ros: false };
           out.push(x);
         } else if (f) { x.c = f.city; x.s = f.state; }
         if (placed && x.l.indexOf(proc) < 0) x.l.push(proc);
