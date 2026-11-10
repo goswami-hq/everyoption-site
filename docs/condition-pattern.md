@@ -247,6 +247,12 @@ scrolled to the top, in light and dark.
   Not public until launch: noindex and out of every sitemap (node `insurance.test.mjs`). Open with him: the short answer
   block "Will insurance cover it?" on each condition page (ai-hq
   `projects/platform/content/page-reviews/2026-11-08-insurance/list-for-him.md` item 1).
+- **Hub contents:** the hub prints an "On this page" list after the notice, one entry per section (Changes coming soon,
+  Coverage by procedure, Every insurer every procedure, HAE by insurer, Questions to ask your plan, How we checked), and
+  `src-assets/deep-nav.js` pins it as on the comparison pages: the bar on phones and tablets; from 1400 px a side rail
+  placed clear of the hub's wider column; between 1180 and 1399 px only the printed list (his "Yes", 2026-11-10 06:23 CT,
+  to adding the comparison pages' contents bar to the hub, its longest page after them at about 10,800 px on a
+  phone). Other long pages do not get it (simple pages are folded; A to Z pages are name lists). Not checked.
 - **Coverage page order:** breadcrumbs Home > <Condition> > Insurance coverage; H1 = the link text everywhere ("Does
   insurance cover fibroid embolization?"; `pattern`); lede; jump list before the cards with the "What if my insurer says
   no?" link up top; 12 insurer cards in a fixed order, each with a status chip (words and a shape), a date and a link,

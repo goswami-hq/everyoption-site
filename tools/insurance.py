@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA, COPY = ROOT / "content/insurance/coverage-2026-11.toml", ROOT / "content/insurance/pages.toml"
 ROBOTS = '<meta name="robots" content="noindex">\n'
 CSS = ["/assets/insurance.css"]
-JS = ["/assets/insurance.js"]   # opens the card details at 768 px and up; with no script the details still open on tap
+JS = ["/assets/insurance.js", "/assets/deep-nav.js"]   # deep-nav pins the hub's contents list; it does nothing on pages without one   # opens the card details at 768 px and up; with no script the details still open on tap
 # A shape for every label, so the meaning never rests on color. Text always says it too.
 ICON = {
     "conditions": '<path d="M5 13l4 4 7-9"/><path d="M19 17h.01"/>', "covered": '<path d="M5 13l4 4 10-11"/>',
@@ -182,7 +182,16 @@ def hub_body(data, copy):
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
     hae = "".join(card(i, "hae", data, copy) for i in data["insurers"])   # folded on phones like the coverage pages (his "Yes", 2026-11-08 12:00 CT)
+    def hub_toc():
+        # The hub is the longest page after the comparison pages (about 10,800 px on a phone), so it gets the same
+        # contents list and pinned bar (his "Yes", 2026-11-10 06:23 CT). The entries are the hub's own h2s below.
+        items = [("changes", "Changes coming soon"), ("by-procedure", "Coverage by procedure"),
+                 ("dataset", "Every insurer, every procedure"), ("hae", "Hemorrhoid embolization (HAE) by insurer"),
+                 ("ask", "Questions to ask your plan"), ("method", "How we checked")]
+        lis = "".join(f'<li><a href="#{i}">{e(t)}</a></li>' for i, t in items)
+        return f'<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page</p><ol>{lis}</ol></nav>'
     return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>{header_notice(copy)}'
+            + hub_toc() +
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
             f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}<li><a href="#hae">{e(hub["hae_label"])}: coverage by insurer, with conditions</a></li></ul>'
             f'<h2 id="dataset">Every insurer, every procedure</h2>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div>'

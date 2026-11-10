@@ -101,3 +101,9 @@ p.ins-meta { margin-top: 12px; }
 .ins-sources > summary > h2 { margin: 0; }
 .ins-sources > summary::after { content: "+"; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
 .ins-sources[open] > summary::after { content: "\2013"; }
+
+/* Pinned contents on the hub (his "Yes", 2026-11-10 06:23 CT). The hub's column is wider than a comparison page's
+   (51rem against 39rem), so the side rail sits further left and only from 1400 px, where it clears the column;
+   between 1180 and 1399 px the printed "On this page" list at the top is the contents. */
+@media (min-width: 1180px) and (max-width: 1399px) { .insurance-page .toc-dock { display: none; } }
+@media (min-width: 1400px) { .insurance-page .toc-dock { left: calc(50% - 25.5rem - 16.5rem); } }

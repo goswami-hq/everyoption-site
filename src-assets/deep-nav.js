@@ -34,12 +34,17 @@
 
   // Show the pinned copy only once the printed list is above the screen (checked on every frame of scroll: a jump from
   // below the list to far past it crosses no observer threshold).
-  const grid = document.querySelector(".table-scroll"), wide = window.matchMedia("(min-width: 1180px)");
+  // Wide blocks that run under the side rail: the comparison grid, and the insurance hub's insurer grid and cards.
+  const grids = [...document.querySelectorAll(".table-scroll, .ins-hub, .ins-cards")], grid = grids[0], wide = window.matchMedia("(min-width: 1180px)");
+  // The rail's right edge, read from the stylesheet (its left differs on the insurance hub, whose column is wider).
+  const railRight = () => { const cs = getComputedStyle(dock); return (parseFloat(cs.left) || 0) + (parseFloat(cs.width) || 0); };
   const pin = () => {
     let past = toc.getBoundingClientRect().bottom < 0;
-    if (past && grid && wide.matches) {   // the wide grid would run under the side rail
-      const r = grid.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) past = false;
+    if (past && grid && wide.matches) {   // a wide block would run under the side rail
+      for (const g of grids) {
+        const r = g.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0 && r.left < railRight()) { past = false; break; }
+      }
     }
     if (past !== dock.classList.contains("is-on")) { dock.classList.toggle("is-on", past); if (!past) open(false); }
   };
