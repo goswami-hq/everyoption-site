@@ -35,7 +35,7 @@ def coverage_near(c):
     p = next((x for x in PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
     if not p:
         return ""
-    return (f'<p class="cov-near"><a href="{html.escape(p["coverage"]["path"], quote=True)}">Does insurance cover it?'
+    return (f'<p class="cov-near"><a href="{html.escape(p["coverage"]["path"], quote=True)}"><span class="t">Does insurance cover it?</span>'
             '<span aria-hidden="true"> →</span></a></p>')
 
 
