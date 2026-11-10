@@ -147,7 +147,9 @@ scrolled to the top, in light and dark.
   5. lede (the first search target answered in 40 to 60 words), the link to the simple page ("New to <condition>?
      Start with the short guide …"), "How to read this page";
   6. contents list ("On this page": every section and each category's options; `src-assets/deep-nav.js` pins a copy
-     while reading, a rail from 1180 px and a bar below, with "Back to top");
+     while reading, a rail from 1180 px and a bar below, with "Back to top"; the bar names the section being read, and
+     inside the at-a-glance grid also the treatment card, "At a glance: <treatment>" (his words 2026-11-10 06:11 CT:
+     "when you click 'see all 10' it takes you down to the section but the table of contents header doesn't change");
   7. "What is <condition>?" box (same content as the simple page's, from the same toml section);
   8. glance table with "How well it works" first; then one section per category (each option: its grid row as a
      summary, intro, how well it works, side effects and risks, what experts say);

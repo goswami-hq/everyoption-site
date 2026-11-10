@@ -55,8 +55,16 @@
     const line = window.innerHeight / 3;
     let hit = null;
     for (const el of targets) { if (el.getBoundingClientRect().top <= line) hit = el; else break; }
-    if (hit === current) return;
-    current = hit;
+    // In the long at-a-glance grid (twelve cards on a phone), name the treatment card being read, so the bar moves
+    // with the reader (his words 2026-11-10 06:11 CT: "the table of contents header doesn't change").
+    let row = null;
+    if (hit && hit.id === "glance") {
+      const box = hit.closest("section") || hit.parentElement;   // the id sits on the heading; the grid follows it
+      for (const tr of box.querySelectorAll(".table-scroll tbody tr")) { if (tr.getBoundingClientRect().top <= line) row = tr; else break; }
+    }
+    const key = hit ? hit.id + (row ? "|" + row.rowIndex : "") : "";
+    if (key === current) return;
+    current = key;
     const id = hit ? hit.id : "";
     const parent = hit && hit.matches(".deep-option") ? hit.closest("section") : null;
     for (const a of links) {
@@ -65,7 +73,8 @@
       a.classList.toggle("is-parent", !!parent && h === parent.id);
     }
     const a = links.find((x) => x.getAttribute("href") === "#" + id);
-    now.textContent = a ? a.textContent : "";
+    const rowName = row && row.querySelector("th") ? row.querySelector("th").textContent.trim() : "";
+    now.textContent = a ? a.textContent + (rowName ? ": " + rowName : "") : "";
     const pinned = panel.querySelector('[aria-current="location"]');
     if (pinned && dock.classList.contains("is-on") && wide.matches) {
       const r = pinned.getBoundingClientRect(), p = panel.getBoundingClientRect();
