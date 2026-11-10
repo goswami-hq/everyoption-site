@@ -204,8 +204,8 @@ scrolled to the top, in light and dark.
 - **Job:** one doctor's procedures, offices and status; shared across conditions (`lib/directory.mjs`). **Target:** the
   doctor's name (plus "<procedure>").
 - **Parts:** breadcrumbs Home > Find a doctor by name > name; H1 the name; "Interventional radiologist" badge; the group
-  line stated once above a plain procedure list (L410); offices (practice, city, state, phone; no street address, his
-  yes 2026-10-28, L291); "Call", "Doctor's website ↗" as an outlined button (L410); plans the doctor entered and the
+  line stated once above a plain procedure list (L410); offices (practice, city, state, phone; the street shows only
+  when the office row has one, see the street rule under Doctor cards); "Call", "Doctor's website ↗" as an outlined button (L410); plans the doctor entered and the
   coverage links under them; "Video visits" badge only on Confirmed profiles that said yes (his words 2026-11-06, L522:
   "It should be only on confirmed profiles and it should be prominent visually"); "Is this you? Claim this free profile"
   and the report link. No reviews and no patient names anywhere (2026-11-01, L307).
@@ -280,8 +280,9 @@ scrolled to the top, in light and dark.
   what typical symptoms include … But it does make a lot of scrolling", then "B2 yes"). On every condition's simple and
   every-option pages: the heading "What is <condition>?" (or "What are …?"), the definition with its citation, a "Common
   symptoms" label carrying the symptom sentence's citations, the symptoms as a plain bulleted list (no pills; his words
-  2026-11-09 16:20 CT, L617: "4. Fix that, no pills"; site 0b07f9d), and a "When to see a doctor" fold that ends "A
-  doctor can check what is causing your symptoms and go over your options." One source: the condition toml's section
+  2026-11-09 16:20 CT, L617: "4. Fix that, no pills"; site 0b07f9d), and a "When to see a doctor" fold (fibroids and knee end it
+  "A doctor can check what is causing your symptoms and go over your options.", agreed list item 5, 2026-11-07; prostate
+  and pelvic word it their own way) One source: the condition toml's section
   with `place = "box"` (`text`, `symptoms`, `symptoms_cite`, `see_doctor`), rendered by `condition.what_box()`; styles
   in `src-assets/condition-box.css`. `pattern` fails a page without the box or any part, and a symptom list styled as
   pills; a draft condition without the box content is skipped and named.
@@ -304,7 +305,10 @@ scrolled to the top, in light and dark.
     didn't know dr names were clickable until now"); the profile address comes from one source, the build's address,
     never built in a browser script (L618: "need to make sure the links stay from one source of truth"; node
     `profile-links.test.mjs`; underline `first-screen` on a city page);
-  - "Interventional radiologist" badge where it applies; distance; practice; city and state (no street);
+  - "Interventional radiologist" badge where it applies; distance; practice; city and state. Street: his rule of
+    2026-10-28 (L291) took street addresses off the rendered views; today the finder, city pages and profiles show the
+    street when the office row has one (`src-assets/finder.js`, `lib/cities.mjs`, `lib/directory.mjs`). Open with him
+    (list-for-him question 3); not checked;
   - every Likely and nearby card carries the same one line and no qualifier of its own: "Details not confirmed by this
     doctor. Check with the office before you go." (his yes 2026-11-04, L413; node `directory-job27.test.mjs`);
   - buttons "Call <phone>" and "Doctor's website ↗" (screen readers: "Doctor's website, opens in a new tab"; opens a new
@@ -315,9 +319,10 @@ scrolled to the top, in light and dark.
   - No evidence quotes, grades, billing language or reviews on any card (his words 2026-11-01, L300: "patients don't
     care about any of that").
 - **Insurance links.** See page type 6. The text is always the coverage page's H1, from `content/procedures.json`.
-- **Urgent line.** One catch-all line, the same on every condition page: "If you have severe bleeding, severe pain, a
-  fever, or feel very sick or faint, call 911." (his words 2026-11-01: "911 advice should be super catch all generic").
-  A soft filled box. Not checked.
+- **Urgent line.** One short catch-all line per condition, in the toml's `urgent`, ending "…, or feel very sick or
+  faint, call 911." (his words 2026-11-01: "911 advice should be super catch all generic"). Fibroids: "If you have
+  severe bleeding, severe pain, a fever, or feel very sick or faint, call 911."; the other conditions name their own
+  warning signs. A soft filled box. Not checked.
 - **References.** Numbered by first use; markers grouped as ranges, small with an enlarged tap area; a tapped source is
   tinted and shows "Back to the text". On every condition and every-option page (`pattern` checks the block is
   present). Strong physician and journal sources (his words 2026-11-01).
