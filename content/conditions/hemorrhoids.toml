@@ -82,7 +82,7 @@ id = "after-banding"
 place = "lead"
 heading = "If bleeding keeps coming back after banding"
 text = [
-  "You have three paths, and each has a fair case. Banding is a good choice for many people.[^aga] Embolization needs no surgery and hurts much less in the first days than surgery, but bleeding comes back for some people.[^falsarella][^degregorio] Surgery is the most lasting fix, and the most painful to recover from.[^jin21][^vanoost]",
+  "You have three paths. Banding is a good choice for many people.[^aga] Embolization needs no surgery and hurts much less in the first days than surgery, but bleeding comes back for some people.[^falsarella][^degregorio] Surgery is the most lasting fix, and the most painful to recover from.[^jin21][^vanoost]",
   "If your hemorrhoids bulge out and stay out, surgery is usually needed.[^aga] Embolization is mainly a treatment for bleeding.[^kucukay][^siccr] Studies comparing it with banding are under way.[^brussel][^stratos]",
 ]
 
@@ -120,6 +120,10 @@ q = "Does insurance cover hemorrhoid embolization?"
 a = "Coverage varies by plan. Some insurers cover it under set conditions, some list it as unproven or not covered, and Medicare decides case by case.[^cigna][^uhc][^aetna][^ncd] Ask your plan before you book. [See what each insurer's policy says](/insurance/#hae)."
 
 [[faq]]
+q = "Which doctor treats hemorrhoids?"
+a = "Family doctors, gastroenterologists (digestive specialists), and colorectal surgeons check and treat hemorrhoids, and many do banding in the office. Interventional radiologists perform embolization. Ask your doctor for a referral."
+
+[[faq]]
 q = "Will hemorrhoids go away on their own?"
 a = "Sometimes. Some people with an early flare never have another one, but for many the symptoms come back.[^jensen]"
 
@@ -147,10 +151,10 @@ side = "Steroid creams should not be used for more than 2 weeks at a time.[^aga]
 id = "embolization"
 name = "Hemorrhoid artery embolization (HAE)"
 lead_heading = "What is hemorrhoid artery embolization (HAE)?"
-what = "HAE treats bleeding hemorrhoids without surgery. Tiny coils or beads block the arteries feeding the hemorrhoids. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
-invasive = "A thin tube goes through a tiny skin nick in the wrist or groin.[^bagla][^kucukay] It hurts far less than surgery in the first days.[^falsarella]"
-works = "Early results are encouraging. Most people bleed less, and about 2 out of 3 people still have little or no bleeding a year later. Some need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] If HAE works for you, it may help you avoid surgery, but we don't know that yet."
-side = "You may feel pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is rare, but it has happened.[^deoliveira][^eberspacher][^hess]"
+what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
+invasive = "It hurts far less than surgery in the first days.[^falsarella]"
+works = "Early results are encouraging. Most bleed less, and about 2 out of 3 people still have little or no bleeding a year later. Some need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may help you avoid surgery, but we don't know that yet."
+side = "Pressure, an urge to go, or a low fever can last a few days.[^han][^zhou] Serious bowel injury is rare, but it has happened.[^deoliveira][^eberspacher][^hess]"
 
 [[options]]
 id = "banding"
