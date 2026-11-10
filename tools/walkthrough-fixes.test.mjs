@@ -22,7 +22,10 @@ test("comparison page opens with the at-a-glance view, then the finder button, t
     const html = page(p.slice(1));
     const h1 = html.indexOf("<h1>"), peek = html.indexOf('class="glance-peek"'), cta = html.indexOf('<p class="cta">', peek), lede = html.indexOf('class="lede"');
     assert.ok(h1 >= 0 && h1 < peek && peek < cta && cta < lede, `${p}: order ${[h1, peek, cta, lede]}`);
-    assert.match(html.slice(peek), /<a href="#glance">See every treatment and how well it works<\/a>/);
+    // his 5B, 2026-11-09 21:42 CT: the caption states the slice, the link the full count
+    const m = html.slice(peek).match(/<caption>At a glance: (\d+) of (\d+) treatments<\/caption>/);
+    assert.ok(m, `${p}: caption`);
+    assert.match(html.slice(peek), new RegExp(`<a href="#glance">See all ${m[2]} and how well each works</a>`));
   }
 });
 

@@ -292,8 +292,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         rows = "".join(f'<tr><th scope=row><a href="#{i}">{e(names[i])}</a></th>'
                        + "".join(f'<td data-label="{labels[k]}">{cell(i, k)}</td>' for k in keys) + '</tr>' for i in ids)
         heads = "".join(f"<th scope=col>{labels[k]}</th>" for k in keys)
-        return (f'<div class="glance-peek"><table><caption>At a glance</caption><thead><tr><th scope=col>Treatment</th>{heads}</tr></thead>'
-                f'<tbody>{rows}</tbody></table><p class="peek-more"><a href="#glance">See every treatment and how well it works</a></p></div>')
+        return (f'<div class="glance-peek"><table><caption>At a glance: {len(ids)} of {len(glance)} treatments</caption><thead><tr><th scope=col>Treatment</th>{heads}</tr></thead>'
+                f'<tbody>{rows}</tbody></table><p class="peek-more"><a href="#glance">See all {len(glance)} and how well each works</a></p></div>')
 
     def summary(i):
         """The option's grid row, repeated at the top of its section: the answer before the detail (2026-11-07)."""

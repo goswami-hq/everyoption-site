@@ -81,7 +81,7 @@ JS_LAYOUT = """() => {
 JS_FIELDS = """() => [...document.querySelectorAll('li.card')].map(c => ({ name: c.querySelector('h3').textContent,
   photo: !!c.querySelector('img.photo'), blurb: !!c.querySelector('.blurb'), insurances: /Aetna/.test((c.querySelector('.ins')||{}).textContent||''),
   insurance_confirm: !!c.querySelector('.ins .confirm'), booking_url: !!c.querySelector('a.book'), offices: !!c.querySelector('.offices'),
-  phone: !!c.querySelector('a.call'), url: [...c.querySelectorAll('.actions a')].some(a => a.textContent === "Doctor's page"),
+  phone: !!c.querySelector('a.call'), url: [...c.querySelectorAll('.actions a')].some(a => a.textContent.startsWith("Doctor's website")),
   emptyIns: !!c.querySelector('.ins') && !(c.querySelector('.ins').textContent.trim().length > 'Insurance:'.length) }))"""
 
 

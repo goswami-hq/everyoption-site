@@ -235,7 +235,7 @@
     var book = p.booking_url ? safeHttps(p.booking_url) : "";
     if (book) acts.push(el("a", { "class": "book", href: book, rel: "noopener nofollow", target: "_blank", text: "Website" }));   // job 22: one "website or booking link"
     var page = p.url ? safeWeb(p.url) : "";
-    if (page) acts.push(el("a", { "class": "page", href: page, rel: "noopener nofollow", target: "_blank", text: "Doctor's page" }));
+    if (page) acts.push(el("a", { "class": "page", href: page, rel: "noopener nofollow", target: "_blank", "aria-label": "Doctor's website, opens in a new tab", text: "Doctor's website \u2197" }));   // his words 2026-11-09 21:42 CT: "Doctor's website"
     if (acts.length) kids.push(el("div", { "class": "actions" }, acts));
     var all = p.offices || [];             // one office: no extra list
     if (all.length > 1) kids.push(el("div", { "class": "offices" }, [
