@@ -32,7 +32,9 @@ knee pass the whole check, box included; chronic pelvic pain (`/chronic-pelvic-p
 every-option page or city pages until his review calls and a doctor list). Their volumes (DataForSEO 2026-11-07) are in
 each condition toml beside `targets`; raw files in ai-hq-data `dataforseo/keywords-2026-11-07/`. City pages for PAE (8
 metros) and GAE (4) follow the same rule as UFE (`content/metros.json`, `pages` per procedure); a condition still a draft
-keeps its city pages noindex and out of the sitemap (`cities.drafts()`). A condition page with no doctor list yet sits in
+keeps its city pages noindex and out of the sitemap (`cities.drafts()`). Hemorrhoids (job platform-condition-pages-0014, his go
+2026-11-09) has both pages and no doctor list: no finder, no city pages, no find-a-doctor block; its simple page is one
+centered reading column (`cond-grid no-finder`) with the "Compare your options" link under the intro; volumes in its tomls. A condition page with no doctor list yet sits in
 the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not in the ZIP dropdown.
 
 ## Page types

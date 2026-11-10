@@ -675,7 +675,7 @@ def main():
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
-                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"])))
+                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
