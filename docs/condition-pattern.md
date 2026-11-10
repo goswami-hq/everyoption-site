@@ -34,8 +34,8 @@ apply and are not rules yet.
 
 Each page type owns its own searches and its own job. The simple page answers "what are my options" with the finder on
 top; the every-option page answers "how do they compare"; city pages answer "who does it near me"; coverage pages answer
-"will my insurance pay". No two pages of one condition share a search target or three words in a row of title or H1
-(`pattern`).
+"will my insurance pay". A condition's simple and every-option pages share no search target and no three words in a row of title or H1
+(`pattern`; city and coverage pages are not compared).
 
 ## Search targets: how to pick them
 
@@ -93,7 +93,7 @@ scrolled to the top, in light and dark.
   7. *"Your other <condition> treatment options": three folded groups (Medicines; Less invasive treatments, IR first;
      Surgery), then the outlined "Compare them side by side: …" control to the every-option page;
   8. *Learn more (sections, "What should I ask my doctor?" opening "You can ask about any option on this page, even one
-     your doctor does not offer." (agreed list item 6, his "Yes to all" 2026-11-07; not checked), Common questions,
+     your doctor does not offer." (agreed list item 6, his words 2026-11-07, L537: "6. Agree"; not checked), Common questions,
      *References);
   9. *"Page last reviewed <Month D, YYYY>"; footer.
 - **First screen at 390 x 844 (`first-screen`):** H1; "Compare your options" (where an every-option page exists); the ZIP
@@ -169,10 +169,12 @@ scrolled to the top, in light and dark.
   `projects/platform/design/walkthrough-v2-batch-2026-11-09/`): fixed text "Does insurance cover it? →"
   (`tools/condition.py coverage_near`, same `coverage` path); the coverage link at the option's end stays. `pattern`.
 - **Links out (required):** simple page; find-a-doctor block with the ZIP box and the city list (fibroids: "Fibroid
-  embolization doctors by city" to `/fibroids/doctors/`); the coverage page. **Links in:** simple page, every city page.
+  embolization doctors by city" to `/fibroids/doctors/`); the coverage page. **Links in:** simple page (`pattern`), every city page (node `pelvic-finder-0009.test.mjs` and
+  `cities-job42.test.mjs` check city-page links; the link to this page is not checked).
   `pattern`.
 - **Breadcrumbs:** Home > <Condition> > Every option. **Structured data:** MedicalWebPage and BreadcrumbList; no FAQ
-  markup. `pattern`.
+  markup. `pattern` checks that the breadcrumbs are present and in place and the two types exist; the trail text is not
+  checked.
 
 ### 3. City hub `/<condition>/doctors/`
 
@@ -242,7 +244,8 @@ scrolled to the top, in light and dark.
   insurance cover fibroid embolization?"; `pattern`); lede; jump list before the cards with the "What if my insurer says
   no?" link up top; 12 insurer cards in a fixed order, each with a status chip (words and a shape), a date and a link,
   details closed in the HTML; the "says no" section open; sources folded at every width (his words 2026-11-08 11:54 CT,
-  L579: "Collapse sources for sure"); link to the hub; "Page last reviewed". `pattern` (order, H1), node
+  L579: "Collapse sources for sure"); link to the hub; "Page last reviewed". `pattern` checks breadcrumbs, H1, the hub link and "Page last reviewed" in order, and the H1; the jump list, cards,
+  folds and sources are node
   `insurance.test.mjs` (cards, folds, sources).
 - **Hub:** H1, lede, changes coming, coverage by procedure (a link to every coverage page, `pattern`), the every-insurer
   grid open (on phones one compact row per insurer with four labelled chips, L581), HAE cards folded on phones (L580),
@@ -269,7 +272,7 @@ scrolled to the top, in light and dark.
 
 "For physicians" (`/account/`), "Report an error" (`/report/`) and "How we know" are built in `tools/build.py` and
 checked by their own node tests (`accounts-*.test.mjs`, `report.test.mjs`), not by `pattern`. Their fixed wording
-(agreed list items 3 and 17, his "Yes to all" 2026-11-07): the physician page opens "Claim your free listing. …"; the
+(agreed list items 3 and 17, his words 2026-11-07, L537: "3. Agree" and "Agree with style recs"): the physician page opens "Claim your free listing. …"; the
 report button reads "Send report". Terms of service and privacy pages are required (his words 2026-11-01, L310: "We
 will also eventually need a terms of agreement /service agreement etc") and not built yet; they wait on his attorney
 review before launch.
@@ -365,7 +368,8 @@ review before launch.
   report line ("Report an error" and the errors email); the disclosure "Every Option is run by a practicing
   interventional radiologist. Listings are free, and no one can pay to be listed, ranked higher, or sent patients." (his
   yes 2026-10-25 to the one-line disclosure, no name, L244); links "Find a doctor by name", "Doctors by city",
-  "Insurance coverage", "How we know"; "Follow Every Option" with the four social accounts. `pattern` checks on every built page
+  "Insurance coverage", "How we know"; "Follow Every Option" with the four social accounts. `pattern` checks on the simple, every-option, home, insurance hub, coverage,
+  directory and A to Z pages (not How we know, `/account/` or `/report/`)
   the disclaimer, the disclosure and the links to `/report/`, `/doctors/`, `/insurance/` and `/how-we-know/`; the
   "Doctors by city" and social links are not checked.
 - **"Page last reviewed <Month D, YYYY>".** On simple, every-option, city hub, city, coverage and insurance hub pages,
