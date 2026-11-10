@@ -62,6 +62,10 @@ the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list coming"), not i
   city pages (after the answer; after "Is <ABBR> right for me?"), finder results (above the list), doctor profile (under the
   plans field), home (under the condition list; hub), footer and wide-screen menu (hub). Placements and rejections:
   ai-hq `projects/platform/design/insurance-links-2026-11-08/`.
+  Every-option pages also carry a short line just under the lead option's heading, fixed text "Does insurance cover it? →"
+  (`tools/condition.py coverage_near`, same `coverage` path; his 2A, 2026-11-09 19:22 CT: "add a short line just under each
+  treatment's heading … and keep the one at the bottom"; passed a design review for clutter, ai-hq
+  `projects/platform/design/walkthrough-v2-batch-2026-11-09/`). The heading names the treatment, so the short "it" stays clear.
 - **First-screen comparison link** (walkthrough finding 1, his words 2026-11-09: "1-4 changes let's do them"): "Compare
   your options" beside "How it works", to the every-option page; a condition with no every-option page has none. The
   link in "Your other options" stays.
