@@ -114,7 +114,7 @@ certainty = "Good evidence suggests"
 intro = "Fiber from food or a supplement softens stool, and the advice is to avoid straining or sitting a long time on the toilet. The AGA review calls this a reasonable first step.[^aga]"
 works = "Good evidence suggests fiber eases symptoms and lowers the chance of bleeding. It may not help much with bulging, pain, or itching.[^alonso]"
 evidence = ["{d:alonso}. The trials are older and of moderate quality."]
-risks = "Mild side effects were a little more common with fiber, a difference that could be chance.[^alonso]"
+risks = "Mild side effects were more common with fiber in the trials, but the difference could be chance.[^alonso]"
 fit = "The AGA lists fiber and changes in toilet habits as first-line care.[^aga]"
 unknown = "Whether fiber stops hemorrhoids from coming back has hardly been tested.[^alonso]"
 
@@ -214,7 +214,7 @@ after = "top"
 heading = "Bleeding after banding: how the paths compare"
 toc = "Bleeding after banding"
 text = [
-  "For bleeding that keeps coming back after office care, the choice is usually more office treatment, embolization, or surgery. Surgery has the strongest record for lasting results and the hardest recovery.[^jin21][^vanoost] Embolization spares the painful recovery and treats bleeding, but its benefit fades for some within a year and it does not treat bulging.[^falsarella][^aljnainati][^kucukay] No trial has compared embolization with banding yet.[^brussel][^stratos]",
+  "For bleeding that keeps coming back after office care, the choice is usually more office treatment, embolization, or surgery. Surgery has the strongest record for lasting results and the hardest recovery.[^jin21][^vanoost] Early studies suggest embolization spares most of the painful recovery. It treats bleeding, but its benefit fades for some within a year, and it is not known to fix hemorrhoids that bulge out.[^falsarella][^aljnainati][^kucukay] No trial has compared embolization with banding yet.[^brussel][^stratos]",
 ]
 
 [[section]]
