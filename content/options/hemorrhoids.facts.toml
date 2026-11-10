@@ -100,7 +100,7 @@ read = "full text"
 id = "kucu-ulcer"         # E14
 option = "embolization"
 simple = ""
-deep = "a small randomized trial of particle sizes that looked with a scope: superficial ulcers in 71.4% with the smallest particles and 0% with the largest, healed by 6 months"
+deep = "a small randomized trial of particle sizes that looked with a scope: superficial ulcers in 71.4% with the smallest particles and 0% with the largest, healed by 6 months; 3 of 14 in the smallest-particle group had deeper rectosigmoid ulcers that needed enema treatment and healed after 6 months"
 refs = ["kucukay"]
 read = "full text"
 [[fact]]
@@ -170,7 +170,7 @@ read = "full text"
 id = "hubble"             # C7
 option = "ligation"
 simple = ""
-deep = "a UK trial of 372 people in 17 centers: recurrence at 1 year 30% after Doppler-guided ligation vs 49% after a single banding, mostly from repeat bandings; more pain on day 1 and day 7 after ligation"
+deep = "a UK trial of 372 people in 17 centers: recurrence at 1 year 30% after Doppler-guided ligation vs 49% after a single banding, mostly from repeat bandings (counting repeat bandings as success, 30% vs 37.5%, not a significant difference); serious events needing hospital admission 12 (7%) after ligation vs 2 (1%) after banding; more pain on day 1 and day 7 after ligation"
 refs = ["brown16"]
 read = "full text"
 [[fact]]
@@ -212,7 +212,7 @@ read = "abstract"
 id = "jensen"             # context 5
 option = ""
 simple = ""
-deep = "In a 1989 trial of about 186 people with a first episode of second-degree hemorrhoids, 25% of those left untreated had no further episode in 4 years, while recurrence among those first cured was 61% untreated vs 33% after banding"
+deep = "In a 1989 trial of about 186 people with a first episode of second-degree hemorrhoids, 25% of those left untreated had no further episode in 4 years, while recurrence among those whose first episode cleared was 61% untreated vs 33% after banding"
 refs = ["jensen"]
 read = "abstract"
 [[fact]]

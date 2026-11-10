@@ -19,7 +19,7 @@ targets = ["hemorrhoid embolization", "hemorrhoid artery embolization", "hemorrh
 title = "Hemorrhoid Embolization vs. Banding vs. Surgery | Every Option"
 description = "Hemorrhoid artery embolization (HAE) vs. banding, other office treatments, and surgery: results, recovery, risks, insurance, and what is not known."
 h1 = "Hemorrhoid treatments compared, side by side"
-lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people and hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding, and it hurts far less than surgery in the first days. Bleeding comes back for some within a year, and it is not known to fix hemorrhoids that bulge out.[^falsarella][^aljnainati][^kucukay]"
+lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people and hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding, and early studies suggest it hurts far less than surgery in the first days. Bleeding comes back for some within a year, and it is not known to fix hemorrhoids that bulge out.[^falsarella][^aljnainati][^kucukay]"
 read_intro = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
@@ -63,7 +63,7 @@ bulge = "Not shown to help"
 option = "embolization"
 works = "Most bleed less; bleeding returns for some within a year"
 involves = "A thin tube through a tiny skin nick in the wrist or groin"
-recovery = "Home the same day; a few days of pressure or urge to go"
+recovery = "Most go home the same day; a few days of pressure or urge to go"
 bulge = "Not known to help"
 [[glance]]
 option = "banding"
@@ -111,7 +111,7 @@ bulge = "Treats them; needed when they stay out"
 [[detail]]
 option = "fiber"
 certainty = "Good evidence suggests"
-intro = "Fiber from food or a supplement softens stool, and the advice is to avoid straining or sitting a long time on the toilet. Guidelines call this a reasonable first step.[^aga]"
+intro = "Fiber from food or a supplement softens stool, and the advice is to avoid straining or sitting a long time on the toilet. The AGA review calls this a reasonable first step.[^aga]"
 works = "Good evidence suggests fiber eases symptoms and lowers the chance of bleeding. It may not help much with bulging, pain, or itching.[^alonso]"
 evidence = ["{d:alonso}. The trials are older and of moderate quality."]
 risks = "Mild side effects were a little more common with fiber, a difference that could be chance.[^alonso]"
@@ -129,7 +129,7 @@ fit = "The AGA says they can be considered, with little data to support them.[^a
 [[detail]]
 option = "embolization"
 certainty = "Early results are encouraging"
-intro = "A catheter enters the wrist or groin artery, under local numbing and light sedation, and is guided to the superior rectal arteries that feed the hemorrhoids. Coils, particles, or both block them; the middle rectal arteries are sometimes treated too. No embolic agent is proven best.[^bagla][^falsarella][^kucukay]"
+intro = "A catheter enters the wrist or groin artery, under local numbing and moderate sedation, and is guided to the superior rectal arteries that feed the hemorrhoids. Coils, particles, or both block them; the middle rectal arteries are sometimes treated too. No embolic agent is proven best.[^bagla][^falsarella][^kucukay]"
 works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella]"
 evidence = [
   "Pooled data: {d:nguyen}. Every included study was before-and-after only.",
@@ -142,7 +142,7 @@ evidence = [
 ]
 risks = "Expect a few days of rectal pressure, urge to go or low fever: {d:tenesmus}.\nSmall ulcers are found when patients are scoped: {d:kucu-ulcer}. Most series do not scope routinely, so they undercount ulcers.\nSerious bowel injury has been reported more than once, with no reliable rate: {d:deoliv}; a case of ischemia with narrowing; and a case report of colonic ischemia and necrosis (title only).[^eberspacher][^hess] Loss of bowel control has not been reported.[^aljnainati]"
 selection = "Studied mostly in people with bleeding hemorrhoids of {d:g13} that did not respond to other care, some too sick for surgery, some who refused it. Pregnancy, active inflammatory bowel disease, poor kidney function and dye allergy are commonly excluded from trials.[^aljnainati][^brussel] It is not a treatment for a clotted hemorrhoid or a fissure.[^aga]"
-fit = "{d:nice}. An Italian colorectal consensus reserves it for selected patients with disabling, refractory symptoms and no bulging that cannot be pushed back. The AGA review does not mention it. We found no SIR or CIRSE position.[^siccr][^aga]"
+fit = "{d:nice}. An Italian colorectal consensus reserves it for selected patients with disabling, refractory symptoms and no bulging that cannot be pushed back. The AGA review's summary does not mention it. We found no SIR or CIRSE position.[^siccr][^aga]"
 unknown = "How it compares with banding or artery ligation, and results {d:two-years}. {d:trials}. If it works for you, it may spare you surgery, but no study has measured that against a comparison group.[^degregorio]"
 
 [[detail]]
@@ -180,7 +180,7 @@ intro = "Doppler-guided artery ligation, also called dearterialization: an ultra
 works = "Early studies suggest it helps, but hemorrhoids come back more often than after excision. It may last longer than a single banding.[^jee][^brown16]"
 evidence = ["{d:hubble}.", "{d:jee}."]
 risks = "More pain than banding in the first week; serious events needing a hospital stay were more common after ligation than after banding in the UK trial.[^brown16]"
-fit = "It targets the same arterial inflow as embolization, so durability may behave alike (our inference; no trial tests this).[^jee]"
+unknown = "It targets the same arterial inflow as embolization, so durability may behave alike (our inference; no trial tests this).[^jee]"
 
 [[detail]]
 option = "stapled"

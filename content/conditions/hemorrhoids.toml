@@ -31,11 +31,11 @@ targets = ["hemorrhoid treatment options", "non surgical hemorrhoid treatment", 
 title = "Hemorrhoid Treatment Options Beyond Home Care | Every Option"
 description = "Your hemorrhoid treatment options, from fiber and banding to non surgical embolization and surgery: how invasive each is, how well it works, side effects."
 h1 = "Treat hemorrhoids without surgery"
-hero_intro = "Bleeding from your bottom needs a doctor's check first, including your colon, because it is not always hemorrhoids. Most people get better with fiber or an office treatment such as banding. If bleeding keeps coming back, embolization needs no surgery, and surgery is the most lasting fix."
+hero_intro = "Bleeding from your bottom needs a doctor's check first, including your colon, because it is not always hemorrhoids. Fiber eases symptoms for many people, and office treatments such as banding work well for many. If bleeding keeps coming back, embolization needs no surgery, and surgery is the most lasting fix."
 diagram_at = "embolization"    # the lead option (no diagram on this page)
 options_page = "/hemorrhoids/every-option/"
 options_link = "Compare them side by side: embolization vs. banding, other office treatments, and surgery"
-answer = "Hemorrhoids are swollen veins in and around the bottom. They are common.[^niddk] Most people get better with more fiber, and office treatments like banding work well for many.[^aga][^alonso] If bleeding keeps coming back after those, embolization is one option that needs no surgery. Surgery is the most lasting fix.[^jin21][^vanoost] The right choice depends on your symptoms and goals."
+answer = "Hemorrhoids are swollen veins in and around the bottom. They are common.[^niddk] Fiber eases symptoms for many people, and office treatments like banding work well for many.[^aga][^alonso] If bleeding keeps coming back after those, embolization is one option that needs no surgery. Surgery is the most lasting fix.[^jin21][^vanoost] The right choice depends on your symptoms and goals."
 urgent = "If you have heavy bleeding that does not stop, feel faint or dizzy, or have a high fever or severe pain after a procedure, get emergency care or call 911."
 options_heading = "Your other hemorrhoid treatment options"
 faq_heading = "Common questions"
@@ -82,8 +82,8 @@ id = "after-banding"
 place = "lead"
 heading = "If bleeding keeps coming back after banding"
 text = [
-  "You have three paths. Banding is a good choice for many people.[^aga] Embolization needs no surgery and hurts much less in the first days than surgery, but bleeding comes back for some people.[^falsarella][^degregorio] Surgery is the most lasting fix, and the most painful to recover from.[^jin21][^vanoost]",
-  "If your hemorrhoids bulge out and stay out, surgery is usually needed.[^aga] Embolization is mainly a treatment for bleeding.[^kucukay][^siccr] Studies comparing it with banding are under way.[^brussel][^stratos]",
+  "You have three paths. Banding is a good choice for many people.[^aga] Embolization needs no surgery, and early studies suggest it hurts much less than surgery in the first days, but bleeding comes back for some people.[^falsarella][^degregorio] Surgery is the most lasting fix, and the most painful to recover from.[^jin21][^vanoost]",
+  "If your hemorrhoids bulge out and stay out, surgery is usually needed.[^aga] Embolization is mainly a treatment for bleeding.[^kucukay][^siccr] Studies comparing it with banding are under way.[^brussel][^stratos] Every Option's physician performs embolization.",
 ]
 
 [[sections]]
@@ -91,7 +91,7 @@ id = "right-for-me"
 place = "after"
 heading = "Is embolization right for me?"
 text = [
-  "It may suit you if bleeding keeps coming back after fiber and office treatments, and you do not want surgery.[^siccr] Some people also have less aching afterward, but this is less studied.[^nguyenhuy][^falsarella]",
+  "It may suit you if bleeding keeps coming back after fiber and office treatments, and you do not want surgery.[^siccr] Early studies suggest some people also have less aching afterward.[^nguyenhuy][^falsarella]",
   "It is usually not the right choice if your hemorrhoids stay out, or if your main problem is sudden, severe pain from a clot or a tear. It has not been studied in pregnancy.[^aga][^brussel]",
 ]
 
@@ -125,7 +125,7 @@ a = "Family doctors, gastroenterologists (digestive specialists), and colorectal
 
 [[faq]]
 q = "Will hemorrhoids go away on their own?"
-a = "Sometimes. Some people with an early flare never have another one, but for many the symptoms come back.[^jensen]"
+a = "Sometimes. Some people with an early flare have no more flares for years, but for many the symptoms come back.[^jensen]"
 
 [[faq]]
 q = "What if I am pregnant?"
@@ -152,9 +152,9 @@ id = "embolization"
 name = "Hemorrhoid artery embolization (HAE)"
 lead_heading = "What is hemorrhoid artery embolization (HAE)?"
 what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
-invasive = "It hurts far less than surgery in the first days.[^falsarella]"
-works = "Early results are encouraging. Most bleed less, and about 2 out of 3 people still have little or no bleeding a year later. Some need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may help you avoid surgery, but we don't know that yet."
-side = "Pressure, an urge to go, or a low fever can last a few days.[^han][^zhou] Serious bowel injury is rare, but it has happened.[^deoliveira][^eberspacher][^hess]"
+invasive = "Early studies suggest it hurts far less than surgery in the first days.[^falsarella]"
+works = "Early results are encouraging. Most bleed less, and about 2 out of 3 people still have little or no bleeding a year later. Some need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
+side = "Pressure, an urge to go, or low fever can last a few days.[^han][^zhou] Serious bowel injury is rare, but it has happened.[^deoliveira][^eberspacher][^hess]"
 
 [[options]]
 id = "banding"
@@ -200,7 +200,7 @@ side = "Over the long run, pain and bowel control are about the same as after st
 id = "laser"
 name = "Laser surgery"
 what = "A surgeon shrinks the hemorrhoids with heat from a laser.[^pompeu]"
-invasive = "This is surgery. Most people get back to daily life sooner than after standard surgery.[^pompeu]"
+invasive = "This is surgery. People got back to daily life sooner than after standard surgery.[^pompeu]"
 works = "Early studies suggest it hurts less than standard surgery. How long it lasts is not yet known.[^pompeu]"
 side = "Bleeding and trouble peeing afterward seem less common than after standard surgery.[^pompeu]"
 
