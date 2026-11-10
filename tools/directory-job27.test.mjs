@@ -30,7 +30,7 @@ function grab(name) {
   for (; j < FINDER.length; j++) { if (FINDER[j] === "{") depth++; if (FINDER[j] === "}" && --depth === 0) break; }
   return FINDER.slice(i, j + 1);
 }
-const finder = new Function(`${grab("miles")}\n${grab("place")}\n${grab("rosterShown")}\n${grab("slug")}\nreturn { place, rosterShown, slug };`)();
+const finder = new Function(`${grab("miles")}\n${grab("place")}\n${grab("rosterShown")}\nreturn { place, rosterShown };`)();
 function finderShows(lists, roster) {
   const s = new Set();
   for (const people of Object.values(lists)) for (const p of people) if (!p.test && finder.place(p, [p.lat ?? 0, p.lon ?? 0], Infinity)) s.add(p.npi);
@@ -104,16 +104,14 @@ test("test profile and his NPI are absent from every generated directory file", 
   if (his) assert.ok(!all.includes(his[1]), "his NPI"); else console.log("note: ai-hq checkout not found; his-NPI check skipped");
 });
 
-test("slug: Python, server, finder and search page agree on every name and on hard ones", () => {
+// Job platform-web-design-0008: the finder and the search page no longer have their own slug(); they read the address
+// from the data (tools/profile-links.test.mjs). Python and the server still agree here.
+test("slug: Python and server agree on every name and on hard ones", () => {
   const hard = ["Paul O'Connor", "Ana-María Núñez", "José  Pérez Jr.", "Zoë D’Othee", "Émile Brontë-Smith", "  ", "Łukasz Ćwik"];
   const names = [...new Set([...DIR.people.map((p) => p.n), ...hard])];
   const py = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
 print(json.dumps([directory.slug(n) for n in json.load(sys.stdin)]))`], { input: JSON.stringify(names) }));
-  const search = read("assets/directory.js"), fold = new Function(/function fold\(s\) \{[\s\S]*?\n  \}/.exec(search)[0] + "\nreturn fold;")();
-  names.forEach((n, i) => {
-    assert.equal(slug(n), py[i], n); assert.equal(finder.slug(n), py[i], n);
-    assert.equal(fold(n).replace(/ /g, "-") || "doctor", py[i], n);
-  });
+  names.forEach((n, i) => assert.equal(slug(n), py[i], n));
   assert.equal(slug("Paul O'Connor"), "paul-oconnor"); assert.equal(slug("Ana-María Núñez"), "ana-maria-nunez");
   for (const p of DIR.people) assert.equal(p.p, `/doctors/${slug(p.n)}-${npiOf(p)}/`);
 });

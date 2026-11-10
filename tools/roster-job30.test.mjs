@@ -16,7 +16,7 @@ function grab(name) {
   return FINDER.slice(i, j + 1);
 }
 const rosterShown = new Function(`${grab("rosterShown")}\nreturn rosterShown;`)();
-const KEYS = ["npi", "name", "proven", "practice", "city", "state", "city_label", "phone", "url", "lat", "lon", "site_names"];
+const KEYS = ["npi", "name", "proven", "practice", "city", "state", "city_label", "phone", "url", "lat", "lon", "site_names", "path"];   // path: the profile address (job platform-web-design-0008)
 
 test("roster: every person in the public file passes the finder's filter", () => {
   const people = JSON.parse(read("data/ir-roster.json")).people;

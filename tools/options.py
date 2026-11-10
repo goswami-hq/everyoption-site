@@ -326,7 +326,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
             cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{condition.coverage_link(c)}' if lead else ""
             items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
-                      f'{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
+                      f'{condition.coverage_near(c) if lead else ""}{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
         h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
         sections += f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2><p>{txt(k["summary"])}</p>{items}</section>'

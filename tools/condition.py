@@ -29,6 +29,16 @@ def coverage_link(c):
     return f'<p class="cov-link"><a href="{html.escape(cov["path"], quote=True)}">{html.escape(cov["link"], quote=False)}</a></p>'
 
 
+def coverage_near(c):
+    """Job platform-web-design-0008 (his 2A, 2026-11-09): a short line just under the heading of the treatment that has a
+    coverage page, "Does insurance cover it? →", to the same page as coverage_link(); the link at the section's end stays."""
+    p = next((x for x in PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
+    if not p:
+        return ""
+    return (f'<p class="cov-near"><a href="{html.escape(p["coverage"]["path"], quote=True)}">Does insurance cover it?'
+            '<span aria-hidden="true"> →</span></a></p>')
+
+
 LINK = re.compile(r"\[([^\]^][^\]]*)\]\(([^)\s]+)\)")
 MARK = re.compile(r"\[\^([a-z0-9-]+)\]")
 BOLD = re.compile(r"\*\*(.+?)\*\*")

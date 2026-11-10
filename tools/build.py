@@ -630,6 +630,7 @@ def copy_src_assets():
 
 
 def main():
+    directory.stamp_paths(SITE)   # job platform-web-design-0008: every card's profile link, written once, before anything reads the lists
     copy_src_assets()
     write("assets/logo.svg", logo_file())
     write_telehealth()

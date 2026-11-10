@@ -53,6 +53,33 @@ def path(p):
     return f"/doctors/{slug(p['name'])}-{p['npi']}/"
 
 
+def stamp_paths(site):
+    """Job platform-web-design-0008: the one place a card's profile link is made. Writes path(p) as "path" on every
+    person in the finder lists and the IR roster, so the finder, the city pages and the name search read the link
+    from the data and never build it themselves (lib/directory.mjs profilePath() only for doctors who joined after
+    the build, through the listings overlay). One doctor can be spelled differently on two lists ("Gregory J Dubel",
+    "Gregory Dubel"); every list takes the address of the doctor's one directory record (members(), the name the profile
+    page itself uses), so no card links to a redirect. Keeps each file's own JSON layout."""
+    canon = {r["npi"]: path(r) for r in load(site).values()}
+    for f in [k + ".json" for k in PROC_PAGE] + ["ir-roster.json"]:
+        fp = os.path.join(site, "data", f)
+        with open(fp, encoding="utf-8") as fh:
+            raw = fh.read()
+        d = json.loads(raw)
+        roster = f == "ir-roster.json"
+        for p in d.get("people", []):
+            # the roster only for the doctors the finder can show (roster_shown), so the file stays small
+            if p.get("npi") and p.get("name") and not is_test(p) and (not roster or roster_shown(p)):
+                p["path"] = canon.get(p["npi"]) or path(p)
+            else:
+                p.pop("path", None)
+        kw = {"indent": 1} if raw.startswith("{\n") else {"separators": (",", ":")}
+        out = json.dumps(d, ensure_ascii=False, **kw) + ("\n" if raw.endswith("\n") else "")
+        if out != raw:
+            with open(fp, "w", encoding="utf-8") as fh:
+                fh.write(out)
+
+
 def has_point(o):
     return o.get("lat") is not None and o.get("lon") is not None
 
