@@ -792,3 +792,10 @@ table.glance thead th:first-child, table.glance tbody th[scope=row] { min-width:
    band beside it on wide screens; 1134 px is the old banner's height cap (378 px) times 3. */
 .home-banner.home-ride { background: #fbeed8; }
 .home-ride video#ride { display: block; width: 100%; max-width: 1134px; height: auto; aspect-ratio: 3 / 1; margin: 0 auto; background: #fbeed8; }
+/* Phones: the at-a-glance table and the finder button fit the first screen on every comparison page
+   (his words 2026-11-09 21:46 CT: "fix the prostate page dr finder button / Just make sure it's consistent w other pages"). One rule for all three pages. */
+@media (max-width: 480px) {
+  .glance-peek table { font-size: 0.9375rem; line-height: 1.3; }
+  .glance-peek th, .glance-peek td { padding: 5px 6px 5px 0; }
+  .glance-peek caption { padding: 4px 0 0; }
+}
