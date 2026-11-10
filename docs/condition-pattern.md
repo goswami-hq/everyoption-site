@@ -42,7 +42,8 @@ top; the every-option page answers "how do they compare"; city pages answer "who
 1. Write candidates from each page type's template below. 2. Pull US volumes (DataForSEO Google Ads search volume, one
 call, about $0.09 for 47 phrasings on 2026-11-06; `scripts/dataforseo_volumes.py` in ai-hq). 3. Give each phrasing to
 exactly one page; the first target of a page must appear in its title. 4. Record them in `targets = [...]` in the page's
-toml (`pattern` checks targets, title, H1 and description lengths).
+toml (`pattern` checks that targets exist, the first is in the title, title and description lengths, and no shared
+phrasing or targets between the two pages).
 
 Fibroid volumes (US, monthly, DataForSEO 2026-11-06): fibroid treatment 22,200; fibroid medication 14,800; what are
 fibroids 14,800; fibroid treatment options 3,600; how to shrink fibroids 1,900; fibroid specialist near me 880; best
@@ -77,7 +78,8 @@ scrolled to the top, in light and dark.
 - **Title:** "<Condition> Treatment Options, <qualifier> | Every Option", 65 characters or fewer with the brand. Fibroids:
   "Fibroid Treatment Options, With or Without Surgery | Every Option" (65). **Description:** 110 to 160 characters; names
   the options and what the page tells. **H1:** the patient's goal, not the title (fibroids: "Shrink fibroids without
-  surgery"); no three words in a row shared with the every-option title or H1. All `pattern`.
+  surgery"); no three words in a row shared with the every-option title or H1. `pattern` checks the title, the
+  description and the shared phrasing; "the patient's goal" is not checked.
 - **Order from the top** (`pattern` checks the order of the parts marked *):
   1. header and menu; condition banner strip (hidden under 360 px);
   2. *H1, a short finder intro, *the links row "How it works" and "Compare your options", the *ZIP finder (ZIP box,
@@ -90,7 +92,9 @@ scrolled to the top, in light and dark.
   6. plain answer paragraph; urgent line;
   7. *"Your other <condition> treatment options": three folded groups (Medicines; Less invasive treatments, IR first;
      Surgery), then the outlined "Compare them side by side: …" control to the every-option page;
-  8. *Learn more (sections, "What should I ask my doctor?", Common questions, *References);
+  8. *Learn more (sections, "What should I ask my doctor?" opening "You can ask about any option on this page, even one
+     your doctor does not offer." (agreed list item 6, his "Yes to all" 2026-11-07; not checked), Common questions,
+     *References);
   9. *"Page last reviewed <Month D, YYYY>"; footer.
 - **First screen at 390 x 844 (`first-screen`):** H1; "Compare your options" (where an every-option page exists); the ZIP
   box and the "Find doctors" button. Button bottom on 2026-11-09: 749 (fibroids), 778 (prostate), 755 (knee), 727
@@ -105,11 +109,13 @@ scrolled to the top, in light and dark.
   (pelvic). `pattern`, node `insurance.test.mjs`. Open with him: prostate (his 2026-11-05 "No need to add" insurance
   lines; ai-hq `projects/platform/content/page-reviews/2026-11-08-insurance-links/list-for-him.md` item 3).
 - **Links out (required):** every-option page (descriptive anchor naming the comparisons; fibroids: "Compare them side by
-  side: embolization vs. myomectomy, hysterectomy, and medicines"); the city list and each city page; references; the
-  coverage page. **Links in:** home card, every-option page, every city page, city hub breadcrumb. `pattern`.
+  side: embolization vs. myomectomy, hysterectomy, and medicines"; `pattern`); the coverage page (`pattern`); the city
+  list and each city page (node `cities-job42.test.mjs`, "links: /fibroids/ lists the cities in plain HTML");
+  references (`pattern` checks the block is present). **Links in:** home card (node `walkthrough-fixes.test.mjs`),
+  every-option page (`pattern`), every city page and the city hub breadcrumb (not checked).
 - **Breadcrumbs:** none (top level). **Structured data:** MedicalWebPage (name and headline = H1, description, url,
   lastReviewed, audience Patient, about MedicalCondition with possibleTreatment per option, publisher). No FAQ markup.
-  `pattern`.
+  `pattern` checks that MedicalWebPage is present and FAQPage absent; its fields are not checked.
 
 ### 2. Every-option page `/<condition>/every-option/`
 
@@ -124,7 +130,9 @@ scrolled to the top, in light and dark.
   160. **H1:** "<Condition> treatments compared, side by side". `pattern`.
 - **Section headings phrased as the comparisons** (`compare_headings`; the simple page keeps plain category names);
   a heading that restates a claim must match the page text and the tie file.
-- **Order from the top** (all `pattern`):
+- **Order from the top** (`pattern` checks breadcrumbs, H1, the at-a-glance view, the finder button, lede, the link to
+  the simple page, contents list, the box, glance table, find-a-doctor block, references and "Page last reviewed", in
+  that order; the banner strip, "How to read this page" and the urgent line are not checked):
   1. header and menu; banner strip; breadcrumbs;
   2. H1;
   3. at-a-glance view (`glance_peek`): caption "At a glance: N of M treatments", the procedure and its main comparators
@@ -147,7 +155,8 @@ scrolled to the top, in light and dark.
   795, knee 799. The rule is set at 390 x 844; on a 375 x 812 phone the knee button ends 11 px below (L621).
 - **At-a-glance view** (walkthrough fix 2, L601; caption and link his 5B, 2026-11-09 21:42 CT, L620: "Item 5. b"): the
   caption states the slice, the link the full count; N is the number of rows shown, M the number of options in the
-  grid. Never list an option whose certainty word certifies no benefit. `pattern` (caption, link, row counts), node
+  grid. Never list an option whose certainty word certifies no benefit (walkthrough fix 2, L601; written in the job's
+  design review; not checked). `pattern` (caption, link, row counts), node
   `walkthrough-fixes.test.mjs` (order, cells match the grid).
 - **Grid** (his words 2026-11-07, L524: "the grids, while fine, are missing the most important info - how well does it
   work? For each option"): the first column after the name is "How well it works": the option's certainty word from
@@ -208,7 +217,11 @@ scrolled to the top, in light and dark.
   when the office row has one, see the street rule under Doctor cards); "Call", "Doctor's website ↗" as an outlined button (L410); plans the doctor entered and the
   coverage links under them; "Video visits" badge only on Confirmed profiles that said yes (his words 2026-11-06, L522:
   "It should be only on confirmed profiles and it should be prominent visually"); "Is this you? Claim this free profile"
-  and the report link. No reviews and no patient names anywhere (2026-11-01, L307).
+  and the report link. No reviews and no patient names anywhere (2026-11-01, L307). A profile with no known procedure
+  reads "We don't yet know which procedures this doctor performs. Call and ask about:" (his words 2026-11-03, L409:
+  "We need a better label"; `tools/e2e/directory_e2e.py`, node `directory-job27.test.mjs`); profiles do not carry
+  "Based on public information online. Call the office to confirm." (L415, 2026-11-04: "Agree"; that line stays as the
+  Likely group's note in the finder and on city pages; not checked).
 - **First screen (`first-screen`):** H1.
 - **Index rule:** noindex until a procedure is known or the profile is claimed (his words 2026-11-05, L438: "Yes
   agree"); the A to Z directory holds Confirmed, Likely and nearby doctors only (2026-11-03, L405: "only groups A B C,
@@ -220,7 +233,8 @@ scrolled to the top, in light and dark.
 
 ### 6. Insurance hub `/insurance/` and coverage pages `/<condition>/insurance/`
 
-- **Three layers** (his yes 2026-11-08, L567): a link on each condition page, one coverage page per procedure, one hub.
+- **Three layers** (his yes 2026-11-08, L567): a short answer on each condition page, one coverage page per procedure,
+  one hub. Today the coverage link stands in for the short answer while that block is open with him (below).
   Not public until launch: noindex and out of every sitemap (node `insurance.test.mjs`). Open with him: the short answer
   block "Will insurance cover it?" on each condition page (ai-hq
   `projects/platform/content/page-reviews/2026-11-08-insurance/list-for-him.md` item 1).
@@ -236,7 +250,8 @@ scrolled to the top, in light and dark.
 - **Fixed wording:** traditional Medicare cells read "No specific Medicare policy; decided case by case" (his words
   2026-11-08, L564: "use the label that's more honest"); rows not checked read "Looked <date>" (L582); no Medicaid (his
   words 2026-11-08, L561: "Just take out Medicaid altogether"); the table records his reading with policy name, link and
-  date, never the payer's own wording.
+  date, never the payer's own wording. No Medicaid: node `insurance.test.mjs` ("no pelvic or Medicaid data"); the
+  Medicare and "Looked <date>" wording are not checked.
 - **Where the links go** (L583): simple page (lead option), every-option page (under the lead heading and at the
   option's end, contents list), city pages (after the answer and in "Is <ABBR> right for me?"), finder results (above
   the list), profiles (under plans), home (under the condition list, to the hub), footer ("Insurance coverage") and the
@@ -249,6 +264,15 @@ scrolled to the top, in light and dark.
   letter page lists every shown doctor's profile link from the one address source (node `profile-links.test.mjs`). No
   exact name, city and state twice (his words 2026-11-04: "make sure we don't have exact duplicates in our directory";
   node `directory-job38.test.mjs`). Not a ranking; listings are free.
+
+### Pages outside this pattern
+
+"For physicians" (`/account/`), "Report an error" (`/report/`) and "How we know" are built in `tools/build.py` and
+checked by their own node tests (`accounts-*.test.mjs`, `report.test.mjs`), not by `pattern`. Their fixed wording
+(agreed list items 3 and 17, his "Yes to all" 2026-11-07): the physician page opens "Claim your free listing. …"; the
+report button reads "Send report". Terms of service and privacy pages are required (his words 2026-11-01, L310: "We
+will also eventually need a terms of agreement /service agreement etc") and not built yet; they wait on his attorney
+review before launch.
 
 ### 8. Home `/`
 
@@ -268,6 +292,10 @@ scrolled to the top, in light and dark.
 
 ## Shared parts
 
+- **Condition pages stay script-free** of third parties: a video is a thumbnail that loads YouTube only on tap; no
+  analytics script (his words 2026-11-05, L442: "Agree with 5/6"). Node `cities-job42.test.mjs` ("no third-party
+  script on condition pages").
+
 - **Header and menu.** Logo to home; six items in this order: Home, Conditions, Insurance, Directory, How we know, For
   physicians (`pattern`). "Conditions" goes to `/#conditions`; from a condition's simple page it goes to
   `/?from=<slug>#conditions`, which marks that condition's card so the reader is not sent back to the same page
@@ -275,7 +303,8 @@ scrolled to the top, in light and dark.
   hidden and the other five sit on one row (L584; `first-screen`). The physician entry is a clear item at the top (his
   words 2026-11-03: "a clear page at the top that physicians can click on").
 - **Banner strip.** Condition pages show the banner version of their procedure animation, hidden under 360 px;
-  stylized, not anatomically exact (his words 2026-11-02: "aren't supposed to be anatomically exact"). Not checked.
+  stylized, not anatomically exact (his words 2026-11-02: "aren't supposed to be anatomically exact"). One animation
+  per procedure: `tools/e2e/anim_e2e.py`; the strip itself is not checked.
 - **"What is <condition>?" box** (his words 2026-11-06, L519: "I like the box because it explains what fibroids are and
   what typical symptoms include … But it does make a lot of scrolling", then "B2 yes"). On every condition's simple and
   every-option pages: the heading "What is <condition>?" (or "What are …?"), the definition with its citation, a "Common
@@ -284,8 +313,10 @@ scrolled to the top, in light and dark.
   "A doctor can check what is causing your symptoms and go over your options.", agreed list item 5, 2026-11-07; prostate
   and pelvic word it their own way) One source: the condition toml's section
   with `place = "box"` (`text`, `symptoms`, `symptoms_cite`, `see_doctor`), rendered by `condition.what_box()`; styles
-  in `src-assets/condition-box.css`. `pattern` fails a page without the box or any part, and a symptom list styled as
-  pills; a draft condition without the box content is skipped and named.
+  in `src-assets/condition-box.css`. `pattern` fails a page without the box, its "What is …?" heading, a definition
+  paragraph, a symptom list of two or more items, or the "When to see a doctor" fold, and a symptom list styled as
+  pills; the "Common symptoms" label and the citations are not checked. A draft condition without the box content is
+  skipped and named.
 - **Compare link.** "Compare your options" on the simple page's first screen; "Compare them side by side: …" as an
   outlined control with an arrow below the option groups, so it reads as a link and not a heading (his words 2026-11-09:
   "reads as not clearly a link and seems more like the heading given its position over the 3 options"; ai-hq
@@ -298,7 +329,11 @@ scrolled to the top, in light and dark.
   "Confirmed by physician: 0 nearby."; his words 2026-11-01, L301: "display confirmed by physician even when empty"),
   "Likely performs this procedure" (his words 2026-11-01, L299: "B should be 'likely performs this procedure'"),
   "Interventional radiologists nearby" only on thin results (L325), "Nearest doctors farther away". Distance uses the
-  doctor's confirmed office address (his words 2026-11-02, L324: "distances should use the actual address"). Node
+  doctor's confirmed office address (his words 2026-11-02, L324: "distances should use the actual address"). Account
+  changes show live, not through a daily export (his words 2026-11-03, L361: "I want live"), and a doctor who removes a
+  procedure leaves that list even when a public page names it (L360: "yes a doctors removal should take them off the
+  list"); node `listings-job25.test.mjs`, `directory-job27.test.mjs`, `tools/e2e/live_e2e.py`. No SIR Doctor Finder link
+  or data (his words 2026-11-02, L329: "Shelf it for now"; not checked). Node
   `finder-job16.test.mjs`, `tools/e2e/fixes_e2e.py`.
 - **Doctor cards** (finder, city pages; the same parts on profiles):
   - the name is a link to the profile, underlined so it reads as a link (his 3A, 2026-11-09 19:22 CT, L618: "Honestly I
@@ -330,8 +365,9 @@ scrolled to the top, in light and dark.
   report line ("Report an error" and the errors email); the disclosure "Every Option is run by a practicing
   interventional radiologist. Listings are free, and no one can pay to be listed, ranked higher, or sent patients." (his
   yes 2026-10-25 to the one-line disclosure, no name, L244); links "Find a doctor by name", "Doctors by city",
-  "Insurance coverage", "How we know"; "Follow Every Option" with the four social accounts. `pattern` checks the
-  disclaimer, disclosure and the four links on every built page.
+  "Insurance coverage", "How we know"; "Follow Every Option" with the four social accounts. `pattern` checks on every built page
+  the disclaimer, the disclosure and the links to `/report/`, `/doctors/`, `/insurance/` and `/how-we-know/`; the
+  "Doctors by city" and social links are not checked.
 - **"Page last reviewed <Month D, YYYY>".** On simple, every-option, city hub, city, coverage and insurance hub pages,
   from `reviewed` in the toml (city pages: `CITIES.reviewed`). `pattern` on the built ones. Home and the directory carry
   none; "How we know" says "Last reviewed <date>" (`tools/build.py`).
@@ -355,6 +391,7 @@ Exact strings; change one only on his word, then update the code and this table 
 | "Confirmed by physician", "Likely performs this procedure", "Interventional radiologists nearby", "Nearest doctors farther away" | finder groups | `src-assets/finder.js`, `tools/build.py` |
 | "Confirmed by physician: 0 nearby." | finder and city pages | `src-assets/finder.js`, `lib/cities.mjs` |
 | "Is this you? Claim this free profile" | unconfirmed cards, profiles | `lib/directory.mjs`, `lib/cities.mjs` |
+| "We don't yet know which procedures this doctor performs. Call and ask about:" | profile with no known procedure | `lib/directory.mjs` |
 | "Video visits" (badge), "Video visits only" (switch) | Confirmed cards, finder | `lib/telehealth.mjs`, `src-assets/finder.js` |
 | "See all treatment options" | after finder results | `src-assets/finder.js` |
 | "What is <procedure>?", "How well does it work?", "Side effects" | lead option | `tools/condition.py` |
@@ -395,12 +432,13 @@ Exact strings; change one only on his word, then update the code and this table 
   phrasing for everything"); plain but not childlike, each section grade 9 or lower, aim about 7 (L318; `readability`);
   American spelling and the Oxford comma (his words 2026-11-01, L319); never discourage exercise (his words 2026-11-06,
   L486: "I don't want to discourage exercise in anyone"); care-navigation lines such as "a doctor can evaluate you" need
-  no source (his words 2026-11-07).
+  no source (his words 2026-11-07, L538: "you don't need a source to say a dr can evaluate you").
 - **Each option answers:** how invasive, how likely to help, side effects; no trial trivia (his words 2026-11-01, L320).
   Each option uses the same card; only the IR option is highlighted (his words 2026-11-02, L331).
-- **No physician name** on public pages or in structured data until he decides (2026-10-04; 2026-11-01: "if we truly
-  need a name, I can figure out how to put my name on it"). Not checked.
-- **No FAQ markup** (Google ended FAQ rich results on 2026-05-07). The visible Common questions stay. `pattern`.
+- **No physician name** on public pages or in structured data until he decides (2026-11-01, L316: his name only if truly needed, then he
+  decides). Not checked.
+- **No FAQ markup** (Google ended FAQ rich results on 2026-05-07; TechWyse,
+  https://www.techwyse.com/news/ai-search/google-faq-rich-results-deprecated-2026). The visible Common questions stay. `pattern`.
 - **A pattern job changes no clinical claim, number or source.** Titles, descriptions, headings, link text and layout
   only.
 
@@ -411,20 +449,25 @@ Exact strings; change one only on his word, then update the code and this table 
   today (list-for-him question 2).
 - **Links look like links.** Text links underlined; doctor names underlined (L618); the comparison control outlined
   with an arrow; links are judged by sight in the walkthrough's affordance check.
-- **Tap targets at least 44 px tall** (controls 48 px; the comparison control 54 px). `first-screen` checks the ZIP
+- **Tap targets at least 44 px tall** (house standard from the design reviews, ai-hq
+  `projects/platform/design/insurance-links-2026-11-08/` and `knee-compare-link-2026-11-09/`) (controls 48 px; the comparison control 54 px). `first-screen` checks the ZIP
   button, "Compare your options", "See all M", the comparison finder button and "Does insurance cover it? →".
-- **Light and dark.** Every page works in both; the home banner is dark in every theme. Text contrast at least 4.5:1.
+- **Light and dark.** Every page works in both (house standard, same reviews); the home banner is dark in every theme. Text contrast at least 4.5:1.
   `first-screen` runs every check in both schemes; contrast is not checked by it (the walkthrough's axe pass covers it).
-- **No sideways scroll** from 320 to 1440 px (`first-screen` at 390).
+- **No sideways scroll** from 320 to 1440 px (same house standard; `first-screen` at 390, `tools/e2e/anim_e2e.py` on
+  the animation pages).
 - **Folds.** Option groups and options start closed; the lead option is open with its "How it works" fold closed (his
   words 2026-11-03, L399: "fibroid explainer stays folded"); the box's "When to see a doctor" is closed; the city fold is
   closed under 760 px. Native `<details>`; with JavaScript off everything can open. `tools/e2e/condition_e2e.py`.
 - **Motion:** calm; any hover or press animation is off under `prefers-reduced-motion`. Animations are stylized, not
-  anatomically exact. Not checked.
+  anatomically exact. `tools/e2e/anim_e2e.py` checks that reduced motion stays still and one animation per
+  procedure; the rest is not checked.
 - **House look:** the home keeps the dark top with the vessel spine; other pages keep the original theme and cards with
   the new fonts and logo (his words 2026-11-03: the card layouts, cues and color theme "were better"; the unified look
   W13 is parked, 2026-11-09). Calm, simple, trustworthy, warm, conveying hope (his words 2026-11-01). Not checked.
-- **Pictures:** no identifiable faces; no AI images of people; doctor photos only from Confirmed accounts.
+- **Pictures:** no identifiable faces, license recorded (his word 2026-11-02, L322: "Yes"); no AI images; doctor photos
+  only from Confirmed accounts (2026-11-01, L311: "Yes picture plan works"). `tools/e2e/ui_e2e.py` checks photos have
+  size and alt; the rest is not checked.
 
 ## What to check before landing
 

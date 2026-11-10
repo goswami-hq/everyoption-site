@@ -74,7 +74,7 @@ def box_errors(tag, p, c):
     if "<p>" not in b:
         errs.append(f"{tag}: the box has no definition")
     if not re.search(r'<ul class="what-tags"[^>]*>(<li>[^<]+</li>){2,}</ul>', b):
-        errs.append(f"{tag}: the box has no symptom tags")
+        errs.append(f"{tag}: the box has no symptom list")
     if not re.search(r'<details class="topic what-when"><summary>When to see a doctor</summary>', b):
         errs.append(f'{tag}: the box has no "When to see a doctor" fold')
     return errs

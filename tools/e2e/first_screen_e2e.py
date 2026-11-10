@@ -106,6 +106,7 @@ def run(origin):
                     name = f"{scheme} {deep}"
                     go(deep)
                     common(name, pg)
+                    on_first_screen(name, pg, "h1")
                     on_first_screen(name, pg, ".glance-peek caption")
                     tall_enough(name, on_first_screen(name, pg, ".peek-more a"), ".peek-more a")
                     # finder button inside the first screen at 390 x 844 (his words 2026-11-09 21:46 CT)

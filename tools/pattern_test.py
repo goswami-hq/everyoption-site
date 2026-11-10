@@ -69,7 +69,7 @@ class PatternTest(unittest.TestCase):
             errs = self.site((path, '<section class="what-box"', '<section class="gone"'))
             self.assertTrue(any('no "What are fibroids?" box' in e for e in errs), errs)
             errs = self.site((path, '<ul class="what-tags"', '<ul class="gone"'))
-            self.assertTrue(any("no symptom tags" in e for e in errs), errs)
+            self.assertTrue(any("no symptom list" in e for e in errs), errs)
             errs = self.site((path, "<summary>When to see a doctor</summary>", "<summary>More</summary>"))
             self.assertTrue(any("When to see a doctor" in e for e in errs), errs)
 
