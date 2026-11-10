@@ -628,7 +628,8 @@ a.compare-link:active { transform: scale(0.99); }
 /* Job platform-web-design-0008 (his 2A): the coverage line under the treatment's heading; quiet, one line, 44 px tall. */
 .cov-near { margin: -4px 0 6px; font-size: 0.9375rem; }
 .cov-near a { display: inline-flex; align-items: center; min-height: 44px; }
-.cov-near a span { display: inline-block; text-decoration: none; }
+.cov-near a { text-decoration: none; }
+.cov-near a .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }   /* the arrow stays outside the underline */
 .cov-several .k { margin: 14px 0 0; }
 .cov-several ul { list-style: none; margin: 0; padding: 0; }
 .cov-several a { padding: 8px 0; }
