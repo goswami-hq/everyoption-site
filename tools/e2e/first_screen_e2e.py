@@ -34,7 +34,7 @@ def conditions():
     out = []
     for f in sorted(SITE.glob("*/index.html")):
         t = f.read_text(encoding="utf-8")
-        if 'id="zip-form"' in t and '<section class="what-box"' in t:
+        if '<section class="what-box"' in t:   # a condition with no doctor list (hemorrhoids) has no ZIP finder
             slug = f.parent.name
             deep = f.parent / "every-option" / "index.html"
             out.append((slug, f"/{slug}/every-option/" if deep.exists() else None))
@@ -97,11 +97,13 @@ def run(origin):
                 common(name, pg)
                 on_first_screen(name, pg, "h1")
                 # the ZIP finder sits inside the first screen, button included
-                on_first_screen(name, pg, "#zip-form input[name='zip']")
-                tall_enough(name, on_first_screen(name, pg, "#zip-form button"), "#zip-form button")
+                if pg.locator("#zip-form").count():
+                    on_first_screen(name, pg, "#zip-form input[name='zip']")
+                    tall_enough(name, on_first_screen(name, pg, "#zip-form button"), "#zip-form button")
                 if deep:
                     # compare link on the first screen (walkthrough fix 1, his words 2026-11-09: "1-4 changes let's do them")
-                    tall_enough(name, on_first_screen(name, pg, "a.find-compare"), "a.find-compare")
+                    sel = "a.find-compare" if pg.locator("a.find-compare").count() else "p.hero-compare a"
+                    tall_enough(name, on_first_screen(name, pg, sel), sel)
                 if deep:
                     name = f"{scheme} {deep}"
                     go(deep)
@@ -110,7 +112,8 @@ def run(origin):
                     on_first_screen(name, pg, ".glance-peek caption")
                     tall_enough(name, on_first_screen(name, pg, ".peek-more a"), ".peek-more a")
                     # finder button inside the first screen at 390 x 844 (his words 2026-11-09 21:46 CT)
-                    tall_enough(name, on_first_screen(name, pg, ".glance-peek + p.cta a.btn, p.cta a.btn"), "p.cta a.btn")
+                    if pg.locator(f"p.cta a.btn[href='/{slug}/#finder']").count():
+                        tall_enough(name, on_first_screen(name, pg, "p.cta a.btn"), "p.cta a.btn")
                     near = box(pg, "p.cov-near a")
                     if near:
                         tall_enough(name, near, "p.cov-near a")

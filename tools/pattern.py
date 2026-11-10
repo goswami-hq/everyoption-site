@@ -134,18 +134,24 @@ def coverage_of(c):
 
 def simple_parts(tag, p, c, slug, deep_path):
     errs, t = [], p["html"]
-    in_order(errs, tag, t, [("H1", "<h1>"), ('"How it works" link', '<p class="find-links"><a href="#'),
-                            ("ZIP finder", 'id="zip-form"'), ('"What is" box', '<section class="what-box"'),
+    finder = bool(c.get("finder"))   # a condition with no doctor list (hemorrhoids) has no finder (L622)
+    top = ([('"How it works" link', '<p class="find-links"><a href="#'), ("ZIP finder", 'id="zip-form"')] if finder
+           else [("intro", '<p class="lede">')])
+    in_order(errs, tag, t, [("H1", "<h1>")] + top + [('"What is" box', '<section class="what-box"'),
                             ("lead option", '<section class="lead-option"'), ("other options", '<section id="options">'),
                             ("Learn more", '<section id="learn">'), ("references", 'id="references"'),
                             ('"Page last reviewed"', "Page last reviewed")])
     # compare link on the first screen, beside "How it works" (walkthrough fix 1, his words 2026-11-09 "1-4 changes let's do them")
-    compare = f'<a class="find-compare" href="{deep_path}">Compare your options</a>' if deep_path else None
+    # with no finder the link sits under the intro (hero-compare, job platform-condition-pages-0014)
+    compare = None
+    if deep_path:
+        compare = (f'<a class="find-compare" href="{deep_path}">Compare your options</a>' if finder else
+                   f'<p class="hero-compare"><a href="{deep_path}">Compare your options</a></p>')
     if compare and compare not in t:
         errs.append(f'{tag}: no first-screen "Compare your options" link to {deep_path}')
-    if compare and t.find('class="find-compare"') > t.find('id="zip-form"'):
+    if compare and finder and t.find('class="find-compare"') > t.find('id="zip-form"'):
         errs.append(f"{tag}: the compare link comes after the finder")
-    if not deep_path and 'class="find-compare"' in t:
+    if not deep_path and ('class="find-compare"' in t or 'class="hero-compare"' in t):
         errs.append(f"{tag}: compare link with no every-option page")
     # coverage link under the lead option's finder button (his words 2026-11-08 21:35 CT)
     cov = coverage_of(c)
@@ -174,11 +180,11 @@ def ruling_errors(tag, t, c):
 
 def deep_parts(tag, p, c, d, slug):
     errs, t = [], p["html"]
-    in_order(errs, tag, t, [("breadcrumbs", '<nav class="crumbs"'), ("H1", "<h1>"), ("at-a-glance view", 'class="glance-peek"'),
-                            ("finder button", '<p class="cta"><a class="btn" href="/' + slug + '/#finder">'),
-                            ("lede", '<p class="lede">'), ("link to the simple page", 'class="see-every see-simple"'),
+    fb = [("finder button", '<p class="cta"><a class="btn" href="/' + slug + '/#finder">')] if c.get("finder") else []
+    in_order(errs, tag, t, [("breadcrumbs", '<nav class="crumbs"'), ("H1", "<h1>"), ("at-a-glance view", 'class="glance-peek"')]
+                            + fb + [("lede", '<p class="lede">'), ("link to the simple page", 'class="see-every see-simple"'),
                             ("contents list", '<nav class="toc"'), ('"What is" box', '<section class="what-box"'),
-                            ("glance table", '<table class="glance"'), ("find-a-doctor block", '<section class="find-end"'),
+                            ("glance table", '<table class="glance"')] + ([("find-a-doctor block", '<section class="find-end"')] if c.get("finder") else []) + [
                             ("references", 'id="references"'), ('"Page last reviewed"', "Page last reviewed")])
     # caption states the slice, the link the full count (his 5B, 2026-11-09 21:42 CT)
     n, m = len(d.get("glance_peek", [])), len(d.get("glance", []))

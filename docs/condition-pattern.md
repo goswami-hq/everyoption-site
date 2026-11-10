@@ -55,7 +55,12 @@ treatment for fibroids 720; myomectomy recovery time 720; myomectomy vs hysterec
 
 Which conditions have which pages (2026-11-09): fibroids, enlarged prostate and knee arthritis have simple,
 every-option, city and coverage pages (his words 2026-11-07, L525: "Let's build the rest of the pages to be similar").
-Chronic pelvic pain has the simple page with the finder and four city pages (2026-11-07, L533: "Yes to both changes and
+Hemorrhoids (job platform-condition-pages-0014, his go 2026-11-09) has both pages and no doctor list (no all-specialty
+hemorrhoid directory for now, his words 2026-11-09 21:49 CT, L622: "No not now, that's a ton of architecture work"): no
+finder, no city pages, no find-a-doctor block; its simple page is one centered reading column (`cond-grid no-finder`)
+with the "Compare your options" link under the intro (`hero-compare`); volumes in its tomls. `pattern` and
+`first-screen` treat a condition without `finder` this way. Known break (2026-11-09): its compare link is 24 px tall, under the 44 px
+tap rule (`first-screen` fails it; listed, not fixed, by job platform-web-design-0009). Chronic pelvic pain has the simple page with the finder and four city pages (2026-11-07, L533: "Yes to both changes and
 the builder"), no every-option page and no coverage page yet (pelvic insurance is to-do W24 with the pelvic build,
 L617). Draft conditions stay noindex and out of the sitemap (`cities.drafts()`; node `cities-job42.test.mjs`). A
 condition page with no doctor list yet sits in the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list

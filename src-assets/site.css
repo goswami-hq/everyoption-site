@@ -181,13 +181,15 @@ footer.site p { max-width: 60ch; }
 .t-pae { --accent: #2f5f8f; --accent-ink: #fff; --sun: #d9e6f2; --soft: #e4edf5; }
 .t-gae { --accent: #4c7a3d; --accent-ink: #fff; --sun: #dfe9d3; --soft: #e8efdf; }
 .t-cpp { --accent: #1f6f78; --accent-ink: #fff; --sun: #d6ebec; --soft: #e2f0f1; }
+.t-hem { --accent: #6e5f12; --accent-ink: #fff; --sun: #ece5c4; --soft: #f1ecd5; }
 @media (prefers-color-scheme: dark) {
   .t-ufe { --accent: #e58bb4; --accent-ink: #2a0f1d; --sun: #3a2230; --soft: #33212b; }
   .t-pae { --accent: #8fb8e0; --accent-ink: #0f1d2a; --sun: #1f2c3b; --soft: #212c37; }
   .t-gae { --accent: #a6cf8e; --accent-ink: #15220f; --sun: #26331f; --soft: #29321f; }
   .t-cpp { --accent: #7fc4cc; --accent-ink: #0d2427; --sun: #1d3134; --soft: #1f2f31; }
+  .t-hem { --accent: #d6c36a; --accent-ink: #221d05; --sun: #322d17; --soft: #2d2916; }
 }
-.fork-lines .t-ufe, .fork-lines .t-pae, .fork-lines .t-gae, .fork-lines .t-cpp { stroke: var(--accent); }
+.fork-lines .t-ufe, .fork-lines .t-pae, .fork-lines .t-gae, .fork-lines .t-cpp, .fork-lines .t-hem { stroke: var(--accent); }
 .sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); }
 #conditions, #follow { scroll-margin-top: 16px; }
 
@@ -531,6 +533,9 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .hero-cond h1 { margin-bottom: 12px; }
 .cond-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 48px; align-items: start; }
 .cond-grid .condition { max-width: none; }
+/* A condition page with no doctor finder (hemorrhoids): one reading column, not an empty left half (job platform-condition-pages-0014). */
+.cond-grid.no-finder { grid-template-columns: minmax(0, 1fr); max-width: 760px; margin-inline: auto; }
+.cond-grid.no-finder .condition { margin-top: 28px; }
 .results-col .status { margin-top: 0; }
 @media (max-width: 1020px) { .cond-grid { grid-template-columns: minmax(0, 1fr); } .cond-grid .condition { margin-top: 28px; } }
 .condition-page header.site .wrap { max-width: 1440px; }

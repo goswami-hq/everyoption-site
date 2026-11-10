@@ -253,7 +253,11 @@ def ld(d):
 def hero(c, finder_fn):
     """The top of a condition page: heading, plain summary, and the ZIP search."""
     if not c.get("finder"):
-        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p></section>'
+        # job platform-condition-pages-0014: a page with no finder still gets the first-screen comparison link
+        # (walkthrough finding 1) when it has an every-option page
+        cmp = (f'<p class="hero-compare"><a href="{html.escape(c["options_page"], quote=True)}">Compare your options</a></p>'
+               if c.get("options_page") else "")
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p>{cmp}</section>'
     # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)
     note = {"note": c["finder_note"]} if c.get("finder_note") else {}
     # compare: the condition's every-option page, on the first screen; a condition with none (pelvic) has no link
@@ -292,6 +296,7 @@ def body(c, diagram_fn, e, top=""):
                'Enter your ZIP code to see doctors near you, nearest first.</div><div id="results"></div>'
                '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript></div>')
     if not c.get("finder"):
-        return f'<div class="cond-grid">{top}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
+        # job platform-condition-pages-0014: one reading column when there are no finder results to fill the left side
+        return f'<div class="cond-grid no-finder">{top}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
     return (f'<div class="cond-grid">{results}<article class="condition t-{c["color"]}">{"".join(parts)}</article></div>'
             '<a class="find-bar" href="#finder" hidden>Find a doctor</a>')

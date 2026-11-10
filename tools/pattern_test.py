@@ -100,6 +100,11 @@ class PatternTest(unittest.TestCase):
                           '<a href="#embolization">How it works</a><a class="find-compare" href="/x/">Compare your options</a>'))
         self.assertTrue(any("compare link with no every-option page" in e for e in errs), errs)
 
+    def test_no_finder_condition_compare_link_fails(self):
+        # job platform-condition-pages-0014: hemorrhoids has no doctor list; its compare link sits under the intro
+        errs = self.site(("hemorrhoids/index.html", '<p class="hero-compare">', '<p class="gone">'))
+        self.assertTrue(any(e.startswith("hemorrhoids simple: no first-screen") for e in errs), errs)
+
     def test_glance_caption_and_count_fail(self):
         errs = self.site(("fibroids/every-option/index.html", "At a glance: 3 of 10 treatments", "At a glance: 3 treatments"))
         self.assertTrue(any("caption" in e for e in errs), errs)
