@@ -1,0 +1,259 @@
+# The tie between the hemorrhoid simple page (content/conditions/hemorrhoids.toml) and its every-option page
+# (content/options/hemorrhoids.toml). Job platform-condition-pages-0014, on the fibroid pattern (tools/options.py).
+# Shared facts: `simple` must appear in that option's simple text with `refs` cited there; the deep page states it only
+# as {f:id}. Deep-only facts (simple = ""): study details for the advanced reader, written {d:id}; `read` says how the
+# source was read, and "abstract" prints "(abstract only)". Every number on either page is one of these lines.
+# Sources and how each was read: goswami-hq/ai-hq projects/platform/hemorrhoid-page/evidence.md (row in each comment).
+
+# ---- Shared with the simple page ----
+[[fact]]
+id = "steroid-2wk"        # C2, AGA 2026 BPA 3
+option = "creams"
+simple = "more than 2 weeks at a time"
+deep = "more than 2 weeks at a time"
+refs = ["aga"]
+[[fact]]
+id = "hae-year"           # E6, E7: no bleeding 68.7% (De Gregorio), success 72% (Tradi) at 12 months
+option = "embolization"
+simple = "about 2 out of 3 people still have little or no bleeding a year later"
+deep = "about 2 out of 3 people still have little or no bleeding a year later"
+refs = ["degregorio", "tradi"]
+[[fact]]
+id = "incont"             # C10, late incontinence 2.48% in randomized trials
+option = "hemorrhoidectomy"
+simple = "about 2 or 3 out of 100"
+deep = "about 2 or 3 out of 100"
+refs = ["jin25"]
+
+# ---- In-depth page only ----
+[[fact]]
+id = "alonso"             # C1
+option = "fiber"
+simple = ""
+deep = "7 trials of 378 people: persisting symptoms risk ratio 0.53 (95% CI 0.38-0.73) and bleeding risk ratio 0.50 (0.28-0.89); for prolapse, pain and itching the intervals were wide and crossed no effect"
+refs = ["alonso"]
+read = "abstract"
+[[fact]]
+id = "nguyen"             # E1
+option = "embolization"
+simple = ""
+deep = "13 non-randomized studies, 381 patients: clinical success 82% (73-89%), technical success 99%"
+refs = ["nguyenhuy"]
+read = "abstract"
+[[fact]]
+id = "aljn"               # E3
+option = "embolization"
+simple = ""
+deep = "22 studies, 810 procedures, not pooled because they differed too much: clinical success 63% to 94%, repeat treatment 8% to 20%"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "degreg"             # E6
+option = "embolization"
+simple = ""
+deep = "a prospective registry of 80 patients, grades 1 to 3: no bleeding at 12 months in 68.7%, a second embolization in 21.3%, open hemorrhoidectomy in 5%"
+refs = ["degregorio"]
+read = "abstract"
+[[fact]]
+id = "tradi"              # E7
+option = "embolization"
+simple = ""
+deep = "a prospective series of 25 patients: success 72% at 12 months, with 8 of the 18 successes needing 2 sessions"
+refs = ["tradi"]
+read = "abstract"
+[[fact]]
+id = "cai"                # E8
+option = "embolization"
+simple = ""
+deep = "a retrospective series of 32 patients with a strict definition of success: 87.5% at 1 month, 59.4% at 6 months, 56.2% at 12 months"
+refs = ["cai"]
+read = "abstract"
+[[fact]]
+id = "falsa-design"       # E4
+option = "embolization"
+simple = ""
+deep = "one randomized trial against hemorrhoidectomy: 33 randomized, 29 treated (15 embolization, 14 closed hemorrhoidectomy), single center, open label, coils only, powered for pain alone"
+refs = ["falsarella"]
+read = "full text"
+[[fact]]
+id = "falsa-pain"         # E4
+option = "embolization"
+simple = ""
+deep = "pain at the first bowel movement 0 vs 6.08, and 2.4 vs 28.9 doses of pain medicine"
+refs = ["falsarella"]
+read = "full text"
+[[fact]]
+id = "falsa-12"           # E5
+option = "embolization"
+simple = ""
+deep = "at 12 months, symptoms remained in 6 of 13 after embolization and 5 of 13 after surgery, a trial too small to show the two match; satisfied or very satisfied 8 of 13 vs 13 of 13; 2 of 15 embolization patients went on to surgery"
+refs = ["falsarella"]
+read = "full text"
+[[fact]]
+id = "bagla"              # E9, B5
+option = "embolization"
+simple = ""
+deep = "the largest U.S. series, 134 patients at one outpatient center, about half after earlier banding: all home 2 hours after; success 93% at 1 month, with no longer follow-up"
+refs = ["bagla"]
+read = "full text"
+[[fact]]
+id = "kucu-ulcer"         # E14
+option = "embolization"
+simple = ""
+deep = "a small randomized trial of particle sizes that looked with a scope: superficial ulcers in 71.4% with the smallest particles and 0% with the largest, healed by 6 months; 3 of 14 in the smallest-particle group had deeper rectosigmoid ulcers that needed enema treatment and healed after 6 months"
+refs = ["kucukay"]
+read = "full text"
+[[fact]]
+id = "tenesmus"           # E13
+option = "embolization"
+simple = ""
+deep = "an urge to go (tenesmus) in 53.1% and low fever in 34.4% in one series, and tenesmus in 81.8% easing in 3 to 5 days in another"
+refs = ["han", "zhou"]
+read = "abstract"
+[[fact]]
+id = "deoliv"             # E12
+option = "embolization"
+simple = ""
+deep = "one of 10 patients in a pilot that also treated the middle rectal arteries had a bowel perforation with sepsis needing an operation to remove part of the bowel, a Hartmann's procedure (a case, not a rate)"
+refs = ["deoliveira"]
+read = "abstract"
+[[fact]]
+id = "campenni"           # E10
+option = "embolization"
+simple = ""
+deep = "21 patients at high surgical risk with anemia: hemoglobin up 1.2 g/dL on average; 3 still needed transfusions"
+refs = ["campenni"]
+read = "abstract"
+[[fact]]
+id = "nice"               # Guidelines
+option = "embolization"
+simple = ""
+deep = "NICE (last reviewed 2018, based on 84 patients) says it should be used only in research; its next review is due April 2027"
+refs = ["nice"]
+read = "page"
+[[fact]]
+id = "trials"             # Trials under way
+option = "embolization"
+simple = ""
+deep = "Randomized trials against banding or artery ligation (80 patients, results expected 2030) and against banding (40 patients, 2030), and a trial against hemorrhoidectomy (102 patients, 2028)"
+refs = ["brussel", "stratos", "hemembo"]
+read = "page"
+[[fact]]
+id = "vanoost"            # C5
+option = "banding"
+simple = ""
+deep = "one multicenter randomized trial in grade 3 hemorrhoids, 87 patients, stopped early: recurrence 48.8% after banding vs 6.1% after hemorrhoidectomy, with up to 2 banding sessions allowed; back to work at 1 vs 9 days; first-week pain 1 vs 4"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "ding"               # C4
+option = "infrared"
+simple = ""
+deep = "9 randomized trials of moderate quality: no significant difference from banding in success, recurrence or prolapse; banding caused more pain and less bleeding afterward"
+refs = ["ding"]
+read = "abstract"
+[[fact]]
+id = "johanson"           # C4
+option = "infrared"
+simple = ""
+deep = "an older pooled analysis of 5 trials, 863 patients: similar numbers symptom-free at 12 months, fewer repeat treatments after banding"
+refs = ["johanson92"]
+read = "abstract"
+[[fact]]
+id = "gallo"              # C6
+option = "injection"
+simple = ""
+deep = "14 randomized trials: success risk ratio 1.00 (0.71-1.41) against the treatments compared, fewer complications (risk ratio 0.46)"
+refs = ["gallo"]
+read = "full text"
+[[fact]]
+id = "hubble"             # C7
+option = "ligation"
+simple = ""
+deep = "a UK trial of 372 people in 17 centers: recurrence at 1 year 30% after Doppler-guided ligation vs 49% after a single banding, mostly from repeat bandings (counting repeat bandings as success, 30% vs 37.5%, not a significant difference); serious events needing hospital admission 12 (7%) after ligation vs 2 (1%) after banding; more pain on day 1 and day 7 after ligation"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "jee"                # C7a
+option = "ligation"
+simple = ""
+deep = "6 randomized trials, 465 patients: more recurrence after dearterialization than excision (odds ratio 2.76, 1.03-7.38), with return to normal about 14 days sooner"
+refs = ["jee"]
+read = "abstract"
+[[fact]]
+id = "lauri"              # C8
+option = "stapled"
+simple = ""
+deep = "17 randomized trials, 2,072 patients: overall recurrence risk ratio 1.56 (1.00-2.44) and prolapse recurrence 3.28 (1.49-7.25) against hemorrhoidectomy; the authors judge the evidence still underpowered"
+refs = ["lauricella"]
+read = "abstract"
+[[fact]]
+id = "pompeu"             # C12
+option = "laser"
+simple = ""
+deep = "15 randomized trials, 1,099 patients: pain lower on day 1 and day 7, return to daily life about 11 days sooner; low to very low certainty and short follow-up"
+refs = ["pompeu"]
+read = "abstract"
+[[fact]]
+id = "jin21"              # C9
+option = "hemorrhoidectomy"
+simple = ""
+deep = "a network of 79 randomized trials, 9,232 patients: closed and open hemorrhoidectomy had the lowest recurrence and the most pain; 73% of the trials were at high risk of bias"
+refs = ["jin21"]
+read = "full text"
+[[fact]]
+id = "jin25"              # C10
+option = "hemorrhoidectomy"
+simple = ""
+deep = "late incontinence 2.48% (1.09-4.25%) in randomized trials"
+refs = ["jin25"]
+read = "abstract"
+[[fact]]
+id = "jensen"             # context 5
+option = ""
+simple = ""
+deep = "In a 1989 trial of about 186 people with a first episode of second-degree hemorrhoids, 25% of those left untreated had no further episode in 4 years, while recurrence among those whose first episode cleared was 61% untreated vs 33% after banding"
+refs = ["jensen"]
+read = "abstract"
+[[fact]]
+id = "uhc-date"
+option = ""
+simple = ""
+deep = "December 1, 2026"
+refs = ["uhc"]
+read = "page"
+[[fact]]
+id = "g13"
+option = "embolization"
+simple = ""
+deep = "grades 1 to 3"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "two-years"
+option = "embolization"
+simple = ""
+deep = "past about 2 years, where almost no data exist"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "aga-g13"
+option = "banding"
+simple = ""
+deep = "grades 1 to 3"
+refs = ["aga"]
+read = "abstract"
+[[fact]]
+id = "aga-g3"
+option = "banding"
+simple = ""
+deep = "grade 3 hemorrhoids that fail banding"
+refs = ["aga"]
+read = "abstract"
+[[fact]]
+id = "aga-g4"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "grade 4 hemorrhoids need surgical removal"
+refs = ["aga"]
+read = "abstract"

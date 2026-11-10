@@ -73,7 +73,7 @@ def _simple_texts(c):
     for q in c["faq"]:
         yield "", q["a"]
     yield "", c["answer"]
-    yield "", c["finder_intro"].replace("**", "")
+    yield "", c.get("finder_intro", "").replace("**", "")   # a condition with no finder (hemorrhoids) has none
 
 
 def _deep_texts(d):
@@ -324,7 +324,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             lead = i == c.get("diagram_at")
             rows = "".join(block(key, x[key]) for key in DETAIL_FIELDS[1:] if x.get(key))
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
-            cta = f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>{condition.coverage_link(c)}' if lead else ""
+            # job platform-condition-pages-0014: a condition with no doctor list (hemorrhoids) has no finder button
+            cta = (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + condition.coverage_link(c) if lead else ""
             items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
                       f'{condition.coverage_near(c) if lead else ""}{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
@@ -338,7 +339,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1>{peek()}'
             # The comparison and the finder button first, so the first screen on a phone reads as a comparison (the button
             # stays on it: his call 3, 2026-11-07); then the lede and the guide link.
-            f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p><p class="lede">{lede}</p>'
+            + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + f'<p class="lede">{lede}</p>'
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
             + how + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'

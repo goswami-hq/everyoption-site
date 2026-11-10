@@ -23,6 +23,7 @@ His yes, 2026-11-06: "Yes change the addresses now" (change 1 of the architectur
 | Enlarged prostate | `/enlarged-prostate/` | PAE |
 | Knee arthritis | `/knee-arthritis/` | GAE (knee only) |
 | Chronic pelvic pain | `/chronic-pelvic-pain/` | pelvic vein embolization (no doctor list yet) |
+| Hemorrhoids | `/hemorrhoids/` | HAE (no doctor list; draft, unlinked from the home page) |
 
 Procedure-to-page tables that must agree with this list: `PROC_PAGE` (`tools/directory.py`, written into
 `lib/directory-shell.mjs`), `PAGE_OF` (`lib/cities.mjs`), `HOME_LINK` and `MOVED` (`tools/build.py`).
