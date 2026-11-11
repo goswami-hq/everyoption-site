@@ -41,7 +41,7 @@ test("15 city pages; the four new metros at or over the bar; Phoenix reaches it 
   for (const s of ["phoenix-az", "dallas-fort-worth-tx", "st-louis-mo", "memphis-tn"]) assert.ok(slugs.includes(s), s);
   const n = (s, ppl = UFE) => metroList(ppl, metro(s)).length;
   assert.deepEqual([n("phoenix-az"), n("dallas-fort-worth-tx"), n("st-louis-mo"), n("memphis-tn"), n("houston-tx")],
-    [8, 12, 8, 8, 10]);
+    [8, 11, 8, 8, 10]);   // Dallas-Fort Worth 12 to 11: Pauldeep Bahra off UFE (job platform-directory-0031, his "Yes" 2026-11-11)
   assert.equal(n("phoenix-az", UFE.filter((p) => p.npi !== "1306835020")), 7, "without Garby Phoenix is under the bar");
   assert.equal(metro("phoenix-az").centers.map((c) => c.zip).join(), "85004", "center not moved");
   assert.equal(metro("dallas-fort-worth-tx").centers.map((c) => c.zip).join(), "75201,76102");
