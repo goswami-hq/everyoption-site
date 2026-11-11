@@ -140,7 +140,7 @@ works = "Good evidence suggests most women feel much better: {f:ufe-improve} see
 evidence = [
   "* **Most women's symptoms improve.** {d:ufe-range}.",
   "* **Satisfaction: no clear difference from surgery.** {d:ufe-sat}.",
-  "* **Quality of life: close to myomectomy.** {d:femme-qol}.",
+  "* **Quality of life: no clear lasting difference from myomectomy.** {d:femme-qol}.",
   "* **Taken together:** no clear difference in satisfaction. On quality of life, myomectomy scored somewhat higher at first, and later the gap could be due to chance.[^cochrane][^femme2][^femme4]",
 ]
 risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
