@@ -175,8 +175,8 @@ def function_files():
 
 
 def routed():
-    """Condition slugs whose /<slug>/doctors addresses site/_routes.json sends to the functions. Kept as it was at 9fd978c
-    (routed: false for chronic-pelvic-pain and hemorrhoids); see ai-hq projects/platform/directory/registry-inventory-2026-11-11.md."""
+    """Condition slugs whose /<slug>/doctors addresses site/_routes.json sends to the functions. Every condition with city pages
+    must be routed (check()); pelvic and hemorrhoids were not until 2026-11-11."""
     return [c["slug"] for c in CONDITIONS if c.get("routed")]
 
 
@@ -187,6 +187,11 @@ def check(site=None):
     reserved = set(words)   # for keys: the words plus every top-level folder of site/ that is not a procedure's own
     if site and os.path.isdir(site):
         reserved |= {d for d in os.listdir(site) if os.path.isdir(os.path.join(site, d))} - {p["key"] for p in PROCEDURES}
+    # 2026-11-11: pelvic and hemorrhoid city pages had functions but were not in site/_routes.json, so Cloudflare
+    # served its static 404 for /<slug>/doctors/... (found by job platform-directory-0032). City pages need routing.
+    for c in CONDITIONS:
+        if c.get("city_pages") and not c.get("routed"):
+            errs.append(f"condition {c.get('slug')}: has city pages but is not routed, so its /doctors/ addresses would 404 on Cloudflare")
     seen = set()
     for p in PROCEDURES:
         k = p.get("key", "")

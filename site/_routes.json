@@ -8,7 +8,11 @@
   "/enlarged-prostate/doctors",
   "/enlarged-prostate/doctors/*",
   "/knee-arthritis/doctors",
-  "/knee-arthritis/doctors/*"
+  "/knee-arthritis/doctors/*",
+  "/chronic-pelvic-pain/doctors",
+  "/chronic-pelvic-pain/doctors/*",
+  "/hemorrhoids/doctors",
+  "/hemorrhoids/doctors/*"
  ],
  "exclude": [
   "/doctors/",
