@@ -10,6 +10,7 @@
 slug = "enlarged-prostate"
 path = "/enlarged-prostate/every-option/"
 draft = true
+abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
 reviewed = "2026-11-06"
 # Search targets (pattern: docs/condition-pattern.md). Volumes not pulled: a DataForSEO call is spending, not allowed in
 # this job; on his list. The simple page has no targets yet (draft); none of these belongs to its template.
@@ -23,7 +24,6 @@ lede = "PAE vs. TURP: strong evidence shows TURP surgery relieves symptoms most 
 read_intro = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different men, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
-  "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
   "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
   "Symptom scores are the IPSS, where higher is worse. Erection scores are the IIEF or SHIM, where higher is better.",
   "Funding is named where we found it; where it is not named, it was not checked.",

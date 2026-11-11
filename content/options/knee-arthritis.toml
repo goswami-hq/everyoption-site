@@ -9,6 +9,7 @@
 slug = "knee-arthritis"
 path = "/knee-arthritis/every-option/"
 draft = true
+abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
 reviewed = "2026-11-06"
 # Search targets (pattern: docs/condition-pattern.md). Volumes not pulled: a DataForSEO call is spending, not allowed in
 # this job; on his list. The simple page has no targets yet (draft); none of these belongs to its template.
@@ -22,7 +23,6 @@ lede = "GAE vs. knee replacement: strong evidence shows anti-inflammatory pills 
 read_intro = "This page is for readers who want the studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the same certainty words the short guide uses. Then come the study sizes, designs, comparison groups, follow-up, harms and how they were counted, who was studied, funding, and what is not known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome measures, so this page never lines them up as if they did.",
-  "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
   "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
   "Every Option's physician performs knee embolization. It is held to the same standard of evidence as every other option here.",
 ]

@@ -116,7 +116,7 @@ list = [
 
 [[faq]]
 q = "Do I need treatment?"
-a = "Not always. If pain limits your life, talk with your doctor about medicines first. Procedures are an option when they do not help.[^lepennec][^baccellieri]"
+a = "Not always. If pain limits your life, talk with your doctor about medicines first. Procedures are an option when medicines do not help.[^lepennec][^baccellieri]"
 
 [[faq]]
 q = "Does the pain stop after menopause?"
@@ -131,7 +131,7 @@ id = "hormones"
 name = "Hormone medicines"
 what = "These are hormone pills or shots. Your doctor prescribes them.[^cheong]"
 invasive = "No procedure is needed."
-works = "Good evidence suggests they ease pain while you take them.[^cheong] Pain often comes back after you stop.[^farquhar]"
+works = "Good evidence suggests they ease pain while you take them.[^cheong] However, pain often comes back after you stop.[^farquhar]"
 side = "Weight gain and bloating are common.[^cheong]"
 
 [[options]]
@@ -148,7 +148,7 @@ name = "Pelvic vein embolization"
 what = "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins.[^strobl]"
 invasive = "It is done through a tiny skin nick.[^strobl]"
 works = "Early results are encouraging. Many women have less pain, and for some the relief lasts several years.[^hanna][^strobl][^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] More research is under way.[^embolize] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
-side = "Pain in the belly or back right afterward is common. Serious problems are rare, about 1 out of 100. Most of these are fixed with another procedure.[^hanna] Pain comes back in some women, and some need a second treatment.[^sutanto]"
+side = "Pain in the belly or back right afterward is common. Serious problems are possible, but rare: about 1 out of 100. Most of these are fixed with another procedure.[^hanna] Pain may come back for some women. Some may need a second treatment.[^sutanto]"
 
 [[options]]
 id = "stent"
@@ -163,7 +163,7 @@ id = "hysterectomy"
 name = "Removing the uterus and ovaries"
 what = "A surgeon removes the uterus and both ovaries.[^beard91]"
 invasive = "This is major surgery."
-works = "Early studies suggest it can ease pain. Some women still have some pain afterward.[^beard91]"
+works = "Early studies suggest it can ease pain. However, some women may still have some pain afterward.[^beard91]"
 side = "You can no longer get pregnant. Removing both ovaries causes menopause, so doctors often give hormone replacement.[^beard91] It has the risks of any major surgery."
 [[options]]
 id = "vein-surgery"

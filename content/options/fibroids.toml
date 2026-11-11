@@ -4,6 +4,7 @@
 slug = "fibroids"
 path = "/fibroids/every-option/"
 draft = true
+abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
 reviewed = "2026-11-05"
 # Search targets: the comparisons (pattern: docs/condition-pattern.md). The simple page owns "fibroid treatment options".
 targets = ["ufe vs myomectomy", "myomectomy vs hysterectomy", "ufe vs hysterectomy", "fibroid medication", "best treatment for fibroids", "ufe recovery time", "myomectomy recovery time"]
@@ -14,6 +15,9 @@ h1 = "Fibroid treatments compared, side by side"
 # `read_intro`, under "How to read this page". Numbers in the lede only as ledger facts.
 lede = "UFE vs. myomectomy: both keep the uterus, and good evidence suggests women improve after either one. Some women need another procedure later after either. Embolization works through a tiny skin nick, with no cut in the belly, and recovery takes {f:ufe-recovery} instead of {f:major-recovery}. Hysterectomy is the only treatment that keeps fibroids from returning."
 read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
+reading_note = [
+  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
+]
 glance_heading = "Compared at a glance: recovery and which keep the uterus"
 # The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
 glance_peek = ["embolization", "myomectomy", "hysterectomy"]

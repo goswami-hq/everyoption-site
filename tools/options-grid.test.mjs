@@ -37,5 +37,6 @@ print(heads[1], html.count('class="opt-sum"'), len(c["options"]), 'nav class="to
 test("knee: certainty shows in the cell exactly as on the simple page", () => {
   const out = py("knee-arthritis", `html = options.render(c, d, f, lambda *a, **k: "", "/x/#finder", "")
 print('<strong class="cert">Early results are encouraging</strong> <span class="eff">Pain fell about 37 points' in html, "(abstract only)" in html.split("glance-after")[0])`);
-  assert.equal(out.trim(), "True True");
+  // "(abstract only)" is off on every in-depth page (his yes 2026-11-10 21:29 CT); `read` stays in the facts file
+  assert.equal(out.trim(), "True False");
 });
