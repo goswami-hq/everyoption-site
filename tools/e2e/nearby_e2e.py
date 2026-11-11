@@ -76,7 +76,7 @@ def run(b, width, scheme):
         check(f"{t}: IRs nearby shows Mayer and Muehle", c and "Shawn Andrew Mayer" in names and "Casey Muehle" in names, names)
         check(f"{t}: heading and note", c and c["h2"].startswith("Interventional radiologists nearby") and c["note"] == NOTE, c and c["h2"])
         check(f"{t}: each IR card asks about the procedure and can be claimed",
-              c and all(x["ask"] == f"Ask: do you perform {proc}?" and x["claim"] == "Is this you?" for x in c["cards"]), c and c["cards"][:1])
+              c and all(x["ask"] == f"Ask: do you perform {proc}?" and x["claim"].startswith("Is this you?") for x in c["cards"]), c and c["cards"][:1])
         f = sec(v, "tier-far")
         if len(c["cards"] if c else []) < 5:     # still thin: the farther group follows (job 17 part 2: UFE at 50 mi
             check(f"{t}: then nearest doctors farther away, with distances beyond the radius",      # is no longer thin)

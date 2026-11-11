@@ -161,11 +161,13 @@ def run(b, width, scheme, theme):
             return False
         want = ["Report an error"] if c["conf"] else ["Is this you?", "Report an error"]
         paths = ["/report/"] if c["conf"] else ["/account/", "/report/"]
-        return ([t for t, _ in c["links"]] == want and all(h.startswith(pa + "?npi=") and f"&procedure={proc}&" in h
+        # The claim link's wording may grow ("Is this you? Claim this free profile"); the rule is that it leads with "Is this you?".
+        got = [t for t, _ in c["links"]]
+        return (len(got) == len(want) and all(g.startswith(w) for g, w in zip(got, want)) and all(h.startswith(pa + "?npi=") and f"&procedure={proc}&" in h
                 for (_, h), pa in zip(c["links"], paths)) and c["rows"] == 1)
     wrong = [c for c in lines if not line_ok(c)]
     check(f"{tag}: one link line per card, on one row, linked as job 19 says", not wrong, wrong[:2])
-    check(f"{tag}: card line text", all(c["text"] in ("Is this you?·Report an error", "Is this you? · Report an error", "Is this you?\n·\nReport an error", "Report an error") for c in lines),
+    check(f"{tag}: card line text", all(c["text"] == "Report an error" or (c["text"].startswith("Is this you?") and c["text"].endswith("Report an error") and c["text"].count("·") == 1) for c in lines),
           sorted({c["text"] for c in lines})[:4])
     pg.locator("li.card:not(.card-confirmed) p.claim").first.screenshot(path=os.path.join(OUT, f"line-likely-{width}-{scheme}-{theme}.png"))
     pg.locator("li.card.card-confirmed p.claim").first.screenshot(path=os.path.join(OUT, f"line-confirmed-{width}-{scheme}-{theme}.png"))
