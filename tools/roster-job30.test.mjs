@@ -5,6 +5,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { PROCS } from "../lib/procedures.mjs";
 
 const SITE = new URL("../site/", import.meta.url).pathname;
 const read = (p) => readFileSync(join(SITE, p), "utf8");
@@ -34,7 +35,8 @@ test("roster: only the fields the finder reads (no billing or neuro flags)", () 
 
 test("public files: every NPI field and profile link under site/ belongs to someone in the three groups", () => {
   const shown = new Set(JSON.parse(read("data/directory.json")).people.map((x) => x.p.slice(-11, -1)));
-  const lists = Object.fromEntries(["ufe", "pae", "gae"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
+  const lists = Object.fromEntries(PROCS.map(   // every list, from the registry (job platform-directory-0035)
+    (k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
   // A list person with no place and no contact (name only) is in the file but shown nowhere; allowed, listed below.
   const nameOnly = new Set(Object.values(lists).flat().filter((p) => p.lat == null && !p.phone && !p.url && !p.practice && !p.city).map((p) => p.npi));
   const test = new Set(["1999999990"]);   // the made-up test profile (localhost and previews only; launch checklist)

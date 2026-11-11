@@ -12,6 +12,7 @@ import { handleDoctor, resetDirectory } from "../lib/directory.mjs";
 import { profilePath } from "../lib/profile-path.mjs";
 import { overlayFor } from "../lib/accounts/listings.mjs";
 import { CITIES } from "../lib/cities-data.mjs";
+import { PROCS } from "../lib/procedures.mjs";   // every procedure with a list, from the registry (job platform-directory-0035)
 
 const SITE = new URL("../site/", import.meta.url), TOOLS = new URL("./", import.meta.url).pathname;
 const read = (p) => readFileSync(new URL(p, SITE), "utf8");
@@ -19,7 +20,6 @@ const ASSETS = { async fetch(req) {
   try { return new Response(readFileSync(new URL("." + new URL(req.url).pathname, SITE)), { status: 200 }); }
   catch (_) { return new Response("", { status: 404 }); }
 } };
-const PROCS = ["ufe", "pae", "gae", "pelvic"];
 const LISTS = Object.fromEntries(PROCS.map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
 const ROSTER = JSON.parse(read("data/ir-roster.json")).people;
 const DIR = JSON.parse(read("data/directory.json")).people;
@@ -54,7 +54,7 @@ print(json.dumps([directory.path(p) for p in json.load(sys.stdin)]))`], { input:
   const pyDir = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
 print(json.dumps([directory.path(p) for p in json.load(sys.stdin)]))`], { input: JSON.stringify(DIR.map((d) => ({ name: d.n, npi: d.p.slice(-11, -1) }))) }));
   DIR.forEach((d, i) => { assert.equal(d.p, pyDir[i], d.p); assert.equal(d.p, profilePath(d.n, d.p.slice(-11, -1)), `${d.p}: server rule strays`); });
-  for (const p of LISTS.ufe.filter((x) => x.test)) assert.equal(p.path, undefined, "a test listing has no profile");
+  for (const p of LISTS.ufe.filter((x) => x.test))   // fixed: the test listing sits on the UFE list assert.equal(p.path, undefined, "a test listing has no profile");
   for (const d of DIR) assert.equal(d.p, PATH_OF.get(d.p.slice(-11, -1)), `name search ${d.p}`);
   assert.ok(people.length > 3000, `count ${people.length}`);
 });

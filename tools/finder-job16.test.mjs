@@ -4,6 +4,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import vm from "node:vm";
+import { PROCS } from "../lib/procedures.mjs";
 
 const SRC = readFileSync(new URL("../site/assets/finder.js", import.meta.url), "utf8");
 function fn(name) {                      // the text of one top-level function in finder.js, by brace matching
@@ -67,11 +68,11 @@ test("the test profile is made up and never in the public procedure data", async
   const { npiOk } = await import("../functions/api/report.js");
   const [p] = t.people;
   assert.equal(p.name, "Sample Doctor, MD (test listing)"); assert.equal(npiOk(p.npi), false, "NPI fails the check digit");
-  assert.deepEqual(p.procedures, ["ufe", "pae", "gae"]); assert.equal(p.offices.length, 3);
+  assert.deepEqual(p.procedures, ["ufe", "pae", "gae"]); assert.equal(p.offices.length, 3);   // fixed: what the made-up test profile file itself holds
   assert.deepEqual(p.offices.map((o) => o.zip), ["60605", "60201", "60540"]);
   assert.ok(p.offices.every((o) => /\(\d{3}\) 555-01\d\d/.test(o.phone)), "fictional 555-01xx numbers");
   assert.equal(p.booking_url, "https://example.com/");
-  for (const f of readdirSync(new URL("../site/data/", import.meta.url)).filter((f) => /^(ufe|pae|gae)\.json$/.test(f))) {
+  for (const f of readdirSync(new URL("../site/data/", import.meta.url)).filter((f) => PROCS.includes(f.replace(/\.json$/, "")))) {
     const s = readFileSync(new URL("../site/data/" + f, import.meta.url), "utf8");
     assert.ok(!s.includes(p.npi) && !s.includes("test listing") && !s.includes("test-avatar"), f + " holds the test profile");
   }

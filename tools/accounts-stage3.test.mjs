@@ -5,6 +5,8 @@ import { readFileSync } from "node:fs";
 import { world, ANN, BEN, CARA, DAN, EVE, ORG, GIL } from "./accounts-helpers.mjs";
 import { exportConfirmed } from "../lib/accounts/service.mjs";
 import { schemaColumns } from "./accounts-adapters.test.mjs";
+import { PROCS } from "../lib/procedures.mjs";
+import { PAGE_OF } from "../lib/registry.mjs";
 
 test("new profile: NPI not on the site, radiologist: no name typed; NPPES name; ID check, attest, export", async () => {
   const w = world(), c = w.client();
@@ -138,7 +140,9 @@ test("schema has every column the code writes", async () => {
 });
 
 test("the public finder pages load no account code", () => {
-  for (const p of ["ufe", "pae", "gae"]) {
+  // every procedure with a list, from the registry (job platform-directory-0035): its old /<key>/ address and the
+  // condition page its finder lives on now
+  for (const p of PROCS.flatMap((k) => [k, PAGE_OF[k].replace(/^\/|\/$/g, "")])) {
     const html = readFileSync(new URL(`../site/${p}/index.html`, import.meta.url), "utf8");
     assert.doesNotMatch(html, /account\.js|\/api\/account/);
   }

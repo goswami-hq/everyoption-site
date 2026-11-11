@@ -7,6 +7,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { handleCity, resetCities, metroList, mergeOverlay, renderMetro, miles, town, GROUP_AT } from "../lib/cities.mjs";
 import { CITIES } from "../lib/cities-data.mjs";
+import { ALL } from "../lib/registry.mjs";
+import { PROC_SHORT } from "../lib/procedures.mjs";
 
 const SITE = new URL("../site/", import.meta.url);
 const read = (p) => readFileSync(new URL(p, SITE), "utf8");
@@ -14,7 +16,9 @@ const ASSETS = { async fetch(req) {
   try { return new Response(readFileSync(new URL("." + new URL(req.url).pathname, SITE)), { status: 200 }); }
   catch (_) { return new Response("", { status: 404 }); }
 } };
-const LISTS = Object.fromEntries(["ufe", "pae", "gae"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
+// Every procedure with a list, from the registry (job platform-directory-0035). The pages checked are UFE's: fixed, because
+// the facts block's first lines are tested against the UFE list; the "we also list" line covers every other procedure.
+const LISTS = Object.fromEntries(ALL.map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
 const get = async (path) => {
   resetCities();
   const r = await handleCity(new Request(`http://localhost:8787${path}`), { backend: null, noCache: true, ASSETS });
@@ -53,10 +57,9 @@ test("facts block: 4 to 6 standalone lines under the answer, and every number ma
     assert.equal(+num(c, /at (\d+) separate practices?\./), practices.size, `${m.slug}: practices`);
     for (const p of list) for (const name of [p.practice, p.lead && p.lead.practice]) if (name && name.length > 3) assert.ok(!lines.join(" ").includes(name), `${m.slug}: no practice names (${name})`);
     assert.match(e, new RegExp(`^None of the ${d.length} doctors listed for UFE .* confirmed it on Every Option yet\\.$`), `${m.slug}: confirmed 0`);
-    const pae = metroList(LISTS.pae, m).length, gae = metroList(LISTS.gae, m).length;
-    if (pae || gae) {
-      if (pae) assert.ok(f.includes(`${pae} doctor${pae === 1 ? "" : "s"} for PAE`), `${m.slug}: PAE ${pae} in "${f}"`);
-      if (gae) assert.ok(f.includes(`${gae} doctor${gae === 1 ? "" : "s"} for GAE`), `${m.slug}: GAE ${gae} in "${f}"`);
+    const others = ALL.filter((k) => k !== "ufe").map((k) => [k, metroList(LISTS[k], m).length]).filter(([, n]) => n);
+    if (others.length) {
+      for (const [k, n] of others) assert.ok(f.includes(`${n} doctor${n === 1 ? "" : "s"} for ${PROC_SHORT[k]}`), `${m.slug}: ${k} ${n} in "${f}"`);
     } else assert.equal(f, undefined);
     for (const l of lines) {
       assert.match(l, /^[A-Z].*\.$/, `${m.slug}: a whole sentence: ${l}`);

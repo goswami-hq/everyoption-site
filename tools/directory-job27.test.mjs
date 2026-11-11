@@ -7,6 +7,7 @@ import { execFileSync } from "node:child_process";
 import os from "node:os";
 import { world, ANN, EMAIL } from "./accounts-helpers.mjs";
 import { handleDoctor, mergeDoctor, render, slug, resetDirectory } from "../lib/directory.mjs";
+import { PROCS } from "../lib/procedures.mjs";
 
 const SITE = new URL("../site/", import.meta.url), TOOLS = new URL("./", import.meta.url).pathname;
 const read = (p) => readFileSync(new URL(p, SITE), "utf8");
@@ -20,8 +21,9 @@ const DIR = JSON.parse(read("data/directory.json"));
 const DRAFT = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8")).filter((p) => p.stage === "listed").map((p) => p.key);
 const INDEXED = (p) => (p.l || "").split(" ").filter((k) => k && !DRAFT.includes(k)).length > 0;
 const npiOf = (x) => x.p.slice(-11, -1);
-// pelvic added 2026-11-10: the pelvic finder (job pelvic-finder-0009) shows its own list, so the directory holds those doctors too.
-const LISTS = Object.fromEntries(["ufe", "pae", "gae", "pelvic"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
+// Every finder list holds doctors the directory shows: every procedure with a list, from the registry (job platform-directory-0035;
+// before, a fixed list that HAE had not joined).
+const LISTS = Object.fromEntries(PROCS.map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
 const ROSTER = JSON.parse(read("data/ir-roster.json")).people;
 
 // The finder's own functions, taken from site/assets/finder.js as written.
@@ -69,7 +71,7 @@ test("membership: every filter exclusion, finder and directory agree on made-up 
     { ...base, npi: "1000000006", name: "No Place", lat: null },
     { ...base, npi: "1000000007", name: "Url Only", phone: "", url: "https://x.example/" },
   ];
-  const lists = { ufe: [
+  const lists = { ufe: [   // fixed: a made-up fixture for these three procedures, not the registry
     { npi: "1000000011", name: "Listed Doc", lat: 41.9, lon: -87.6, city: "Chicago", state: "IL" },
     { npi: "1000000012", name: "Listed Unplaced", lat: null, lon: null, city: "Nowhere", state: "IL" },
     { npi: "1000000013", name: "Office Placed", lat: null, lon: null, offices: [{ city: "Chicago", state: "IL", lat: 41.8, lon: -87.6 }] },
@@ -179,7 +181,7 @@ const row = (npi, name, level, attested, held, extra = {}) => ({ npi, attested, 
 const db = (rows) => ({ data: { overlay: async () => rows } });
 
 test("overlay: removal follows the finder; a removed procedure leaves, the profile leaves only when no group is left", async () => {
-  const two = DIR.people.find((p) => p.l === "pae gae"), npi = npiOf(two);
+  const two = DIR.people.find((p) => p.l === "pae gae"), npi = npiOf(two);   // fixed: a real two-procedure profile, named
   let r = await get(two.p, { backend: db([row(npi, two.n, "partial", ["pae"], ["pae", "gae"])]) });
   assert.equal(r.status, 200);
   assert.match(r.html, /Prostate artery embolization/); assert.doesNotMatch(r.html, /Genicular artery embolization \(GAE\)<\/a><br>/);
@@ -344,6 +346,7 @@ test("job 42: a nearby profile is live with noindex; a procedure or a claim inde
 });
 
 test("job 42: the static rule matches; a nearby doctor with a procedure in the next export is in the sitemap", () => {
+  // fixed: a made-up one-doctor fixture on three procedures, not the registry
   const out = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import directory
 d = json.load(sys.stdin); print(json.dumps(directory.indexed(directory.members(d["lists"], d["roster"]), {"confirmed": True, "likely": True, "nearby": False})))`],
   { input: JSON.stringify({ lists: { ufe: [{ npi: "1000000011", name: "Was Nearby", lat: 41.9, lon: -87.6, city: "Chicago", state: "IL" }], pae: [], gae: [] },
