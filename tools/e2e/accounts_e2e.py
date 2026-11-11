@@ -778,6 +778,16 @@ def live_run(cfg):
             lcheck("live: pelvic vein treatment can be added (the test database allows pelvic)", pelvic_on and not pelvic_err, pelvic_err)
             if pelvic_on:
                 mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pelvic .remove"); wait_saved(pg, "vein treatment removed", 15000)
+            # hae (database change 2026-11-11-hae-procedure.sql; his words 2026-11-11: "Let's do the database changes"): add, on, remove
+            hae_err = ""
+            try:
+                add_proc(pg, "hae")
+            except Exception as e:
+                hae_err = type(e).__name__ + ": " + scrub(e)[:200]
+            hae_on = pg.locator("#proc-hae.on").count() == 1
+            lcheck("live: hemorrhoid embolization can be added (the test database allows hae)", hae_on and not hae_err, hae_err)
+            if hae_on:
+                mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-hae .remove"); wait_saved(pg, "HAE removed", 15000)
             pg.click("#proc-ufe .proc-note summary"); pg.fill("#b-ufe", note); clear(pg)
             mark(pg); pg.click("#proc-ufe .proc-note button"); wait_saved(pg, "Note saved", 15000)
             pg.fill("#o0-practice", office["practice"]); pg.fill("#o0-street", office["street"]); pg.fill("#o0-city", office["city"])
@@ -787,6 +797,7 @@ def live_run(cfg):
             pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
             kept = {"ufe on": pg.locator("#proc-ufe.on").count() == 1, "pae off": pg.locator("#proc-pae.on").count() == 0,
                     "pelvic off": pg.locator("#proc-pelvic.on").count() == 0,
+                    "hae off": pg.locator("#proc-hae.on").count() == 0,
                     "note": pg.input_value("#b-ufe") == note, "office": pg.input_value("#o0-practice") == office["practice"],
                     "phone": re.sub(r"\D", "", pg.input_value("#o0-phone")) == office["phone"],
                     "link": "example.com/every-option-test" in pg.input_value("#p-book")}
