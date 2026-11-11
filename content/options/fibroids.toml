@@ -135,7 +135,7 @@ risks = "Spotting is common at first. It is more likely to slip out when fibroid
 option = "embolization"
 certainty = "Good evidence suggests"
 diagram = true
-intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
+intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads or particles block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
 works = "Good evidence suggests most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
 evidence = [
   "* **Most women's symptoms improve.** {d:ufe-range}.",

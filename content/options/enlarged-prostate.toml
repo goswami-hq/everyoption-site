@@ -157,7 +157,7 @@ selection = "It may suit men who also want help with erections (our inference; i
 option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
-intro = "An interventional radiologist passes a thin tube (catheter) from the wrist or groin into the arteries that feed the prostate. The man gets numbing medicine at the skin (local anesthetic) and light sedation. Small particles are injected to cut the gland's blood supply, so it shrinks. Most men do not need a urine tube. {d:ukrope}.[^sirpt][^ucla]"
+intro = "An interventional radiologist passes a thin tube (catheter) from the wrist or groin into the arteries that feed the prostate. The man gets numbing medicine at the skin (local anesthetic) and light sedation. Tiny beads or particles are injected to cut the gland's blood supply, so it shrinks. Most men do not need a urine tube. {d:ukrope}.[^sirpt][^ucla]"
 works = "Early results are encouraging. Against a sham, PAE clearly eased symptoms in the short term, in one trial. Against TURP, symptom relief in the first year or two may be close. However, a gap that matters has not been ruled out, TURP opens the urine channel more, and more men need a second procedure after PAE. Against two pills in men with larger prostates, two small trials favour PAE (in both, the men knew which treatment they had).[^sham][^cochrane][^abt18][^partem][^peasy]"
 evidence = [
   "* **Against a sham, PAE clearly eased symptoms in the short term.** {d:sham}.",

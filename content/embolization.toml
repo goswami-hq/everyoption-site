@@ -90,7 +90,7 @@ slug = "knee-arthritis"
 label = "knee arthritis"
 page = "/knee-arthritis/every-option/"
 materials = ["beads", "dissolve"]
-line = "For the knee, doctors use either tiny plastic beads that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"
+line = "For the knee, doctors use either tiny particles that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"
 gelatin = true
 
 [[condition]]
