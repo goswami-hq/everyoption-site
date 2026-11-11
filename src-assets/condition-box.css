@@ -41,8 +41,10 @@ nav.by-city details.city-fold { border-top: 1px solid var(--line); border-bottom
 .embo-agents { margin: 22px 0 6px; }
 .embo-agents > p { max-width: 46rem; }
 .agents { list-style: none; margin: 14px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.agent { display: flex; gap: 12px; align-items: flex-start; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-.agent.this { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+/* design review 2026-11-11 (Taste inspector: outlined-box, hairline): surfaces by fill, not outline; this page's
+   materials one tone warmer */
+.agent { display: flex; gap: 12px; align-items: flex-start; background: var(--bg); border-radius: var(--radius); padding: 14px 16px; }
+.agent.this { background: var(--sun); }
 .agent .embo-ic { width: 64px; height: 64px; flex: none; }
 .agent-txt { min-width: 0; }
 .deep-option .agent h5 { margin: 0 0 4px; font: 600 1.0625rem/1.3 var(--sans); color: var(--ink); }
@@ -51,6 +53,6 @@ nav.by-city details.city-fold { border-top: 1px solid var(--line); border-bottom
 .agent .stays { color: var(--muted); }
 .agent .used { margin: 6px 0 0; font-size: 0.9375rem; color: var(--muted); }
 .agent .used-here { display: block; color: var(--ink); }
-details.embo-other { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 4px 0 12px; }
+details.embo-other { margin: 18px 0 12px; }
 details.embo-other > summary { cursor: pointer; font-weight: 600; font-size: 1.0625rem; min-height: 44px; display: flex; align-items: center; }
 @media (max-width: 420px) { .agent .embo-ic { width: 44px; height: 44px; } .agent { padding: 12px 14px; gap: 10px; } }

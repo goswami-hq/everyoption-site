@@ -51,8 +51,8 @@ stays = "It stays in place for good. It is safe in an MRI scanner under set cond
 id = "glue"
 name = "Medical glue"
 term = "n-butyl cyanoacrylate"
-made = "A liquid glue that the doctor injects into the vein. It hardens quickly and blocks the vein.[^emb-rinfo][^emb-strobl26]"
-stays = "It is not made to dissolve.[^emb-rinfo]"
+made = "A liquid glue that the doctor injects into the vein.[^emb-strobl26]"
+stays = "It hardens quickly and blocks the vein.[^emb-rinfo]"
 
 [[material]]
 id = "foam"
