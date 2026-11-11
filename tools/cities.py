@@ -15,6 +15,9 @@ PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthrit
         "pelvic": "/chronic-pelvic-pain/", "hae": "/hemorrhoids/"}   # job platform-directory-0009; hae: job 0029   # condition page each hangs under (S3: pae, gae, job platform-main-0024)
 HUB = {k: v + "doctors/" for k, v in PAGE.items()}
 REVIEWED = "2026-11-05"                 # the city page template text
+# Job platform-directory-0029: a list exported later than the shared stamp (build.py LISTINGS_AS_OF) carries its own
+# date, so a city page never claims a check before the list existed. HAE: the national views of 2026-11-10 (job 0028).
+AS_OF_PROC = {"hae": "2026-11-10"}
 
 
 def miles(a, b):
@@ -126,7 +129,7 @@ def metro_of(cfg, pages, site):
 def write_module(root, cfg, pages, shell, blurbs, as_of, site):
     data = {
         "radius": cfg["radius"], "bar": cfg["bar"], "floor": cfg["floor"], "page": PAGE, "hub": HUB, "reviewed": REVIEWED, "draft": drafts(),
-        "as_of": as_of, "blurbs": blurbs,
+        "as_of": as_of, "as_of_proc": AS_OF_PROC, "blurbs": blurbs,
         "metros": {k: [{"slug": m["slug"], "name": m["name"], "place": m["place"],
                         "centers": [{"zip": c["zip"], "label": c["label"], "ll": c["ll"]} for c in m["centers"]]} for m in ms]
                    for k, ms in pages.items()},

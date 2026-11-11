@@ -82,6 +82,10 @@ test("the New York City HAE page: bar of 8 within 25 miles, noindex, the 0 confi
   assert.match(html, /href="\/account\/\?procedure=hae"/);
   assert.ok((html.match(/class="card/g) || []).length >= 8, "at least 8 cards");
   assert.doesNotMatch(html, /\(HAE\) \(HAE\)|\(\)/);
+  assert.match(html, /As of November 10, 2026/, "the HAE list's own date, not the older shared stamp");
+  assert.doesNotMatch(html, /October 29, 2026/);
+  const ufe = await city("/fibroids/doctors/new-york-city-area/");
+  assert.match(ufe.html, /As of October 29, 2026/, "other procedures keep the shared stamp");
 });
 
 test("profiles: the HAE tag links the hemorrhoid page; an HAE-only profile stays noindex and out of the sitemap", async () => {
