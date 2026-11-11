@@ -29,6 +29,11 @@ class RegistryChecks(unittest.TestCase):
     def test_registry_as_committed_is_sound(self):
         self.assertEqual(self.errs(), [])
 
+    def test_listed_procedure_needs_draft_pages(self):
+        # job platform-directory-0035: stage listed is noindex, and the pages carry it as draft = true
+        registry.BY_KEY["ufe"]["stage"] = "listed"   # fibroids.toml has no draft line
+        self.assertTrue(any("content/conditions/fibroids.toml needs draft = true" in e for e in self.errs()), self.errs())
+
     def test_declared_animation_needs_its_drawing(self):
         p = registry.BY_KEY["pelvic"]
         p["parts"]["animation"] = copy.deepcopy(registry.BY_KEY["ufe"]["parts"]["animation"])

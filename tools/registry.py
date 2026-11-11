@@ -276,6 +276,13 @@ def check(site=None):
             lp = [k for k in c.get("procedures", []) if k in BY_KEY and BY_KEY[k]["stage"] in WITH_LIST]
             if lp and t.get("finder") != lp[0]:
                 errs.append(f"condition {s}: its page's finder is {t.get('finder')!r}, not its listed procedure {lp[0]}")
+        # Stage listed means noindex and out of the sitemap (plan review item 2). The pages carry that as `draft = true`,
+        # so a listed procedure's condition pages must keep it until he says public (ai-hq job platform-directory-0035).
+        if any(k in BY_KEY and BY_KEY[k]["stage"] == "listed" for k in c.get("procedures", [])):
+            for name, rel in c.get("pages", {}).items():
+                f = ROOT / rel
+                if f.exists() and not tomllib.loads(f.read_text(encoding="utf-8")).get("draft"):
+                    errs.append(f"condition {s}: its procedure is at stage listed, so {rel} needs draft = true (noindex) until it is public")
         for k in c.get("procedures", []):
             if k not in BY_KEY:
                 errs.append(f"condition {s}: procedure {k} is not in content/procedures.json")

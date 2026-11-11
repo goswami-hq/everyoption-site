@@ -35,9 +35,14 @@ def one(d):
             "list_sha256": hashlib.sha256(canonical(d)).hexdigest()}
 
 
-def keys(root=ROOT):
+def stages(root=ROOT):
+    """key -> stage, for every procedure in the registry."""
     with open(os.path.join(root, "content", "procedures.json"), encoding="utf-8") as fh:
-        return [p["key"] for p in json.load(fh)]
+        return {p["key"]: p.get("stage") for p in json.load(fh)}
+
+
+def keys(root=ROOT):
+    return list(stages(root))
 
 
 def check(site=None, root=ROOT):
@@ -50,11 +55,14 @@ def check(site=None, root=ROOT):
     with open(fp_path, encoding="utf-8") as fh:
         fp = json.load(fh)
     want = dict(fp.get("procedures", {}))
-    files = {k: k + ".json" for k in keys(root)}
+    # A procedure at stage "page" needs no list yet (plan review item 2); found by the fake-procedure guard test
+    # (tools/new_procedure_test.py, ai-hq job platform-directory-0035). If the export already wrote one, it is checked.
+    st = stages(root)
+    files = {k: k + ".json" for k in st if st[k] != "page" or k in want}
     if NEARBY in fp:
         want[NEARBY] = fp[NEARBY]
         files[NEARBY] = ROSTER
-    errs = [f"{k}: in the fingerprint but not in content/procedures.json" for k in fp.get("procedures", {}) if k not in files]
+    errs = [f"{k}: in the fingerprint but not in content/procedures.json" for k in fp.get("procedures", {}) if k not in st]
     for k, f in files.items():
         if k not in want:
             errs.append(f"{k}: no fingerprint (the list was not written by the ai-hq export)")

@@ -69,6 +69,23 @@ class T(unittest.TestCase):
             json.dump([{"key": "aaa"}, {"key": "bbb"}], fh)
         self.assertTrue(any(x.startswith("bbb: no fingerprint") for x in L.check(root=self.root)))
 
+    def test_page_stage_needs_no_list_but_one_written_is_checked(self):
+        # job platform-directory-0035: a procedure at stage page has no doctor list yet (plan review item 2)
+        self.root = site_with({"aaa": A}, R)
+        with open(os.path.join(self.root, "content", "procedures.json"), "w") as fh:
+            json.dump([{"key": "aaa"}, {"key": "bbb", "stage": "page"}], fh)
+        self.assertEqual(L.check(root=self.root), [])
+        other = site_with({"aaa": A, "bbb": A}, R)
+        try:
+            with open(os.path.join(other, "content", "procedures.json"), "w") as fh:
+                json.dump([{"key": "aaa"}, {"key": "bbb", "stage": "page"}], fh)
+            self.assertEqual(L.check(root=other), [])
+            with open(os.path.join(other, "site", "data", "bbb.json"), "w") as fh:
+                json.dump(dict(A, people=A["people"][:1]), fh)
+            self.assertIn("bbb: site/data/bbb.json differs", L.check(root=other)[0])
+        finally:
+            shutil.rmtree(other, ignore_errors=True)
+
     def test_missing_fingerprint_fails(self):
         self.root = site_with({"aaa": A}, R)
         os.remove(os.path.join(self.root, "site", "data", L.FINGERPRINT))
