@@ -1,5 +1,6 @@
 -- Procedure registry job 2 of 4 (ai-hq job platform-directory-0033): a procedures table generated from the registry,
--- in place of attestations_procedure_check, for a database where supabase/schema.sql is already applied. Not applied yet.
+-- in place of attestations_procedure_check, for a database where supabase/schema.sql is already applied. Applied 2026-11-11 by
+-- `scripts/eo_db_apply.py` (ai-hq) to the test database; production does not exist yet.
 -- Keep this and schema.sql in step. Safe to run twice.
 -- The seed rows below come from content/procedure-keys.json through tools/procedures_sql.py; the build fails if they
 -- differ. This file is never edited once applied: a new key gets its own migration (python3 tools/procedures_sql.py --new).
