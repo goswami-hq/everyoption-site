@@ -2,7 +2,8 @@
 """Writes the site's HTML pages into site/ from the templates below (one header, one footer, every page's copy).
 
   python3 tools/build.py            # then commit site/
-The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq scripts/every_option_export.py.
+The finder data (site/data/*.json, site/data/zip/) comes from goswami-hq/ai-hq `scripts/every_option_export.py all`, which
+also writes site/data/listings-fingerprint.json; tools/listings_check.py stops the build when a list differs from it.
 Standard library only; the built pages are plain static HTML (Cloudflare Pages serves site/ with no build step).
 """
 import pathlib
@@ -11,6 +12,7 @@ import cities
 import condition
 import directory
 import insurance
+import listings_check
 import options
 import pattern
 import registry
@@ -559,6 +561,7 @@ def copy_src_assets():
 
 
 def main():
+    listings_check.require(SITE)   # ai-hq job platform-directory-0034: each list equals the export's fingerprint
     directory.stamp_paths(SITE)   # job platform-web-design-0008: every card's profile link, written once, before anything reads the lists
     copy_src_assets()
     write("assets/logo.svg", logo_file())
