@@ -102,7 +102,15 @@ section.tier-empty { margin-top: 18px; border: 1px solid var(--line); border-rad
 section.tier-empty p { margin: 0; }
 section.tier-empty strong { color: var(--ink); font-weight: 600; }
 section.tier-empty + section.tier-b { margin-top: 22px; }
-section.tier-a > h2, section.tier-b > h2, section.tier-c > h2, section.tier-far > h2 { color: var(--accent); }
+section.tier-a > h2, section.tier-b > h2, section.tier-far > h2 { color: var(--accent); }
+/* His pick 2026-11-11 (mockup A2): three levels of emphasis, confirmed > likely > IRs nearby. Nearby keeps the same words
+   and card parts; only the weight drops: plain heading, unfilled card, smaller name, outlined Call, dimmer names in dark. */
+section.tier-c > h2 { color: var(--ink); font-size: 1.25rem; }
+section.tier-c .card { background: transparent; padding: 14px 18px; }
+section.tier-c .card h3 { font-size: 1.1875rem; }
+section.tier-c .actions { margin-top: 10px; }
+section.tier-c .actions .call { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+@media (prefers-color-scheme: dark) { section.tier-c .card h3 a, section.tier-c .where .practice { color: var(--muted); } }
 section.tier-empty + section.tier-c, section.tier-empty + section.tier-far { margin-top: 22px; }
 .card .ask-tag { margin: 0 0 6px; font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
 .notice.referral { margin-top: 18px; }
