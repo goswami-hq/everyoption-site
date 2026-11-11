@@ -66,7 +66,7 @@ stays = "The vein scars shut. This is not always permanent.[^emb-sts]"
 id = "dissolve"
 name = "Materials that dissolve"
 icon = "embo-dissolve"
-made = "Materials made to break down within hours to days, so blood flow can come back. One is an antibiotic powder (imipenem and cilastatin) that forms very fine particles. In some countries, doctors also use dissolving beads made of gelatin. Dissolving beads made from seaweed (alginate) are being tested in early studies.[^emb-sirgae][^emb-gaucho][^emb-amin26][^emb-little25]"
+made = "An antibiotic powder (imipenem and cilastatin) that forms very fine particles. It breaks down within hours to days, so blood flow can come back.[^emb-sirgae][^emb-gaucho]"
 stays = "They break down. Early studies suggest knee pain improves about the same with the antibiotic powder as with beads that stay.[^emb-gaucho][^emb-lanza26]"
 
 [[condition]]
@@ -81,8 +81,8 @@ gelatin = true
 slug = "enlarged-prostate"
 label = "enlarged prostate"
 page = "/enlarged-prostate/every-option/"
-materials = ["beads", "particles"]
-line = "For the prostate, the material is tiny beads or small particles made of plastic. Some types also contain gelatin from pigs. They stay in place for good.[^emb-embo][^emb-bb510k][^emb-contour]"
+materials = ["beads", "particles", "coils"]
+line = "For the prostate, the material is tiny beads or small particles made of plastic. Some types also contain gelatin from pigs. They stay in place for good. Sometimes the doctor also places a tiny metal coil in a nearby artery, so the beads do not reach the tissue it feeds.[^emb-embo][^emb-bb510k][^emb-contour][^emb-maclean23]"
 gelatin = true
 
 [[condition]]
@@ -90,9 +90,8 @@ slug = "knee-arthritis"
 label = "knee arthritis"
 page = "/knee-arthritis/every-option/"
 materials = ["beads", "dissolve"]
-line = "For the knee, doctors use either tiny plastic beads that stay in place for good, or a material made to break down within hours to days.[^emb-sirgae][^emb-gaucho]"
+line = "For the knee, doctors use either tiny plastic beads that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"
 gelatin = true
-deep_note = "In the United States, no material has a formal approval for knee pain, so every material used for GAE is used off-label (outside what its label lists).[^emb-sirgae]"
 
 [[condition]]
 slug = "hemorrhoids"
@@ -107,7 +106,7 @@ slug = "chronic-pelvic-pain"
 label = "chronic pelvic pain"
 page = "/chronic-pelvic-pain/"
 materials = ["coils", "plugs", "glue", "foam"]
-line = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, or a medicine that makes the vein scar shut. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"
+line = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, a medicine that makes the vein scar shut, or other materials. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"
 gelatin = false
 
 [[ref]]
@@ -189,16 +188,6 @@ url = "https://doi.org/10.1007/s00270-026-04504-5"
 key = "emb-lanza26"
 cite = "Lanza E, Poretti D, Pedicini V, et al. Permanent vs. temporary embolic agents in genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. European Journal of Radiology. 2026;202:112968."
 url = "https://doi.org/10.1016/j.ejrad.2026.112968"
-
-[[ref]]
-key = "emb-amin26"
-cite = "Amin AT, Hübner A, Kemmer E, et al. Genicular artery embolization using resorbable gelatin microspheres for refractory knee pain: technique, safety and clinical outcome. CardioVascular and Interventional Radiology. 2026;49(2):356-367."
-url = "https://doi.org/10.1007/s00270-025-04274-6"
-
-[[ref]]
-key = "emb-little25"
-cite = "Little MW, Agarwal S, Khikmatovich IM, et al. First-in-human evaluation of a new resorbable microspherical embolic agent for genicular artery embolization to treat pain secondary to knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2025;36(11):1658-1666."
-url = "https://doi.org/10.1016/j.jvir.2025.07.010"
 
 [[ref]]
 key = "emb-kucukay21"
