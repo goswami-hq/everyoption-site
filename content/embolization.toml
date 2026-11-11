@@ -22,8 +22,8 @@ id = "beads"
 name = "Tiny beads"
 term = "microspheres"
 icon = "embo-beads"
-made = "Round beads of plastic. One common type is an acrylic plastic with gelatin from pigs (Embosphere). Others are a water-holding plastic gel (Bead Block, made of polyvinyl alcohol) or a plastic gel with a thin coating (Embozene).[^emb-embo][^emb-bb510k][^emb-ez510k14]"
-stays = "They do not dissolve. They stay in place for good. They contain no metal and do not stop you from having an MRI.[^emb-embo][^emb-bb510k][^emb-ezgudid]"
+made = "Round beads of plastic. One common type is an acrylic plastic with gelatin from pigs. Others are a water-holding plastic gel (polyvinyl alcohol) or a plastic gel with a thin coating.[^emb-embo][^emb-bb510k][^emb-ez510k14]"
+stays = "They do not dissolve. They stay in place for good. They are not made of metal and do not stop you from having an MRI.[^emb-embo][^emb-bb510k][^emb-ezgudid]"
 
 [[material]]
 id = "particles"
@@ -37,7 +37,7 @@ stays = "They stay in place for good.[^emb-contour]"
 id = "coils"
 name = "Tiny metal coils"
 icon = "embo-coil"
-made = "Small springs of platinum or another metal, often with soft fibers that help a clot form. During prostate embolization, doctors sometimes place one to protect a nearby artery.[^emb-nester][^emb-rinfo][^emb-maclean23][^emb-richardson25]"
+made = "Small springs of platinum or another metal, often with soft fibers. During prostate embolization, doctors sometimes place one in a nearby artery so the beads do not reach the tissue it feeds.[^emb-nester][^emb-rinfo][^emb-maclean23][^emb-richardson25]"
 stays = "They stay in place for good. They are safe in an MRI scanner under set conditions; tell the scanner staff you have them.[^emb-nester]"
 
 [[material]]
@@ -59,15 +59,15 @@ id = "foam"
 name = "Vein-closing medicine"
 term = "sclerosant"
 icon = "embo-foam"
-made = "A medicine that works like a mild detergent, often mixed into a foam (sodium tetradecyl sulfate or polidocanol). It irritates the inside lining of the vein.[^emb-sts][^emb-pol]"
+made = "A medicine that works like a detergent, often mixed into a foam (sodium tetradecyl sulfate or polidocanol). It irritates the inside lining of the vein.[^emb-sts][^emb-pol]"
 stays = "The vein scars shut. This is not always permanent.[^emb-sts]"
 
 [[material]]
 id = "dissolve"
 name = "Materials that dissolve"
 icon = "embo-dissolve"
-made = "Materials made to break down within hours to days, so blood flow can come back. One is an antibiotic powder (imipenem and cilastatin) that forms very fine particles. In some countries, doctors also use dissolving beads made of gelatin or a seaweed-based gel (alginate).[^emb-sirgae][^emb-gaucho][^emb-amin26][^emb-little25]"
-stays = "They break down. Early studies suggest knee pain improves about the same with these as with beads that stay.[^emb-gaucho][^emb-lanza26]"
+made = "Materials made to break down within hours to days, so blood flow can come back. One is an antibiotic powder (imipenem and cilastatin) that forms very fine particles. In some countries, doctors also use dissolving beads made of gelatin. A seaweed-based gel (alginate) is being tested in early studies.[^emb-sirgae][^emb-gaucho][^emb-amin26][^emb-little25]"
+stays = "They break down. Early studies suggest knee pain improves about the same with the antibiotic powder as with beads that stay.[^emb-gaucho][^emb-lanza26]"
 
 [[condition]]
 slug = "fibroids"
@@ -137,7 +137,7 @@ url = "https://accessgudid.nlm.nih.gov/devices/08714729943006"
 
 [[ref]]
 key = "emb-contour"
-cite = "Boston Scientific. Contour PVA embolization particles: product information."
+cite = "Boston Scientific. Contour PVA embolization particles: product information. Accessed November 11, 2026."
 url = "https://www.bostonscientific.com/en-US/products/embolization/contour-pva-embolization-particles.html"
 
 [[ref]]
@@ -162,42 +162,42 @@ url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bb1f342b-5352-40
 
 [[ref]]
 key = "emb-strobl26"
-cite = "Strobl F, et al. Embolic agents for pelvic venous disorders: a systematic review. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;14(6):102599."
+cite = "Strobl F, Böhm AK, Mertens L, et al. Pelvic vein embolization using different embolic agents for the treatment of pelvic venous insufficiency: a systematic review and meta-analysis. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;14(6):102599."
 url = "https://doi.org/10.1016/j.jvsv.2026.102599"
 
 [[ref]]
 key = "emb-maclean23"
-cite = "Maclean D, et al. Protective coil embolization during prostate artery embolization. Journal of Vascular and Interventional Radiology. 2023;34(2):218-224."
+cite = "Maclean D, Vigneswaran G, Maher B, et al. The effect of protective coil embolization of penile anastomoses during prostatic artery embolization on erectile function: a propensity-matched analysis. Journal of Vascular and Interventional Radiology. 2023;34(2):218-224."
 url = "https://doi.org/10.1016/j.jvir.2022.10.023"
 
 [[ref]]
 key = "emb-richardson25"
-cite = "Richardson A, Bhatia A, et al. Protective coil embolization in prostate artery embolization. CardioVascular and Interventional Radiology. 2025;48(4):512-521."
+cite = "Richardson A, Bhatia A, Maini A, et al. Impact on sexual function of protective coil embolization of penile collaterals during prostatic artery embolization. CardioVascular and Interventional Radiology. 2025;48(4):512-521."
 url = "https://doi.org/10.1007/s00270-025-03966-3"
 
 [[ref]]
 key = "emb-sirgae"
-cite = "Ahmed O, et al. Society of Interventional Radiology position statement on genicular artery embolization. Journal of Vascular and Interventional Radiology. 2026;37:108803."
+cite = "Ahmed O, et al. [Society of Interventional Radiology position statement on genicular artery embolization.] Journal of Vascular and Interventional Radiology. 2026;37:108803."
 url = "https://doi.org/10.1016/j.jvir.2026.108803"
 
 [[ref]]
 key = "emb-gaucho"
-cite = "Correa MP, et al. Imipenem/cilastatin versus permanent microspheres for genicular artery embolization (GAUCHO): 12-month results. CardioVascular and Interventional Radiology. 2026;49(9):1825-1837."
+cite = "Correa MP, Michelin AF, Aguiar LA, et al. Genicular artery embolization using imipenem/cilastatin vs. microsphere for knee osteoarthritis (GAUCHO): 12-month clinical results of a single-blind randomized controlled trial. CardioVascular and Interventional Radiology. 2026;49(9):1825-1837."
 url = "https://doi.org/10.1007/s00270-026-04504-5"
 
 [[ref]]
 key = "emb-lanza26"
-cite = "Lanza E, et al. European Journal of Radiology. 2026;202:112968 (abstract)."
+cite = "Lanza E, Poretti D, Pedicini V, et al. Permanent vs. temporary embolic agents in genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. European Journal of Radiology. 2026;202:112968."
 url = "https://doi.org/10.1016/j.ejrad.2026.112968"
 
 [[ref]]
 key = "emb-amin26"
-cite = "Amin AT, et al. Resorbable gelatin microspheres for genicular artery embolization. CardioVascular and Interventional Radiology. 2026;49(2):356-367."
+cite = "Amin AT, Hübner A, Kemmer E, et al. Genicular artery embolization using resorbable gelatin microspheres for refractory knee pain: technique, safety and clinical outcome. CardioVascular and Interventional Radiology. 2026;49(2):356-367."
 url = "https://doi.org/10.1007/s00270-025-04274-6"
 
 [[ref]]
 key = "emb-little25"
-cite = "Little MW, et al. Resorbable alginate microspheres for genicular artery embolization: first in human. Journal of Vascular and Interventional Radiology. 2025;36(11):1658-1666."
+cite = "Little MW, Agarwal S, Khikmatovich IM, et al. First-in-human evaluation of a new resorbable microspherical embolic agent for genicular artery embolization to treat pain secondary to knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2025;36(11):1658-1666."
 url = "https://doi.org/10.1016/j.jvir.2025.07.010"
 
 [[ref]]
@@ -207,5 +207,5 @@ url = "https://doi.org/10.1016/j.jvir.2021.02.011"
 
 [[ref]]
 key = "emb-moussa20"
-cite = "Moussa N, et al. CardioVascular and Interventional Radiology. 2020;43(7):1062-1069."
+cite = "Moussa N, Bonnet B, Pereira H, et al. Mid-term results of superior rectal artery and coils for hemorrhoidal embolization with particles bleeding. CardioVascular and Interventional Radiology. 2020;43(7):1062-1069."
 url = "https://doi.org/10.1007/s00270-020-02441-5"
