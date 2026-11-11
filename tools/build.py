@@ -447,8 +447,9 @@ def not_found():
     body = """<h1>Page not found</h1><p>Find a doctor for:</p>
 <ul class="finders">""" + "".join(
         f'<li><a href="/{c["slug"]}/"><strong>{e(c["card"]["name"])}</strong></a></li>'
-        for c, p, _ in registry.condition_rows() if p) + "</ul>" + "<p>Read about:</p><ul class=\"finders\">" + "".join(
-        f'<li><a href="{href}"><strong>{e(name)}</strong></a> (doctor list coming)</li>' for _, href, name, _ in PAGE_ONLY) + "</ul>"
+        for c, p, _ in registry.condition_rows() if p) + "</ul>" + ("<p>Read about:</p><ul class=\"finders\">" + "".join(
+        f'<li><a href="{href}"><strong>{e(name)}</strong></a> (doctor list coming)</li>' for _, href, name, _ in PAGE_ONLY)
+        + "</ul>" if PAGE_ONLY else "")   # no empty "Read about:" when no procedure is at stage page (found by job 0035)
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 
 
