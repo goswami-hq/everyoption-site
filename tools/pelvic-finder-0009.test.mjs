@@ -63,8 +63,9 @@ test("home: the condition card opens the finder with its count, and the ZIP drop
   assert.doesNotMatch(home, /Doctor list coming/);
 });
 
-test("four pelvic city pages, by the bar of 8 within 25 miles, each noindex with the 0 confirmed box", async () => {
-  assert.deepEqual(CITIES.metros.pelvic.map((m) => m.slug).sort(), [...SLUGS].sort());
+test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, each noindex with the 0 confirmed box", async () => {
+  // The four first pages stay; more cities join as they reach the bar (counts not frozen, his words 2026-11-10).
+  for (const s of SLUGS) assert.ok(CITIES.metros.pelvic.some((m) => m.slug === s), s);
   assert.ok(CITIES.draft.includes("pelvic"));
   const hub = await city("/chronic-pelvic-pain/doctors/");
   assert.equal(hub.status, 200);

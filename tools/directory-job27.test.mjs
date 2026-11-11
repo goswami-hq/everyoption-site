@@ -19,7 +19,8 @@ const DIR = JSON.parse(read("data/directory.json"));
 const DRAFT = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8")).filter((p) => p.draft).map((p) => p.key);
 const INDEXED = (p) => (p.l || "").split(" ").filter((k) => k && !DRAFT.includes(k)).length > 0;
 const npiOf = (x) => x.p.slice(-11, -1);
-const LISTS = Object.fromEntries(["ufe", "pae", "gae"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
+// pelvic added 2026-11-10: the pelvic finder (job pelvic-finder-0009) shows its own list, so the directory holds those doctors too.
+const LISTS = Object.fromEntries(["ufe", "pae", "gae", "pelvic"].map((k) => [k, JSON.parse(read(`data/${k}.json`)).people]));
 const ROSTER = JSON.parse(read("data/ir-roster.json")).people;
 
 // The finder's own functions, taken from site/assets/finder.js as written.

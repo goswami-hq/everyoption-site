@@ -56,10 +56,7 @@ test("the first 11 metros have pages; the recount from the data matches the lens
   for (const s of FIRST_11) assert.ok(slugs.includes(s), s);
   const py = JSON.parse(execFileSync("python3", ["-I", "-c", `import sys, json; sys.path.insert(0, ${JSON.stringify(TOOLS)}); import cities
 cfg, pages, c = cities.plan(${JSON.stringify(new URL("..", SITE).pathname)}, ${JSON.stringify(SITE.pathname)}); print(json.dumps(c["ufe"]))`]));
-  const want = { "new-york-city-area": 82, "atlanta-ga": 24, "san-francisco-bay-area-ca": 22, "chicago-il": 21, "washington-dc": 21,
-    "philadelphia-pa": 21, "los-angeles-ca": 13, "denver-co": 12, "south-florida": 12, "baltimore-md": 11, "houston-tx": 10,
-    "dallas-fort-worth-tx": 12, "st-louis-mo": 8, "memphis-tn": 8, "phoenix-az": 8 };   // job 43: Fox, Rees, Hibler, Garby added
-  for (const [s, n] of Object.entries(want)) assert.equal(py[s], n, s);
+  // Counts are not frozen (his words 2026-11-10: "The numbers will change as we refine and add more people"); the rule is the bar.
   for (const m of CITIES.metros.ufe) assert.ok(py[m.slug] >= CITIES.bar, `${m.slug} has a page only at the bar`);
   // job 43 (his yes 2026-11-05) added Phoenix, Dallas-Fort Worth, St. Louis and Memphis; tools/cities-job43.test.mjs
 });
@@ -113,24 +110,25 @@ test("live: a test account that removes UFE leaves the page within the cache tim
   const at = async () => { const r = await handleCity(new Request("http://localhost/fibroids/doctors/chicago-il/"), env); return r.text(); };
   let html = await at();
   assert.ok(cards(html).includes(ANN), "the account doctor appears at their office");
-  assert.match(html, /22 doctors/);
+  const n0 = cards(html).length;
+  assert.match(html, new RegExp(`${n0} doctors`), "the printed count matches the doctors listed");
   await c.post("withdraw", { procedure: "ufe" });
   w.clock.t += 30 * 1000;
   assert.ok(cards(await at()).includes(ANN), "inside the 60-second cache the page may still show them");
   w.clock.t += 31 * 1000;
   html = await at();
   assert.ok(!cards(html).includes(ANN), "gone after the cache time");
-  assert.match(html, /21 doctors/);
+  assert.match(html, new RegExp(`${n0 - 1} doctors`), "one fewer once the account doctor leaves");
   // a listed doctor confirmed through a full account moves to the top group
   const chi = CITIES.metros.ufe.find((m) => m.slug === "chicago-il"), last = metroList(UFE, chi).at(-1);
   const row = { npi: last.npi, attested: ["ufe"], held: ["ufe"], account: { npi: last.npi, level: "full", name: last.name }, offices: [], insurances: [], blurbs: {} };
   const r = await get("/fibroids/doctors/chicago-il/", { backend: { data: { overlay: async () => [row] } } });
   assert.equal(cards(r.html)[0], last.npi); assert.match(r.html, /Confirmed by physician<span class="count">1 doctor/);
-  assert.match(/<p class="answer">(.*?)<\/p>/.exec(r.html)[1], /One confirmed it themselves, and 20 likely perform it\./);
+  assert.match(/<p class="answer">(.*?)<\/p>/.exec(r.html)[1], new RegExp(`One confirmed it themselves, and ${metroList(UFE, chi).length - 1} likely perform it\\.`));
   // a listed doctor who withdrew UFE is removed
   const gone = { ...row, attested: [], account: { ...row.account, level: "partial" } };
   const r2 = await get("/fibroids/doctors/chicago-il/", { backend: { data: { overlay: async () => [gone] } } });
-  assert.ok(!cards(r2.html).includes(last.npi)); assert.equal(cards(r2.html).length, 20);
+  assert.ok(!cards(r2.html).includes(last.npi)); assert.equal(cards(r2.html).length, metroList(UFE, chi).length - 1);
 });
 
 test("the database down or slow: the static list is served", async () => {
