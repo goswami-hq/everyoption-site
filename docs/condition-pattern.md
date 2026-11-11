@@ -92,7 +92,9 @@ scrolled to the top, in light and dark.
   3. "Doctors by city" fold (a condition with city pages; open on desktop and with JavaScript off, closed under 760 px,
      `src-assets/city-fold.js`);
   4. *"What is <condition>?" box (after the finder and the city fold on phones; top of the right column on desktop);
-  5. *lead option: "What is <procedure>?" heading with a 40 to 60 word answer, the "How it works" animation fold, "How
+  5. *lead option: "What is <procedure>?" heading with a 40 to 60 word answer, the "How it works" animation fold (renamed
+     per page by `invasive_heading` when its text is not about how it works: hemorrhoids "Recovery", his word "Fine"
+     2026-11-10, on his comment "The headline is How it works, the text is just about pain"), "How
      well does it work?" and "Side effects" folds, the finder button, the coverage link;
   6. plain answer paragraph; urgent line;
   7. *"Your other <condition> treatment options": three folded groups (Medicines; Less invasive treatments, IR first;
@@ -171,6 +173,24 @@ scrolled to the top, in light and dark.
   only as ledger facts. `works_note` says the figures come from different studies and do not rank. On phones the table
   becomes one card per treatment; a table from 641 px. A blank cell or a typed certainty word fails the build (node
   `options-grid.test.mjs`).
+- **Study results as bullets** (his words 2026-11-10, hemorrhoid in-depth comments: "You need to phrase trial results
+  much better ... Bullet points for clear takeaways and comparisons are much more readable"; "we should be clear for
+  each risk ratio what is being compared to what ... This applies across the board"): in an option's detail fields and
+  in a page section, a list whose items carry markers renders in order: "* " a bullet, "- " a bullet nested under the
+  one before, an unmarked item a paragraph (a study introduced in plain sentences before its bullets). Each bullet opens
+  with a bold takeaway, then its numbers. A list with no markers renders as before. An item may take its source from
+  the list's other items (`tools/options.py marked_html`; test `tools/options_marked_test.py`). Detail
+  headings may be renamed per page (`detail_headings`; hemorrhoids: "Bottom line", "What the studies found", "Harms").
+- **"(abstract only)"**: printed unless the page sets `abstract_label = false` (hemorrhoids, 2026-11-10: he deleted the
+  line that explained it). How each number was read stays in the facts file's `read` either way. One line may explain
+  the range after a number; no other statistics primer (his edit, same doc).
+- **His own line in place of a certainty opening** (`ruled` on a detail; hemorrhoid creams, his words 2026-11-10: "This
+  is my clinical judgment. Sure with your change"): the detail's `works` opens with the simple page's first sentence
+  for that option instead of the certainty word; the certainty word, still shown in the grid and card, must be on the
+  ladder. Symptom relief is graded apart from fixing the condition (his words 2026-11-10: "there is a distinction
+  between them helping solve the hemorrhoid completely vs symptomatic relief").
+- **Summary card wording:** a glance row's `card_<column>` replaces that cell in the option's summary card only, when
+  the grid needs the short form (hemorrhoid creams, 2026-11-10).
 - **Insurance line under the lead treatment's heading** (his 2A, 2026-11-09 19:22 CT, L618: "A, but only if it clears
   the design skill for clutter"; it passed a design review for clutter, ai-hq
   `projects/platform/design/walkthrough-v2-batch-2026-11-09/`): fixed text "Does insurance cover it? →"

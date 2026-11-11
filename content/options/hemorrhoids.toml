@@ -6,10 +6,16 @@
 # head-to-head (research-paper skill, section 3). Evidence and how each source was read: ai-hq
 # projects/platform/hemorrhoid-page/evidence.md. No doctor list for hemorrhoids, so no find-a-doctor block.
 # draft = true: noindex and out of the sitemap until he signs off.
+# Job platform-condition-pages-0017 (2026-11-10): rewritten to his Google Doc edits and comments, landed as written from
+# ai-hq projects/platform/content/page-reviews/2026-11-09-hemorrhoids/word-sent-2026-11-10/in-depth-final-2026-11-10.html
+# (his words: "Done w all the in depth edits", 18:08 CT). Patient page, a level above the short guide (his words,
+# 2026-11-10); results as bullets with the takeaway first; every ratio says what is compared with what. Its H1 stays its
+# own (the pattern bars the short guide's new headline here; his call on the list).
 slug = "hemorrhoids"
 path = "/hemorrhoids/every-option/"
 draft = true
-reviewed = "2026-11-09"
+reviewed = "2026-11-10"
+abstract_label = false   # he deleted the line explaining "(abstract only)"; `read` in the facts file keeps the record
 # Search targets (pattern: docs/condition-pattern.md), disjoint from the simple page's. US volumes, Google Ads through
 # DataForSEO, 2026-11-09 (ai-hq records/reports/research-notes/hemorrhoid-market-2026-11/lens-1-2-demand-and-attention.md):
 # hemorrhoid banding 12,100; hemorrhoid surgery recovery 2,900; prolapsed hemorrhoid treatment 1,300; hemorrhoid artery
@@ -19,13 +25,12 @@ targets = ["hemorrhoid embolization", "hemorrhoid artery embolization", "hemorrh
 title = "Hemorrhoid Embolization vs. Banding vs. Surgery | Every Option"
 description = "Hemorrhoid artery embolization (HAE) vs. banding, other office treatments, and surgery: results, recovery, risks, insurance, and what is not known."
 h1 = "Hemorrhoid treatments compared, side by side"
-lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people and hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding, and early studies suggest it hurts far less than surgery in the first days. Bleeding comes back for some within a year, and it is not known to fix hemorrhoids that bulge out.[^falsarella][^aljnainati][^kucukay]"
-read_intro = "The studies behind the short guide. Each treatment starts with the conclusion and how sure we are, in the short guide's words, then the studies, harms and what is not known."
+lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people, while hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding and suggest it hurts far less than surgery in the first days. Bleeding comes back for some within a year. It is not known to fix bulging hemorrhoids.[^falsarella][^aljnainati][^kucukay]"
+read_intro = "This page goes over the evidence behind the short guide. Each treatment starts with the conclusion and how sure we are based on studies, then the actual studies, the harms, and what is not yet known."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
-  "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
-  "A risk ratio or odds ratio below one means the outcome was less common with the first treatment named; above one, more common. The range in brackets is the confidence interval.",
-  "Hemorrhoid grades run from the lowest, which bleed but do not bulge, to the highest, which bulge out and stay out.",
+  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
+  "Hemorrhoid grades run from the lowest (which bleed but do not bulge) to the highest (which bulge out and stay out).",
   "Every Option's physician performs hemorrhoid artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: recovery, bulging, and how sure we are"
@@ -39,13 +44,14 @@ city_link = ""
 glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["bulge", "Hemorrhoids that bulge out"]]
 
 [compare_headings]
-home = "Fiber, creams, and home care compared"
+home = "Fiber, creams, pills, and home care compared"
 less-invasive = "Hemorrhoid embolization vs. banding and more"
 surgery = "Hemorrhoid removal vs. stapled, laser, and artery-tying surgery"
 
 [detail_headings]
 works = "Bottom line"
-risks = "Harms, and how they were counted"
+evidence = "What the studies found"
+risks = "Harms"
 
 [[glance]]
 option = "fiber"
@@ -55,15 +61,22 @@ recovery = "None"
 bulge = "Not shown to help"
 [[glance]]
 option = "creams"
-works = "Little proof that they help"
+works = "Creams and warm baths may ease symptoms for a while; not shown to fix hemorrhoids."
 involves = "Creams, wipes, warm baths"
+card_involves = "Numbing, witch hazel, or steroid creams and wipes; sitting in a few inches of warm water (a sitz bath)"
 recovery = "None"
 bulge = "Not shown to help"
+[[glance]]
+option = "flavonoid"
+works = "Ease bleeding and itching; reviews disagree on pain"
+involves = "Daily pills"
+recovery = "None"
+bulge = "Not stated in our sources"
 [[glance]]
 option = "embolization"
 works = "Most bleed less; bleeding returns for some within a year"
 involves = "A thin tube through a tiny skin nick in the wrist or groin"
-recovery = "Most go home the same day; a few days of pressure or urge to go"
+recovery = "Most go home the same day; some may experience a few days of pressure or urge to go"
 bulge = "Not known to help"
 [[glance]]
 option = "banding"
@@ -79,7 +92,7 @@ recovery = "Less pain than banding"
 bulge = "Banding may last longer"
 [[glance]]
 option = "injection"
-works = "About as good as the treatments it was compared with"
+works = "About as good as banding and other non-surgical treatments"
 involves = "An injection, in the office"
 recovery = "Not stated in our sources"
 bulge = "Not stated in our sources"
@@ -113,45 +126,102 @@ option = "fiber"
 certainty = "Good evidence suggests"
 intro = "Fiber from food or a supplement softens stool, and the advice is to avoid straining or sitting a long time on the toilet. The AGA review calls this a reasonable first step.[^aga]"
 works = "Good evidence suggests fiber eases symptoms and lowers the chance of bleeding. It may not help much with bulging, pain, or itching.[^alonso]"
-evidence = ["{d:alonso}. The trials are older and of moderate quality."]
+evidence = [
+  "{d:alonso-n}:",
+  "* **Fewer symptoms:** {d:alonso-sym}.",
+  "* **Less bleeding:** {d:alonso-bleed}.",
+  "* **Bulging, pain, and itching:** no clear effect. The ranges were wide and included no difference at all.",
+  "* The trials are older and of moderate quality.",
+]
 risks = "Mild side effects were more common with fiber in the trials, but the difference could be chance.[^alonso]"
 fit = "The AGA lists fiber and changes in toilet habits as first-line care.[^aga]"
-unknown = "Whether fiber stops hemorrhoids from coming back has hardly been tested.[^alonso]"
+unknown = "Whether fiber stops hemorrhoids from coming back has not been well tested.[^alonso]"
 
 [[detail]]
 option = "creams"
-certainty = "Not yet well studied"
-intro = "Numbing creams, witch hazel, steroid creams, and sitz baths are widely used.[^aga]"
-works = "Not yet well studied: there is little proof that they help.[^aga]"
-risks = "Steroid creams should not be used for {f:steroid-2wk}.[^aga]"
-fit = "The AGA says they can be considered, with little data to support them.[^aga]"
+certainty = "Early studies suggest"
+ruled = "2026-11-10"   # his line opens the bottom line (his clinical judgment, vault/decisions.md 2026-11-10)
+intro = "These treat symptoms, not the hemorrhoid itself. That is often enough: many people mainly need the bleeding, itching, or soreness to settle, and doctors often recommend them for that. The AGA says warm baths are often advised and creams can be considered.[^aga]"
+works = "Many people find they ease symptoms for a while, but there is little proof they help in the long run. Small trials of single creams suggest short-term relief. Warm baths may also provide some symptomatic relief. Neither has been shown to make hemorrhoids go away or stop them coming back.[^aga][^sturiale][^sahin][^mehdi][^kwok][^shafik]"
+evidence = [
+  "* **Creams eased symptoms over a few weeks in small trials.** Each tested one product against a cream with no active ingredient (a placebo):",
+  "- {d:sturiale}.",
+  "- {d:sahin}.",
+  "- {d:mehdi}.",
+  "* **Numbing ointment helps briefly after banding.** {d:kwok}.",
+  "* **Warm baths relax the anal muscle for a while.** {d:shafik}.",
+  "* These trials are small and short, and each tested a single product. Results may not carry over to other creams (our inference).",
+]
+risks = "Steroid creams should not be used for {f:steroid-2wk}.[^aga] Use warm, not hot, water: a burn from a hot sitz bath has been reported.[^kahraman]"
+fit = "The AGA says warm baths are often advised to ease symptoms, with limited data, and that creams can be considered, with little data to support them.[^aga]"
+unknown = "Which creams work best, and whether any of them help beyond a few weeks.[^aga]"
+
+[[detail]]
+option = "flavonoid"
+certainty = "Early studies suggest"
+intro = "Flavonoids are plant compounds taken as pills. They are one kind of vein medicine (phlebotonic); the group also includes some synthetic drugs. Like creams, they ease symptoms rather than remove the hemorrhoid.[^alonsoflav][^perera]"
+works = "Early studies suggest flavonoid pills ease bleeding and itching; the two large reviews disagree on pain. There are many trials, but they are of limited quality.[^alonsoflav][^perera]"
+evidence = [
+  "{d:flav-n}:",
+  "* **Fewer people still had symptoms:** {d:flav-sym}.",
+  "* **Less bleeding:** {d:flav-bleed}.",
+  "* **Less pain and itching:** {d:flav-pain}.",
+  "* **Fewer returns:** {d:flav-return}.",
+  "* **A Cochrane review agreed:** {d:perera-n}, vein pills (phlebotonics, which include flavonoids and some synthetic drugs) meant less bleeding, itching, and leakage than a comparison treatment, and more people improved overall. Unlike the first review, it found no clear effect on pain.",
+  "* The trials varied a lot, their quality was limited, and the authors worried that trials with poor results may never have been published.[^alonsoflav]",
+]
+risks = "The Cochrane review found few safety concerns in the trials.[^perera] In pregnancy, {d:quijano} found a related pill eased symptoms, but said it should not be recommended until its safety is shown."
+unknown = "How they compare with office treatments such as banding and how long the benefit lasts after stopping (our reading; our sources do not test these).[^alonsoflav]"
 
 [[detail]]
 option = "embolization"
 certainty = "Early results are encouraging"
 intro = "A catheter enters the wrist or groin artery, under local numbing and moderate sedation, and is guided to the superior rectal arteries that feed the hemorrhoids. Coils, particles, or both block them; the middle rectal arteries are sometimes treated too. No embolic agent is proven best.[^bagla][^falsarella][^kucukay]"
-works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella]"
+works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella][^cai]"
 evidence = [
-  "Pooled data: {d:nguyen}. Every included study was before-and-after only.",
-  "{d:aljn}. The authors judged pooling misleading.",
-  "How long it lasts: {d:degreg}; {d:tradi}; {d:cai}.",
-  "Against surgery: {d:falsa-design}. {d:falsa-pain}. {d:falsa-12}. The surgery arm had less bleeding at baseline. A device maker supplied grants and equipment.",
-  "Outpatient practice: {d:bagla}. The first author consults for device makers.",
-  "Frail patients: {d:campenni}.",
-  "Bulging: grade did not change in the particle-size trial, and other series report small or short-lived changes. The procedure does not lift tissue (our inference from how it works).[^kucukay][^aljnainati]",
+  "* **Most bleed less at first.** {d:nguyen}. Every study followed one group before and after, with no comparison group.",
+  "* **Results vary from center to center.** {d:aljn}. The authors judged the studies too different to combine into one number.",
+  "* **The benefit fades for some within a year.**",
+  "- {d:degreg}.",
+  "- {d:tradi}.",
+  "- {d:cai}.",
+  "* **Against surgery: far less pain early.** {d:falsa}. Its limits: one center, patients and doctors knew the treatment, coils only, designed to measure pain alone, and a device maker supplied grants and equipment.",
+  "* **In everyday U.S. practice:** {d:bagla}. The first author consults for device makers.",
+  "* **In frail patients:** {d:campenni}.",
+  "* **Bulging:** grade did not change in the particle-size trial, and other series report small or short-lived changes. The procedure does not lift tissue (our inference from how it works).[^aljnainati][^kucukay]",
 ]
-risks = "Expect a few days of rectal pressure, urge to go or low fever: {d:tenesmus}.\nSmall ulcers are found when patients are scoped: {d:kucu-ulcer}. Most series do not scope routinely, so they undercount ulcers.\nSerious bowel injury has been reported more than once, with no reliable rate: {d:deoliv}; a case of ischemia with narrowing; and a case report of colonic ischemia and necrosis (title only).[^eberspacher][^hess] Loss of bowel control has not been reported.[^aljnainati]"
-selection = "Studied mostly in people with bleeding hemorrhoids of {d:g13} that did not respond to other care, some too sick for surgery, some who refused it. Pregnancy, active inflammatory bowel disease, poor kidney function and dye allergy are commonly excluded from trials.[^aljnainati][^brussel] It is not a treatment for a clotted hemorrhoid or a fissure.[^aga]"
-fit = "{d:nice}. An Italian colorectal consensus reserves it for selected patients with disabling, refractory symptoms and no bulging that cannot be pushed back. The AGA review's summary does not mention it. We found no SIR or CIRSE position.[^siccr][^aga]"
-unknown = "How it compares with banding or artery ligation, and results {d:two-years}. {d:trials}. If it works for you, it may spare you surgery, but no study has measured that against a comparison group.[^degregorio]"
+risks = [
+  "* **Common and short-lived:** a few days of rectal pressure, urge to go, or low fever. {d:tenesmus}.",
+  "* **Small ulcers, which healed:** {d:kucu-ulcer}. Most series do not look with a scope, so they undercount ulcers.",
+  "* **Serious bowel injury: possible, but rare.** It has been reported more than once, with no reliable rate. Case reports describe bowel damage from poor blood flow, including one hole in the bowel that needed an operation and one narrowing of the bowel.[^aljnainati][^deoliveira][^eberspacher][^hess]",
+  "* Loss of bowel control has not been reported.[^aljnainati]",
+]
+selection = "Studied mostly in people with bleeding hemorrhoids of {d:g13} that did not respond to other care, some too sick for surgery, some who refused it. Pregnancy, active inflammatory bowel disease, poor kidney function, and dye allergy are commonly excluded from trials.[^brussel] It is not a treatment for a clotted hemorrhoid or a fissure.[^aga]"
+fit = [
+  "* {d:nice}.",
+  "* An Italian colorectal consensus reserves it for selected patients with disabling symptoms that other care has not helped, and no bulging that cannot be pushed back.[^siccr]",
+  "* The AGA review's summary does not mention it. We found no position from the U.S. or European interventional radiology societies (SIR or CIRSE).[^aga]",
+]
+unknown = [
+  "* How it compares with banding or artery tying.[^aljnainati]",
+  "* Results {d:two-years}.[^degregorio]",
+  "* Trials under way: {d:trials}.",
+  "* If it works for you, it may spare you surgery. No study has measured that against a comparison group.",
+]
 
 [[detail]]
 option = "banding"
 certainty = "Good evidence suggests"
 intro = "A rubber band is placed above the pain-sensing line inside the anus, around the base of an internal hemorrhoid, which then shrinks and falls off.[^niddk][^aga]"
 works = "Good evidence suggests banding works well for many people. Hemorrhoids come back more often than after surgery, and some people need more than one session.[^vanoost][^johanson92]"
-evidence = ["Against surgery: {d:vanoost}.", "Against infrared: see infrared treatment below.[^ding]"]
-risks = "Pain and pressure for a few days, and some bleeding when the band falls off. A serious pelvic infection is rare after any hemorrhoid treatment.[^ding][^aga]"
+evidence = [
+  "* **Against hemorrhoid removal:** {d:vanoost-n}:",
+  "- {d:vanoost-back}.",
+  "- {d:vanoost-work}.",
+  "- {d:vanoost-pain}.",
+  "* **Against infrared:** see infrared treatment below.[^ding]",
+]
+risks = "Pain and pressure for a few days, and some bleeding when the band falls off. A serious pelvic infection is rare after any hemorrhoid treatment.[^aga][^ding]"
 fit = "The AGA advises banding or infrared treatment before surgery for {d:aga-g13}, and a surgeon's opinion for {d:aga-g3}.[^aga]"
 unknown = "How banding compares with embolization; trials are under way.[^brussel][^stratos]"
 
@@ -159,53 +229,79 @@ unknown = "How banding compares with embolization; trials are under way.[^brusse
 option = "infrared"
 certainty = "Studies disagree"
 intro = "Infrared light from a probe scars the hemorrhoid so it shrinks.[^niddk]"
-works = "Studies disagree on whether it lasts as long as banding. It helps about as much as banding at first.[^aga][^ding][^johanson92]"
-evidence = ["{d:ding}.", "{d:johanson}."]
-risks = "Less pain than banding, somewhat more bleeding afterward.[^ding]"
-fit = "The AGA says banding gives longer benefit for bulging and repeat bleeding, and prefers infrared over banding when blood clotting is badly impaired.[^aga]"
+works = "Studies disagree on whether it lasts as long as banding. It helps about as much as banding at first.[^aga][^johanson92][^ding]"
+evidence = [
+  "* **About the same as banding:** {d:ding}.",
+  "* **Fewer repeat treatments after banding:** {d:johanson}.",
+]
+risks = "Less pain than banding; bleeding afterward was no different.[^ding]"
+fit = "The AGA says banding gives longer benefit for bulging and repeat bleeding, and, for people with cirrhosis whose blood clotting is badly impaired, prefers infrared over banding.[^aga]"
 
 [[detail]]
 option = "injection"
 certainty = "Early studies suggest"
 intro = "A chemical injected into the hemorrhoid scars it.[^gallo]"
-works = "Early studies suggest it works about as well as the treatments it was compared with.[^gallo]"
-evidence = ["{d:gallo}."]
-risks = "Fewer complications than the treatments compared.[^gallo]"
+works = "Early studies suggest it works about as well as banding and other non-surgical treatments.[^gallo]"
+evidence = [
+  "{d:gallo-n}. The authors pooled these comparisons together, and results varied a lot from trial to trial:",
+  "* **Same success:** {d:gallo-success}.",
+  "* **Fewer complications:** {d:gallo-comp}.",
+]
 unknown = "Long-term results; the authors call for more research.[^gallo]"
 
 [[detail]]
 option = "ligation"
 certainty = "Early studies suggest"
-intro = "Doppler-guided artery ligation, also called dearterialization: an ultrasound probe in the anus finds the feeding arteries, which are tied with stitches; a lifting stitch (mucopexy) is sometimes added.[^brown16][^jee]"
-works = "Early studies suggest it helps, but hemorrhoids come back more often than after excision. It may last longer than a single banding.[^jee][^brown16]"
-evidence = ["{d:hubble}.", "{d:jee}."]
-risks = "More pain than banding in the first week; serious events needing a hospital stay were more common after ligation than after banding in the UK trial.[^brown16]"
-unknown = "It targets the same arterial inflow as embolization, so durability may behave alike (our inference; no trial tests this).[^jee]"
+intro = "Doppler-guided artery ligation, also called dearterialization: an ultrasound probe in the anus finds the feeding arteries, which are tied with stitches; a lifting stitch (mucopexy) is sometimes added.[^jee][^brown16]"
+works = "Early studies suggest it helps, but hemorrhoids come back more often than after removal. It may last longer than a single banding.[^jee][^brown16]"
+evidence = [
+  "* **Against banding:** {d:hubble-n}:",
+  "- {d:hubble-back}.",
+  "- Most of that gap came from people who needed repeat banding. {d:hubble-repeat}.",
+  "- {d:hubble-serious}.",
+  "- {d:hubble-pain}.",
+  "* **Against removal:** {d:jee}.",
+]
+risks = "More pain than banding in the first week; serious problems needing a hospital stay were more common after artery tying than after banding in the UK trial.[^brown16]"
+unknown = "It targets the same blood supply as embolization, so how long it lasts may behave alike (our inference; no trial tests this).[^jee]"
 
 [[detail]]
 option = "stapled"
 certainty = "Good evidence suggests"
 intro = "A circular stapler removes a ring of tissue above the hemorrhoids and lifts them back into place.[^lauricella]"
 works = "Good evidence suggests symptoms, mostly bulging, come back more often than after standard surgery.[^lauricella]"
-evidence = ["{d:lauri}."]
-risks = "Long-term pain, bowel function and quality of life were about the same as after hemorrhoidectomy.[^lauricella]"
+evidence = [
+  "{d:lauri-n}:",
+  "* {d:lauri-bulge}.",
+  "* {d:lauri-all}. The low end of the range is no difference, so this part could be due to chance.",
+  "* The authors judge that there are still too few patients to be sure.",
+]
+risks = "Long-term pain, bowel function, and quality of life were about the same as after hemorrhoid removal.[^lauricella]"
 
 [[detail]]
 option = "laser"
 certainty = "Early studies suggest"
-intro = "A diode laser fiber shrinks the hemorrhoid from inside.[^pompeu]"
+intro = "A laser fiber shrinks the hemorrhoid from inside.[^pompeu]"
 works = "Early studies suggest it hurts less than standard surgery. How long it lasts is not yet known.[^pompeu]"
-evidence = ["{d:pompeu}."]
-risks = "Less bleeding, urinary retention and anal narrowing than after excision in the pooled trials.[^pompeu]"
-unknown = "Long-term results; the authors do not suggest it replace excision.[^pompeu]"
+evidence = [
+  "{d:pompeu-n}:",
+  "* **Less pain:** {d:pompeu-pain}.",
+  "* **Faster recovery:** {d:pompeu-days}.",
+  "* **How sure:** low to very low certainty, with short follow-up.",
+]
+risks = "Less bleeding, trouble passing urine, and narrowing of the anus than after removal in the pooled trials.[^pompeu]"
+unknown = "Long-term results; the authors do not suggest it replace removal.[^pompeu]"
 
 [[detail]]
 option = "hemorrhoidectomy"
 certainty = "Good evidence suggests"
 intro = "The hemorrhoids are cut out, with the wounds closed or left open.[^jin21]"
-works = "Good evidence suggests it is the most lasting fix. Hemorrhoids come back less often than after banding or other procedures.[^jin21][^vanoost]"
-evidence = ["{d:jin21}.", "Against banding: {d:vanoost}."]
-risks = "Pain, bleeding and urinary retention are more common than after office procedures.[^jin21] Lasting incontinence: {d:jin25}."
+works = "Good evidence suggests it is the most lasting fix. Hemorrhoids come back less often than after banding or other procedures.[^vanoost][^jin21]"
+evidence = [
+  "* **Fewest hemorrhoid returns, most pain:** {d:jin21}.",
+  "* **Against banding:** {d:vanoost-short}; see banding above.",
+]
+risks = "Pain, bleeding, and trouble passing urine are more common than after office procedures.[^jin21] Lasting loss of some bowel control: {d:jin25}."
 fit = "The AGA says {d:aga-g4}.[^aga]"
 
 [[section]]
@@ -214,7 +310,11 @@ after = "top"
 heading = "Bleeding after banding: how the paths compare"
 toc = "Bleeding after banding"
 text = [
-  "For bleeding that keeps coming back after office care, the choice is usually more office treatment, embolization, or surgery. Surgery has the strongest record for lasting results and the hardest recovery.[^jin21][^vanoost] Early studies suggest embolization spares most of the painful recovery. It treats bleeding, but its benefit fades for some within a year, and it is not known to fix hemorrhoids that bulge out.[^falsarella][^aljnainati][^kucukay] No trial has compared embolization with banding yet.[^brussel][^stratos]",
+  "For bleeding that keeps coming back after office care, the choice is usually more office treatment, embolization, or surgery.[^vanoost][^jin21][^falsarella][^aljnainati][^kucukay][^brussel][^stratos]",
+  "* **Surgery** has the strongest record for lasting results and the hardest recovery.",
+  "* **Embolization:** early studies suggest it spares most of the painful recovery. It treats bleeding, but its benefit fades for some within a year, and it is not known to fix bulging hemorrhoids.",
+  "* **More office treatment:** banding can be repeated, and it works well for many people.",
+  "* No trial has compared embolization with banding yet.",
 ]
 
 [[section]]
@@ -223,7 +323,11 @@ after = "home"
 heading = "Do hemorrhoids get better without a procedure?"
 toc = "Without a procedure"
 text = [
-  "{d:jensen}. The data are old and small, so this is a reason to start simple, not a promise.",
+  "{d:jensen-design}.",
+  "* **Banding resolved more people's first episodes.** {d:jensen-clear}.",
+  "* **Some got better on their own.** {d:jensen-self}.",
+  "* **Hemorrhoids often came back.** {d:jensen-back}.",
+  "This data is old and small. It is a reason to start simple, not a promise.[^jensen]",
 ]
 
 [[section]]
@@ -232,7 +336,13 @@ after = "end"
 heading = "Does insurance cover hemorrhoid embolization?"
 toc = "Insurance"
 text = [
-  "Coverage varies by plan. Cigna's guideline covers it under set conditions after failed non-surgical care. UnitedHealthcare lists it as unproven in a policy effective {d:uhc-date}, and Aetna lists it as experimental. Medicare decides case by case. Many insurers have no written policy.[^cigna][^uhc][^aetna][^ncd] [Each insurer's policy, in plain words](/insurance/#hae).",
+  "Coverage varies by plan.[^cigna][^uhc][^aetna][^ncd]",
+  "* Cigna's guideline covers it under set conditions after failed non-surgical care.",
+  "* UnitedHealthcare lists it as unproven in a policy effective {d:uhc-date}.",
+  "* Aetna lists it as experimental.",
+  "* Medicare decides case by case.",
+  "* Many insurers have no written policy.",
+  "[Each insurer's policy, in plain words](/insurance/#hae)",
 ]
 
 [[refs]]
@@ -251,3 +361,31 @@ url = "https://www.nice.org.uk/guidance/htg485"
 key = "hemembo"
 cite = "ClinicalTrials.gov NCT07844629. Hemorrhoid artery embolization versus hemorrhoidectomy (HemEmbo). Colorado. Not yet recruiting; record read November 9, 2026."
 url = "https://clinicaltrials.gov/study/NCT07844629"
+[[refs]]
+key = "quijano"
+cite = "Quijano CE, Abalos E. Conservative management of symptomatic and/or complicated haemorrhoids in pregnancy and the puerperium. Cochrane Database of Systematic Reviews. 2005;(3):CD004077. doi:10.1002/14651858.CD004077.pub2. PMID 16034920."
+url = "https://doi.org/10.1002/14651858.CD004077.pub2"
+[[refs]]
+key = "sturiale"
+cite = "Sturiale A, Fralleone L, Cafaro D, et al. Safety and efficacy of topical drug-free cream in subjects with hemorrhoidal disease: a randomized, double blind, clinical trial. Minerva Gastroenterology. 2022;68(4):407-414. doi:10.23736/S2724-5985.22.03173-4. PMID 35511655."
+url = "https://doi.org/10.23736/S2724-5985.22.03173-4"
+[[refs]]
+key = "sahin"
+cite = "Şahin F, Farshbaf-Khalili A, Alihosseini S, et al. The efficacy of topical formulation on hemorrhoid disease: a randomized, double-blind, placebo-controlled trial. Heliyon. 2024;10(5):e27215. doi:10.1016/j.heliyon.2024.e27215. PMID 38463771."
+url = "https://doi.org/10.1016/j.heliyon.2024.e27215"
+[[refs]]
+key = "mehdi"
+cite = "Mehdi Z, Fatemeh P, Roja R, et al. Efficacy and safety of Hemoheal cream in patients with hemorrhoids: a randomized double-blind placebo controlled clinical trial. Journal of Traditional Chinese Medicine. 2021;41(2):301-307. PMID 33825411."
+url = "https://pubmed.ncbi.nlm.nih.gov/33825411/"
+[[refs]]
+key = "kwok"
+cite = "Kwok AMF, Smith SR, Zhao J, et al. Topical lidocaine or lidocaine/diltiazem ointment following rubber band ligation of hemorrhoids: a prospective 3-armed randomized controlled trial. Diseases of the Colon and Rectum. 2023;66(8):1110-1117. doi:10.1097/DCR.0000000000002774. PMID 36940309."
+url = "https://doi.org/10.1097/DCR.0000000000002774"
+[[refs]]
+key = "shafik"
+cite = "Shafik A. Role of warm-water bath in anorectal conditions. The \"thermosphincteric reflex\". Journal of Clinical Gastroenterology. 1993;16(4):304-308. doi:10.1097/00004836-199306000-00007. PMID 8331263."
+url = "https://doi.org/10.1097/00004836-199306000-00007"
+[[refs]]
+key = "kahraman"
+cite = "Kahraman A, Karaca K, Etöz A, Ozcan M. Perianal burn as a complication of hemorrhoid treatment caused by hot water sitz bath. Burns. 2004;30(8):868-870. doi:10.1016/j.burns.2004.05.011. PMID 15555807."
+url = "https://doi.org/10.1016/j.burns.2004.05.011"

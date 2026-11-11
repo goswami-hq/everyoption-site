@@ -177,7 +177,9 @@ def lead_option(refs, c, diagram_fn):
     t = lambda k: refs.inline(tail(o[k])).replace(chr(10), "<br>")
     # job platform-main-0010: a page with no finder or diagram of its own (the pelvic page) leaves both out
     pic = diagram_fn(c["diagram"], vary=False) if c.get("diagram") else ""
-    how = fold("topic how-fold", "How it works", f'{pic}<p>{t("invasive")}</p>')
+    # `invasive_heading`: the fold's name when its text is not about how it works (hemorrhoids "Recovery", his word
+    # "Fine", 2026-11-10: "The headline is How it works, the text is just about pain")
+    how = fold("topic how-fold", o.get("invasive_heading", "How it works"), f'{pic}<p>{t("invasive")}</p>')
     cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
     # "What is <procedure>?" answer block (agreed list item 1, his yes 2026-11-07): `lead_heading` on the lead option
     h2 = o.get("lead_heading") or "About " + o["name"][0].lower() + o["name"][1:]
@@ -250,6 +252,12 @@ def ld(d):
     return f'<script type="application/ld+json">{text}</script>'
 
 
+def hero_paras(c):
+    """The page's plain summary under the H1; a line break in `hero_intro` starts a second paragraph (his short-guide
+    edit, 2026-11-10: the bleeding check first, then the treatments)."""
+    return "".join(f'<p class="lede">{html.escape(p.strip())}</p>' for p in c.get("hero_intro", "").split("\n") if p.strip())
+
+
 def hero(c, finder_fn):
     """The top of a condition page: heading, plain summary, and the ZIP search."""
     if not c.get("finder"):
@@ -257,7 +265,7 @@ def hero(c, finder_fn):
         # (walkthrough finding 1) when it has an every-option page
         cmp = (f'<p class="hero-compare"><a href="{html.escape(c["options_page"], quote=True)}">Compare your options</a></p>'
                if c.get("options_page") else "")
-        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1><p class="lede">{html.escape(c["hero_intro"])}</p>{cmp}</section>'
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{hero_paras(c)}{cmp}</section>'
     # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)
     note = {"note": c["finder_note"]} if c.get("finder_note") else {}
     # compare: the condition's every-option page, on the first screen; a condition with none (pelvic) has no link

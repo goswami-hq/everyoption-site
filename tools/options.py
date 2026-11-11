@@ -13,6 +13,16 @@ is a deep-only fact, written {d:id}. It must carry refs and `read` (how its sour
 "page"); a line read from an abstract prints "(abstract only)". A deep-only fact may cite the deep page's own [[refs]];
 a shared fact ({f:id}) cites only the simple page's. A detail with `certainty` must use the simple page's certainty
 word for that option, and open its `works` text with it.
+
+Job platform-condition-pages-0017 (his hemorrhoid in-depth edits, 2026-11-10: "Bullet points for clear takeaways and
+comparisons are much more readable"): a list field whose items carry markers is a marked list. "* " opens a bullet,
+"- " a bullet nested under the one before, and an unmarked item is a paragraph (a study introduced in plain sentences
+before its bullets). A list with no markers renders as before. In a marked list an item may take its source from the
+list's other items. `abstract_label = false` on a page stops printing "(abstract only)" (he deleted the line that
+explained it; how each number was read stays in the ledger's `read`). A detail with `ruled` carries his own line in
+place of a certainty-word opening: its `works` opens with the simple page's first sentence for that option, and its
+certainty word must still be on the ladder. A glance row's `card_<column>` replaces that cell in the option's summary
+card only.
 """
 import datetime, html, pathlib, re, tomllib
 import condition
@@ -57,6 +67,44 @@ def _as_list(t):
     return t if isinstance(t, list) else [t] if t else []
 
 
+def _marked(items):
+    return isinstance(items, list) and any(x.startswith(("* ", "- ")) for x in items)
+
+
+def _strip_mark(t):
+    return t[2:] if t.startswith(("* ", "- ")) else t
+
+
+def marked_html(items, txt, cls="evidence"):
+    """A marked list as paragraphs, bullets and nested bullets, in order."""
+    out, open_ul, open_sub = [], False, False
+    for raw in items:
+        if raw.startswith("- ") and open_ul:
+            if not open_sub:
+                out[-1] = out[-1].removesuffix("</li>") + "<ul>"
+                open_sub = True
+            out.append(f"<li>{txt(raw[2:])}</li>")
+            continue
+        if open_sub:
+            out.append("</ul></li>")
+            open_sub = False
+        if raw.startswith(("* ", "- ")):
+            if not open_ul:
+                out.append(f'<ul class="{cls}">')
+                open_ul = True
+            out.append(f"<li>{txt(raw[2:])}</li>")
+        else:
+            if open_ul:
+                out.append("</ul>")
+                open_ul = False
+            out.append(f"<p>{txt(raw)}</p>")
+    if open_sub:
+        out.append("</ul></li>")
+    if open_ul:
+        out.append("</ul>")
+    return "".join(out)
+
+
 def _simple_texts(c):
     """(option id or "", text) for every field of the simple page that patients read as a claim."""
     for o in c["options"]:
@@ -80,11 +128,12 @@ def _deep_texts(d):
     """(where, text) for every deep-page field that states a claim: option details and the page's own sections."""
     for dt in d["detail"]:
         for k in DETAIL_FIELDS:
-            for t in _as_list(dt.get(k, "")):
-                yield f'{dt["option"]}.{k}', t
+            v = dt.get(k, "")
+            for t in _as_list(v):
+                yield f'{dt["option"]}.{k}', _strip_mark(t), (v if _marked(v) else None)
     for sec in d.get("section", []):
         for t in sec["text"]:
-            yield f'section {sec["id"]}', t
+            yield f'section {sec["id"]}', _strip_mark(t), (sec["text"] if _marked(sec["text"]) else None)
 
 
 def _notes(d):
@@ -134,6 +183,13 @@ def check(c, d, f):
     for dt in d["detail"]:
         if dt["option"] not in ids:
             errs.append(f'deep page option unknown: {dt["option"]}')
+        elif "certainty" in dt and dt.get("ruled"):
+            # his own line in place of the certainty opening (creams, his words 2026-11-10: "This is my clinical judgment")
+            first = re.split(r"(?<=[.!?])\s", _norm(simple_works[dt["option"]]))[0]
+            if dt["certainty"].lower() not in LADDER:
+                errs.append(f'{dt["option"]}: certainty "{dt["certainty"]}" is not on the ladder')
+            if not _norm(PH.sub("", dt.get("works", ""))).startswith(first):
+                errs.append(f'{dt["option"]}.works must open with the simple page\'s line "{first}"')
         elif "certainty" in dt:
             said = [w for w in LADDER if w in simple_works[dt["option"]]]
             want = dt["certainty"].lower()
@@ -143,7 +199,7 @@ def check(c, d, f):
                 errs.append(f'{dt["option"]}: certainty "{dt["certainty"]}" but the simple page uses no certainty word')
             if want and not condition.MARK.sub("", PH.sub("", dt.get("works", ""))).lower().startswith(want):
                 errs.append(f'{dt["option"]}.works must open with its certainty word "{dt["certainty"]}"')
-    for where, t in _deep_texts(d):
+    for where, t, group in _deep_texts(d):
         for m in PH.finditer(t):
             x = facts.get(m.group(2))
             if not x:
@@ -154,7 +210,8 @@ def check(c, d, f):
         bare = condition.MARK.sub("", PH.sub("", t))
         if NUM.search(bare):
             errs.append(f'{where}: number outside the ledger: "{bare[:120]}"')
-        if t and not (condition.MARK.search(t) or PH.search(t)):
+        sourced = lambda u: condition.MARK.search(u) or PH.search(u)
+        if t and not sourced(t) and not (group and any(sourced(u) for u in group)):
             errs.append(f'{where}: no source')
         for key in condition.MARK.findall(t):
             if key not in keys | own:
@@ -196,12 +253,12 @@ def check(c, d, f):
         raise TieError("simple and deep pages are out of tie:\n  " + "\n  ".join(errs))
 
 
-def _fill(t, facts):
+def _fill(t, facts, label_abstract=True):
     def one(m):
         x = facts[m.group(2)]
         if m.group(1) == "g":
             return x["deep"].capitalize()
-        label = " (abstract only)" if m.group(1) == "d" and x.get("read") == "abstract" else ""
+        label = " (abstract only)" if label_abstract and m.group(1) == "d" and x.get("read") == "abstract" else ""
         return x["deep"] + label + "".join(f"[^{r}]" for r in x["refs"])
     return PH.sub(one, t)
 
@@ -213,13 +270,13 @@ def _cap(s):
     return re.sub(r"(^|(?<!U\.S)[.?!](?:\*\*)?\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s) if s else s
 
 
-def _works(g, x, facts):
+def _works(g, x, facts, label_abstract=True, key="works"):
     """The grid's "How well it works" cell: the certainty word in bold, then the effect phrase (abstract-only figures
     labelled as in the text). An option whose simple page uses no certainty word shows the phrase alone."""
     def one(m):
         y = facts[m.group(2)]
-        return y["deep"] + (" (abstract only)" if m.group(1) == "d" and y.get("read") == "abstract" else "")
-    phrase, cert = PH.sub(one, g["works"]).strip(), x.get("certainty", "")
+        return y["deep"] + (" (abstract only)" if label_abstract and m.group(1) == "d" and y.get("read") == "abstract" else "")
+    phrase, cert = PH.sub(one, g.get(key) or g["works"]).strip(), x.get("certainty", "")
     phrase = html.escape(phrase[:1].upper() + phrase[1:], quote=False)
     return (f'<strong class="cert">{html.escape(cert, quote=False)}</strong> ' if cert else "") + f'<span class="eff">{phrase}</span>'
 
@@ -245,7 +302,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     check(c, d, f)
     facts = {x["id"]: x for x in f["fact"]}
     refs, names = condition.Refs(c["refs"] + d.get("refs", [])), {o["id"]: o["name"] for o in c["options"]}
-    txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts))))
+    quiet = d.get("abstract_label", True)
+    txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts, quiet))))
     e = lambda s: html.escape(s, quote=False)
     det = {x["option"]: x for x in d["detail"]}
     gcols = (WORKS_COL,) + tuple(tuple(x) for x in d.get("glance_columns", GLANCE_COLS))
@@ -253,11 +311,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     heads = {**HEADINGS, **d.get("detail_headings", {})}
     glance = {g["option"]: g for g in d["glance"]}
 
-    def value(i, key):
+    def value(i, key, card=False):
         g = glance[i]
         if key == "works":
-            return _works(g, det[i], facts)
-        return e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g[key]))
+            return _works(g, det[i], facts, quiet, "card_works" if card else "works")
+        return e(PH.sub(lambda m: facts[m.group(2)]["deep"].capitalize(), g.get(f"card_{key}", g[key]) if card else g[key]))
     # Roles stay explicit: on a phone the table shows as one card per row (design review 2026-11-06), and some
     # browsers drop table semantics when a table's display changes. data-label names each cell on the card.
     head = "".join(f"<th scope=col role=columnheader>{t}</th>" for t in cols)
@@ -285,7 +343,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             if k != "certainty":
                 return value(i, k)
             c = det[i].get("certainty", "")
-            return f'<strong class="cert">{e(c)}</strong>' if c else _works(glance[i], det[i], facts)
+            return f'<strong class="cert">{e(c)}</strong>' if c else _works(glance[i], det[i], facts, quiet)
         missing = [i for i in ids if i not in glance] + [k for k in keys if k not in labels]
         if missing:
             raise TieError(f'glance_peek: unknown option or column: {missing}')
@@ -297,17 +355,19 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
 
     def summary(i):
         """The option's grid row, repeated at the top of its section: the answer before the detail (2026-11-07)."""
-        return ('<dl class="opt-sum">' + "".join(f'<div class="c-{key}"><dt>{e(label)}</dt><dd>{value(i, key)}</dd></div>'
+        return ('<dl class="opt-sum">' + "".join(f'<div class="c-{key}"><dt>{e(label)}</dt><dd>{value(i, key, True)}</dd></div>'
                                               for key, label in gcols) + '</dl>')
 
     def block(key, val):
+        if _marked(val):
+            return f'<h4>{e(heads[key])}</h4>' + marked_html(val, txt)
         if isinstance(val, list):
             return f'<h4>{e(heads[key])}</h4><ul class="evidence">' + "".join(f"<li>{txt(v)}</li>" for v in val) + "</ul>"
         # A line break splits a long field into paragraphs (copy edit, job platform-main-0026); each keeps its sources.
         return f'<h4>{e(heads[key])}</h4>' + "".join(f"<p>{txt(v.strip())}</p>" for v in val.split("\n") if v.strip())
 
     # not through _cap: "vs." is not a sentence end ("UFE vs. myomectomy")
-    lede = refs.inline(condition.tail(_fill(d["lede"], facts)))   # first in reading order, so its sources number first
+    lede = refs.inline(condition.tail(_fill(d["lede"], facts, quiet)))   # first in reading order, so its sources number first
     # "How to read this page": the old lede's method text, then the reading notes (agreed list item 2, 2026-11-07)
     how = (f'<h2 class="reading-h">How to read this page</h2>' + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _as_list(d.get("read_intro", "")))
            if d.get("read_intro") else "")
@@ -316,7 +376,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     for sec in d.get("section", []):
         extra.setdefault(sec.get("after", "end"), []).append(sec)
     show = lambda sec: (f'<section id="{sec["id"]}" class="deep-extra" aria-labelledby="{sec["id"]}-h"><h2 id="{sec["id"]}-h">{e(sec["heading"])}</h2>'
-                        + "".join(f"<p>{txt(t)}</p>" for t in sec["text"]) + "</section>")
+                        + (marked_html(sec["text"], txt) if _marked(sec["text"]) else "".join(f"<p>{txt(t)}</p>" for t in sec["text"])) + "</section>")
     for k in c["categories"]:
         items = ""
         for i in k["options"]:
