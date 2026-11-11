@@ -253,7 +253,10 @@ def home():
     rows = "".join(row(k, p) for k, p in PROCS.items())
     # Conditions with a page but no doctor list yet (job platform-main-0024; his words 2026-11-07: "get the chronic pelvic
     # pain page on the home page, navigation, etc"). Same list and look; no count, no ZIP option, until a finder exists.
-    rows += "".join(f'<li class="t-{k}"><a href="{href}"><strong>{e(name)}</strong><span class="proc">{e(proc)}</span>'
+    def compare_of(href):   # the comparison page, so the "from" card offers it (src-assets/home-from.js)
+        slug = href.strip("/")
+        return condition.load(slug).get("options_page", "") if slug in condition.slugs() else ""
+    rows += "".join(f'<li class="t-{k}"><a href="{href}"{f" data-compare={compare_of(href)!r}" if compare_of(href) else ""}><strong>{e(name)}</strong><span class="proc">{e(proc)}</span>'
                     f'<span class="count">Doctor list coming</span></a></li>' for k, href, name, proc in PAGE_ONLY)
     opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
     hero = f"""<section class="hero">{WAVE}<div class="hero-in">
@@ -284,7 +287,7 @@ def home():
 </div></div>"""
     # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
     return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
-                "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, and pelvic vein pain, "
+                "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, pelvic vein pain, and bleeding hemorrhoids, "
                 "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js", "/assets/home-from.js"],
                 head=home_schema(), banner=banner, cls="home-page")
 
@@ -346,7 +349,9 @@ def diagram(k, vary=True):
 
 # A condition page with no finder yet: (color key, address, home card name, procedure line). Not in the home ZIP list.
 # Empty since job platform-directory-0009: chronic pelvic pain has its finder (PROCS["pelvic"]).
-PAGE_ONLY = []
+# Hemorrhoids (his words 2026-11-11: "We need a link to HAE as well, the same way every other condition is linked /
+# displayed. The condition page can have 'Bleeding hemorrhoids'"). Until its finder exists (the HAE directory work).
+PAGE_ONLY = [("hem", "/hemorrhoids/", "Bleeding hemorrhoids", "Hemorrhoid artery embolization (HAE)")]
 MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
 RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 

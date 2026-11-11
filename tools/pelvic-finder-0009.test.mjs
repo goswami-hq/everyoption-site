@@ -60,7 +60,8 @@ test("home: the condition card opens the finder with its count, and the ZIP drop
   const opts = [...home.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((m) => [m[1], m[2]]);
   assert.deepEqual(opts.at(-1), ["/chronic-pelvic-pain/", "Chronic pelvic pain"]);
   assert.equal(opts.length, 4);
-  assert.doesNotMatch(home, /Doctor list coming/);
+  // the pelvic card no longer says "Doctor list coming"; hemorrhoids does, until its finder exists (2026-11-11)
+  assert.doesNotMatch(home, /<li class="t-cpp">(?:(?!<\/li>).)*Doctor list coming/);
 });
 
 test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, each noindex with the 0 confirmed box", async () => {
