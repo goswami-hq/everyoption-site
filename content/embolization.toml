@@ -5,8 +5,8 @@
 # Evidence (every fact, its quote and how it was read; number-checked by a fresh agent 2026-11-11):
 # ai-hq projects/platform/content/pages/sources/embolic-materials-evidence-2026-11-11.md. Wording choices that differ
 # from his mockup are on his list: ai-hq projects/platform/content/page-reviews/2026-11-11-embolization-explainer/.
-# Short guide: no brand names, no study details. In-depth: chemical names in brackets; product names only where a
-# patient will hear them.
+# No device brand names on either page, including the reference list (content-pipeline compliance); short guide: no
+# study details; in-depth: chemical names in brackets.
 
 fold_heading = "What is embolization?"
 opening = "Embolization means blocking blood flow on purpose, from inside a blood vessel. A doctor guides a thin tube to the small blood vessels that feed the problem area. Then the doctor releases a material that blocks them.[^emb-rinfo]"
@@ -66,7 +66,7 @@ stays = "The vein scars shut. This is not always permanent.[^emb-sts]"
 id = "dissolve"
 name = "Materials that dissolve"
 icon = "embo-dissolve"
-made = "Materials made to break down within hours to days, so blood flow can come back. One is an antibiotic powder (imipenem and cilastatin) that forms very fine particles. In some countries, doctors also use dissolving beads made of gelatin. A seaweed-based gel (alginate) is being tested in early studies.[^emb-sirgae][^emb-gaucho][^emb-amin26][^emb-little25]"
+made = "Materials made to break down within hours to days, so blood flow can come back. One is an antibiotic powder (imipenem and cilastatin) that forms very fine particles. In some countries, doctors also use dissolving beads made of gelatin. Dissolving beads made from seaweed (alginate) are being tested in early studies.[^emb-sirgae][^emb-gaucho][^emb-amin26][^emb-little25]"
 stays = "They break down. Early studies suggest knee pain improves about the same with the antibiotic powder as with beads that stay.[^emb-gaucho][^emb-lanza26]"
 
 [[condition]]
@@ -117,37 +117,37 @@ url = "https://www.radiologyinfo.org/en/info/cathembol"
 
 [[ref]]
 key = "emb-embo"
-cite = "Merit Medical. Embosphere Microspheres in a sterile vial: instructions for use 404692001MLP_001. 2018."
+cite = "Merit Medical. Tris-acryl gelatin microspheres: instructions for use 404692001MLP_001. 2018."
 url = "https://cloud.merit.com/catalog/IFUs/404692001MLP.pdf"
 
 [[ref]]
 key = "emb-bb510k"
-cite = "US Food and Drug Administration. 510(k) summary K203276: Bead Block (Biocompatibles UK). April 20, 2021."
+cite = "US Food and Drug Administration. 510(k) summary K203276: polyvinyl alcohol hydrogel microspheres (Biocompatibles UK). April 20, 2021."
 url = "https://www.accessdata.fda.gov/cdrh_docs/pdf20/K203276.pdf"
 
 [[ref]]
 key = "emb-ez510k14"
-cite = "US Food and Drug Administration. 510(k) summary K141209: Embozene microspheres (CeloNova). 2014."
+cite = "US Food and Drug Administration. 510(k) summary K141209: coated hydrogel microspheres (CeloNova). 2014."
 url = "https://www.accessdata.fda.gov/cdrh_docs/pdf14/K141209.pdf"
 
 [[ref]]
 key = "emb-ezgudid"
-cite = "US National Library of Medicine. AccessGUDID: Embozene microspheres, device identifier 08714729943006 (MRI safety status: MR Safe)."
+cite = "US National Library of Medicine. AccessGUDID: coated hydrogel microspheres (Boston Scientific), device identifier 08714729943006 (MRI safety status: MR Safe)."
 url = "https://accessgudid.nlm.nih.gov/devices/08714729943006"
 
 [[ref]]
 key = "emb-contour"
-cite = "Boston Scientific. Contour PVA embolization particles: product information. Accessed November 11, 2026."
+cite = "Boston Scientific. Polyvinyl alcohol embolization particles: product information. Accessed November 11, 2026."
 url = "https://www.bostonscientific.com/en-US/products/embolization/contour-pva-embolization-particles.html"
 
 [[ref]]
 key = "emb-nester"
-cite = "US Food and Drug Administration. 510(k) K153778: Nester and Tornado embolization coils (Cook). May 19, 2016."
+cite = "US Food and Drug Administration. 510(k) K153778: platinum embolization coils with synthetic fibers (Cook). May 19, 2016."
 url = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K153778"
 
 [[ref]]
 key = "emb-avp"
-cite = "Abbott. Amplatzer Vascular Plug: instructions for use ARTEN600304404 A. 2023."
+cite = "Abbott. Nitinol vascular plug: instructions for use ARTEN600304404 A. 2023."
 url = "https://manuals.eifu.abbott/content/dam/av/manuals-eifu/global/BY/en/ARTEN600304404_A.pdf"
 
 [[ref]]
