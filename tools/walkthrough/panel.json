@@ -912,6 +912,90 @@
    "source_reports": [
     "records/reports/2026-11-06 Pelvic vein pain audience and content research.md"
    ]
+  },
+  {
+   "id": "hem-nyc",
+   "who": "A woman, 47, in Brooklyn. Banded twice for bleeding hemorrhoids; the bleeding came back. She does not want surgery after reading recovery stories.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/hemorrhoids/",
+   "query": "Searched: bleeding hemorrhoids after banding no surgery",
+   "words": [
+    "keeps bleeding",
+    "banding didn't work",
+    "no surgery",
+    "who does this near me"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Peak age 45 to 65 in both sexes (1989 national survey, via the report)",
+    "Women 24% vs men 16% (same survey)",
+    "Banding: 28 mentions, some repeat sessions",
+    "Recovery and fear of surgery: 74 mentions",
+    "Most asked: do I need surgery; what kind of doctor do I see"
+   ],
+   "note": "Added by job platform-directory-0029 for the HAE finder re-run.",
+   "tasks": [
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats bleeding hemorrhoids without surgery. Your ZIP code is 11215.",
+     "finish": {
+      "url_re": "^/hemorrhoids",
+      "selector": "#results .card"
+     },
+     "tap_budget": 5,
+     "words": [
+      "near me",
+      "without surgery"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hem-town",
+   "who": "A man, 58, in Greensboro, North Carolina. Bleeding on and off for a year; his doctor checked his colon and said hemorrhoids. He watches doctors explain things on YouTube and wants to know who near him can treat it.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Typed the site name after a YouTube video about hemorrhoid treatment",
+   "words": [
+    "hemorrhoids",
+    "bleeding",
+    "doctor near me",
+    "can't sit"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Peak age 45 to 65 (1989 survey)",
+    "Ages 50 to 64: YouTube 85% (Pew, via the report)",
+    "Doctors explaining on YouTube: 8 of the top 20 videos",
+    "Is it cancer: 153 mentions, so a colon check first is common",
+    "Cost and insurance: 39 comments"
+   ],
+   "note": "Added by job platform-directory-0029: outside a big metro, starting from the home page.",
+   "tasks": [
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats bleeding hemorrhoids. Your ZIP code is 27401.",
+     "finish": {
+      "url_re": "^/hemorrhoids",
+      "selector": "#results .card"
+     },
+     "tap_budget": 6,
+     "words": [
+      "hemorrhoids",
+      "near me"
+     ]
+    }
+   ]
   }
  ]
 }
