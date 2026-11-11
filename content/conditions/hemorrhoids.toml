@@ -158,7 +158,7 @@ name = "Flavonoid pills"
 what = "Flavonoids are plant compounds taken as daily pills. Like creams, they ease symptoms rather than remove the hemorrhoid.[^alonsoflav][^perera]"
 invasive = "No procedure is needed."
 works = "Early studies suggest they ease bleeding and itching. Large reviews disagree on whether they ease pain.[^alonsoflav][^perera]"
-side = "Few safety problems were found in the trials.[^perera]"
+side = "Few safety problems were found in the trials.[^perera] If you are pregnant, ask your doctor first: a related pill has not been shown safe in pregnancy.[^quijano]"
 
 [[options]]
 id = "embolization"
@@ -366,3 +366,7 @@ url = "https://doi.org/10.1002/bjs.5378"
 key = "perera"
 cite = "Perera N, Liolitsa D, Iype S, et al. Phlebotonics for haemorrhoids. Cochrane Database of Systematic Reviews. 2012;(8):CD004322. doi:10.1002/14651858.CD004322.pub3. PMID 22895941."
 url = "https://doi.org/10.1002/14651858.CD004322.pub3"
+[[refs]]
+key = "quijano"
+cite = "Quijano CE, Abalos E. Conservative management of symptomatic and/or complicated haemorrhoids in pregnancy and the puerperium. Cochrane Database of Systematic Reviews. 2005;(3):CD004077. doi:10.1002/14651858.CD004077.pub2. PMID 16034920."
+url = "https://doi.org/10.1002/14651858.CD004077.pub2"
