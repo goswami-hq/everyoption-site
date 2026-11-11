@@ -23,6 +23,7 @@ read_intro = "This page is for readers who want the studies behind the short gui
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome measures, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
+  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
   "Every Option's physician performs knee embolization. It is held to the same standard of evidence as every other option here.",
 ]
 glance_heading = "Compared at a glance: how sure we are"
@@ -122,105 +123,141 @@ knee = "Yes"
 option = "exercise"
 certainty = "Good evidence suggests"
 intro = "Strengthening and range-of-motion exercise, usually guided by a physical therapist, plus weight loss for people who are overweight. It is the usual first step.[^mpoa]"
-works = "Good evidence suggests exercise improves knee function. Its effect on pain is small, of uncertain clinical importance on its own, and larger when weight loss is added.[^lawford][^idea]"
-evidence = ["{d:lawford}.", "{d:idea}."]
-risks = "Pain can make it hard to keep active; ask for a routine you can keep up.[^mpoa]"
+works = "Good evidence suggests exercise improves knee function. Its effect on pain is small. On its own, it is not clear the pain effect is big enough to matter. The effect is larger when weight loss is added.[^lawford][^idea]"
+evidence = [
+  "* **Exercise helps knee function; its effect on pain is small.** {d:lawford}.",
+  "* **Diet plus exercise eased pain more than either one alone.** {d:idea}.",
+]
+risks = "Pain can make it hard to keep active. Ask for a routine you can keep up.[^mpoa]"
 selection = "A patient source advises reassessing the plan if physical therapy has not helped after several weeks. That is a reason to review the program with a therapist, not to stop being active.[^mpoa]"
 
 [[detail]]
 option = "pain-relievers"
 certainty = "Strong evidence shows"
 intro = "Acetaminophen, anti-inflammatory pills (NSAIDs) such as ibuprofen and naproxen, and NSAID gels on the skin.[^mpoa]"
-works = "Strong evidence shows anti-inflammatory pills ease knee pain, and gels help some people with fewer side effects. Acetaminophen adds very little. None changes the joint.[^dacosta21][^machado][^mpoa]"
-evidence = ["A network meta-analysis of randomized trials compared NSAIDs and opioids in knee and hip arthritis.[^dacosta21]", "A meta-analysis of placebo-controlled trials found acetaminophen's effect on arthritis pain too small to matter for most people.[^machado]"]
-risks = "Do not take more than {f:apap-max}. Anti-inflammatory pills raise the risk of heart attack, stroke, and stomach bleeding, so regular use should be discussed with a doctor.[^ibu]"
+works = "Strong evidence shows anti-inflammatory pills ease knee pain. Gels help some people, with fewer side effects. Acetaminophen adds very little. None of them changes the joint itself.[^dacosta21][^machado][^mpoa]"
+evidence = [
+  "* **Anti-inflammatory pills and opioids were compared in one large review.** It pooled randomized trials (people assigned to a treatment by chance) of anti-inflammatory pills (NSAIDs) and opioids in knee and hip arthritis.[^dacosta21]",
+  "* **Acetaminophen helps too little to matter for most people.** A review pooled trials against a placebo (a pill with no active ingredient). It found acetaminophen's effect on arthritis pain too small to matter for most people.[^machado]",
+]
+risks = "Do not take more than {f:apap-max}. Anti-inflammatory pills raise the risk of heart attack, stroke, and stomach bleeding. Talk with a doctor before taking them regularly.[^ibu]"
 
 [[detail]]
 option = "other-medicines"
 certainty = "Good evidence suggests"
 intro = "Duloxetine, a prescription pill also used for depression and nerve pain; and opioid pills, including tramadol.[^mpoa]"
 works = "Good evidence suggests duloxetine eases long-term knee pain a little. Opioids ease arthritis pain only slightly.[^bhandari][^dacosta14][^toupin]"
-evidence = ["A meta-analysis of randomized trials of duloxetine in osteoarthritis found a small benefit, with more people stopping for side effects than with placebo.[^bhandari]", "Cochrane reviews of opioids and of tramadol found small benefits; most tramadol trials were industry funded.[^dacosta14][^toupin]"]
+evidence = [
+  "* **Duloxetine helps a little, but more people stop it for side effects.** A review pooled randomized trials of duloxetine in osteoarthritis. It found a small benefit. More people stopped for side effects than with placebo.[^bhandari]",
+  "* **Opioids and tramadol help only a little.** Cochrane reviews of opioids and of tramadol found small benefits. Most tramadol trials were funded by industry.[^dacosta14][^toupin]",
+]
 risks = "Side effects make some people stop duloxetine. For most people with arthritis, opioid harms outweigh the small benefit.[^bhandari][^dacosta21][^dacosta14]"
 
 [[detail]]
 option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
-intro = "Genicular artery embolization (GAE) blocks small abnormal vessels that grow into the inflamed lining of the knee (synovium). An interventional radiologist passes a catheter, usually from the groin, under local anesthetic or light sedation, and injects small particles into the genicular arteries feeding those vessels. You go home the same day.[^bsir][^ucla][^cus26] Less synovial inflammation and fewer nerve endings beside the new vessels is the proposed mechanism, not an established one.[^cus26][^vz26]"
-works = "Early results are encouraging. Studies without a comparison group consistently report large drops in pain that last at least a year. But in the blinded trials, people who had a sham (fake) procedure also improved substantially, and pooled together GAE was not clearly better than sham. Larger trials are under way.[^lanza][^amin][^gen2]"
+intro = "Genicular artery embolization (GAE) blocks small abnormal vessels that grow into the inflamed lining of the knee (synovium). An interventional radiologist passes a thin tube (catheter), usually from the groin, with numbing medicine (local anesthetic) or light sedation. The doctor injects small particles into the genicular arteries feeding those vessels. You go home the same day.[^bsir][^ucla][^cus26] The idea is that this calms the inflamed lining and leaves fewer nerve endings beside the new vessels. That is a proposed explanation, not a proven one.[^cus26][^vz26]"
+works = "Early results are encouraging. Studies without a comparison group consistently report large drops in pain that last at least a year. However, in the blinded trials (where patients did not know which they had), people who had a sham (fake) procedure also improved a lot. When those trials are pooled, GAE was not clearly better than sham. Larger trials are under way.[^lanza][^amin][^gen2]"
 evidence = [
-  "Sham-controlled trials, pooled. {d:sham-pool}.",
-  "The first and smallest sham trial. {d:bagla}.",
-  "An early-arthritis sham trial. {d:landers}.",
-  "The largest completed sham trial. {d:vz24}.",
-  "{d:vz26}.",
-  "A randomized trial without a sham. {d:kumar}.",
-  "Studies without a comparison group cannot separate the treatment from placebo; read them beside the sham results above. Pooled: {d:amin-pool}.",
-  "A U.S. single-centre study. {d:cus24}.",
-  "A UK single-group study. {d:genesis}.",
-  "A Japanese single-group study. {d:okuno}.",
+  "Trials against a sham (fake) procedure, where patients did not know which one they had:",
+  "* **Pooled, the sham trials did not show a clear benefit.** {d:sham-pool}.",
+  "* **The first and smallest sham trial favored GAE in the first month; after that, no sham group was left to compare.** {d:bagla}.",
+  "* **In early arthritis, GAE and sham both helped, and the difference could be due to chance.** {d:landers}.",
+  "* **In the largest completed sham trial, both groups improved, with no clear difference.** {d:vz24}.",
+  "- **Still no clear difference a year later.** {d:vz26}.",
+  "* **Against usual care alone, with no sham, GAE did better.** {d:kumar}.",
+  "Studies without a comparison group cannot separate the treatment from placebo. Read them beside the sham results above.",
+  "* **Pooled, pain fell a lot.** {d:amin-pool}.",
+  "* **One U.S. centre: the response often lasted, but some people lost it.** {d:cus24}.",
+  "* **One UK study: pain fell, but many people had no long-term results.** {d:genesis}.",
+  "* **One Japanese study: high success, without saying what success meant.** {d:okuno}.",
 ]
-risks = "Temporary skin color change or redness over the knee affects {f:gae-skin}, usually fading within a month. The society's summary puts it at {d:sir-harms}.\n{d:padia-harms}. {d:lanza-bone}. {d:vz-harms}. {d:registry}.\nEmbolization studies look for and report skin changes that surgical series rarely list, and knee replacement harms are defined differently, so these rates are not comparable with surgical complication rates."
-selection = "{d:sir-select}.\nThe sham trials enrolled mild to moderate knees, where uncontrolled studies look best and placebo responses are large; people having GAE in the U.S. are often older, with more severe arthritis, or cannot have or do not want surgery, so the trials may not represent them. That is an inference: the papers do not report it.[^vz24][^landers23][^sir26]\nOn who does best, uncontrolled studies conflict. {d:gill}. Yet the null sham trials were in exactly those milder knees, so the difference may be largely placebo.[^gill23][^vz24]"
-fit = "The Society of Interventional Radiology says GAE should be offered to people with knee arthritis pain who have failed conservative therapy and are ineligible for, unwilling to undergo, or seeking to delay knee replacement. Most of its authors disclose device-industry consulting; it does not cite the larger null sham trial, and it calls for larger randomized trials.[^sir26]"
-unknown = "Whether GAE beats sham in adequately sized trials. {d:trials}.\nWhether it delays knee replacement: no study has measured time to replacement against a randomized control. {d:singh}.\nRepeat treatment: {d:repeat}. Which embolic agent is best: {d:gaucho}. Whether it slows arthritis: in one single-group study the MRI damage score worsened.[^genesis]"
+risks = "Temporary skin color change or redness over the knee affects {f:gae-skin}. It usually fades within a month. The society's summary puts it at {d:sir-harms}.\n{d:padia-harms}. {d:lanza-bone}. {d:vz-harms}. {d:registry}.\nEmbolization studies look for and report skin changes that surgical series rarely list, and knee replacement harms are defined differently, so these rates are not comparable with surgical complication rates."
+selection = "{d:sir-select}.\nThe sham trials enrolled people with mild to moderate arthritis. That is where studies without a comparison group look best, and where placebo responses are large. People having GAE in the U.S. are often older, have more severe arthritis, or cannot have or do not want surgery. So the trials may not represent them. That is our inference: the papers do not report it.[^vz24][^landers23][^sir26]\nOn who does best, studies without a comparison group conflict. {d:gill}. Yet the sham trials that found no clear benefit were in exactly those milder knees. So the difference may be largely placebo.[^gill23][^vz24]"
+fit = "The Society of Interventional Radiology says GAE should be offered to people with knee arthritis pain when non-surgical treatment has not helped, and who cannot have, do not want, or want to delay a knee replacement. Most of its authors report paid consulting for device makers. The statement does not cite the larger sham trial that found no clear benefit. It calls for larger randomized trials.[^sir26]"
+unknown = [
+  "* **Whether GAE beats sham in large enough trials.** {d:trials}.",
+  "* **Whether it delays knee replacement.** No study has measured time to replacement against a group chosen by chance. {d:singh}.",
+  "* **How often people need a repeat treatment.** {d:repeat}.",
+  "* **Which blocking material works best.** {d:gaucho}.",
+  "* **Whether it slows arthritis.** In one study without a comparison group, the MRI damage score got worse.[^genesis]",
+]
 
 [[detail]]
 option = "steroid"
 certainty = "Studies disagree"
 intro = "A corticosteroid injected into the knee during an office visit.[^mpoa]"
-works = "Studies disagree on how much a steroid shot helps. Relief is real in the short term, but {f:steroid-fade}, repeat shots do not add relief, and physical therapy did better over a year in one trial.[^juni][^mcalindon][^deyle]"
-evidence = ["{d:juni}.", "{d:mcalindon}.", "{d:deyle}."]
-risks = "Repeat shots may thin the cartilage a little faster (same trial as above). Before a knee replacement: {d:yang}.[^mcalindon]"
+works = "Studies disagree on how much a steroid shot helps. Relief is real in the short term, but {f:steroid-fade}. Repeat shots do not add relief. In one trial, physical therapy did better over a year.[^juni][^mcalindon][^deyle]"
+evidence = [
+  "* **Relief is moderate at first and fades within months.** {d:juni}.",
+  "* **Repeat shots thinned cartilage without easing pain more.** {d:mcalindon}.",
+  "* **Physical therapy did better than steroid shots over a year.** {d:deyle}.",
+]
+risks = "Repeat shots may thin the cartilage a little faster (in the trial above). Before a knee replacement: {d:yang}.[^mcalindon]"
 
 [[detail]]
 option = "hyaluronic"
 certainty = "Strong evidence shows"
 intro = "A hyaluronic acid gel injected into the knee, meant to supplement the joint fluid that thins in arthritis.[^cus26]"
-works = "Strong evidence shows gel shots ease pain only slightly more than placebo shots, by too little for most people to notice.[^pereira]"
-evidence = ["{d:pereira}."]
-risks = "Brief soreness or swelling of the knee. Serious adverse events were more common than with placebo in the same review.[^cus26][^pereira]"
+works = "Strong evidence shows gel shots ease pain only slightly more than placebo shots (shots with no active ingredient). The difference is too small for most people to notice.[^pereira]"
+evidence = [
+  "* **Gel shots barely beat placebo, and serious side effects were more common.** {d:pereira}.",
+]
+risks = "Brief soreness or swelling of the knee. Serious side effects were more common than with placebo shots in the same review.[^cus26][^pereira]"
 
 [[detail]]
 option = "prp"
 certainty = "Studies disagree"
 intro = "Platelet-rich plasma (PRP) is prepared from your own blood and injected into the knee.[^cus26][^restore]"
-works = "Studies disagree on whether PRP helps. A review of smaller trials suggests {f:prp-6mo}, with low certainty, while the largest placebo-controlled trial found no difference from saline at one year.[^auroux][^restore]"
-evidence = ["{d:restore}."]
+works = "Studies disagree on whether PRP helps. A review of smaller trials suggests {f:prp-6mo}, but with low certainty. However, the largest placebo-controlled trial found no difference from salt water (saline) at one year.[^auroux][^restore]"
+evidence = [
+  "* **In the largest trial, PRP did no better than salt water.** {d:restore}.",
+]
 risks = "Side effects were mild and short-lived in the largest trial.[^restore]"
 
 [[detail]]
 option = "nerve-ablation"
 certainty = "Studies disagree"
 intro = "Radiofrequency heat applied to the genicular nerves that carry pain from the knee. Our sources do not describe the procedure steps or recovery well enough to state them.[^cus26]"
-works = "Studies disagree on whether it helps. Pooled trials suggest {f:rfa-3mo}, but longer relief has not been shown, and the one long sham-controlled trial was negative.[^almeida][^malaithong]"
-evidence = ["{d:almeida}.", "{d:malaithong}.", "{d:davis}."]
+works = "Studies disagree on whether it helps. Pooled trials suggest {f:rfa-3mo}. However, longer relief has not been shown, and the one long trial against a sham found no benefit.[^almeida][^malaithong]"
+evidence = [
+  "* **The trials are weak overall.** {d:almeida}.",
+  "* **Against a sham, no difference at one year.** {d:malaithong}.",
+  "* **Against a steroid shot, not a sham, more people had at least half their pain gone.** {d:davis}.",
+]
 risks = "Serious problems seem no more common than with a sham procedure.[^almeida]"
 
 [[detail]]
 option = "knee-replacement"
 certainty = "Strong evidence shows"
-intro = "Surgery replaces the worn cartilage and bone with metal and plastic parts. {f:tkr-hours}; most people leave hospital in {f:tkr-stay}, and most daily activities return in {f:tkr-recovery}. Full recovery can take months.[^nhsrec]"
-works = "Strong evidence shows most new knees last a long time: {f:tkr-last}. For moderate to severe arthritis, one randomized trial found it eases pain more than non-surgical care, but {f:tkr-unsat}.[^skou15]"
-evidence = ["{d:skou15}.", "In a parallel trial of people who could have had a replacement, many who did the non-surgical program {f:skou18}."]
+intro = "Surgery replaces the worn cartilage and bone with metal and plastic parts. {f:tkr-hours}. Most people leave hospital in {f:tkr-stay}. Most daily activities return in {f:tkr-recovery}. Full recovery can take months.[^nhsrec]"
+works = "Strong evidence shows most new knees last a long time: {f:tkr-last}. For moderate to severe arthritis, one randomized trial found it eases pain more than a non-surgical program. However, {f:tkr-unsat}.[^skou15]"
+evidence = [
+  "* **Surgery eased pain more than a non-surgical program, but serious side effects were more common.** {d:skou15}.",
+  "* **Many who tried the non-surgical program first had still not had surgery.** In a parallel trial of people who could have had a replacement, many who did the non-surgical program {f:skou18}.",
+]
 risks = "Serious problems such as a joint infection happen in {f:tkr-infect}. Some people have lasting pain or stiffness.[^nhscomp]"
-selection = "Timing: for people who have chosen surgery after non-surgical care failed, {d:hannon}."
+selection = "Timing: for people who have chosen surgery after non-surgical care did not help, {d:hannon}."
 
 [[detail]]
 option = "partial-replacement"
 certainty = ""
 intro = "Surgery replaces only the worn compartment of the knee, usually the inner side.[^mpoa][^topkat]"
-works = "It is an option when only one part of the knee is worn. In the main trial, results matched a full replacement in the medium term; a partial knee is more likely to need redoing later.[^topkat][^evans]"
-evidence = ["{d:topkat}."]
+works = "It is an option when only one part of the knee is worn. In the main trial, results matched a full replacement in the medium term. However, a partial knee is more likely to need redoing later.[^topkat][^evans]"
+evidence = [
+  "* **Partial and total replacement did about as well.** {d:topkat}.",
+]
 risks = "The same kinds of risks as a full replacement: infection, blood clots, and ongoing pain or stiffness. Recovery is shorter: driving after {f:pkr-drive}.[^nhscomp]"
 
 [[detail]]
 option = "osteotomy"
 certainty = "Early studies suggest"
 intro = "High tibial osteotomy reshapes the shin bone to shift weight off a worn inner compartment. It is mainly for younger, active people with bow legs.[^loke][^birmingham]"
-works = "Early studies suggest it eases symptoms more than non-surgical care, from one randomized trial at one centre with a parallel preference group.[^birmingham]"
-evidence = ["Conversion to knee replacement: {f:hto-tkr}, in a meta-analysis of follow-up studies."]
+works = "Early studies suggest it eases symptoms more than non-surgical care. This comes from one randomized trial at one centre, which also followed a group of people who chose their own treatment.[^birmingham]"
+evidence = [
+  "* **Some people later have a knee replacement.** In a review that pooled follow-up studies, {f:hto-tkr}.",
+]
 risks = "Our sources do not give its complication rate or recovery time; ask the surgeon.[^loke]"
 
 [[detail]]
@@ -228,7 +265,10 @@ option = "scope"
 certainty = "Strong evidence shows"
 intro = "Arthroscopic washout or trimming (debridement) through small cuts with a camera.[^mpoa][^moseley]"
 works = "Strong evidence shows a knee scope clean-out does not help knee arthritis. A major orthopedic guideline advises against it.[^moseley][^kirkley][^aaos]"
-evidence = ["A sham-surgery trial found washout and debridement no better than a sham operation; all groups improved.[^moseley]", "A second randomized trial found no added benefit over physical and medical therapy.[^kirkley]"]
+evidence = [
+  "* **No better than a sham operation.** In a trial with a sham (fake) operation, washout and trimming (debridement) did no better than the sham. All groups improved.[^moseley]",
+  "* **No added benefit over physical therapy and medicines.** A second randomized trial found the scope added nothing to physical and medical therapy.[^kirkley]",
+]
 risks = "It carries the risks of surgery, including blood clots and infection.[^thorlund]"
 
 [[section]]
@@ -236,7 +276,11 @@ id = "placebo"
 after = "less-invasive"
 heading = "Why the comparison group matters"
 text = [
-  "Knee pain improves a great deal with placebo, and more with procedures than with pills. This is not special to embolization. In placebo-controlled trials, saline did nearly as well as repeated steroid shots over two years and as PRP at one year, gel shots did little better than placebo, and sham surgery matched arthroscopic washout.[^mcalindon][^restore][^pereira][^moseley]",
+  "Knee pain improves a great deal with placebo, and more with procedures than with pills. This is not special to embolization. Trials that compared a treatment with a placebo show it:",
+  "* **Steroid shots:** salt-water (saline) shots did nearly as well as repeated steroid shots over two years.[^mcalindon]",
+  "* **PRP:** saline did nearly as well as PRP at one year.[^restore]",
+  "* **Gel shots:** they did little better than placebo.[^pereira]",
+  "* **Knee scope:** sham surgery matched washout through a scope (arthroscopic washout).[^moseley]",
   "So a large improvement in a study without a comparison group tells you people felt better, not how much of that came from the treatment itself.[^lanza]",
 ]
 
@@ -246,10 +290,10 @@ after = "less-invasive"
 heading = "Embolization for other joints"
 text = [
   "None of these studies had a sham group, and no knee number applies to another joint.[^hipe][^feier][^lee24]",
-  "**Hip.** A single-group study followed people for a year, and a non-randomized comparison studied people who could not have surgery.[^hipe][^feier]",
-  "**Hand and fingers.** {d:lee-hand}.",
-  "**Shoulder.** A health technology assessment found no studies of embolization for shoulder arthritis.[^aihta]",
-  "**Frozen shoulder** is not arthritis, and it often improves on its own, though {f:fs-3yr}. Single-group studies and a meta-analysis report less night pain within weeks; rare serious problems, such as brief loss of vision, have been reported.[^okunofs][^allaw][^fm26]",
+  "* **Hip:** a study without a comparison group followed people for a year. Another study compared groups that were not chosen by chance, in people who could not have surgery.[^hipe][^feier]",
+  "* **Hand and fingers:** {d:lee-hand}.",
+  "* **Shoulder:** a formal review of the evidence (health technology assessment) found no studies of embolization for shoulder arthritis.[^aihta]",
+  "* **Frozen shoulder:** it is not arthritis. It often improves on its own, though {f:fs-3yr}. Studies without a comparison group, and a review that pooled studies, report less night pain within weeks. Serious problems are possible, but rare: brief loss of vision has been reported.[^okunofs][^allaw][^fm26]",
 ]
 
 [[section]]
@@ -257,9 +301,9 @@ id = "one-step-then-the-next"
 after = "surgery"
 heading = "Does a less invasive step affect later surgery?"
 text = [
-  "Knee arthritis is not a condition where waiting threatens life or limb, and guidelines step from exercise and medicines to injections and then surgery. Function can decline while waiting, though.[^mpoa][^hannon23]",
-  "After GAE: {d:albrecht}. How well people do after the later surgery has not been studied.",
-  "After a steroid shot: see the steroid section; a shot in the three months before surgery was linked to more infection.[^yang22]",
+  "With knee arthritis, waiting does not put your life or leg at risk. Guidelines step from exercise and medicines to injections, and then surgery. However, knee function can decline while waiting.[^mpoa][^hannon23]",
+  "* **After GAE:** {d:albrecht}. How well people do after the later surgery has not been studied.",
+  "* **After a steroid shot:** a shot in the three months before surgery was linked to more infection (see the steroid section).[^yang22]",
 ]
 
 [[refs]]

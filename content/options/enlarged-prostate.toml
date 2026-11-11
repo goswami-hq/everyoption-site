@@ -24,6 +24,7 @@ read_intro = "The studies behind the short guide. Each treatment starts with the
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different men, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
   "A number read only in a study's abstract, not its full paper, is marked (abstract only).",
+  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
   "Symptom scores are the IPSS, where higher is worse. Erection scores are the IIEF or SHIM, where higher is better.",
   "Funding is named where we found it; where it is not named, it was not checked.",
   "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
@@ -124,129 +125,158 @@ sex = "Dry orgasms can happen"
 [[detail]]
 option = "alpha-blockers"
 certainty = "Good evidence suggests"
-intro = "Tamsulosin and similar pills relax the smooth muscle of the bladder neck and prostate.[^mpbph][^niddk]"
+intro = "Tamsulosin and similar pills relax the muscle in the prostate and where the bladder meets it (the bladder neck).[^mpbph][^niddk]"
 works = "Good evidence suggests alpha blockers ease symptoms for many men, and most notice a change {f:alpha-days}.[^niddk][^mpbph]"
-evidence = ["{d:flomax-trials}."]
-risks = "Dizziness on standing, and a change in ejaculation (less or no semen). The label tells men planning cataract or glaucoma surgery to tell their eye surgeon, because of a floppy-iris problem during the operation.[^flomax]"
-selection = "Usually the first medicine tried for bothersome symptoms. They treat symptoms, not the growth, so they do not lower the chance of retention or surgery on their own.[^niddk][^mtops]"
+evidence = ["* **Dizziness and ejaculation changes were more common than on a placebo.** {d:flomax-trials}."]
+risks = "Alpha blockers can cause dizziness on standing. They can also change ejaculation (less or no semen). The label tells men planning cataract or glaucoma surgery to tell their eye surgeon, because of a floppy-iris problem during the operation.[^flomax]"
+selection = "Alpha blockers are usually the first medicine tried for bothersome symptoms. They treat symptoms, not the growth. So on their own, they do not lower the chance of retention (being unable to pass urine) or surgery.[^niddk][^mtops]"
 
 [[detail]]
 option = "shrinking-pills"
 certainty = "Strong evidence shows"
-intro = "Finasteride and dutasteride block the enzyme that converts testosterone into dihydrotestosterone, so the gland slowly shrinks; it takes {f:ari-months} to feel the effect.[^mpbph][^proscar]"
-works = "Strong evidence shows they lower the chance of retention and surgery in men with enlarged prostates: finasteride cut the chance of surgery {f:pless-half}. Adding one to an alpha blocker helps more than an alpha blocker alone in larger glands.[^pless][^proscar][^avodart][^mtops][^combat]"
-evidence = ["{d:pless-trial}.", "{d:mtops}.", "In CombAT, a drug-maker-funded trial of dutasteride plus tamsulosin, the combination eased symptoms more than either drug alone, but did not lower retention or surgery more than dutasteride alone.[^combat]"]
-risks = "Lower sex drive, erection problems and less semen. They cut the PSA level about in half, so a PSA result must be read with that in mind. Both labels warn they may raise the chance of a higher-grade prostate cancer.[^proscar][^avodart]"
+intro = "Finasteride and dutasteride block an enzyme (a body chemical) that turns testosterone into another male hormone, dihydrotestosterone. The prostate then slowly shrinks. It takes {f:ari-months} to feel the effect.[^mpbph][^proscar]"
+works = "Strong evidence shows they lower the chance of retention and surgery in men with enlarged prostates. Finasteride cut the chance of surgery {f:pless-half}. Adding one of these pills to an alpha blocker helps more than an alpha blocker alone in larger prostates.[^pless][^proscar][^avodart][^mtops][^combat]"
+evidence = [
+  "* **About half as many men needed surgery on finasteride.** {d:pless-trial}.",
+  "* **Two pills together cut the chance of getting worse.** {d:mtops}.",
+  "* **Two pills eased symptoms more than one, but did not lower surgery more than dutasteride alone.** In the CombAT trial, funded by a drug maker, dutasteride plus tamsulosin eased symptoms more than either drug alone. However, it did not lower the chance of retention or surgery more than dutasteride alone.[^combat]",
+]
+risks = "These pills can lower sex drive, cause erection problems, and mean less semen. They cut the PSA level (a blood test used to check for prostate cancer) about in half, so a PSA result must be read with that in mind. Both drug labels warn they may raise the chance of a more serious (higher-grade) prostate cancer.[^proscar][^avodart]"
 selection = "The trials enrolled men with enlarged prostates.[^pless][^mtops]"
 
 [[detail]]
 option = "tadalafil"
 certainty = "Early studies suggest"
-intro = "A daily low dose of tadalafil, the erection pill, relaxes smooth muscle in the bladder and prostate.[^cialis][^niddk]"
+intro = "A daily low dose of tadalafil, the erection pill, relaxes muscle in the bladder and prostate.[^cialis][^niddk]"
 works = "Early studies suggest it eases symptoms a little. The pooled effect is small and the evidence is rated low.[^pde5][^cialis]"
-evidence = ["{d:pde5}."]
-risks = "Headache, indigestion and back pain. It must not be taken with nitrate heart medicines, and the label does not recommend it with alpha blockers for this use.[^cialis]"
+evidence = ["* **Symptoms eased a little more than with a placebo, and side effects were more common.** {d:pde5}."]
+risks = "Tadalafil can cause headache, indigestion, and back pain. It must not be taken with nitrate heart medicines. The label also does not recommend it with alpha blockers for this use.[^cialis]"
 selection = "It may suit men who also want help with erections (our inference; it is also an erection pill).[^cialis]"
 
 [[detail]]
 option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
-intro = "An interventional radiologist passes a catheter from the wrist or groin into the arteries that feed the prostate, under local anesthetic with light sedation, and injects small particles that cut the gland's blood supply so it shrinks. Most men do not need a urine tube. {d:ukrope}.[^sirpt][^ucla]"
-works = "Early results are encouraging. Against a sham, PAE clearly eased symptoms in the short term, in one trial. Against TURP, symptom relief in the first year or two may be close, but a gap that matters has not been ruled out, TURP opens the channel more, and more men need a second procedure after PAE. Against two pills in men with larger glands, two small open trials favour PAE.[^sham][^cochrane][^abt18][^partem][^peasy]"
+intro = "An interventional radiologist passes a thin tube (catheter) from the wrist or groin into the arteries that feed the prostate. The man gets numbing medicine at the skin (local anesthetic) and light sedation. Small particles are injected to cut the gland's blood supply, so it shrinks. Most men do not need a urine tube. {d:ukrope}.[^sirpt][^ucla]"
+works = "Early results are encouraging. Against a sham, PAE clearly eased symptoms in the short term, in one trial. Against TURP, symptom relief in the first year or two may be close. However, a gap that matters has not been ruled out, TURP opens the urine channel more, and more men need a second procedure after PAE. Against two pills in men with larger prostates, two small trials favour PAE (in both, the men knew which treatment they had).[^sham][^cochrane][^abt18][^partem][^peasy]"
 evidence = [
-  "Against a sham. {d:sham}.",
-  "Against TURP, pooled. {d:coch-turp}.",
-  "The best single trial against TURP. {d:abt18}.",
-  "{d:abt5}.",
-  "Against pills. {d:partem}.",
-  "{d:peasy}.",
-  "In very large prostates. {d:lebani}.",
-  "Without a comparison group, the long series. {d:pisco16}.",
-  "{d:sapoval24}.",
+  "* **Against a sham, PAE clearly eased symptoms in the short term.** {d:sham}.",
+  "* **Against TURP, pooled: close in the first two years, but a gap that matters is not ruled out.** {d:coch-turp}.",
+  "* **The best single trial against TURP: symptoms eased somewhat more after TURP, with fewer harms after PAE.** {d:abt18}.",
+  "* **Five years later, too few men were left to be sure; urine flow was better after TURP.** {d:abt5}.",
+  "* **Against two pills, PAE eased symptoms more.** {d:partem}.",
+  "* **A second small trial against two pills also favoured PAE.** {d:peasy}.",
+  "* **In very large prostates, open surgery relieved the blockage more.** {d:lebani}.",
+  "* **Without a comparison group, symptoms stayed better for years in large series.**",
+  "- {d:pisco16}.",
+  "- {d:sapoval24}.",
 ]
-risks = "After PAE, a burning feeling in the lower belly, frequent peeing and pelvic pain for a few days are common; a little blood in the urine or stool can happen.[^sirpt][^gstt]\nSerious problems: the Cochrane review gives {d:coch-major}. In cohorts, serious-event rates depend on who counted and how: {d:kristensen}. The multicentre study above gives its own rate. Rare severe harms from particles reaching the bladder, rectum or penis appear mainly as case reports, with no reliable rate.[^cochrane][^sapoval24]\nHow harms were counted matters: only the Swiss trial graded both arms the same way, and older trials may have under-reported harms after TURP, so cohort rates for PAE cannot be set beside surgical series.[^abt18]"
-selection = "The trials enrolled men fit for either treatment, with a mean prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger glands, in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish cohort above. That cuts both ways (our inference): sicker men raise harm and failure, while motivated, well-counselled men raise symptom response. No cohort adjusted for frailty.[^cochrane][^kristensen][^ukrope]\nIn retention, cohorts report most men become catheter-free: {d:bhatia25}. No randomized trial of PAE against surgery in catheter-dependent men was found.[^bhatia25][^sapoval24]"
-fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as TURP {f:aua-2y}, with more repeat treatment than TURP. It advises a urologist's assessment before PAE, PAE by interventional radiologists trained in it, and offers PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
-unknown = "Whether PAE spares surgery or buys years before it: no trial reports time to surgery. That PAE leaves surgery open is shown; small series of surgery after PAE (robotic, simple prostatectomy, TURP) show no signal of harm, but no good evidence either way.[^bilhim][^cochrane] How it compares with laser enucleation (HoLEP): no randomized trial. Long-term results against a randomized control: the one long trial lost most PAE men to follow-up. Which particle and size work best: not settled.[^cochrane][^abt5]"
+risks = [
+  "* **Common and short-lived:** a burning feeling in the lower belly, peeing often, and pelvic pain for a few days. A little blood in the urine or stool can happen.[^sirpt][^gstt]",
+  "* **Serious problems: too uncertain to compare with TURP.** In the Cochrane review, {d:coch-major}.",
+  "* **In other studies, serious-harm rates depend on who counted and how.** {d:kristensen}. The study across several countries above gives its own rate.[^sapoval24]",
+  "* **Severe harms from particles reaching the bladder, rectum, or penis have been reported.** They are rare and appear mainly as case reports, with no reliable rate.[^cochrane][^sapoval24]",
+  "* **How harms were counted matters.** Only the Swiss trial graded both groups the same way. Older trials may have under-reported harms after TURP. So rates from PAE studies with no comparison group cannot be set beside rates from surgery studies.[^abt18]",
+]
+selection = "The trials enrolled men fit for either treatment, with an average prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger prostates. They may be in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish study above. That cuts both ways (our inference). Sicker men raise the rates of harm and failure, while motivated, well-counselled men raise the rate of symptom relief. None of the studies without a comparison group (cohorts) adjusted for frailty.[^cochrane][^kristensen][^ukrope]\nIn retention, studies without a comparison group report that most men become free of a catheter: {d:bhatia25}. No trial was found that assigned catheter-dependent men by chance to PAE or surgery.[^bhatia25][^sapoval24]"
+fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as after TURP {f:aua-2y}, with more repeat treatment than after TURP. It advises a urologist's assessment before PAE, and PAE done by interventional radiologists trained in it. It says doctors may offer PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told that PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
+unknown = [
+  "* **Whether PAE spares surgery or only puts it off:** no trial reports the time to surgery.[^bilhim][^cochrane]",
+  "* **Surgery after PAE:** PAE leaves surgery open. Small series of surgery after PAE (robotic, simple prostatectomy, TURP) show no sign of harm, but there is no good evidence either way.[^bilhim][^cochrane]",
+  "* **How it compares with laser removal of the inner prostate (HoLEP):** no randomized trial.[^cochrane][^abt5]",
+  "* **Long-term results against a randomized comparison group:** the one long trial lost track of most men in the PAE group.[^cochrane][^abt5]",
+  "* **Which particle and size work best:** not settled.[^cochrane][^abt5]",
+]
 
 [[detail]]
 option = "urethral-lift"
 certainty = "Early studies suggest"
-intro = "Small implants, placed through a scope in the urethra, pull the prostate lobes apart like curtain tiebacks. Nothing is removed.[^niddk][^mpmin]"
+intro = "Small implants, placed through a scope in the urethra (the tube that {f:urethra-words}), pull the prostate lobes apart like curtain tiebacks. Nothing is removed.[^niddk][^mpmin]"
 works = "Early studies suggest the lift eases symptoms, often {f:lift-2wk}, in prostates of the size tested. In its trial, {f:lift-retreat}.[^lift5]"
-evidence = ["{d:lift5}."]
-risks = "Mostly mild and short-lived: burning, blood in the urine, urgency. The trial reported no new lasting erection or ejaculation problems.[^lift5]"
-selection = "Only for prostates of the sizes tested, and not for every shape of gland; ask whether yours fits.[^lift5]"
-unknown = "Real-world repeat treatment runs higher than the trial's figure in one large U.S. records study (see the section on repeat treatment below).[^cosmos]"
+evidence = ["* **Some men needed more surgery within five years.** {d:lift5}."]
+risks = "Side effects were mostly mild and short-lived: burning, blood in the urine, and a sudden need to pee (urgency). The trial reported no new lasting erection or ejaculation problems.[^lift5]"
+selection = "The lift is only for prostates of the sizes tested, and not for every prostate shape. Ask whether yours fits.[^lift5]"
+unknown = "In one large U.S. records study, repeat treatment in everyday practice ran higher than the trial's figure (see the section on repeat treatment below).[^cosmos]"
 
 [[detail]]
 option = "water-vapor"
 certainty = "Early studies suggest"
-intro = "Steam released through a scope in the urethra destroys some of the inner prostate tissue. Often done in the office.[^niddk][^mpmin]"
+intro = "Steam, released through a scope in the urethra, destroys some of the inner prostate tissue. It is often done in the doctor's office.[^niddk][^mpmin]"
 works = "Early studies suggest steam therapy eases symptoms, often {f:steam-3mo}, in prostates of the size tested. In U.S. health records, {f:steam-retreat}.[^rezum5][^cosmos]"
-evidence = ["{d:rezum5}."]
-risks = "Mostly mild and quickly settling. The trials reported no lasting new erection problems.[^rezum2][^rezum5]"
-selection = "Only for prostates of the sizes tested; ask whether yours fits.[^rezum5]"
-unknown = "How much of the difference between the trial's and the records study's repeat-treatment figures comes from the men treated, and how much from practice outside trials.[^rezum5][^cosmos]"
+evidence = ["* **In the maker's trial, fewer men needed more surgery than in everyday U.S. records.** {d:rezum5}."]
+risks = "Side effects were mostly mild and settled quickly. The trials reported no lasting new erection problems.[^rezum2][^rezum5]"
+selection = "Steam therapy is only for prostates of the sizes tested. Ask whether yours fits.[^rezum5]"
+unknown = "How much of the gap between the trial's and the records study's repeat-treatment figures comes from the men treated, and how much from everyday practice outside trials.[^rezum5][^cosmos]"
 
 [[detail]]
 option = "temporary-implant"
 certainty = "Early studies suggest"
-intro = "A folded nitinol device is left in the prostatic urethra for about a week. As it opens, it presses grooves into the tissue; then it is removed.[^mpmin][^itind]"
+intro = "A small folded device made of nitinol (a bendable metal) is left for about a week in the part of the urethra that runs through the prostate. As it opens, it presses grooves into the tissue. Then it is removed.[^mpmin][^itind]"
 works = "Early studies suggest it helps some men. Many men also felt better after a sham, so how much of the relief comes from the device is unclear.[^itind]"
-evidence = ["{d:itind}.", "{d:itind4}."]
-risks = "Mostly mild and short-lived; adverse events were more common than after the sham (see above). No new erection or ejaculation problems were reported.[^itind]"
-unknown = "How long it lasts: the longer data come from one small single-group study.[^itind4]"
+evidence = [
+  "* **More men improved than after a sham, but many improved after the sham too.** {d:itind}.",
+  "* **Longer results come from one small study with no comparison group.** {d:itind4}.",
+]
+risks = "Side effects were mostly mild and short-lived. However, they were more common than after the sham (see above). No new erection or ejaculation problems were reported.[^itind]"
+unknown = "How long it lasts: the longer data come from one small study of a single group.[^itind4]"
 
 [[detail]]
 option = "balloon"
 certainty = "Early studies suggest"
-intro = "A balloon coated with paclitaxel widens the space between the prostate's two lobes; the drug is meant to stop the channel closing again.[^fdaopt][^pinnacle]"
+intro = "A balloon coated with a drug (paclitaxel) widens the space between the prostate's two halves (lobes). The drug is meant to stop the channel closing again.[^fdaopt][^pinnacle]"
 works = "Early studies suggest it eases symptoms for {f:balloon-2y}, in prostates of the size tested.[^pinnacle][^pinnacle2]"
-evidence = ["{d:pinnacle}.", "{d:pinnacle2}."]
-risks = "Blood in the urine and urinary infection were the most common. Sexual function was unchanged.[^pinnacle2]"
-unknown = "Longer results against a control group.[^pinnacle2]"
+evidence = [
+  "* **Symptoms eased after the balloon, but also a lot after the sham.** {d:pinnacle}.",
+  "* **About two thirds of men had better symptom scores at two years, with no comparison group by then.** {d:pinnacle2}.",
+]
+risks = "Blood in the urine and urinary infection were the most common side effects. Sexual function was unchanged.[^pinnacle2]"
+unknown = "Longer results against a comparison group.[^pinnacle2]"
 
 [[detail]]
 option = "turp"
 certainty = "Strong evidence shows"
-intro = "The surgeon removes the inside of the prostate through a scope in the penis, under general or spinal anesthesia. Most men stay in hospital and have a catheter for {f:turp-stay}; recovery takes {f:turp-recovery}.[^mpturp][^mpturpdc]"
+intro = "The surgeon removes the inside of the prostate through a scope in the penis. The man is asleep (general anesthesia) or numb from the waist down (spinal anesthesia). Most men stay in hospital and have a catheter for {f:turp-stay}. Recovery takes {f:turp-recovery}.[^mpturp][^mpturpdc]"
 works = "Strong evidence shows TURP relieves symptoms most of the time. It is the comparison most other procedures are measured against.[^mpturp][^bipolar] Over a long time, {f:turp-redo}.[^niddk]"
-evidence = ["{d:bipolar}.", "Against PAE, see the trials above: TURP improved flow and needed fewer repeats.[^abt18][^cochrane]"]
-risks = "Retrograde ejaculation (dry orgasm) is common and can be permanent; how often depends on how it was counted: {d:calik-re}. In the waterjet trial, loss of ejaculation after TURP was lower (see below).[^water5] Bleeding, infection, erection problems, leaking urine, and scar tissue narrowing the urethra can happen.[^mpturpdc][^mpturp][^nhsturp]"
-selection = "For most gland sizes; very large glands may need enucleation or open surgery.[^mpsimple][^mpmin]"
+evidence = [
+  "* **The two kinds of TURP relieve symptoms about equally; bipolar TURP means fewer blood transfusions.** {d:bipolar}.",
+  "* **Against PAE, TURP improved urine flow more and needed fewer repeat treatments.** See the trials above.[^abt18][^cochrane]",
+]
+risks = "Retrograde ejaculation (semen going into the bladder, a dry orgasm) is common and can be permanent. How often depends on how it was counted: {d:calik-re}. In the waterjet trial, loss of ejaculation after TURP was lower (see below).[^water5] Bleeding, infection, erection problems, leaking urine, and scar tissue narrowing the urethra can happen.[^mpturpdc][^mpturp][^nhsturp]"
+selection = "TURP suits most prostate sizes. Very large prostates may need removal of the inner prostate (enucleation) or open surgery.[^mpsimple][^mpmin]"
 
 [[detail]]
 option = "laser"
 certainty = "Early studies suggest"
-intro = "A laser through a scope either shells out the enlarged lobes (holmium enucleation, HoLEP) or vaporizes them. Most men go home the same day or the next, with a catheter for a few days.[^mpmin]"
+intro = "A laser, passed through a scope, either shells out the enlarged parts of the prostate (holmium laser enucleation, HoLEP) or burns them away (vaporization). Most men go home the same day or the next, with a catheter for a few days.[^mpmin]"
 works = "Early studies suggest HoLEP relieves symptoms at least as well as TURP. The newest Cochrane review rates that comparison low certainty.[^holepcochrane][^holep]"
-evidence = ["{d:holep}."]
+evidence = ["* **Against TURP, HoLEP meant fewer blood transfusions and shorter hospital stays.** {d:holep}."]
 risks = "Retrograde ejaculation is common after laser surgery too: {d:calik-re}. Erection problems and leaking urine can happen.[^mpmin]"
 
 [[detail]]
 option = "waterjet"
 certainty = "Early studies suggest"
-intro = "A high-pressure water jet through a scope removes the blocking tissue; a catheter stays in for a few days.[^mpmin][^water5]"
+intro = "A high-pressure water jet, passed through a scope, removes the blocking tissue. A catheter stays in for a few days.[^mpmin][^water5]"
 works = "Early studies suggest it works about as well as TURP {f:water-5y}, in small to medium prostates, from one maker-sponsored trial.[^water5]"
-evidence = ["{d:water5}."]
-risks = "Ejaculation problems were less common than after TURP in the same trial, but {f:water-ejac} still had them in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
+evidence = ["* **Symptoms improved about as much as after TURP, with less loss of ejaculation.** {d:water5}."]
+risks = "Ejaculation problems were less common than after TURP in the same trial. However, {f:water-ejac} still had them in the first months. Erection problems and leaking urine can happen.[^water5][^mpmin]"
 
 [[detail]]
 option = "open-prostatectomy"
-intro = "Open or robotic simple prostatectomy removes the inner gland through the lower belly. After open surgery, most men stay in hospital {f:open-stay} and recover in {f:open-recovery}.[^mpsimple][^niddk]"
+intro = "Open or robotic surgery (simple prostatectomy) removes the inner prostate through the lower belly. After open surgery, most men stay in hospital {f:open-stay} and recover in {f:open-recovery}.[^mpsimple][^niddk]"
 works = "It is often used when the gland is too large for other surgery.[^mpsimple] Our sources give no trial of it against TURP or laser surgery."
-evidence = ["Against PAE in very large glands, see the PoPAE trial above: open surgery relieved obstruction more.[^lebani]"]
-risks = "Dry orgasms, leaking urine, bleeding and infection can happen, with the risks of an abdominal operation.[^mpsimple]"
+evidence = ["* **Against PAE in very large prostates, open surgery relieved the blockage more.** See the PoPAE trial above.[^lebani]"]
+risks = "Dry orgasms, leaking urine, bleeding, and infection can happen, along with the risks of any operation on the belly.[^mpsimple]"
 
 [[section]]
 id = "waiting"
 after = "medicines"
 heading = "Is waiting safe?"
 text = [
-  "For most men without retention, kidney damage or bladder stones, the evidence suggests that waiting and stepping up treatment is reasonable. {d:wasson}. Its authors call waiting usually a safe alternative for men less bothered by symptoms. The trial enrolled men decades ago, before today's medicines and procedures.[^wasson][^niddk]",
-  "This does not apply to men already in retention, with kidney damage, or with bladder stones; they need treatment, often surgery.[^niddk][^aua]",
+  "For most men without retention, kidney damage, or bladder stones, the evidence suggests that waiting and stepping up treatment is reasonable.[^wasson][^niddk]",
+  "* **In one older trial, TURP meant fewer bad outcomes than waiting.** {d:wasson}.",
+  "* Its authors call waiting usually a safe choice for men less bothered by symptoms.[^wasson]",
+  "* The trial enrolled men decades ago, before today's medicines and procedures.[^wasson]",
+  "This does not apply to men already in retention, with kidney damage, or with bladder stones. They need treatment, often surgery.[^niddk][^aua]",
 ]
 
 [[section]]
@@ -255,12 +285,22 @@ after = "less-invasive"
 heading = "Sex life after each treatment: how the studies counted it"
 text = [
   "Ejaculation can be measured three ways: any change (including less semen), retrograde ejaculation (semen going into the bladder), or complete loss of ejaculation. They are different outcomes and cannot be ranked against each other.[^ejac][^lokesh]",
-  "After PAE, studies that asked about retrograde or absent ejaculation find it uncommon. {d:lokesh}. {d:rawash}. {d:amouyal}. {d:peasy-sex}.",
-  "Pooled against TURP, {d:coch-ejac}.",
-  "The higher PAE figure comes from a broad definition. {d:ejac-swiss}.",
-  "On erections, no study shows harm on average. {d:coch-ed}. {d:sapoval-ed}. {d:alizadeh}.",
-  "{d:kawakibi}. {d:larussa}. No study gives a rate of new erection problems large enough to quote.",
-  "After TURP and laser surgery, retrograde ejaculation is common: {d:calik-re}, by one review's count. The lift, steam, implant and balloon trials reported no new lasting erection or ejaculation problems, each in its own sponsored trial.[^lift5][^rezum2][^itind][^pinnacle2]",
+  "* **After PAE, studies that asked about retrograde or absent ejaculation find it uncommon.**",
+  "- {d:lokesh}.",
+  "- {d:rawash}.",
+  "- {d:amouyal}.",
+  "- {d:peasy-sex}.",
+  "* **Against TURP, pooled, ejaculation problems were less likely after PAE.** {d:coch-ejac}.",
+  "* **The higher PAE figure comes from a broad definition.** {d:ejac-swiss}.",
+  "* **On erections, no study shows harm on average.**",
+  "- {d:coch-ed}.",
+  "- {d:sapoval-ed}.",
+  "- {d:alizadeh}.",
+  "- {d:kawakibi}.",
+  "- {d:larussa}.",
+  "* No study gives a rate of new erection problems large enough to quote.",
+  "* **After TURP and laser surgery, retrograde ejaculation is common:** {d:calik-re}, by one review's count.",
+  "* **The lift, steam, implant, and balloon trials reported no new lasting erection or ejaculation problems,** each in its own maker-sponsored trial.[^lift5][^rezum2][^itind][^pinnacle2]",
 ]
 
 [[section]]
@@ -268,10 +308,16 @@ id = "repeat"
 after = "less-invasive"
 heading = "Repeat treatment, and what each figure counts"
 text = [
-  "Each option's repeat-treatment figure on the short guide comes from a different kind of study: PAE from a single-centre cohort that counts a second PAE or surgery, the lift from its maker's trial, steam from U.S. health records, and TURP from a government page over a much longer span. They are not a ranking.[^bilhim][^lift5][^cosmos][^niddk]",
-  "For PAE, the cohorts count differently and do not agree in the long run: {d:bilhim}. {d:mabud}. {d:rubin}. In randomized trials: {d:coch-retreat}.[^kristensen][^bhatia25]",
-  "Two studies counted several options the same way, each unadjusted for who had which. {d:cosmos-all}. {d:rubin-all}.",
-  "Removing more tissue leaves less to re-treat, but costs a bigger operation. A second procedure after a less invasive one is a real cost (time with symptoms, another procedure), counted here beside what the first one spared.[^cochrane][^bilhim]",
+  "Each option's repeat-treatment figure on the short guide comes from a different kind of study. PAE's comes from a single-centre study that counts a second PAE or surgery. The lift's comes from its maker's trial, steam's from U.S. health records, and TURP's from a government page over a much longer span. They are not a ranking.[^bilhim][^lift5][^cosmos][^niddk]",
+  "* **For PAE, studies without a comparison group count differently and do not agree in the long run.**[^kristensen][^bhatia25]",
+  "- {d:bilhim}.",
+  "- {d:mabud}.",
+  "- {d:rubin}.",
+  "* **In randomized trials, repeat treatment was more likely after PAE than after TURP.** {d:coch-retreat}.",
+  "* **Two studies counted several options the same way,** each without adjusting for which men had which.",
+  "- {d:cosmos-all}.",
+  "- {d:rubin-all}.",
+  "Removing more tissue leaves less to re-treat, but it means a bigger operation. A second procedure after a less invasive one is a real cost (time with symptoms, another procedure). It is counted here beside what the first one spared.[^cochrane][^bilhim]",
 ]
 
 # Deep page references (the simple page's [[refs]] are shared; these keys must not repeat them).

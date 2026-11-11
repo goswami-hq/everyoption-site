@@ -50,7 +50,7 @@ refs = ["spies"]
 id = "ufe-satisfied"
 option = "embolization"
 simple = "just as satisfied as those who had surgery"
-deep = "just as satisfied as women who had surgery"
+deep = "just as satisfied as women who had surgery (hysterectomy or myomectomy)"
 refs = ["cochrane", "rest"]
 [[fact]]
 id = "ufe-repeat"
@@ -130,91 +130,91 @@ refs = ["owh", "fdamorc"]
 id = "gnrh-6mo"
 option = "hormone-medicines"
 simple = ""
-deep = "over 6 months, from four large placebo-controlled trials of two medicines (relugolix and elagolix)"
+deep = "In four large trials of two medicines (relugolix and elagolix), women were assigned by chance to the medicine or to a placebo (a dummy pill with no active ingredient) and followed over 6 months"
 refs = ["liberty", "schlaff"]
 read = "abstract"
 [[fact]]
 id = "gnrh-placebo"
 option = "hormone-medicines"
 simple = ""
-deep = "in those four trials, about 1 to 2 out of 10 women on the dummy pill met the same bleeding goal (8.7% to 19%)"
+deep = "In those four trials, about 1 to 2 out of 10 women on the dummy pill met the same bleeding goal (8.7% to 19%)"
 refs = ["liberty", "schlaff"]
 read = "abstract"
 [[fact]]
 id = "ufe-range"
 option = "embolization"
 simple = ""
-deep = "A German health-information institute puts symptom improvement at about 80 to 90 out of 100 women; the short guide's almost 9 out of 10 is the top of that range"
+deep = "A German health-information institute puts symptom improvement at about 80 to 90 out of 100 women. The short guide's almost 9 out of 10 is the top of that range"
 refs = ["iqwig"]
 read = "page"
 [[fact]]
 id = "ufe-sat"
 option = "embolization"
 simple = ""
-deep = "a Cochrane review of 7 randomized trials (793 women) found no clear difference up to 2 years (6 trials, 640 women; odds ratio 0.94, 95% CI 0.59 to 1.48; moderate certainty) or at 5 years (0.90, 0.45 to 1.80)"
+deep = "A Cochrane review pooled 7 trials (793 women) that assigned women by chance to embolization or to surgery (hysterectomy or myomectomy). It found no clear difference in satisfaction between embolization and surgery up to 2 years (6 trials, 640 women; odds ratio 0.94; range 0.59 to 1.48; moderate certainty). There was no clear difference at 5 years either (odds ratio 0.90; range 0.45 to 1.80)"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
 id = "femme-qol"
 option = "embolization"
 simple = ""
-deep = "in the FEMME trial (254 women, 29 UK hospitals), fibroid quality-of-life scores at 2 years were 84.6 after myomectomy and 80.0 after embolization, out of 100 (adjusted difference 8.0 points, 95% CI 1.8 to 14.1); at 4 years the gap was 5.0 points and no longer clear (95% CI -1.4 to 11.5)"
+deep = "The FEMME trial assigned 254 women at 29 UK hospitals by chance to myomectomy or to embolization. At 2 years, fibroid quality-of-life scores out of 100 were 84.6 after myomectomy and 80.0 after embolization. After allowing for differences between the women, myomectomy scored 8.0 points higher (range 1.8 to 14.1). At 4 years, myomectomy was 5.0 points higher, a gap that could be due to chance (range -1.4 to 11.5)"
 refs = ["femme2", "femme4"]
 read = "abstract"
 [[fact]]
 id = "myo-time"
 option = "myomectomy"
 simple = ""
-deep = "about 1 out of 8 at 4 to 5 years (13% at 4 years in FEMME; 12.2% at 5 years pooled across studies), and about 1 out of 5 by 7 years (20.6% in a large U.S. health system study)"
+deep = "About 1 out of 8 women had another procedure by 4 to 5 years (13% at 4 years in the FEMME trial; 12.2% at 5 years pooled across studies). About 1 out of 5 had one by 7 years (20.6% in a large U.S. health system study)"
 refs = ["femme4", "sandberg18", "mitro24"]
 read = "abstract"
 [[fact]]
 id = "myo-pool"
 option = "myomectomy"
 simple = ""
-deep = "A second pooled analysis disagrees with the first, finding about 1 out of 5 by 5 years (19%), lower than after embolization (21%) or focused ultrasound (49%)"
+deep = "It found about 1 out of 5 women had another procedure by 5 years after myomectomy (19%), more than the first pooled figure. In the same analysis, the figure was higher after embolization (21%) and after focused ultrasound (49%)"
 refs = ["xu21"]
 read = "abstract"
 [[fact]]
 id = "rfa-pool"
 option = "radiofrequency"
 simple = ""
-deep = "Pooled across prospective studies, about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
+deep = "Pooled across studies that followed women forward from treatment (prospective studies), about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
 refs = ["bradley19"]
 read = "abstract"
 [[fact]]
 id = "rfa-esonata"
 option = "radiofrequency"
 simple = ""
-deep = "In a prospective study that was not randomized, 27.3% had more surgery by 18 months after radiofrequency through the cervix, against 6.3% after myomectomy"
+deep = "A study followed women forward from treatment, but did not assign treatments by chance. By 18 months, 27.3% had more surgery after radiofrequency through the cervix, compared with 6.3% after myomectomy"
 refs = ["esonata"]
 read = "abstract"
 [[fact]]
 id = "fus-sham"
 option = "focused-ultrasound"
 simple = ""
-deep = "In a small placebo-controlled pilot trial of 20 women, symptoms improved more than after a fake treatment by 12 weeks (31 versus 13 points), but not at 4 weeks"
+deep = "A small pilot trial assigned 20 women by chance to focused ultrasound or to a placebo (a fake treatment). By 12 weeks, symptoms improved more after focused ultrasound than after the fake treatment (31 versus 13 points on a symptom score). At 4 weeks, the difference could be due to chance"
 refs = ["promise"]
 read = "abstract"
 [[fact]]
 id = "fus-repeat"
 option = "focused-ultrasound"
 simple = ""
-deep = "19% by 3 years and 23% by 4 years in one series of 138 women, and 59% by 5 years in another of 162 women"
+deep = "In one group of 138 women, 19% had more treatment by 3 years and 23% by 4 years. In another group of 162 women, 59% had more treatment by 5 years"
 refs = ["gorny14", "quinn14"]
 read = "abstract"
 [[fact]]
 id = "fus-firstt"
 option = "focused-ultrasound"
 simple = ""
-deep = "In a small trial that randomized some women between focused ultrasound and embolization (83 treated), 13 of 43 (30%) had another fibroid procedure after focused ultrasound, against 5 of 40 (12.5%) after embolization"
+deep = "A small trial treated 83 women with focused ultrasound or embolization; some of them were assigned by chance. Another fibroid procedure followed for 13 of 43 (30%) after focused ultrasound, compared with 5 of 40 (12.5%) after embolization"
 refs = ["firstt"]
 read = "full text"
 [[fact]]
 id = "ea-finland"
 option = "endometrial-ablation"
 simple = ""
-deep = "In a Finnish national registry, women with fibroids were more likely to have a hysterectomy after ablation (adjusted hazard ratio 1.78, 95% CI 1.03 to 3.10)"
+deep = "In a Finnish national registry, women with fibroids were more likely to have a hysterectomy after ablation (hazard ratio 1.78, after allowing for other differences; range 1.03 to 3.10)"
 refs = ["soini17"]
 read = "abstract"
 [[fact]]

@@ -105,14 +105,18 @@ fibroids = "Yes. They cannot return"
 option = "non-hormone-medicines"
 intro = "You take tranexamic acid only on the days of your period. Pain relievers and iron can help with cramps and tiredness from blood loss.[^mpfib][^txa][^owh]"
 works = "These medicines ease bleeding and cramps. They do not touch the fibroids, so symptoms come back when you stop.[^mpfib][^txa]"
-risks = "Tranexamic acid can rarely cause blood clots.[^txa]"
+risks = "Blood clots from tranexamic acid are possible, but rare.[^txa]"
 
 [[detail]]
 option = "hormone-medicines"
 certainty = "Strong evidence shows"
 intro = "This group includes birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
 works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding. In a drug-maker-funded trial, bleeding fell greatly for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
-evidence = ["The strong evidence is for bleeding {d:gnrh-6mo}. Use beyond that rests mostly on open-label extensions, plus one study that randomly switched some women to a dummy pill: most of those who stopped saw heavy bleeding return.[^libext][^libwd]", "Some women taking a dummy pill also improved: {d:gnrh-placebo}. The medicine's real effect is the gap between the two groups."]
+evidence = [
+  "* **The strong evidence is for bleeding over the first months.** {d:gnrh-6mo}.",
+  "* **Some women on the dummy pill also improved.** {d:gnrh-placebo}. The medicine's real effect is the gap between the two groups.",
+  "* **Use beyond six months rests mostly on extension studies.** In these, every woman knew she was taking the medicine (open-label). One study assigned some women by chance to switch to a dummy pill. Most of those who stopped the medicine saw heavy bleeding return.[^libext][^libwd]",
+]
 risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
 [[detail]]
@@ -127,7 +131,12 @@ certainty = "Good evidence suggests"
 diagram = true
 intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
 works = "Good evidence suggests most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
-evidence = ["{d:ufe-range}.", "Satisfaction compared with surgery: {d:ufe-sat}.", "Quality of life compared with myomectomy: {d:femme-qol}. No clear difference in satisfaction was found, but on this quality-of-life measure myomectomy came out ahead at first.[^cochrane][^femme2]"]
+evidence = [
+  "* **Most women's symptoms improve.** {d:ufe-range}.",
+  "* **Satisfaction: no clear difference from surgery.** {d:ufe-sat}.",
+  "* **Quality of life: myomectomy came out ahead at first.** {d:femme-qol}.",
+  "* **Taken together:** no clear difference in satisfaction was found. However, on this quality-of-life measure, myomectomy came out ahead at first.[^cochrane][^femme2]",
+]
 risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
 fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
 
@@ -135,22 +144,36 @@ fit = "A radiology expert panel rates embolization usually appropriate or possib
 option = "radiofrequency"
 intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
 works = "Results vary from study to study: {f:rfa-sonata}, and {f:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
-evidence = ["The two figures differ mainly in what they count. The first study counted only surgery for heavy bleeding. The second counted any surgery, most often removing other fibroids through the cervix, and it looked back at one center's records.[^sonata3][^dutch]", "{d:rfa-pool}.", "{d:rfa-esonata}."]
-risks = "Pain and cramps can happen. Serious problems were rare in studies.[^sonata3][^dutch]"
+evidence = [
+  "* **The two figures above differ mainly in what they count.**",
+  "- The first study counted only surgery for heavy bleeding.[^sonata3]",
+  "- The second counted any surgery, most often removing other fibroids through the cervix. It looked back at one center's records.[^dutch]",
+  "* **Across several studies, some women needed another procedure.** {d:rfa-pool}.",
+  "* **Through the cervix, more women needed more surgery than after myomectomy.** {d:rfa-esonata}.",
+]
+risks = "Pain and cramps can happen. Serious problems are possible, but were rare in studies.[^sonata3][^dutch]"
 
 [[detail]]
 option = "focused-ultrasound"
 intro = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid. There is no cut, and most women recover quickly.[^rinfo]"
 certainty = "Early studies suggest"
 works = "Early studies suggest it eases symptoms. It fits only some fibroids, and some women need more treatment later. Not all insurance covers it, so check first.[^rinfo][^fdapma][^bcbsnc]"
-evidence = ["{d:fus-sham}.", "Repeat treatment is common and rises with time: {d:fus-repeat}.", "{d:fus-firstt}."]
+evidence = [
+  "* **It eased symptoms more than a fake treatment in one very small trial.** {d:fus-sham}.",
+  "* **Repeat treatment is common and rises with time.** {d:fus-repeat}.",
+  "* **More women needed another procedure than after embolization.** {d:fus-firstt}.",
+]
 risks = "Belly pain can happen. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
 
 [[detail]]
 option = "endometrial-ablation"
 intro = "Heat or cold destroys the lining of the uterus to lighten periods. There are no cuts. Most women go home the same day and recover in {f:ea-recovery}."
 works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] The American College of Radiology's expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {f:ea-hyst}."
-evidence = ["That hysterectomy figure comes from women with heavy bleeding in general, not women with fibroids.[^oderkerk] Studies of women with fibroids are records-based, with no trial.", "{d:ea-finland}.", "{d:ea-kaiser}."]
+evidence = [
+  "That hysterectomy figure comes from women with heavy bleeding in general, not women with fibroids.[^oderkerk] Studies of women with fibroids come from health records. None is a trial.",
+  "* **Women with fibroids more often had a hysterectomy later.** {d:ea-finland}.",
+  "* **Some women with fibroids needed another procedure after ablation.** {d:ea-kaiser}.",
+]
 risks = "Cramps and discharge can last a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[detail]]
@@ -158,21 +181,24 @@ option = "hysteroscopic"
 intro = "A thin camera and small tools go through the cervix and remove fibroids growing inside the uterus. There are no cuts, and recovery takes a few days.[^mpfib][^mphysteroscopy][^ccmyo]"
 certainty = "Early studies suggest"
 works = "Early studies suggest it helps. It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
-risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infection, or a tear in the uterus are rare.[^mphysteroscopy]"
+risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infection, or a tear in the uterus are possible, but rare.[^mphysteroscopy]"
 
 [[detail]]
 option = "myomectomy"
 certainty = "Good evidence suggests"
 intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger cut in the belly or a few small cuts. Recovery takes {f:major-recovery}.[^mpfib]"
 works = "Good evidence suggests women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
-evidence = ["Repeat procedures rise over time: {d:myo-time}.", "{d:myo-pool}."]
-risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen but are not common.[^ccmyo] Scar tissue forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+evidence = [
+  "* **Repeat procedures rise over time.** {d:myo-time}.",
+  "* **A second pooled analysis found a higher rate.** {d:myo-pool}.",
+]
+risks = "Bleeding, infection, blood clots, and harm to nearby organs are possible, but not common.[^ccmyo] Scar tissue (adhesions) forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
 
 [[detail]]
 option = "hysterectomy"
 intro = "Surgery removes the whole uterus, through the vagina, small cuts, or a larger cut in the belly. Recovery takes {f:major-recovery}.[^mphyst]"
 works = "It is the only treatment that keeps fibroids from returning, and periods stop. It also ends the chance of pregnancy.[^owh][^ccmyo]"
-risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together. A blocked bowel from scar tissue is possible, but rare.[^asrm][^ccadh] After open surgery, {f:hernia}."
 
 # Deep page references (job platform-main-0027): sources of the deep-only facts.
 [[refs]]
