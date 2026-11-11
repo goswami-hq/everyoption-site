@@ -70,8 +70,47 @@
           e.setAttribute("opacity", fl * (1 - both));
         });
         return [1, 1];
+      } },
+    // Hemorrhoids (his pick 2026-11-11, ai-hq projects/platform/design/procedure-animations/hae-mockups-2026-11-10.html, B v3):
+    // seen from behind; coils plug the two arteries, and the drops from the opening slow and then stop.
+    hae: {
+      sides: [{ br: "haeBrL", cath: "haeCathL", n: 0, t: [], c: [200, 228], blood: 7 }, { br: "haeBrR", cath: "haeCathR", n: 0, t: [], c: [200, 228], blood: 7 }],
+      init: function () {
+        var g = $("haeNeo"); this.n = [1, 2, 3].map(function (i) { var p = $("haeNeo" + i); return { p: p, l: p.getTotalLength(), d: dots(g, "blood", 2.2, 3) }; });
+        this.c = [coil($("haeCoils"), 145, 98, 92), coil($("haeCoils"), 255, 98, 88)];
+        this.d = drops($("haeDrops"), 8);
+      },
+      draw: function (T, a, st, pulse, calmed, clock) {
+        var s = 1.1 - .24 * a + (1 - calmed) * .015 * pulse, both = (st[0] + st[1]) / 2;
+        $("haeCush").setAttribute("transform", M(200, 228, s));
+        $("haeCushH").setAttribute("opacity", 1 - both * .35 - a * .65);
+        $("haeGlow").setAttribute("opacity", (.55 + .45 * pulse) * (1 - both)); $("haeGlow").setAttribute("transform", M(200, 228, s));
+        this.n.forEach(function (o, k) {
+          o.p.setAttribute("opacity", 1 - .85 * both);
+          o.d.forEach(function (c, i) { var ph = reduce ? i / 3 : (clock * .6 + i / 3 + k * .2) % 1, q = o.p.getPointAtLength(o.l * ph);
+            c.setAttribute("cx", q.x); c.setAttribute("cy", q.y); c.setAttribute("opacity", 1 - both); });
+        });
+        showCoil(this.c[0], T, 4.6); showCoil(this.c[1], T, 8.0);
+        var bleed = (1 - .5 * st[0] - .5 * st[1]) * (1 - a);
+        this.d.forEach(function (p, i) {
+          var ph = reduce ? (i + .5) / 8 : (clock * .5 + i / 8) % 1, keep = i % 2 === 0 ? 1 : cl(bleed * 2 - 1);
+          p.setAttribute("transform", "translate(" + (200 + 4 * Math.sin(i * 2.1)) + " " + (286 + 68 * ph * ph) + ") scale(" + (.8 + .3 * (1 - ph)) + ")");
+          p.setAttribute("opacity", bleed * keep * (ph < .08 ? ph / .08 : 1 - .35 * ph));
+        });
+        return [1, 1];
       } }
   };
+  // A drop of blood, a teardrop shape (hemorrhoids)
+  function drops(g, n) { var a = []; for (var i = 0; i < n; i++) { var p = document.createElementNS(NS, "path"); p.setAttribute("class", "drop"); p.setAttribute("d", "M0 -7 C3 -2 5 1 5 3.5 A5 5 0 0 1 -5 3.5 C-5 1 -3 -2 0 -7 Z"); g.appendChild(p); a.push(p); } return a; }
+  // A coil seen from the side: a short run of loops laid along the artery at angle ang (degrees), drawn in as it is placed
+  function coil(g, cx, cy, ang) {
+    var d = "", k = Math.PI / 180 * ang, ca = Math.cos(k), sa = Math.sin(k);
+    for (var j = 0; j <= 64; j++) { var u = j / 64, al = (u - .5) * 22 + 4 * Math.cos(u * 8 * Math.PI), ac = 4.5 * Math.sin(u * 8 * Math.PI);
+      d += (j ? "L" : "M") + (cx + al * ca - ac * sa).toFixed(1) + " " + (cy + al * sa + ac * ca).toFixed(1); }
+    var p = document.createElementNS(NS, "path"); p.setAttribute("class", "coil"); p.setAttribute("d", d); g.appendChild(p);
+    return { p: p, cx: cx, cy: cy };
+  }
+  function showCoil(c, T, t0) { var x = seg(T, t0, t0 + .5); c.p.setAttribute("opacity", x); c.p.setAttribute("transform", M(c.cx, c.cy, .4 + .6 * x)); }
   function dots(g, cls, r, n) { var a = []; for (var i = 0; i < n; i++) { var c = document.createElementNS(NS, "circle"); c.setAttribute("class", cls); c.setAttribute("r", r); g.appendChild(c); a.push(c); } return a; }
   [cur].forEach(function (k) {
     var sc = S[k], root = $("scene-" + k);

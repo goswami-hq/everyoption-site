@@ -31,4 +31,8 @@
         <path id="gaeCathL" class="cath" d="M138 -24 C138 40 139 80 141 100 C170 92 205 112 222 134"/>
         <path id="gaeCathR" class="cath" d="M138 -24 C138 60 140 120 148 190 C175 214 205 212 222 200"/>
         <g class="beads"></g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M326 284 L268 206"/><text class="label" x="322" y="304">Knee</text>
+          <path class="leader" d="M108 56 L134 56"/><text class="label" x="104" y="61" text-anchor="end">Artery</text>
+        </g>
       </g>

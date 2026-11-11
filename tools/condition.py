@@ -180,6 +180,11 @@ def lead_option(refs, c, diagram_fn):
     # `invasive_heading`: the fold's name when its text is not about how it works (hemorrhoids "Recovery", his word
     # "Fine", 2026-11-10: "The headline is How it works, the text is just about pain")
     how = fold("topic how-fold", o.get("invasive_heading", "How it works"), f'{pic}<p>{t("invasive")}</p>')
+    if pic and o.get("invasive_heading"):
+        # hemorrhoids (2026-11-11): its fold is "Recovery", so the animation gets its own "How it works" fold above it,
+        # as on the other condition pages
+        how = (fold("topic how-fold", "How it works", pic)
+               + fold("topic", o["invasive_heading"], f'<p>{t("invasive")}</p>'))
     cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
     # "What is <procedure>?" answer block (agreed list item 1, his yes 2026-11-07): `lead_heading` on the lead option
     h2 = o.get("lead_heading") or "About " + o["name"][0].lower() + o["name"][1:]

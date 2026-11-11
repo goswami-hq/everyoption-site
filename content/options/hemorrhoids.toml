@@ -175,6 +175,7 @@ unknown = "How they compare with office treatments such as banding and how long 
 
 [[detail]]
 option = "embolization"
+diagram = true
 certainty = "Early results are encouraging"
 intro = "A catheter enters the wrist or groin artery, under local numbing and moderate sedation, and is guided to the superior rectal arteries that feed the hemorrhoids. Coils, particles, or both block them; the middle rectal arteries are sometimes treated too. No embolic agent is proven best.[^bagla][^falsarella][^kucukay]"
 works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella][^cai]"

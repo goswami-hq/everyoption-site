@@ -18,4 +18,9 @@
           <path id="ufeCathR" class="cath" d="M200 -24 L200 30 C240 50 340 90 355 190 L355 215 C340 270 310 275 292 245 C302 200 292 165 268 148"/>
           <g class="beads"></g>
         </g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M300 42 L268 94"/><text class="label" x="304" y="44">Fibroids</text>
+          <path class="leader" d="M268 296 L246 256"/><text class="label" x="272" y="304">Uterus</text>
+          <text class="label" x="352" y="292">Artery</text>
+        </g>
       </g>

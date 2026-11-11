@@ -305,7 +305,14 @@ PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/
                 caps=["With knee arthritis, the joint gets swollen and painful. Extra small blood vessels feed that swelling, and bending hurts.",
                       "A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
                       "With less blood flow, the swelling can calm down. That can ease the pain. The arthritis itself is still there."]),
+    # hemorrhoids (his pick of mockup B v3 and his "Add it to the site the same way", 2026-11-11): coils, and drops that stop
+    "hae": dict(alt="A bleeding hemorrhoid just inside the bottom. A thin tube places tiny coils in the arteries feeding it. The bleeding stops, and the hemorrhoid settles.",
+                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
+                caps=["Hemorrhoids are swollen veins just inside the bottom. Arteries from above bring them blood, and they can bleed.",
+                      "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids.",
+                      "With less blood flowing in, the hemorrhoids bleed less. They may shrink a little. For some people, bleeding comes back later."]),
 }
+PROC_BANNERS = {"ufe", "pae", "gae"}   # site/assets/proc-banner.js draws these; hemorrhoids has no banner version yet
 PROC_ROUTES = {"wrist": ("M186 192 L168 150 L136 96 L114 100 L110 170", (186, 192)), "groin": ("M122 205 L126 240 L126 262", (122, 205))}
 PROC_DEFS = """<defs>
         <radialGradient id="heat"><stop offset="0" stop-color="#ff5a3c" stop-opacity=".62"/><stop offset=".6" stop-color="#ff5a3c" stop-opacity=".22"/><stop offset="1" stop-color="#ff5a3c" stop-opacity="0"/></radialGradient>
@@ -666,7 +673,7 @@ def main():
             body = body.replace(nojs, nojs + block, 1)
         write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/city-fold.js"],
                                          css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
+                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
         robots = '<meta name="robots" content="noindex">\n' if d.get("draft") else ""
@@ -675,7 +682,7 @@ def main():
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
-                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") else ""))
+                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:

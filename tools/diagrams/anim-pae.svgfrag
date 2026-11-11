@@ -17,4 +17,8 @@
         <path id="paeCathL" class="cath" d="M200 -24 L200 22 C160 40 60 80 45 180 L45 215 C60 285 105 285 150 240"/>
         <path id="paeCathR" class="cath" d="M200 -24 L200 22 C240 40 340 80 355 180 L355 215 C340 285 295 285 250 240"/>
         <g class="beads"></g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M252 326 L236 292"/><text class="label" x="252" y="342">Prostate</text>
+          <text class="label" x="312" y="40">Artery</text>
+        </g>
       </g>
