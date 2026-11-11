@@ -22,7 +22,7 @@ glance_heading = "Compared at a glance: recovery and which keep the uterus"
 # The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
 glance_peek = ["embolization", "myomectomy", "hysterectomy"]
 glance_peek_columns = ["certainty", "recovery"]
-glance_note = "Use the columns to narrow your list, then take it to your doctor. Select a treatment name to read more about it."
+glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor. Select a treatment name to read more about it."
 works_note = "Results in the first column come from different studies that measured different things (symptoms, bleeding, or needing more treatment later), so they do not rank one treatment above another."
 simple_link = "New to fibroids? Start with the short guide to your fibroid treatment options"
 find_heading = "Find a fibroid embolization doctor"
