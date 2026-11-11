@@ -347,7 +347,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         missing = [i for i in ids if i not in glance] + [k for k in keys if k not in labels]
         if missing:
             raise TieError(f'glance_peek: unknown option or column: {missing}')
-        rows = "".join(f'<tr><th scope=row><a href="#{i}">{e(names[i])}</a></th>'
+        # `glance_peek_gloss`: a plain meaning after a surgical name on the first screen (his Doc edit 2026-11-11,
+        # "Hysterectomy (surgical removal of the uterus)")
+        gloss = d.get("glance_peek_gloss", {})
+        rows = "".join(f'<tr><th scope=row><a href="#{i}">{e(names[i])}</a>'
+                       + (f' <span class="peek-gloss">({e(gloss[i])})</span>' if i in gloss else '') + '</th>'
                        + "".join(f'<td data-label="{labels[k]}">{cell(i, k)}</td>' for k in keys) + '</tr>' for i in ids)
         heads = "".join(f"<th scope=col>{labels[k]}</th>" for k in keys)
         return (f'<div class="glance-peek"><table><caption>At a glance: {len(ids)} of {len(glance)} treatments</caption><thead><tr><th scope=col>Treatment</th>{heads}</tr></thead>'

@@ -639,6 +639,7 @@ a.compare-link:active { transform: scale(0.99); }
 .glance-peek caption { text-align: left; padding: 6px 0 2px; font: 400 1.125rem/1.25 var(--serif); }
 .glance-peek th, .glance-peek td { padding: 6px 8px 6px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
 .glance-peek thead th { border-top: 0; padding-top: 2px; font-size: 0.9375rem; font-weight: 600; color: var(--muted); }
+.glance-peek .peek-gloss { display: block; font-size: 0.875rem; font-weight: 400; color: var(--muted); }
 .glance-peek tbody th { font-weight: 600; }
 .glance-peek tbody th a { display: block; padding: 6px 0; margin: -6px 0; color: var(--ink); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .glance-peek tbody th a:hover { text-decoration: underline; } }

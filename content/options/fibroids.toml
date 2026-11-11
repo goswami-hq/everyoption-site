@@ -22,8 +22,10 @@ glance_heading = "Compared at a glance: recovery and which keep the uterus"
 # The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
 glance_peek = ["embolization", "myomectomy", "hysterectomy"]
 glance_peek_columns = ["certainty", "recovery"]
+# His Doc suggestion 2026-11-11: say what the surgery is where a patient first meets the word.
+glance_peek_gloss = { hysterectomy = "surgical removal of the uterus" }
 glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor. Select a treatment name to read more about it."
-works_note = "Results in the first column come from different studies that measured different things (symptoms, bleeding, or needing more treatment later), so they do not rank one treatment above another."
+works_note = "Results under How well it works come from different studies that measured different things (symptoms, bleeding, or needing more treatment later), so they do not rank one treatment above another."
 simple_link = "New to fibroids? Start with the short guide to your fibroid treatment options"
 find_heading = "Find a fibroid embolization doctor"
 city_link = "Fibroid embolization doctors by city"
@@ -138,8 +140,8 @@ works = "Good evidence suggests most women feel much better: {f:ufe-improve} see
 evidence = [
   "* **Most women's symptoms improve.** {d:ufe-range}.",
   "* **Satisfaction: no clear difference from surgery.** {d:ufe-sat}.",
-  "* **Quality of life: myomectomy came out ahead at first.** {d:femme-qol}.",
-  "* **Taken together:** no clear difference in satisfaction was found. However, on this quality-of-life measure, myomectomy came out ahead at first.[^cochrane][^femme2]",
+  "* **Quality of life: close to myomectomy.** {d:femme-qol}.",
+  "* **Taken together:** no clear difference in satisfaction. On quality of life, myomectomy scored somewhat higher at first, and later the gap could be due to chance.[^cochrane][^femme2][^femme4]",
 ]
 risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
 fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
@@ -153,7 +155,7 @@ evidence = [
   "- The first study counted only surgery for heavy bleeding.[^sonata3]",
   "- The second counted any surgery, most often removing other fibroids through the cervix. It looked back at one center's records.[^dutch]",
   "* **Across several studies, some women needed another procedure.** {d:rfa-pool}.",
-  "* **Through the cervix, more women needed more surgery than after myomectomy.** {d:rfa-esonata}.",
+  "* **Compared with myomectomy, more women needed a second surgery.** {d:rfa-esonata}.",
 ]
 risks = "Pain and cramps can happen. Serious problems are possible, but were rare in studies.[^sonata3][^dutch]"
 
@@ -201,8 +203,22 @@ risks = "Bleeding, infection, blood clots, and harm to nearby organs are possibl
 [[detail]]
 option = "hysterectomy"
 intro = "Surgery removes the whole uterus, through the vagina, small cuts, or a larger cut in the belly. Recovery takes {f:major-recovery}.[^mphyst]"
-works = "It is the only treatment that keeps fibroids from returning, and periods stop. It also ends the chance of pregnancy.[^owh][^ccmyo]"
-risks = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together. A blocked bowel from scar tissue is possible, but rare.[^asrm][^ccadh] After open surgery, {f:hernia}."
+# His Doc comment 2026-11-11: "This is the biggest comparison treatment patients are looking at. Why is this the
+# shortest section?" Evidence: ai-hq projects/platform/content/pages/sources/fibroids-evidence-2026-11-11-hysterectomy.md
+works = "It is the only treatment that keeps fibroids from returning. Periods stop, so the heavy bleeding from fibroids ends. Most women feel much better afterward and stay satisfied years later.[^owh][^ccmyo][^emmy][^kjerulff] It also ends the chance of pregnancy."
+evidence = [
+  "* **Compared with embolization: no clear difference in quality of life.** {d:hyst-emmy}.",
+  "* **More women needed more treatment after embolization, but most kept their uterus.** {d:hyst-reint}.",
+  "* **Embolization had shorter hospital stays.** {d:hyst-stay}.",
+  "* **How the surgery is done changes recovery.** {d:hyst-route}.",
+  "* **Most women improve, but not all.** {d:hyst-maryland}.",
+]
+risks = """Bleeding, infection, blood clots, and harm to nearby organs can happen.[^mphyst] {d:hyst-harms}.
+Menopause begins right away if both ovaries are also removed.[^mphyst] Scar tissue can make organs stick together. A blocked bowel from scar tissue is possible, but rare.[^asrm][^ccadh] After open surgery, {f:hernia}.
+Longer-term effects are less certain, because they come from studies that followed women after surgery, not from trials.
+{d:hyst-ovary}.
+{d:hyst-sui}.
+{d:hyst-heart}."""
 
 # Deep page references (job platform-main-0027): sources of the deep-only facts.
 [[refs]]
@@ -257,3 +273,35 @@ url = "https://doi.org/10.1097/AOG.0000000000004988"
 key = "libwd"
 cite = "Al-Hendy A, Venturella R, Arjona Ferreira JC, et al. LIBERTY randomized withdrawal study: relugolix combination therapy for heavy menstrual bleeding associated with uterine fibroids. American Journal of Obstetrics and Gynecology. 2023;229(6):662.e1-662.e25. doi:10.1016/j.ajog.2023.08.030. PMID 37666383. Abstract read. Funded by the drug maker."
 url = "https://doi.org/10.1016/j.ajog.2023.08.030"
+[[refs]]
+key = "kjerulff"
+cite = "Kjerulff KH, Langenberg PW, Rhodes JC, Harvey LA, Guzinski GM, Stolley PD. Effectiveness of hysterectomy. Obstetrics and Gynecology. 2000;95(3):319-326. doi:10.1016/s0029-7844(99)00544-x. PMID 10711536. Abstract read."
+url = "https://doi.org/10.1016/s0029-7844(99)00544-x"
+[[refs]]
+key = "emmy-peri"
+cite = "Hehenkamp WJK, Volkers NA, Donderwinkel PFJ, et al. Uterine artery embolization versus hysterectomy in the treatment of symptomatic uterine fibroids (EMMY trial): peri- and postprocedural results from a randomized controlled trial. American Journal of Obstetrics and Gynecology. 2005;193(5):1618-1629. doi:10.1016/j.ajog.2005.05.017. PMID 16260201. Abstract read."
+url = "https://doi.org/10.1016/j.ajog.2005.05.017"
+[[refs]]
+key = "pickett23"
+cite = "Pickett CM, Seeratan DD, Mol BWJ, et al. Surgical approach to hysterectomy for benign gynaecological disease. Cochrane Database of Systematic Reviews. 2023;8(8):CD003677. doi:10.1002/14651858.CD003677.pub6. PMID 37642285. Abstract read."
+url = "https://doi.org/10.1002/14651858.CD003677.pub6"
+[[refs]]
+key = "moorman11"
+cite = "Moorman PG, Myers ER, Schildkraut JM, Iversen ES, Wang F, Warren N. Effect of hysterectomy with ovarian preservation on ovarian function. Obstetrics and Gynecology. 2011;118(6):1271-1279. doi:10.1097/AOG.0b013e318236fd12. PMID 22067716. Abstract read."
+url = "https://doi.org/10.1097/AOG.0b013e318236fd12"
+[[refs]]
+key = "santoro23"
+cite = "Santoro N, Flyckt R, Davis A, et al. Anti-Müllerian hormone level decline in patients undergoing hysterectomy with and without oophorectomy compared with natural menopause. Obstetrics and Gynecology. 2023;141(2):331-340. doi:10.1097/AOG.0000000000005049. PMID 36649324. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000005049"
+[[refs]]
+key = "altman07"
+cite = "Altman D, Granath F, Cnattingius S, Falconer C. Hysterectomy and risk of stress-urinary-incontinence surgery: nationwide cohort study. Lancet. 2007;370(9597):1494-1499. doi:10.1016/S0140-6736(07)61635-3. PMID 17964350. Abstract read."
+url = "https://doi.org/10.1016/S0140-6736(07)61635-3"
+[[refs]]
+key = "laughlin18"
+cite = "Laughlin-Tommaso SK, Khan Z, Weaver AL, Smith CY, Rocca WA, Stewart EA. Cardiovascular and metabolic morbidity after hysterectomy with ovarian conservation: a cohort study. Menopause. 2018;25(5):483-492. doi:10.1097/GME.0000000000001043. PMID 29286988. Abstract read."
+url = "https://doi.org/10.1097/GME.0000000000001043"
+[[refs]]
+key = "emmy5"
+cite = "van der Kooij SM, Hehenkamp WJK, Volkers NA, Birnie E, Ankum WM, Reekers JA. Uterine artery embolization vs hysterectomy in the treatment of symptomatic uterine fibroids: 5-year outcome from the randomized EMMY trial. American Journal of Obstetrics and Gynecology. 2010;203(2):105.e1-105.e13. doi:10.1016/j.ajog.2010.01.049. PMID 20579960. Abstract read."
+url = "https://doi.org/10.1016/j.ajog.2010.01.049"

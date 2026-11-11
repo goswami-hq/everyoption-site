@@ -144,7 +144,7 @@ read = "abstract"
 id = "ufe-range"
 option = "embolization"
 simple = ""
-deep = "A German health-information institute puts symptom improvement at about 80 to 90 out of 100 women. The short guide's almost 9 out of 10 is the top of that range"
+deep = "A German health-information institute puts symptom improvement at about 80 to 90 out of 100 women"
 refs = ["iqwig"]
 read = "page"
 [[fact]]
@@ -186,7 +186,7 @@ read = "abstract"
 id = "rfa-esonata"
 option = "radiofrequency"
 simple = ""
-deep = "A study followed women forward from treatment, but did not assign treatments by chance. By 18 months, 27.3% had more surgery after radiofrequency through the cervix, compared with 6.3% after myomectomy"
+deep = "A Dutch study followed women after the treatment they chose; treatments were not assigned by chance. Within 18 months, about 1 out of 4 women (27.3%) needed another surgery after the no-cut radiofrequency treatment through the vagina, compared with about 1 out of 16 (6.3%) after myomectomy"
 refs = ["esonata"]
 read = "abstract"
 [[fact]]
@@ -223,4 +223,69 @@ option = "endometrial-ablation"
 simple = ""
 deep = "In a large U.S. health system study of women treated for fibroids, 35.5% needed another procedure within 7 years of ablation"
 refs = ["mitro24"]
+read = "abstract"
+
+# Hysterectomy section (his Doc comment 2026-11-11). Evidence: ai-hq fibroids-evidence-2026-11-11-hysterectomy.md
+[[fact]]
+id = "hyst-emmy"
+option = "hysterectomy"
+simple = ""
+deep = "The EMMY trial in the Netherlands assigned 177 women by chance to embolization or to hysterectomy. Quality of life improved after both, with no clear difference between them at 5 or 10 years. At 10 years, 87% of women were satisfied after hysterectomy and 78% after embolization. Pooled with other trials, satisfaction did not clearly differ between embolization and surgery"
+refs = ["emmy", "emmy5", "cochrane"]
+read = "abstract"
+[[fact]]
+id = "hyst-reint"
+option = "hysterectomy"
+simple = ""
+deep = "By 10 years in EMMY, 35% of women treated with embolization (28 of 81) went on to have a hysterectomy, so about 2 out of 3 kept their uterus. In the UK REST trial, 32% needed another procedure within 5 years after embolization, compared with 4% after surgery, which was mostly hysterectomy"
+refs = ["emmy", "rest"]
+read = "abstract"
+[[fact]]
+id = "hyst-stay"
+option = "hysterectomy"
+simple = ""
+deep = "In EMMY, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s; many hysterectomies are now done through small cuts or the vagina, with shorter stays"
+refs = ["emmy-peri", "pickett23"]
+read = "abstract"
+[[fact]]
+id = "hyst-route"
+option = "hysterectomy"
+simple = ""
+deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had more injuries to the tubes that carry urine from the kidneys: about 2 out of 1,000 women after a larger cut, and between 2 out of 1,000 and 2 out of 100 through small cuts"
+refs = ["pickett23"]
+read = "abstract"
+[[fact]]
+id = "hyst-maryland"
+option = "hysterectomy"
+simple = ""
+deep = "In a Maryland study, 1,299 women had a hysterectomy for noncancer reasons, fibroids among them. Symptoms eased and quality of life rose over 2 years. About 1 out of 12 (8%) still had as many severe symptoms 1 and 2 years later"
+refs = ["kjerulff"]
+read = "abstract"
+[[fact]]
+id = "hyst-harms"
+option = "hysterectomy"
+simple = ""
+deep = "In the EMMY trial, serious problems were not clearly more common after either treatment (2.7% after hysterectomy, 4.9% after embolization). In the 6 weeks after leaving the hospital, minor problems were less common after hysterectomy (40% compared with 58%), and no one went back into the hospital, compared with 11% after embolization"
+refs = ["emmy-peri"]
+read = "abstract"
+[[fact]]
+id = "hyst-ovary"
+option = "hysterectomy"
+simple = ""
+deep = "When the ovaries are kept, studies disagree on whether menopause comes sooner. In one U.S. study, the ovaries stopped working within 4 years in 14.8% of women after hysterectomy, compared with 8.0% of similar women who did not have one. A later U.S. study that tracked an ovarian hormone found no faster decline after hysterectomy"
+refs = ["moorman11", "santoro23"]
+read = "abstract"
+[[fact]]
+id = "hyst-sui"
+option = "hysterectomy"
+simple = ""
+deep = "In a Swedish national study of 165,260 women who had a hysterectomy, later surgery for leaking urine when coughing or exercising (stress incontinence) was more than twice as common as in women who did not have one (hazard ratio 2.4; range 2.3 to 2.5)"
+refs = ["altman07"]
+read = "abstract"
+[[fact]]
+id = "hyst-heart"
+option = "hysterectomy"
+simple = ""
+deep = "In a Minnesota study that followed 2,094 women for about 22 years after a hysterectomy that kept the ovaries, high blood pressure and heart disease were somewhat more common than in women who did not have one (coronary artery disease hazard ratio 1.33; range 1.12 to 1.58), more so for women 35 or younger. A study like this cannot show that the surgery caused it"
+refs = ["laughlin18"]
 read = "abstract"
