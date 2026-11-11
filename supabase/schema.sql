@@ -119,11 +119,23 @@ create table identity_checks (
   at timestamptz not null default now()
 );
 
+-- Procedure registry job 2 (2026-11-11): one row per issued procedure key, generated from content/procedure-keys.json
+-- (tools/procedures_sql.py; the build fails if the seed differs). Rows are never deleted; a retired one is set inactive.
+create table procedures (
+  key text primary key,
+  active boolean not null default true,
+  added_at timestamptz not null default now()
+);
+-- BEGIN GENERATED SEED: tools/procedures_sql.py from content/procedure-keys.json. Edit that file, not this block.
+insert into procedures (key) values ('ufe'), ('pae'), ('gae'), ('pelvic'), ('hae')
+  on conflict (key) do nothing;
+-- END GENERATED SEED
+
 create table attestations (
   id uuid primary key default gen_random_uuid(),
   account_id uuid not null references accounts(id),
   npi text not null,
-  procedure text not null check (procedure in ('ufe', 'pae', 'gae', 'pelvic', 'hae')),
+  procedure text not null constraint attestations_procedure_fkey references procedures(key) on delete restrict,
   statement text not null,                                           -- the exact wording ticked
   agreement text not null default '',                                -- the one agreement on the page
   at timestamptz not null default now()
@@ -171,7 +183,7 @@ create table rate_hits (
 -- Row level security: on everywhere, no policies, so only the service role gets in.
 do $$ declare t text; begin
   foreach t in array array['accounts','profiles','login_links','codes','invitations','radiologist_names','sessions',
-                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits'] loop
+                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits','procedures'] loop
     execute format('alter table %I enable row level security', t);
     execute format('alter table %I force row level security', t);
     execute format('revoke all on %I from anon, authenticated', t);

@@ -14,6 +14,7 @@ import insurance
 import options
 import pattern
 import registry
+import procedures_sql
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -25,8 +26,8 @@ LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exporte
 
 # The procedure registry (ai-hq job platform-directory-0032): content/conditions.json and content/procedures.json, read
 # through tools/registry.py, are the only place a condition or procedure is named. The build writes the browser copy
-# (site/assets/procedures.js), the server copies (lib/procedures.mjs, lib/registry.mjs), the database check
-# (supabase/schema.sql) and the per-condition city functions from them. Finder blurbs (projects/platform/content/pages/
+# (site/assets/procedures.js), the server copies (lib/procedures.mjs, lib/registry.mjs), the database seed
+# (supabase/schema.sql, through tools/procedures_sql.py) and the per-condition city functions from them. Finder blurbs (projects/platform/content/pages/
 # pae-gae-blurbs-draft.md in goswami-hq/ai-hq, word for word; his style rule 2026-11-01) live in each procedure's "finder".
 ROOT = os.path.dirname(SITE)
 registry.require(SITE)
@@ -510,14 +511,12 @@ def write_procedures():
         os.makedirs(os.path.dirname(os.path.join(ROOT, rel)), exist_ok=True)
         with open(os.path.join(ROOT, rel), "w", encoding="utf-8") as fh:
             fh.write(text)
-    sql = os.path.join(ROOT, "supabase", "schema.sql")
-    with open(sql, encoding="utf-8") as fh:
-        text = fh.read()
-    keys = ", ".join(f"'{k}'" for k in registry.keys())
-    new = re.sub(r"check \(procedure in \([^)]*\)\)", f"check (procedure in ({keys}))", text)
-    if new != text:
-        with open(sql, "w", encoding="utf-8") as fh:
-            fh.write(new)
+    # Procedure registry job 2 (ai-hq job platform-directory-0033): the procedures table's seed rows in schema.sql are
+    # written from content/procedure-keys.json; the build stops if schema.sql or the migrations differ from it.
+    procedures_sql.write_schema()
+    errs = procedures_sql.check()
+    if errs:
+        raise SystemExit("procedures seed:\n  " + "\n  ".join(errs))
 
 
 def write(rel, text):

@@ -111,7 +111,9 @@ test("one procedure list: every copy matches content/procedures.json", () => {
   const w = {}; new Function("window", browser)(w);
   assert.deepEqual(w.EO_PROCS.keys, PROCS); assert.equal(w.EO_PROCS.long.ufe, "Uterine fibroid embolization (UFE)");
   const sql = readFileSync(new URL("../supabase/schema.sql", import.meta.url), "utf8");
-  assert.ok(sql.includes(`check (procedure in (${PROCS.map((k) => `'${k}'`).join(", ")}))`));
+  const issued = JSON.parse(readFileSync(new URL("../content/procedure-keys.json", import.meta.url), "utf8")).issued;
+  assert.ok(sql.includes(`insert into procedures (key) values ${issued.map((k) => `('${k}')`).join(", ")}`), "schema.sql seeds every issued key");
+  assert.ok(!sql.includes("attestations_procedure_check") && sql.includes("references procedures(key) on delete restrict"));
   assert.equal(w.EO_PROCS.short.pelvic, "pelvic vein treatment"); assert.equal(w.EO_PROCS.long.pelvic, "Pelvic vein treatment");
   for (const f of ["../site/assets/account.js", "../site/assets/finder.js", "../functions/api/report.js", "../lib/accounts/util.mjs",
     "../lib/accounts/service.mjs", "../lib/accounts/vendors.mjs"]) {
