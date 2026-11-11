@@ -16,7 +16,7 @@ import html, json, pathlib, re, tomllib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "conditions"
 
-import registry
+import registry, embolization
 COVERAGE = registry.coverage()   # a procedure's declared coverage page, content/procedures.json "parts"
 PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
 
@@ -180,11 +180,14 @@ def lead_option(refs, c, diagram_fn):
     pic = diagram_fn(c["diagram"], vary=False) if c.get("diagram") else ""
     # `invasive_heading`: the fold's name when its text is not about how it works (hemorrhoids "Recovery", his word
     # "Fine", 2026-11-10: "The headline is How it works, the text is just about pain")
-    how = fold("topic how-fold", o.get("invasive_heading", "How it works"), f'{pic}<p>{t("invasive")}</p>')
+    # the "What is embolization?" fold (job platform-condition-pages-0020, his words 2026-11-11), from
+    # content/embolization.toml, right after "How it works"; "" for a condition that is not in that file
+    embo = embolization.simple_fold(refs, c["slug"], tail)
+    how = fold("topic how-fold", o.get("invasive_heading", "How it works"), f'{pic}<p>{t("invasive")}</p>') + embo
     if pic and o.get("invasive_heading"):
         # hemorrhoids (2026-11-11): its fold is "Recovery", so the animation gets its own "How it works" fold above it,
         # as on the other condition pages
-        how = (fold("topic how-fold", "How it works", pic)
+        how = (fold("topic how-fold", "How it works", pic) + embo
                + fold("topic", o["invasive_heading"], f'<p>{t("invasive")}</p>'))
     cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
     # "What is <procedure>?" answer block (agreed list item 1, his yes 2026-11-07): `lead_heading` on the lead option
@@ -284,7 +287,7 @@ def hero(c, finder_fn):
 
 def body(c, diagram_fn, e, top=""):
     """Built strictly in page order, so reference numbers count up from 1 down the page."""
-    refs = Refs(c["refs"])
+    refs = Refs(c["refs"] + embolization.refs())   # the explainer's sources join the page's own (job 0020)
     box = what_box(refs, c)   # first on the page, so its sources number from 1
     lead = box + lead_option(refs, c, diagram_fn)
     # place = "lead": a section shown open right after the lead procedure, not folded in Learn more (job 33: the

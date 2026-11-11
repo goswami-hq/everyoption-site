@@ -12,7 +12,7 @@ Syllables are counted by vowel groups with the usual English corrections; number
 The comparison table's short cells and the reference list are not prose and are not scored.
 """
 import re, sys
-import condition
+import condition, embolization
 
 BAR, AIM = 9.0, 7.0   # his words, 2026-11-01: plain, but "it reads too simple now"; whole page under FLOOR is flagged
 FLOOR = 4.0
@@ -65,6 +65,8 @@ def blocks(c):
         out.append(("Group: " + k["name"], [k["summary"]]))
     for o in c["options"]:
         out.append(("Option: " + o["name"], [o[k] for k in ("what", "invasive", "works", "side")]))
+    if embolization.texts(c["slug"]):   # the shared "What is embolization?" fold (job platform-condition-pages-0020)
+        out.append(("What is embolization? (shared fold)", embolization.texts(c["slug"])))
     for s in c["sections"]:
         if s.get("place") == "box":
             out.append((s["heading"], condition.box_texts(c)))

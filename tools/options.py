@@ -301,7 +301,7 @@ def toc(c, d, names, extra):
 def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     check(c, d, f)
     facts = {x["id"]: x for x in f["fact"]}
-    refs, names = condition.Refs(c["refs"] + d.get("refs", [])), {o["id"]: o["name"] for o in c["options"]}
+    refs, names = condition.Refs(c["refs"] + d.get("refs", []) + condition.embolization.refs()), {o["id"]: o["name"] for o in c["options"]}
     quiet = d.get("abstract_label", True)
     txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts, quiet))))
     e = lambda s: html.escape(s, quote=False)
@@ -388,6 +388,9 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             lead = i == c.get("diagram_at")
             rows = "".join(block(key, x[key]) for key in DETAIL_FIELDS[1:] if x.get(key))
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
+            # "What is used to block the blood flow?" (job platform-condition-pages-0020): after the drawing, inside the
+            # embolization option; "" for a condition not in content/embolization.toml
+            pic += condition.embolization.deep_section(refs, c["slug"], condition.tail) if lead else ""
             # job platform-condition-pages-0014: a condition with no doctor list (hemorrhoids) has no finder button
             cta = (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + condition.coverage_link(c) if lead else ""
             items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'

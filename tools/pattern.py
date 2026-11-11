@@ -10,7 +10,7 @@ rendered on request, so their half of the check is tools/condition-pattern.test.
 """
 import html, json, pathlib, re, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-import condition, options
+import condition, embolization, options
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
@@ -164,6 +164,7 @@ def simple_parts(tag, p, c, slug, deep_path):
         errs.append(f"{tag}: insurance link with no coverage page")
     errs += chrome_errors(tag, p, f"/?from={slug}#conditions")
     errs += ruling_errors(tag, t, c)
+    errs += embo_errors(tag, t, c)
     return errs
 
 
@@ -181,6 +182,50 @@ def ruling_errors(tag, t, c):
     m = re.search(r"\b\d+(?: to \d+)? in \d[\d,]*\b(?! (?:years?|months?|weeks?|days?|hours?|minutes?|mi|miles?)\b)", body)
     if m:
         errs.append(f'{tag}: frequency written "{m.group(0)}"; write "out of"')
+    return errs
+
+
+def embo_errors(tag, t, c, deep=False):
+    """The embolization explainer (ai-hq job platform-condition-pages-0020, his words 2026-11-11 14:25 CT: "Across all the
+    embo pages, we need to explain what embolization is simply and the types of things we use as embolic agents simply").
+    Every condition whose lead treatment is an embolization must be in content/embolization.toml; its short guide
+    carries the "What is embolization?" fold inside the lead option, after "How it works" and before "How well does it
+    work?"; its in-depth page carries "What is used to block the blood flow?" inside the lead option, with this page's
+    materials first and marked and every material of the file shown once."""
+    lead_opt = next((o for o in c["options"] if o["id"] == c.get("diagram_at")), None)
+    listed = embolization.conditions().get(c["slug"])
+    if not listed:
+        return ([f"{tag}: lead treatment is an embolization but the condition is not in content/embolization.toml"]
+                if lead_opt and "embolization" in lead_opt["name"].lower() else [])
+    d = embolization.data()
+    errs = []
+    if not deep:
+        lead = re.search(r'<section class="lead-option".*?</section>', t, re.S)
+        lead = lead.group(0) if lead else ""
+        f = re.search(r'<details class="topic embo-what" id="what-is-embolization"[^>]*><summary>' + re.escape(html.escape(d["fold_heading"])) + "</summary>", lead)
+        i = f.start() if f else -1
+        if i < 0:
+            return [f'{tag}: no "{d["fold_heading"]}" fold in the lead option']
+        if '<details class="topic embo-what" id="what-is-embolization" open' in lead:
+            errs.append(f'{tag}: the "{d["fold_heading"]}" fold must start closed')
+        how, well = lead.find('class="topic how-fold"'), lead.find("<summary>How well does it work?</summary>")
+        if not how < i < well:
+            errs.append(f'{tag}: the "{d["fold_heading"]}" fold is not between "How it works" and "How well does it work?"')
+        return errs
+    lead = re.search(r'<article class="deep-option lead-option".*?</article>', t, re.S)
+    lead = lead.group(0) if lead else ""
+    m = re.search(r'<section class="embo-agents" id="embolic-materials".*?</section>', lead, re.S)
+    if not m:
+        return [f'{tag}: no "{d["deep_heading"]}" section in the lead option']
+    sec = m.group(0)
+    if f'<h4 id="embolic-materials-h">{html.escape(d["deep_heading"])}</h4>' not in sec:
+        errs.append(f'{tag}: the materials section heading is not "{d["deep_heading"]}"')
+    cards = re.findall(r'<li class="agent( this)?">.*?<h5>(.*?)</h5>', sec, re.S)
+    if len(cards) != len(d["material"]):
+        errs.append(f'{tag}: the materials section shows {len(cards)} cards, content/embolization.toml has {len(d["material"])}')
+    mine = len(listed["materials"])
+    if [bool(x) for x, _ in cards] != [True] * mine + [False] * (len(cards) - mine):
+        errs.append(f"{tag}: this page's materials are not first and marked")
     return errs
 
 
@@ -220,6 +265,7 @@ def deep_parts(tag, p, c, d, slug):
             errs.append(f"{tag}: no coverage link at the lead option's end")
     errs += chrome_errors(tag, p)
     errs += ruling_errors(tag, t, c)
+    errs += embo_errors(tag, t, c, deep=True)
     return errs
 
 

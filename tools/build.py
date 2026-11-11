@@ -556,7 +556,7 @@ def copy_src_assets():
         import shutil
         os.makedirs(os.path.join(SITE, "assets", "media"), exist_ok=True)
         for name in sorted(os.listdir(media)):
-            if name.endswith((".mp4", ".png")):
+            if name.endswith((".mp4", ".png", ".webp")):   # .webp: the embolization material pictures (job 0020)
                 shutil.copyfile(os.path.join(media, name), os.path.join(SITE, "assets", "media", name))
 
 
@@ -605,7 +605,7 @@ def main():
         hub = cities.HUB.get(c.get("finder"), "") if city_pages.get(c.get("finder")) else ""
         body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
-                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js"],
+                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013

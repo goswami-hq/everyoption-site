@@ -139,6 +139,18 @@ class PatternTest(unittest.TestCase):
         errs = self.site(("chronic-pelvic-pain/index.html", "about 1 out of 100", "about 1 in 100"))
         self.assertTrue(any('write "out of"' in e for e in errs), errs)
 
+    def test_embolization_explainer_missing_or_moved_fails(self):
+        # job platform-condition-pages-0020: the fold on every short guide, the materials section on every in-depth page
+        errs = self.site(("hemorrhoids/index.html", 'id="what-is-embolization"', 'id="gone"'))
+        self.assertTrue(any('hemorrhoids simple: no "What is embolization?" fold' in e for e in errs), errs)
+        errs = self.site(("chronic-pelvic-pain/index.html", '<details class="topic embo-what" id="what-is-embolization">',
+                          '<details class="topic embo-what" id="what-is-embolization" open>'))
+        self.assertTrue(any("must start closed" in e for e in errs), errs)
+        errs = self.site(("knee-arthritis/every-option/index.html", 'id="embolic-materials"', 'id="gone"'))
+        self.assertTrue(any("knee-arthritis every-option: no \"What is used to block the blood flow?\" section" in e for e in errs), errs)
+        errs = self.site(("fibroids/every-option/index.html", '<li class="agent this">', '<li class="agent">'))
+        self.assertTrue(any("not first and marked" in e for e in errs), errs)
+
     def test_source_rules_fail(self):
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
