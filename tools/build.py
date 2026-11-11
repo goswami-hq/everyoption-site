@@ -86,6 +86,16 @@ PROCS = {
         "about": [],
         "sources": [],
     },
+    # Job platform-directory-0029 (his go 2026-11-11: "Yes start the export"): the HAE list. Its finder lives on
+    # /hemorrhoids/ (MOVED), like pelvic; the home card keeps the name "Bleeding hemorrhoids" (his words 2026-11-11) and
+    # the ochre of the hemorrhoid page.
+    "hae": {
+        "for": "Bleeding hemorrhoids",
+        "color": "hem",
+        "title": "Find a doctor for hemorrhoid embolization",
+        "about": [],
+        "sources": [],
+    },
 }
 
 assert list(PROCS) == [p["key"] for p in PROCEDURES], "PROCS copy must match content/procedures.json"
@@ -96,6 +106,11 @@ SHORT = {p["key"]: p["abbr"] or p.get("short") or p["name"].lower() for p in PRO
 PAREN = {p["key"]: f' ({p["abbr"]})' if p["abbr"] else "" for p in PROCEDURES}
 # Job platform-directory-0009: the pelvic city pages' "Is it right for me?" line, word for word from the pelvic page
 # (the embolization option's "what", then the stent option's first sentence), citations dropped as on other city pages.
+# Job platform-directory-0029: the HAE city page's line, word for word from the hemorrhoid page's embolization option
+# (content/conditions/hemorrhoids.toml "what", citations dropped).
+HAE_BLURB = ("Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a "
+             "tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they "
+             "bleed less. Most people go home the same day.")
 PELVIC_BLURB = ("A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. "
                 "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.")
 # Procedures whose condition page is still a draft: profile tags show, but a profile listed only for these stays
@@ -243,7 +258,8 @@ def logo_file():
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
-    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}
+    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/",
+                 "hae": "/hemorrhoids/"}   # hae: job platform-directory-0029
 
     def row(k, p):
         slug = HOME_LINK.get(k, "").strip("/")
@@ -350,9 +366,11 @@ def diagram(k, vary=True):
 # A condition page with no finder yet: (color key, address, home card name, procedure line). Not in the home ZIP list.
 # Empty since job platform-directory-0009: chronic pelvic pain has its finder (PROCS["pelvic"]).
 # Hemorrhoids (his words 2026-11-11: "We need a link to HAE as well, the same way every other condition is linked /
-# displayed. The condition page can have 'Bleeding hemorrhoids'"). Until its finder exists (the HAE directory work).
-PAGE_ONLY = [("hem", "/hemorrhoids/", "Bleeding hemorrhoids", "Hemorrhoid artery embolization (HAE)")]
-MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/"}   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
+# displayed. The condition page can have 'Bleeding hemorrhoids'"). Empty again since job platform-directory-0029: the
+# hemorrhoid card is a normal home row (PROCS["hae"]), same name and procedure line, with its doctor count.
+PAGE_ONLY = []
+MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/",
+         "hae": "/hemorrhoids/"}   # hae: job platform-directory-0029   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
 RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
@@ -720,7 +738,7 @@ def main():
                          # job platform-directory-0009: no approved finder text exists for pelvic veins, so the city pages
                          # reuse the pelvic page's own embolization sentence (content/conditions/chronic-pelvic-pain.toml,
                          # option "embolization", "what"), its words and claim only; on his review list
-                         "pelvic": PELVIC_BLURB}, LISTINGS_AS_OF, SITE)
+                         "pelvic": PELVIC_BLURB, "hae": HAE_BLURB}, LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"

@@ -5,7 +5,9 @@
 # projects/platform/hemorrhoid-page/evidence.md (rows cited there).
 # His positioning (vault/decisions.md, 2026-11-09): "Bleeding/pain after office treatments failing, after lifestyle
 # changes, for people who don't want surgery. Banding is an alternative that works well for some people".
-# No doctor list for hemorrhoids (not in scope): no finder, no city pages, no home card yet (his call, on the list).
+# Finder since job platform-directory-0029 (his go 2026-11-11: "Yes start the export"): the HAE list (site/data/hae.json).
+# The finder block below is the only text added; its wording is on his review list (ai-hq
+# projects/platform/design/hae-finder-2026-11-11/list-for-him.md).
 # Framework (his words, 2026-11-01): Medicines (here home care); Less invasive treatments, IR option first; Surgery.
 # Rules: no brand or device names, testimonials, guarantees, superiority claims, practice names or the physician's
 # name; plain frequencies only; no trial names or evidence grades in the reading text; each option states its own limits.
@@ -16,6 +18,7 @@
 
 slug = "hemorrhoids"
 color = "hem"                  # its own color (ochre), src-assets/site.css
+finder = "hae"                 # the finder this page leads to: the HAE list (job platform-directory-0029)
 nav_name = "Hemorrhoids"
 reviewed = "2026-11-10"
 draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
@@ -38,6 +41,11 @@ h1 = "Bleeding hemorrhoids: every option, with and without surgery"   # his word
 hero_intro = "Rectal bleeding always needs a doctor's check first, because it is not always hemorrhoids. Sometimes the doctor needs to check your colon.\nHemorrhoids have multiple treatments available. Fiber eases symptoms for many people. Office treatments such as banding also work well. If bleeding keeps coming back, you can look into embolization, which needs no surgery. Surgery is the most lasting fix."
 diagram = "hae"                # tools/diagrams/anim-hae.svgfrag (his pick, 2026-11-11) ...
 diagram_at = "embolization"    # ... shown inside this option
+# The finder block (job platform-directory-0029). The intro restates the embolization option's own "what" below.
+finder_button = "Find a doctor for hemorrhoid embolization"
+finder_heading = "Find a doctor for hemorrhoid embolization"
+finder_intro = "Hemorrhoid embolization treats bleeding hemorrhoids without surgery, through a tiny skin nick in the wrist or groin."
+finder_how = "#embolization"
 options_page = "/hemorrhoids/every-option/"
 options_link = "Compare them side by side: embolization vs. banding, other office treatments, and surgery"
 answer = "Hemorrhoids are swollen veins in and around the bottom. They are common.[^niddk] Fiber eases symptoms for many people, and office treatments like banding work well for many.[^aga][^alonso] If bleeding keeps coming back after those, embolization is one option that needs no surgery. Surgery is the most lasting fix.[^jin21][^vanoost] The right choice depends on your symptoms and goals."

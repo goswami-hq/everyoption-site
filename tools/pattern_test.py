@@ -101,8 +101,10 @@ class PatternTest(unittest.TestCase):
         self.assertTrue(any("compare link with no every-option page" in e for e in errs), errs)
 
     def test_no_finder_condition_compare_link_fails(self):
-        # job platform-condition-pages-0014: hemorrhoids has no doctor list; its compare link sits under the intro
-        errs = self.site(("hemorrhoids/index.html", '<p class="hero-compare">', '<p class="gone">'))
+        # job platform-condition-pages-0014 wrote this for hemorrhoids with no doctor list (hero-compare under the intro).
+        # Since job platform-directory-0029 every condition page has a finder, so the check runs on the hemorrhoid
+        # finder's compare link; the no-finder branch in tools/pattern.py stays for a future page without one.
+        errs = self.site(("hemorrhoids/index.html", '<a class="find-compare" href="/hemorrhoids/every-option/">Compare your options</a>', ''))
         self.assertTrue(any(e.startswith("hemorrhoids simple: no first-screen") for e in errs), errs)
 
     def test_glance_caption_and_count_fail(self):

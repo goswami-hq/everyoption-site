@@ -51,7 +51,9 @@ def run():
                     check(f"{tag}: every other option in one group", sorted(opts) == sorted(o["id"] for o in c["options"] if o["id"] != c["diagram_at"]), opts)
                     check(f"{tag}: the lead option is open and its group row points to it",
                           pg.locator(f"section.lead-option#{c['diagram_at']}").count() == 1 and pg.locator(f"details.group a.option-link[href='#{c['diagram_at']}']").count() == 1)
-                    check(f"{tag}: everything starts collapsed", pg.locator("details[open]").count() == 0)
+                    # job platform-directory-0029: the "Doctors by city" fold ships open on desktop by design
+                    # (src-assets/city-fold.js, job platform-condition-pages-0004), so it is not counted here
+                    check(f"{tag}: everything starts collapsed", pg.locator("details[open]:not(.city-fold)").count() == 0)
                     bad = pg.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href'))
                         .filter(h => h.length > 1 && !document.getElementById(h.slice(1)))""")
                     check(f"{tag}: every jump link and marker has a target", not bad, bad)

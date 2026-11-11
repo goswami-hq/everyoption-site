@@ -24,9 +24,9 @@ const SLUGS = ["new-york-city-area", "washington-dc", "philadelphia-pa", "baltim
 const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f)).map((f) => read(f)).join("\n");
 
 test("pelvic is one more procedure, plain words, marked draft", () => {
-  assert.deepEqual(PROCS, ["ufe", "pae", "gae", "pelvic"]);
+  assert.deepEqual(PROCS.slice(0, 4), ["ufe", "pae", "gae", "pelvic"]);   // hae after it since job platform-directory-0029
   assert.equal(PROC_LONG.pelvic, "Pelvic vein treatment");
-  assert.deepEqual(DRAFT_PROCS, ["pelvic"]);
+  assert.ok(DRAFT_PROCS.includes("pelvic"));
   assert.equal(PELVIC.procedure, "pelvic");
   assert.ok(PELVIC.people.length >= 100, "the exported list");
   for (const p of PELVIC.people) { assert.ok(!("grade" in p) && !("evidence" in p), "no grades or quotes published"); }
@@ -58,9 +58,9 @@ test("home: the condition card opens the finder with its count, and the ZIP drop
   const home = read("index.html");
   assert.match(home, new RegExp(`<li class="t-cpp"><a href="/chronic-pelvic-pain/"><strong>Chronic pelvic pain</strong><span class="proc">Pelvic vein treatment</span><span class="count">${PELVIC.people.length} doctors listed</span>`));
   const opts = [...home.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(opts.at(-1), ["/chronic-pelvic-pain/", "Chronic pelvic pain"]);
-  assert.equal(opts.length, 4);
-  // the pelvic card no longer says "Doctor list coming"; hemorrhoids does, until its finder exists (2026-11-11)
+  assert.deepEqual(opts[3], ["/chronic-pelvic-pain/", "Chronic pelvic pain"]);   // hemorrhoids after it since job 0029
+  assert.equal(opts.length, 5);
+  // the pelvic card no longer says "Doctor list coming"
   assert.doesNotMatch(home, /<li class="t-cpp">(?:(?!<\/li>).)*Doctor list coming/);
 });
 
@@ -113,6 +113,6 @@ test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile stay
 
 test("profile search knows the pelvic list (live removals apply to it too)", () => {
   const js = read("assets/directory.js");
-  assert.match(js, /var PROCS = \["ufe", "pae", "gae", "pelvic"\]/);
+  assert.match(js, /var PROCS = \["ufe", "pae", "gae", "pelvic", "hae"\]/);   // hae: job platform-directory-0029
   assert.ok(DIR.some((p) => p.l.split(" ").includes("pelvic")));
 });
