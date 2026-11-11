@@ -32,9 +32,12 @@ test("the new pages are noindex and out of every sitemap", () => {
 // Job platform-condition-pages-0013 (his words 2026-11-08 21:35 CT): live pages link here, placed from patient walkthroughs.
 // The links must keep the coverage page's own H1 as their text, and the pelvic pages must not link: they have no coverage data.
 test("the coverage links land where the walkthroughs put them, with the target page's words", () => {
+  // job platform-directory-0032: the procedures declaring a coverage page are the ones content/insurance/pages.toml builds
   const procs = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8"));
-  const COV = procs.filter((p) => p.coverage);
-  assert.deepEqual(COV.map((p) => p.key), ["ufe", "pae", "gae"]);
+  const COV = procs.filter((p) => p.parts && p.parts.coverage).map((p) => ({ key: p.key, coverage: p.parts.coverage }));
+  const toml = readFileSync(new URL("../content/insurance/pages.toml", import.meta.url), "utf8");
+  assert.deepEqual(COV.map((p) => p.coverage.path), [...toml.matchAll(/^slug = "([^"]+)"/gm)].map((m) => `/${m[1]}/insurance/`));
+  assert.ok(COV.length > 0);
   for (const p of COV) {
     const page = read(p.coverage.path.slice(1, -1));
     const h1 = page.match(/<h1[^>]*>([^<]+)<\/h1>/)[1].replace(/&#x27;/g, "'");

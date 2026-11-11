@@ -10,14 +10,14 @@ Writes lib/cities-data.mjs (the page shell, the metros that have pages with thei
 reuse). Nothing here holds a ZIP a patient typed.
 """
 import json, math, os
+import registry
 
-PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/",
-        "pelvic": "/chronic-pelvic-pain/", "hae": "/hemorrhoids/"}   # job platform-directory-0009; hae: job 0029   # condition page each hangs under (S3: pae, gae, job platform-main-0024)
+PAGE = registry.page_of()   # the condition page each procedure's city pages hang under (content/conditions.json)
 HUB = {k: v + "doctors/" for k, v in PAGE.items()}
 REVIEWED = "2026-11-05"                 # the city page template text
 # Job platform-directory-0029: a list exported later than the shared stamp (build.py LISTINGS_AS_OF) carries its own
 # date, so a city page never claims a check before the list existed. HAE: the national views of 2026-11-10 (job 0028).
-AS_OF_PROC = {"hae": "2026-11-10"}
+AS_OF_PROC = registry.as_of_proc()   # a procedure's "listings_as_of" in content/procedures.json
 
 
 def miles(a, b):

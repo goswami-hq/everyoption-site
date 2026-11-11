@@ -16,26 +16,27 @@ import html, json, pathlib, re, tomllib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "conditions"
 
-PROCEDURES = json.loads((ROOT / "content" / "procedures.json").read_text(encoding="utf-8"))
+import registry
+COVERAGE = registry.coverage()   # a procedure's declared coverage page, content/procedures.json "parts"
+PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
 
 
 def coverage_link(c):
     """The link to this condition's insurance coverage page, or "" when none exists (the pelvic page has no coverage data).
     One text everywhere: the coverage page's own H1, in content/procedures.json (job platform-condition-pages-0013)."""
-    p = next((x for x in PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
-    if not p:
+    cov = COVERAGE.get(c.get("finder"))
+    if not cov:
         return ""
-    cov = p["coverage"]
     return f'<p class="cov-link"><a href="{html.escape(cov["path"], quote=True)}">{html.escape(cov["link"], quote=False)}</a></p>'
 
 
 def coverage_near(c):
     """Job platform-web-design-0008 (his 2A, 2026-11-09): a short line just under the heading of the treatment that has a
     coverage page, "Does insurance cover it? →", to the same page as coverage_link(); the link at the section's end stays."""
-    p = next((x for x in PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
-    if not p:
+    cov = COVERAGE.get(c.get("finder"))
+    if not cov:
         return ""
-    return (f'<p class="cov-near"><a href="{html.escape(p["coverage"]["path"], quote=True)}"><span class="t">Does insurance cover it?</span>'
+    return (f'<p class="cov-near"><a href="{html.escape(cov["path"], quote=True)}"><span class="t">Does insurance cover it?</span>'
             '<span aria-hidden="true"> →</span></a></p>')
 
 

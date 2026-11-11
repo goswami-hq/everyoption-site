@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { onRequestPost, validate, npiOk, REASONS } from "../functions/api/report.js";
-import { PROCEDURES, PROCS } from "../lib/procedures.mjs";
+import { PROCEDURES, PROCS, DRAFT_PROCS, STAGE } from "../lib/procedures.mjs";
 import { PROCS as ACCOUNT_PROCS } from "../lib/accounts/util.mjs";
 import { PROC_NAMES } from "../lib/accounts/service.mjs";
 
@@ -96,15 +96,22 @@ test("store failure: 500 and an error line without details", async () => {
 });
 
 test("one procedure list: every copy matches content/procedures.json", () => {
+  // job platform-directory-0032: the registry is content/procedures.json; the server copy holds its procedures with a list
   const src = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8"));
-  assert.deepEqual(PROCEDURES, src);
-  assert.deepEqual(PROCS, ["ufe", "pae", "gae", "pelvic", "hae"]); assert.deepEqual(ACCOUNT_PROCS, PROCS);   // pelvic: job 0009; hae: job 0029
+  const listed = src.filter((p) => p.stage === "listed" || p.stage === "public");
+  assert.deepEqual(PROCS, listed.map((p) => p.key)); assert.deepEqual(ACCOUNT_PROCS, PROCS);
+  for (const p of PROCEDURES) {
+    const r = listed.find((x) => x.key === p.key);
+    assert.equal(p.name, r.name); assert.equal(p.abbr, r.abbr); assert.equal(STAGE[p.key], r.stage);
+    assert.deepEqual(p.coverage, r.parts.coverage);
+  }
+  assert.deepEqual(DRAFT_PROCS, src.filter((p) => p.stage === "listed").map((p) => p.key));
   assert.equal(PROC_NAMES.gae, "genicular artery embolization (GAE)");
   const browser = readFileSync(new URL("../site/assets/procedures.js", import.meta.url), "utf8");
   const w = {}; new Function("window", browser)(w);
   assert.deepEqual(w.EO_PROCS.keys, PROCS); assert.equal(w.EO_PROCS.long.ufe, "Uterine fibroid embolization (UFE)");
   const sql = readFileSync(new URL("../supabase/schema.sql", import.meta.url), "utf8");
-  assert.ok(sql.includes("check (procedure in ('ufe', 'pae', 'gae', 'pelvic', 'hae'))"));   // hae: job platform-directory-0029
+  assert.ok(sql.includes(`check (procedure in (${PROCS.map((k) => `'${k}'`).join(", ")}))`));
   assert.equal(w.EO_PROCS.short.pelvic, "pelvic vein treatment"); assert.equal(w.EO_PROCS.long.pelvic, "Pelvic vein treatment");
   for (const f of ["../site/assets/account.js", "../site/assets/finder.js", "../functions/api/report.js", "../lib/accounts/util.mjs",
     "../lib/accounts/service.mjs", "../lib/accounts/vendors.mjs"]) {

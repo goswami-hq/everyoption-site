@@ -23,7 +23,7 @@ const DIR = JSON.parse(read("data/directory.json")).people;
 const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f)).map((f) => read(f)).join("\n");
 
 test("HAE is one more procedure, marked draft, with no grades or quotes published", () => {
-  assert.deepEqual(PROCS, ["ufe", "pae", "gae", "pelvic", "hae"]);
+  assert.ok(PROCS.includes("hae"));   // its place in the list is the registry's (job platform-directory-0032)
   assert.equal(PROC_LONG.hae, "Hemorrhoid artery embolization (HAE)");
   assert.equal(PROC_SHORT.hae, "HAE");
   assert.ok(DRAFT_PROCS.includes("hae"));
@@ -65,7 +65,8 @@ test("404 and profile search know HAE", () => {
   const nf = read("404.html");
   assert.ok(nf.includes('href="/hemorrhoids/"'));
   assert.doesNotMatch(nf, /doctor list coming/i);
-  assert.match(read("assets/directory.js"), /var PROCS = \["ufe", "pae", "gae", "pelvic", "hae"\]/);
+  assert.ok(read("assets/directory.js").includes(`var PROCS = ${JSON.stringify(PROCS).replace(/,/g, ", ")}`));   // from the registry
+  assert.ok(PROCS.includes("hae"));
   assert.match(read("_redirects"), /^\/hae\/? \/hemorrhoids\/ 301$/m);
 });
 

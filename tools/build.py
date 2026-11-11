@@ -13,6 +13,7 @@ import directory
 import insurance
 import options
 import pattern
+import registry
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -22,100 +23,22 @@ ORIGIN = "https://everyoptionmd.com"
 REVIEWED = "2026-11-01"
 LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exported from (directory v3 job 4d)
 
-# The one procedure list (job 19): content/procedures.json. Adding a procedure is one line there; the build writes the
-# browser copy (site/assets/procedures.js), the server copy (lib/procedures.mjs), and the database check
-# (supabase/schema.sql). A new procedure also needs its finder copy below and a patient page.
+# The procedure registry (ai-hq job platform-directory-0032): content/conditions.json and content/procedures.json, read
+# through tools/registry.py, are the only place a condition or procedure is named. The build writes the browser copy
+# (site/assets/procedures.js), the server copies (lib/procedures.mjs, lib/registry.mjs), the database check
+# (supabase/schema.sql) and the per-condition city functions from them. Finder blurbs (projects/platform/content/pages/
+# pae-gae-blurbs-draft.md in goswami-hq/ai-hq, word for word; his style rule 2026-11-01) live in each procedure's "finder".
 ROOT = os.path.dirname(SITE)
-with open(os.path.join(ROOT, "content", "procedures.json"), encoding="utf-8") as _fh:
-    PROCEDURES = json.load(_fh)
-
-# Finder blurbs: projects/platform/content/pages/pae-gae-blurbs-draft.md in goswami-hq/ai-hq, word for word (his
-# style rule, 2026-11-01: plain, no statistics, trial names or evidence grades in the visible text). Sources sit under
-# a collapsed "Sources" link.
-PROCS = {
-    "ufe": {
-        "for": "Fibroids",
-        "title": "Find a doctor for uterine fibroid embolization (UFE)",
-        "about": [
-            "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain, or pressure. It’s a "
-            "minimally invasive procedure: a doctor works through a small puncture in the wrist or groin and cuts down "
-            "the blood going to the fibroids, so they shrink over time. You keep your uterus. Talk to a doctor about "
-            "whether it’s right for you.",
-        ],
-        "sources": [
-            ("Cochrane systematic review of embolization versus surgery for fibroids", ""),
-            ("CIRSE standards of practice on uterine artery embolisation (van Overhagen and Reekers, 2015)", ""),
-            ("ACR Appropriateness Criteria: Management of Uterine Fibroids (2023)", ""),
-        ],
-    },
-    "pae": {
-        "for": "Enlarged prostate",
-        "title": "Find a doctor for prostate artery embolization (PAE)",
-        "about": [
-            "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going "
-            "often, getting up at night, or a weak stream. It’s a minimally invasive procedure: a doctor works through a "
-            "small puncture in the wrist or groin and cuts down the blood going to the prostate, so it shrinks over "
-            "time. Talk to a doctor about whether it’s right for you.",
-        ],
-        "sources": [
-            ("American Urological Association guideline on benign prostatic hyperplasia (2026 update), as reported by "
-             "the Society of Interventional Radiology (2026-06-18)", ""),
-        ],
-    },
-    "gae": {
-        "for": "Arthritis pain",
-        "home_name": "Genicular (knee) artery embolization",
-        "title": "Find a doctor for genicular artery embolization (GAE)",
-        "about": [
-            "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other "
-            "treatments. It’s a minimally invasive procedure: a doctor works through a small puncture in an artery and "
-            "cuts down the extra blood flow that feeds inflammation in the knee, which can ease the pain. It’s a newer "
-            "option. Talk to a doctor about whether it’s right for you.",
-        ],
-        "sources": [
-            ("Society of Interventional Radiology position statement on genicular artery embolization (JVIR, 2026)",
-             "https://doi.org/10.1016/j.jvir.2026.108803"),
-        ],
-    },
-    # Job platform-directory-0009 (his go 2026-11-07): the pelvic vein list. Its finder lives on /chronic-pelvic-pain/
-    # (MOVED), so no stand-alone finder page and no blurb of its own; "color" is the condition page's teal.
-    "pelvic": {
-        "for": "Chronic pelvic pain",
-        "color": "cpp",
-        "title": "Find a doctor for pelvic vein treatment",
-        "about": [],
-        "sources": [],
-    },
-    # Job platform-directory-0029 (his go 2026-11-11: "Yes start the export"): the HAE list. Its finder lives on
-    # /hemorrhoids/ (MOVED), like pelvic; the home card keeps the name "Bleeding hemorrhoids" (his words 2026-11-11) and
-    # the ochre of the hemorrhoid page.
-    "hae": {
-        "for": "Bleeding hemorrhoids",
-        "color": "hem",
-        "title": "Find a doctor for hemorrhoid embolization",
-        "about": [],
-        "sources": [],
-    },
-}
-
-assert list(PROCS) == [p["key"] for p in PROCEDURES], "PROCS copy must match content/procedures.json"
-for _p in PROCEDURES:
-    PROCS[_p["key"]].update(name=_p["name"], abbr=_p["abbr"])
-# The name in running text: the abbreviation, or (no abbreviation, job platform-directory-0009) the "short" words.
-SHORT = {p["key"]: p["abbr"] or p.get("short") or p["name"].lower() for p in PROCEDURES}
-PAREN = {p["key"]: f' ({p["abbr"]})' if p["abbr"] else "" for p in PROCEDURES}
-# Job platform-directory-0009: the pelvic city pages' "Is it right for me?" line, word for word from the pelvic page
-# (the embolization option's "what", then the stent option's first sentence), citations dropped as on other city pages.
-# Job platform-directory-0029: the HAE city page's line, word for word from the hemorrhoid page's embolization option
-# (content/conditions/hemorrhoids.toml "what", citations dropped).
-HAE_BLURB = ("Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a "
-             "tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they "
-             "bleed less. Most people go home the same day.")
-PELVIC_BLURB = ("A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. "
-                "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.")
-# Procedures whose condition page is still a draft: profile tags show, but a profile listed only for these stays
-# noindex and out of the sitemap (job platform-directory-0009). Delete "draft" in content/procedures.json at sign-off.
-DRAFT_PROCS = [p["key"] for p in PROCEDURES if p.get("draft")]
+registry.require(SITE)
+PROCEDURES = registry.listed()
+PROCS = {p["key"]: p for p in PROCEDURES}   # procedures with a doctor list, in registry order
+SHORT = {p["key"]: registry.short(p) for p in PROCEDURES}
+PAREN = {p["key"]: registry.paren(p) for p in PROCEDURES}
+# Procedures still at stage "listed" (was "draft"): profile tags show, but a profile listed only for these stays noindex
+# and out of the sitemap (job platform-directory-0009). Set the stage to "public" at his sign-off.
+DRAFT_PROCS = registry.draft_keys()
+# The condition page each procedure's finder lives on; /<key>/ is a moved stub and site/_redirects sends a 301.
+MOVED = registry.page_of()
 
 # Photos (job 14): free-license stock from Pexels (pexels.com/license: free to use, attribution not required; credited on
 # How we know anyway). Self-hosted WebP under site/assets/photos/; sources and license reads in goswami-hq/ai-hq
@@ -258,15 +181,13 @@ def logo_file():
 def home():
     COUNTS = {k: sum(json.load(open(os.path.join(SITE, "data", k + ".json"), encoding="utf-8"))["counts"].values()) for k in PROCS}
     # One tap to the finder (his yes, 2026-11-02): a condition with an education page opens it, finder first.
-    HOME_LINK = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/",
-                 "hae": "/hemorrhoids/"}   # hae: job platform-directory-0029
 
-    def row(k, p):
-        slug = HOME_LINK.get(k, "").strip("/")
+    def row(c, k):
+        slug = c["slug"]
         compare = condition.load(slug).get("options_page", "") if slug in condition.slugs() else ""
-        return (f'<li class="t-{p.get("color", k)}"><a href="{HOME_LINK.get(k, "/" + k + "/")}"{f" data-compare={compare!r}" if compare else ""}><strong>{e(p["for"])}</strong><span class="proc">{e(p.get("home_name", p["name"]))}'
-                f'{PAREN[k]}</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
-    rows = "".join(row(k, p) for k, p in PROCS.items())
+        return (f'<li class="t-{c["card"]["color"]}"><a href="/{slug}/"{f" data-compare={compare!r}" if compare else ""}><strong>{e(c["card"]["name"])}</strong><span class="proc">{e(c["card"]["line"])}'
+                f'</span><span class="count">{COUNTS.get(k, 0)} doctors listed</span></a></li>')
+    rows = "".join(row(c, p["key"]) for c, p, _ in registry.condition_rows() if p)
     # Conditions with a page but no doctor list yet (job platform-main-0024; his words 2026-11-07: "get the chronic pelvic
     # pain page on the home page, navigation, etc"). Same list and look; no count, no ZIP option, until a finder exists.
     def compare_of(href):   # the comparison page, so the "from" card offers it (src-assets/home-from.js)
@@ -274,7 +195,7 @@ def home():
         return condition.load(slug).get("options_page", "") if slug in condition.slugs() else ""
     rows += "".join(f'<li class="t-{k}"><a href="{href}"{f" data-compare={compare_of(href)!r}" if compare_of(href) else ""}><strong>{e(name)}</strong><span class="proc">{e(proc)}</span>'
                     f'<span class="count">Doctor list coming</span></a></li>' for k, href, name, proc in PAGE_ONLY)
-    opts = "".join(f'<option value="{HOME_LINK.get(k, "/" + k + "/")}">{e(p["for"])}</option>' for k, p in PROCS.items())
+    opts = "".join(f'<option value="/{c["slug"]}/">{e(c["card"]["name"])}</option>' for c, p, _ in registry.condition_rows() if p)
     hero = f"""<section class="hero">{WAVE}<div class="hero-in">
 <div><h1>You have more options than you know.</h1>
 <p class="lede">Many common conditions have non-surgical treatments that people never hear about.</p>
@@ -308,30 +229,10 @@ def home():
                 head=home_schema(), banner=banner, cls="home-page")
 
 
-PROC_ANIM = {   # template: ai-hq projects/platform/design/procedure-animations/README.md (his yes, 2026-11-02)
-    "ufe": dict(alt="A swollen uterus with large fibroids. A thin tube delivers tiny beads to the arteries feeding them. The fibroids and uterus then shrink.",
-                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
-                caps=["Fibroids can make the uterus large and swollen. A rich blood supply feeds them.",
-                      "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny beads block the blood flow to the fibroids.",
-                      "Without blood flow, the fibroids shrink over time. The uterus gets smaller, and most women feel much better."]),
-    "pae": dict(alt="An enlarged prostate squeezes the urine tube. A thin tube delivers tiny beads to the prostate arteries. The prostate shrinks, and urine flows more easily.",
-                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
-                caps=["An enlarged prostate squeezes the tube that carries urine. The bladder stays full, and urine only trickles out.",
-                      "A thin tube goes through a small puncture in the wrist or groin. Tiny beads slow the blood flow to the prostate.",
-                      "With less blood flow, the prostate shrinks over time. The urine tube opens up, and urine flows more easily."]),
-    "gae": dict(alt="A swollen, painful knee with extra small blood vessels. A thin tube delivers tiny particles to those vessels. The swelling calms, and the knee moves.",
-                route="groin", route_text="The tube goes in through a small puncture, here at the groin, and travels to the knee.",
-                caps=["With knee arthritis, the joint gets swollen and painful. Extra small blood vessels feed that swelling, and bending hurts.",
-                      "A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
-                      "With less blood flow, the swelling can calm down. That can ease the pain. The arthritis itself is still there."]),
-    # hemorrhoids (his pick of mockup B v3 and his "Add it to the site the same way", 2026-11-11): coils, and drops that stop
-    "hae": dict(alt="A bleeding hemorrhoid just inside the bottom. A thin tube places tiny coils in the arteries feeding it. The bleeding stops, and the hemorrhoid settles.",
-                route="wrist", route_text="The tube goes in at the wrist or groin. This drawing shows the wrist.",
-                caps=["Hemorrhoids are swollen veins just inside the bottom. Arteries from above bring them blood, and they can bleed.",
-                      "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids.",
-                      "With less blood flowing in, the hemorrhoids bleed less. They may shrink a little. For some people, bleeding comes back later."]),
-}
-PROC_BANNERS = {"ufe", "pae", "gae"}   # site/assets/proc-banner.js draws these; hemorrhoids has no banner version yet
+# The animation text per procedure (template: ai-hq projects/platform/design/procedure-animations/README.md, his yes
+# 2026-11-02) is the procedure's "animation" part in content/procedures.json; the drawings stay in tools/diagrams/.
+PROC_ANIM = registry.animations()
+PROC_BANNERS = registry.banners()   # site/assets/proc-banner.js draws these; a procedure without the part gets no banner
 PROC_ROUTES = {"wrist": ("M186 192 L168 150 L136 96 L114 100 L110 170", (186, 192)), "groin": ("M122 205 L126 240 L126 262", (122, 205))}
 PROC_DEFS = """<defs>
         <radialGradient id="heat"><stop offset="0" stop-color="#ff5a3c" stop-opacity=".62"/><stop offset=".6" stop-color="#ff5a3c" stop-opacity=".22"/><stop offset="1" stop-color="#ff5a3c" stop-opacity="0"/></radialGradient>
@@ -364,24 +265,14 @@ def diagram(k, vary=True):
 
 
 # A condition page with no finder yet: (color key, address, home card name, procedure line). Not in the home ZIP list.
-# Empty since job platform-directory-0009: chronic pelvic pain has its finder (PROCS["pelvic"]).
-# Hemorrhoids (his words 2026-11-11: "We need a link to HAE as well, the same way every other condition is linked /
-# displayed. The condition page can have 'Bleeding hemorrhoids'"). Empty again since job platform-directory-0029: the
-# hemorrhoid card is a normal home row (PROCS["hae"]), same name and procedure line, with its doctor count.
-PAGE_ONLY = []
-MOVED = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/", "pelvic": "/chronic-pelvic-pain/",
-         "hae": "/hemorrhoids/"}   # hae: job platform-directory-0029   # job 32: PAE finder on the prostate page; job 33: GAE finder on the arthritis page
+# From the registry: a condition whose procedure is at stage "page". Empty since job platform-directory-0029.
+PAGE_ONLY = [(c["card"]["color"], f"/{c['slug']}/", c["card"]["name"], c["card"]["line"]) for c, p, pg in registry.condition_rows() if not p and pg]
 RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0015: now /knee-arthritis/; site/_redirects sends a 301
 
 
 # Patient walkthrough finding 1 (his "1-4 changes let's do them", 2026-11-09): the comparison page, from the first screen.
 COMPARE_LINK = "Compare your options"
-FIND_TOP = {   # the top of a finder: benefit, one plain explanation, a link (his yes, 2026-11-02)
-    "pae": ("Shrink an enlarged prostate without surgery",
-            "Prostate artery embolization works through a small puncture in the wrist or groin.", "#how-it-works"),
-    "gae": ("A newer option for knee arthritis pain, without surgery",
-            "Genicular artery embolization works through a small puncture and can ease the pain.", "#how-it-works"),
-}
+FIND_TOP = {k: tuple(p["finder"]["top"]) for k, p in PROCS.items() if p["finder"].get("top")}   # the top of a finder (his yes, 2026-11-02)
 
 
 def intro_html(text):
@@ -427,9 +318,9 @@ def strip(k):
 
 def finder(k):
     p = PROCS[k]
-    about = "".join(f"<p>{e(s)}</p>" for s in p["about"])
+    about = "".join(f"<p>{e(s)}</p>" for s in p["finder"]["about"])
     items = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank">{e(t)}</a></li>' if u else f"<li>{e(t)}</li>"
-                    for t, u in p["sources"])
+                    for t, u in p["finder"]["sources"])
     src = f'<details class="sources"><summary>Sources</summary><ul>{items}</ul></details>' if items else ""
     body = f"""<h1>{e(FIND_TOP[k][0])}</h1>
 {finder_block(k)}
@@ -552,8 +443,8 @@ def account():
 def not_found():
     body = """<h1>Page not found</h1><p>Find a doctor for:</p>
 <ul class="finders">""" + "".join(
-        f'<li><a href="{MOVED.get(k, "/" + k + "/")}"><strong>{e(p["for"])}</strong></a></li>'
-        for k, p in PROCS.items()) + "</ul>" + "<p>Read about:</p><ul class=\"finders\">" + "".join(
+        f'<li><a href="/{c["slug"]}/"><strong>{e(c["card"]["name"])}</strong></a></li>'
+        for c, p, _ in registry.condition_rows() if p) + "</ul>" + "<p>Read about:</p><ul class=\"finders\">" + "".join(
         f'<li><a href="{href}"><strong>{e(name)}</strong></a> (doctor list coming)</li>' for _, href, name, _ in PAGE_ONLY) + "</ul>"
     return page("/404", "Page not found | Every Option", "Page not found.", body)
 
@@ -601,20 +492,28 @@ def write_procedures():
     head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
         {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_,
-         "coverage": {p["key"]: p["coverage"] for p in PROCEDURES if p.get("coverage")}}) + ";\n")
+         "coverage": registry.coverage()}) + ";\n")
     with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
-        fh.write(head + "export const PROCEDURES = " + json.dumps(PROCEDURES) + ";\n"
+        fh.write(head + "export const PROCEDURES = " + json.dumps(registry.lib_procedures(), ensure_ascii=False) + ";\n"
                  "export const PROCS = PROCEDURES.map((p) => p.key);\n"
                  "// The name in running text: the abbreviation, else the procedure's short words (job platform-directory-0009).\n"
                  "export const PROC_SHORT = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr || p.short || p.name.toLowerCase()]));\n"
                  "export const PROC_LONG = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.abbr ? `${p.name} (${p.abbr})` : p.name]));\n"
-                 "export const DRAFT_PROCS = PROCEDURES.filter((p) => p.draft).map((p) => p.key);\n"
+                 "// Stage per procedure (tools/registry.py): \"listed\" is what \"draft\" meant before; \"public\" has every surface on (UFE, PAE, GAE).\n"
+                 "export const STAGE = Object.fromEntries(PROCEDURES.map((p) => [p.key, p.stage]));\n"
+                 "export const DRAFT_PROCS = PROCEDURES.filter((p) => p.stage === \"listed\").map((p) => p.key);\n"
                  "// The coverage page and its link text, for a procedure that has one (job platform-condition-pages-0013).\n"
                  "export const COVERAGE = Object.fromEntries(PROCEDURES.filter((p) => p.coverage).map((p) => [p.key, p.coverage]));\n")
+    with open(os.path.join(ROOT, "lib", "registry.mjs"), "w", encoding="utf-8") as fh:
+        fh.write(registry.lib_module({s: condition.load(s) for s in registry.BY_SLUG}))
+    for rel, text in registry.function_files().items():   # plan review item 8: one function per condition, same shape
+        os.makedirs(os.path.dirname(os.path.join(ROOT, rel)), exist_ok=True)
+        with open(os.path.join(ROOT, rel), "w", encoding="utf-8") as fh:
+            fh.write(text)
     sql = os.path.join(ROOT, "supabase", "schema.sql")
     with open(sql, encoding="utf-8") as fh:
         text = fh.read()
-    keys = ", ".join(f"'{p['key']}'" for p in PROCEDURES)
+    keys = ", ".join(f"'{k}'" for k in registry.keys())
     new = re.sub(r"check \(procedure in \([^)]*\)\)", f"check (procedure in ({keys}))", text)
     if new != text:
         with open(sql, "w", encoding="utf-8") as fh:
@@ -648,7 +547,8 @@ def copy_src_assets():
     for name in sorted(os.listdir(src)):
         if name.endswith((".css", ".js")):
             with open(os.path.join(src, name), encoding="utf-8") as fh:
-                write("assets/" + name, fh.read())
+                # %%PROC_KEYS%%: the procedure keys from the registry (src-assets/directory.js), so no asset keeps its own list
+                write("assets/" + name, fh.read().replace("%%PROC_KEYS%%", json.dumps(registry.keys())))
     # Home banner film (W13 ride c2 v5, his "Put it on dev site", 2026-11-08 19:40 CT): binary files, copied as they are.
     media = os.path.join(src, "media")
     if os.path.isdir(media):
@@ -726,19 +626,8 @@ def main():
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
     city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
-                        # one sentence from the approved finder blurb, its own words and claims only (job platform-main-0013:
-                        # less text shared by every city page); "less invasive" (his yes, 2026-11-05); on his review list
-                        {"ufe": "Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy "
-                                "periods, pain, or pressure, and you keep your uterus.",
-                         # S3 (job platform-main-0024): the first sentence of each procedure's approved finder text (PROCS above)
-                         "pae": "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like "
-                                "going often, getting up at night, or a weak stream.",
-                         "gae": "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with "
-                                "other treatments.",
-                         # job platform-directory-0009: no approved finder text exists for pelvic veins, so the city pages
-                         # reuse the pelvic page's own embolization sentence (content/conditions/chronic-pelvic-pain.toml,
-                         # option "embolization", "what"), its words and claim only; on his review list
-                         "pelvic": PELVIC_BLURB, "hae": HAE_BLURB}, LISTINGS_AS_OF, SITE)
+                        # one sentence per procedure for its city pages: its "city_blurb" in content/procedures.json
+                        registry.city_blurbs(), LISTINGS_AS_OF, SITE)
     shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"

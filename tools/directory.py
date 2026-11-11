@@ -12,10 +12,9 @@ Writes, all public fields only:
 Profiles themselves are rendered by lib/directory.mjs on request; none are committed as pages.
 """
 import json, os, re, unicodedata
+import registry
 
-PROC_PAGE = {"ufe": "/fibroids/", "pae": "/enlarged-prostate/", "gae": "/knee-arthritis/",
-             "pelvic": "/chronic-pelvic-pain/",   # job platform-directory-0009
-             "hae": "/hemorrhoids/"}   # job platform-directory-0029
+PROC_PAGE = registry.page_of()   # each procedure's condition page (content/conditions.json)
 TEST_NPIS = {"1999999990"}
 CARD_KEYS = ["insurances", "insurance_other", "insurance_confirm", "booking_url"]
 OFFICE_KEYS = ["practice", "street", "city", "state", "zip", "phone"]
@@ -165,11 +164,9 @@ def check_duplicates(recs, known=()):
 
 
 def draft_procs():
-    """Procedures marked draft in content/procedures.json (job platform-directory-0009): their tags show on profiles, but
-    they do not make a profile indexable while the condition page is a draft (lib/directory.mjs indexedProfile)."""
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(root, "content", "procedures.json"), encoding="utf-8") as fh:
-        return {p["key"] for p in json.load(fh) if p.get("draft")}
+    """Procedures at stage "listed" in content/procedures.json (was "draft", job platform-directory-0009): their tags show
+    on profiles, but they do not make a profile indexable while the condition page is a draft (lib/directory.mjs indexedProfile)."""
+    return set(registry.draft_keys())
 
 
 def group(rec, skip=()):
@@ -265,7 +262,9 @@ def letter_body(by, k, e):
 
 def routes(by):
     """site/_routes.json: the profile function runs for /doctors/* except the static search and A to Z pages."""
-    return {"version": 1, "include": ["/api/*", "/doctors/*", "/fibroids/doctors", "/fibroids/doctors/*", "/enlarged-prostate/doctors", "/enlarged-prostate/doctors/*", "/knee-arthritis/doctors", "/knee-arthritis/doctors/*"], "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
+    # The city functions run for the conditions marked "routed" in content/conditions.json (see registry.routed()).
+    cities = [x for s in registry.routed() for x in (f"/{s}/doctors", f"/{s}/doctors/*")]
+    return {"version": 1, "include": ["/api/*", "/doctors/*"] + cities, "exclude": ["/doctors/"] + [f"/doctors/{k}/" for k in by]}
 
 
 def indexed(recs, setting):

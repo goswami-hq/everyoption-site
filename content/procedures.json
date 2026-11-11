@@ -1,7 +1,208 @@
 [
-  {"key": "ufe", "abbr": "UFE", "name": "Uterine fibroid embolization", "coverage": {"path": "/fibroids/insurance/", "link": "Does insurance cover fibroid embolization?"}},
-  {"key": "pae", "abbr": "PAE", "name": "Prostate artery embolization", "coverage": {"path": "/enlarged-prostate/insurance/", "link": "Does insurance cover prostate embolization?"}},
-  {"key": "gae", "abbr": "GAE", "name": "Genicular artery embolization", "coverage": {"path": "/knee-arthritis/insurance/", "link": "Does insurance cover knee embolization?"}},
-  {"key": "pelvic", "abbr": "", "short": "pelvic vein treatment", "name": "Pelvic vein treatment", "draft": true},
-  {"key": "hae", "abbr": "HAE", "name": "Hemorrhoid artery embolization", "draft": true}
+  {
+    "key": "ufe",
+    "abbr": "UFE",
+    "name": "Uterine fibroid embolization",
+    "conditions": [
+      "fibroids"
+    ],
+    "stage": "public",
+    "view": "ufe",
+    "patient_name": "fibroid embolization",
+    "hub_label": "Fibroid embolization doctors",
+    "city_blurb": "Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy periods, pain, or pressure, and you keep your uterus.",
+    "finder": {
+      "title": "Find a doctor for uterine fibroid embolization (UFE)",
+      "about": [
+        "Uterine fibroid embolization (UFE) is for fibroids that cause heavy periods, pain, or pressure. It’s a minimally invasive procedure: a doctor works through a small puncture in the wrist or groin and cuts down the blood going to the fibroids, so they shrink over time. You keep your uterus. Talk to a doctor about whether it’s right for you."
+      ],
+      "sources": [
+        [
+          "Cochrane systematic review of embolization versus surgery for fibroids",
+          ""
+        ],
+        [
+          "CIRSE standards of practice on uterine artery embolisation (van Overhagen and Reekers, 2015)",
+          ""
+        ],
+        [
+          "ACR Appropriateness Criteria: Management of Uterine Fibroids (2023)",
+          ""
+        ]
+      ]
+    },
+    "parts": {
+      "animation": {
+        "alt": "A swollen uterus with large fibroids. A thin tube delivers tiny beads to the arteries feeding them. The fibroids and uterus then shrink.",
+        "route": "wrist",
+        "route_text": "The tube goes in at the wrist or groin. This drawing shows the wrist.",
+        "caps": [
+          "Fibroids can make the uterus large and swollen. A rich blood supply feeds them.",
+          "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny beads block the blood flow to the fibroids.",
+          "Without blood flow, the fibroids shrink over time. The uterus gets smaller, and most women feel much better."
+        ]
+      },
+      "banner": true,
+      "coverage": {
+        "path": "/fibroids/insurance/",
+        "link": "Does insurance cover fibroid embolization?"
+      },
+      "city_pages": true,
+      "payer_table": true
+    }
+  },
+  {
+    "key": "pae",
+    "abbr": "PAE",
+    "name": "Prostate artery embolization",
+    "conditions": [
+      "enlarged-prostate"
+    ],
+    "stage": "public",
+    "view": "pae",
+    "patient_name": "prostate artery embolization",
+    "hub_label": "Prostate artery embolization doctors",
+    "city_blurb": "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going often, getting up at night, or a weak stream.",
+    "finder": {
+      "title": "Find a doctor for prostate artery embolization (PAE)",
+      "about": [
+        "Prostate artery embolization (PAE) is for an enlarged prostate that causes urinary problems, like going often, getting up at night, or a weak stream. It’s a minimally invasive procedure: a doctor works through a small puncture in the wrist or groin and cuts down the blood going to the prostate, so it shrinks over time. Talk to a doctor about whether it’s right for you."
+      ],
+      "sources": [
+        [
+          "American Urological Association guideline on benign prostatic hyperplasia (2026 update), as reported by the Society of Interventional Radiology (2026-06-18)",
+          ""
+        ]
+      ],
+      "top": [
+        "Shrink an enlarged prostate without surgery",
+        "Prostate artery embolization works through a small puncture in the wrist or groin.",
+        "#how-it-works"
+      ]
+    },
+    "parts": {
+      "animation": {
+        "alt": "An enlarged prostate squeezes the urine tube. A thin tube delivers tiny beads to the prostate arteries. The prostate shrinks, and urine flows more easily.",
+        "route": "wrist",
+        "route_text": "The tube goes in at the wrist or groin. This drawing shows the wrist.",
+        "caps": [
+          "An enlarged prostate squeezes the tube that carries urine. The bladder stays full, and urine only trickles out.",
+          "A thin tube goes through a small puncture in the wrist or groin. Tiny beads slow the blood flow to the prostate.",
+          "With less blood flow, the prostate shrinks over time. The urine tube opens up, and urine flows more easily."
+        ]
+      },
+      "banner": true,
+      "coverage": {
+        "path": "/enlarged-prostate/insurance/",
+        "link": "Does insurance cover prostate embolization?"
+      },
+      "city_pages": true,
+      "payer_table": true
+    }
+  },
+  {
+    "key": "gae",
+    "abbr": "GAE",
+    "name": "Genicular artery embolization",
+    "long_name": "Genicular (knee) artery embolization",
+    "conditions": [
+      "knee-arthritis"
+    ],
+    "stage": "public",
+    "view": "gae",
+    "patient_name": "knee artery embolization",
+    "hub_label": "Knee embolization doctors",
+    "city_blurb": "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other treatments.",
+    "finder": {
+      "title": "Find a doctor for genicular artery embolization (GAE)",
+      "about": [
+        "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other treatments. It’s a minimally invasive procedure: a doctor works through a small puncture in an artery and cuts down the extra blood flow that feeds inflammation in the knee, which can ease the pain. It’s a newer option. Talk to a doctor about whether it’s right for you."
+      ],
+      "sources": [
+        [
+          "Society of Interventional Radiology position statement on genicular artery embolization (JVIR, 2026)",
+          "https://doi.org/10.1016/j.jvir.2026.108803"
+        ]
+      ],
+      "top": [
+        "A newer option for knee arthritis pain, without surgery",
+        "Genicular artery embolization works through a small puncture and can ease the pain.",
+        "#how-it-works"
+      ]
+    },
+    "parts": {
+      "animation": {
+        "alt": "A swollen, painful knee with extra small blood vessels. A thin tube delivers tiny particles to those vessels. The swelling calms, and the knee moves.",
+        "route": "groin",
+        "route_text": "The tube goes in through a small puncture, here at the groin, and travels to the knee.",
+        "caps": [
+          "With knee arthritis, the joint gets swollen and painful. Extra small blood vessels feed that swelling, and bending hurts.",
+          "A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
+          "With less blood flow, the swelling can calm down. That can ease the pain. The arthritis itself is still there."
+        ]
+      },
+      "banner": true,
+      "coverage": {
+        "path": "/knee-arthritis/insurance/",
+        "link": "Does insurance cover knee embolization?"
+      },
+      "city_pages": true,
+      "payer_table": true
+    }
+  },
+  {
+    "key": "pelvic",
+    "abbr": "",
+    "name": "Pelvic vein treatment",
+    "short": "pelvic vein treatment",
+    "conditions": [
+      "chronic-pelvic-pain"
+    ],
+    "stage": "listed",
+    "view": "pelvic_venous",
+    "patient_name": "pelvic vein treatment",
+    "hub_label": "Pelvic vein treatment doctors",
+    "city_blurb": "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.",
+    "finder": {
+      "title": "Find a doctor for pelvic vein treatment",
+      "about": [],
+      "sources": []
+    },
+    "parts": {
+      "city_pages": true
+    }
+  },
+  {
+    "key": "hae",
+    "abbr": "HAE",
+    "name": "Hemorrhoid artery embolization",
+    "conditions": [
+      "hemorrhoids"
+    ],
+    "stage": "listed",
+    "view": "hemorrhoid_embolization",
+    "patient_name": "hemorrhoid embolization",
+    "hub_label": "Hemorrhoid embolization doctors",
+    "city_blurb": "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.",
+    "listings_as_of": "2026-11-10",
+    "finder": {
+      "title": "Find a doctor for hemorrhoid embolization",
+      "about": [],
+      "sources": []
+    },
+    "parts": {
+      "animation": {
+        "alt": "A bleeding hemorrhoid just inside the bottom. A thin tube places tiny coils in the arteries feeding it. The bleeding stops, and the hemorrhoid settles.",
+        "route": "wrist",
+        "route_text": "The tube goes in at the wrist or groin. This drawing shows the wrist.",
+        "caps": [
+          "Hemorrhoids are swollen veins just inside the bottom. Arteries from above bring them blood, and they can bleed.",
+          "A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids.",
+          "With less blood flowing in, the hemorrhoids bleed less. They may shrink a little. For some people, bleeding comes back later."
+        ]
+      },
+      "city_pages": true,
+      "payer_table": true
+    }
+  }
 ]

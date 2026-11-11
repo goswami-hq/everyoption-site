@@ -16,6 +16,7 @@ import { handle } from "../lib/accounts/http.mjs";
 import { handlePublic } from "../lib/accounts/listings.mjs";
 import { handleDoctor } from "../lib/directory.mjs";
 import { handleCity } from "../lib/cities.mjs";
+import { CITY_SLUGS } from "../lib/registry.mjs";
 import { localBackend } from "../lib/accounts/local.mjs";
 import { exportConfirmed, makeService } from "../lib/accounts/service.mjs";
 
@@ -117,7 +118,7 @@ http.createServer(async (req, res) => {
     if (r) return send(res, r);
   }
   // Job 42: city pages, the same handler as functions/fibroids/doctors/[[path]].js.
-  if (/^\/(fibroids|enlarged-prostate|knee-arthritis|chronic-pelvic-pain|hemorrhoids)\/doctors(\/|$)/.test(url.pathname)) {   // S3: prostate and knee too
+  if (CITY_SLUGS.some((s) => url.pathname === `/${s}/doctors` || url.pathname.startsWith(`/${s}/doctors/`))) {   // every condition with city pages (content/conditions.json)
     const r = await handleCity(await toRequest(req, url), { backend: backend ? listingsDB(backend) : null, noCache: true, ASSETS: localAssets });
     if (r) return send(res, r);
   }

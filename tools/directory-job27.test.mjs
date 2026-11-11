@@ -15,8 +15,9 @@ const ASSETS = { async fetch(req) {
   catch (_) { return new Response("", { status: 404 }); }
 } };
 const DIR = JSON.parse(read("data/directory.json"));
-// Job platform-directory-0009: a profile is indexed for its non-draft procedures only (content/procedures.json "draft").
-const DRAFT = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8")).filter((p) => p.draft).map((p) => p.key);
+// Job platform-directory-0009: a profile is indexed for its non-draft procedures only (content/procedures.json stage
+// "listed", which was "draft" before job platform-directory-0032).
+const DRAFT = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8")).filter((p) => p.stage === "listed").map((p) => p.key);
 const INDEXED = (p) => (p.l || "").split(" ").filter((k) => k && !DRAFT.includes(k)).length > 0;
 const npiOf = (x) => x.p.slice(-11, -1);
 // pelvic added 2026-11-10: the pelvic finder (job pelvic-finder-0009) shows its own list, so the directory holds those doctors too.

@@ -4,6 +4,7 @@ procedure, /<condition>/insurance/, and the dataset hub, /insurance/. Data: cont
 copy: content/insurance/pages.toml. These pages stay noindex and out of the sitemap until launch (his word alone); live pages link to them since his
 2026-11-08 21:35 words (job platform-condition-pages-0013, placements in ai-hq projects/platform/design/insurance-links-2026-11-08/). Cards, in a fixed order, never a table: phones come first."""
 import datetime, html, json, pathlib, re, tomllib
+import registry
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA, COPY = ROOT / "content/insurance/coverage-2026-11.toml", ROOT / "content/insurance/pages.toml"
@@ -168,12 +169,15 @@ def hub_checked(i, procs, data):
 
 def hub_body(data, copy):
     hub, pages = copy["hub"], copy["pages"]
+    own = registry.hub_only_payers()
+    heading = {p["key"]: f'{p["patient_name"][0].upper()}{p["patient_name"][1:]}{registry.paren(p)} by insurer' for p in own}
     rows = []
     for i in data["insurers"]:
         r = "".join(hub_row(i, p["key"], p["hub_label"], f'/{p["slug"]}/insurance/#{p["key"]}-{i}', data, copy) for p in pages)
-        r += hub_row(i, "hae", hub["hae_label"], f"#hae-{i}", data, copy)
+        # a procedure with payer rows but no coverage page of its own (HAE today; content/procedures.json "parts")
+        r += "".join(hub_row(i, p["key"], hub[p["key"] + "_label"], f'#{p["key"]}-{i}', data, copy) for p in own)
         note = f'<p class="ins-meta">{e(data["hub_notes"][i])}</p>' if i in data["hub_notes"] else ""
-        procs = [(p["key"], p["hub_label"]) for p in pages] + [("hae", hub["hae_label"])]
+        procs = [(p["key"], p["hub_label"]) for p in pages] + [(p["key"], hub[p["key"] + "_label"]) for p in own]
         rows.append(f'<section class="card ins-hub-card"><h3>{e(data["names"][i])}</h3>{note}<dl>{r}</dl>{hub_checked(i, procs, data)}</section>')
     kinds = {data["cells"][k][i]["chip"] for k in data["cells"] for i in data["insurers"]}
     links = "".join(f'<li><a href="/{p["slug"]}/insurance/">{e(p["hub_label"])}: coverage by insurer, with conditions</a></li>' for p in pages)
@@ -181,21 +185,22 @@ def hub_body(data, copy):
     changes = "".join(f'<li>{e(c).replace("{notice}", notice)}</li>' for c in hub["changes"])
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
-    hae = "".join(card(i, "hae", data, copy) for i in data["insurers"])   # folded on phones like the coverage pages (his "Yes", 2026-11-08 12:00 CT)
+    # folded on phones like the coverage pages (his "Yes", 2026-11-08 12:00 CT)
+    own_cards = {p["key"]: "".join(card(i, p["key"], data, copy) for i in data["insurers"]) for p in own}
     def hub_toc():
         # The hub is the longest page after the comparison pages (about 10,800 px on a phone), so it gets the same
         # contents list and pinned bar (his "Yes", 2026-11-10 06:23 CT). The entries are the hub's own h2s below.
         items = [("changes", "Changes coming soon"), ("by-procedure", "Coverage by procedure"),
-                 ("dataset", "Every insurer, every procedure"), ("hae", "Hemorrhoid embolization (HAE) by insurer"),
+                 ("dataset", "Every insurer, every procedure")] + list(heading.items()) + [
                  ("ask", "Questions to ask your plan"), ("method", "How we checked")]
         lis = "".join(f'<li><a href="#{i}">{e(t)}</a></li>' for i, t in items)
         return f'<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page</p><ol>{lis}</ol></nav>'
     return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>{header_notice(copy)}'
             + hub_toc() +
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
-            f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}<li><a href="#hae">{e(hub["hae_label"])}: coverage by insurer, with conditions</a></li></ul>'
+            f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}{"".join(f'<li><a href="#{k}">{e(hub[k + "_label"])}: coverage by insurer, with conditions</a></li>' for k in heading)}</ul>'
             f'<h2 id="dataset">Every insurer, every procedure</h2>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div>'
-            f'<h2 id="hae">Hemorrhoid embolization (HAE) by insurer</h2><div class="ins-cards">{hae}</div>'
+            + "".join(f'<h2 id="{k}">{e(t)}</h2><div class="ins-cards">{own_cards[k]}</div>' for k, t in heading.items()) +
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>'
             f'<h2 id="method">How we checked</h2>{method}<p><strong>Next check:</strong> {e(data["next_check"])}.</p>{reviewed(copy)}')
 

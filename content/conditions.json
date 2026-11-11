@@ -1,0 +1,105 @@
+[
+  {
+    "slug": "fibroids",
+    "procedures": [
+      "ufe"
+    ],
+    "card": {
+      "name": "Fibroids",
+      "line": "Uterine fibroid embolization (UFE)",
+      "color": "ufe"
+    },
+    "label": "Fibroids",
+    "text": "fibroid",
+    "color": "fibroids",
+    "pages": {
+      "simple": "content/conditions/fibroids.toml",
+      "every_option": "content/options/fibroids.toml"
+    },
+    "compare_link": "Compare fibroid embolization with myomectomy, hysterectomy, and medicines",
+    "city_pages": true,
+    "routed": true
+  },
+  {
+    "slug": "enlarged-prostate",
+    "procedures": [
+      "pae"
+    ],
+    "card": {
+      "name": "Enlarged prostate",
+      "line": "Prostate artery embolization (PAE)",
+      "color": "pae"
+    },
+    "label": "Enlarged prostate",
+    "text": "enlarged prostate",
+    "color": "pae",
+    "pages": {
+      "simple": "content/conditions/enlarged-prostate.toml",
+      "every_option": "content/options/enlarged-prostate.toml"
+    },
+    "compare_link": "Compare prostate artery embolization with TURP, laser surgery, office procedures, and medicines",
+    "city_pages": true,
+    "routed": true
+  },
+  {
+    "slug": "knee-arthritis",
+    "procedures": [
+      "gae"
+    ],
+    "card": {
+      "name": "Arthritis pain",
+      "line": "Genicular (knee) artery embolization (GAE)",
+      "color": "gae"
+    },
+    "label": "Knee arthritis",
+    "text": "knee arthritis",
+    "color": "gae",
+    "pages": {
+      "simple": "content/conditions/knee-arthritis.toml",
+      "every_option": "content/options/knee-arthritis.toml"
+    },
+    "compare_link": "Compare knee embolization with knee replacement, shots, and medicines",
+    "city_pages": true,
+    "routed": true
+  },
+  {
+    "slug": "chronic-pelvic-pain",
+    "procedures": [
+      "pelvic"
+    ],
+    "card": {
+      "name": "Chronic pelvic pain",
+      "line": "Pelvic vein treatment",
+      "color": "cpp"
+    },
+    "label": "Chronic pelvic pain",
+    "text": "chronic pelvic pain",
+    "color": "cpp",
+    "pages": {
+      "simple": "content/conditions/chronic-pelvic-pain.toml"
+    },
+    "city_pages": true,
+    "routed": false
+  },
+  {
+    "slug": "hemorrhoids",
+    "procedures": [
+      "hae"
+    ],
+    "card": {
+      "name": "Bleeding hemorrhoids",
+      "line": "Hemorrhoid artery embolization (HAE)",
+      "color": "hem"
+    },
+    "label": "Bleeding hemorrhoids",
+    "text": "bleeding hemorrhoids",
+    "color": "hem",
+    "pages": {
+      "simple": "content/conditions/hemorrhoids.toml",
+      "every_option": "content/options/hemorrhoids.toml"
+    },
+    "compare_link": "Compare hemorrhoid embolization with banding, other office treatments, and surgery",
+    "city_pages": true,
+    "routed": false
+  }
+]

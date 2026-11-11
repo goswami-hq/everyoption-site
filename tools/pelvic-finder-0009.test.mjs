@@ -24,7 +24,7 @@ const SLUGS = ["new-york-city-area", "washington-dc", "philadelphia-pa", "baltim
 const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f)).map((f) => read(f)).join("\n");
 
 test("pelvic is one more procedure, plain words, marked draft", () => {
-  assert.deepEqual(PROCS.slice(0, 4), ["ufe", "pae", "gae", "pelvic"]);   // hae after it since job platform-directory-0029
+  assert.ok(PROCS.includes("pelvic"));   // its place in the list is the registry's (job platform-directory-0032)
   assert.equal(PROC_LONG.pelvic, "Pelvic vein treatment");
   assert.ok(DRAFT_PROCS.includes("pelvic"));
   assert.equal(PELVIC.procedure, "pelvic");
@@ -113,6 +113,6 @@ test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile stay
 
 test("profile search knows the pelvic list (live removals apply to it too)", () => {
   const js = read("assets/directory.js");
-  assert.match(js, /var PROCS = \["ufe", "pae", "gae", "pelvic", "hae"\]/);   // hae: job platform-directory-0029
+  assert.ok(js.includes(`var PROCS = ${JSON.stringify(PROCS).replace(/,/g, ", ")}`) && PROCS.includes("pelvic"));   // from the registry
   assert.ok(DIR.some((p) => p.l.split(" ").includes("pelvic")));
 });
