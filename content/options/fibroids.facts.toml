@@ -244,21 +244,21 @@ read = "abstract"
 id = "hyst-stay"
 option = "hysterectomy"
 simple = ""
-deep = "In EMMY, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s; many hysterectomies are now done through small cuts or the vagina, with shorter stays"
+deep = "In EMMY, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s. Surgery through small cuts or the vagina usually means a shorter stay than a larger cut in the belly"
 refs = ["emmy-peri", "pickett23"]
 read = "abstract"
 [[fact]]
 id = "hyst-route"
 option = "hysterectomy"
 simple = ""
-deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had more injuries to the tubes that carry urine from the kidneys: about 2 out of 1,000 women after a larger cut, and between 2 out of 1,000 and 2 out of 100 through small cuts"
+deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had more injuries to the bladder or the tubes that carry urine (odds ratio 2.16; range 1.19 to 3.93). The review's example: if about 2 out of 1,000 women have an injury to a tube from the kidney after a larger cut, the figure through small cuts would be between 2 out of 1,000 and 2 out of 100"
 refs = ["pickett23"]
 read = "abstract"
 [[fact]]
 id = "hyst-maryland"
 option = "hysterectomy"
 simple = ""
-deep = "In a Maryland study, 1,299 women had a hysterectomy for noncancer reasons, fibroids among them. Symptoms eased and quality of life rose over 2 years. About 1 out of 12 (8%) still had as many severe symptoms 1 and 2 years later"
+deep = "In a Maryland study, 1,299 women had a hysterectomy for noncancer reasons (not only fibroids). Symptoms eased and quality of life rose over 2 years. About 1 out of 12 (8%) still had as many severe symptoms 1 and 2 years later"
 refs = ["kjerulff"]
 read = "abstract"
 [[fact]]
