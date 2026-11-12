@@ -573,6 +573,9 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 @media (prefers-color-scheme: dark) { .page-strip .ls[data-s="pae"] { --ls-clear: #2c4257; --ls-hill1: #4a6a8a; --ls-hill2: #1f3f60; --ls-ray: #8fb8e0; } }
 .page-strip .ls[data-s="pae"] text.c .t { fill: #2f5f8f; }
 .page-strip .ls[data-s="pae"] text.n { font-size: 10.2px; }
+.page-strip .ls[data-s="gae"] { --ls-clear: #e8efdf; --ls-hill1: #a9c79a; --ls-hill2: #4c7a3d; --ls-ray: #4c7a3d; }
+@media (prefers-color-scheme: dark) { .page-strip .ls[data-s="gae"] { --ls-clear: #2f3d2a; --ls-hill1: #55704a; --ls-hill2: #2c4a22; --ls-ray: #a9d08f; } }
+.page-strip .ls[data-s="gae"] text.c .t { fill: #4c7a3d; }
 .page-strip .ls text.b { font: 600 13px var(--sans); fill: #22302b; }
 .page-strip .ls text.c { font: 600 14px var(--sans); fill: #22302b; }
 .page-strip .ls text.c .t { fill: #a63a6b; }
