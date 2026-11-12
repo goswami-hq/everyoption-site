@@ -11,19 +11,25 @@ var SCENES = {
   ufe: { label: 'A woman sits curled on a couch holding a heating pad, in the rain. A one-week calendar on the wall fills with a drop every day. Text: Heavy periods and cramps that ruin your week? It could be fibroids: non-cancerous growths in the uterus. Fibroids have more than one treatment. See every option. Then the rain clears and she gets up.',
     caps: [['Heavy periods and <tspan class="t">cramps</tspan>', 'that ruin your week?'],
            ['It could be <tspan class="t">fibroids</tspan>:', 'non-cancerous growths', 'in the uterus.'],
-           ['Fibroids have more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
+           ['Fibroids have more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] },
+  // Enlarged prostate (his words 2026-11-11: "Combine A and B. Don't say 'that isn't cancer' that's too authoritative"; his
+  // yes to building it in, 19:20 CT). Night to sunrise, as in the prostate film. Lines 1 and 2 are the film's.
+  pae: { label: 'At night a man gets out of bed and walks to the bathroom three times. A one-week calendar on the wall counts his bathroom trips each night, and tonight\u2019s number goes up each time. Text: Up all night to pee? It could be an enlarged prostate. Get checked. An enlarged prostate has more than one treatment. See every option. Then the sun rises.',
+    caps: [['Up all night to <tspan class="t">pee</tspan>?'],
+           ['It could be an', 'enlarged <tspan class="t">prostate</tspan>.', 'Get checked.'],
+           ['An enlarged prostate has', 'more than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
 };
 var K = host.getAttribute('data-s'), SC = SCENES[K]; if (!SC) return;
 var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 var cl = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; }, seg = function (t, a, b) { var x = cl((t - a) / (b - a)); return x * x * (3 - 2 * x); }, L = function (a, b, p) { return a + (b - a) * p; };
 var DROP = 'M0 -7 C3 -2 5 1 5 3.5 A5 5 0 0 1 -5 3.5 C-5 1 -3 -2 0 -7 Z', SK = '#c99067', HAIR = '#2a1e19', TOP = '#7da38d', LEG = '#3f5e55', EDGE = '#efe4cf';
 function limb(d, col, w) { return '<path d="' + d + '" fill="none" stroke="' + EDGE + '" stroke-width="' + (w + 3) + '" stroke-linecap="round" stroke-linejoin="round"/><path d="' + d + '" fill="none" stroke="' + col + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
-function cap(i, x, y, w, lines) {
+function cap(i, x, y, w, lines, edge) {
   var h = 10 + 17 * lines.length, t = '';
   lines.forEach(function (l, j) { t += '<text class="c" x="' + (x + w / 2) + '" y="' + (y + 19 + 17 * j) + '" text-anchor="middle">' + l + '</text>'; });
-  return '<g class="cap" id="ls-c' + i + '" filter="url(#ls-sh)"><rect x="' + x + '" y="' + (y + 3) + '" width="' + w + '" height="' + h + '" rx="7" fill="#5e1f3c"/><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="7" fill="#fbf6ec"/>' + t + '</g>';
+  return '<g class="cap" id="ls-c' + i + '" filter="url(#ls-sh)"><rect x="' + x + '" y="' + (y + 3) + '" width="' + w + '" height="' + h + '" rx="7" fill="' + (edge || '#5e1f3c') + '"/><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="7" fill="#fbf6ec"/>' + t + '</g>';
 }
-function build() {
+function buildUfe() {
   var rays = '', rain = '', fl = '', cal = '', zig = '', i, x, cols = ['#ffb648', '#fbf6ec', '#f6dce6', '#fbf6ec'], wd = 'MTWTFSS';
   for (i = 0; i < 12; i++) rays += '<path d="M0 0 L-9 -150 L9 -150 Z" transform="rotate(' + (i * 30) + ')" fill="var(--ls-ray)"/>';
   for (i = 0; i < 26; i++) rain += '<path class="ls-r" d="M0 0 l-2 7" stroke="#cdb7c1" stroke-width="1.3" stroke-linecap="round"/>';
@@ -68,10 +74,8 @@ function build() {
     '<g id="ls-zz">' + zig + '</g>' +
     cap(1, 388, 28, 208, SC.caps[0]) + cap(2, 388, 20, 208, SC.caps[1]) + cap(3, 388, 12, 208, SC.caps[2]) + '</svg>';
 }
-host.innerHTML = build();
-var $ = function (id) { return document.getElementById(id); }, all = function (c) { return host.querySelectorAll(c); };
-var rainEls = all('.ls-r'), flEls = all('.ls-f'), dropEls = all('.ls-d');
-function seek(T, clock) {
+var rainEls, flEls, dropEls;
+function seekUfe(T, clock) {
   var a = seg(T, 9.2, 11.4), late = seg(a, .5, 1), i, ph, o, day = 1;
   $('ls-clear').setAttribute('opacity', a); $('ls-rays').setAttribute('opacity', .16 * late); $('ls-O').setAttribute('opacity', late);
   $('ls-O').setAttribute('transform', 'translate(0 ' + L(20, 0, late) + ')'); $('ls-rain').setAttribute('opacity', 1 - a);
@@ -102,6 +106,77 @@ function seek(T, clock) {
   $('ls-c2').setAttribute('opacity', seg(T, 4.6, 5.0) - seg(T, 8.6, 9.0));
   $('ls-c3').setAttribute('opacity', seg(T, 9.2, 9.7));
 }
+
+// ---- Enlarged prostate ----
+var ACC = '#2f5f8f', MHAIR = '#4a4542';
+function buildPae() {
+  var rays = '', stars = '', fl = '', cal = '', i, x, cols = ['#ffb648', '#fbf6ec', '#d9e6f2', '#fbf6ec'], wd = 'MTWTFSS';
+  for (i = 0; i < 12; i++) rays += '<path d="M0 0 L-9 -150 L9 -150 Z" transform="rotate(' + (i * 30) + ')" fill="var(--ls-ray)"/>';
+  for (i = 0; i < 34; i++) stars += '<circle class="lp-s" cx="' + ((i * 137) % 790 + 5) + '" cy="' + (4 + (i * 53) % 78) + '" r="' + (i % 3 ? .9 : 1.4) + '" fill="#fbf6ec"/>';
+  for (i = 0; i < 26; i++) fl += '<g class="lp-f" data-x="' + (24 + i * 30.5 + 9 * Math.sin(i * 1.7)).toFixed(1) + '" data-y="' + (121 + 5 * Math.sin(i * 2.3)).toFixed(1) + '"><circle r="3.4" fill="' + cols[i % 4] + '" stroke="' + EDGE + '" stroke-width=".8"/><circle r="1.1" fill="#22302b"/></g>';
+  for (i = 0; i < 7; i++) { x = 212 + i * 19.14;
+    cal += '<rect x="' + x + '" y="13" width="19.14" height="29" fill="' + (i === 6 ? '#e4edf5' : '#fbf6ec') + '" stroke="' + EDGE + '" stroke-width="1"/><text class="d" x="' + (x + 9.57) + '" y="23" text-anchor="middle">' + wd.charAt(i) + '</text>' +
+      '<text class="b lp-n" x="' + (x + 9.57) + '" y="38" text-anchor="middle"' + (i === 6 ? ' style="fill:' + ACC + '"' : '') + '></text>'; }
+  var arm = 'fill="none" stroke="' + SK + '" stroke-width="4.6" stroke-linecap="round"', legE = 'fill="none" stroke="' + EDGE + '" stroke-width="9.4" stroke-linecap="round" stroke-linejoin="round"', leg = 'fill="none" stroke="' + LEG + '" stroke-width="6.4" stroke-linecap="round" stroke-linejoin="round"';
+  return '<svg viewBox="0 0 800 133" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + SC.label + '">' +
+    '<defs><linearGradient id="ls-storm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131c28"/><stop offset="1" stop-color="#2b4460"/></linearGradient>' +
+    '<filter id="ls-sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1.2" dy="2.2" stdDeviation="1.4" flood-color="#10151c" flood-opacity=".42"/></filter></defs>' +
+    '<rect width="800" height="133" fill="url(#ls-storm)"/><g id="lp-stars">' + stars + '</g><rect id="lp-clear" width="800" height="133" fill="var(--ls-clear)"/>' +
+    '<g id="lp-rays" transform="translate(366 24)">' + rays + '</g>' +
+    '<g id="lp-moon" filter="url(#ls-sh)"><path d="M372 10 a14 14 0 1 0 8 24 a11 11 0 1 1 -8 -24 Z" fill="#fbf6ec" stroke="' + EDGE + '" stroke-width="1.2"/></g>' +
+    '<g id="lp-O" filter="url(#ls-sh)"><circle cx="366" cy="24" r="15" fill="#2f5d50" stroke="' + EDGE + '" stroke-width="1.6"/><circle cx="366" cy="24" r="5.5" fill="#ffb648"/></g>' +
+    '<path d="M0 104 Q200 84 400 100 T800 96 V133 H0Z" fill="var(--ls-hill1)"/>' +
+    '<g filter="url(#ls-sh)"><path d="M-4 116 Q220 100 420 112 T804 108 V140 H-4Z" fill="var(--ls-hill2)" stroke="' + EDGE + '" stroke-width="1.6"/></g>' + fl +
+    // the week on the wall: six nights counted, tonight's box counts up
+    '<g id="lp-cal" filter="url(#ls-sh)"><rect x="212" y="1" width="134" height="41" rx="3" fill="#fbf6ec" stroke="' + EDGE + '" stroke-width="1.6"/><path d="M212 1 h134 v12 h-134 Z" fill="' + ACC + '"/>' +
+      '<text class="n" x="279" y="11" text-anchor="middle">Bathroom trips each night</text>' + cal + '</g>' +
+    // bed: headboard, mattress, pillow, blanket
+    '<g filter="url(#ls-sh)" stroke="' + EDGE + '" stroke-width="1.6"><rect x="200" y="62" width="10" height="46" rx="4" fill="#b98b78"/><rect x="206" y="90" width="92" height="16" rx="5" fill="#e9dcc4"/>' +
+      '<rect x="210" y="81" width="24" height="11" rx="5" fill="#fbf6ec"/><path d="M240 88 h58 v18 h-58 Z" fill="#8fb0cf"/></g>' +
+    // bathroom door: the light shows when it opens
+    '<g filter="url(#ls-sh)"><path d="M322 108 V64 a14 14 0 0 1 28 0 V108 Z" fill="#e9dcc4" stroke="' + EDGE + '" stroke-width="1.6"/><path d="M326 108 V65 a10 10 0 0 1 20 0 V108 Z" fill="#ffb648"/><path id="lp-door" d="M326 108 V65 a10 10 0 0 1 20 0 V108 Z" fill="#7d9a8c"/><circle cx="342" cy="88" r="1.6" fill="#ffb648"/></g>' +
+    // him: one figure, front view, the films' everyday man made small
+    '<g id="lp-m" filter="url(#ls-sh)"><path id="lp-lLe" ' + legE + '/><path id="lp-lRe" ' + legE + '/><path id="lp-lL" ' + leg + '/><path id="lp-lR" ' + leg + '/>' +
+      '<g id="lp-top"><rect x="-9.4" y="-27" width="18.8" height="28" rx="5.5" fill="' + TOP + '" stroke="' + EDGE + '" stroke-width="1.6"/>' +
+      '<g id="lp-face"><rect x="-2.6" y="-30" width="5.2" height="5" fill="' + SK + '"/><circle cx="0" cy="-35.5" r="7.2" fill="' + SK + '" stroke="' + EDGE + '" stroke-width="1.6" paint-order="stroke"/><path d="M-7.4 -36.5 Q-7 -45 0 -45 Q7 -45 7.4 -36.5 Q4 -41 0 -41 Q-4 -41 -7.4 -36.5 Z" fill="' + MHAIR + '"/></g>' +
+      '<g id="lp-aS"><path ' + arm + ' d="M-9.2 -22 L-11.4 -3"/><path ' + arm + ' d="M9.2 -22 L11.4 -3"/></g>' +
+      '<g id="lp-aK"><path ' + arm + ' d="M-9.2 -22 Q-13 -8 -6 2"/><path ' + arm + ' d="M9.2 -22 Q13 -8 6 2"/></g></g></g>' +
+    cap(1, 388, 36, 208, SC.caps[0], '#17324d') + cap(2, 388, 20, 208, SC.caps[1], '#17324d') + cap(3, 388, 12, 208, SC.caps[2], '#17324d') + '</svg>';
+}
+var starEls, pflEls, numEls;
+function seekPae(T, clock) {
+  var a = seg(T, 9.2, 11.4), late = seg(a, .5, 1), i, D = 2.4, starts = [.5, 3.6, 6.7], week = [3, 4, 3, 2, 4, 3], tonight = 0;
+  $('lp-clear').setAttribute('opacity', a); $('lp-rays').setAttribute('opacity', .14 * late); $('lp-O').setAttribute('opacity', late);
+  $('lp-O').setAttribute('transform', 'translate(0 ' + L(20, 0, late) + ')'); $('lp-moon').setAttribute('opacity', 1 - seg(a, 0, .5)); $('lp-stars').setAttribute('opacity', 1 - a);
+  for (i = 0; i < starEls.length; i++) starEls[i].setAttribute('opacity', reduce ? .8 : .45 + .55 * Math.abs(Math.sin(clock * 1.3 + i)));
+  for (i = 0; i < pflEls.length; i++) pflEls[i].setAttribute('transform', 'translate(' + pflEls[i].getAttribute('data-x') + ' ' + pflEls[i].getAttribute('data-y') + ') scale(' + cl(seg(a, .6, 1) * 1.6 - (i % 5) * .12) + ')');
+  // three trips: up from the bed edge, to the door, inside, back, sit; 0.7 s in bed between them
+  function trip(t0) { var u = (T - t0) / D * 3.6; if (u < 0 || u > 3.6) return null;
+    var out = seg(u, .5, 1.5), back = seg(u, 2.2, 3.2);
+    return { x: L(L(286, 336, out), 286, back), p: seg(u, 0, .5) - seg(u, 3.2, 3.6), walking: (u > .5 && u < 1.5) || (u > 2.2 && u < 3.2), inside: seg(u, 1.4, 1.5) - seg(u, 2.2, 2.3), open: seg(u, 1.15, 1.35) - seg(u, 2.35, 2.55) }; }
+  var tr = trip(starts[0]) || trip(starts[1]) || trip(starts[2]);
+  var hx = tr ? tr.x : 286, p = tr ? tr.p : seg(T, 9.9, 10.8), sw = tr && tr.walking && !reduce ? Math.sin(clock * 7) : 0, hy = L(100, 89, p), bow = 1 - p;
+  function leg(side) { var x = hx + side * 3.8, s2 = side * sw, ky = L(104.5, (hy + 116) / 2, p), fy = L(114, 116, p) - 2 * Math.abs(sw) * (s2 > 0 ? 1 : 0);
+    return 'M' + x + ' ' + hy + ' L' + (x + L(side * 5, 0, p) + 3 * s2) + ' ' + ky + ' L' + (x + L(side * 3.5, 0, p) + 7 * s2) + ' ' + fy; }
+  var dL = leg(-1), dR = leg(1);
+  $('lp-lL').setAttribute('d', dL); $('lp-lLe').setAttribute('d', dL); $('lp-lR').setAttribute('d', dR); $('lp-lRe').setAttribute('d', dR);
+  $('lp-top').setAttribute('transform', 'translate(' + hx + ' ' + hy + ') scale(.9)');
+  $('lp-face').setAttribute('transform', 'translate(0 ' + (5.5 * bow) + ') rotate(' + (-8 * bow) + ' 0 -30)');
+  $('lp-aK').setAttribute('opacity', p < .5 ? 1 : 0); $('lp-aS').setAttribute('opacity', p < .5 ? 0 : 1);
+  $('lp-m').setAttribute('opacity', 1 - (tr ? tr.inside : 0)); $('lp-door').setAttribute('opacity', 1 - (tr ? tr.open : 0));
+  for (i = 0; i < 3; i++) if (T >= starts[i] + D * 1.45 / 3.6) tonight++;
+  for (i = 0; i < numEls.length; i++) numEls[i].textContent = i < 6 ? week[i] : (tonight || '');   // tonight's box is empty until his first trip
+  $('lp-cal').setAttribute('transform', 'translate(0 ' + L(3, -90, seg(T, 9.6, 10.6)) + ')');
+  // captions 1 and 2 cross-fade so the scene is never without words while he is away
+  $('ls-c1').setAttribute('opacity', seg(T, .3, .7) - seg(T, 4.2, 4.6));
+  $('ls-c2').setAttribute('opacity', seg(T, 4.3, 4.7) - seg(T, 8.6, 9.0));
+  $('ls-c3').setAttribute('opacity', seg(T, 9.2, 9.7));
+}
+var $ = function (id) { return document.getElementById(id); }, all = function (c) { return host.querySelectorAll(c); };
+var DRAW = { ufe: [buildUfe, seekUfe], pae: [buildPae, seekPae] }[K];
+if (!DRAW) return;   // a scene named above with no drawing yet: leave the strip empty, never throw
+host.innerHTML = DRAW[0](); var seek = DRAW[1];
+rainEls = all('.ls-r'); flEls = all('.ls-f'); dropEls = all('.ls-d'); starEls = all('.lp-s'); pflEls = all('.lp-f'); numEls = all('.lp-n');
 var END = 13, t = reduce ? END : 0, playing = !reduce, clock = 0, last = null, rp = document.getElementById('ls-replay');
 var ICON = { skip: '<path d="M5 5l7 7-7 7"/><path d="M13 5l7 7-7 7"/>', replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>' };
 // One button: "Skip animation" while it plays (so the motion can be stopped), "Replay animation" once it holds.

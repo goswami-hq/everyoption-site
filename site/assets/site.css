@@ -569,6 +569,11 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .page-strip:has(.ls) { height: clamp(120px, 16.6vw, 330px); }   /* keeps the whole picture up to about 1990px wide */
 .page-strip .ls { --ls-clear: var(--soft); --ls-hill1: #cf8fab; --ls-hill2: #a63a6b; --ls-ray: #a63a6b; }
 @media (prefers-color-scheme: dark) { .page-strip .ls { --ls-clear: #4a2c3b; --ls-hill1: #7d4a61; --ls-hill2: #5e1f3c; --ls-ray: #e58bb4; } }
+.page-strip .ls[data-s="pae"] { --ls-hill1: #8fb0cf; --ls-hill2: #2f5f8f; --ls-ray: #2f5f8f; }
+@media (prefers-color-scheme: dark) { .page-strip .ls[data-s="pae"] { --ls-clear: #2c4257; --ls-hill1: #4a6a8a; --ls-hill2: #1f3f60; --ls-ray: #8fb8e0; } }
+.page-strip .ls[data-s="pae"] text.c .t { fill: #2f5f8f; }
+.page-strip .ls[data-s="pae"] text.n { font-size: 10.2px; }
+.page-strip .ls text.b { font: 600 13px var(--sans); fill: #22302b; }
 .page-strip .ls text.c { font: 600 14px var(--sans); fill: #22302b; }
 .page-strip .ls text.c .t { fill: #a63a6b; }
 .page-strip .ls text.d { font: 600 10.5px var(--sans); fill: #5a645d; }
