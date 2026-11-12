@@ -385,8 +385,12 @@ def check(site=SITE, root=ROOT):
         if box:
             errs += box_errors(dtag, dp, c)
         errs += deep_parts(dtag, dp, c, d, slug)
+        # The diagnosis patients are given may sit in both H1s (his Google Doc edits, 2026-11-12: "(benign prostatic
+        # hyperplasia/BPH)" in the in-depth H1, after "(benign prostatic hyperplasia)" in the short guide's). A run made
+        # only of the words in the page's `shared_name` is not shared phrasing; any other run still fails.
+        ok = set(words(d.get("shared_name", "")))
         for a, b in (("title", "title"), ("h1", "h1"), ("title", "h1"), ("h1", "title")):
-            shared = runs(sp[a]) & runs(dp[b])
+            shared = {r for r in runs(sp[a]) & runs(dp[b]) if not set(r.split()) <= ok}
             if shared or words(sp[a]) == words(dp[b]):
                 errs.append(f'{slug}: simple {a} and every-option {b} share phrasing {sorted(shared) or [sp[a]]}')
         both = {" ".join(words(t)) for t in c.get("targets", [])} & {" ".join(words(t)) for t in d.get("targets", [])}

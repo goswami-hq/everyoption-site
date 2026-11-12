@@ -44,7 +44,7 @@ refs = ["mpbph"]
 id = "pless-half"
 option = "shrinking-pills"
 simple = "about in half over 4 years"
-deep = "about in half over 4 years"
+deep = "by about half over 4 years"
 refs = ["pless", "proscar"]
 [[fact]]
 id = "turp-recovery"
@@ -510,3 +510,728 @@ simple = ""
 deep = "symptom score 15.1 points better at 5 years, against 13.2 with TURP, in one maker-sponsored trial"
 refs = ["water5"]
 read = "full text"
+
+# ---- Rewrite 2 (2026-11-12): deep-only facts, one per item of the signed-off text that holds a number, word for
+# word (to_site.py in ai-hq projects/platform/content/page-reviews/2026-11-12-prostate-deep/). Sources and how each
+# was read: ai-hq projects/platform/pae-page/evidence.md. Older deep-only facts above are no longer on the page.
+[[fact]]
+id = "r2-alpha-blockers-works-1"
+option = "alpha-blockers"
+simple = ""
+deep = "Most men notice a change within 3 to 7 days"
+refs = ["mpbph", "niddk", "mtops"]
+read = "abstract"
+[[fact]]
+id = "r2-alpha-blockers-risks-2"
+option = "alpha-blockers"
+simple = ""
+deep = "In the drug's own trials, about 15 out of 100 men taking tamsulosin felt dizzy, compared with 10 out of 100 men taking a dummy pill (a placebo, a pill with no active ingredient)"
+refs = ["flomax"]
+read = "page"
+[[fact]]
+id = "r2-alpha-blockers-risks-3"
+option = "alpha-blockers"
+simple = ""
+deep = "About 8 out of 100 men taking tamsulosin had less semen or none, compared with fewer than 1 out of 100 men taking a dummy pill"
+refs = ["flomax"]
+read = "page"
+[[fact]]
+id = "r2-shrinking-pills-intro-4"
+option = "shrinking-pills"
+simple = ""
+deep = "Finasteride and dutasteride lower a hormone that makes the prostate grow. The prostate then slowly shrinks. It takes 3 to 6 months to feel the effect"
+refs = ["mpbph", "proscar"]
+read = "page"
+[[fact]]
+id = "r2-shrinking-pills-evidence-5"
+option = "shrinking-pills"
+simple = ""
+deep = "A trial followed 3,040 men with enlarged prostates for 4 years. They were assigned by chance to finasteride or to a dummy pill"
+refs = ["pless"]
+read = "abstract"
+[[fact]]
+id = "r2-shrinking-pills-evidence-6"
+option = "shrinking-pills"
+simple = ""
+deep = "On finasteride: about 5 out of 100 men needed surgery"
+refs = ["pless"]
+read = "abstract"
+[[fact]]
+id = "r2-shrinking-pills-evidence-7"
+option = "shrinking-pills"
+simple = ""
+deep = "On the dummy pill: about 10 out of 100 men needed surgery"
+refs = ["pless"]
+read = "abstract"
+[[fact]]
+id = "r2-shrinking-pills-evidence-8"
+option = "shrinking-pills"
+simple = ""
+deep = "A trial followed 3,047 men for about 4.5 years. Men were assigned by chance to a dummy pill, an alpha blocker, finasteride, or both pills together. Getting worse meant symptoms climbing by 4 or more points, becoming unable to pass urine, leaking urine, kidney problems, or repeat infections. Men taking both pills were about two-thirds less likely to get worse than men taking the dummy pill"
+refs = ["mtops"]
+read = "abstract"
+[[fact]]
+id = "r2-tadalafil-evidence-9"
+option = "tadalafil"
+simple = ""
+deep = "A review that combined the trials found that, over 6 to 12 weeks, symptom scores improved about 2 points more with these pills than with a dummy pill, on the 35-point score. That is less than the 3 points most men can feel. The reviewers rated their confidence in this result as low"
+refs = ["pde5", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-tadalafil-evidence-10"
+option = "tadalafil"
+simple = ""
+deep = "Men taking the pills were about 1.4 times as likely to have a side effect as men taking a dummy pill"
+refs = ["pde5"]
+read = "abstract"
+[[fact]]
+id = "r2-waiting-11"
+option = ""
+simple = ""
+deep = "The trial followed 556 men with moderate symptoms. They were assigned by chance to TURP or to waiting with regular checkups. Men who had TURP were about half as likely to have a bad outcome as men who waited. About 1 out of 4 men who waited (24%) had surgery within 3 years. The trial's authors called waiting a safe choice for men who are less bothered by their symptoms. This trial was done decades ago, before today's medicines and procedures"
+refs = ["wasson"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-intro-12"
+option = "embolization"
+simple = ""
+deep = "Most men go home the same day, a few hours after the procedure. In a 2026 U.S. study, all 30 men who had PAE went home about 3 hours later, without a urinary catheter. In an older UK registry (2018), about 3 out of 10 men stayed in the hospital overnight after PAE, compared with 8 out of 10 men after TURP"
+refs = ["ukrope", "hope"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-works-13"
+option = "embolization"
+simple = ""
+deep = "In the trials that compared them, which followed men for up to 2 years, PAE eased symptoms about as much as TURP, with fewer side effects, a shorter hospital stay, and no urinary catheter for most men"
+refs = ["sham", "cochrane", "abt18", "partem", "peasy", "knight"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-14"
+option = "embolization"
+simple = ""
+deep = "A trial at one clinic assigned 80 men with severe symptoms by chance to PAE or to a fake procedure (a sham). After 6 months, symptom scores were about 13 points better after PAE than after the fake procedure, on the 35-point score. That is a difference men can clearly feel. The clinic's doctors helped develop PAE"
+refs = ["sham", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-15"
+option = "embolization"
+simple = ""
+deep = "A review combined the trials that assigned men by chance to PAE or TURP (6 trials, 360 men). In the first year, symptoms improved about the same amount after either treatment. Scores were about 2 points better after TURP on the 35-point score, which is less than most men can feel and could be due to chance. At 2 years, the result was similar (about 3 points). The trials were small, so the reviewers rated their confidence as low"
+refs = ["cochrane", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-16"
+option = "embolization"
+simple = ""
+deep = "A second review combined 6 studies with 598 men"
+refs = ["knight"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-17"
+option = "embolization"
+simple = ""
+deep = "Any side effect: about 4 out of 10 men (39%) after PAE, compared with about 8 out of 10 men (78%) after TURP"
+refs = ["knight"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-18"
+option = "embolization"
+simple = ""
+deep = "Hospital stay: about 2 days shorter after PAE"
+refs = ["knight"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-19"
+option = "embolization"
+simple = ""
+deep = "A Swiss hospital assigned 103 men by chance to PAE or TURP"
+refs = ["abt18", "abt5"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-20"
+option = "embolization"
+simple = ""
+deep = "Symptoms at 12 weeks: scores improved about 9 points after PAE and about 11 points after TURP, on the 35-point score"
+refs = ["abt18", "abt5"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-21"
+option = "embolization"
+simple = ""
+deep = "Side effects: about 17 out of 100 men had two or more after PAE, compared with 45 out of 100 men after TURP"
+refs = ["abt18", "abt5"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-22"
+option = "embolization"
+simple = ""
+deep = "At 5 years: symptom scores had improved about 8 points after PAE and about 12 points after TURP, on the 35-point score. That difference could be due to chance. Fewer than half of the men in the PAE group were still being followed, so this result is uncertain. Urine flow improved more after TURP"
+refs = ["abt18", "abt5"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-23"
+option = "embolization"
+simple = ""
+deep = "A trial assigned 90 men by chance to PAE or to two pills together (dutasteride plus tamsulosin). All had prostates of 50 cc or more and were still bothered while taking an alpha blocker. After 9 months, symptom scores had improved about 10 points after PAE, compared with about 6 points on the pills, on the 35-point score. A second trial of 39 men also favored PAE"
+refs = ["partem", "peasy"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-24"
+option = "embolization"
+simple = ""
+deep = "A 2026 U.S. study followed 45 men with prostates of 80 to 250 cc for a year: 30 had PAE and 15 had HoLEP. The men were not assigned by chance, and the study was small"
+refs = ["hope"]
+read = "full text"
+[[fact]]
+id = "r2-embolization-evidence-25"
+option = "embolization"
+simple = ""
+deep = "Symptoms: scores improved about 17 points after PAE and about 16 points after HoLEP at 1 year, on the 35-point score"
+refs = ["hope"]
+read = "full text"
+[[fact]]
+id = "r2-embolization-evidence-26"
+option = "embolization"
+simple = ""
+deep = "Going home: about 3 hours after PAE with no catheter, compared with a night in the hospital and a catheter for about a day after HoLEP"
+refs = ["hope"]
+read = "full text"
+[[fact]]
+id = "r2-embolization-evidence-27"
+option = "embolization"
+simple = ""
+deep = "Erections and bladder control: better after PAE for the first 3 months, and no different by 6 months"
+refs = ["hope"]
+read = "full text"
+[[fact]]
+id = "r2-embolization-evidence-28"
+option = "embolization"
+simple = ""
+deep = "Medicines: at 3 months, 13 out of 30 men who had PAE were still taking a prostate pill, compared with 0 out of 15 men after HoLEP"
+refs = ["hope"]
+read = "full text"
+[[fact]]
+id = "r2-embolization-evidence-29"
+option = "embolization"
+simple = ""
+deep = "A trial assigned 48 men with prostates over 80 cc by chance to PAE or to open surgery, and followed them for 6 months. Symptom scores improved about equally. However, on a bladder test, about 7 out of 10 men were still blocked after PAE, compared with about 1 out of 10 men after open surgery"
+refs = ["lebani"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-30"
+option = "embolization"
+simple = ""
+deep = "At one center that followed 630 men, PAE was still working for about 8 out of 10 men (82%) at 1 to 3 years, and for about 3 out of 4 men (76%) at 3 to 6.5 years"
+refs = ["pisco"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-evidence-31"
+option = "embolization"
+simple = ""
+deep = "In a study of 405 men with symptoms across several countries, the average symptom score fell from about 22 before PAE to about 11 two years later. A maker of embolization beads paid for this study"
+refs = ["sapoval24"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-32"
+option = "embolization"
+simple = ""
+deep = "In a review of 6 studies, about 4 out of 10 men had any side effect after PAE, compared with about 8 out of 10 men after TURP"
+refs = ["knight"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-33"
+option = "embolization"
+simple = ""
+deep = "In a UK registry, 1 out of 216 men needed a blood transfusion after PAE. For comparison, studies of TURP report a transfusion in fewer than 1 to about 3 out of 100 men"
+refs = ["ukrope", "reich", "rassweiler"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-34"
+option = "embolization"
+simple = ""
+deep = "At one U.S. center that treated 1,075 men, fewer than 1 out of 100 men (0.65%) had a serious problem, and all recovered. In a Danish study of 336 men, many of whom had very large prostates or depended on a catheter, it was about 8 out of 100 men"
+refs = ["kristensen", "bhatia25"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-35"
+option = "embolization"
+simple = ""
+deep = "This can damage that tissue. In the UK registry, it happened to 2 out of 216 men, and both healed on their own. Doctors lower this risk by placing a protective coil when needed"
+refs = ["ukrope", "maclean"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-36"
+option = "embolization"
+simple = ""
+deep = "In studies, erection scores did not drop on average. In trials against TURP, erection scores were about the same after either treatment. At one U.S. center that followed 878 men, erection scores were the same or slightly better after PAE. Men who had a protective coil placed showed no clear difference from men who did not"
+refs = ["cochrane", "richardson"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-risks-37"
+option = "embolization"
+simple = ""
+deep = "In one trial against TURP that asked 25 men in each group, 4 out of 25 men lost ejaculation completely after PAE, compared with 13 out of 25 men after TURP. About 10 out of 25 men had less semen after PAE"
+refs = ["ejac"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-selection-38"
+option = "embolization"
+simple = ""
+deep = "In studies with no comparison group, most of these men were able to stop using the catheter after PAE: about 9 out of 10 at one U.S. center (126 men), and about 6 to 7 out of 10 in a Danish study and in a study across several countries. We found no trial that compared PAE with surgery in these men"
+refs = ["sapoval24", "kristensen", "bhatia25"]
+read = "abstract"
+[[fact]]
+id = "r2-embolization-fit-39"
+option = "embolization"
+simple = ""
+deep = "The American Urological Association's 2026 guideline says doctors may offer PAE to men with prostates of 50 cc or more. It says PAE can improve symptoms by about as much as TURP surgery in the trials that compared them, which followed men for up to 2 years. It also says more men need a repeat treatment after PAE than after TURP"
+refs = ["aua"]
+read = "page"
+[[fact]]
+id = "r2-embolization-unknown-40"
+option = "embolization"
+simple = ""
+deep = "**How PAE compares with TURP beyond 2 years.** The one trial that ran for 5 years lost track of most men in the PAE group"
+refs = ["abt5"]
+read = "abstract"
+[[fact]]
+id = "r2-urethral-lift-works-41"
+option = "urethral-lift"
+simple = ""
+deep = "the lift eases symptoms, often within 2 weeks"
+refs = ["lift5"]
+read = "abstract"
+[[fact]]
+id = "r2-urethral-lift-works-42"
+option = "urethral-lift"
+simple = ""
+deep = "About 1 out of 7 men need another procedure within 5 years"
+refs = ["lift5"]
+read = "abstract"
+[[fact]]
+id = "r2-urethral-lift-evidence-43"
+option = "urethral-lift"
+simple = ""
+deep = "**About 1 out of 7 men needed more surgery within 5 years.** The maker's trial followed 206 men with prostates of 30 to 80 cc for 5 years. In that time, about 14 out of 100 men needed more surgery. Men were back to their usual activity in about 9 days on average"
+refs = ["lift5"]
+read = "abstract"
+[[fact]]
+id = "r2-urethral-lift-evidence-44"
+option = "urethral-lift"
+simple = ""
+deep = "In a large study of U.S. health records, about 16 out of 100 men needed more surgery within 5 years of a lift"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-water-vapor-works-45"
+option = "water-vapor"
+simple = ""
+deep = "steam therapy eases symptoms, often within 3 months"
+refs = ["cosmos", "rezum5"]
+read = "abstract"
+[[fact]]
+id = "r2-water-vapor-works-46"
+option = "water-vapor"
+simple = ""
+deep = "About 1 out of 7 men need more surgery within 5 years"
+refs = ["cosmos", "rezum5"]
+read = "abstract"
+[[fact]]
+id = "r2-water-vapor-evidence-47"
+option = "water-vapor"
+simple = ""
+deep = "In the maker's trial of 197 men with prostates of 30 to 80 cc: about 4 out of 100 men needed more surgery within 5 years"
+refs = ["rezum5"]
+read = "abstract"
+[[fact]]
+id = "r2-water-vapor-evidence-48"
+option = "water-vapor"
+simple = ""
+deep = "In a large study of U.S. health records: about 14 out of 100 men needed more surgery within 5 years"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-temporary-implant-evidence-49"
+option = "temporary-implant"
+simple = ""
+deep = "The maker's trial assigned 175 men by chance to the implant or a fake procedure. Improving meant a drop of at least 3 points on the 35-point symptom score, the smallest change most men can feel"
+refs = ["itind", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-temporary-implant-evidence-50"
+option = "temporary-implant"
+simple = ""
+deep = "After the implant: about 8 out of 10 men (79%) improved at 3 months"
+refs = ["itind", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-temporary-implant-evidence-51"
+option = "temporary-implant"
+simple = ""
+deep = "After the fake procedure: 6 out of 10 men (60%) improved"
+refs = ["itind", "barry"]
+read = "abstract"
+[[fact]]
+id = "r2-temporary-implant-evidence-52"
+option = "temporary-implant"
+simple = ""
+deep = "It had results for 41 men about 4 to 6.5 years after treatment, with no comparison group"
+refs = ["itind4"]
+read = "abstract"
+[[fact]]
+id = "r2-temporary-implant-risks-53"
+option = "temporary-implant"
+simple = ""
+deep = "Side effects were mostly mild and short-lived. They were more common after the implant (about 38 out of 100 men) than after the fake procedure (about 18 out of 100 men). No new erection or ejaculation problems were reported"
+refs = ["itind"]
+read = "abstract"
+[[fact]]
+id = "r2-balloon-works-54"
+option = "balloon"
+simple = ""
+deep = "it eases symptoms for at least 2 years, in the prostate sizes tested"
+refs = ["pinnacle", "pinnacle2"]
+read = "abstract"
+[[fact]]
+id = "r2-balloon-evidence-55"
+option = "balloon"
+simple = ""
+deep = "The maker's trial assigned 148 men by chance to the balloon or a fake procedure"
+refs = ["pinnacle"]
+read = "abstract"
+[[fact]]
+id = "r2-balloon-evidence-56"
+option = "balloon"
+simple = ""
+deep = "After the balloon: symptom scores improved about 12 points at 1 year, on the 35-point score"
+refs = ["pinnacle"]
+read = "abstract"
+[[fact]]
+id = "r2-balloon-evidence-57"
+option = "balloon"
+simple = ""
+deep = "After the fake procedure: symptom scores improved 8 points at 3 months"
+refs = ["pinnacle"]
+read = "abstract"
+[[fact]]
+id = "r2-balloon-evidence-58"
+option = "balloon"
+simple = ""
+deep = "**About 2 out of 3 men were still better at 2 years.** Their symptom scores were at least 30% better than before, without another treatment. By then, the trial no longer had a comparison group"
+refs = ["pinnacle2"]
+read = "abstract"
+[[fact]]
+id = "r2-sex-59"
+option = ""
+simple = ""
+deep = "A review of trials found dry orgasms in fewer than 2 out of 100 men in the first year after PAE. It found the same for the lift, steam, and waterjet surgery"
+refs = ["lokesh"]
+read = "abstract"
+[[fact]]
+id = "r2-sex-60"
+option = ""
+simple = ""
+deep = "In an Italian study of 147 men, about 9 out of 10 men (88.5%) said their ejaculation was unchanged a year after PAE"
+refs = ["rawash"]
+read = "abstract"
+[[fact]]
+id = "r2-sex-61"
+option = ""
+simple = ""
+deep = "Some men have less semen. In one small trial, this happened to about 10 out of 25 men after PAE"
+refs = ["ejac"]
+read = "abstract"
+[[fact]]
+id = "r2-sex-62"
+option = ""
+simple = ""
+deep = "They happen to about 4 to 7 out of 10 men, and can be permanent"
+refs = ["calik", "mpturpdc"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-63"
+option = ""
+simple = ""
+deep = "**After PAE, about 1 out of 5 men had another procedure within 5 years.**"
+refs = ["bilhim", "mabud", "rubin"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-64"
+option = ""
+simple = ""
+deep = "At one center that followed 1,072 men: about 21 out of 100 men had another procedure within 5 years. About half of those were a second PAE, and half were surgery"
+refs = ["bilhim"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-65"
+option = ""
+simple = ""
+deep = "In U.S. insurance records of 959 men: about 26 out of 100 men within 5 years"
+refs = ["mabud"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-66"
+option = ""
+simple = ""
+deep = "Beyond 5 years, studies disagree. By 10 years, one found about 1 out of 4 men had another operation, and another found more than half had another procedure"
+refs = ["bilhim", "rubin"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-67"
+option = ""
+simple = ""
+deep = "In trials that assigned men by chance, about 12 out of 100 men needed a repeat treatment in the first year after PAE, compared with about 4 out of 100 men after TURP"
+refs = ["cochrane"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-68"
+option = ""
+simple = ""
+deep = "It used U.S. health records from 2014 to 2024 and counted men who needed more surgery within 5 years. It did not account for differences between the men who chose each treatment, and it gave no number for PAE"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-69"
+option = ""
+simple = ""
+deep = "Urethral lift: 16 out of 100 men"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-70"
+option = ""
+simple = ""
+deep = "Steam therapy: 14 out of 100 men"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-71"
+option = ""
+simple = ""
+deep = "TURP: 7 out of 100 men"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-72"
+option = ""
+simple = ""
+deep = "Laser surgery (HoLEP): about 4 out of 100 men"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-repeat-73"
+option = ""
+simple = ""
+deep = "Open or robotic prostate removal: about 1 out of 100 men"
+refs = ["cosmos"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-intro-74"
+option = "turp"
+simple = ""
+deep = "The surgeon removes the inside of the prostate through a scope in the penis. You are asleep (general anesthesia) or numb from the waist down (spinal anesthesia). Most men stay in the hospital and have a urinary catheter for 1 to 3 days. Recovery takes 3 to 6 weeks"
+refs = ["mpturp", "mpturpdc"]
+read = "page"
+[[fact]]
+id = "r2-turp-works-75"
+option = "turp"
+simple = ""
+deep = "About 1 out of 10 men need more surgery within 20 years"
+refs = ["niddk", "mpturp", "bipolar"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-evidence-76"
+option = "turp"
+simple = ""
+deep = "A review of 59 trials and 8,924 men compared the newer kind (bipolar) with the older kind (monopolar). Both relieved symptoms about equally. Men having the newer kind were less than half as likely to need a blood transfusion"
+refs = ["bipolar"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-evidence-77"
+option = "turp"
+simple = ""
+deep = "TURP improved urine flow more, and fewer men needed a repeat treatment: about 4 out of 100 men in the first year, compared with about 12 out of 100 men after PAE. Side effects were more common after TURP: about 8 out of 10 men, compared with about 4 out of 10 men after PAE"
+refs = ["cochrane", "abt18", "knight"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-78"
+option = "turp"
+simple = ""
+deep = "about 4 to 7 out of 10 men. Semen goes into the bladder instead of out. This can be permanent"
+refs = ["calik", "mpturpdc"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-79"
+option = "turp"
+simple = ""
+deep = "about 8 out of 10 men, in a review of studies that compared TURP with PAE"
+refs = ["knight"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-80"
+option = "turp"
+simple = ""
+deep = "A German study followed 10,654 men who had TURP in 2002 and 2003. Surgery has improved since then, so today's numbers may be lower. A 2006 review found that in studies from 2000 to 2005, fewer than 1 out of 100 men needed a transfusion"
+refs = ["rassweiler"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-81"
+option = "turp"
+simple = ""
+deep = "Any complication: about 11 out of 100 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-82"
+option = "turp"
+simple = ""
+deep = "Unable to pee after the catheter came out: about 6 out of 100 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-83"
+option = "turp"
+simple = ""
+deep = "A second operation: about 6 out of 100 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-84"
+option = "turp"
+simple = ""
+deep = "A serious urinary infection: about 4 out of 100 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-85"
+option = "turp"
+simple = ""
+deep = "A blood transfusion: about 3 out of 100 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-86"
+option = "turp"
+simple = ""
+deep = "Death: 1 out of 1,000 men"
+refs = ["reich"]
+read = "abstract"
+[[fact]]
+id = "r2-turp-risks-87"
+option = "turp"
+simple = ""
+deep = "scar tissue that narrows the urethra happens to about 2 to 10 out of 100 men, and scar tissue at the bladder opening to as many as 9 out of 100 men. In the first weeks, up to 3 or 4 out of 10 men have sudden urges to pee with some leaking. Lasting leaking is rare: fewer than 1 out of 200 men. Erection problems can happen; we found no reliable rate"
+refs = ["mpturp", "nhsturp", "rassweiler"]
+read = "abstract"
+[[fact]]
+id = "r2-laser-evidence-88"
+option = "laser"
+simple = ""
+deep = "A review combined 8 trials with 764 men whose prostates were under 100 cc. Men having HoLEP were about one-sixth as likely to need a blood transfusion as men having TURP. They also had a catheter for less time and went home sooner. (PAE does not cut tissue, and a transfusion after it is very rare; see the PAE section.)"
+refs = ["ukrope", "holep"]
+read = "abstract"
+[[fact]]
+id = "r2-laser-risks-89"
+option = "laser"
+simple = ""
+deep = "about 4 to 7 out of 10 men, as after TURP"
+refs = ["calik"]
+read = "abstract"
+[[fact]]
+id = "r2-laser-risks-90"
+option = "laser"
+simple = ""
+deep = "At one German center that did 1,816 HoLEP operations, about 2 out of 100 men needed a blood transfusion, and about 3 out of 100 men had a serious complication. Most men had a catheter for 2 days"
+refs = ["gild"]
+read = "abstract"
+[[fact]]
+id = "r2-waterjet-works-91"
+option = "waterjet"
+simple = ""
+deep = "it works about as well as TURP for at least 5 years, in small to medium prostates"
+refs = ["water5"]
+read = "abstract"
+[[fact]]
+id = "r2-waterjet-evidence-92"
+option = "waterjet"
+simple = ""
+deep = "The trial assigned 181 men with prostates of 30 to 80 cc by chance to waterjet surgery or TURP"
+refs = ["water5"]
+read = "abstract"
+[[fact]]
+id = "r2-waterjet-evidence-93"
+option = "waterjet"
+simple = ""
+deep = "Symptoms at 5 years: scores had improved about 15 points after waterjet and about 13 points after TURP, on the 35-point score. That difference could be due to chance"
+refs = ["water5"]
+read = "abstract"
+[[fact]]
+id = "r2-waterjet-evidence-94"
+option = "waterjet"
+simple = ""
+deep = "Loss of ejaculation at 3 months: 7 out of 100 men after waterjet, compared with 25 out of 100 men after TURP"
+refs = ["water5"]
+read = "abstract"
+[[fact]]
+id = "r2-waterjet-risks-95"
+option = "waterjet"
+simple = ""
+deep = "About 7 out of 100 men lost ejaculation in the trial, compared with 25 out of 100 men after TURP. In the same trial, about 26 out of 100 men had a complication after waterjet surgery, compared with 42 out of 100 men after TURP. Erection problems and leaking urine can happen. The reports we read do not give a rate for bleeding"
+refs = ["mpmin", "water5", "water1"]
+read = "abstract"
+[[fact]]
+id = "r2-open-prostatectomy-intro-96"
+option = "open-prostatectomy"
+simple = ""
+deep = "The surgeon removes the inner part of the prostate through the lower belly, either through one larger cut or with a robot through small cuts. After open surgery, most men stay in the hospital 2 to 4 days and recover in about 6 weeks"
+refs = ["niddk", "mpsimple"]
+read = "page"
+[[fact]]
+id = "r2-open-prostatectomy-works-97"
+option = "open-prostatectomy"
+simple = ""
+deep = "In one small trial in very large prostates, it cleared the blockage better than PAE: about 1 out of 10 men were still blocked afterward, compared with about 7 out of 10 men after PAE"
+refs = ["lebani", "mpsimple"]
+read = "abstract"
+[[fact]]
+id = "r2-open-prostatectomy-risks-98"
+option = "open-prostatectomy"
+simple = ""
+deep = "This is the biggest operation on this page. In a German study of 902 men who had open surgery in 2002 and 2003, about 17 out of 100 men had a complication, about 8 out of 100 needed a blood transfusion, about 4 out of 100 needed a second operation for bleeding, and 2 out of 1,000 died. Keyhole and robotic surgery look safer: in a study of 1,330 men, about 11 out of 100 had a complication, mostly minor, about 4 out of 100 needed a transfusion, and the usual hospital stay was 4 days. Dry orgasms and leaking urine can also happen; we found no reliable rates"
+refs = ["mpsimple", "gratzke", "autorino"]
+read = "abstract"
+[[fact]]
+id = "r2-g-pde5"
+option = "tadalafil"
+simple = ""
+deep = "Eases symptoms a little: about 2 points more than a dummy pill on the 35-point symptom score"
+refs = ["pde5"]
+read = "abstract"
+[[fact]]
+id = "r2-g-itind"
+option = "temporary-implant"
+simple = ""
+deep = "About 8 out of 10 men improved at 3 months, compared with 6 out of 10 men after a fake procedure"
+refs = ["itind"]
+read = "abstract"
+[[fact]]
+id = "r2-g-water"
+option = "waterjet"
+simple = ""
+deep = "Symptoms improved about as much as after TURP over 5 years, in one trial paid for by the maker"
+refs = ["water5"]
+read = "abstract"
+[[fact]]
+id = "r2-score-scale"
+option = ""
+simple = ""
+deep = "Most studies on this page use the same questionnaire about urinary symptoms (the IPSS, also called the AUA symptom score). It runs from 0 to 35, and higher is worse"
+refs = ["barry", "bipolar"]
+read = "abstract"
+[[fact]]
+id = "r2-score-feel"
+option = ""
+simple = ""
+deep = "Men who say they feel slightly better have usually dropped about 3 points. A change smaller than that is hard to feel. Men who start with worse symptoms need a bigger drop to feel a difference"
+refs = ["barry"]
+read = "abstract"

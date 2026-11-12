@@ -216,7 +216,7 @@ def check(c, d, f):
         for key in condition.MARK.findall(t):
             if key not in keys | own:
                 errs.append(f'{where}: reference {key} is not on the simple page' + (" or this page" if own else ""))
-    for t in _notes(d) + _as_list(d.get("read_intro", "")):
+    for t in _notes(d) + _as_list(d.get("read_intro", "")) + list(d.get("compare_notes", {}).values()):
         if NUM.search(t):
             errs.append(f'reading note: number outside the ledger: "{t[:120]}"')
     # The lede opens with the answer (agreed list item 2, his "Fine" 2026-11-07): its numbers come only from the ledger.
@@ -397,7 +397,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
                       f'{condition.coverage_near(c) if lead else ""}{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
         h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
-        sections += f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2><p>{txt(k["summary"])}</p>{items}</section>'
+        # a second line under a group's summary, for the deep page only (prostate rewrite 2, 2026-11-12: what surgery
+        # gains and what it costs, stated before the surgery options); no number, checked in check()
+        note = d.get("compare_notes", {}).get(k["id"], "")
+        sections += (f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2><p>{txt(k["summary"])}</p>'
+                     + (f"<p>{e(note)}</p>" if note else "") + f'{items}</section>')
         sections += "".join(show(sec) for sec in extra.get(k["id"], []))
     sections += "".join(show(sec) for sec in extra.get("end", []))
     top = "".join(show(sec) for sec in extra.get("top", []))
