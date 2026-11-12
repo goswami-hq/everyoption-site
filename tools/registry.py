@@ -87,6 +87,11 @@ def banners():
     return {p["key"] for p in PROCEDURES if p.get("parts", {}).get("banner")}
 
 
+def life_strips():
+    """Procedures whose page-top strip is the daily-life one (parts.banner == "life"; site/assets/life-strip.js)."""
+    return {p["key"] for p in PROCEDURES if p.get("parts", {}).get("banner") == "life"}
+
+
 def coverage():
     return {p["key"]: p["parts"]["coverage"] for p in listed() if p.get("parts", {}).get("coverage")}
 
@@ -227,9 +232,9 @@ def check(site=None):
             if set(a) != {"alt", "route", "route_text", "caps"} or len(a.get("caps", [])) != 3:
                 errs.append(f"procedure {k}: animation needs alt, route, route_text and 3 caps")
         if parts.get("banner"):
-            js = ROOT / "site" / "assets" / "proc-banner.js"
+            js = ROOT / "site" / "assets" / ("life-strip.js" if parts["banner"] == "life" else "proc-banner.js")
             if not js.exists() or not re.search(rf"\b{k}\s*:", js.read_text(encoding="utf-8")):
-                errs.append(f"procedure {k}: declares a banner but site/assets/proc-banner.js has no {k} scene")
+                errs.append(f"procedure {k}: declares a banner but site/assets/{js.name} has no {k} scene")
         if parts.get("coverage"):
             cov = parts["coverage"]
             pages = tomllib.loads((ROOT / "content" / "insurance" / "pages.toml").read_text(encoding="utf-8"))["pages"]

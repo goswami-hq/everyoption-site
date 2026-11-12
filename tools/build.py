@@ -314,7 +314,15 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, n
 FIND_BAR = '<a class="find-bar" href="#finder" hidden>Find a doctor</a>'
 
 
+LIFE_STRIPS = registry.life_strips()   # site/assets/life-strip.js draws these: the symptom in daily life, no anatomy (2026-11-11)
+
+
 def strip(k):
+    icon = ('<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+            'stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>')
+    if k in LIFE_STRIPS:
+        return ('<div class="page-strip"><div class="ls" data-s="' + k + '"></div>'
+                '<button type="button" id="ls-replay" class="pb-replay ls-replay" aria-label="Replay animation" hidden>' + icon + '</button></div>')
     return ('<div class="page-strip"><div class="pb" data-s="' + k + '"></div>'
             '<button type="button" id="pb-replay" class="pb-replay" aria-label="Replay animation" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button></div>')
 
@@ -335,7 +343,7 @@ def finder(k):
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
-                ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js"],
+                ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js"],
                 banner=strip(k))
 
 
@@ -597,7 +605,7 @@ def main():
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/city-fold.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"],
                                          css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
@@ -606,7 +614,7 @@ def main():
         hub = cities.HUB.get(c.get("finder"), "") if city_pages.get(c.get("finder")) else ""
         body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
-                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
+                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
