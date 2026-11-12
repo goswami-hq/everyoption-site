@@ -31,7 +31,7 @@ function build() {
   for (i = 0; i < 7; i++) { x = 256 + i * 12.86;
     cal += '<rect x="' + x + '" y="13" width="12.86" height="34" fill="#fbf6ec" stroke="' + EDGE + '" stroke-width="1"/><text class="d" x="' + (x + 6.43) + '" y="23.5" text-anchor="middle">' + wd.charAt(i) + '</text>' +
       '<g class="ls-d" transform="translate(' + (x + 6.43) + ' 36) scale(.86)"><path d="' + DROP + '" fill="#c2452d" stroke="' + EDGE + '" stroke-width=".9"/></g>'; }
-  for (i = 0; i < 3; i++) zig += '<path d="M0 0 l3 -3 l3 3 l3 -3" transform="translate(' + (249 + i * 4) + ' ' + (61 + i * 4.5) + ') rotate(' + (i * 14 - 20) + ') scale(.8)" fill="none" stroke="#c2452d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
+  [[-15, 91, -70], [15, 91, 20], [13, 81, -20]].forEach(function (v) { zig += '<path d="M0 0 l3 -3 l3 3 l3 -3" transform="translate(' + (238 + v[0]) + ' ' + v[1] + ') rotate(' + v[2] + ') scale(.85)" fill="none" stroke="#c2452d" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'; });
   var arm = 'fill="none" stroke="' + SK + '" stroke-width="4.4" stroke-linecap="round"';
   return '<svg viewBox="0 0 800 133" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + SC.label + '">' +
     '<defs><linearGradient id="ls-storm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33272a"/><stop offset="1" stop-color="#5a4650"/></linearGradient>' +
@@ -49,31 +49,30 @@ function build() {
     // couch
     '<g filter="url(#ls-sh)" stroke="' + EDGE + '" stroke-width="1.6"><rect x="204" y="66" width="132" height="36" rx="9" fill="#e9dcc4"/><rect x="198" y="90" width="144" height="16" rx="6" fill="#b98b78"/>' +
       '<rect x="196" y="78" width="14" height="28" rx="6" fill="#b98b78"/><rect x="330" y="78" width="14" height="28" rx="6" fill="#b98b78"/></g>' +
-    // her, curled on the couch: side view, knees drawn up, head bowed over the heating pad
-    '<g id="ls-sit" filter="url(#ls-sh)">' +
-      '<path d="M222 47 C219 34 240 31 243 44 L244 62 L224 64 Z" fill="' + HAIR + '" stroke="' + EDGE + '" stroke-width="1.6" stroke-linejoin="round"/>' +
-      limb('M227 88 L238 64', TOP, 15) +
-      '<circle cx="239" cy="49" r="7" fill="' + SK + '"/><path d="M231.5 49 Q233 39 243 43 Q237 44 235 52 Z" fill="' + HAIR + '"/>' +
-      limb('M229 90 L257 77 L264 91', LEG, 7.5) + limb('M264 91 L272 91', LEG, 5) +
-      '<g transform="translate(244 82) rotate(-24) scale(.9)"><rect x="-9" y="-7.5" width="18" height="15" rx="3.5" fill="#ffb648" stroke="' + EDGE + '" stroke-width="1.6"/><path d="M-5 -3 h10 M-5 0.5 h10 M-5 4 h10" stroke="#22302b" stroke-width="1" stroke-linecap="round"/></g>' +
-      '<path d="M238 68 Q247 70 246 78" fill="none" stroke="' + SK + '" stroke-width="4.4" stroke-linecap="round"/>' +
-      '<g id="ls-zz">' + zig + '</g></g>' +
-    // the heating pad, left on the couch
-    '<g id="ls-pad" filter="url(#ls-sh)" transform="translate(256 86)"><path d="M9 2 q10 6 4 14" fill="none" stroke="#22302b" stroke-width="1.3" stroke-linecap="round"/><rect x="-9" y="-7.5" width="18" height="15" rx="3.5" fill="#ffb648" stroke="' + EDGE + '" stroke-width="1.6"/><path d="M-5 -3 h10 M-5 0.5 h10 M-5 4 h10" stroke="#22302b" stroke-width="1" stroke-linecap="round"/></g>' +
-    // her, standing: our female silhouette, small (paper-box guide, section 4)
-    '<g id="ls-up" filter="url(#ls-sh)">' +
-      '<g id="ls-lL"><rect x="-6.6" y="-30" width="6" height="30" rx="3" fill="' + LEG + '" stroke="' + EDGE + '" stroke-width="1.6"/></g><g id="ls-lR"><rect x=".6" y="-30" width="6" height="30" rx="3" fill="' + LEG + '" stroke="' + EDGE + '" stroke-width="1.6"/></g>' +
-      '<path d="M-9.5 -64 C-9.5 -76 9.5 -76 9.5 -64 L9.5 -52 L-9.5 -52 Z" fill="' + HAIR + '" stroke="' + EDGE + '" stroke-width="1.6"/>' +
-      '<rect x="-8.6" y="-55" width="17.2" height="28" rx="6" fill="' + TOP + '" stroke="' + EDGE + '" stroke-width="1.6"/><rect x="-2.2" y="-58" width="4.4" height="5" fill="' + SK + '"/>' +
-      '<circle cx="0" cy="-63.5" r="7" fill="' + SK + '"/><path d="M-7.3 -64.5 Q0 -75 7.3 -64.5 Q0 -69.5 -7.3 -64.5 Z" fill="' + HAIR + '"/>' +
-      '<path ' + arm + ' d="M-8.4 -50 L-10.6 -31"/><path ' + arm + ' d="M8.4 -50 L10.6 -31"/></g>' +
+    // Her: ONE figure for the whole strip (his note 2026-11-11: the seated and standing women looked like different people,
+    // and the jump between them was abrupt). Our female silhouette, front view; seated she is bowed over the heating pad on
+    // her belly, then she sets the pad aside, stands up and walks. Legs are drawn each frame (seek) so they can bend.
+    '<g id="ls-her" filter="url(#ls-sh)">' +
+      '<path id="ls-lLe" fill="none" stroke="' + EDGE + '" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path id="ls-lRe" fill="none" stroke="' + EDGE + '" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path id="ls-lL" fill="none" stroke="' + LEG + '" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path id="ls-lR" fill="none" stroke="' + LEG + '" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<g id="ls-top">' +
+        '<g id="ls-head"><path d="M-9.5 -36 C-9.5 -48 9.5 -48 9.5 -36 L9.5 -24 L-9.5 -24 Z" fill="' + HAIR + '" stroke="' + EDGE + '" stroke-width="1.6"/></g>' +
+        '<rect x="-8.6" y="-27" width="17.2" height="28" rx="6" fill="' + TOP + '" stroke="' + EDGE + '" stroke-width="1.6"/>' +
+        '<g id="ls-face"><rect x="-2.2" y="-30" width="4.4" height="5" fill="' + SK + '"/><circle cx="0" cy="-35.5" r="7" fill="' + SK + '"/><path d="M-7.3 -36.5 Q0 -47 7.3 -36.5 Q0 -41.5 -7.3 -36.5 Z" fill="' + HAIR + '"/></g>' +
+        '<g id="ls-aS"><path ' + arm + ' d="M-8.4 -22 L-10.6 -3"/><path ' + arm + ' d="M8.4 -22 L10.6 -3"/></g>' +
+        '<g id="ls-aH"><path ' + arm + ' d="M-8.2 -22 Q-13 -9 -4 -6"/><path ' + arm + ' d="M8.2 -22 Q13 -9 4 -6"/></g>' +
+      '</g></g>' +
+    // the heating pad: on her belly under her hands, then set down on the couch beside her
+    '<g id="ls-pad" filter="url(#ls-sh)"><path id="ls-cord" d="M-8 3 q-9 6 -4 14" fill="none" stroke="#22302b" stroke-width="1.3" stroke-linecap="round"/><rect x="-8.5" y="-6.5" width="17" height="13" rx="3.5" fill="#ffb648" stroke="' + EDGE + '" stroke-width="1.6"/><path d="M-4.5 -2.6 h9 M-4.5 0.4 h9 M-4.5 3.4 h9" stroke="#22302b" stroke-width="1" stroke-linecap="round"/>' +
+      '<g id="ls-hands"><circle cx="-6.5" cy="1" r="2.6" fill="' + SK + '"/><circle cx="6.5" cy="1" r="2.6" fill="' + SK + '"/></g></g>' +
+    '<g id="ls-zz">' + zig + '</g>' +
     cap(1, 388, 28, 208, SC.caps[0]) + cap(2, 388, 20, 208, SC.caps[1]) + cap(3, 388, 12, 208, SC.caps[2]) + '</svg>';
 }
 host.innerHTML = build();
 var $ = function (id) { return document.getElementById(id); }, all = function (c) { return host.querySelectorAll(c); };
 var rainEls = all('.ls-r'), flEls = all('.ls-f'), dropEls = all('.ls-d');
 function seek(T, clock) {
-  var a = seg(T, 9.2, 11.4), late = seg(a, .5, 1), up = seg(T, 9.9, 10.0), walk = seg(T, 10.4, 12.0), i, ph, o, day = 1;
+  var a = seg(T, 9.2, 11.4), late = seg(a, .5, 1), i, ph, o, day = 1;
   $('ls-clear').setAttribute('opacity', a); $('ls-rays').setAttribute('opacity', .16 * late); $('ls-O').setAttribute('opacity', late);
   $('ls-O').setAttribute('transform', 'translate(0 ' + L(20, 0, late) + ')'); $('ls-rain').setAttribute('opacity', 1 - a);
   for (i = 0; i < rainEls.length; i++) { ph = reduce ? (i * .37) % 1 : (clock * 1.3 + i * .37) % 1; rainEls[i].setAttribute('transform', 'translate(' + (30 + (i * 97) % 760 - 14 * ph) + ' ' + (-8 + 118 * ph) + ')'); }
@@ -82,13 +81,22 @@ function seek(T, clock) {
   for (i = 0; i < dropEls.length; i++) { o = seg(T, .5 + i * .44, .7 + i * .44); dropEls[i].setAttribute('opacity', o); if (o > .5) day = i + 1; }
   $('ls-n').textContent = 'Period: day ' + day;
   $('ls-cal').setAttribute('transform', 'translate(0 ' + L(8, -90, seg(T, 9.6, 10.6)) + ')');
-  // she gets up: a short cut from the curled pose to standing in front of the couch, then she walks off to the right
-  $('ls-sit').setAttribute('opacity', 1 - up); $('ls-sit').setAttribute('transform', reduce ? '' : 'translate(0 ' + (.5 * Math.sin(clock * 3)) + ')');
+  // she sets the pad down (q), stands up (p), then walks off to the right (walk): one figure, moving
+  var q = seg(T, 9.6, 10.1), p = seg(T, 10.0, 10.9), walk = seg(T, 11.0, 12.4), ache = reduce ? 0 : Math.sin(clock * 3) * (1 - p);
+  var hx = L(238, 371, walk), hy = L(100, 89, p), sw = walk > .001 && walk < .999 && !reduce ? Math.sin(clock * 7) * Math.min(1, walk * 8, (1 - walk) * 6) : 0;
+  function leg(side) {   // hip, knee, foot: bent over the seat edge when seated, straight when standing
+    var x = hx + side * 3.6, k = side * sw, ky = L(104.5, (hy + 116) / 2, p), fy = L(114, 116, p) - 2 * Math.abs(sw) * (k > 0 ? 1 : 0);
+    return 'M' + x + ' ' + hy + ' L' + (x + L(side * 5, 0, p) + 3 * k) + ' ' + ky + ' L' + (x + L(side * 3.5, 0, p) + 7 * k) + ' ' + fy;
+  }
+  var dL = leg(-1), dR = leg(1);
+  $('ls-lL').setAttribute('d', dL); $('ls-lLe').setAttribute('d', dL); $('ls-lR').setAttribute('d', dR); $('ls-lRe').setAttribute('d', dR);
+  $('ls-top').setAttribute('transform', 'translate(' + hx + ' ' + (hy + .5 * ache) + ') rotate(' + L(-7, 0, p) + ') scale(.9)');
+  $('ls-face').setAttribute('transform', 'translate(' + L(-1.5, 0, p) + ' ' + L(5.5, 0, p) + ') rotate(' + L(-10, 0, p) + ' 0 -30)');
+  $('ls-head').setAttribute('transform', 'translate(' + L(-1.5, 0, p) + ' ' + L(5.5, 0, p) + ') rotate(' + L(-10, 0, p) + ' 0 -30)');
+  $('ls-aH').setAttribute('opacity', 1 - q); $('ls-aS').setAttribute('opacity', q);
+  $('ls-pad').setAttribute('transform', 'translate(' + L(238.6, 219, q) + ' ' + (L(94.5, 94, q) + .5 * ache * (1 - q) - 7 * Math.sin(Math.PI * q)) + ') rotate(' + L(-4, 6, q) + ')');
+  $('ls-hands').setAttribute('opacity', 1 - seg(q, 0, .5)); $('ls-cord').setAttribute('opacity', q);
   $('ls-zz').setAttribute('opacity', (reduce ? .8 : .45 + .55 * Math.abs(Math.sin(clock * 3.4))) * (1 - seg(T, 9.2, 9.8)));
-  $('ls-pad').setAttribute('opacity', up);
-  var step = walk > .001 && walk < .999 && !reduce ? 16 * Math.sin(clock * 7) * Math.min(1, walk * 8, (1 - walk) * 6) : 0;   // eases in and out
-  $('ls-up').setAttribute('opacity', up); $('ls-up').setAttribute('transform', 'translate(' + L(244, 371, walk) + ' ' + (L(120, 116, up) - 4 * walk) + ') scale(.9)');
-  $('ls-lL').setAttribute('transform', 'rotate(' + step + ' 0 -28)'); $('ls-lR').setAttribute('transform', 'rotate(' + (-step) + ' 0 -28)');
   // captions hold 3.4 s and 3.6 s (paper-box guide, section 6)
   $('ls-c1').setAttribute('opacity', seg(T, .3, .7) - seg(T, 4.1, 4.5));
   $('ls-c2').setAttribute('opacity', seg(T, 4.6, 5.0) - seg(T, 8.6, 9.0));
