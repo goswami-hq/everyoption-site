@@ -33,7 +33,7 @@ author_role = ""
 targets = ["enlarged prostate treatment options", "enlarged prostate treatment", "bph treatment", "bph treatment options", "what is bph", "what is an enlarged prostate", "enlarged prostate treatment without surgery", "alternatives to turp"]
 title = "BPH and Enlarged Prostate Treatment Options | Every Option"
 description = "Your enlarged prostate (BPH) treatment options, including ones without surgery: how invasive each is, how well it works, and side effects."
-h1 = "Shrink an enlarged prostate without surgery"
+h1 = "Shrink an enlarged prostate (benign prostatic hyperplasia) without surgery"
 answer = "An enlarged prostate is common as men age. This is also known as benign prostatic hyperplasia (BPH). BPH is not cancer and does not raise your risk of prostate cancer. Many men have no symptoms.[^mpbph] If you have trouble peeing, embolization is one of many options. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
 urgent = "If you cannot pee at all, have a fever with chills, see a lot of blood or clots in your urine, have severe pain, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for prostate artery embolization"
@@ -74,7 +74,7 @@ id = "what"
 # place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
 # Every sentence and tag is the old "What is an enlarged prostate?" section's, with its sources; nothing new.
 place = "box"
-heading = "What is an enlarged prostate?"
+heading = "What is an enlarged prostate (benign prostatic hyperplasia)?"
 text = [
   "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age, which is called benign prostatic hyperplasia (BPH).[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] As men get older, this gets more common, with more than 9 out of 10 men having it in their 80s.[^mpbph]",
 ]
