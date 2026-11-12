@@ -1,6 +1,6 @@
 /* Page-top strip that shows the symptom in daily life, with no anatomy (his pick of direction C, 2026-11-11, after a
    non-medical viewer said of the anatomy strip "idk what that is or what I'm looking at"). Source and review history:
-   ai-hq projects/platform/design/page-strips-2026-11-11/. Plays once, about 13 seconds (knee 14), then holds; the held frame names
+   ai-hq projects/platform/design/page-strips-2026-11-11/. Plays once, about 13 seconds (knee 14; hemorrhoids 13, on the fibroid and prostate clock), then holds; the held frame names
    the condition. Reduced motion shows the held frame. Colours that change with the page theme are CSS variables on .ls
    (src-assets/site.css). A scene per procedure key; registry part "banner": "life" (tools/registry.py). */
 (function () {
@@ -24,7 +24,15 @@ var SCENES = {
   gae: { end: 14, label: 'A woman walks her dog under grey clouds. Twice she stops and holds her knee while the dog looks back, then she sits on the first bench with the dog beside her. Text: Knee pain cutting your walks short? It could be knee arthritis: the cushion in the joint wears down. Knee arthritis has more than one treatment. See every option. Then the sky clears, she gets up, and they walk on.',
     caps: [['Knee <tspan class="t">pain</tspan> cutting', 'your walks short?'],
            ['It could be knee', '<tspan class="t">arthritis</tspan>: the cushion', 'in the joint wears down.'],
-           ['Knee arthritis has more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
+           ['Knee arthritis has more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] },
+  // Bleeding hemorrhoids (his words 2026-11-12: "None of these are distinctive and look too similar to the other 3 / we need
+  // to lean into bleeding and toilets / dont need a calendar thing"; then "D3", "toilet paper roll and proportions are off",
+  // and "D3a - let's make sure the timing matches the other site banners"). No hill and no figure: a bathroom wall, the
+  // weather in its window. Line 1 is the page's symptom line, word for word; line 2 is the page's opening rule.
+  hae: { label: 'In a bathroom, toilet paper unrolls from the roll and across the picture while it rains outside the window. Red spots of blood appear on the paper, one after another. Text: Bright red blood on the toilet paper? It could be hemorrhoids. Bleeding always needs a doctor\u2019s check. Hemorrhoids have more than one treatment. See every option. Then the sun comes out, the paper pulls through, and clean squares follow.',
+    caps: [['Bright red <tspan class="t">blood</tspan>', 'on the toilet paper?'],
+           ['It could be <tspan class="t">hemorrhoids</tspan>.', 'Bleeding always needs', 'a doctor\u2019s check.'],
+           ['Hemorrhoids have more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
 };
 var K = host.getAttribute('data-s'), SC = SCENES[K]; if (!SC) return;
 var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -257,11 +265,79 @@ function seekGae(T, clock) {
   $('ls-c2').setAttribute('opacity', seg(T, 4.1, 4.5) - seg(T, 9.7, 10.1));
   $('ls-c3').setAttribute('opacity', seg(T, 9.7, 10.1));
 }
+
+// ---- Bleeding hemorrhoids: the long roll ----
+// Sizes come from the real thing: a sheet is square and as wide as the roll's side (22 units); the roll is 27 across.
+var HPW = 22, HPATH = 'M239 50 V97 H812', HEDGE = '#c9bd96', HRED = '#c2452d', HPORC = '#fbf6ec',
+    HSPOT = 'M-3.4 -1 C-4 -4 -1 -5.4 1 -4.2 C3.6 -4.6 4.6 -1.6 3.4 .6 C4 3.4 1 4.6 -1 3.6 C-3.6 4.2 -4.8 1.4 -3.4 -1 Z';
+function buildHae() {
+  var perf = '', spots = '', rain = '', i, wx = 304, cx = 250, cy = 44;
+  function tiles(wall, tile, line) {
+    var g = '<rect width="800" height="133" fill="' + wall + '"/><rect y="72" width="800" height="48" fill="' + tile + '"/>', x;
+    for (x = 0; x <= 800; x += 16) g += '<path d="M' + x + ' 72 V120" stroke="' + line + '" stroke-width="1"/>';
+    return g + '<path d="M0 84 H800 M0 96 H800 M0 108 H800" stroke="' + line + '" stroke-width="1"/><path d="M0 72 H800" stroke="' + line + '" stroke-width="2.4"/>';
+  }
+  for (i = 0; i < 9; i++) rain += '<path d="M' + (wx + 4 + i * 5.5) + ' ' + (14 + (i * 7) % 18) + ' l-3 8" stroke="#a9c1b6" stroke-width="1.2" stroke-linecap="round"/>';
+  for (i = -24; i < 25; i++) perf += '<path d="M' + (262 + HPW * i) + ' 86 V108" stroke="#d8cfb7" stroke-width="1" stroke-dasharray="2 2"/>';
+  [295, 383, 493].forEach(function (x, j) { spots += '<g class="lh-sp" data-x="' + x + '"><path transform="scale(1.2)" d="' + HSPOT + '" fill="' + HRED + '"/>' + (j === 1 ? '<circle cx="7" cy="-5" r="1.3" fill="' + HRED + '"/>' : '') + '</g>'; });
+  return '<svg viewBox="0 0 800 133" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + SC.label + '">' +
+    '<defs><filter id="ls-sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1.2" dy="2.2" stdDeviation="1.4" flood-color="#10151c" flood-opacity=".42"/></filter>' +
+    '<clipPath id="lh-win"><rect x="' + (wx + 3) + '" y="13" width="42" height="40"/></clipPath><clipPath id="lh-rv"><rect id="lh-rvr" x="258" y="84" width="0" height="26"/></clipPath>' +
+    '<linearGradient id="ls-storm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d4f48"/><stop offset="1" stop-color="#5d6d66"/></linearGradient></defs>' +
+    // the wall and tiles twice: in the storm, and lit (the lit one fades in with the sun)
+    tiles('#4c5a53', '#56645c', '#46534c') + '<g id="lh-light">' + tiles('var(--lh-wall)', 'var(--lh-tile)', 'var(--lh-line)') + '</g>' +
+    '<rect y="118" width="800" height="15" fill="var(--ls-hill2)"/><path d="M0 118 H800" stroke="' + EDGE + '" stroke-width="1.6"/>' +
+    // the window holds the weather
+    '<g filter="url(#ls-sh)"><rect x="' + wx + '" y="10" width="48" height="46" rx="2" fill="#e9dcc4" stroke="' + EDGE + '" stroke-width="1.6"/></g>' +
+    '<g clip-path="url(#lh-win)"><rect x="' + wx + '" y="10" width="48" height="46" fill="url(#ls-storm)"/><g id="lh-rain">' + rain + '</g>' +
+      '<rect id="lh-clear" x="' + wx + '" y="10" width="48" height="46" fill="var(--ls-clear)"/>' +
+      '<g id="lh-O"><circle cx="' + (wx + 24) + '" cy="33" r="9" fill="#2f5d50" stroke="' + EDGE + '" stroke-width="1.4"/><circle cx="' + (wx + 24) + '" cy="33" r="3.3" fill="#ffb648"/></g>' +
+      '<g id="lh-cloud"><path transform="translate(' + (wx + 26) + ' 22) scale(.55)" d="' + CLOUD + '" fill="#3b4a44" stroke="' + EDGE + '" stroke-width="2"/></g></g>' +
+    // holder: a wall plate and a bar into the back of the roll
+    '<g filter="url(#ls-sh)"><rect x="204" y="34" width="9" height="20" rx="2" fill="#9aa6a0" stroke="' + EDGE + '" stroke-width="1.2"/><rect x="209" y="41.5" width="16" height="5" rx="2.5" fill="#9aa6a0" stroke="' + EDGE + '" stroke-width="1"/></g>' +
+    // the paper: hangs from the roll, folds, and runs along the wall; the fold shows its shaded underside
+    '<g filter="url(#ls-sh)"><path class="lh-pp" d="' + HPATH + '" fill="none" stroke-linejoin="miter" stroke="' + HEDGE + '" stroke-width="' + (HPW + 2.6) + '"/><path class="lh-pp" d="' + HPATH + '" fill="none" stroke-linejoin="miter" stroke="' + HPORC + '" stroke-width="' + HPW + '"/>' +
+      '<g id="lh-fold"><path d="M228 86 V108 H250 Z" fill="#e0d5b6"/><path d="M228 86 L250 108" stroke="' + HEDGE + '" stroke-width="1.2"/></g></g>' +
+    '<path d="M228 68 H250" stroke="#d8cfb7" stroke-width="1" stroke-dasharray="2 2"/>' +
+    '<g clip-path="url(#lh-rv)"><g id="lh-perf">' + perf + '</g>' + spots + '</g>' +
+    // the roll, at an angle: its side (as long as a sheet is wide) and its round end with the cardboard core
+    '<g filter="url(#ls-sh)"><path d="M' + cx + ' ' + (cy - 13.5) + ' H' + (cx - HPW) + ' A9 13.5 0 0 0 ' + (cx - HPW) + ' ' + (cy + 13.5) + ' H' + cx + ' Z" fill="' + HPORC + '" stroke="' + HEDGE + '" stroke-width="1.3"/>' +
+      '<path d="M' + (cx - 16) + ' ' + (cy - 13) + ' q-6 13 0 26 M' + (cx - 8) + ' ' + (cy - 13) + ' q-6 13 0 26" fill="none" stroke="#e6dcc2" stroke-width="1"/>' +
+      '<ellipse cx="' + cx + '" cy="' + cy + '" rx="9" ry="13.5" fill="#f4eddc" stroke="' + HEDGE + '" stroke-width="1.3"/><ellipse cx="' + cx + '" cy="' + cy + '" rx="6.4" ry="9.6" fill="none" stroke="#e6dcc2" stroke-width="1"/>' +
+      '<ellipse cx="' + cx + '" cy="' + cy + '" rx="3.4" ry="5.1" fill="#b9a878" stroke="#d8cfa8" stroke-width="1.6"/></g>' +
+    cap(1, 384, 28, 208, SC.caps[0], '#3f360a') + cap(2, 384, 12, 208, SC.caps[1], '#3f360a') + cap(3, 384, 12, 208, SC.caps[2], '#3f360a') + '</svg>';
+}
+var hPaper, hSpots, hLen = 0;
+function seekHae(T, clock) {
+  // The clock is the fibroid and prostate strips': 13 s; line 1 from 0.3 s, line 2 from 4.3 s, line 3 from 9.2 s; the
+  // weather clears from 9.2 to 11.4 s (his words 2026-11-12: "let's make sure the timing matches the other site banners").
+  var a = seg(T, 9.2, 11.4), late = seg(a, .45, 1), i, s, times = [1.9, 2.6, 3.3];
+  $('lh-light').setAttribute('opacity', a); $('lh-clear').setAttribute('opacity', a);
+  $('lh-O').setAttribute('opacity', late); $('lh-O').setAttribute('transform', 'translate(0 ' + L(16, 0, late) + ')');
+  $('lh-cloud').setAttribute('transform', 'translate(' + L(0, 62, seg(a, 0, .45)) + ' 0)');
+  $('lh-rain').setAttribute('opacity', 1 - seg(a, 0, .35));
+  $('lh-rain').setAttribute('transform', reduce ? '' : 'translate(' + (-((clock * 18) % 6)) + ' ' + ((clock * 40) % 12) + ')');
+  // the paper unrolls (0.5 to 1.5 s); three spots land before line 2; with the sun it pulls through and clean squares follow
+  if (!hLen) hLen = hPaper[0].getTotalLength();
+  var vis = L(30, hLen, seg(T, .5, 1.5)), tip = hPaper[0].getPointAtLength(vis), off = 560 * seg(T, 9.6, 11.6);
+  for (i = 0; i < hPaper.length; i++) hPaper[i].setAttribute('stroke-dasharray', vis + ' ' + (hLen + 10));
+  $('lh-fold').setAttribute('opacity', vis > 78 ? 1 : 0);
+  $('lh-rvr').setAttribute('width', Math.max(0, tip.x - 258));
+  $('lh-perf').setAttribute('transform', 'translate(' + (off % HPW) + ' 0)');
+  for (i = 0; i < hSpots.length; i++) {   // a spot lands by scale, never by fading (paper-box guide, section 12)
+    s = T < times[i] ? 0 : reduce ? 1 : 1 - Math.exp(-7 * (T - times[i])) * Math.cos(11 * (T - times[i]));
+    hSpots[i].setAttribute('transform', 'translate(' + (+hSpots[i].getAttribute('data-x') + off) + ' 97) scale(' + (s > 0 ? .4 + .6 * s : 0) + ')');
+  }
+  // captions cross-fade as on the prostate strip, so the wall is never without words
+  $('ls-c1').setAttribute('opacity', seg(T, .3, .7) - seg(T, 4.2, 4.6));
+  $('ls-c2').setAttribute('opacity', seg(T, 4.3, 4.7) - seg(T, 8.6, 9.0));
+  $('ls-c3').setAttribute('opacity', seg(T, 9.2, 9.7));
+}
 var $ = function (id) { return document.getElementById(id); }, all = function (c) { return host.querySelectorAll(c); };
-var DRAW = { ufe: [buildUfe, seekUfe], pae: [buildPae, seekPae], gae: [buildGae, seekGae] }[K];
+var DRAW = { ufe: [buildUfe, seekUfe], pae: [buildPae, seekPae], gae: [buildGae, seekGae], hae: [buildHae, seekHae] }[K];
 if (!DRAW) return;   // a scene named above with no drawing yet: leave the strip empty, never throw
 host.innerHTML = DRAW[0](); var seek = DRAW[1];
-rainEls = all('.ls-r'); flEls = all('.ls-f'); dropEls = all('.ls-d'); starEls = all('.lp-s'); pflEls = all('.lp-f'); numEls = all('.lp-n'); kflEls = all('.lk-f'); legEls = all('.lk-dl');
+rainEls = all('.ls-r'); flEls = all('.ls-f'); dropEls = all('.ls-d'); starEls = all('.lp-s'); pflEls = all('.lp-f'); numEls = all('.lp-n'); kflEls = all('.lk-f'); legEls = all('.lk-dl'); hPaper = all('.lh-pp'); hSpots = all('.lh-sp');
 var END = SC.end || 13, t = reduce ? END : 0, playing = !reduce, clock = 0, last = null, rp = document.getElementById('ls-replay');
 var ICON = { skip: '<path d="M5 5l7 7-7 7"/><path d="M13 5l7 7-7 7"/>', replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>' };
 // One button: "Skip animation" while it plays (so the motion can be stopped), "Replay animation" once it holds.

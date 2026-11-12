@@ -576,6 +576,9 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .page-strip .ls[data-s="gae"] { --ls-clear: #e8efdf; --ls-hill1: #a9c79a; --ls-hill2: #4c7a3d; --ls-ray: #4c7a3d; }
 @media (prefers-color-scheme: dark) { .page-strip .ls[data-s="gae"] { --ls-clear: #2f3d2a; --ls-hill1: #55704a; --ls-hill2: #2c4a22; --ls-ray: #a9d08f; } }
 .page-strip .ls[data-s="gae"] text.c .t { fill: #4c7a3d; }
+.page-strip .ls[data-s="hae"] { --ls-clear: #f1ecd5; --ls-hill2: #6e5f12; --lh-wall: #ece5c4; --lh-tile: #f6f0dc; --lh-line: #ddd3ac; }
+@media (prefers-color-scheme: dark) { .page-strip .ls[data-s="hae"] { --ls-clear: #4a4220; --ls-hill2: #4a3f0a; --lh-wall: #3a3418; --lh-tile: #453e1e; --lh-line: #2f2a12; } }
+.page-strip .ls[data-s="hae"] text.c .t { fill: #6e5f12; }
 .page-strip .ls text.b { font: 600 13px var(--sans); fill: #22302b; }
 .page-strip .ls text.c { font: 600 14px var(--sans); fill: #22302b; }
 .page-strip .ls text.c .t { fill: #a63a6b; }

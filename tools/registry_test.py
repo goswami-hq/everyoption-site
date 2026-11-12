@@ -45,10 +45,10 @@ class RegistryChecks(unittest.TestCase):
 
     def test_declared_life_strip_needs_its_scene(self):
         # the daily-life strip (2026-11-11): parts.banner == "life" is drawn by site/assets/life-strip.js
-        self.assertEqual(registry.life_strips(), {"ufe", "pae", "gae"})
+        self.assertEqual(registry.life_strips(), {"ufe", "pae", "gae", "hae"})   # hae since 2026-11-12 (the long roll)
         self.assertEqual(self.errs(), [])
-        registry.BY_KEY["hae"]["parts"]["banner"] = "life"
-        self.assertTrue(any("life-strip.js has no hae scene" in e for e in self.errs()), self.errs())
+        registry.BY_KEY["pelvic"]["parts"]["banner"] = "life"
+        self.assertTrue(any("life-strip.js has no pelvic scene" in e for e in self.errs()), self.errs())
 
     def test_declared_coverage_page_must_be_built(self):
         registry.BY_KEY["hae"]["parts"]["coverage"] = {"path": "/hemorrhoids/insurance/", "link": "x"}
