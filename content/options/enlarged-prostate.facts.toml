@@ -61,9 +61,10 @@ refs = ["aua"]
 [[fact]]
 id = "aua-2y"
 option = "embolization"
-simple = "for up to 2 years"
-deep = "for up to 2 years"
+simple = ""
+deep = "in the trials that compared them, which followed men for up to 2 years"
 refs = ["aua", "cochrane"]
+read = "page"
 [[fact]]
 id = "pae-retreat"
 option = "embolization"

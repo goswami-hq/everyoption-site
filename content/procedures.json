@@ -82,13 +82,13 @@
     },
     "parts": {
       "animation": {
-        "alt": "An enlarged prostate squeezes the urine tube. A thin tube delivers tiny beads or particles to the prostate arteries. The prostate shrinks, and urine flows more easily.",
+        "alt": "An enlarged prostate squeezes the urethra. A thin tube delivers tiny beads or particles to the prostate arteries. The prostate shrinks, and urine flows more easily.",
         "route": "wrist",
         "route_text": "The tube goes in at the wrist or groin. This drawing shows the wrist.",
         "caps": [
-          "An enlarged prostate squeezes the tube that carries urine. The bladder stays full, and urine only trickles out.",
+          "An enlarged prostate squeezes on the tube that carries urine (urethra). The bladder stays full, and urine only trickles out.",
           "A thin tube goes through a small puncture in the wrist or groin. Tiny beads or particles slow the blood flow to the prostate.",
-          "With less blood flow, the prostate shrinks over time. The urine tube opens up, and urine flows more easily."
+          "With less blood flow, the prostate shrinks over time. The urethra opens up, and urine flows more easily."
         ]
       },
       "banner": "life",

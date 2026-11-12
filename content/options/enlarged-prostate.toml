@@ -179,7 +179,7 @@ risks = [
   "* **How harms were counted matters.** Only the Swiss trial graded both groups the same way. Older trials may have under-reported harms after TURP. So rates from PAE studies with no comparison group cannot be set beside rates from surgery studies.[^abt18]",
 ]
 selection = "The trials enrolled men fit for either treatment, with an average prostate around the size in the pooled review. Men who have PAE in practice are often older, with larger prostates. They may be in retention, on blood thinners, or unwilling or unable to have surgery, as in the Danish study above. That cuts both ways (our inference). Sicker men raise the rates of harm and failure, while motivated, well-counselled men raise the rate of symptom relief. None of the studies without a comparison group (cohorts) adjusted for frailty.[^cochrane][^kristensen][^ukrope]\nIn retention, studies without a comparison group report that most men become free of a catheter: {d:bhatia25}. No trial was found that assigned catheter-dependent men by chance to PAE or surgery.[^bhatia25][^sapoval24]"
-fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as after TURP {f:aua-2y}, with more repeat treatment than after TURP. It advises a urologist's assessment before PAE, and PAE done by interventional radiologists trained in it. It says doctors may offer PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told that PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
+fit = "The American Urological Association's {f:aua-year} gives {d:aua-rec}. It says symptom relief can be about as much as after TURP {d:aua-2y}, with more repeat treatment than after TURP. It advises a urologist's assessment before PAE, and PAE done by interventional radiologists trained in it. It says doctors may offer PAE, among other options, to men on blood thinners or at high risk of bleeding. It says men should be told that PAE exposes them to radiation. For men who depend on a catheter, it recommends surgery that removes tissue.[^aua]"
 unknown = [
   "* **Whether PAE spares surgery or only puts it off:** no trial reports the time to surgery.[^bilhim][^cochrane]",
   "* **Surgery after PAE:** PAE leaves surgery open. Small series of surgery after PAE (robotic, simple prostatectomy, TURP) show no sign of harm, but there is no good evidence either way.[^bilhim][^cochrane]",
@@ -381,3 +381,7 @@ url = "https://doi.org/10.5489/cuaj.9601"
 key = "wasson"
 cite = "Wasson JH, Reda DJ, Bruskewitz RC, et al. A comparison of transurethral surgery with watchful waiting for moderate symptoms of benign prostatic hyperplasia. New England Journal of Medicine. 1995;332(2):75-79. doi:10.1056/NEJM199501123320202. PMID 7527493. Abstract read."
 url = "https://doi.org/10.1056/NEJM199501123320202"
+[[refs]]
+key = "abt5"
+cite = "Müllhaupt G, Hechelhammer L, Graf N, et al. Prostatic artery embolisation versus transurethral resection of the prostate for benign prostatic obstruction: 5-year outcomes of a randomised, open-label, noninferiority trial. European Urology Focus. 2024;10(5):788-795. doi:10.1016/j.euf.2024.03.001. PMID 38531756."
+url = "https://doi.org/10.1016/j.euf.2024.03.001"

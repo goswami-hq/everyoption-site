@@ -34,7 +34,7 @@ targets = ["enlarged prostate treatment options", "enlarged prostate treatment",
 title = "BPH and Enlarged Prostate Treatment Options | Every Option"
 description = "Your enlarged prostate (BPH) treatment options, including ones without surgery: how invasive each is, how well it works, and side effects."
 h1 = "Shrink an enlarged prostate without surgery"
-answer = "An enlarged prostate is common as men age. This is not cancer and does not raise your risk of prostate cancer. Many men have no symptoms.[^mpbph] If you have trouble peeing, embolization is one of many options. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
+answer = "An enlarged prostate is common as men age. This is also known as benign prostatic hyperplasia (BPH). BPH is not cancer and does not raise your risk of prostate cancer. Many men have no symptoms.[^mpbph] If you have trouble peeing, embolization is one of many options. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
 urgent = "If you cannot pee at all, have a fever with chills, see a lot of blood or clots in your urine, have severe pain, or feel very sick or faint, call 911."
 finder_button = "Find a doctor for prostate artery embolization"
 finder_heading = "Shrink an enlarged prostate without surgery"
@@ -76,7 +76,7 @@ id = "what"
 place = "box"
 heading = "What is an enlarged prostate?"
 text = [
-  "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age.[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] As men get older, this gets more common, with more than 9 out of 10 men having it in their 80s.[^mpbph]",
+  "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age, which is called benign prostatic hyperplasia (BPH).[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] As men get older, this gets more common, with more than 9 out of 10 men having it in their 80s.[^mpbph]",
 ]
 symptoms_label = "Common symptoms"
 symptoms = ["Frequent peeing", "A strong, sudden urge to go", "Getting up at night to pee", "A weak or slow stream", "Straining", "Dribbling at the end"]
@@ -102,7 +102,7 @@ q = "Do I need treatment?"
 a = "Not always. If your symptoms are mild and do not bother you, your doctor may watch them with yearly checkups. You can also drink less before bed and cut back on alcohol and caffeine.[^niddk] These changes can help, and they're safe to try."
 
 [[faq]]
-q = "Is an enlarged prostate cancer?"
+q = "Does an enlarged prostate mean cancer?"
 a = "No. It is not cancer, and it does not raise your risk of prostate cancer.[^mpbph] Some symptoms can look alike, so your doctor may check your PSA, a blood test, to screen you for prostate cancer.[^mpbph][^niddk]"
 
 [[faq]]
@@ -142,10 +142,10 @@ id = "embolization"
 name = "Prostate artery embolization (PAE)"
 # "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07); the lines it now holds left `invasive`
 lead_heading = "What is prostate artery embolization (PAE)?"
-what = "Prostate artery embolization (PAE) treats an enlarged prostate without surgery.[^sirpt][^ucla] A thin tube goes through a small puncture in the wrist or groin.[^sirpt][^ucla] Tiny beads or particles slow blood flow to the prostate so it shrinks, and urine can flow more easily.[^sirpt][^ucla] Nothing is cut out.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope]"
-invasive = "You stay awake, with medicine to help you relax. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men are back to normal activities within a few days. Avoid heavy activity for about a week.[^bsir][^penn] After TURP surgery, recovery takes 3 to 6 weeks.[^mpturpdc]"
-works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery, for up to 2 years.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] Early studies suggest this is more likely than after surgery.[^cochrane][^abt5] If PAE works for you, it may help you avoid or put off surgery, but we don't know that yet. If it does not, surgery is still an option.[^bilhim]"
-side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine or stool can happen.[^sirpt][^gstt] Most men keep normal ejaculation. Some notice less semen. Losing ejaculation completely is uncommon, and much less common than after TURP surgery.[^ejac][^cochrane][^lokesh][^rawash] PAE does not seem to affect erections.[^cochrane][^sapoval24] Serious problems are uncommon.[^pisco][^cochrane]"
+what = "Prostate artery embolization (PAE) treats an enlarged prostate (also called benign prostatic hyperplasia/BPH) without surgery.[^sirpt][^ucla] A thin tube goes through a small puncture in the wrist or groin.[^sirpt][^ucla] Tiny beads or particles slow blood flow to the prostate so it shrinks, and urine can flow more easily.[^sirpt][^ucla] Nothing is cut out.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope]"
+invasive = "You stay awake, with medicine to help you relax. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men are back to normal activities within a few days, instead of 3 to 6 weeks after TURP surgery.[^bsir][^penn][^mpturpdc] Avoid heavy activity for about a week.[^bsir][^penn]"
+works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men may need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] If PAE works for you, it may help you avoid or put off surgery. If it does not, surgery is still an option.[^bilhim]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine can happen.[^sirpt][^gstt] Most men keep normal ejaculation. Some notice less semen. Losing ejaculation completely is uncommon, and much less common than after TURP surgery.[^ejac][^cochrane][^lokesh][^rawash] PAE does not seem to affect erections.[^cochrane][^sapoval24] Serious problems are uncommon.[^pisco][^cochrane]"
 
 [[options]]
 id = "urethral-lift"
@@ -268,10 +268,6 @@ url = "https://doi.org/10.1016/j.eururo.2019.11.010"
 key = "bilhim"
 cite = "Bilhim T, Costa NV, Torres D, Pinheiro LC, Spaepen E. Long-term outcome of prostatic artery embolization for patients with benign prostatic hyperplasia: single-centre retrospective study in 1072 patients over a 10-year period. CardioVascular and Interventional Radiology. 2022;45(9):1324-1336. doi:10.1007/s00270-022-03199-8. PMID 35778579."
 url = "https://doi.org/10.1007/s00270-022-03199-8"
-[[refs]]
-key = "abt5"
-cite = "Müllhaupt G, Hechelhammer L, Graf N, et al. Prostatic artery embolisation versus transurethral resection of the prostate for benign prostatic obstruction: 5-year outcomes of a randomised, open-label, noninferiority trial. European Urology Focus. 2024;10(5):788-795. doi:10.1016/j.euf.2024.03.001. PMID 38531756."
-url = "https://doi.org/10.1016/j.euf.2024.03.001"
 [[refs]]
 key = "mpmin"
 cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Prostate resection: minimally invasive. Reviewed April 29, 2025. Read November 4, 2026."
