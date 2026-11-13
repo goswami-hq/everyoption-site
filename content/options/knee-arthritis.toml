@@ -402,3 +402,15 @@ url = "https://doi.org/10.1016/j.knee.2026.104432"
 key = "ma26"
 cite = "Ma X, Wang Y, Fu K. High tibial osteotomy versus unicompartmental knee arthroplasty for medial compartment knee osteoarthritis: a comprehensive meta-analysis. BMC Musculoskeletal Disorders. 2026;27(1). doi:10.1186/s12891-026-09590-7. PMID 41735997."
 url = "https://doi.org/10.1186/s12891-026-09590-7"
+[[refs]]
+key = "genesis"
+cite = "Little MW, O'Grady A, Briggs J, et al. Genicular artery embolisation in patients with osteoarthritis of the knee (GENESIS) using permanent microspheres: long-term results. CardioVascular and Interventional Radiology. 2024;47(12):1750-1762. doi:10.1007/s00270-024-03752-7. PMID 38819473. Single group, no comparison. Funded by a device maker."
+url = "https://doi.org/10.1007/s00270-024-03752-7"
+[[refs]]
+key = "padia"
+cite = "Padia SA, Genshaft S, Blumstein G, et al. Genicular artery embolization for the treatment of symptomatic knee osteoarthritis. JBJS Open Access. 2021;6(4):e21.00085. doi:10.2106/JBJS.OA.21.00085. PMID 34703964. Single group, no comparison."
+url = "https://doi.org/10.2106/JBJS.OA.21.00085"
+[[refs]]
+key = "vz26"
+cite = "van Zadelhoff TA, van der Heijden RA, Bierma-Zeinstra SMA, Bos PK, Oei EHG. Long-term outcomes of genicular artery embolization for knee osteoarthritis: 12-month efficacy and secondary outcomes from a randomized sham-controlled clinical trial. European Radiology. 2026;36(8):6624-6633. doi:10.1007/s00330-026-12505-8. PMID 42009866."
+url = "https://doi.org/10.1007/s00330-026-12505-8"

@@ -91,7 +91,7 @@ text = [
   "**Hip.** Early studies suggest it may ease hip pain for up to a year.[^hipe][^feier]",
   "**Hand and fingers.** It is not yet well studied.[^lee24]",
   "**Shoulder.** There are no studies yet of embolization for shoulder arthritis.[^aihta]",
-  "**Frozen shoulder** is not arthritis. It is a stiff, painful shoulder from a swollen, scarred joint lining. It often gets better on its own, but this can take up to 3 years.[^fm26] Early studies suggest embolization may ease night pain within weeks.[^okunofs][^allaw] Rare serious problems, such as brief loss of vision, have been reported.[^fm26]",
+  "**Frozen shoulder** is not arthritis. It is a stiff, painful shoulder from a swollen, scarred joint lining. It often gets better on its own, but this can take up to 3 years.[^fm26] Early studies suggest embolization may ease night pain within weeks.[^okunofs][^allaw]",
   "The doctor finder on this page lists doctors who perform knee embolization. It does not show who treats other joints.",
 ]
 
@@ -100,7 +100,7 @@ id = "what"
 # place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
 # Every sentence and tag is the old "What is arthritis of the knee?" section's, with its source; nothing new.
 place = "box"
-heading = "What is knee arthritis?"
+heading = "What is knee arthritis (osteoarthritis)?"
 text = [
   "In arthritis, the cushion between the bones wears away. The bones can rub together. This causes pain, swelling, and stiffness.[^mpoa] Arthritis is the most common disease of the knee.[^mpknee]",
 ]
@@ -129,7 +129,7 @@ a = "Not always. Many people manage with exercise, weight loss if needed, and pa
 
 [[faq]]
 q = "Does embolization fix the arthritis?"
-a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^ucla] Scans have not shown that it slows the arthritis.[^genesis]"
+a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^ucla]"
 
 [[faq]]
 q = "Can I still have a knee replacement later?"
@@ -169,9 +169,9 @@ name = "Knee artery embolization (GAE)"
 # "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07; his GAE name, item 14); the skin-nick line left `invasive`
 lead_heading = "What is genicular (knee) artery embolization (GAE)?"
 what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin.[^bsir][^ucla] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
-invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Relief often starts within about two weeks.[^ucla]"
+invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Most people are back to their normal activities within a few days, instead of 3 to 6 weeks after a knee replacement.[^nhsrec] Relief often starts within about two weeks.[^ucla]"
 works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
-side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin] Some people get a small skin sore over the knee. It usually heals on its own.[^sir26][^padia] A few people have numbness or tingling in the lower leg, and it can last for months.[^vz26] Serious problems are rare.[^sir26]"
+side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin] Serious problems are rare.[^sir26]"
 
 [[options]]
 id = "steroid"
@@ -262,10 +262,6 @@ url = "https://doi.org/10.1016/j.jvir.2024.08.028"
 key = "gen2"
 cite = "Little MW, Harrison R, MacGill S, et al. Genicular artery embolisation in patients with osteoarthritis of the knee (GENESIS 2): protocol for a double-blind randomised sham-controlled trial. CardioVascular and Interventional Radiology. 2023;46(9):1276-1282. PMID 37337060. Funded by a device maker."
 url = "https://europepmc.org/article/MED/37337060"
-[[refs]]
-key = "genesis"
-cite = "Little MW, O'Grady A, Briggs J, et al. Genicular artery embolisation in patients with osteoarthritis of the knee (GENESIS) using permanent microspheres: long-term results. CardioVascular and Interventional Radiology. 2024;47(12):1750-1762. doi:10.1007/s00270-024-03752-7. PMID 38819473. Single group, no comparison. Funded by a device maker."
-url = "https://doi.org/10.1007/s00270-024-03752-7"
 [[refs]]
 key = "ashraf"
 cite = "Ashraf N, Tahir MJ, Arabi TZ, et al. Safety and efficacy of genicular artery embolization for knee joint osteoarthritis associated pain: a systematic review. Journal of Endovascular Therapy. 2026;33(4):1642-1659. doi:10.1177/15266028251326770. PMID 40219609."
@@ -438,14 +434,6 @@ url = "https://doi.org/10.1136/rapm-2022-103976"
 key = "lanza"
 cite = "Lanza E, Poretti D, Pedicini V, Kon E, Laghi A. Permanent vs. temporary embolic agents in genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. European Journal of Radiology. 2026;202:112968. doi:10.1016/j.ejrad.2026.112968. PMID 42208168."
 url = "https://doi.org/10.1016/j.ejrad.2026.112968"
-[[refs]]
-key = "padia"
-cite = "Padia SA, Genshaft S, Blumstein G, et al. Genicular artery embolization for the treatment of symptomatic knee osteoarthritis. JBJS Open Access. 2021;6(4):e21.00085. doi:10.2106/JBJS.OA.21.00085. PMID 34703964. Single group, no comparison."
-url = "https://doi.org/10.2106/JBJS.OA.21.00085"
-[[refs]]
-key = "vz26"
-cite = "van Zadelhoff TA, van der Heijden RA, Bierma-Zeinstra SMA, Bos PK, Oei EHG. Long-term outcomes of genicular artery embolization for knee osteoarthritis: 12-month efficacy and secondary outcomes from a randomized sham-controlled clinical trial. European Radiology. 2026;36(8):6624-6633. doi:10.1007/s00330-026-12505-8. PMID 42009866."
-url = "https://doi.org/10.1007/s00330-026-12505-8"
 [[refs]]
 key = "deyle"
 cite = "Deyle GD, Allen CS, Allison SC, et al. Physical therapy versus glucocorticoid injection for osteoarthritis of the knee. New England Journal of Medicine. 2020;382(15):1420-1429. doi:10.1056/NEJMoa1905877. PMID 32268027."

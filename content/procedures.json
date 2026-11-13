@@ -134,11 +134,11 @@
       "animation": {
         "alt": "A swollen, painful knee with extra small blood vessels. A thin tube delivers tiny particles to those vessels. The swelling calms, and the knee moves.",
         "route": "groin",
-        "route_text": "The tube goes in through a small puncture, here at the groin, and travels to the knee.",
+        "route_text": "The tube goes in through a tiny skin nick, here at the groin, and travels to the knee.",
         "caps": [
           "With knee arthritis, the joint gets swollen and painful. Extra small blood vessels feed that swelling, and bending hurts.",
-          "A thin tube goes through a small puncture to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
-          "With less blood flow, the swelling can calm down. That can ease the pain. The arthritis itself is still there."
+          "A thin tube goes through a tiny skin nick to the small blood vessels around the knee. Tiny particles cut the extra blood flow.",
+          "With less blood flow, the swelling can calm down. That can ease the pain."
         ]
       },
       "banner": "life",

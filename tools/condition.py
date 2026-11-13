@@ -208,7 +208,7 @@ def categories(refs, c):
             if i == c.get("diagram_at"):
                 # the full text sits above in the lead section, so this row only points there
                 opts += (f'<a class="option-link" href="#{html.escape(i)}"><span>{html.escape(by_id[i]["name"])}</span>'
-                         f'<span class="option-note">Details above</span></a>')
+                         f'<span class="option-note">See details</span></a>')
                 continue
             opts += option(refs, by_id[i], "", "option featured" if i == k.get("highlight") else "option")
         out += fold("group featured-group" if k.get("highlight") else "group", k["name"], f'<p>{refs.inline(tail(k["summary"]))}</p>{opts}', k["id"])
