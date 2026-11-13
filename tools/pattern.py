@@ -179,7 +179,8 @@ def ruling_errors(tag, t, c):
     # Frequencies read "1 out of 5", never "1 in 5" (his words 2026-11-09 22:39 CT: "1. Yes"). Patient text only:
     # the reference list is cut off first, since study titles may say "in".
     body = re.sub(r"<[^>]+>", " ", re.split(r'id="references"|<h2[^>]*>References', t)[0])
-    m = re.search(r"\b\d+(?: to \d+)? in \d[\d,]*\b(?! (?:years?|months?|weeks?|days?|hours?|minutes?|mi|miles?)\b)", body)
+    # "out of 100 in 2023" names a year, not a frequency (knee rewrite, 2026-11-12)
+    m = re.search(r"(?<!out of )\b\d+(?: to \d+)? in (?!(?:19|20)\d\d\b)\d[\d,]*\b(?! (?:years?|months?|weeks?|days?|hours?|minutes?|mi|miles?)\b)", body)
     if m:
         errs.append(f'{tag}: frequency written "{m.group(0)}"; write "out of"')
     return errs
