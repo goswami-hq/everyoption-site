@@ -25,8 +25,8 @@ refs = ["degregorio", "tradi"]
 [[fact]]
 id = "incont"             # C10, late incontinence 2.48% in randomized trials
 option = "hemorrhoidectomy"
-simple = "about 2 or 3 out of 100"
-deep = "about 2 or 3 out of 100"
+simple = "about 2 to 3 out of 100"
+deep = "about 2 to 3 out of 100"
 refs = ["jin25"]
 
 # ---- In-depth page only ----

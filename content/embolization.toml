@@ -91,6 +91,7 @@ label = "knee arthritis"
 page = "/knee-arthritis/every-option/"
 materials = ["beads", "dissolve"]
 line = "For the knee, doctors use either tiny particles that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"
+deep_note = "For the knee, doctors use either tiny particles that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"   # his yes 2026-11-12 21:21 CT, from the signed-off knee in-depth Doc
 gelatin = true
 
 [[condition]]

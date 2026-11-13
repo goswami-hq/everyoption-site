@@ -102,7 +102,7 @@ id = "what"
 place = "box"
 heading = "What is knee arthritis (osteoarthritis)?"
 text = [
-  "In arthritis, the cushion between the bones wears away. The bones can rub together. This causes pain, swelling, and stiffness.[^mpoa] Arthritis is the most common disease of the knee.[^mpknee]",
+  "In arthritis, the cushion between the bones wears away. The bones can rub together. This causes pain, swelling, and stiffness.[^mpoa] The most common kind is called osteoarthritis.[^mpoa] Arthritis is the most common disease of the knee.[^mpknee]",
 ]
 symptoms_label = "Common symptoms"
 symptoms = ["Pain when you walk or put weight on the knee", "Swelling", "Stiffness after waking, often 30 minutes or less", "Later, pain at rest or at night"]

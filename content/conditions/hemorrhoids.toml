@@ -176,8 +176,8 @@ lead_heading = "What is hemorrhoid artery embolization (HAE)?"
 what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
 invasive = "Early studies suggest recovery is far less painful than after surgery in the first days.[^falsarella]"
 invasive_heading = "Recovery"   # his word "Fine", 2026-11-10 15:03 CT; the text under it is about recovery
-works = "Early results are encouraging. Most patients bleed less afterwards. About 2 out of 3 people still have little or no bleeding a year later. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
-side = "You may experience increased pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
+works = "Early results are encouraging. Most patients bleed less afterward. About 2 out of 3 people still have little or no bleeding a year later. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
+side = "There is no wound, and no loss of bowel control has been reported.[^jin25] You may have pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
 
 [[options]]
 id = "banding"
@@ -217,7 +217,7 @@ name = "Stapled surgery"
 what = "A surgeon uses a stapling tool to lift the hemorrhoids back into place.[^lauricella]"
 invasive = "This is surgery."
 works = "Good evidence suggests symptoms, mostly bulging, come back more often than after standard surgery.[^lauricella]"
-side = "Over the long run, pain and bowel control are about the same as after standard surgery.[^lauricella]"
+side = "Over the long run, pain and bowel control are about the same as after standard surgery.[^lauricella] Rare but serious problems, such as a hole in the bowel, have been reported.[^cirocco]"
 
 [[options]]
 id = "laser"
@@ -233,7 +233,7 @@ name = "Hemorrhoid removal (hemorrhoidectomy)"
 what = "A surgeon cuts out the hemorrhoids.[^jin21]"
 invasive = "This is surgery. The first week or more is painful, and many people need more than a week off work.[^vanoost][^jin21]"
 works = "Good evidence suggests it is the most lasting fix. Hemorrhoids come back less often than after banding or other procedures.[^jin21][^vanoost]"
-side = "Pain, bleeding, and trouble peeing afterward are more common than after office treatments.[^jin21] Longer-lasting trouble holding stool is uncommon, about 2 or 3 out of 100.[^jin25]"
+side = "Pain, bleeding, and trouble peeing afterward are more common than after office treatments.[^jin21] Longer-lasting trouble holding stool is uncommon, about 2 to 3 out of 100.[^jin25]"
 
 [[refs]]
 key = "niddk"
@@ -379,3 +379,7 @@ url = "https://doi.org/10.1002/14651858.CD004322.pub3"
 key = "quijano"
 cite = "Quijano CE, Abalos E. Conservative management of symptomatic and/or complicated haemorrhoids in pregnancy and the puerperium. Cochrane Database of Systematic Reviews. 2005;(3):CD004077. doi:10.1002/14651858.CD004077.pub2. PMID 16034920."
 url = "https://doi.org/10.1002/14651858.CD004077.pub2"
+[[refs]]
+key = "cirocco"
+cite = "Cirocco WC. Life threatening sepsis and mortality following stapled hemorrhoidopexy. Surgery. 2008;143(6):824-829. doi:10.1016/j.surg.2007.10.004. PMID 18549901. Abstract read."
+url = "https://doi.org/10.1016/j.surg.2007.10.004"
