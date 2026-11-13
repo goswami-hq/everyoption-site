@@ -41,14 +41,14 @@ read = "abstract"
 id = "alonso-sym"  # C1
 option = "fiber"
 simple = ""
-deep = "people taking fiber were about half as likely to still have symptoms as people not taking it (risk ratio 0.53; range 0.38 to 0.73)"
+deep = "people taking fiber were about half as likely to still have symptoms as people not taking it"
 refs = ["alonso"]
 read = "abstract"
 [[fact]]
 id = "alonso-bleed"  # C1
 option = "fiber"
 simple = ""
-deep = "they were also about half as likely to still bleed (risk ratio 0.50; range 0.28 to 0.89)"
+deep = "they were also about half as likely to still bleed"
 refs = ["alonso"]
 read = "abstract"
 [[fact]]
@@ -97,28 +97,28 @@ read = "abstract"
 id = "flav-sym"    # C3
 option = "flavonoid"
 simple = ""
-deep = "people taking flavonoids were less than half as likely to still have symptoms (risk ratio 0.42; range 0.28 to 0.61)"
+deep = "people taking flavonoids were less than half as likely to still have symptoms"
 refs = ["alonsoflav"]
 read = "abstract"
 [[fact]]
 id = "flav-bleed"  # C3
 option = "flavonoid"
 simple = ""
-deep = "about a third as likely to still bleed (risk ratio 0.33; range 0.19 to 0.57)"
+deep = "about a third as likely to still bleed"
 refs = ["alonsoflav"]
 read = "abstract"
 [[fact]]
 id = "flav-pain"   # C3, pain 0.18-0.69, itching 0.44-0.97
 option = "flavonoid"
 simple = ""
-deep = "about a third as likely to still have pain (risk ratio 0.35) and about two thirds as likely to still itch (risk ratio 0.65)"
+deep = "about a third as likely to still have pain and about two thirds as likely to still itch"
 refs = ["alonsoflav"]
 read = "abstract"
 [[fact]]
 id = "flav-return"  # C3
 option = "flavonoid"
 simple = ""
-deep = "about half as likely to have symptoms come back (risk ratio 0.53; range 0.41 to 0.69)"
+deep = "about half as likely to have symptoms come back"
 refs = ["alonsoflav"]
 read = "abstract"
 [[fact]]
@@ -167,7 +167,7 @@ read = "abstract"
 id = "nguyen"      # E1
 option = "embolization"
 simple = ""
-deep = "Pooled data from 13 studies of 381 patients: it worked for about 8 out of 10 (82%; range 73% to 89%)"
+deep = "Pooled data from 13 studies of 381 patients: it worked for about 8 out of 10 (82%)"
 refs = ["nguyenhuy"]
 read = "abstract"
 [[fact]]
@@ -300,14 +300,14 @@ read = "full text"
 id = "gallo-success"  # C6
 option = "injection"
 simple = ""
-deep = "success was equally likely with injection and with the other treatments (risk ratio 1.00; range 0.71 to 1.41)"
+deep = "success was equally likely with injection and with the other treatments"
 refs = ["gallo"]
 read = "full text"
 [[fact]]
 id = "gallo-comp"  # C6, 0.23-0.92
 option = "injection"
 simple = ""
-deep = "complications were about half as likely with injection (risk ratio 0.46)"
+deep = "complications were about half as likely with injection"
 refs = ["gallo"]
 read = "full text"
 [[fact]]
@@ -349,7 +349,7 @@ read = "full text"
 id = "jee"         # C7a
 option = "ligation"
 simple = ""
-deep = "in 6 randomized trials of 465 patients, hemorrhoids came back more often after artery tying than after removal; the odds of return were almost 3 times as high (odds ratio 2.76; range 1.03 to 7.38). People got back to normal about 14 days sooner after artery tying"
+deep = "in 6 randomized trials of 465 patients, hemorrhoids came back more often after artery tying than after removal; the odds of return were almost 3 times as high. People got back to normal about 14 days sooner after artery tying"
 refs = ["jee"]
 read = "abstract"
 [[fact]]
@@ -363,14 +363,14 @@ read = "abstract"
 id = "lauri-bulge"  # C8
 option = "stapled"
 simple = ""
-deep = "Bulging came back about 3 times as often after stapled surgery (risk ratio 3.28; range 1.49 to 7.25)"
+deep = "Bulging came back about 3 times as often after stapled surgery"
 refs = ["lauricella"]
 read = "abstract"
 [[fact]]
 id = "lauri-all"   # C8
 option = "stapled"
 simple = ""
-deep = "Symptoms overall came back about 1.5 times as often (risk ratio 1.56; range 1.00 to 2.44)"
+deep = "Symptoms overall came back about 1.5 times as often"
 refs = ["lauricella"]
 read = "abstract"
 [[fact]]
@@ -412,7 +412,7 @@ read = "full text"
 id = "jin25"       # C10
 option = "hemorrhoidectomy"
 simple = ""
-deep = "about 2 to 3 out of 100 people in randomized trials (2.48%; range 1.09% to 4.25%)"
+deep = "about 2 to 3 out of 100 people in randomized trials (2.48%)"
 refs = ["jin25"]
 read = "abstract"
 [[fact]]
@@ -456,4 +456,54 @@ option = "hemorrhoidectomy"
 simple = ""
 deep = "grade 4 hemorrhoids need surgical removal"
 refs = ["aga"]
+read = "abstract"
+# ---- 2026-11-12: side-effect rates he accepted in the review Doc (ai-hq hemorrhoid-page/evidence.md, "Added 2026-11-12")
+[[fact]]
+id = "band-problems"
+option = "banding"
+simple = ""
+deep = "In one study of 100 people, about 12 had a problem afterward: severe pain in 7, and bleeding that stopped on its own in 5"
+refs = ["pastor"]
+read = "abstract"
+[[fact]]
+id = "band-hospital"
+option = "banding"
+simple = ""
+deep = "In the UK trial against artery tying, about 1 out of 100 people needed a hospital stay for a serious problem after banding"
+refs = ["brown16"]
+read = "abstract"
+[[fact]]
+id = "hx-urine"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 14 out of 100 people in one large hospital study"
+refs = ["jeong22"]
+read = "abstract"
+[[fact]]
+id = "hx-bleed"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 2 to 5 out of 100 people"
+refs = ["jeong21", "cheng22"]
+read = "abstract"
+[[fact]]
+id = "hx-readmit"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 12 out of 100 people in one study, mostly for pain or bleeding"
+refs = ["siggins"]
+read = "abstract"
+[[fact]]
+id = "hx-narrow"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 3 out of 100 people in one study, eased with stretching"
+refs = ["marino"]
+read = "abstract"
+[[fact]]
+id = "emb-avoids"
+option = "embolization"
+simple = ""
+deep = "Embolization is not surgery. Nothing is cut, there is no wound, and no loss of bowel control has been reported, compared with about 2 to 3 out of 100 people after hemorrhoid removal"
+refs = ["jin25"]
 read = "abstract"

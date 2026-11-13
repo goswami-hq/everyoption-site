@@ -26,10 +26,9 @@ title = "Hemorrhoid Embolization vs. Banding vs. Surgery | Every Option"
 description = "Hemorrhoid artery embolization (HAE) vs. banding, other office treatments, and surgery: results, recovery, risks, insurance, and what is not known."
 h1 = "Hemorrhoid treatments compared, side by side"
 lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people, while hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding and suggest it hurts far less than surgery in the first days. Bleeding comes back for some within a year. It is not known to fix bulging hemorrhoids.[^falsarella][^aljnainati][^kucukay]"
-read_intro = "This page goes over the evidence behind the short guide. Each treatment starts with the conclusion and how sure we are based on studies, then the actual studies, the harms, and what is not yet known."
+read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works, with the studies behind them all. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
 reading_note = [
   "Numbers from different studies are not head-to-head comparisons. They come from different people, follow-up times, and outcome definitions, so this page never lines them up as if they did.",
-  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
   "Hemorrhoid grades run from the lowest (which bleed but do not bulge) to the highest (which bulge out and stay out).",
   "Every Option's physician performs hemorrhoid artery embolization. It is held to the same standard of evidence as every other option here.",
 ]
@@ -150,7 +149,7 @@ evidence = [
   "- {d:mehdi}.",
   "* **Numbing ointment helps briefly after banding.** {d:kwok}.",
   "* **Warm baths relax the anal muscle for a while.** {d:shafik}.",
-  "* These trials are small and short, and each tested a single product. Results may not carry over to other creams (our inference).",
+  "* These trials are small and short, and each tested a single product. Results may not carry over to other creams.",
 ]
 risks = "Steroid creams should not be used for {f:steroid-2wk}.[^aga] Use warm, not hot, water: a burn from a hot sitz bath has been reported.[^kahraman]"
 fit = "The AGA says warm baths are often advised to ease symptoms, with limited data, and that creams can be considered, with little data to support them.[^aga]"
@@ -171,13 +170,13 @@ evidence = [
   "* The trials varied a lot, their quality was limited, and the authors worried that trials with poor results may never have been published.[^alonsoflav]",
 ]
 risks = "The Cochrane review found few safety concerns in the trials.[^perera] In pregnancy, {d:quijano} found a related pill eased symptoms, but said it should not be recommended until its safety is shown."
-unknown = "How they compare with office treatments such as banding and how long the benefit lasts after stopping (our reading; our sources do not test these).[^alonsoflav]"
+unknown = "How they compare with office treatments such as banding and how long the benefit lasts after stopping.[^alonsoflav]"
 
 [[detail]]
 option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
-intro = "A catheter enters the wrist or groin artery, under local numbing and moderate sedation, and is guided to the superior rectal arteries that feed the hemorrhoids. Coils, particles, or both block them; the middle rectal arteries are sometimes treated too. No embolic agent is proven best.[^bagla][^falsarella][^kucukay]"
+intro = "A doctor guides a thin tube through a tiny skin nick in the wrist or groin to the arteries that feed the hemorrhoids. You get numbing medicine at the skin and medicine to help you relax. Tiny metal coils, tiny beads, or both then block those arteries. No one material is proven best.[^bagla][^falsarella][^kucukay]"
 works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella][^cai]"
 evidence = [
   "* **Most bleed less at first.** {d:nguyen}. Every study followed one group before and after, with no comparison group.",
@@ -189,9 +188,10 @@ evidence = [
   "* **Against surgery: far less pain early.** {d:falsa}. Its limits: one center, patients and doctors knew the treatment, coils only, designed to measure pain alone, and a device maker supplied grants and equipment.",
   "* **In everyday U.S. practice:** {d:bagla}. The first author consults for device makers.",
   "* **In frail patients:** {d:campenni}.",
-  "* **Bulging:** grade did not change in the particle-size trial, and other series report small or short-lived changes. The procedure does not lift tissue (our inference from how it works).[^aljnainati][^kucukay]",
+  "* **Bulging:** grade did not change in the particle-size trial, and other series report small or short-lived changes. The procedure does not lift tissue.[^aljnainati][^kucukay]",
 ]
 risks = [
+  "{d:emb-avoids}.",
   "* **Common and short-lived:** a few days of rectal pressure, urge to go, or low fever. {d:tenesmus}.",
   "* **Small ulcers, which healed:** {d:kucu-ulcer}. Most series do not look with a scope, so they undercount ulcers.",
   "* **Serious bowel injury: possible, but rare.** It has been reported more than once, with no reliable rate. Case reports describe bowel damage from poor blood flow, including one hole in the bowel that needed an operation and one narrowing of the bowel.[^aljnainati][^deoliveira][^eberspacher][^hess]",
@@ -220,9 +220,9 @@ evidence = [
   "- {d:vanoost-back}.",
   "- {d:vanoost-work}.",
   "- {d:vanoost-pain}.",
-  "* **Against infrared:** see infrared treatment below.[^ding]",
+  "* **Against infrared:** see the infrared treatment section.[^ding]",
 ]
-risks = "Pain and pressure for a few days, and some bleeding when the band falls off. A serious pelvic infection is rare after any hemorrhoid treatment.[^aga][^ding]"
+risks = "Pain and pressure for a few days, and some bleeding when the band falls off. {d:band-problems}. {d:band-hospital}. A serious pelvic infection is rare after any hemorrhoid treatment.[^aga][^ding]"
 fit = "The AGA advises banding or infrared treatment before surgery for {d:aga-g13}, and a surgeon's opinion for {d:aga-g3}.[^aga]"
 unknown = "How banding compares with embolization; trials are under way.[^brussel][^stratos]"
 
@@ -264,7 +264,7 @@ evidence = [
   "* **Against removal:** {d:jee}.",
 ]
 risks = "More pain than banding in the first week; serious problems needing a hospital stay were more common after artery tying than after banding in the UK trial.[^brown16]"
-unknown = "It targets the same blood supply as embolization, so how long it lasts may behave alike (our inference; no trial tests this).[^jee]"
+unknown = "It targets the same blood supply as embolization, so how long it lasts may be similar. No trial has tested this.[^jee]"
 
 [[detail]]
 option = "stapled"
@@ -277,7 +277,7 @@ evidence = [
   "* {d:lauri-all}. The low end of the range is no difference, so this part could be due to chance.",
   "* The authors judge that there are still too few patients to be sure.",
 ]
-risks = "Long-term pain, bowel function, and quality of life were about the same as after hemorrhoid removal.[^lauricella]"
+risks = "Long-term pain, bowel function, and quality of life were about the same as after hemorrhoid removal.[^lauricella] How often problems happen varies widely from study to study.[^porrett] Serious problems are possible, but rare: a hole in the bowel or a severe infection that needed emergency surgery has been reported, including deaths, with no reliable rate.[^cirocco]"
 
 [[detail]]
 option = "laser"
@@ -300,9 +300,9 @@ intro = "The hemorrhoids are cut out, with the wounds closed or left open.[^jin2
 works = "Good evidence suggests it is the most lasting fix. Hemorrhoids come back less often than after banding or other procedures.[^vanoost][^jin21]"
 evidence = [
   "* **Fewest hemorrhoid returns, most pain:** {d:jin21}.",
-  "* **Against banding:** {d:vanoost-short}; see banding above.",
+  "* **Against banding:** {d:vanoost-short}; see the banding section.",
 ]
-risks = "Pain, bleeding, and trouble passing urine are more common than after office procedures.[^jin21] Lasting loss of some bowel control: {d:jin25}."
+risks = "Hemorrhoid removal is surgery, and its side effects are more common than those of office treatments.[^jin21] Trouble passing urine right after surgery: {d:hx-urine}. Bleeding that starts days later: {d:hx-bleed}. Back in the hospital within a month: {d:hx-readmit}. Narrowing of the anus: {d:hx-narrow}. Lasting loss of some bowel control: {d:jin25}."
 fit = "The AGA says {d:aga-g4}.[^aga]"
 
 [[section]]
@@ -386,3 +386,35 @@ url = "https://doi.org/10.1097/00004836-199306000-00007"
 key = "kahraman"
 cite = "Kahraman A, Karaca K, Etöz A, Ozcan M. Perianal burn as a complication of hemorrhoid treatment caused by hot water sitz bath. Burns. 2004;30(8):868-870. doi:10.1016/j.burns.2004.05.011. PMID 15555807."
 url = "https://doi.org/10.1016/j.burns.2004.05.011"
+[[refs]]
+key = "jeong22"
+cite = "Jeong HY, Song SG, Lee JK. Predictors of postoperative urinary retention after semiclosed hemorrhoidectomy. Annals of Coloproctology. 2022;38(1):53-59. doi:10.3393/ac.2021.00304.0043. PMID 34284555. Abstract read."
+url = "https://doi.org/10.3393/ac.2021.00304.0043"
+[[refs]]
+key = "jeong21"
+cite = "Jeong HY, Hwang DY, Cho DH, Lee JK. Analysis of risk factors for delayed bleeding after semi-closed hemorrhoidectomy. International Journal of Colorectal Disease. 2021;36(4):857-864. doi:10.1007/s00384-021-03895-w. PMID 33661360. Abstract read."
+url = "https://doi.org/10.1007/s00384-021-03895-w"
+[[refs]]
+key = "cheng22"
+cite = "Cheng KC, Song LC, Wu KL, Chen HH, Lee KC. Risk factors of delayed hemorrhage after LigaSure hemorrhoidectomy. BMC Surgery. 2022;22(1):361. doi:10.1186/s12893-022-01802-w. PMID 36229826. Abstract read."
+url = "https://doi.org/10.1186/s12893-022-01802-w"
+[[refs]]
+key = "siggins"
+cite = "Siggins LA, Fagan PVB, Kim HM, Lin AY. Risk factors for readmission in excisional hemorrhoidectomy at a tertiary teaching center. Journal of Surgical Research. 2024;297:128-135. doi:10.1016/j.jss.2024.02.013. PMID 38503194. Abstract read."
+url = "https://doi.org/10.1016/j.jss.2024.02.013"
+[[refs]]
+key = "marino"
+cite = "Marino F, Donghia R. Ligasure versus Voyant hemorrhoidectomy: comparison of 30-day postoperative complications. Minerva Surgery. 2026;81(1):32-37. doi:10.23736/S2724-5691.26.11077-6. PMID 41804964. Abstract read."
+url = "https://doi.org/10.23736/S2724-5691.26.11077-6"
+[[refs]]
+key = "pastor"
+cite = "Pastor Peinado P, Ocaña J, Abadía Barno P, et al. Quality of life and outcomes after rubber band ligation for haemorrhoidal disease. Langenbeck's Archives of Surgery. 2023;408(1):243. doi:10.1007/s00423-023-02990-6. PMID 37349572. Abstract read."
+url = "https://doi.org/10.1007/s00423-023-02990-6"
+[[refs]]
+key = "porrett"
+cite = "Porrett LJ, Porrett JK, Ho YH. Documented complications of staple hemorrhoidopexy: a systematic review. International Surgery. 2015;100(1):44-57. doi:10.9738/INTSURG-D-13-00173.1. PMID 25594639. Abstract read."
+url = "https://doi.org/10.9738/INTSURG-D-13-00173.1"
+[[refs]]
+key = "cirocco"
+cite = "Cirocco WC. Life threatening sepsis and mortality following stapled hemorrhoidopexy. Surgery. 2008;143(6):824-829. doi:10.1016/j.surg.2007.10.004. PMID 18549901. Abstract read."
+url = "https://doi.org/10.1016/j.surg.2007.10.004"

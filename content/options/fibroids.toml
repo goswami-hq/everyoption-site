@@ -65,7 +65,7 @@ uterus = "Yes"
 fibroids = "Yes. Shrinks them"
 [[glance]]
 option = "radiofrequency"
-works = "Results vary: {f:rfa-sonata}, {f:rfa-dutch}"
+works = "Results vary: {d:rfa-sonata}, {d:rfa-dutch}"
 involves = "Small cuts, or no cuts through the vagina"
 recovery = "Most go home the same day"
 uterus = "Yes"
@@ -79,7 +79,7 @@ uterus = "Yes"
 fibroids = "Yes, for some fibroids"
 [[glance]]
 option = "endometrial-ablation"
-works = "Treats the lining, not the fibroids; in heavy-bleeding studies, {f:ea-hyst}"
+works = "Treats the lining, not the fibroids; in heavy-bleeding studies, {d:ea-hyst}"
 involves = "No cuts"
 recovery = "{g:ea-recovery}"
 uterus = "Yes"
@@ -148,12 +148,12 @@ fit = "A radiology expert panel rates embolization usually appropriate or possib
 [[detail]]
 option = "radiofrequency"
 intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
-works = "Results vary from study to study: {f:rfa-sonata}, and {f:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
+works = "Results vary from study to study: {d:rfa-sonata}, and {d:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
 evidence = [
   "* **These two figures differ mainly in what they count.**",
   "- The first study counted only surgery for heavy bleeding.[^sonata3]",
   "- The second counted any surgery, most often removing other fibroids through the cervix. It looked back at one center's records.[^dutch]",
-  "* **Across several studies, some women needed another procedure.** {d:rfa-pool}.",
+  "* **Across several studies, some women needed another procedure.** {f:rfa-pool}.",
   "* **Compared with myomectomy, more women needed a second surgery.** {d:rfa-esonata}.",
 ]
 risks = "Pain and cramps can happen. Serious problems are possible, but were rare in studies.[^sonata3][^dutch]"
@@ -173,7 +173,7 @@ risks = "Belly pain can happen. Skin burns or bruises can happen and usually hea
 [[detail]]
 option = "endometrial-ablation"
 intro = "Heat or cold destroys the lining of the uterus to lighten periods. There are no cuts. Most women go home the same day and recover in {f:ea-recovery}."
-works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] The American College of Radiology's expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {f:ea-hyst}."
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] The American College of Radiology's expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {d:ea-hyst}."
 evidence = [
   "That hysterectomy figure comes from women with heavy bleeding in general, not women with fibroids.[^oderkerk] Studies of women with fibroids come from health records. None is a trial.",
   "* **Women with fibroids more often had a hysterectomy later.** {d:ea-finland}.",
@@ -236,10 +236,6 @@ url = "https://doi.org/10.1097/AOG.0000000000005557"
 key = "xu21"
 cite = "Xu F, Deng L, Zhang L, et al. The comparison of myomectomy, UAE and MRgFUS in the treatment of uterine fibroids: a meta analysis. International Journal of Hyperthermia. 2021;38(2):24-29. doi:10.1080/02656736.2021.1933216. PMID 34420449. Abstract read."
 url = "https://doi.org/10.1080/02656736.2021.1933216"
-[[refs]]
-key = "bradley19"
-cite = "Bradley LD, Pasic RP, Miller LE. Clinical performance of radiofrequency ablation for treatment of uterine fibroids: systematic review and meta-analysis of prospective studies. Journal of Laparoendoscopic and Advanced Surgical Techniques, Part A. 2019;29(12):1507-1517. doi:10.1089/lap.2019.0550. PMID 31702440. Abstract read."
-url = "https://doi.org/10.1089/lap.2019.0550"
 [[refs]]
 key = "esonata"
 cite = "Cooijmans TH, Dujardin Z, van der Meulen JF, et al. Evaluation of the clinical and cost-effectiveness of transcervical ultrasound-guided radiofrequency ablation of leiomyomas (ESONATA): a prospective cohort study. European Journal of Obstetrics, Gynecology, and Reproductive Biology. 2025;311:114062. doi:10.1016/j.ejogrb.2025.114062. PMID 40435802. Abstract read."
@@ -320,3 +316,7 @@ url = "https://doi.org/10.3390/diagnostics15060739"
 key = "deipolyi"
 cite = "Deipolyi AR, Annie F, Bush SH, Spies J. Hysterectomy and myomectomy versus uterine artery embolization for symptomatic fibroids and adenomyosis: national and regional trends and adverse events in 70,000 patients. Journal of Vascular and Interventional Radiology. 2025;36(6):1011-1018.e4. doi:10.1016/j.jvir.2025.02.026. PMID 40024281. Abstract read."
 url = "https://doi.org/10.1016/j.jvir.2025.02.026"
+[[refs]]
+key = "oderkerk"
+cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrics and Gynecology. 2023;142(1):51-60. doi:10.1097/AOG.0000000000005223. PMID 37290114."
+url = "https://doi.org/10.1097/AOG.0000000000005223"

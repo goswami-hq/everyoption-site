@@ -160,7 +160,7 @@ id = "radiofrequency"
 name = "Radiofrequency ablation"
 what = "Heat from a small needle destroys the fibroid.[^mpfib]"
 invasive = "The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^sonata3][^halt]"
-works = "Results vary from study to study. About 1 out of 11 women needed surgery within 3 years in one study, and about 2 out of 5 within 2 years in another.[^sonata3][^dutch]"
+works = "Results vary. Some women need another procedure later: about 1 out of 9 within 3 years.[^bradley19]"
 side = "You may have pain and cramps. Serious problems were rare in studies.[^sonata3][^dutch]"
 
 [[options]]
@@ -176,7 +176,7 @@ id = "endometrial-ablation"
 name = "Endometrial ablation"
 what = "Heat or cold destroys the lining of the uterus to lighten periods.[^mpea]"
 invasive = "There are no cuts. Most women go home the same day and recover in 1 to 2 days.[^mpea]"
-works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] It is usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, about 1 out of 8 women had a hysterectomy within 5 years.[^oderkerk]"
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] It is usually not appropriate for fibroids.[^acr]"
 side = "You may have cramps and discharge for a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
 
 [[options]]
@@ -200,7 +200,7 @@ id = "hysterectomy"
 name = "Hysterectomy"
 what = "Surgery removes the whole uterus.[^mphyst]"
 invasive = "The doctor goes through the vagina, small cuts, or a larger cut in the belly. Recovery takes about 2 to 6 weeks.[^mphyst]"
-works = "It is the only treatment that keeps fibroids from returning. Periods stop.[^owh][^ccmyo]"
+works = "It is the only treatment that keeps fibroids from returning. Periods stop. Most women feel much better afterward.[^owh][^ccmyo]"
 side = "Bleeding, infection, blood clots, and harm to nearby organs can happen. Menopause begins if the ovaries are also removed.[^mphyst] Scar tissue can make organs stick together and, rarely, block the bowel.[^asrm][^ccadh] After open surgery, up to 1 out of 5 people get a hernia at the scar.[^cchernia]"
 
 # References, in no particular order: the page numbers them by first use. Full details and how each was read are in
@@ -346,10 +346,6 @@ key = "martin"
 cite = "Martin J, Bhanot K, Athreya S. Complications and reinterventions in uterine artery embolization for symptomatic uterine fibroids: a literature review and meta analysis. CardioVascular and Interventional Radiology. 2013;36(2):395-402. doi:10.1007/s00270-012-0505-y."
 url = "https://doi.org/10.1007/s00270-012-0505-y"
 [[refs]]
-key = "oderkerk"
-cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrics and Gynecology. 2023;142(1):51-60. doi:10.1097/AOG.0000000000005223. PMID 37290114."
-url = "https://doi.org/10.1097/AOG.0000000000005223"
-[[refs]]
 key = "asrm"
 cite = "Practice Committee of the American Society for Reproductive Medicine. Postoperative adhesions in gynecologic surgery: a committee opinion. Fertility and Sterility. 2019;112:458-463. Read November 2, 2026."
 url = "https://www.asrm.org/practice-guidance/practice-committee-documents/postoperative-adhesions-in-gynecologic-surgery-a-committee-opinion-2019"
@@ -361,3 +357,7 @@ url = "https://my.clevelandclinic.org/health/articles/abdominal-adhesions"
 key = "cchernia"
 cite = "Cleveland Clinic. Incisional hernia. Medically reviewed, updated March 24, 2025. Read November 2, 2026."
 url = "https://my.clevelandclinic.org/health/diseases/incisional-hernia"
+[[refs]]
+key = "bradley19"
+cite = "Bradley LD, Pasic RP, Miller LE. Clinical performance of radiofrequency ablation for treatment of uterine fibroids: systematic review and meta-analysis of prospective studies. Journal of Laparoendoscopic and Advanced Surgical Techniques, Part A. 2019;29(12):1507-1517. doi:10.1089/lap.2019.0550. PMID 31702440. Abstract read."
+url = "https://doi.org/10.1089/lap.2019.0550"

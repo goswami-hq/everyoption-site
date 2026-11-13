@@ -79,21 +79,24 @@ refs = ["cochrane", "martin"]
 [[fact]]
 id = "rfa-sonata"
 option = "radiofrequency"
-simple = "about 1 out of 11 women needed surgery within 3 years in one study"
+simple = ""
 deep = "about 1 out of 11 women needed surgery within 3 years in one study"
 refs = ["sonata3"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
 [[fact]]
 id = "rfa-dutch"
 option = "radiofrequency"
-simple = "about 2 out of 5 within 2 years in another"
+simple = ""
 deep = "about 2 out of 5 within 2 years in another"
 refs = ["dutch"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
 [[fact]]
 id = "ea-hyst"
 option = "endometrial-ablation"
-simple = "about 1 out of 8 women had a hysterectomy within 5 years"
+simple = ""
 deep = "about 1 out of 8 women had a hysterectomy within 5 years"
 refs = ["oderkerk"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
 [[fact]]
 id = "myo-repeat"
 option = "myomectomy"
@@ -178,7 +181,7 @@ read = "abstract"
 [[fact]]
 id = "rfa-pool"
 option = "radiofrequency"
-simple = ""
+simple = "about 1 out of 9 within 3 years"
 deep = "Across studies that followed women forward from treatment, about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
 refs = ["bradley19"]
 read = "abstract"
