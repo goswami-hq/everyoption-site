@@ -71,8 +71,8 @@ text = [
 [[lead_pair.parts]]
 heading = "How well do they work?"
 text = [
-  "**Embolization.** Early results are encouraging. About 3 out of 4 women have much less pain soon after embolization, and for many the relief lasts for years. Doctors are still learning how much of this relief comes from the treatment itself. More research is under way. It is an option to look into if you have not found relief with anything else.[^strobl][^hanna][^kim06][^laborda][^embolize][^daniels]",
-  "**Stenting.** Studies disagree on how often a stent alone eases pelvic pain. Early studies suggest that when both vein problems are present, treating both gives more lasting relief than a stent alone.[^alenichev][^mokhtar][^razavi][^kibbe]",
+  "**Embolization.** Early results are encouraging. About 3 out of 4 women have much less pain soon after embolization, and for many the relief lasts for years. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^strobl][^hanna][^kim06][^laborda][^hansrani][^embolize][^daniels]",
+  "**Stenting.** Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein. Early studies suggest that when both vein problems are present, treating both gives more lasting relief than a stent alone.[^alenichev][^mokhtar][^razavi][^kibbe]",
 ]
 [[lead_pair.parts]]
 heading = "Side effects"
@@ -314,3 +314,7 @@ url = "https://doi.org/10.1016/j.jvsv.2022.10.018"
 key = "baccellieri"
 cite = "Baccellieri D, Basile A, Arena A, et al. Delphi consensus on diagnostic and therapeutic pathways for pelvic venous disorders: a multidisciplinary algorithm. Vasa. 2026;55(6):379-388. doi:10.1024/0301-1526/a001267. PMID 41782320."
 url = "https://doi.org/10.1024/0301-1526/a001267"
+[[refs]]
+key = "hansrani"
+cite = "Hansrani V, Riding D, Seif MW, Caress AL, Payne K, Ghosh J, McCollum CN. Transvenous occlusion of incompetent pelvic veins to treat chronic pelvic pain in women: a randomised controlled trial. BJOG. 2023;130(11):1362-1369. doi:10.1111/1471-0528.17512. PMID 37095614."
+url = "https://doi.org/10.1111/1471-0528.17512"
