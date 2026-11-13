@@ -190,6 +190,18 @@ def lead_option(refs, c, diagram_fn):
         how = (fold("topic how-fold", "How it works", pic) + embo
                + fold("topic", o["invasive_heading"], f'<p>{t("invasive")}</p>'))
     cta = f'<p class="cta"><a class="btn" href="#finder">{html.escape(c["finder_button"])}</a></p>' if c.get("finder") else ""
+    # `lead_pair`: two treatments lead the page together (pelvic page; his Doc comments 2026-11-12: "we are offering
+    # embolization and stenting, because both are possible contributors to patient pain, and often co-exist"). An intro,
+    # then one fold per part; the part marked `embolization_fold` carries the "What is embolization?" fold.
+    lp = c.get("lead_pair")
+    if lp:
+        para = lambda x: refs.inline(tail(x))
+        parts = "".join(fold("topic how-fold" if n == 0 else "topic", p["heading"], "".join(f"<p>{para(x)}</p>" for x in p["text"]))
+                        + (embo if p.get("embolization_fold") else "") for n, p in enumerate(lp["parts"]))
+        return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(lp["heading"])}</h2>'
+                f'<p>{para(lp["intro"])}</p>{parts}'
+                f'<p class="small muted proc-vary">Results vary from person to person. Talk to a doctor about whether this is right for you.</p>'
+                f'{cta}{coverage_link(c)}</section>')
     # "What is <procedure>?" answer block (agreed list item 1, his yes 2026-11-07): `lead_heading` on the lead option
     h2 = o.get("lead_heading") or "About " + o["name"][0].lower() + o["name"][1:]
     return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(h2)}</h2>'

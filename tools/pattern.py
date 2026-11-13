@@ -209,7 +209,8 @@ def embo_errors(tag, t, c, deep=False):
             return [f'{tag}: no "{d["fold_heading"]}" fold in the lead option']
         if '<details class="topic embo-what" id="what-is-embolization" open' in lead:
             errs.append(f'{tag}: the "{d["fold_heading"]}" fold must start closed')
-        how, well = lead.find('class="topic how-fold"'), lead.find("<summary>How well does it work?</summary>")
+        # a page that leads with two treatments (pelvic, 2026-11-12) asks "How well do they work?"
+        how, well = lead.find('class="topic how-fold"'), max(lead.find("<summary>How well does it work?</summary>"), lead.find("<summary>How well do they work?</summary>"))
         if not how < i < well:
             errs.append(f'{tag}: the "{d["fold_heading"]}" fold is not between "How it works" and "How well does it work?"')
         return errs
