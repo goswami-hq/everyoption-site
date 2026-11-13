@@ -217,7 +217,7 @@ def check(c, d, f):
             if key not in keys | own:
                 errs.append(f'{where}: reference {key} is not on the simple page' + (" or this page" if own else ""))
     for t in _notes(d) + _as_list(d.get("read_intro", "")) + list(d.get("compare_notes", {}).values()):
-        if NUM.search(t):
+        if NUM.search(condition.MARK.sub("", PH.sub("", t))):
             errs.append(f'reading note: number outside the ledger: "{t[:120]}"')
     # The lede opens with the answer (agreed list item 2, his "Fine" 2026-11-07): its numbers come only from the ledger.
     for m in PH.finditer(d["lede"]):
@@ -362,13 +362,14 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         return ('<dl class="opt-sum">' + "".join(f'<div class="c-{key}"><dt>{e(label)}</dt><dd>{value(i, key, True)}</dd></div>'
                                               for key, label in gcols) + '</dl>')
 
-    def block(key, val):
+    def block(key, val, own=None):
+        heads_ = {**heads, key: own} if own else heads
         if _marked(val):
-            return f'<h4>{e(heads[key])}</h4>' + marked_html(val, txt)
+            return f'<h4>{e(heads_[key])}</h4>' + marked_html(val, txt)
         if isinstance(val, list):
-            return f'<h4>{e(heads[key])}</h4><ul class="evidence">' + "".join(f"<li>{txt(v)}</li>" for v in val) + "</ul>"
+            return f'<h4>{e(heads_[key])}</h4><ul class="evidence">' + "".join(f"<li>{txt(v)}</li>" for v in val) + "</ul>"
         # A line break splits a long field into paragraphs (copy edit, job platform-main-0026); each keeps its sources.
-        return f'<h4>{e(heads[key])}</h4>' + "".join(f"<p>{txt(v.strip())}</p>" for v in val.split("\n") if v.strip())
+        return f'<h4>{e(heads_[key])}</h4>' + "".join(f"<p>{txt(v.strip())}</p>" for v in val.split("\n") if v.strip())
 
     # not through _cap: "vs." is not a sentence end ("UFE vs. myomectomy")
     lede = refs.inline(condition.tail(_fill(d["lede"], facts, quiet)))   # first in reading order, so its sources number first
@@ -386,7 +387,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         for i in k["options"]:
             x = det[i]
             lead = i == c.get("diagram_at")
-            rows = "".join(block(key, x[key]) for key in DETAIL_FIELDS[1:] if x.get(key))
+            # `headings` on one option renames a block for that option only (knee rewrite, 2026-11-12: "Who it is for")
+            rows = "".join(block(key, x[key], x.get("headings", {}).get(key)) for key in DETAIL_FIELDS[1:] if x.get(key))
             pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
             # "What is used to block the blood flow?" (job platform-condition-pages-0020): after the drawing, inside the
             # embolization option; "" for a condition not in content/embolization.toml
@@ -394,7 +396,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             # job platform-condition-pages-0014: a condition with no doctor list (hemorrhoids) has no finder button
             cta = (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + condition.coverage_link(c) if lead else ""
             items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
-                      f'{condition.coverage_near(c) if lead else ""}{summary(i)}<p>{txt(x["intro"])}</p>{pic}{rows}{cta}</article>')
+                      f'{condition.coverage_near(c) if lead else ""}{summary(i)}{"".join(f"<p>{txt(v.strip())}</p>" for v in x["intro"].split(chr(10)) if v.strip())}{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
         h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
         # a second line under a group's summary, for the deep page only (prostate rewrite 2, 2026-11-12: what surgery
@@ -413,7 +415,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + f'<p class="lede">{lede}</p>'
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
-            + how + "".join(f'<p class="reading-note small">{e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
+            + how + "".join(f'<p class="reading-note small">{txt(t) if (PH.search(t) or condition.MARK.search(t) or "**" in t) else e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).

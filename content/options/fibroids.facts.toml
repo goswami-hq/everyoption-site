@@ -151,35 +151,35 @@ read = "page"
 id = "ufe-sat"
 option = "embolization"
 simple = ""
-deep = "A Cochrane review pooled 7 trials (793 women) that assigned women by chance to embolization or to surgery (hysterectomy or myomectomy). It found no clear difference in satisfaction between embolization and surgery up to 2 years (6 trials, 640 women; odds ratio 0.94; range 0.59 to 1.48; moderate certainty). There was no clear difference at 5 years either (odds ratio 0.90; range 0.45 to 1.80)"
+deep = "A Cochrane review combined 7 trials (793 women) that assigned women by chance to embolization or to surgery (hysterectomy or myomectomy). It found no clear difference in satisfaction between embolization and surgery up to 2 years (6 trials, 640 women). There was no clear difference at 5 years either"
 refs = ["cochrane"]
 read = "full text"
 [[fact]]
 id = "femme-qol"
 option = "embolization"
 simple = ""
-deep = "The FEMME trial assigned 254 women at 29 UK hospitals by chance to myomectomy or to embolization. At 2 years, fibroid quality-of-life scores out of 100 were 84.6 after myomectomy and 80.0 after embolization. After allowing for differences between the women, myomectomy scored 8.0 points higher (range 1.8 to 14.1). At 4 years, myomectomy was 5.0 points higher, a gap that could be due to chance (range -1.4 to 11.5)"
+deep = "A trial assigned 254 women at 29 UK hospitals by chance to myomectomy or to embolization. At 2 years, fibroid quality-of-life scores out of 100 were 84.6 after myomectomy and 80.0 after embolization. After allowing for differences between the women, myomectomy scored 8.0 points higher. At 4 years, myomectomy was 5.0 points higher, a gap that could be due to chance"
 refs = ["femme2", "femme4"]
 read = "abstract"
 [[fact]]
 id = "myo-time"
 option = "myomectomy"
 simple = ""
-deep = "About 1 out of 8 women had another procedure by 4 to 5 years (13% at 4 years in the FEMME trial; 12.2% at 5 years pooled across studies). About 1 out of 5 had one by 7 years (20.6% in a large U.S. health system study)"
+deep = "About 1 out of 8 women had another procedure by 4 to 5 years (13% at 4 years in one trial; 12.2% at 5 years across several studies combined). About 1 out of 5 had one by 7 years (20.6% in a large U.S. health system study)"
 refs = ["femme4", "sandberg18", "mitro24"]
 read = "abstract"
 [[fact]]
 id = "myo-pool"
 option = "myomectomy"
 simple = ""
-deep = "It found about 1 out of 5 women had another procedure by 5 years after myomectomy (19%), more than the first pooled figure. In the same analysis, the figure was higher after embolization (21%) and after focused ultrasound (49%)"
+deep = "It found about 1 out of 5 women had another procedure by 5 years after myomectomy (19%), more than the first combined figure. In the same analysis, the figure was higher after embolization (21%) and after focused ultrasound (49%)"
 refs = ["xu21"]
 read = "abstract"
 [[fact]]
 id = "rfa-pool"
 option = "radiofrequency"
 simple = ""
-deep = "Pooled across studies that followed women forward from treatment (prospective studies), about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
+deep = "Across studies that followed women forward from treatment, about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
 refs = ["bradley19"]
 read = "abstract"
 [[fact]]
@@ -214,7 +214,7 @@ read = "full text"
 id = "ea-finland"
 option = "endometrial-ablation"
 simple = ""
-deep = "In a Finnish national registry, women with fibroids were more likely to have a hysterectomy after ablation (hazard ratio 1.78, after allowing for other differences; range 1.03 to 3.10)"
+deep = "In a Finnish national registry, women with fibroids were almost twice as likely to have a hysterectomy after ablation, after allowing for other differences"
 refs = ["soini17"]
 read = "abstract"
 [[fact]]
@@ -230,28 +230,28 @@ read = "abstract"
 id = "hyst-emmy"
 option = "hysterectomy"
 simple = ""
-deep = "The EMMY trial in the Netherlands assigned 177 women by chance to embolization or to hysterectomy. Quality of life improved after both, with no clear difference between them at 5 or 10 years. At 10 years, 87% of women were satisfied after hysterectomy and 78% after embolization. Pooled with other trials, satisfaction did not clearly differ between embolization and surgery"
+deep = "A trial in the Netherlands assigned 177 women by chance to embolization or to hysterectomy. Quality of life improved after both, with no clear difference between them at 5 or 10 years. At 10 years, 87% of women were satisfied after hysterectomy and 78% after embolization. Combined with other trials, satisfaction did not clearly differ between embolization and surgery"
 refs = ["emmy", "emmy5", "cochrane"]
 read = "abstract"
 [[fact]]
 id = "hyst-reint"
 option = "hysterectomy"
 simple = ""
-deep = "By 10 years in EMMY, 35% of women treated with embolization (28 of 81) went on to have a hysterectomy, so about 2 out of 3 kept their uterus. In the UK REST trial, 32% needed another procedure within 5 years after embolization, compared with 4% after surgery, which was mostly hysterectomy"
+deep = "By 10 years in the Dutch trial, 35% of women treated with embolization (28 of 81) went on to have a hysterectomy, so about 2 out of 3 kept their uterus. In a UK trial, 32% needed another procedure within 5 years after embolization, compared with 4% after surgery, which was mostly hysterectomy"
 refs = ["emmy", "rest"]
 read = "abstract"
 [[fact]]
 id = "hyst-stay"
 option = "hysterectomy"
 simple = ""
-deep = "In EMMY, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s. Surgery through small cuts or the vagina usually means a shorter stay than a larger cut in the belly"
-refs = ["emmy-peri", "pickett23"]
+deep = "At one U.S. hospital, 9 out of 10 women who had a nerve block for pain during embolization went home the same day. Without the block, about half did. Some women stay one night for pain control. Embolization is also done in outpatient offices, with no hospital stay at all. In U.S. health records from 2016 to 2019, the stay was 1 day after embolization and 5 days after hysterectomy. Older trials kept women in the hospital longer. In the Dutch trial, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s, and stays after embolization are shorter now. Surgery through small cuts or the vagina usually means a shorter stay than a larger cut in the belly"
+refs = ["kim25", "geschwind", "deipolyi", "emmy-peri", "pickett23"]
 read = "abstract"
 [[fact]]
 id = "hyst-route"
 option = "hysterectomy"
 simple = ""
-deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had more injuries to the bladder or the tubes that carry urine (odds ratio 2.16; range 1.19 to 3.93). The review's example: if about 2 out of 1,000 women have an injury to a tube from the kidney after a larger cut, the figure through small cuts would be between 2 out of 1,000 and 2 out of 100"
+deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had about twice as many injuries to the bladder or the tubes that carry urine. The review's example: if about 2 out of 1,000 women have an injury to a tube from the kidney after a larger cut, the figure through small cuts would be between 2 out of 1,000 and 2 out of 100"
 refs = ["pickett23"]
 read = "abstract"
 [[fact]]
@@ -265,7 +265,7 @@ read = "abstract"
 id = "hyst-harms"
 option = "hysterectomy"
 simple = ""
-deep = "In the EMMY trial, serious problems were not clearly more common after either treatment (2.7% after hysterectomy, 4.9% after embolization). In the 6 weeks after leaving the hospital, minor problems were less common after hysterectomy (40% compared with 58%), and no one went back into the hospital, compared with 11% after embolization"
+deep = "In the Dutch trial, serious problems were not clearly more common after either treatment (2.7% after hysterectomy, 4.9% after embolization). In the 6 weeks after leaving the hospital, minor problems were less common after hysterectomy (40% compared with 58%), and no one went back into the hospital, compared with 11% after embolization"
 refs = ["emmy-peri"]
 read = "abstract"
 [[fact]]
@@ -279,13 +279,20 @@ read = "abstract"
 id = "hyst-sui"
 option = "hysterectomy"
 simple = ""
-deep = "In a Swedish national study of 165,260 women who had a hysterectomy, later surgery for leaking urine when coughing or exercising (stress incontinence) was more than twice as common as in women who did not have one (hazard ratio 2.4; range 2.3 to 2.5)"
+deep = "In a Swedish national study of 165,260 women who had a hysterectomy, later surgery for leaking urine when coughing or exercising (stress incontinence) was more than twice as common as in women who did not have one"
 refs = ["altman07"]
 read = "abstract"
 [[fact]]
 id = "hyst-heart"
 option = "hysterectomy"
 simple = ""
-deep = "In a Minnesota study that followed 2,094 women for about 22 years after a hysterectomy that kept the ovaries, high blood pressure and heart disease were somewhat more common than in women who did not have one (coronary artery disease hazard ratio 1.33; range 1.12 to 1.58), more so for women 35 or younger. A study like this cannot show that the surgery caused it"
+deep = "In a Minnesota study that followed 2,094 women for about 22 years after a hysterectomy that kept the ovaries, high blood pressure and heart disease were somewhat more common than in women who did not have one, more so for women 35 or younger. A study like this cannot show that the surgery caused it"
 refs = ["laughlin18"]
+read = "abstract"
+[[fact]]
+id = "myo-transfusion"
+option = "myomectomy"
+simple = ""
+deep = "about 1 out of 5 women need a blood transfusion after open surgery, and about 1 out of 20 after surgery through small cuts, in a review of 9 studies"
+refs = ["alghamdi"]
 read = "abstract"

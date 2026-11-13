@@ -16,7 +16,6 @@ h1 = "Fibroid treatments compared, side by side"
 lede = "UFE vs. myomectomy: both keep the uterus, and good evidence suggests women improve after either one. Some women need another procedure later after either. Embolization works through a tiny skin nick, with no cut in the belly, and recovery takes {f:ufe-recovery} instead of {f:major-recovery}. Hysterectomy is the only treatment that keeps fibroids from returning."
 read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
 reading_note = [
-  "When a study gives a range after a number, the true result most likely falls inside that range. A wide range means the study could not pin the result down.",
 ]
 glance_heading = "Compared at a glance: recovery and which keep the uterus"
 # The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
@@ -121,7 +120,7 @@ works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleed
 evidence = [
   "* **The strong evidence is for bleeding over the first months.** {d:gnrh-6mo}.",
   "* **Some women on the dummy pill also improved.** {d:gnrh-placebo}. The medicine's real effect is the gap between the two groups.",
-  "* **Use beyond six months rests mostly on extension studies.** In these, every woman knew she was taking the medicine (open-label). One study assigned some women by chance to switch to a dummy pill. Most of those who stopped the medicine saw heavy bleeding return.[^libext][^libwd]",
+  "* **Use beyond six months rests mostly on extension studies.** In these, every woman knew she was taking the medicine. One study assigned some women by chance to switch to a dummy pill. Most of those who stopped the medicine saw heavy bleeding return.[^libext][^libwd]",
 ]
 risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
 
@@ -143,7 +142,7 @@ evidence = [
   "* **Quality of life: no clear lasting difference from myomectomy.** {d:femme-qol}.",
   "* **Taken together:** no clear difference in satisfaction. On quality of life, myomectomy scored somewhat higher at first, and later the gap could be due to chance.[^cochrane][^femme2][^femme4]",
 ]
-risks = "Cramps, nausea, and a low fever can last up to a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
+risks = "Strong cramping pain, like very bad period cramps, is common in the first few days. It often comes with nausea and a low fever. Doctors call this post-embolization syndrome. It usually eases within a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
 fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
 
 [[detail]]
@@ -151,7 +150,7 @@ option = "radiofrequency"
 intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
 works = "Results vary from study to study: {f:rfa-sonata}, and {f:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
 evidence = [
-  "* **The two figures above differ mainly in what they count.**",
+  "* **These two figures differ mainly in what they count.**",
   "- The first study counted only surgery for heavy bleeding.[^sonata3]",
   "- The second counted any surgery, most often removing other fibroids through the cervix. It looked back at one center's records.[^dutch]",
   "* **Across several studies, some women needed another procedure.** {d:rfa-pool}.",
@@ -196,9 +195,9 @@ intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger c
 works = "Good evidence suggests women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
 evidence = [
   "* **Repeat procedures rise over time.** {d:myo-time}.",
-  "* **A second pooled analysis found a higher rate.** {d:myo-pool}.",
+  "* **A second combined analysis found a higher rate.** {d:myo-pool}.",
 ]
-risks = "Bleeding, infection, blood clots, and harm to nearby organs are possible, but not common.[^ccmyo] Scar tissue (adhesions) forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+risks = "Infection, blood clots, and harm to nearby organs are possible, but not common.[^ccmyo] Bleeding is the main risk: {d:myo-transfusion}. Scar tissue (adhesions) forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
 
 [[detail]]
 option = "hysterectomy"
@@ -209,7 +208,7 @@ works = "It is the only treatment that keeps fibroids from returning. Periods st
 evidence = [
   "* **Compared with embolization: no clear difference in quality of life.** {d:hyst-emmy}.",
   "* **More women needed more treatment after embolization, but most kept their uterus.** {d:hyst-reint}.",
-  "* **Embolization had shorter hospital stays.** {d:hyst-stay}.",
+  "* **Most women go home the same day after embolization.** {d:hyst-stay}.",
   "* **How the surgery is done changes recovery.** {d:hyst-route}.",
   "* **Most women improve, but not all.** {d:hyst-maryland}.",
 ]
@@ -305,3 +304,19 @@ url = "https://doi.org/10.1097/GME.0000000000001043"
 key = "emmy5"
 cite = "van der Kooij SM, Hehenkamp WJK, Volkers NA, Birnie E, Ankum WM, Reekers JA. Uterine artery embolization vs hysterectomy in the treatment of symptomatic uterine fibroids: 5-year outcome from the randomized EMMY trial. American Journal of Obstetrics and Gynecology. 2010;203(2):105.e1-105.e13. doi:10.1016/j.ajog.2010.01.049. PMID 20579960. Abstract read."
 url = "https://doi.org/10.1016/j.ajog.2010.01.049"
+[[refs]]
+key = "alghamdi"
+cite = "Alghamdi HA, Al-Zahrani M, Alkodae S, et al. Comparative analysis of robotic-assisted laparoscopic myomectomy versus traditional abdominal and laparoscopic myomectomy: a meta analysis and systematic review. African Journal of Reproductive Health. 2025;29(12):230-246. doi:10.29063/ajrh2025/v29i12.22. PMID 41457683. Abstract read."
+url = "https://doi.org/10.29063/ajrh2025/v29i12.22"
+[[refs]]
+key = "kim25"
+cite = "Kim NH, Sarwar A, Tahir MM, et al. Thirty-day healthcare encounters after elective uterine artery embolization for fibroids with and without superior hypogastric nerve block. Journal of Vascular and Interventional Radiology. 2025;36(2):247-254.e3. doi:10.1016/j.jvir.2024.10.019. PMID 39461617. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2024.10.019"
+[[refs]]
+key = "geschwind"
+cite = "Geschwind JF, Afsari B, Nezami N, White J, Shor M, Katsnelson Y. Quality of life assessment after uterine artery embolization in patients with fibroids treated in an ambulatory setting. Diagnostics. 2025;15(6):739. doi:10.3390/diagnostics15060739. PMID 40150082. Abstract read. Four of the six authors work for the clinic group that did the procedures."
+url = "https://doi.org/10.3390/diagnostics15060739"
+[[refs]]
+key = "deipolyi"
+cite = "Deipolyi AR, Annie F, Bush SH, Spies J. Hysterectomy and myomectomy versus uterine artery embolization for symptomatic fibroids and adenomyosis: national and regional trends and adverse events in 70,000 patients. Journal of Vascular and Interventional Radiology. 2025;36(6):1011-1018.e4. doi:10.1016/j.jvir.2025.02.026. PMID 40024281. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2025.02.026"
