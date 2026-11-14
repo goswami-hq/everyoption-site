@@ -835,9 +835,124 @@
       "for physicians",
       "sign up"
      ]
+    },
+    {
+     "id": "tick-not-yet",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000031"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. You also do varicocele embolization and thyroid nodule ablation, which this site doesn't cover yet. Let them know you do both, and save it.",
+     "words": [
+      "other procedures",
+      "not on the site",
+      "varicocele",
+      "thyroid"
+     ],
+     "tap_budget": 10,
+     "finish": {
+      "text_re": "Saved",
+      "selector": "#also-form:has(#a-varicocele-embolization[checked]):has(#a-thyroid-nodule-ablation[checked])"
+     }
+    },
+    {
+     "id": "remove-proc",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000072"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Add fibroid embolization (UFE) to your profile, then realise you don't actually do it any more and take it off again.",
+     "words": [
+      "add",
+      "remove",
+      "UFE"
+     ],
+     "tap_budget": 8,
+     "finish": {
+      "text_re": "UFE removed",
+      "selector": "#proc-ufe:not(.on)"
+     }
+    },
+    {
+     "id": "office-insurance",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000106"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Put in your office: Lakeshore Vascular, 200 E Ontario St, Chicago, IL 60611, phone 312-555-0142. Then say you take Medicare and Aetna. Save both.",
+     "words": [
+      "office",
+      "insurance",
+      "save"
+     ],
+     "tap_budget": 18,
+     "finish": {
+      "text_re": "Lakeshore Vascular",
+      "selector": "#insurance-form:has(input[value='Medicare'][checked]):has(input[value='Aetna'][checked])"
+     }
+    },
+    {
+     "id": "note",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000114"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Add fibroid embolization (UFE) to your profile, then add this note for patients on it: 'I see patients on weekdays in Chicago.'",
+     "words": [
+      "note",
+      "UFE",
+      "patients"
+     ],
+     "tap_budget": 9,
+     "finish": {
+      "text_re": "Your note",
+      "selector": "#proc-ufe.on"
+     }
+    },
+    {
+     "id": "undo",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000023"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Say you take Medicare and save it. Then change your mind and undo that change.",
+     "words": [
+      "insurance",
+      "undo",
+      "history"
+     ],
+     "tap_budget": 9,
+     "finish": {
+      "text_re": "Undone",
+      "selector": "#insurance-form:not(:has(input[value='Medicare'][checked]))"
+     }
+    },
+    {
+     "id": "sign-out-in",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000015"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. You're on a shared computer. Sign out. Then start signing back in with your email, ann.walk@example.test. Stop when the site asks for the code it emailed you.",
+     "words": [
+      "sign out",
+      "sign in",
+      "email"
+     ],
+     "tap_budget": 7,
+     "finish": {
+      "url_re": "^/account",
+      "selector": "#c-code"
+     }
     }
    ],
-   "note": "Fewer than five report data points on physician behaviour on the site; physician flows use the local fixture accounts."
+   "note": "Fewer than five report data points on physician behaviour on the site; physician flows use the local fixture accounts. Job platform-directory-0036 (his words 2026-11-13 18:39 CT: \"walkthrough agents for account creation management editing etc\"): six signed-in account tasks (choosing a live procedure is inside remove-proc and note); each starts from a fresh local invitation link written at run time by tools/walkthrough/invite_starts.py (setup.invite_npi, made-up fixture doctors), because a model patient cannot read the emailed sign-in code."
   },
   {
    "mode": "explore",
