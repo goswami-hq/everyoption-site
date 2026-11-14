@@ -294,6 +294,10 @@ def hero(c, finder_fn):
                      compare=c.get("options_page", ""), **note)
     # job platform-directory-0009: a page that had an intro before its finder came (the pelvic page) keeps it
     # job platform-directory-0029: through hero_paras, so a two-paragraph intro (hemorrhoids) stays two paragraphs
+    # job platform-web-design-0011 (his "Yes" 2026-11-14 08:40 CT): `intro_after_finder` puts the finder straight under
+    # the H1, as on fibroids, prostate and knee, and the intro paragraphs word for word right below it (hemorrhoids)
+    if c.get("intro_after_finder"):
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{find}{hero_paras(c)}</section>'
     return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{hero_paras(c)}{find}</section>'
 
 

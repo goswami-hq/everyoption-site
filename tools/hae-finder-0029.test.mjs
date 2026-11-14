@@ -42,6 +42,14 @@ test("the hemorrhoid page has the ZIP finder, its button in the lead option, kee
   assert.match(page, /<div id="finder" data-procedure="hae" data-learn="#options">/);
   assert.match(page, /<p class="lede">Rectal bleeding always needs a doctor&#x27;s check first/, "the page's own intro stays, first paragraph");
   assert.equal((page.match(/<p class="lede">/g) || []).length >= 2, true, "the intro's two paragraphs stay two");
+  {
+    // job platform-web-design-0011 (his "Yes" 2026-11-14): the finder straight under the H1, the two paragraphs right below it
+    const hero = page.slice(page.indexOf('<section class="hero-cond">'), page.indexOf('<div id="status"'));
+    const h1 = hero.indexOf("<h1>"), find = hero.indexOf('<section class="find-first">'), terms = hero.indexOf('class="small muted find-terms"'), lede = hero.indexOf('<p class="lede">');
+    assert.ok(h1 >= 0 && h1 < find && find < terms && terms < lede, `order H1, finder, terms line, intro: ${[h1, find, terms, lede]}`);
+    assert.ok(/<\/h1><section class="find-first">/.test(hero), "nothing between the H1 and the finder");
+    assert.ok(/<\/section><p class="lede">Rectal bleeding[^<]*<\/p><p class="lede">Hemorrhoids have multiple treatments available\.[^<]*<\/p><\/section>$/.test(hero), "the two paragraphs right below the finder, closing the first screen");
+  }
   assert.match(page, /Hemorrhoid embolization treats bleeding hemorrhoids without surgery, through a tiny skin nick in the wrist or groin\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/hemorrhoids\/every-option\/">Compare your options<\/a><\/p>/);
   assert.match(page, /<section class="lead-option" id="embolization">[\s\S]*?<a class="btn" href="#finder">Find a doctor for hemorrhoid embolization<\/a>/);
   assert.match(page, /or contact one of the doctors listed on our site\./, "the FAQ line stays (his words 2026-11-10: \"Just leave it\")");

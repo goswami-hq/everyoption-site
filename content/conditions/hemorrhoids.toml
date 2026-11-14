@@ -38,6 +38,9 @@ targets = ["hemorrhoid treatment options", "non surgical hemorrhoid treatment", 
 title = "Hemorrhoid Treatment Options Beyond Home Care | Every Option"
 description = "Your hemorrhoid treatment options, from fiber and banding to non surgical embolization and surgery: how invasive each is, how well it works, side effects."
 h1 = "Bleeding hemorrhoids: every option, with and without surgery"   # his words 2026-11-10 15:03 CT
+# Finder above the two intro paragraphs, to match the other condition pages (his "Yes" 2026-11-14 08:40 CT, job
+# platform-web-design-0011); the paragraphs' words are his of 2026-11-10, unchanged.
+intro_after_finder = true
 hero_intro = "Rectal bleeding always needs a doctor's check first, because it is not always hemorrhoids. Sometimes the doctor needs to check your colon.\nHemorrhoids have multiple treatments available. Fiber eases symptoms for many people. Office treatments such as banding also work well. If bleeding keeps coming back, you can look into embolization, which needs no surgery. Surgery is the most lasting fix."
 diagram = "hae"                # tools/diagrams/anim-hae.svgfrag (his pick, 2026-11-11) ...
 diagram_at = "embolization"    # ... shown inside this option
