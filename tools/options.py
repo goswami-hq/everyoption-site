@@ -428,7 +428,9 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             lead = i == c.get("diagram_at")
             # `headings` on one option renames a block for that option only (knee rewrite, 2026-11-12: "Who it is for")
             rows = "".join(block(key, x[key], x.get("headings", {}).get(key)) for key in DETAIL_FIELDS[1:] if x.get(key))
-            pic = diagram_fn(c["diagram"], vary=False) if x.get("diagram") else ""
+            # `diagram = true` shows the condition's drawing; a name shows that drawing (pelvic: one per treatment,
+            # his "Yes" 2026-11-14 15:56 CT to the same two drawings on the in-depth page)
+            pic = diagram_fn(x["diagram"] if isinstance(x.get("diagram"), str) else c["diagram"], vary=False) if x.get("diagram") else ""
             # "What is used to block the blood flow?" (job platform-condition-pages-0020): after the drawing, inside the
             # embolization option; "" for a condition not in content/embolization.toml
             pic += condition.embolization.deep_section(refs, c["slug"], condition.tail) if lead else ""

@@ -107,6 +107,7 @@ recovery = "Not reported in the studies we read"
 [[detail]]
 option = "embolization"
 certainty = "Early results are encouraging"
+diagram = "pelvic-embo"   # his "Yes" 2026-11-14 15:56 CT: the short guide's two drawings here too
 headings = { selection = "Will I need another treatment later?" }
 intro = "A doctor guides a thin tube through a tiny skin nick to the wide veins near the ovaries and uterus. Tiny coils, plugs, a medical glue, or a medicine then close those veins.[^strobl]\nYou get numbing medicine at the skin, and sometimes medicine to help you relax. Most women go home the same day. Some centers keep women overnight.[^hansrani][^cpp-rossi][^cpp-eleissawy]"
 works = "Early results are encouraging. {d:cpp-embolization-works-3}. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^hansrani][^daniels][^cpp-degregorio]"
@@ -147,6 +148,7 @@ fit = "Expert panels in France and Italy name embolization as the first procedur
 [[detail]]
 option = "stent"
 certainty = "Early studies suggest"
+diagram = "pelvic-stent"
 headings = { selection = "Who it is for", fit = "Will I need another treatment later?", unknown = "What experts say" }
 intro = "A doctor guides a thin tube through a tiny skin nick to the squeezed vein and places a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]\nIt is done as an outpatient procedure, and most people go home the same day.[^cpp-rossi][^cpp-aurshina]"
 works = "Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein. Pain fell after a stent in every study we read. How many women were helped varied from study to study. No trial has yet compared a stent with a fake procedure for pelvic pain.[^alenichev][^cpp-larkin][^cpp-trzes]"
