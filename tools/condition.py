@@ -209,7 +209,9 @@ def lead_option(refs, c, diagram_fn):
     lp = c.get("lead_pair")
     if lp:
         para = lambda x: refs.inline(tail(x))
-        parts = "".join(fold("topic how-fold" if n == 0 else "topic", p["heading"], "".join(f"<p>{para(x)}</p>" for x in p["text"]))
+        # a part's `diagram` (pelvic, his "Yes both look good add it to the dev site" 2026-11-14): its drawing opens the fold
+        pic_of = lambda p: diagram_fn(p["diagram"], vary=False) if p.get("diagram") else ""
+        parts = "".join(fold("topic how-fold" if n == 0 else "topic", p["heading"], pic_of(p) + "".join(f"<p>{para(x)}</p>" for x in p["text"]))
                         + (embo if p.get("embolization_fold") else "") for n, p in enumerate(lp["parts"]))
         return (f'<section class="lead-option" id="{html.escape(o["id"])}"><h2>{html.escape(lp["heading"])}</h2>'
                 f'<p>{para(lp["intro"])}</p>{parts}'

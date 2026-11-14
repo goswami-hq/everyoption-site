@@ -64,11 +64,13 @@ intro = "Two vein problems can cause this pain, and they often happen together. 
 [[lead_pair.parts]]
 heading = "Embolization: closing the wide veins"
 embolization_fold = true
+diagram = "pelvic-embo"   # his pick B, 2026-11-14: one drawing per treatment fold
 text = [
   "A doctor guides a thin tube through a tiny skin nick to the wide veins near the ovaries and uterus. Tiny coils, plugs, a medical glue, or a medicine then close those veins.[^strobl]",
 ]
 [[lead_pair.parts]]
 heading = "Stenting: opening a squeezed vein (May-Thurner syndrome)"
+diagram = "pelvic-stent"
 text = [
   "A doctor guides a thin tube through a tiny skin nick to the squeezed vein and places a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]",
 ]

@@ -12,7 +12,8 @@ them, or reads them through this module:
 Stages: "page" (condition page and a "Doctor list coming" card, no list), "listed" (finder and list, noindex profiles:
 what "draft" meant before), "public". Optional parts a procedure declares in "parts": animation (its scene in
 tools/diagrams/anim-<key>.svgfrag and site/assets/procedure-anim.js), banner (site/assets/proc-banner.js), coverage (an
-insurance page in content/insurance/pages.toml), payer_table (rows in content/insurance/coverage-*.toml), city_pages (a
+insurance page in content/insurance/pages.toml), animations (several named drawings on one page, each in
+tools/diagrams/anim-<name>.svgfrag and site/assets/pelvic-anim.js: the pelvic page, one per treatment fold), payer_table (rows in content/insurance/coverage-*.toml), city_pages (a
 "procs" entry in content/metros.json). A part that is not declared is left out; a declared part whose file is missing
 fails the build (check()).
 """
@@ -24,7 +25,7 @@ WITH_LIST = ("listed", "public")          # stages with a doctor list (site/data
 KEY = re.compile(r"^[a-z][a-z0-9]{1,15}$")
 SLUG = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")   # an upcoming item's slug: lowercase words joined by hyphens
 UPCOMING_MAX = 100                                    # profiles.also_performs holds at most 100 entries (schema.sql)
-PARTS = {"animation", "banner", "coverage", "payer_table", "city_pages"}
+PARTS = {"animation", "animations", "banner", "coverage", "payer_table", "city_pages"}
 
 
 def _load(name):
@@ -85,7 +86,11 @@ def has(k, name):
 
 
 def animations():
-    return {p["key"]: p["parts"]["animation"] for p in PROCEDURES if p.get("parts", {}).get("animation")}
+    """Drawing text by name: a procedure's single drawing under its key, and each of its named drawings under its name."""
+    out = {p["key"]: p["parts"]["animation"] for p in PROCEDURES if p.get("parts", {}).get("animation")}
+    for p in PROCEDURES:
+        out.update(p.get("parts", {}).get("animations", {}))
+    return out
 
 
 def banners():
@@ -312,6 +317,13 @@ def check(site=None):
                 errs.append(f"procedure {k}: declares an animation but tools/diagrams/anim-{k}.svgfrag is missing")
             if set(a) != {"alt", "route", "route_text", "caps"} or len(a.get("caps", [])) != 3:
                 errs.append(f"procedure {k}: animation needs alt, route, route_text and 3 caps")
+        for name, a in parts.get("animations", {}).items():   # named drawings (the pelvic page's two, 2026-11-14)
+            if not name.startswith(k + "-") or not (ROOT / "tools" / "diagrams" / f"anim-{name}.svgfrag").exists():
+                errs.append(f"procedure {k}: drawing {name} needs a name starting {k}- and tools/diagrams/anim-{name}.svgfrag")
+            if set(a) != {"alt", "route", "route_text", "caps"} or len(a.get("caps", [])) != 3:
+                errs.append(f"procedure {k}: drawing {name} needs alt, route, route_text and 3 caps")
+            if not re.search(rf'"{name}"', (ROOT / "site" / "assets" / "pelvic-anim.js").read_text(encoding="utf-8")):
+                errs.append(f"procedure {k}: drawing {name} has no scene in site/assets/pelvic-anim.js")
         if parts.get("banner"):
             js = ROOT / "site" / "assets" / ("life-strip.js" if parts["banner"] == "life" else "proc-banner.js")
             if not js.exists() or not re.search(rf"\b{k}\s*:", js.read_text(encoding="utf-8")):

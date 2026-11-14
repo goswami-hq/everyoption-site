@@ -376,6 +376,21 @@ a.option-link .option-note { flex: none; font-weight: 400; font-size: 0.9375rem;
 .proc svg .leader { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-linecap: round; }
 .proc svg .bolt path { fill: none; stroke: var(--hot); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
 .lead-option > .proc-vary { margin: 14px 0 0; }
+/* 2026-11-14: the pelvic drawings (site/assets/pelvic-anim.js): violet veins, an ache glow, foam medicine, a stent, a hip outline */
+.proc { --vein: #8672bd; --vein-full: #6b55ad; --ache: #7a55c8; --mist: #c4e6fb; --pv-skin: #f8e9dd; --pv-skin-edge: #d4ae94; }
+@media (prefers-color-scheme: dark) { .proc { --vein: #a998e6; --vein-full: #8f7be0; --ache: #9a7df0; --mist: #d6efff; --pv-skin: #4a3f38; --pv-skin-edge: #a8866e; } }
+.proc svg .vein { fill: none; stroke: var(--vein); stroke-linecap: round; stroke-linejoin: round; }
+.proc svg .vein.full { stroke: var(--vein-full); }
+.proc svg .halo { fill: none; stroke: var(--card); stroke-linecap: round; }
+.proc svg .press { fill: none; stroke: var(--artery); stroke-linecap: round; }
+.proc svg .pv-glow { fill: url(#pvAche); }
+.proc svg .cell { fill: var(--card); }
+.proc svg .mist { fill: var(--mist); }
+.proc svg .coil-halo { fill: none; stroke: var(--card); stroke-width: 6; stroke-linecap: round; opacity: .9; }
+.proc svg .stent-fill { fill: url(#pvMesh); stroke: var(--tube); stroke-width: 2; }
+.proc svg .pv-skin { fill: var(--pv-skin); }
+.proc svg .pv-skin-edge { fill: none; stroke: var(--pv-skin-edge); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.proc[data-own] svg .coil { stroke-width: 2.6; }
 #why-agree:empty { display: none; }
 #s-agree[aria-invalid="true"] { outline: 2px solid var(--warn); outline-offset: 2px; }
 #s-specialty label { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 400; margin: 0; }

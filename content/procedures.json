@@ -170,7 +170,29 @@
     },
     "parts": {
       "banner": "life",
-      "city_pages": true
+      "city_pages": true,
+      "animations": {
+        "pelvic-embo": {
+          "alt": "A swollen, sore uterus and ovaries with wide veins on and around them. A thin tube fills them with a foamy medicine and places tiny coils. The veins close and shrink.",
+          "route": "neck",
+          "route_text": "The tube goes in through a vein at the neck or groin. This drawing shows the neck.",
+          "caps": [
+            "Veins on and around the uterus and ovaries can widen and fill with blood. That can cause a deep ache.",
+            "A thin tube goes through a tiny skin nick to the wide veins. A foamy medicine makes them scar shut. Tiny coils or plugs can close the larger ones.",
+            "The closed veins shrink over time, and the swelling settles. Blood finds its way through healthy veins instead. For many women, the pain eases."
+          ]
+        },
+        "pelvic-stent": {
+          "alt": "Inside the pelvis, an artery presses on a large vein. Blood backs up into the pelvic veins and toward the leg. A thin tube places a small mesh tube, a stent, that holds the vein open. Blood drains again.",
+          "route": "groin-up",
+          "route_text": "The tube goes in through a vein at the groin or neck. This drawing shows the groin.",
+          "caps": [
+            "An artery can press on a large vein in the pelvis. Blood backs up behind the squeeze, into the pelvic veins and the leg. This is often called May-Thurner syndrome.",
+            "A thin tube goes through a tiny skin nick to the squeezed vein. A stent, a small mesh tube, opens up inside it.",
+            "The stent holds the vein open, and blood drains from the pelvis and leg again. The stent stays in for good."
+          ]
+        }
+      }
     }
   },
   {

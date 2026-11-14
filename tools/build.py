@@ -245,7 +245,9 @@ def home():
 # 2026-11-02) is the procedure's "animation" part in content/procedures.json; the drawings stay in tools/diagrams/.
 PROC_ANIM = registry.animations()
 PROC_BANNERS = registry.banners()   # site/assets/proc-banner.js draws these; a procedure without the part gets no banner
-PROC_ROUTES = {"wrist": ("M186 192 L168 150 L136 96 L114 100 L110 170", (186, 192)), "groin": ("M122 205 L126 240 L126 262", (122, 205))}
+PROC_ROUTES = {"wrist": ("M186 192 L168 150 L136 96 L114 100 L110 170", (186, 192)), "groin": ("M122 205 L126 240 L126 262", (122, 205)),
+               # pelvic veins (2026-11-14): down from the neck, and up from the groin into the pelvis
+               "neck": ("M122 66 L116 110 L112 186", (122, 66)), "groin-up": ("M124 206 L116 190 L112 172", (124, 206))}
 PROC_DEFS = """<defs>
         <radialGradient id="heat"><stop offset="0" stop-color="#ff5a3c" stop-opacity=".62"/><stop offset=".6" stop-color="#ff5a3c" stop-opacity=".22"/><stop offset="1" stop-color="#ff5a3c" stop-opacity="0"/></radialGradient>
         <radialGradient id="shade" cx=".42" cy=".32" r=".8"><stop offset="0" stop-color="var(--shade-a)"/><stop offset=".65" stop-color="var(--shade-b)"/><stop offset="1" stop-color="var(--shade-c)"/></radialGradient>
@@ -257,8 +259,12 @@ PROC_VARY = "Results vary from person to person. Talk to a doctor about whether 
 
 
 def diagram(k, vary=True):
+    """One procedure drawing. A named drawing ("pelvic-embo") is marked data-own and uses classes, not ids, so a page can
+    hold two; site/assets/pelvic-anim.js drives those, site/assets/procedure-anim.js the rest."""
     import pathlib
     a = PROC_ANIM[k]
+    if k not in PROCS:
+        return own_diagram(k, a, vary)
     scene = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"anim-{k}.svgfrag").read_text()
     d, (cx, cy) = PROC_ROUTES[a["route"]]
     body_shape = ('<g fill="var(--muted)"><circle cx="110" cy="42" r="24"/><path d="M78 76 Q110 62 142 76 L150 170 Q152 190 146 208 L140 300 L118 300 L112 214 L108 214 L102 300 L80 300 L74 208 Q68 190 70 170 Z"/>'
@@ -269,6 +275,25 @@ def diagram(k, vary=True):
     return f"""<figure class="how proc" data-proc="{k}">
 <div class="proc-stage"><svg class="main" viewBox="-10 -24 420 380" role="img" aria-label="{e(a["alt"])}">{PROC_DEFS}{scene}</svg>
 <div class="route"><svg class="inset" viewBox="20 10 180 295" aria-hidden="true">{body_shape}<path id="routeLine" d="{d}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><circle id="routeDot" cx="{cx}" cy="{cy}" r="7" fill="var(--card)" stroke="var(--accent)" stroke-width="3.5"/></svg><span>{e(a["route_text"])}</span></div></div>
+<div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
+<figcaption aria-live="polite">{caps}</figcaption>
+<button type="button" class="proc-replay" data-replay hidden>Replay</button>
+{f'<p class="small muted proc-vary">{PROC_VARY}</p>' if vary else ""}
+</figure>"""
+
+
+def own_diagram(k, a, vary):
+    import pathlib
+    scene = (pathlib.Path(__file__).resolve().parent / "diagrams" / f"anim-{k}.svgfrag").read_text()
+    d, (cx, cy) = PROC_ROUTES[a["route"]]
+    body_shape = ('<g fill="var(--muted)"><circle cx="110" cy="42" r="24"/><path d="M78 76 Q110 62 142 76 L150 170 Q152 190 146 208 L140 300 L118 300 L112 214 L108 214 L102 300 L80 300 L74 208 Q68 190 70 170 Z"/>'
+                  '<path d="M80 80 L44 150 L28 196 L38 200 L58 158 L86 112 Z"/><path d="M140 80 L176 150 L192 196 L182 200 L162 158 L134 112 Z"/></g>')
+    names = ["Before", "During", "After"]
+    btns = "".join(f'<button type="button" data-step="{i}" aria-pressed="{"true" if i == 0 else "false"}">{n}</button>' for i, n in enumerate(names))
+    caps = "".join(f'<div class="proc-cap{" on" if i == 0 else ""}"><strong>{n}</strong><p>{e(a["caps"][i])}</p></div>' for i, n in enumerate(names))
+    return f"""<figure class="how proc" data-proc="{k}" data-own>
+<div class="proc-stage"><svg class="main" viewBox="-10 -24 420 380" role="img" aria-label="{e(a["alt"])}">{PROC_DEFS}{scene}</svg>
+<div class="route"><svg class="inset" viewBox="20 10 180 295" aria-hidden="true">{body_shape}<path class="route-line" d="{d}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="{cx}" cy="{cy}" r="7" fill="var(--card)" stroke="var(--accent)" stroke-width="3.5"/></svg><span>{e(a["route_text"])}</span></div></div>
 <div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
 <figcaption aria-live="polite">{caps}</figcaption>
 <button type="button" class="proc-replay" data-replay hidden>Replay</button>
@@ -639,7 +664,7 @@ def main():
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"],
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/pelvic-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"],
                                          css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
                                          cls=f"prose-page condition-page t-{c['color']}", banner=condition_strip(slug)))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
@@ -648,7 +673,7 @@ def main():
         hub = cities.HUB.get(c.get("finder"), "") if city_pages.get(c.get("finder")) else ""
         body = options.render(c, d, f, diagram, f"/{slug}/#finder", hub)
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
-                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
+                                                         ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/pelvic-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=condition_strip(slug)))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013

@@ -1,7 +1,7 @@
 // Patient animation for a procedure: before, during, after. Starts when scrolled into view, and stops drawing off screen.
 // Template: ai-hq projects/platform/design/procedure-animations/README.md
 (function () {
-  var fig = document.querySelector(".proc"); if (!fig) return;
+  var fig = document.querySelector(".proc:not([data-own])"); if (!fig) return;   // data-own: site/assets/pelvic-anim.js
   var cur = fig.dataset.proc;
   var D = 14, STEPS = [0, 3, 10], KEY = [2, 8.4, 14];
   var NS = "http://www.w3.org/2000/svg";
