@@ -51,6 +51,11 @@ create table profiles (
   telehealth jsonb not null default '{"offers":null,"states":[]}' check (jsonb_typeof(telehealth) = 'object'
     and jsonb_typeof(telehealth->'states') = 'array' and jsonb_array_length(telehealth->'states') <= 56
     and coalesce(jsonb_typeof(telehealth->'offers'), 'null') in ('boolean', 'null')),
+  -- job platform-directory-0036: procedures not on the site yet (slugs from content/upcoming-procedures.json) and a
+  -- "something else" line. Private. Same as supabase/migrations/2026-11-13-also-performs.sql.
+  also_performs jsonb not null default '[]' constraint profiles_also_performs_check check (jsonb_typeof(also_performs) = 'array'
+    and jsonb_array_length(also_performs) <= 100),
+  also_performs_other text not null default '' constraint profiles_also_performs_other_check check (length(also_performs_other) <= 120),
   updated_at timestamptz not null default now()
 );
 

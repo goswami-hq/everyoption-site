@@ -310,6 +310,16 @@ class Guard:
         if plant:
             self.plant(plant)
         self.add_registry()
+        # Job platform-directory-0036: a "not on the site yet" slug may never equal an issued key; the build refuses it.
+        saved = self.read("content/upcoming-procedures.json")
+        def plant_slug(d):
+            d["groups"][0]["items"].append({"slug": KEY, "name": "Zzq as an upcoming item", "for": "zzq ache"})
+            d["issued"].append(KEY)
+        self.json_edit("content/upcoming-procedures.json", plant_slug)
+        rc, out = self.build(want_ok=False)
+        self.check("upcoming slug", rc != 0 and f"upcoming {KEY}: equals an issued procedure key" in out,
+                   f"the build allowed an upcoming slug equal to the key {KEY} (exit {rc})")
+        self.write("content/upcoming-procedures.json", saved)
         # Database row: an issued key with no migration stops the build, naming it; the generator writes its migration.
         rc, out = self.build(want_ok=False)
         self.check("database row", rc != 0 and KEY in out and "procedures_sql.py --new" in out,

@@ -497,17 +497,24 @@ def sitemaps(profiles=(), letters=(), cities=()):
         f'<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{index}</sitemapindex>\n')
 
 
-def write_procedures():
-    """The browser, server and database copies of content/procedures.json."""
+def write_browser_lists():
+    """The browser copies of content/procedures.json and content/upcoming-procedures.json. Written before any page, so each
+    page's cache tag (ver()) is the hash of this build's file (job platform-directory-0036: written last, the account page
+    carried the tag of the previous build's procedures.js)."""
     short = dict(SHORT)
     long_ = {p["key"]: p["name"] + PAREN[p["key"]] for p in PROCEDURES}
     head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
         {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_,
          "coverage": registry.coverage(), "sub": registry.account_subs()}) + ";\n")
-    # Job platform-directory-0036: the private "not on the site yet" tick list, for the account page and the service.
+    # Job platform-directory-0036: the private "not on the site yet" tick list, for the account page.
     write("assets/upcoming.js", "// Written by tools/build.py from content/upcoming-procedures.json. Edit that file, not this one.\n"
           "window.EO_UPCOMING = " + json.dumps({"groups": registry.upcoming_groups()}, ensure_ascii=False) + ";\n")
+
+
+def write_procedures():
+    """The server and database copies of content/procedures.json (the browser copy: write_browser_lists)."""
+    head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     with open(os.path.join(ROOT, "lib", "upcoming.mjs"), "w", encoding="utf-8") as fh:
         fh.write(registry.upcoming_module())
     with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
@@ -580,6 +587,7 @@ def main():
     copy_src_assets()
     write("assets/logo.svg", logo_file())
     write_telehealth()
+    write_browser_lists()
     # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
     metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)
     city_entries = cities.sitemap_entries(city_pages, LISTINGS_AS_OF)

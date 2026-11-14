@@ -114,6 +114,14 @@ def add_proc(pg, proc):
         b.wait_for(state="visible")
 
 
+def upcoming_first():
+    """The first item of the first group on the private tick list (content/upcoming-procedures.json; never typed here)."""
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    with open(os.path.join(root, "content", "upcoming-procedures.json"), encoding="utf-8") as fh:
+        groups = json.load(fh)["groups"]   # the page shows only groups with an item left (tools/registry.py upcoming_groups)
+    return next(i["slug"] for g in groups for i in g["items"] if not i.get("promoted_to"))
+
+
 def clear(pg):
     pg.evaluate("document.getElementById('acct-status').textContent = ''")
 
@@ -291,6 +299,12 @@ def photos(b, label, base, vp):
     shot(pg, f"{label}-6-photo")
     pg.once("dialog", lambda d: d.accept())
     pg.click("#photo-remove"); wait_status(pg, "Photo removed")
+    # The page says "Photo removed" first, then reloads the profile and redraws (as the live run below waits for).
+    # Job platform-directory-0036: the account page grew, the redraw took longer than this check, and the phone run failed.
+    try:
+        wait_js(pg, "!document.querySelector('img#photo-now')", timeout=10000)
+    except Exception:
+        pass
     check(f"{label}: remove takes the photo off", pg.locator("img#photo-now").count() == 0)
     other = b.new_context(viewport=vp).new_page()
     check(f"{label}: the photo is not served to anyone signed out", other.request.get(base + "/api/account/photo").status == 401)
@@ -788,6 +802,26 @@ def live_run(cfg):
             lcheck("live: hemorrhoid embolization can be added (the test database allows hae)", hae_on and not hae_err, hae_err)
             if hae_on:
                 mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-hae .remove"); wait_saved(pg, "HAE removed", 15000)
+            # private ticks for procedures not on the site yet (database change 2026-11-13-also-performs.sql; ai-hq job
+            # platform-directory-0036): open the first group, tick its first item, save, refresh, still ticked; untick, save
+            also = {}
+            try:
+                slug = upcoming_first()
+                pg.click("#also-g-0 > summary"); pg.check(f"#a-{slug}")
+                also["count shown"] = pg.inner_text("#also-n-0").strip() == "1 ticked"
+                mark(pg); pg.click("#also-save"); wait_saved(pg, "Saved", 15000)
+                pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
+                also["closed after refresh"] = pg.evaluate("!document.getElementById('also-g-0').open")
+                also["still ticked"] = pg.is_checked(f"#a-{slug}") and pg.inner_text("#also-n-0").strip() == "1 ticked"
+                also["no procedure added"] = pg.locator(f"#proc-{slug}").count() == 0
+                pg.click("#also-g-0 > summary"); pg.uncheck(f"#a-{slug}")
+                mark(pg); pg.click("#also-save"); wait_saved(pg, "Saved", 15000)
+                pg.reload(); pg.wait_for_selector("#acct-level", timeout=30000)
+                also["unticked after refresh"] = not pg.is_checked(f"#a-{slug}")
+            except Exception as e:
+                also["error"] = type(e).__name__ + ": " + scrub(e)[:200]
+            lcheck("live: a procedure not on the site yet can be ticked, stays ticked after a refresh, and unticked (the test database has also_performs)",
+                   also and all(v is True for v in also.values()), also)
             pg.click("#proc-ufe .proc-note summary"); pg.fill("#b-ufe", note); clear(pg)
             mark(pg); pg.click("#proc-ufe .proc-note button"); wait_saved(pg, "Note saved", 15000)
             pg.fill("#o0-practice", office["practice"]); pg.fill("#o0-street", office["street"]); pg.fill("#o0-city", office["city"])
