@@ -38,8 +38,8 @@ glance_peek_columns = ["certainty", "recovery"]
 glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor, who can check which options fit your hemorrhoids. Select a treatment name to read its studies."
 works_note = "Bold words say how sure the evidence is, in the same words as the short guide. The figures come from different studies, people and follow-up times, so they do not rank one treatment above another."
 simple_link = "New to hemorrhoids? Start with the short guide to your hemorrhoid treatment options"
-find_heading = "Find a doctor"
-city_link = ""
+find_heading = "Find a hemorrhoid embolization doctor"   # job platform-directory-0038: the pattern on the other four
+city_link = "Hemorrhoid embolization doctors by city"   # job platform-directory-0038: was empty, so the page showed a link with no words
 glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["bulge", "Hemorrhoids that bulge out"]]
 
 [compare_headings]

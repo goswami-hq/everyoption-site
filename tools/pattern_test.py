@@ -155,6 +155,29 @@ class PatternTest(unittest.TestCase):
         errs = self.site(("fibroids/every-option/index.html", '<li class="agent this">', '<li class="agent">'))
         self.assertTrue(any("not first and marked" in e for e in errs), errs)
 
+    def test_finder_names_its_procedure(self):
+        # ai-hq job platform-directory-0038 (his call 12, "Yes to all" 2026-11-14 08:43 CT): every simple-page finder names
+        # its procedure in one line under "Find a doctor near you", built from the registry; a finder without it fails
+        for slug in condition.slugs():
+            c = condition.load(slug)
+            if not c.get("finder"):
+                continue
+            want = condition.finder_names(c)
+            self.assertEqual(want, "Doctors who perform " + condition.registry.BY_KEY[c["finder"]]["patient_name"])
+            errs = self.site((f"{slug}/index.html", f'<p class="find-proc">{want}</p>', ""))
+            self.assertTrue(any(f"{slug} simple: the finder does not name its procedure" in e for e in errs), errs)
+        errs = self.site(("fibroids/index.html", '<p class="find-proc">Doctors who perform fibroid embolization</p>',
+                          '<p class="find-proc">Doctors who perform knee artery embolization</p>'))
+        self.assertTrue(any("fibroids simple: the finder does not name its procedure" in e for e in errs), errs)
+
+    def test_every_option_find_block_names_its_procedure(self):
+        # same job: the every-option find-a-doctor heading names the procedure, and the city link has words
+        errs = self.site(("hemorrhoids/every-option/index.html", '<h2 id="find-h">Find a hemorrhoid embolization doctor</h2>',
+                          '<h2 id="find-h">Find a doctor</h2>'))
+        self.assertTrue(any("hemorrhoids every-option: the find-a-doctor heading does not name its procedure" in e for e in errs), errs)
+        errs = self.site(("fibroids/every-option/index.html", '>Fibroid embolization doctors by city</a>', '></a>'))
+        self.assertTrue(any("fibroids every-option: the city list link is not" in e for e in errs), errs)
+
     def test_source_rules_fail(self):
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)

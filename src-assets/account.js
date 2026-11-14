@@ -86,14 +86,47 @@
   var PENDING = null;   // the message to show after the next redraw: { key, msg, cls, focus (an id), top (px) }
   function msgLine(key) { return el("p", { "class": "act-msg", id: "msg-" + key, "aria-live": "polite" }); }
   function acts(key, kids) { return el("div", { "class": "act-wrap" }, [el("div", { "class": "acct-actions" }, kids), msgLine(key)]); }
-  function near(key, msg, cls) {
+  function near(key, msg, cls, undo) {
     var m = document.getElementById("msg-" + key);
     if (!m) return say(msg, cls);
     hush();
     [].forEach.call(out.querySelectorAll(".act-msg"), function (x) { if (x !== m) { x.textContent = ""; x.className = "act-msg"; } });
     m.className = "act-msg " + (cls || "");
     // Set the words a moment after a redraw, so a screen reader hears the new live region change.
-    m.textContent = ""; setTimeout(function () { m.textContent = msg || ""; clearOfBars(m); }, 60);
+    m.textContent = ""; setTimeout(function () {
+      m.textContent = msg || "";
+      if (undo && undo.fields && undo.fields.length) undoButton(m, key, undo);
+      clearOfBars(m);
+    }, 60);
+  }
+  // Job platform-directory-0038 (his call 10, "Yes to all" 2026-11-14 08:43 CT): an Undo button beside a save message,
+  // doing what History's Undo does for each edit that save made (the newest edit of each saved field by this account).
+  // Focus stays where the doctor is: on the save button, which Undo leaves in place. The button goes at the next action.
+  function undoButton(m, key, undo) {
+    var b = el("button", { "class": "link undo act-undo", type: "button", id: "undo-" + key, text: "Undo" });
+    function gone(ev) {
+      if (ev && b.contains(ev.target)) return;
+      if (b.parentNode) b.parentNode.removeChild(b);
+      ["click", "input", "change"].forEach(function (t) { document.removeEventListener(t, gone, true); });
+    }
+    b.addEventListener("click", function () {
+      busy(b, true);
+      api("GET", "edits").then(function (j) {
+        var todo = undo.fields.map(function (f) {
+          return (j.edits || []).filter(function (e) { return e.field === f && e.by_you && !e.undo_of; })[0];
+        }).filter(function (e) { return e && e.undoable; });
+        if (!todo.length) { gone(); return near(key, WORDS.already_undone, "err"); }
+        var chain = Promise.resolve({ ok: true });
+        todo.forEach(function (e) { chain = chain.then(function (r) { return r.ok ? api("POST", "undo", { edit_id: e.id }) : r; }); });
+        return chain.then(function (r) {
+          gone();
+          if (r.ok) saved(key, "Undone.", "ok", undo.focus); else near(key, words(r), "err");
+        });
+      });
+    });
+    m.appendChild(document.createTextNode(" "));
+    m.appendChild(b);
+    setTimeout(function () { ["click", "input", "change"].forEach(function (t) { document.addEventListener(t, gone, true); }); }, 0);
   }
   // Keep a message in sight: above the first-visit notice bar (fixed to the bottom, notice.js) and below the pinned
   // contents bar. The walkthrough of 2026-11-14 saw "Saved." hidden under the notice bar.
@@ -105,9 +138,9 @@
     else if (r.top < top) window.scrollBy(0, r.top - top);
   }
   // After a save that redraws the page: show the message where the doctor acted, on the redrawn page.
-  function saved(key, msg, cls, focusId) {
+  function saved(key, msg, cls, focusId, fields) {
     var f = document.getElementById(focusId);
-    PENDING = { key: key, msg: msg, cls: cls, focus: focusId, top: f ? f.getBoundingClientRect().top : null };
+    PENDING = { key: key, msg: msg, cls: cls, focus: focusId, top: f ? f.getBoundingClientRect().top : null, fields: fields };
     return load();
   }
   function showPending() {
@@ -118,7 +151,7 @@
       if (p.top != null) window.scrollBy(0, f.getBoundingClientRect().top - p.top);   // the button stays where it was
       f.focus({ preventScroll: true });
     }
-    near(p.key, p.msg, p.cls);
+    near(p.key, p.msg, p.cls, p.fields ? { fields: p.fields, focus: p.focus } : null);
   }
   function setLede(t) { if (lede) { lede.textContent = t || ""; lede.hidden = !t; } }
   function api(method, path, body, type) {
@@ -434,7 +467,7 @@
           busy(saveNote, true);
           api("PUT", "profile", { blurbs: blurbs }).then(function (j) {
             busy(saveNote, false);
-            if (j.ok) return saved("note-" + k, j.changed.length ? "Note saved." : "No changes.", "ok", "b-save-" + k);
+            if (j.ok) return saved("note-" + k, j.changed.length ? "Note saved." : "No changes.", "ok", "b-save-" + k, j.changed);
             if (j.error === "screened" && j.blocked.blurbs && j.blocked.blurbs[k]) why.textContent = "Not accepted: this has " + j.blocked.blurbs[k].map(function (r) { return REASONS[r] || r; }).join(" and ") + ".";
             near("note-" + k, words(j), "err");
           });
@@ -508,7 +541,7 @@
       api("PUT", "profile", { also_performs: [].slice.call(f.querySelectorAll('input[name="also_performs"]:checked')).map(function (x) { return x.value; }),
         also_performs_other: other.value.trim() }).then(function (j) {
         busy(save, false);
-        if (j.ok) return saved("also", j.changed.length ? "Saved." : "No changes.", "ok", "also-save");
+        if (j.ok) return saved("also", j.changed.length ? "Saved." : "No changes.", "ok", "also-save", j.changed);
         if (j.error === "screened" && j.blocked && j.blocked.also_performs_other) {
           why.textContent = "Not accepted: this has " + j.blocked.also_performs_other.map(function (r) { return REASONS[r] || r; }).join(" and ") + ".";
           other.setAttribute("aria-invalid", "true");
@@ -567,7 +600,7 @@
         if (j.ok) {
           var miss = (j.unmatched || []).map(function (i) { var o = offices[i] || {}; return o.practice || o.street || "one office"; });
           return saved("offices", miss.length ? (j.changed.length ? "Saved. " : "") + "We couldn't find the street address for " + miss.join(" and ") +
-            " on the map, so patients see the distance to the center of that office's ZIP code instead. Check the address, or leave it as it is." : j.changed.length ? "Saved." : "No changes.", "ok", "office-save");
+            " on the map, so patients see the distance to the center of that office's ZIP code instead. Check the address, or leave it as it is." : j.changed.length ? "Saved." : "No changes.", "ok", "office-save", j.changed);
         }
         var rows = [].slice.call(offs.querySelectorAll("fieldset.office")).filter(function (fs) {
           return [].some.call(fs.querySelectorAll("input"), function (x) { return x.value.trim(); }); }), first = null;
@@ -631,7 +664,7 @@
       busy(save, true);
       api("PUT", "profile", { telehealth: { offers: on, states: states } }).then(function (j) {
         busy(save, false);
-        if (j.ok) return saved("tele", j.changed.length ? "Video visits saved." : "No changes.", "ok", "tele-save");
+        if (j.ok) return saved("tele", j.changed.length ? "Video visits saved." : "No changes.", "ok", "tele-save", j.changed);
         near("tele", words(j), "err");
       });
     });
@@ -696,7 +729,7 @@
         return api("POST", "photo", blob, "image/jpeg");
       }).then(function (j) {
         busy(pick, false); inp.value = "";
-        if (j.ok) saved("photo", "Photo saved.", "ok", "photo-pick"); else near("photo", words(j), "err");
+        if (j.ok) saved("photo", "Photo saved.", "ok", "photo-pick", ["photo"]); else near("photo", words(j), "err");
       }, function (e) {
         busy(pick, false); inp.value = "";
         near("photo", e && e.small ? WORDS.photo_dimensions : /heic|heif/i.test(file.type + file.name)
@@ -733,7 +766,7 @@
       api("PUT", "profile", { insurances: [].slice.call(f.querySelectorAll('input[name="insurances"]:checked')).map(function (x) { return x.value; }),
         insurance_other: other.value.trim(), insurance_confirm: conf.checked }).then(function (j) {
         busy(save, false);
-        if (j.ok) saved("ins", j.changed.length ? "Saved." : "No changes.", "ok", "ins-save"); else near("ins", words(j), "err");
+        if (j.ok) saved("ins", j.changed.length ? "Saved." : "No changes.", "ok", "ins-save", j.changed); else near("ins", words(j), "err");
       });
     });
     return panel("insurance-panel", "Insurance", [f]);

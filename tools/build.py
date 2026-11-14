@@ -292,7 +292,7 @@ def intro_html(text):
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(text)).replace("\n", "<br>")
 
 
-def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, note="", compare=""):
+def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, note="", compare="", names=""):
     """The ZIP finder: at the top of a condition page or a finder page (his yes, 2026-11-02: finder first)."""
     data = f' data-learn="{e(learn)}"' if learn else ""
     if heading is None:
@@ -306,7 +306,7 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, n
 <p class="find-intro">{intro_html(intro)}</p>
 <p class="find-links"><a href="{e(how)}">How it works</a>{f'<a class="find-compare" href="{e(compare)}">{COMPARE_LINK}</a>' if compare else ""}</p>
 <p class="find-label">Find a doctor near you</p>
-<div id="finder" data-procedure="{k}"{data}>
+{f'<p class="find-proc">{e(names)}</p>{chr(10)}' if names else ""}<div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
 <div class="f"><label for="zip">Your ZIP code</label>
 <input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{{5}}" maxlength="5" placeholder="e.g. 60611" required></div>

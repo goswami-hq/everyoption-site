@@ -358,7 +358,7 @@ def flows(b, label, base, vp):
     wait_js(pg, "() => document.getElementById('msg-ins').textContent.includes('Saved')")
     after = pg.evaluate("""() => ({ y: scrollY, top: document.getElementById('ins-save').getBoundingClientRect().top,
       focus: document.activeElement && document.activeElement.id, status: document.getElementById('acct-status').textContent,
-      msg: document.getElementById('msg-ins').textContent, live: document.getElementById('msg-ins').getAttribute('aria-live'),
+      msg: document.getElementById('msg-ins').childNodes[0] ? document.getElementById('msg-ins').childNodes[0].textContent : '', live: document.getElementById('msg-ins').getAttribute('aria-live'),
       under: document.getElementById('msg-ins').getBoundingClientRect().top >= document.getElementById('ins-save').getBoundingClientRect().bottom,
       bar: !!document.querySelector('.eo-notice'),
       clear: document.getElementById('msg-ins').getBoundingClientRect().bottom <= (document.querySelector('.eo-notice') ? document.querySelector('.eo-notice').getBoundingClientRect().top : innerHeight) })""")
@@ -367,6 +367,27 @@ def flows(b, label, base, vp):
     check(f"{label}: insurance: the message is in sight, above the notice bar (walkthrough 2026-11-14 saw it hidden)", after["clear"], after)
     check(f"{label}: insurance: focus stays on Save insurance", after["focus"] == "ins-save", after)
     check(f"{label}: insurance: the page did not scroll to the top (the button moved at most 150 px, to show the message)", y0 > 300 and after["y"] > 300 and -5 <= top0 - after["top"] <= 150, (y0, top0, after))
+    # Job platform-directory-0038 (his call 10, "Yes to all" 2026-11-14 08:43 CT): an Undo beside "Saved." does what
+    # History's Undo does for that save; focus stays on Save insurance; the button goes at the next action.
+    u = pg.evaluate("""() => { const b = document.getElementById('undo-ins'); return b ? { inMsg: document.getElementById('msg-ins').contains(b),
+      text: b.textContent, h: Math.round(b.getBoundingClientRect().height), focus: document.activeElement && document.activeElement.id } : null; }""")
+    check(f"{label}: insurance: an Undo button sits beside 'Saved.', 44 px tall, focus not moved to it", u and u["inMsg"] and u["text"] == "Undo" and u["h"] >= 44 and u["focus"] == "ins-save", u)
+    top1 = pg.evaluate("document.getElementById('ins-save').getBoundingClientRect().top")
+    mark(pg); pg.click("#undo-ins"); wait_saved(pg, "Undone")
+    wait_js(pg, "() => document.getElementById('msg-ins').textContent.includes('Undone')")
+    mine = [x for x in store(pg, base)["profiles"] if x["npi"] == ANN][0]
+    ud = pg.evaluate("""() => ({ focus: document.activeElement && document.activeElement.id, msg: document.getElementById('msg-ins').textContent,
+      aetna: document.querySelector('#insurance-form input[value=Aetna]').checked, undo: !!document.getElementById('undo-ins'),
+      top: document.getElementById('ins-save').getBoundingClientRect().top, status: document.getElementById('acct-status').textContent })""")
+    check(f"{label}: insurance: Undo beside 'Saved.' puts back what was there (Aetna off, on the page and in the store)", not ud["aetna"] and not (mine.get("insurances") or []), (ud, mine.get("insurances")))
+    check(f"{label}: insurance: after Undo, 'Undone.' shows in the same line, focus stays on Save insurance, the page stays put", ud["msg"] == "Undone." and ud["focus"] == "ins-save" and not ud["undo"] and ud["status"] == "" and abs(top1 - ud["top"]) <= 150, (top1, ud))
+    edits = json.loads(pg.request.get(base + "/api/account/edits").text())["edits"]
+    check(f"{label}: insurance: the Undo is recorded like History's (an undo edit of the insurance save)", any(e["field"] == "insurances" and e.get("undo_of") for e in edits), [(e["field"], bool(e.get("undo_of"))) for e in edits[:4]])
+    pg.check("#insurance-form input[value=Aetna]"); clear(pg)
+    mark(pg); pg.click("#ins-save"); wait_saved(pg, "Saved")
+    wait_js(pg, "() => !!document.getElementById('undo-ins')")
+    pg.click("#insurance-panel > h2"); pg.wait_for_timeout(100)
+    check(f"{label}: insurance: the Undo beside 'Saved.' goes at the next action", not pg.evaluate("!!document.getElementById('undo-ins')"))
     # Job platform-directory-0037 (his yes 2026-11-13, call 6): the contents list at the top; each link reaches its panel
     # and moves focus to its heading; Back to top returns.
     jl = pg.evaluate("() => [...document.querySelectorAll('#acct-toc a[data-jump]')].map(a => [a.getAttribute('data-jump'), a.textContent])")

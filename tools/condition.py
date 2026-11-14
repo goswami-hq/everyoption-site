@@ -21,6 +21,13 @@ COVERAGE = registry.coverage()   # a procedure's declared coverage page, content
 PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
 
 
+def finder_names(c):
+    """The one line under "Find a doctor near you" that names the finder's procedure, from the registry's patient name
+    (ai-hq job platform-directory-0038, his call 12: a patient who read about the procedure could not tell the finder
+    was for it). tools/pattern.py fails the build when a finder lacks it."""
+    return "Doctors who perform " + registry.BY_KEY[c["finder"]]["patient_name"]
+
+
 def coverage_link(c):
     """The link to this condition's insurance coverage page, or "" when none exists (the pelvic page has no coverage data).
     One text everywhere: the coverage page's own H1, in content/procedures.json (job platform-condition-pages-0013)."""
@@ -291,7 +298,7 @@ def hero(c, finder_fn):
     note = {"note": c["finder_note"]} if c.get("finder_note") else {}
     # compare: the condition's every-option page, on the first screen; a condition with none (pelvic) has no link
     find = finder_fn(c["finder"], c["finder_heading"], "#options", c["finder_intro"], c["finder_how"], split=True,
-                     compare=c.get("options_page", ""), **note)
+                     compare=c.get("options_page", ""), names=finder_names(c), **note)
     # job platform-directory-0009: a page that had an intro before its finder came (the pelvic page) keeps it
     # job platform-directory-0029: through hero_paras, so a two-paragraph intro (hemorrhoids) stays two paragraphs
     # job platform-web-design-0011 (his "Yes" 2026-11-14 08:40 CT): `intro_after_finder` puts the finder straight under

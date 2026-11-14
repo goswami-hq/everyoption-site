@@ -151,6 +151,15 @@ def simple_parts(tag, p, c, slug, deep_path):
         errs.append(f'{tag}: no first-screen "Compare your options" link to {deep_path}')
     if compare and finder and t.find('class="find-compare"') > t.find('id="zip-form"'):
         errs.append(f"{tag}: the compare link comes after the finder")
+    # every finder names its procedure once, in the same place on all five, built from the registry (ai-hq job
+    # platform-directory-0038; his call 12, "Yes to all" 2026-11-14 08:43 CT: "every page to be similar in architecture")
+    if finder:
+        box = re.search(r'<section class="find-first">.*?</section>', t, re.S)
+        want = (f'<p class="find-label">Find a doctor near you</p>\n'
+                f'<p class="find-proc">{html.escape(condition.finder_names(c), quote=False)}</p>')
+        if not box or want not in box.group(0):
+            errs.append(f'{tag}: the finder does not name its procedure ("{condition.finder_names(c)}" under '
+                        f'"Find a doctor near you")')
     if not deep_path and ('class="find-compare"' in t or 'class="hero-compare"' in t):
         errs.append(f"{tag}: compare link with no every-option page")
     # coverage link under the lead option's finder button (his words 2026-11-08 21:35 CT)
@@ -417,6 +426,15 @@ def check(site=SITE, root=ROOT):
                 errs.append(f"{dtag}: does not end with the find-a-doctor block (ZIP box to /{slug}/#finder)")
             else:
                 # a condition with city pages shows them on its simple page; the every-option page then links the list too
+                # the heading names the procedure and the city link has its words (job platform-directory-0038:
+                # hemorrhoids had "Find a doctor" and an empty link)
+                hub = condition.registry.BY_KEY[c["finder"]]["hub_label"]
+                head = re.search(r'<h2 id="find-h">([^<]*)</h2>', end.group(0))
+                if not head or not has(head.group(1), hub.removesuffix(" doctors")):
+                    errs.append(f'{dtag}: the find-a-doctor heading does not name its procedure '
+                                f'("{head.group(1) if head else ""}"; want "Find a {hub.removesuffix(" doctors").lower()} doctor")')
+                if re.search(r'<a href="/[^"]+/doctors/">', end.group(0)) and f">{html.escape(hub, quote=False)} by city</a>" not in end.group(0):
+                    errs.append(f'{dtag}: the city list link is not "{hub} by city"')
                 by_city = re.search(r'<nav class="by-city".*?<a href="([^"]+)">All cities and states</a>', sp["html"], re.S)
                 if by_city and f'href="{by_city.group(1)}"' not in end.group(0):
                     errs.append(f"{dtag}: find-a-doctor block has no link to the city list {by_city.group(1)}")

@@ -915,3 +915,10 @@ li.proc > .act-msg:not(:empty) { margin-top: 8px; }
   .t-account .acct-dock { left: min(calc(50% + 330px), calc(100% - 15.5rem - 8px)); }
   .t-account .acct-panel, .t-account #also-form { scroll-margin-top: 24px; }
 }
+/* ai-hq job platform-directory-0038 (his call 12, 2026-11-14 08:43 CT): the line under "Find a doctor near you" that names
+   the finder's procedure, the same on every condition page; it reads as the label's second line. */
+.find-label:has(+ .find-proc) { margin-bottom: 2px; }
+.find-proc { margin: 0 0 8px; color: var(--muted); font-size: 0.9375rem; line-height: 1.35; }
+@media (max-width: 480px) { .hero-cond .find-label:has(+ .find-proc) { margin-bottom: 2px; } .hero-cond .find-proc { margin-bottom: 6px; } }
+/* Job platform-directory-0038 (his call 10): the Undo beside a save message, a link-style button, tap target 44 px tall. */
+.act-msg .act-undo { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0 -12px 4px; padding: 0 6px; font-weight: 600; }

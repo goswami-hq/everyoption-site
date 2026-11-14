@@ -434,13 +434,30 @@ Exact strings; change one only on his word, then update the code and this table 
 | "Video visits" (badge), "Video visits only" (switch) | Confirmed cards, finder | `lib/telehealth.mjs`, `src-assets/finder.js` |
 | "See all treatment options" | after finder results | `src-assets/finder.js` |
 | "What is <procedure>?", "How well does it work?", "Side effects" | lead option | `tools/condition.py` |
-| "Your other <condition> treatment options" | simple page | condition toml `options_heading` |
+| "Your other <condition> treatment options" | simple page | condition toml `options_heading` (the condition words are `content/conditions.json` `text`; pelvic "chronic pelvic pain" since 2026-11-14, his call 9) |
+| "Doctors who perform <procedure>" | simple page finder, the line under "Find a doctor near you" | `tools/condition.py finder_names` from `content/procedures.json` `patient_name` (his call 12, 2026-11-14; `pattern` fails a finder without it) |
+| "Find a <procedure> doctor" / "<Procedure> doctors by city" | every-option find-a-doctor block | options toml `find_heading` / `city_link` (`pattern` checks the heading names the procedure's `hub_label` words and the link reads "`hub_label` by city") |
 | "Medicines", "Less invasive treatments", "Surgery" | option groups | condition toml (his words 2026-11-01, L321) |
 | "When to see a doctor", "Common symptoms" | the box | `tools/condition.py what_box` |
 | "On this page", "Back to top" | every-option contents | `tools/options.py`, `src-assets/deep-nav.js` |
 | menu: Home, Conditions, Insurance, Directory, How we know, For physicians | header | `tools/build.py` `NAV` |
 | "Page last reviewed <Month D, YYYY>." | see Shared parts | `tools/build.py`, `tools/options.py`, `tools/insurance.py`, `lib/cities.mjs` |
 | "Doctor list coming" | home card without a finder | `tools/build.py` `PAGE_ONLY` |
+
+### Same on every condition (2026-11-14)
+
+His words 2026-11-14 08:43 CT (ai-hq job platform-directory-0038): "we want every page to be similar in architecture, so if
+we're changing one condition let's make sure the other pages don't need the same thing". So a change to one condition's
+finder, headings or labels is checked against all five, and the rule goes here and into `pattern` where it can be checked.
+
+- **The finder names its procedure once**, in the same place on every condition: "Doctors who perform <patient_name>"
+  under "Find a doctor near you", built from the registry, never typed per page (`pattern`; `pattern_test.py`
+  `test_finder_names_its_procedure`). `finder_heading` in the condition toml is not shown on the page.
+- **The finder intro opens with the procedure name** and "works through a tiny skin nick" (fibroids, prostate, knee,
+  pelvic; his call 8 for pelvic). Hemorrhoids opens "Hemorrhoid embolization treats bleeding hemorrhoids without surgery,
+  through a tiny skin nick in the wrist or groin." (his signed-off words; a change is his call). Not checked.
+- **Options heading:** "Your other <condition> treatment options" (above). Not checked.
+- **Every-option find heading:** "Find a <procedure> doctor"; city link "<Procedure> doctors by city" (`pattern`).
 
 ## Clinical rulings and wording every page follows
 

@@ -931,9 +931,9 @@
      ],
      "tap_budget": 9,
      "finish": {
-      "text_re": "Undone",
-      "selector": "#insurance-form:not(:has(input[value='Medicare'][checked]))"
-     }
+      "text_re": "Undone"
+     },
+     "finish_note": "Job platform-directory-0038 (his call 11, 'Yes to all' 2026-11-14 08:43 CT): 'Undone' on screen alone meets the line; a phone cannot show it and the insurance form together. The site's own undo is checked by tools/e2e/accounts_e2e.py."
     },
     {
      "id": "sign-out-in",
