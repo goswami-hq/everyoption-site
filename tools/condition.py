@@ -22,10 +22,16 @@ PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed pr
 
 
 def finder_names(c):
-    """The one line under "Find a doctor near you" that names the finder's procedure, from the registry's patient name
-    (ai-hq job platform-directory-0038, his call 12: a patient who read about the procedure could not tell the finder
-    was for it). tools/pattern.py fails the build when a finder lacks it."""
-    return "Doctors who perform " + registry.BY_KEY[c["finder"]]["patient_name"]
+    """The one line under "Find a doctor near you" that names the finder's procedure (ai-hq job platform-directory-0038,
+    his call 12: a patient who read about the procedure could not tell the finder was for it). Built from the registry's
+    `hub_label` ("Knee embolization doctors"), the same words as the every-option "Find a <procedure> doctor" heading and
+    city link; `patient_name` would add a third name on the knee page ("knee artery embolization"). tools/pattern.py fails
+    the build when a finder lacks it."""
+    hub = registry.BY_KEY[c["finder"]]["hub_label"]
+    if not hub.endswith(" doctors"):
+        raise ValueError(f'{c["slug"]}: registry hub_label "{hub}" does not end " doctors"; the finder line is built from it')
+    words = hub.removesuffix(" doctors")
+    return "Doctors who perform " + words[0].lower() + words[1:]
 
 
 def coverage_link(c):

@@ -163,11 +163,12 @@ class PatternTest(unittest.TestCase):
             if not c.get("finder"):
                 continue
             want = condition.finder_names(c)
-            self.assertEqual(want, "Doctors who perform " + condition.registry.BY_KEY[c["finder"]]["patient_name"])
+            hub = condition.registry.BY_KEY[c["finder"]]["hub_label"].removesuffix(" doctors")
+            self.assertEqual(want.lower(), ("Doctors who perform " + hub).lower())
             errs = self.site((f"{slug}/index.html", f'<p class="find-proc">{want}</p>', ""))
             self.assertTrue(any(f"{slug} simple: the finder does not name its procedure" in e for e in errs), errs)
         errs = self.site(("fibroids/index.html", '<p class="find-proc">Doctors who perform fibroid embolization</p>',
-                          '<p class="find-proc">Doctors who perform knee artery embolization</p>'))
+                          '<p class="find-proc">Doctors who perform knee embolization</p>'))
         self.assertTrue(any("fibroids simple: the finder does not name its procedure" in e for e in errs), errs)
 
     def test_every_option_find_block_names_its_procedure(self):
