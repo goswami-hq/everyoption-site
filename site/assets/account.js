@@ -18,6 +18,12 @@
   // Job platform-directory-0009: a procedure with no abbreviation (pelvic) shows its name once, capitalized.
   function PROC_HEAD(k) { return PROC[k].toLowerCase() === PROC_LONG[k].toLowerCase() ? PROC_LONG[k] : PROC[k]; }
   function PROC_SUB(k) { return PROC[k].toLowerCase() === PROC_LONG[k].toLowerCase() ? "" : " " + PROC_LONG[k]; }
+  // Job platform-directory-0036: an optional grey line under the name, in the account row only (registry field account_sub).
+  var PROC_ROW_SUB = window.EO_PROCS.sub || {};
+  function procName(k, extra) {
+    return el("span", { "class": "proc-name" }, [el("strong", { text: PROC_HEAD(k) }), el("span", { "class": "muted", text: PROC_SUB(k) }),
+      PROC_ROW_SUB[k] ? el("span", { "class": "proc-sub muted", id: "proc-sub-" + k, text: PROC_ROW_SUB[k] }) : null].concat(extra || []));
+  }
   var QS = new URLSearchParams(location.search);
   var STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
   var PHOTO_CAP = 2 * 1024 * 1024, PHOTO_EDGE = 1600;
@@ -381,8 +387,7 @@
           });
         } });
         return el("li", { "class": "proc on", id: "proc-" + k }, [
-          el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC_HEAD(k) }), el("span", { "class": "muted", text: PROC_SUB(k) }),
-            el("span", { "class": "proc-state", text: "✓ You perform this" })])]),
+          el("div", { "class": "proc-head" }, [procName(k, [el("span", { "class": "proc-state", text: "✓ You perform this" })])]),
           el("details", { "class": "proc-note", open: !!t.value }, [el("summary", { text: t.value ? "Your note" : "Add a note for patients" }),
             el("label", { "for": "b-" + k }, ["Note for " + PROC[k] + " ", count]), t, el("p", { "class": "err small", id: "why-b-" + k }),
             el("div", { "class": "acct-actions" }, [saveNote])]),
@@ -404,12 +409,60 @@
       ]);
       var add = el("button", { type: "button", "class": "secondary add", "data-proc": k, text: "Add", "aria-label": "Add " + PROC[k], onclick: function () { add.hidden = true; stmt.hidden = false; stmt.querySelector("button").focus(); } });
       return el("li", { "class": "proc", id: "proc-" + k }, [
-        el("div", { "class": "proc-head" }, [el("span", { "class": "proc-name" }, [el("strong", { text: PROC_HEAD(k) }), el("span", { "class": "muted", text: PROC_SUB(k) })]), add]),
+        el("div", { "class": "proc-head" }, [procName(k), add]),
         stmt]);
     });
     return panel("procs", "Procedures", [
       el("p", { "class": "small muted", text: "Add each procedure you personally perform. Adding one records your statement that you perform it. Notes: no links, phone numbers, or patient stories, and no words like best, guaranteed, or cure." }),
-      el("ul", { "class": "procs" }, rows)]);
+      el("ul", { "class": "procs" }, rows), alsoForm(p)]);
+  }
+
+  // Job platform-directory-0036 (his words, 2026-11-13: "a ton of other procedures as a separate check box (labeled not
+  // added yet or something)"): private ticks for procedures not on the site yet. They list nobody and attest nothing;
+  // the list is content/upcoming-procedures.json (site/assets/upcoming.js). One Save for the section.
+  function alsoForm(p) {
+    var groups = (window.EO_UPCOMING && window.EO_UPCOMING.groups) || [];
+    if (!groups.length) return null;
+    var ticked = p.also_performs || [];
+    var other = el("input", { id: "a-other", name: "also_performs_other", maxlength: "120", autocomplete: "off" }); other.value = p.also_performs_other || "";
+    var why = el("p", { "class": "err small", id: "why-a-other" });
+    var save = el("button", { type: "submit", id: "also-save", text: "Save other procedures" });
+    var folds = groups.map(function (g, gi) {
+      var n = el("span", { "class": "also-n", id: "also-n-" + gi });
+      var boxes = g.items.map(function (it) {
+        return el("label", { "class": "also-item" }, [
+          el("input", { type: "checkbox", name: "also_performs", value: it.slug, id: "a-" + it.slug, checked: ticked.indexOf(it.slug) >= 0 }),
+          el("span", null, [el("span", { "class": "also-name", text: it.name }), el("span", { "class": "also-for muted", text: it["for"] })])]);
+      });
+      var d = el("details", { "class": "also-group", id: "also-g-" + gi }, [el("summary", null, [el("span", { text: g.name }), n]),
+        el("div", { "class": "also-list" }, boxes)]);
+      function count() {
+        var c = d.querySelectorAll('input[name="also_performs"]:checked').length;
+        n.textContent = c ? c + " ticked" : "";
+      }
+      d.addEventListener("change", count); count();
+      return d;
+    });
+    var f = el("form", { "class": "acct-form sub also", id: "also-form", novalidate: true, "aria-labelledby": "also-h" }, [
+      el("h3", { id: "also-h", text: "Other procedures you perform (not on the site yet)" }),
+      el("p", { "class": "small muted", id: "also-line", text: "Private. This does not list you and does not add a procedure to your listing. It tells us what to add next. When one goes live, we will ask you to confirm it." }),
+      el("div", { "class": "also-groups" }, folds),
+      field("a-other", "Something else", other, "(optional)"), why,
+      el("div", { "class": "acct-actions" }, [save])]);
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault(); why.textContent = ""; other.removeAttribute("aria-invalid"); busy(save, true);
+      api("PUT", "profile", { also_performs: [].slice.call(f.querySelectorAll('input[name="also_performs"]:checked')).map(function (x) { return x.value; }),
+        also_performs_other: other.value.trim() }).then(function (j) {
+        busy(save, false);
+        if (j.ok) { say(j.changed.length ? "Saved." : "No changes.", "ok"); return load(); }
+        if (j.error === "screened" && j.blocked && j.blocked.also_performs_other) {
+          why.textContent = "Not accepted: this has " + j.blocked.also_performs_other.map(function (r) { return REASONS[r] || r; }).join(" and ") + ".";
+          other.setAttribute("aria-invalid", "true");
+        }
+        say(words(j), "err");
+      });
+    });
+    return f;
   }
 
   function officePanel(me) {
@@ -716,7 +769,8 @@
   }
 
   var FIELD = { blurbs: "Notes", insurances: "Insurance plans", insurance_other: "Other plans", insurance_confirm: "Confirm with the office",
-    booking_url: "Website link", telehealth: "Video visits", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
+    booking_url: "Website link", telehealth: "Video visits",
+    also_performs: "Other procedures (private)", also_performs_other: "Something else (private)", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
     takeover: "Listing moved to you", lost_npi: "Listing lost", login_email: "Login email", invite: "Invitation made", doximity: "Doximity linked" };
   var WHEN = { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" };
   function when(t) {
