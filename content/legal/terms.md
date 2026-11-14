@@ -1,6 +1,6 @@
 # Every Option: terms of use
 
-Last updated: [date of publication]
+Last updated: November 13, 2026
 
 These terms are an agreement between you and East Blue Holdings LLC ("Every Option", "we", "us") about your use of everyoptionmd.com and any site, app, video or post published under the Every Option name (the "service"). By using the service you accept them. If you do not agree, do not use the service. Physicians who make an account also accept the physician account terms.
 

@@ -83,7 +83,7 @@ test("legal pages: H1, Effective line, and every paragraph of the text in order,
     const main = html.match(/<div class="prose legal">([\s\S]*?)<\/div>/)[1];
     const blocks = [...main.matchAll(/<(h1|h2|p)\b[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => strip(m[2]));
     assert.equal(blocks[0], md[0], `${path}: H1`);
-    assert.equal(blocks[1], "Effective at launch", `${path}: Effective line`);
+    assert.equal(blocks[1], "Effective November 13, 2026", `${path}: Effective line`);
     assert.deepEqual(blocks.slice(2), md.slice(1), `${path}: body differs from content/legal/${file}`);
     assert.match(html, /<link rel="canonical" href="https:\/\/everyoptionmd\.com\/[a-z-]+\/">/);
     assert.ok(read("sitemap-pages.xml").includes(`https://everyoptionmd.com/${path}/`), `${path} not in the page sitemap`);

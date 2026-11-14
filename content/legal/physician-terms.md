@@ -1,6 +1,6 @@
 # Every Option: terms for physician accounts
 
-Last updated: [date of publication]
+Last updated: November 13, 2026
 
 These terms are an agreement between you and East Blue Holdings LLC ("Every Option", "we", "us") about your physician account on everyoptionmd.com and any site or app run under the Every Option name (the "service"). By agreeing at sign-up, or when you accept an invitation, you accept them and the Every Option terms of use. If you do not agree, do not make an account.
 

@@ -6,13 +6,14 @@ draft 2, projects/platform/accounts/privacy-policy-draft.md draft 4, projects/pl
 draft 4, all signed off 2026-11-13). Never edit a sentence here: change the signed-off text in ai-hq first, on his word.
 
 The markdown is the small subset those texts use: one "# " title (the page H1), "## " headings, paragraphs, **bold**.
-EFFECTIVE is the page's "Effective" line; the launch merge sets it (and TERMS_VERSION in lib/accounts/service.mjs) to the
-launch date (ai-hq projects/platform/HANDOFF.md, launch list).
+EFFECTIVE is the page's "Effective" line: November 13, 2026, the publication date on his word (2026-11-13 22:52 CT: "Just
+make the date of publication today / Even if the site goes live later, that's fine"); TERMS_VERSION in lib/accounts/service.mjs
+is the same date. It is no longer set at launch.
 """
 import html, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EFFECTIVE = "Effective at launch"
+EFFECTIVE = "Effective November 13, 2026"
 # address -> (content file, <title>, meta description); the footer's labels are in FOOTER_LINKS
 PAGES = {
     "/terms/": ("terms.md", "Terms of use | Every Option",
