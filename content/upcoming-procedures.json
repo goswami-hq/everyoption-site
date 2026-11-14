@@ -1,0 +1,280 @@
+{
+  "_note": "Procedures a doctor can tick on the account page as performed but not on the site yet (ai-hq job platform-directory-0036; his words 2026-11-13). Private: never shown, never a listing. Slugs are stored in doctors' profiles (profiles.also_performs), so they are permanent like procedure keys: every slug, once issued, stays in 'issued' forever, in the same place; append new ones at the end. An item that becomes a real procedure keeps its slug and gains \"promoted_to\": <issued procedure key>; it then leaves the tick list. Never delete an item. A slug may not equal an issued procedure key or a reserved word (tools/registry.py).",
+  "groups": [
+    {
+      "name": "Women’s health",
+      "items": [
+        {
+          "slug": "adenomyosis-embolization",
+          "name": "Adenomyosis embolization",
+          "for": "adenomyosis"
+        },
+        {
+          "slug": "fallopian-tube-recanalization",
+          "name": "Fallopian tube recanalization",
+          "for": "blocked fallopian tubes, infertility"
+        }
+      ]
+    },
+    {
+      "name": "Men’s health",
+      "items": [
+        {
+          "slug": "varicocele-embolization",
+          "name": "Varicocele embolization",
+          "for": "varicocele pain, infertility"
+        },
+        {
+          "slug": "venous-leak-embolization",
+          "name": "Venous leak embolization",
+          "for": "erectile dysfunction"
+        },
+        {
+          "slug": "hydrocele-sclerotherapy",
+          "name": "Hydrocele sclerotherapy",
+          "for": "hydrocele"
+        }
+      ]
+    },
+    {
+      "name": "Joints, tendons and back",
+      "items": [
+        {
+          "slug": "shoulder-embolization",
+          "name": "Shoulder embolization",
+          "for": "frozen shoulder, shoulder arthritis"
+        },
+        {
+          "slug": "elbow-embolization",
+          "name": "Elbow embolization",
+          "for": "tennis elbow"
+        },
+        {
+          "slug": "hip-embolization",
+          "name": "Hip embolization",
+          "for": "hip arthritis"
+        },
+        {
+          "slug": "thumb-hand-embolization",
+          "name": "Thumb and hand embolization",
+          "for": "base-of-thumb arthritis"
+        },
+        {
+          "slug": "plantar-fascia-embolization",
+          "name": "Plantar fascia embolization",
+          "for": "plantar fasciitis"
+        },
+        {
+          "slug": "genicular-nerve-ablation",
+          "name": "Genicular nerve ablation",
+          "for": "knee arthritis"
+        },
+        {
+          "slug": "basivertebral-nerve-ablation",
+          "name": "Basivertebral nerve ablation",
+          "for": "chronic low back pain"
+        },
+        {
+          "slug": "kyphoplasty-vertebroplasty",
+          "name": "Kyphoplasty and vertebroplasty",
+          "for": "spine compression fractures"
+        }
+      ]
+    },
+    {
+      "name": "Children",
+      "items": [
+        {
+          "slug": "pediatric-bone-cyst-sclerotherapy",
+          "name": "Pediatric bone cyst sclerotherapy",
+          "for": "bone cysts in children"
+        },
+        {
+          "slug": "pediatric-bone-cyst-sclerograft",
+          "name": "Pediatric bone cyst sclerograft",
+          "for": "bone cysts in children"
+        }
+      ]
+    },
+    {
+      "name": "Veins and vascular malformations",
+      "items": [
+        {
+          "slug": "varicose-vein-ablation",
+          "name": "Varicose vein ablation",
+          "for": "varicose veins, venous ulcers"
+        },
+        {
+          "slug": "vascular-malformation-treatment",
+          "name": "Vascular malformation sclerotherapy and embolization",
+          "for": "venous, lymphatic and arteriovenous malformations (children and adults)"
+        }
+      ]
+    },
+    {
+      "name": "Arteries, kidneys and blood pressure",
+      "items": [
+        {
+          "slug": "leg-artery-revascularization",
+          "name": "Leg artery angioplasty, stenting and atherectomy",
+          "for": "peripheral artery disease, limb salvage"
+        },
+        {
+          "slug": "dialysis-access-care",
+          "name": "Dialysis access care",
+          "for": "fistula and graft angioplasty"
+        },
+        {
+          "slug": "endovascular-fistula-creation",
+          "name": "Endovascular fistula creation",
+          "for": "dialysis access"
+        },
+        {
+          "slug": "renal-denervation",
+          "name": "Renal denervation",
+          "for": "high blood pressure"
+        }
+      ]
+    },
+    {
+      "name": "Cancer and tumors",
+      "items": [
+        {
+          "slug": "liver-radioembolization",
+          "name": "Liver radioembolization (Y-90)",
+          "for": "liver cancer, liver metastases"
+        },
+        {
+          "slug": "liver-chemoembolization",
+          "name": "Liver chemoembolization (TACE)",
+          "for": "liver cancer, liver metastases"
+        },
+        {
+          "slug": "liver-tumor-ablation",
+          "name": "Liver tumor ablation (microwave, radiofrequency)",
+          "for": "liver tumors"
+        },
+        {
+          "slug": "histotripsy",
+          "name": "Histotripsy",
+          "for": "liver tumors"
+        },
+        {
+          "slug": "kidney-tumor-ablation",
+          "name": "Kidney tumor ablation",
+          "for": "kidney tumors"
+        },
+        {
+          "slug": "lung-tumor-ablation",
+          "name": "Lung tumor ablation",
+          "for": "lung tumors"
+        },
+        {
+          "slug": "bone-tumor-ablation",
+          "name": "Bone tumor ablation and cementoplasty",
+          "for": "painful bone metastases, osteoid osteoma"
+        },
+        {
+          "slug": "breast-fibroadenoma-cryoablation",
+          "name": "Breast fibroadenoma cryoablation",
+          "for": "fibroadenoma"
+        }
+      ]
+    },
+    {
+      "name": "Head, neck and thyroid",
+      "items": [
+        {
+          "slug": "thyroid-nodule-ablation",
+          "name": "Thyroid nodule ablation (radiofrequency, ethanol)",
+          "for": "benign thyroid nodules"
+        },
+        {
+          "slug": "thyroid-artery-embolization",
+          "name": "Thyroid artery embolization",
+          "for": "goiter"
+        },
+        {
+          "slug": "spinal-csf-leak-treatment",
+          "name": "Spinal CSF leak treatment (targeted blood patch, CSF-venous fistula embolization)",
+          "for": "spontaneous intracranial hypotension"
+        },
+        {
+          "slug": "venous-sinus-stenting",
+          "name": "Venous sinus stenting",
+          "for": "idiopathic intracranial hypertension"
+        },
+        {
+          "slug": "sphenopalatine-ganglion-block",
+          "name": "Sphenopalatine ganglion block",
+          "for": "migraine"
+        }
+      ]
+    },
+    {
+      "name": "Digestive, liver, lymph and cysts",
+      "items": [
+        {
+          "slug": "bariatric-embolization",
+          "name": "Bariatric embolization",
+          "for": "obesity"
+        },
+        {
+          "slug": "tips",
+          "name": "TIPS",
+          "for": "ascites, variceal bleeding"
+        },
+        {
+          "slug": "lymphatic-interventions",
+          "name": "Lymphatic embolization and interventions",
+          "for": "chyle leak, lymphatic leaks"
+        },
+        {
+          "slug": "cyst-sclerotherapy",
+          "name": "Cyst sclerotherapy",
+          "for": "kidney, liver, Baker’s and thyroid cysts"
+        }
+      ]
+    }
+  ],
+  "issued": [
+    "adenomyosis-embolization",
+    "fallopian-tube-recanalization",
+    "varicocele-embolization",
+    "venous-leak-embolization",
+    "hydrocele-sclerotherapy",
+    "shoulder-embolization",
+    "elbow-embolization",
+    "hip-embolization",
+    "thumb-hand-embolization",
+    "plantar-fascia-embolization",
+    "genicular-nerve-ablation",
+    "basivertebral-nerve-ablation",
+    "kyphoplasty-vertebroplasty",
+    "pediatric-bone-cyst-sclerotherapy",
+    "pediatric-bone-cyst-sclerograft",
+    "varicose-vein-ablation",
+    "vascular-malformation-treatment",
+    "leg-artery-revascularization",
+    "dialysis-access-care",
+    "endovascular-fistula-creation",
+    "renal-denervation",
+    "liver-radioembolization",
+    "liver-chemoembolization",
+    "liver-tumor-ablation",
+    "histotripsy",
+    "kidney-tumor-ablation",
+    "lung-tumor-ablation",
+    "bone-tumor-ablation",
+    "breast-fibroadenoma-cryoablation",
+    "thyroid-nodule-ablation",
+    "thyroid-artery-embolization",
+    "spinal-csf-leak-treatment",
+    "venous-sinus-stenting",
+    "sphenopalatine-ganglion-block",
+    "bariatric-embolization",
+    "tips",
+    "lymphatic-interventions",
+    "cyst-sclerotherapy"
+  ]
+}

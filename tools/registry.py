@@ -6,6 +6,8 @@ them, or reads them through this module:
   content/conditions.json      a condition: slug, names, colors, home card, page files, its procedures
   content/procedures.json      a procedure: key, names, the conditions it treats, stage, finder wording, optional parts
   content/procedure-keys.json  the issued keys (append-only) and the reserved words
+  content/upcoming-procedures.json  procedures a doctor can tick privately as "not on the site yet" (ai-hq job
+                               platform-directory-0036): groups of items (slug, name, for) and the issued slugs (append-only)
 
 Stages: "page" (condition page and a "Doctor list coming" card, no list), "listed" (finder and list, noindex profiles:
 what "draft" meant before), "public". Optional parts a procedure declares in "parts": animation (its scene in
@@ -20,6 +22,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 STAGES = ("page", "listed", "public")
 WITH_LIST = ("listed", "public")          # stages with a doctor list (site/data/<key>.json)
 KEY = re.compile(r"^[a-z][a-z0-9]{1,15}$")
+SLUG = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")   # an upcoming item's slug: lowercase words joined by hyphens
+UPCOMING_MAX = 100                                    # profiles.also_performs holds at most 100 entries (schema.sql)
 PARTS = {"animation", "banner", "coverage", "payer_table", "city_pages"}
 
 
@@ -30,6 +34,7 @@ def _load(name):
 PROCEDURES = _load("procedures.json")
 CONDITIONS = _load("conditions.json")
 KEYS = _load("procedure-keys.json")
+UPCOMING = _load("upcoming-procedures.json")
 BY_KEY = {p["key"]: p for p in PROCEDURES}
 BY_SLUG = {c["slug"]: c for c in CONDITIONS}
 
@@ -135,6 +140,80 @@ def lib_procedures():
     return out
 
 
+def upcoming_groups():
+    """The account page's "not on the site yet" tick list: each group with its items still to tick, in file order. An item
+    with promoted_to is a real procedure now and leaves the list; a group left empty is left out."""
+    out = []
+    for g in UPCOMING["groups"]:
+        items = [{"slug": i["slug"], "name": i["name"], "for": i["for"]} for i in g["items"] if not i.get("promoted_to")]
+        if items:
+            out.append({"name": g["name"], "items": items})
+    return out
+
+
+def upcoming_slugs():
+    return [i["slug"] for g in upcoming_groups() for i in g["items"]]
+
+
+def upcoming_module():
+    """lib/upcoming.mjs: the server's copy of the tick list (lib/accounts/service.mjs checks also_performs against it)."""
+    return ("// Written by tools/build.py from content/upcoming-procedures.json (tools/registry.py). Edit that file, not this one.\n"
+            "// Private: what a doctor ticks here is never shown and never lists them (ai-hq job platform-directory-0036).\n"
+            f"export const UPCOMING_GROUPS = {json.dumps(upcoming_groups(), ensure_ascii=False)};\n"
+            "export const UPCOMING_SLUGS = UPCOMING_GROUPS.flatMap((g) => g.items.map((i) => i.slug));\n")
+
+
+def account_subs():
+    """key -> the grey line under the name in the account page's procedure row (optional field account_sub)."""
+    return {p["key"]: p["account_sub"] for p in listed() if p.get("account_sub")}
+
+
+def check_upcoming():
+    """The upcoming list's rules: slugs well formed and unique, every slug issued and every issued slug kept (append-only,
+    as procedure keys), no slug equal to an issued procedure key or a reserved word, promoted_to only to an issued key."""
+    errs = []
+    keys, words = set(KEYS["issued"]), set(KEYS["reserved"])
+    issued = UPCOMING.get("issued", [])
+    seen = set()
+    groups = UPCOMING.get("groups", [])
+    if not groups:
+        errs.append("upcoming: no groups")
+    for g in groups:
+        if not g.get("name"):
+            errs.append("upcoming: a group with no name")
+        if not g.get("items"):
+            errs.append(f"upcoming group {g.get('name')!r}: no items")
+        for i in g.get("items", []):
+            s = i.get("slug", "")
+            unknown = set(i) - {"slug", "name", "for", "promoted_to"}
+            if unknown:
+                errs.append(f"upcoming {s}: unknown fields {sorted(unknown)}")
+            if not SLUG.match(s) or len(s) > 60:
+                errs.append(f"upcoming {s!r}: a slug is lowercase letters and digits, words joined by single hyphens, at most 60")
+            if s in seen:
+                errs.append(f"upcoming {s}: listed twice")
+            seen.add(s)
+            if s in keys:
+                errs.append(f"upcoming {s}: equals an issued procedure key; a slug is never a key")
+            if s in words:
+                errs.append(f"upcoming {s}: a reserved word")
+            if s not in issued:
+                errs.append(f"upcoming {s}: not in content/upcoming-procedures.json 'issued'; append it there (slugs are permanent)")
+            for f in ("name", "for"):
+                if not isinstance(i.get(f), str) or not i.get(f).strip():
+                    errs.append(f"upcoming {s}: no {f!r}")
+            if "promoted_to" in i and i["promoted_to"] not in keys:
+                errs.append(f"upcoming {s}: promoted_to {i['promoted_to']!r} is not an issued procedure key")
+    for n, s in enumerate(issued):
+        if issued.index(s) != n:
+            errs.append(f"upcoming issued slug {s}: listed twice")
+        if s not in seen:
+            errs.append(f"upcoming issued slug {s}: has no item (an issued slug is never deleted; promote it with promoted_to)")
+    if len(seen) > UPCOMING_MAX:
+        errs.append(f"upcoming: {len(seen)} items, over the {UPCOMING_MAX} profiles.also_performs holds")
+    return errs
+
+
 def lib_module(conditions_toml):
     """lib/registry.mjs: the server's copy of the maps the city pages and the dev server read."""
     ks = keys()
@@ -214,6 +293,8 @@ def check(site=None):
         for f in ("abbr", "name", "conditions", "view", "patient_name", "hub_label", "city_blurb", "finder"):
             if f not in p:
                 errs.append(f"procedure {k}: no {f!r}")
+        if "account_sub" in p and (not isinstance(p["account_sub"], str) or not p["account_sub"].strip() or len(p["account_sub"]) > 120):
+            errs.append(f"procedure {k}: account_sub is the account row's grey line: text, 1 to 120 characters")
         unknown = set(p.get("parts", {})) - PARTS
         if unknown:
             errs.append(f"procedure {k}: unknown parts {sorted(unknown)} (known: {sorted(PARTS)})")
@@ -297,6 +378,7 @@ def check(site=None):
             errs.append(f"condition {s}: more than one listed procedure needs the finder's procedure choice, which is not built yet")
         if c.get("routed") and not c.get("city_pages"):
             errs.append(f"condition {s}: routed without city pages")
+    errs += check_upcoming()
     return errs
 
 

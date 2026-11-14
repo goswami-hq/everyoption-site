@@ -11,11 +11,12 @@ SITE = pathlib.Path(__file__).resolve().parent.parent / "site"
 
 class RegistryChecks(unittest.TestCase):
     def setUp(self):
-        self.saved = copy.deepcopy((registry.PROCEDURES, registry.CONDITIONS, registry.KEYS))
+        self.saved = copy.deepcopy((registry.PROCEDURES, registry.CONDITIONS, registry.KEYS, registry.UPCOMING))
 
     def tearDown(self):
         registry.PROCEDURES[:], registry.CONDITIONS[:] = self.saved[0], self.saved[1]
         registry.KEYS.clear(); registry.KEYS.update(self.saved[2])
+        registry.UPCOMING.clear(); registry.UPCOMING.update(self.saved[3])
         self.relink()
 
     def relink(self):
@@ -86,6 +87,48 @@ class RegistryChecks(unittest.TestCase):
         registry.BY_KEY["hae"]["parts"]["photo"] = True
         e = self.errs()
         self.assertTrue(any("stage 'draft'" in x for x in e) and any("unknown parts" in x for x in e), e)
+
+    # ---- ai-hq job platform-directory-0036: the private "not on the site yet" list (content/upcoming-procedures.json)
+    def first_item(self):
+        return registry.UPCOMING["groups"][0]["items"][0]
+
+    def test_upcoming_slug_twice_is_refused(self):
+        g = registry.UPCOMING["groups"][0]
+        g["items"].append(copy.deepcopy(g["items"][0]))
+        self.assertTrue(any("listed twice" in e for e in self.errs()), self.errs())
+
+    def test_upcoming_slug_equal_to_a_key_or_reserved_word_is_refused(self):
+        for bad, why in ((registry.KEYS["issued"][0], "equals an issued procedure key"), (registry.KEYS["reserved"][0], "reserved word")):
+            it = {"slug": bad, "name": "X", "for": "y"}
+            registry.UPCOMING["groups"][0]["items"].append(it); registry.UPCOMING["issued"].append(bad)
+            self.assertTrue(any(why in e for e in self.errs()), (bad, self.errs()))
+            registry.UPCOMING["groups"][0]["items"].pop(); registry.UPCOMING["issued"].pop()
+
+    def test_upcoming_unissued_and_deleted_slugs_are_refused(self):
+        registry.UPCOMING["groups"][0]["items"].append({"slug": "zz-new-thing", "name": "X", "for": "y"})
+        self.assertTrue(any("not in content/upcoming-procedures.json 'issued'" in e for e in self.errs()), self.errs())
+        registry.UPCOMING["groups"][0]["items"].pop()
+        registry.UPCOMING["groups"][0]["items"].pop(0)   # an issued slug whose item was deleted
+        self.assertTrue(any("has no item" in e for e in self.errs()), self.errs())
+
+    def test_upcoming_bad_slug_shape_is_refused(self):
+        for bad in ("Upper-Case", "two--hyphens", "-lead", "trail-", "under_score"):
+            self.first_item()["slug"] = bad
+            registry.UPCOMING["issued"][0] = bad
+            self.assertTrue(any("a slug is lowercase" in e for e in self.errs()), (bad, self.errs()))
+
+    def test_promoted_item_leaves_the_tick_list_and_needs_an_issued_key(self):
+        s = self.first_item()["slug"]
+        self.first_item()["promoted_to"] = "zzq"
+        self.assertTrue(any("promoted_to 'zzq' is not an issued" in e for e in self.errs()), self.errs())
+        self.first_item()["promoted_to"] = registry.KEYS["issued"][0]
+        self.assertEqual(self.errs(), [])
+        self.assertNotIn(s, registry.upcoming_slugs())
+        self.assertIn(s, registry.UPCOMING["issued"], "a promoted slug stays issued")
+
+    def test_account_sub_must_be_short_text(self):
+        registry.BY_KEY["hae"]["account_sub"] = ""
+        self.assertTrue(any("account_sub" in e for e in self.errs()), self.errs())
 
 
 if __name__ == "__main__":

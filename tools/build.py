@@ -448,7 +448,7 @@ def account():
 <noscript><p class="notice">This page needs JavaScript. To report an error, email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p></noscript>"""
     return page("/account/", "For physicians | Every Option",
                 "Physicians can claim their Every Option profile with a free account. Accounts are not open yet.",
-                body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/account.js"])
+                body, ["/assets/procedures.js", "/assets/upcoming.js", "/assets/telehealth.js", "/assets/account.js"])
 
 
 def not_found():
@@ -504,7 +504,12 @@ def write_procedures():
     head = "// Written by tools/build.py from content/procedures.json. Edit that file, not this one.\n"
     write("assets/procedures.js", head + "window.EO_PROCS = " + json.dumps(
         {"keys": [p["key"] for p in PROCEDURES], "short": short, "long": long_,
-         "coverage": registry.coverage()}) + ";\n")
+         "coverage": registry.coverage(), "sub": registry.account_subs()}) + ";\n")
+    # Job platform-directory-0036: the private "not on the site yet" tick list, for the account page and the service.
+    write("assets/upcoming.js", "// Written by tools/build.py from content/upcoming-procedures.json. Edit that file, not this one.\n"
+          "window.EO_UPCOMING = " + json.dumps({"groups": registry.upcoming_groups()}, ensure_ascii=False) + ";\n")
+    with open(os.path.join(ROOT, "lib", "upcoming.mjs"), "w", encoding="utf-8") as fh:
+        fh.write(registry.upcoming_module())
     with open(os.path.join(ROOT, "lib", "procedures.mjs"), "w", encoding="utf-8") as fh:
         fh.write(head + "export const PROCEDURES = " + json.dumps(registry.lib_procedures(), ensure_ascii=False) + ";\n"
                  "export const PROCS = PROCEDURES.map((p) => p.key);\n"

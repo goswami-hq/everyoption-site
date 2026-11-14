@@ -4,6 +4,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../content/${p}`, import.meta.url), "utf8"));
 const KEYS = json("procedure-keys.json"), PROCEDURES = json("procedures.json"), CONDITIONS = json("conditions.json");
@@ -39,4 +40,21 @@ test("conditions and procedures link both ways", () => {
     assert.ok(c && c.procedures.includes(p.key), `${p.key} -> ${s} is not linked back`);
   }
   for (const c of CONDITIONS) for (const k of c.procedures) assert.ok(PROCEDURES.find((p) => p.key === k)?.conditions.includes(c.slug), `${c.slug} -> ${k} is not linked back`);
+});
+
+// Job platform-directory-0036: the "not on the site yet" slugs are stored in doctors' profiles, so they are permanent too.
+// The first 38 issued (2026-11-13), held as a count and a hash so the test types no list: they never move or change.
+const UPCOMING_BEFORE = { n: 38, sha256: "ddac61e5f1f2575aab9d7dba27f388d49b0ddb5dc6d1b848ff968ff9c3b48d47" };
+test("upcoming slugs: append-only like keys, never a key, every one with an item", () => {
+  const U = json("upcoming-procedures.json");
+  const head = U.issued.slice(0, UPCOMING_BEFORE.n);
+  assert.equal(head.length, UPCOMING_BEFORE.n, "an issued slug disappeared");
+  assert.equal(createHash("sha256").update(head.join("\n")).digest("hex"), UPCOMING_BEFORE.sha256, "an issued slug moved or changed");
+  assert.equal(new Set(U.issued).size, U.issued.length, "an issued slug is listed twice");
+  const items = U.groups.flatMap((g) => g.items);
+  for (const s of U.issued) assert.ok(items.some((i) => i.slug === s), `${s}: an issued slug with no item`);
+  for (const i of items) {
+    assert.ok(U.issued.includes(i.slug), `${i.slug}: never issued`);
+    assert.ok(!KEYS.issued.includes(i.slug) && !KEYS.reserved.includes(i.slug), `${i.slug}: a key or reserved word`);
+  }
 });

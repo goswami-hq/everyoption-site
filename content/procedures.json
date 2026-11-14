@@ -154,6 +154,7 @@
     "key": "pelvic",
     "abbr": "",
     "name": "Pelvic vein treatment",
+    "account_sub": "Pelvic vein embolization, and pelvic or iliac vein stenting (May-Thurner)",
     "short": "pelvic vein treatment",
     "conditions": [
       "chronic-pelvic-pain"
