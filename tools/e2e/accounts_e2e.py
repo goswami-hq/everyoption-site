@@ -372,6 +372,8 @@ def flows(b, label, base, vp):
     u = pg.evaluate("""() => { const b = document.getElementById('undo-ins'); return b ? { inMsg: document.getElementById('msg-ins').contains(b),
       text: b.textContent, h: Math.round(b.getBoundingClientRect().height), focus: document.activeElement && document.activeElement.id } : null; }""")
     check(f"{label}: insurance: an Undo button sits beside 'Saved.', 44 px tall, focus not moved to it", u and u["inMsg"] and u["text"] == "Undo" and u["h"] >= 44 and u["focus"] == "ins-save", u)
+    pg.screenshot(path=os.path.join(OUT, f"{label}-1a-saved-undo-light.png"))
+    pg.emulate_media(color_scheme="dark"); pg.wait_for_timeout(100); pg.screenshot(path=os.path.join(OUT, f"{label}-1a-saved-undo-dark.png")); pg.emulate_media(color_scheme="light")
     top1 = pg.evaluate("document.getElementById('ins-save').getBoundingClientRect().top")
     mark(pg); pg.click("#undo-ins"); wait_saved(pg, "Undone")
     wait_js(pg, "() => document.getElementById('msg-ins').textContent.includes('Undone')")
