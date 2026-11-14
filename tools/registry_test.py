@@ -46,10 +46,12 @@ class RegistryChecks(unittest.TestCase):
 
     def test_declared_life_strip_needs_its_scene(self):
         # the daily-life strip (2026-11-11): parts.banner == "life" is drawn by site/assets/life-strip.js
-        self.assertEqual(registry.life_strips(), {"ufe", "pae", "gae", "hae"})   # hae since 2026-11-12 (the long roll)
+        # hae since 2026-11-12 (the long roll); pelvic since 2026-11-14 (the question cloud), so every procedure has one
+        self.assertEqual(registry.life_strips(), {"ufe", "pae", "gae", "hae", "pelvic"})
         self.assertEqual(self.errs(), [])
-        registry.BY_KEY["pelvic"]["parts"]["banner"] = "life"
-        self.assertTrue(any("life-strip.js has no pelvic scene" in e for e in self.errs()), self.errs())
+        p = copy.deepcopy(registry.BY_KEY["hae"]); p["key"] = "noscene"; p["conditions"] = []
+        registry.PROCEDURES.append(p); registry.BY_KEY["noscene"] = p
+        self.assertTrue(any("life-strip.js has no noscene scene" in e for e in self.errs()), self.errs())
 
     def test_declared_coverage_page_must_be_built(self):
         registry.BY_KEY["hae"]["parts"]["coverage"] = {"path": "/hemorrhoids/insurance/", "link": "x"}
@@ -68,7 +70,7 @@ class RegistryChecks(unittest.TestCase):
         for c in registry.CONDITIONS:
             k = c["procedures"][0]
             html = (SITE / c["slug"] / "index.html").read_text(encoding="utf-8")
-            self.assertEqual('<div class="page-strip">' in html, k in with_banner and registry.has(k, "animation"), c["slug"])
+            self.assertEqual('<div class="page-strip">' in html, k in with_banner, c["slug"])
 
     def test_reserved_words_and_site_folders_are_refused(self):
         for bad in ("api", "insurance", "doctors", "how-we-know"):

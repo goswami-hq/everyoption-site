@@ -337,6 +337,13 @@ def strip(k):
             '<button type="button" id="pb-replay" class="pb-replay" aria-label="Replay animation" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button></div>')
 
 
+def condition_strip(slug):
+    """The page-top strip of a condition's pages belongs to its procedure (registry), not to its diagram: the pelvic
+    page has no procedure diagram but has a strip (2026-11-14)."""
+    k = registry.BY_SLUG[slug]["procedures"][0]
+    return strip(k) if k in PROC_BANNERS else ""
+
+
 def finder(k):
     p = PROCS[k]
     about = "".join(f"<p>{e(s)}</p>" for s in p["finder"]["about"])
@@ -634,7 +641,7 @@ def main():
             body = body.replace(nojs, nojs + block, 1)
         write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"],
                                          css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
-                                         cls=f"prose-page condition-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
+                                         cls=f"prose-page condition-page t-{c['color']}", banner=condition_strip(slug)))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
         robots = '<meta name="robots" content="noindex">\n' if d.get("draft") else ""
@@ -643,7 +650,7 @@ def main():
         write(d["path"].strip("/") + "/index.html", page(d["path"], d["title"], d["description"], body,
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
-                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=strip(c["diagram"]) if c.get("diagram") in PROC_BANNERS else ""))
+                                                         cls=f"prose-page condition-page options-page t-{c['color']}", banner=condition_strip(slug)))
     insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:

@@ -169,6 +169,7 @@
       "sources": []
     },
     "parts": {
+      "banner": "life",
       "city_pages": true
     }
   },

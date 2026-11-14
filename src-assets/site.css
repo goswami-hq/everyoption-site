@@ -596,6 +596,11 @@ nav.top a[aria-current="page"] { color: var(--cream); }
 .page-strip .ls[data-s="hae"] { --ls-clear: #f1ecd5; --ls-hill2: #6e5f12; --lh-wall: #ece5c4; --lh-tile: #f6f0dc; --lh-line: #ddd3ac; }
 @media (prefers-color-scheme: dark) { .page-strip .ls[data-s="hae"] { --ls-clear: #4a4220; --ls-hill2: #4a3f0a; --lh-wall: #3a3418; --lh-tile: #453e1e; --lh-line: #2f2a12; } }
 .page-strip .ls[data-s="hae"] text.c .t { fill: #6e5f12; }
+.page-strip .ls[data-s="pelvic"] { --ls-clear: #e2f0f1; --ls-hill1: #a9d3d6; --ls-hill2: #1f6f78; --ls-ray: #1f6f78; }
+@media (prefers-color-scheme: dark) { .page-strip .ls[data-s="pelvic"] { --ls-clear: #1f2f31; --ls-hill1: #3d5e61; --ls-hill2: #164e55; --ls-ray: #7fc4cc; } }
+.page-strip .ls[data-s="pelvic"] text.c .t { fill: #1f6f78; }
+.page-strip .ls text.lc-qm { font: 600 21px var(--sans); fill: #fbf6ec; }
+.page-strip .ls text.n.lc-yr { font-size: 14.5px; }   /* about 11 px on a 390 px phone (critic 2026-11-14) */
 .page-strip .ls text.b { font: 600 13px var(--sans); fill: #22302b; }
 .page-strip .ls text.c { font: 600 14px var(--sans); fill: #22302b; }
 .page-strip .ls text.c .t { fill: #a63a6b; }

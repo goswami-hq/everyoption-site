@@ -1,6 +1,6 @@
 /* Page-top strip that shows the symptom in daily life, with no anatomy (his pick of direction C, 2026-11-11, after a
    non-medical viewer said of the anatomy strip "idk what that is or what I'm looking at"). Source and review history:
-   ai-hq projects/platform/design/page-strips-2026-11-11/. Plays once, about 13 seconds (knee 14; hemorrhoids 13, on the fibroid and prostate clock), then holds; the held frame names
+   ai-hq projects/platform/design/page-strips-2026-11-11/. Plays once, about 13 seconds (knee and pelvic 14; hemorrhoids 13, on the fibroid and prostate clock), then holds; the held frame names
    the condition. Reduced motion shows the held frame. Colours that change with the page theme are CSS variables on .ls
    (src-assets/site.css). A scene per procedure key; registry part "banner": "life" (tools/registry.py). */
 (function () {
@@ -32,7 +32,15 @@ var SCENES = {
   hae: { label: 'In a bathroom, toilet paper unrolls from the roll and across the picture while it rains outside the window. Red spots of blood appear on the paper, one after another. Text: Bright red blood on the toilet paper? It could be hemorrhoids. Bleeding always needs a doctor\u2019s check. Hemorrhoids have more than one treatment. See every option. Then the sun comes out, the paper pulls through, and clean squares follow.',
     caps: [['Bright red <tspan class="t">blood</tspan>', 'on the toilet paper?'],
            ['It could be <tspan class="t">hemorrhoids</tspan>.', 'Bleeding always needs', 'a doctor\u2019s check.'],
-           ['Hemorrhoids have more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
+           ['Hemorrhoids have more', 'than one treatment.', 'See <tspan class="t">every option</tspan>.']] },
+  // Chronic pelvic pain (his words 2026-11-14: "I like B"; "I like B3 but we need a way to show a lot of time passing , bc
+  // that's often these patients months and years without treatment"; "T3 / But the every option sun is cut off when I watch
+  // it on my phone"; "Yes, sanity check the critic pass", 11:09 CT). Line 1 is a draft on his ruling ("for years" and the
+  // year signs are not page wording; the page says more than 6 months). Line 2 is the page hero, near word for word.
+  pelvic: { end: 14, label: 'A woman walks slowly, holding her lower belly, under a dark cloud marked with a question mark, and stops three times. The trees behind her turn from spring to summer, autumn and winter, twice, and she passes roadside signs reading 1 year and 2 years. Text: Pelvic pain for years, and still no answer? Sometimes the cause is veins in the pelvis. It can go unrecognized. Pelvic pain from veins has more than one treatment. See every option. Then the cloud lifts, the sun comes out and she walks on.',
+    caps: [['Pelvic <tspan class="t">pain</tspan> for years,', 'and still no answer?'],
+           ['Sometimes the cause is', '<tspan class="t">veins in the pelvis</tspan>.', 'It can go unrecognized.'],
+           ['Pelvic pain from veins has', 'more than one treatment.', 'See <tspan class="t">every option</tspan>.']] }
 };
 var K = host.getAttribute('data-s'), SC = SCENES[K]; if (!SC) return;
 var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -333,11 +341,98 @@ function seekHae(T, clock) {
   $('ls-c2').setAttribute('opacity', seg(T, 4.3, 4.7) - seg(T, 8.6, 9.0));
   $('ls-c3').setAttribute('opacity', seg(T, 9.2, 9.7));
 }
+// ---- Chronic pelvic pain: the question cloud, with time passing ----
+// Mockup and review history: ai-hq projects/platform/design/page-strips-2026-11-11/pelvic-strip-t3.html. She stays mid-picture
+// and the ground slides past, so the cloud never leaves her; the seasons turn twice and two year signs go by.
+var CHX = 292, CSCROLL = 600, CACC = '#1f6f78', CSEASON = ['#e9a9c0', '#6fae7a', '#e08a3c', '#e08a3c'];   // blossom, green, autumn; winter is bare
+function buildCpp() {
+  var rays = '', fl = '', trees = '', fall = '', signs = '', i, cols = ['#ffb648', '#fbf6ec', '#d6ebec', '#fbf6ec'];
+  for (i = 0; i < 12; i++) rays += '<path d="M0 0 L-9 -150 L9 -150 Z" transform="rotate(' + (i * 30) + ')" fill="var(--ls-ray)"/>';
+  for (i = 0; i < 26; i++) fl += '<g class="lc-fl" data-x="' + (24 + i * 30.5 + 9 * Math.sin(i * 1.7)).toFixed(1) + '" data-y="' + (121 + 5 * Math.sin(i * 2.3)).toFixed(1) + '"><circle r="3.4" fill="' + cols[i % 4] + '" stroke="' + EDGE + '" stroke-width=".8"/><circle r="1.1" fill="#22302b"/></g>';
+  for (i = 0; i < 14; i++) trees += '<g class="lc-tr" data-x="' + (150 + i * 112) + '"><rect x="-2.2" y="-24" width="4.4" height="26" fill="#7a5a4c"/><path d="M0 -22 L-9 -36 M0 -24 L8 -38 M0 -27 L0 -42 M-5 -30 L-12 -31 M5 -31 L12 -29" fill="none" stroke="#7a5a4c" stroke-width="2" stroke-linecap="round"/>' +
+    '<g class="lc-cn" stroke="' + EDGE + '" stroke-width="1.2"><circle cx="-8" cy="-31" r="9"/><circle cx="8" cy="-32" r="9"/><circle cx="0" cy="-41" r="10"/></g></g>';
+  for (i = 0; i < 22; i++) fall += '<circle class="lc-lf" r="' + (i % 2 ? 1.5 : 1.9) + '"/>';
+  [[130, '1 year'], [330, '2 years']].forEach(function (g) { signs += '<g class="lc-sg" data-x="' + (CHX + g[0]) + '" filter="url(#ls-sh)"><path d="M0 2 V-20" stroke="#7a5a4c" stroke-width="3.4" stroke-linecap="round"/><rect x="-33" y="-42" width="66" height="23" rx="4" fill="' + CACC + '" stroke="' + EDGE + '" stroke-width="1.6"/><text class="n lc-yr" x="0" y="-25.4" text-anchor="middle">' + g[1] + '</text></g>'; });
+  var arm = 'fill="none" stroke="' + SK + '" stroke-width="4.6" stroke-linecap="round"', legE = 'fill="none" stroke="' + EDGE + '" stroke-width="9.4" stroke-linecap="round" stroke-linejoin="round"', leg = 'fill="none" stroke="#3f5e55" stroke-width="6.4" stroke-linecap="round" stroke-linejoin="round"';
+  function mark(tr, d) { return '<path d="' + d + '" transform="' + tr + '" fill="none" stroke="#fbf6ec" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="' + d + '" transform="' + tr + '" fill="none" stroke="' + PAIN + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  var hair = '#4a2f27';
+  return '<svg viewBox="0 0 800 133" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + SC.label + '">' +
+    '<defs><linearGradient id="ls-storm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3134"/><stop offset="1" stop-color="#4f6769"/></linearGradient>' +
+    '<filter id="ls-sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1.2" dy="2.2" stdDeviation="1.4" flood-color="#10151c" flood-opacity=".42"/></filter>' +
+    // trees stop at the caption card, so it never reads as a sign on posts
+    '<clipPath id="lc-clip"><rect x="0" y="0" width="380" height="133"/><rect x="600" y="0" width="200" height="133"/></clipPath></defs>' +
+    '<rect width="800" height="133" fill="url(#ls-storm)"/><rect id="lc-clear" width="800" height="133" fill="var(--ls-clear)"/>' +
+    // the sun sits where the question cloud hangs, inside the phone picture (his note 2026-11-14)
+    '<g id="lc-rays" transform="translate(236 24)">' + rays + '</g>' +
+    '<g id="lc-moon" filter="url(#ls-sh)"><path transform="translate(536 12) scale(.8)" d="' + CLOUD + '" fill="#142326" stroke="' + EDGE + '" stroke-width="1.4"/></g>' +
+    '<g id="lc-O" filter="url(#ls-sh)"><circle cx="236" cy="24" r="15" fill="#2f5d50" stroke="' + EDGE + '" stroke-width="1.6"/><circle cx="236" cy="24" r="5.5" fill="#ffb648"/></g>' +
+    '<path d="M0 104 Q200 84 400 100 T800 96 V133 H0Z" fill="var(--ls-hill1)"/>' +
+    '<g clip-path="url(#lc-clip)">' + trees + '</g>' +
+    '<g filter="url(#ls-sh)"><path d="M-4 116 Q220 100 420 112 T804 108 V140 H-4Z" fill="var(--ls-hill2)" stroke="' + EDGE + '" stroke-width="1.6"/></g>' + fl +
+    '<g clip-path="url(#lc-clip)">' + fall + signs + '</g>' +
+    '<g id="lc-q" filter="url(#ls-sh)"><path d="' + CLOUD + '" transform="scale(2.5 .9)" fill="#142326" stroke="' + EDGE + '" stroke-width="1.4"/><text class="lc-qm" x="-4" y="5" text-anchor="middle">?</text></g>' +
+    // her: our female silhouette, front view, long dark hair, sage top (one figure throughout)
+    '<g id="lc-her" filter="url(#ls-sh)"><path id="lc-lLe" ' + legE + '/><path id="lc-lRe" ' + legE + '/><path id="lc-lL" ' + leg + '/><path id="lc-lR" ' + leg + '/>' +
+      '<g id="lc-top"><g id="lc-hair"><path d="M-9.5 -36 C-9.5 -48 9.5 -48 9.5 -36 L9.5 -21 L-9.5 -21 Z" fill="' + hair + '" stroke="' + EDGE + '" stroke-width="1.6"/></g><rect x="-8.8" y="-27" width="17.6" height="28" rx="6" fill="' + TOP + '" stroke="' + EDGE + '" stroke-width="1.6"/>' +
+        '<g id="lc-face"><rect x="-2.6" y="-30" width="5.2" height="5" fill="' + SK + '"/><circle cx="0" cy="-35.5" r="7" fill="' + SK + '"/><path d="M-7.2 -38 Q0 -46.5 7.2 -38 Q0 -43 -7.2 -38 Z" fill="' + hair + '"/></g>' +
+        '<g id="lc-aS"><path ' + arm + ' d="M-9.2 -22 L-11.4 -3"/><path ' + arm + ' d="M9.2 -22 L11.4 -3"/></g>' +
+        '<g id="lc-aK"><path ' + arm + ' d="M-9.2 -22 Q-15 -9 -3 -6"/><path ' + arm + ' d="M9.2 -22 Q15 -9 3 -6"/></g></g>' +
+      '<g id="lc-pain">' + mark('translate(10 -5) rotate(-20) scale(1.35)', 'M0 0 l3 -3 l3 3 l3 -3') + mark('translate(11 4) rotate(15) scale(1.35)', 'M0 0 l3 -3 l3 3 l3 -3') + mark('translate(-10 1) rotate(10) scale(1.35)', 'M0 0 l-3 -3 l-3 3 l-3 -3') + '</g></g>' +
+    cap(1, 384, 28, 208, SC.caps[0], '#12454b') + cap(2, 384, 20, 208, SC.caps[1], '#12454b') + cap(3, 384, 12, 208, SC.caps[2], '#12454b') + '</svg>';
+}
+function hexRgb(c) { return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16)]; }
+function mixC(a, b, p) { a = hexRgb(a); b = hexRgb(b); return 'rgb(' + a.map(function (v, i) { return Math.round(L(v, b[i], p)); }).join(',') + ')'; }
+function seekCpp(T, clock) {
+  // The knee strip's 14 s clock (critic 2026-11-14: line 2 is 12 words, so it must hold 4.6 s, style guide section 6):
+  // line 1 from 0.3 s, line 2 4.3 to 9.6 s, line 3 from 9.6 s; the weather clears from 9.6 to 11.8 s.
+  var a = seg(T, 9.6, 11.8), late = seg(a, .5, 1), i;
+  $('lc-clear').setAttribute('opacity', a); $('lc-rays').setAttribute('opacity', .14 * late); $('lc-O').setAttribute('opacity', late);
+  $('lc-O').setAttribute('transform', 'translate(0 ' + L(20, 0, late) + ')'); $('lc-moon').setAttribute('opacity', 1 - seg(a, 0, .5));
+  for (i = 0; i < cFl.length; i++) cFl[i].setAttribute('transform', 'translate(' + cFl[i].getAttribute('data-x') + ' ' + cFl[i].getAttribute('data-y') + ') scale(' + cl(seg(a, .6, 1) * 1.6 - (i % 5) * .12) + ')');
+  // three stretches of walking with two stops and a last stop; the ground and everything on it slides past her
+  var w = [seg(T, .4, 2.6), seg(T, 3.2, 5.6), seg(T, 6.2, 8.6)], sc = CSCROLL * (w[0] + w[1] + w[2]) / 3, go = seg(T, 11.4, 13.1);
+  var moving = w.concat([go]).some(function (v) { return v > 0 && v < 1; });
+  var stop = Math.max(seg(T, 2.5, 2.8) - seg(T, 3.1, 3.4), seg(T, 5.5, 5.8) - seg(T, 6.1, 6.4), seg(T, 8.5, 8.9)) * (1 - seg(T, 10.0, 10.8));
+  // two turns of the seasons from 0.4 to 8.7 s, ending on blossom
+  var ph = cl((T - .4) / 8.3) * 8, f = ph % 4, s = Math.floor(f) % 4, p = f - Math.floor(f);
+  if (ph >= 8) { s = 0; p = 0; }
+  var col = mixC(CSEASON[s], CSEASON[(s + 1) % 4], s === 2 ? 0 : s === 3 ? 1 : seg(p, .2, .8));
+  var bare = s === 2 ? seg(p, .35, .9) : s === 3 ? 1 - seg(p, .45, .95) : 0, leaf = s === 2 ? Math.sin(Math.PI * cl(p * 1.15)) : 0, snow = s === 3 ? Math.sin(Math.PI * p) : 0;
+  for (i = 0; i < cTr.length; i++) cTr[i].setAttribute('transform', 'translate(' + (+cTr[i].getAttribute('data-x') - sc) + ' 104)');
+  for (i = 0; i < cCn.length; i++) { cCn[i].setAttribute('fill', col); cCn[i].setAttribute('opacity', 1 - bare); }
+  for (i = 0; i < cLf.length; i++) {
+    var isLeaf = leaf >= snow, dr = reduce ? 0 : clock;
+    cLf[i].setAttribute('cx', 150 + (i * 97 + (isLeaf ? 9 * Math.sin(dr * 2 + i) : 0)) % 500); cLf[i].setAttribute('cy', 8 + (dr * (isLeaf ? 26 : 34) + i * 31) % 100);
+    cLf[i].setAttribute('fill', isLeaf ? '#e08a3c' : '#fbf6ec'); cLf[i].setAttribute('opacity', .9 * Math.max(leaf, snow));
+  }
+  for (i = 0; i < cSg.length; i++) cSg[i].setAttribute('transform', 'translate(' + (+cSg[i].getAttribute('data-x') - sc) + ' 112)');
+  // her: standing throughout; at each stop she bows and holds her lower belly; she walks on as the sun comes
+  var hx = CHX + 34 * go, base = 115, hy = base - 27, ky = (hy + base) / 2, bow = Math.max(.45 * (1 - seg(T, 10.0, 10.8)), stop), sw = moving && !reduce ? .6 * Math.sin(clock * 5) : 0;
+  var pain = (1 - seg(T, 9.6, 10.3)) * (.7 + .3 * stop);
+  function legD(side) { var x = hx + side * 3.8, s2 = side * sw, fy = base - 2 * Math.abs(sw) * (s2 > 0 ? 1 : 0); return 'M' + x + ' ' + hy + ' L' + (x + 3 * s2) + ' ' + ky + ' L' + (x + 7 * s2) + ' ' + fy; }
+  var dL = legD(-1), dR = legD(1);
+  $('lc-lL').setAttribute('d', dL); $('lc-lLe').setAttribute('d', dL); $('lc-lR').setAttribute('d', dR); $('lc-lRe').setAttribute('d', dR);
+  $('lc-top').setAttribute('transform', 'translate(' + hx + ' ' + hy + ') scale(.9)');
+  var head = 'translate(0 ' + (5.5 * bow) + ') rotate(' + (-8 * bow) + ' 0 -30)';
+  $('lc-face').setAttribute('transform', head); $('lc-hair').setAttribute('transform', head);
+  $('lc-aK').setAttribute('opacity', bow > .35 ? 1 : 0); $('lc-aS').setAttribute('opacity', bow > .35 ? 0 : 1);
+  $('lc-pain').setAttribute('transform', 'translate(' + hx + ' ' + (hy - 6) + ')');
+  $('lc-pain').setAttribute('opacity', reduce ? Math.min(1, pain * 1.2) : pain * (stop > .5 ? 1 : .75 + .25 * Math.abs(Math.sin(clock * 3.4))));   // held full at each stop
+  // the question cloud is the sky over her stretch of path, not a bubble on her head (critic 2026-11-14): wide, flat and
+  // a little ahead of her; the strip is 133 units tall, so its lower edge sits about 12 units above her hair, not 25
+  var away = seg(T, 9.6, 11.0);
+  $('lc-q').setAttribute('transform', 'translate(' + (CHX + 14 - 60 * away) + ' ' + (26 - 60 * away + (reduce ? 0 : 1.5 * Math.sin(clock * 1.2))) + ')');
+  $('lc-q').setAttribute('opacity', 1 - seg(T, 10.2, 11.0));
+  $('ls-c1').setAttribute('opacity', seg(T, .3, .7) - seg(T, 4.1, 4.5));   // line 1, 8 words: 3.4 s
+  $('ls-c2').setAttribute('opacity', seg(T, 4.3, 4.6) - seg(T, 9.2, 9.6));
+  $('ls-c3').setAttribute('opacity', seg(T, 9.6, 10.1));
+}
+var cFl, cTr, cCn, cLf, cSg;
 var $ = function (id) { return document.getElementById(id); }, all = function (c) { return host.querySelectorAll(c); };
-var DRAW = { ufe: [buildUfe, seekUfe], pae: [buildPae, seekPae], gae: [buildGae, seekGae], hae: [buildHae, seekHae] }[K];
+var DRAW = { ufe: [buildUfe, seekUfe], pae: [buildPae, seekPae], gae: [buildGae, seekGae], hae: [buildHae, seekHae], pelvic: [buildCpp, seekCpp] }[K];
 if (!DRAW) return;   // a scene named above with no drawing yet: leave the strip empty, never throw
 host.innerHTML = DRAW[0](); var seek = DRAW[1];
-rainEls = all('.ls-r'); flEls = all('.ls-f'); dropEls = all('.ls-d'); starEls = all('.lp-s'); pflEls = all('.lp-f'); numEls = all('.lp-n'); kflEls = all('.lk-f'); legEls = all('.lk-dl'); hPaper = all('.lh-pp'); hSpots = all('.lh-sp');
+rainEls = all('.ls-r'); flEls = all('.ls-f'); dropEls = all('.ls-d'); starEls = all('.lp-s'); pflEls = all('.lp-f'); numEls = all('.lp-n'); kflEls = all('.lk-f'); legEls = all('.lk-dl'); hPaper = all('.lh-pp'); hSpots = all('.lh-sp'); cFl = all('.lc-fl'); cTr = all('.lc-tr'); cCn = all('.lc-cn'); cLf = all('.lc-lf'); cSg = all('.lc-sg');
 var END = SC.end || 13, t = reduce ? END : 0, playing = !reduce, clock = 0, last = null, rp = document.getElementById('ls-replay');
 var ICON = { skip: '<path d="M5 5l7 7-7 7"/><path d="M13 5l7 7-7 7"/>', replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>' };
 // One button: "Skip animation" while it plays (so the motion can be stopped), "Replay animation" once it holds.
