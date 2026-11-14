@@ -47,7 +47,7 @@ diagram_at = "embolization"    # ... shown inside this option
 # The finder block (job platform-directory-0029). The intro restates the embolization option's own "what" below.
 finder_button = "Find a doctor for hemorrhoid embolization"
 finder_heading = "Find a doctor for hemorrhoid embolization"
-finder_intro = "Hemorrhoid embolization treats bleeding hemorrhoids without surgery, through a tiny skin nick in the wrist or groin."
+finder_intro = "Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery. It treats bleeding hemorrhoids."   # his call 2, "Your picks" 2026-11-14 15:46 CT (ai-hq job platform-directory-0039): opens as the other four do
 finder_how = "#embolization"
 options_page = "/hemorrhoids/every-option/"
 options_link = "Compare them side by side: embolization vs. banding, other office treatments, and surgery"

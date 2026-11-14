@@ -48,7 +48,7 @@ finder_button = "Find a doctor for knee embolization (GAE)"
 finder_heading = "A newer option for knee arthritis pain, without surgery"
 finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. You go home the same day."
 # agreed list item 13: the scope note sits under the finder
-finder_note = "This finder lists doctors who perform knee embolization, not other joints."
+finder_note = "Knee only, not other joints."   # his call 1, "Your picks" 2026-11-14 15:46 CT (ai-hq job platform-directory-0039): the finder line above already says "Doctors who perform knee embolization"
 finder_how = "#embolization"
 options_heading = "Your other knee arthritis treatment options"
 # Job platform-main-0020: the every-option page link (pattern, docs/condition-pattern.md). A link only; no text changed.

@@ -454,11 +454,19 @@ finder, headings or labels is checked against all five, and the rule goes here a
   under "Find a doctor near you", built from the registry's `hub_label` words (the same words as the every-option find
   heading and city link), never typed per page (`pattern`; `pattern_test.py`
   `test_finder_names_its_procedure`). `finder_heading` in the condition toml is not shown on the page.
-- **The finder intro opens with the procedure name** and "works through a tiny skin nick" (fibroids, prostate, knee,
-  pelvic; his call 8 for pelvic). Hemorrhoids opens "Hemorrhoid embolization treats bleeding hemorrhoids without surgery,
-  through a tiny skin nick in the wrist or groin." (his signed-off words; a change is his call). Not checked.
+- **The finder intro opens with the procedure name** and "works through a tiny skin nick" on all five (his call 8 for
+  pelvic; his call 2 for hemorrhoids, "Your picks" 2026-11-14 15:46 CT, ai-hq job platform-directory-0039: "Hemorrhoid
+  embolization works through a tiny skin nick in the wrist or groin, without surgery. It treats bleeding hemorrhoids.").
+  Not checked.
+- **A finder note does not repeat the procedure line.** Knee's scope note reads "Knee only, not other joints." (his
+  call 1, same go); the other four have no note. Not checked.
 - **Options heading:** "Your other <condition> treatment options" (above). Not checked.
 - **Every-option find heading:** "Find a <procedure> doctor"; city link "<Procedure> doctors by city" (`pattern`).
+- **A "Find a <procedure> doctor" link right after the at-a-glance list** on every comparison page, to the page's find
+  section (`#find`), in the find heading's own words, built once in `tools/options.py` `glance_find`, never typed per page
+  (his call 4, same go: a model patient read the whole list, then scrolled into the details looking for a doctor and
+  gave up). `pattern` fails a comparison page without it right after the list's note (`pattern_test.py`
+  `test_every_option_find_link_after_glance`; seen failing on the old build first).
 
 ## Clinical rulings and wording every page follows
 

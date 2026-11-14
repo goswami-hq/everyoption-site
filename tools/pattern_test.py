@@ -179,6 +179,23 @@ class PatternTest(unittest.TestCase):
         errs = self.site(("fibroids/every-option/index.html", '>Fibroid embolization doctors by city</a>', '></a>'))
         self.assertTrue(any("fibroids every-option: the city list link is not" in e for e in errs), errs)
 
+    def test_every_option_find_link_after_glance(self):
+        # ai-hq job platform-directory-0039 (his call 4, "Your picks" 2026-11-14 15:46 CT): every comparison page has a
+        # "Find a <procedure> doctor" link to #find right after the at-a-glance list, in the find heading's words
+        import options
+        for slug in options.slugs():
+            c = condition.load(slug)
+            if not c.get("finder"):
+                continue
+            head = options.load(slug)[1]["find_heading"]
+            link = f'<p class="glance-find"><a href="#find">{head}</a></p>'
+            errs = self.site((f"{slug}/every-option/index.html", link, ""))
+            self.assertTrue(any(f"{slug} every-option: no \"{head}\" link to #find right after the at-a-glance list" in e
+                                for e in errs), errs)
+        errs = self.site(("knee-arthritis/every-option/index.html", '<a href="#find">Find a knee embolization doctor</a></p>',
+                          '<a href="#find">Find a doctor</a></p>'))
+        self.assertTrue(any("knee-arthritis every-option: no" in e for e in errs), errs)
+
     def test_source_rules_fail(self):
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)

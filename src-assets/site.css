@@ -758,6 +758,9 @@ table.glance td.c-works { min-width: 15rem; }
 table.glance .cert, .opt-sum .cert { display: block; font-weight: 600; color: var(--ink); }
 table.glance thead th:first-child, table.glance tbody th[scope=row] { min-width: 9rem; }
 .glance-after { margin-top: 4px; }
+/* ai-hq job platform-directory-0039 (his call 4): the way to a doctor right after the at-a-glance list; the peek link's look, a 44 px target */
+.glance-find { font-weight: 600; font-size: 1rem; margin: 6px 0 5.5rem; }   /* space below, so it closes the list and does not read as the next heading's label (inspector "eyebrow") */
+.glance-find a { display: inline-flex; align-items: center; min-height: 44px; text-wrap: balance; }
 .opt-sum { display: grid; gap: 8px; margin: 6px 0 18px; padding: 14px 18px; background: var(--card); border-radius: 14px; font-size: 1rem; line-height: 1.45; }
 .opt-sum > div { display: grid; grid-template-columns: 10em minmax(0, 1fr); gap: 14px; }
 .opt-sum dt { color: var(--muted); font-size: 0.9375rem; line-height: 1.55; }

@@ -457,12 +457,21 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
             + how + "".join(f'<p class="reading-note small">{txt(t) if (PH.search(t) or condition.MARK.search(t) or "**" in t) else e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, titles, extra)}{box}{top}'
-            f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
+            f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{glance_find(c, d)}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
     body += f'<div class="condition deep-refs">{condition.references(refs)}</div>'
     body += f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {when.strftime("%B")} {when.day}, {when.year}.</p>'
     return body
+
+
+def glance_find(c, d):
+    """A link to the find section right after the at-a-glance list, in the find heading's own words, the same on every
+    comparison page (ai-hq job platform-directory-0039, his call 4, "Your picks" 2026-11-14 15:46 CT: a model patient
+    read the whole list, then scrolled into the details looking for "who I could talk to" and gave up)."""
+    if not c.get("finder"):
+        return ""
+    return f'<p class="glance-find"><a href="#find">{html.escape(d["find_heading"], quote=True)}</a></p>'
 
 
 def find_block(c, d, finder_href, city_hub, city_links=""):

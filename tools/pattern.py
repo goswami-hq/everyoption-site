@@ -435,6 +435,13 @@ def check(site=SITE, root=ROOT):
                                 f'("{head.group(1) if head else ""}"; want "Find a {hub.removesuffix(" doctors").lower()} doctor")')
                 if re.search(r'<a href="/[^"]+/doctors/">', end.group(0)) and f">{html.escape(hub, quote=False)} by city</a>" not in end.group(0):
                     errs.append(f'{dtag}: the city list link is not "{hub} by city"')
+                # a "Find a <procedure> doctor" link right after the at-a-glance list, to the find section, in the
+                # heading's own words (ai-hq job platform-directory-0039, his call 4, "Your picks" 2026-11-14 15:46 CT:
+                # a model patient read the whole list, then scrolled into the details looking for a doctor and gave up)
+                want = (f'<p class="small muted glance-after">[^<]*</p><p class="glance-find"><a href="#find">'
+                        f'{re.escape(head.group(1))}</a></p>') if head else None
+                if not want or not re.search(want, dp["html"]):
+                    errs.append(f'{dtag}: no "{head.group(1) if head else "Find a doctor"}" link to #find right after the at-a-glance list')
                 by_city = re.search(r'<nav class="by-city".*?<a href="([^"]+)">All cities and states</a>', sp["html"], re.S)
                 if by_city and f'href="{by_city.group(1)}"' not in end.group(0):
                     errs.append(f"{dtag}: find-a-doctor block has no link to the city list {by_city.group(1)}")
