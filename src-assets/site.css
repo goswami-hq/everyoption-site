@@ -882,3 +882,18 @@ html.eo-notice-on .find-bar { bottom: calc(var(--notice-h, 0px) + 14px); }
 @media (prefers-reduced-motion: no-preference) { .eo-notice { animation: eo-notice-in 240ms var(--ease-out, ease-out) both; } }
 @keyframes eo-notice-in { from { transform: translateY(100%); } }
 @media print { .eo-notice { display: none; } }
+/* ai-hq job platform-web-design-0010 (his words 2026-11-13 22:52 CT: "2 yes, just make sure all the pages roughly match"):
+   on phones the short condition pages' ZIP box and Find doctors button sit higher on the first screen, above the notice
+   bar. Spacing, strip height and heading size only; every word and the order stay as they are. Desktop and tablet unchanged. */
+@media (max-width: 480px) {
+  .condition-page:not(.options-page) header.site .wrap { padding-top: 8px; padding-bottom: 6px; }   /* as the home page */
+  .condition-page:not(.options-page) .page-strip:has(.ls) { height: 100px; }
+  .condition-page:not(.options-page) main { padding-top: 14px; }
+  .hero-cond h1 { font-size: 1.75rem; line-height: 1.1; margin-bottom: 8px; }
+  .hero-cond .lede, .hero-cond .find-intro { line-height: 1.45; }
+  .hero-cond .lede { margin-bottom: 12px; }
+  .hero-cond .find-first { margin-top: 0; }
+  .hero-cond .find-intro { margin-bottom: 10px; }
+  .hero-cond .find-label { margin-bottom: 6px; }
+  .hero-cond form.zip { padding: 14px; gap: 10px; }
+}
