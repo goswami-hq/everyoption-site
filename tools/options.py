@@ -23,6 +23,15 @@ explained it; how each number was read stays in the ledger's `read`). A detail w
 place of a certainty-word opening: its `works` opens with the simple page's first sentence for that option, and its
 certainty word must still be on the ladder. A glance row's `card_<column>` replaces that cell in the option's summary
 card only.
+
+Job platform-condition-pages-0023 (the chronic pelvic pain in-depth page, his signed-off Doc of 2026-11-13; his go: "Don't
+change the layout of the page from our established templates"): no new layout element; three data options so the same
+layout carries his Doc's words. `categories` on the deep page replaces the simple page's groups for this page only (the
+pelvic short guide leads with two treatments in `lead_pair`, outside any group; each deep group may carry its own
+`heading`, `summary` (may be empty) and `note`). `names` renames an option in the grid, the at-a-glance view and the
+contents list; `titles` renames its section heading. An empty `lede` prints none (his Doc has none). For an option the
+simple page shows in `lead_pair`, the certainty word is read from that part's "**<Label>.**" line whose label starts
+with the option's id ("**Stenting.**" for `stent`), since that is the line the short guide shows.
 """
 import datetime, html, pathlib, re, tomllib
 import condition
@@ -31,7 +40,9 @@ from legal import FINDER_TERMS   # W32, job platform-launch-0005
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DIR = ROOT / "content" / "options"
 PH = re.compile(r"\{([fgd]):([a-z0-9-]+)\}")
-NUM = re.compile(r"\d|\bout of\b|%|\bpercent\b", re.I)
+# "out of" counts as a number only after a number word ("nine out of ten"); a digit is caught by \d. The bare phrase
+# misread "Nothing is cut out of your body" (signed-off pelvic text, job platform-condition-pages-0023).
+NUM = re.compile(r"\d|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|hundred|thousand|half|a few)\s+out\s+of\b|%|\bpercent\b", re.I)
 SIMPLE_FIELDS = ("what", "invasive", "works", "side")
 DETAIL_FIELDS = ("intro", "works", "evidence", "risks", "selection", "fit", "unknown")
 # The certainty ladder (ai-hq projects/platform/content/evidence-writing-rules.md), used the same way for every option.
@@ -137,6 +148,23 @@ def _deep_texts(d):
             yield f'section {sec["id"]}', _strip_mark(t), (sec["text"] if _marked(sec["text"]) else None)
 
 
+def _lead_works(c):
+    """{option id: text} for the lead_pair lines "**<Label>.** ...": the short guide's shown words for a lead option."""
+    out = {}
+    for part in c.get("lead_pair", {}).get("parts", []):
+        for t in part.get("text", []):
+            m = re.match(r"\*\*(.+?)\.\*\*\s*(.*)$", t)
+            for o in c["options"]:
+                if m and m.group(1).lower().startswith(o["id"]) and part.get("heading", "").lower().startswith("how well"):
+                    out[o["id"]] = m.group(2)
+    return out
+
+
+def cats_of(c, d):
+    """The page's groups: the deep page's own `categories` when it has them, else the simple page's."""
+    return d.get("categories") or c["categories"]
+
+
 def _notes(d):
     """The reading note under the lede: method, not claims, so it carries no source, but no number either."""
     return d.get("reading_note", [])
@@ -180,7 +208,7 @@ def check(c, d, f):
         if NUM.search(rest):
             errs.append(f'simple page number with no ledger line ({opt or "page"}): "{rest[:120]}"')
     ids = {o["id"] for o in c["options"]}
-    simple_works = {o["id"]: o["works"].lower() for o in c["options"]}
+    simple_works = {o["id"]: o["works"].lower() for o in c["options"]} | {k: v.lower() for k, v in _lead_works(c).items()}
     for dt in d["detail"]:
         if dt["option"] not in ids:
             errs.append(f'deep page option unknown: {dt["option"]}')
@@ -228,6 +256,14 @@ def check(c, d, f):
             errs.append(f'lede: {m.group(2)} is a deep-only fact; write it {{d:{m.group(2)}}}')
     if NUM.search(condition.MARK.sub("", PH.sub("", d["lede"]))):
         errs.append(f'lede: number outside the ledger: "{d["lede"][:120]}"')
+    if d.get("categories"):
+        placed = [i for k in d["categories"] for i in k["options"]]
+        if sorted(placed) != sorted(ids):
+            errs.append("deep page categories must hold every option of the simple page exactly once")
+        for k in d["categories"]:
+            for t in (k.get("summary", ""), k.get("note", "")):
+                if NUM.search(condition.MARK.sub("", PH.sub("", t))):
+                    errs.append(f'category {k["id"]}: number outside the ledger: "{t[:120]}"')
     det = {x["option"]: x for x in d["detail"]}
     if not d.get("works_note") or NUM.search(d.get("works_note", "")):
         errs.append("works_note: the note under the grid on how its results compare is required, with no number")
@@ -291,7 +327,7 @@ def toc(c, d, names, extra):
     li = lambda i, t, sub="": f'<li><a href="#{i}">{e(t)}</a>{sub}</li>'
     secs = lambda where: "".join(li(sec["id"], sec.get("toc", sec["heading"])) for sec in extra.get(where, []))
     items = secs("top") + li("glance", "At a glance")
-    for k in c["categories"]:
+    for k in cats_of(c, d):
         sub = "<ol>" + "".join(li(i, names[i]) for i in k["options"]) + "</ol>"
         items += li(k["id"], k["name"], sub) + secs(k["id"])
     cov = next((x["coverage"] for x in condition.PROCEDURES if x["key"] == c.get("finder") and x.get("coverage")), None)
@@ -303,7 +339,8 @@ def toc(c, d, names, extra):
 def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     check(c, d, f)
     facts = {x["id"]: x for x in f["fact"]}
-    refs, names = condition.Refs(c["refs"] + d.get("refs", []) + condition.embolization.refs()), {o["id"]: o["name"] for o in c["options"]}
+    refs, names = condition.Refs(c["refs"] + d.get("refs", []) + condition.embolization.refs()), {o["id"]: o["name"] for o in c["options"]} | d.get("names", {})
+    titles = names | d.get("titles", {})   # section headings (and the contents list) where the Doc names them apart
     quiet = d.get("abstract_label", True)
     txt = lambda s: refs.inline(condition.tail(_cap(_fill(s, facts, quiet))))
     e = lambda s: html.escape(s, quote=False)
@@ -322,7 +359,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     # browsers drop table semantics when a table's display changes. data-label names each cell on the card.
     head = "".join(f"<th scope=col role=columnheader>{t}</th>" for t in cols)
     groups = ""
-    for k in c["categories"]:
+    for k in cats_of(c, d):
         rows = ""
         for i in k["options"]:
             lead = " lead" if i == c.get("diagram_at") else ""
@@ -384,7 +421,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         extra.setdefault(sec.get("after", "end"), []).append(sec)
     show = lambda sec: (f'<section id="{sec["id"]}" class="deep-extra" aria-labelledby="{sec["id"]}-h"><h2 id="{sec["id"]}-h">{e(sec["heading"])}</h2>'
                         + (marked_html(sec["text"], txt) if _marked(sec["text"]) else "".join(f"<p>{txt(t)}</p>" for t in sec["text"])) + "</section>")
-    for k in c["categories"]:
+    for k in cats_of(c, d):
         items = ""
         for i in k["options"]:
             x = det[i]
@@ -397,14 +434,14 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             pic += condition.embolization.deep_section(refs, c["slug"], condition.tail) if lead else ""
             # job platform-condition-pages-0014: a condition with no doctor list (hemorrhoids) has no finder button
             cta = (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + condition.coverage_link(c) if lead else ""
-            items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(names[i])}</h3>'
+            items += (f'<article class="deep-option{" lead-option" if lead else ""}" id="{i}" aria-labelledby="{i}-h"><h3 id="{i}-h">{e(titles[i])}</h3>'
                       f'{condition.coverage_near(c) if lead else ""}{summary(i)}{"".join(f"<p>{txt(v.strip())}</p>" for v in x["intro"].split(chr(10)) if v.strip())}{pic}{rows}{cta}</article>')
         # headings phrased as the comparisons this page targets (docs/condition-pattern.md); the simple page keeps k["name"]
-        h2 = d.get("compare_headings", {}).get(k["id"], k["name"])
+        h2 = k.get("heading") or d.get("compare_headings", {}).get(k["id"], k["name"])
         # a second line under a group's summary, for the deep page only (prostate rewrite 2, 2026-11-12: what surgery
         # gains and what it costs, stated before the surgery options); no number, checked in check()
-        note = d.get("compare_notes", {}).get(k["id"], "")
-        sections += (f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2><p>{txt(k["summary"])}</p>'
+        note = k.get("note") or d.get("compare_notes", {}).get(k["id"], "")
+        sections += (f'<section id="{k["id"]}" class="deep-cat" aria-labelledby="{k["id"]}-h"><h2 id="{k["id"]}-h">{e(h2)}</h2>{f"<p>{txt(k['summary'])}</p>" if k["summary"] else ""}'
                      + (f"<p>{e(note)}</p>" if note else "") + f'{items}</section>')
         sections += "".join(show(sec) for sec in extra.get(k["id"], []))
     sections += "".join(show(sec) for sec in extra.get("end", []))
@@ -414,10 +451,10 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             f'<li><span aria-current="page">Every option</span></li></ol></nav><h1>{e(d["h1"])}</h1>{peek()}'
             # The comparison and the finder button first, so the first screen on a phone reads as a comparison (the button
             # stays on it: his call 3, 2026-11-07); then the lede and the guide link.
-            + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + f'<p class="lede">{lede}</p>'
+            + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + (f'<p class="lede">{lede}</p>' if d["lede"] else "")
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
-            + how + "".join(f'<p class="reading-note small">{txt(t) if (PH.search(t) or condition.MARK.search(t) or "**" in t) else e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, names, extra)}{box}{top}'
+            + how + "".join(f'<p class="reading-note small">{txt(t) if (PH.search(t) or condition.MARK.search(t) or "**" in t) else e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, titles, extra)}{box}{top}'
             f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).

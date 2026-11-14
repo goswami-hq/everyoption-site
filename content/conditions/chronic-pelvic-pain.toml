@@ -39,6 +39,10 @@ finder_button = "Find a doctor for pelvic vein treatment"
 finder_heading = "Find a doctor for pelvic vein treatment"
 finder_intro = "Pelvic vein treatments are done through a tiny skin nick, without surgery. Nothing is cut out of your body."
 finder_how = "#embolization"
+# The in-depth page (job platform-condition-pages-0023, his go 2026-11-13 19:01 CT; his Doc signed off 18:55 CT). No
+# options_link: the builder's default label shows, as no wording for it is his yet (ai-hq
+# projects/platform/content/page-reviews/2026-11-13-signed-off-to-dev/list-for-him.md).
+options_page = "/chronic-pelvic-pain/every-option/"
 answer = "Long-term pelvic pain is common in women, and it has many causes. Some women try many treatments and still have no answer. For some of them, the cause is veins in the pelvis that are wide or squeezed. Embolization and stenting treat these veins without surgery. You can also consider medicines or surgery. The right choice depends on your symptoms and goals.[^ahangari][^svp][^lepennec]"
 urgent = "If you have severe pain, heavy bleeding, a fever, a swollen and painful leg, or feel very sick or faint, call 911."
 options_heading = "Your other pelvic vein treatment options"

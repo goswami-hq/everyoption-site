@@ -76,8 +76,10 @@
     "text": "chronic pelvic pain",
     "color": "cpp",
     "pages": {
-      "simple": "content/conditions/chronic-pelvic-pain.toml"
+      "simple": "content/conditions/chronic-pelvic-pain.toml",
+      "every_option": "content/options/chronic-pelvic-pain.toml"
     },
+    "compare_link": "Compare pelvic vein embolization with stenting, medicines, and surgery",
     "city_pages": true,
     "routed": true
   },

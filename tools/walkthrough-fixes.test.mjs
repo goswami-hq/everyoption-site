@@ -6,15 +6,15 @@ import { readFileSync } from "node:fs";
 const page = (p) => readFileSync(new URL(`../site/${p}index.html`, import.meta.url), "utf8");
 const WITH = { "fibroids/": "/fibroids/every-option/", "enlarged-prostate/": "/enlarged-prostate/every-option/", "knee-arthritis/": "/knee-arthritis/every-option/" };
 
-test("first-screen compare link on the three conditions with a comparison page, and none on pelvic", () => {
+test("first-screen compare link on every condition with a comparison page (pelvic since job platform-condition-pages-0023)", () => {
   for (const [p, to] of Object.entries(WITH)) {
     const html = page(p);
     assert.match(html, new RegExp(`<p class="find-links"><a href="#[a-z-]+">How it works</a><a class="find-compare" href="${to}">Compare your options</a></p>`), p);
     assert.ok(html.indexOf('class="find-compare"') < html.indexOf('id="zip-form"'), `${p}: link comes before the finder`);
   }
   const pelvic = page("chronic-pelvic-pain/");
-  assert.match(pelvic, /<p class="find-links"><a href="#embolization">How it works<\/a><\/p>/);
-  assert.doesNotMatch(pelvic, /find-compare/);
+  assert.match(pelvic, /<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Compare your options<\/a><\/p>/);
+  assert.ok(pelvic.indexOf('class="find-compare"') < pelvic.indexOf('id="zip-form"'), "pelvic: link comes before the finder");
 });
 
 test("comparison page opens with the at-a-glance view, then the finder button, then the lede", () => {
@@ -52,7 +52,7 @@ test("Conditions in the menu: marked from a condition's short page, plain elsewh
 test("home: each condition with a comparison page gives its card the address; the page loads the script; banner sits in a landmark", () => {
   const home = page("");
   for (const [p, to] of Object.entries(WITH)) assert.ok(home.includes(`href="/${p}" data-compare='${to}'`) || home.includes(`href="/${p}" data-compare="${to}"`), p);
-  assert.doesNotMatch(home, /href="\/chronic-pelvic-pain\/" data-compare/);
+  assert.ok(home.includes(`href="/chronic-pelvic-pain/" data-compare='/chronic-pelvic-pain/every-option/'`), "pelvic card (job platform-condition-pages-0023)");
   assert.match(home, /src="\/assets\/home-from\.js/);
   assert.match(home, /<section class="home-top" aria-label="Introduction"><div class="home-banner/);
 });

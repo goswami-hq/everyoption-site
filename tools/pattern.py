@@ -235,7 +235,8 @@ def deep_parts(tag, p, c, d, slug):
     errs, t = [], p["html"]
     fb = [("finder button", '<p class="cta"><a class="btn" href="/' + slug + '/#finder">')] if c.get("finder") else []
     in_order(errs, tag, t, [("breadcrumbs", '<nav class="crumbs"'), ("H1", "<h1>"), ("at-a-glance view", 'class="glance-peek"')]
-                            + fb + [("lede", '<p class="lede">'), ("link to the simple page", 'class="see-every see-simple"'),
+                            # a page whose signed-off Doc has no lede shows none (pelvic, job platform-condition-pages-0023)
+                            + fb + ([("lede", '<p class="lede">')] if d.get("lede") else []) + [("link to the simple page", 'class="see-every see-simple"'),
                             ("contents list", '<nav class="toc"'), ('"What is" box', '<section class="what-box"'),
                             ("glance table", '<table class="glance"')] + ([("find-a-doctor block", '<section class="find-end"')] if c.get("finder") else []) + [
                             ("references", 'id="references"'), ('"Page last reviewed"', "Page last reviewed")])

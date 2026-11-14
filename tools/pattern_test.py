@@ -35,7 +35,8 @@ class PatternTest(unittest.TestCase):
         # job platform-main-0024: prostate and knee now pass the whole pattern, box included (no skip)
         self.assertIn("knee-arthritis: simple and every-option", checked)
         self.assertIn("enlarged-prostate: simple and every-option", checked)
-        self.assertIn("chronic-pelvic-pain: simple; no every-option page yet, skipped", checked)
+        # job platform-condition-pages-0023: the pelvic in-depth page came, so every condition now has both pages
+        self.assertIn("chronic-pelvic-pain: simple and every-option", checked)
 
     def test_shared_title_phrasing_fails(self):
         errs = self.site(("fibroids/every-option/index.html", "<title>UFE vs. Myomectomy vs. Hysterectomy, Compared",
@@ -96,8 +97,11 @@ class PatternTest(unittest.TestCase):
     def test_compare_link_missing_or_late_fails(self):
         errs = self.site(("fibroids/index.html", '<a class="find-compare" href="/fibroids/every-option/">Compare your options</a>', ""))
         self.assertTrue(any('no first-screen "Compare your options"' in e for e in errs), errs)
-        errs = self.site(("chronic-pelvic-pain/index.html", '<a href="#embolization">How it works</a>',
-                          '<a href="#embolization">How it works</a><a class="find-compare" href="/x/">Compare your options</a>'))
+        # no condition is left without an every-option page (job platform-condition-pages-0023), so the rule is checked on
+        # the pelvic simple page read as if it had none
+        f = SITE / "chronic-pelvic-pain" / "index.html"
+        errs = pattern.simple_parts("chronic-pelvic-pain simple", pattern.page_parts(f), condition.load("chronic-pelvic-pain"),
+                                    "chronic-pelvic-pain", None)
         self.assertTrue(any("compare link with no every-option page" in e for e in errs), errs)
 
     def test_no_finder_condition_compare_link_fails(self):

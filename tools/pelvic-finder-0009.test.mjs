@@ -40,7 +40,7 @@ test("the pelvic page has the ZIP finder, keeps its intro, links the city pages,
   assert.match(page, /<meta name="robots" content="noindex">/);
   assert.match(page, /<div id="finder" data-procedure="pelvic" data-learn="#options">/);
   assert.match(page, /<p class="lede">Long-term pelvic pain can have many causes\./, "the page's own intro stays");
-  assert.match(page, /Pelvic vein treatments are done through a tiny skin nick, without surgery\. Nothing is cut out of your body\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><\/p>/);
+  assert.match(page, /Pelvic vein treatments are done through a tiny skin nick, without surgery\. Nothing is cut out of your body\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Compare your options<\/a><\/p>/);   // the compare link since job platform-condition-pages-0023
   assert.match(page, /<a class="btn" href="#finder">Find a doctor for pelvic vein treatment<\/a>/);
   assert.match(page, /Enter your ZIP code to see doctors near you, nearest first\./);
   for (const s of SLUGS) assert.ok(page.includes(`href="/chronic-pelvic-pain/doctors/${s}/"`), s);
@@ -56,7 +56,7 @@ test("the finder script shows the same Confirmed by physician box for any proced
 
 test("home: the condition card opens the finder with its count, and the ZIP dropdown offers it", () => {
   const home = read("index.html");
-  assert.match(home, new RegExp(`<li class="t-cpp"><a href="/chronic-pelvic-pain/"><strong>Chronic pelvic pain</strong><span class="proc">Pelvic vein treatment</span><span class="count">${PELVIC.people.length} doctors listed</span>`));
+  assert.match(home, new RegExp(`<li class="t-cpp"><a href="/chronic-pelvic-pain/" data-compare='/chronic-pelvic-pain/every-option/'><strong>Chronic pelvic pain</strong><span class="proc">Pelvic vein treatment</span><span class="count">${PELVIC.people.length} doctors listed</span>`));
   const opts = [...home.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((m) => [m[1], m[2]]);
   assert.deepEqual(opts[3], ["/chronic-pelvic-pain/", "Chronic pelvic pain"]);   // hemorrhoids after it since job 0029
   assert.equal(opts.length, 5);

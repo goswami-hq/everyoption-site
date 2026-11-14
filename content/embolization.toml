@@ -108,6 +108,7 @@ label = "chronic pelvic pain"
 page = "/chronic-pelvic-pain/"
 materials = ["coils", "plugs", "glue", "foam"]
 line = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, a medicine that makes the vein scar shut, or other materials. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"
+deep_note = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, a medicine that makes the vein scar shut, or other materials. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"   # in the signed-off pelvic in-depth Doc (2026-11-13), word for word; the same line as the short guide's fold (job platform-condition-pages-0023)
 gelatin = false
 
 [[ref]]
