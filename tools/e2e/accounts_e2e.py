@@ -87,8 +87,18 @@ def wait_js(pg, expr, arg=None, timeout=30000):
         pg.wait_for_timeout(100)
 
 
+# Job platform-directory-0037: in Your account a message shows on the line under the button that caused it (.act-msg);
+# the top line (#acct-status) keeps page-level events. These helpers read both, so each check finds its message wherever
+# the page puts it; the place itself is checked where it matters (flows: insurance, and the jump links).
+MSG_JS = "[document.getElementById('acct-status')].concat([...document.querySelectorAll('.act-msg')]).map(e => e ? e.textContent : '').join(' | ')"
+
+
+def msgs(pg):
+    return pg.evaluate("() => " + MSG_JS)
+
+
 def wait_status(pg, text, timeout=5000):
-    wait_js(pg, "t => document.getElementById('acct-status').textContent.includes(t)", arg=text, timeout=timeout)
+    wait_js(pg, "t => (" + MSG_JS + ").includes(t)", arg=text, timeout=timeout)
 
 
 def mark(pg):
@@ -123,7 +133,7 @@ def upcoming_first():
 
 
 def clear(pg):
-    pg.evaluate("document.getElementById('acct-status').textContent = ''")
+    pg.evaluate("[document.getElementById('acct-status')].concat([...document.querySelectorAll('.act-msg')]).forEach(e => { if (e) e.textContent = ''; })")
 
 
 def shot(pg, name):
@@ -261,7 +271,7 @@ def entry_and_find(b, label, base, vp):
     pg.wait_for_selector("#c-code"); pg.fill("#c-code", code_for(pg, base, "cara@home.example")); pg.click("#code-form button[type=submit]"); steps += 2
     pg.wait_for_selector("#see-line")
     R["paths"][f"{label}-new-doctor-by-name"] = {"steps": steps, "seconds": round(time.monotonic() - t0, 2)}
-    check(f"{label}: sign-up success does not claim confirmed by physician", "confirmed by physician" not in pg.inner_text("#acct-status").lower(), pg.inner_text("#acct-status"))
+    check(f"{label}: sign-up success does not claim confirmed by physician", "confirmed by physician" not in msgs(pg).lower(), msgs(pg))
     check(f"{label}: first sign-in leads to choosing procedures", "not on any procedure list" in pg.inner_text("#see-line"), pg.inner_text("#see-line"))
     pg.click(".add[data-proc=pae]"); pg.click("#attest-pae"); pg.wait_for_selector("#proc-pae.on")
     pg.fill("#o0-practice", "Newdoc IR"); pg.fill("#o0-street", "2 Test Ave"); pg.fill("#o0-city", "Madison"); pg.select_option("#o0-state", "WI")
@@ -293,9 +303,9 @@ def photos(b, label, base, vp):
     dims = pg.evaluate("[document.getElementById('photo-now').naturalWidth, document.getElementById('photo-now').naturalHeight]")
     check(f"{label}: a photo stored sideways with an EXIF turn is saved upright (portrait)", dims == [300, 400], dims)
     pg.set_input_files("#photo", f["heic"]); wait_status(pg, "HEIC", 10000)
-    check(f"{label}: a HEIC this browser cannot open gets a plain message", "JPEG" in pg.inner_text("#acct-status"))
+    check(f"{label}: a HEIC this browser cannot open gets a plain message", "JPEG" in msgs(pg))
     pg.set_input_files("#photo", f["junk"]); wait_status(pg, "could not read", 10000)
-    check(f"{label}: a file that is not a photo gets a plain message", "JPEG or PNG" in pg.inner_text("#acct-status"))
+    check(f"{label}: a file that is not a photo gets a plain message", "JPEG or PNG" in msgs(pg))
     shot(pg, f"{label}-6-photo")
     pg.once("dialog", lambda d: d.accept())
     pg.click("#photo-remove"); wait_status(pg, "Photo removed")
@@ -336,7 +346,38 @@ def flows(b, label, base, vp):
     check(f"{label}: screen blocks a promise word", "promise" in pg.inner_text("#why-b-ufe"))
     pg.fill("#b-ufe", "I perform UFE at Lakeside in Chicago. Call the office to ask whether it fits you.")
     clear(pg); pg.click("#proc-ufe .proc-note button"); wait_status(pg, "Note saved")
-    pg.check("#insurance-form input[value=Aetna]"); clear(pg); pg.click("#insurance-form button[type=submit]"); wait_status(pg, "Saved")
+    pg.check("#insurance-form input[value=Aetna]"); clear(pg)
+    # Job platform-directory-0037 (his yes 2026-11-13, call 7): the message shows under the button that saved, focus
+    # stays on it, and the page does not jump to the top.
+    pg.locator("#ins-save").scroll_into_view_if_needed(); y0 = pg.evaluate("scrollY"); top0 = pg.evaluate("document.getElementById('ins-save').getBoundingClientRect().top")
+    mark(pg); pg.click("#ins-save"); wait_saved(pg, "Saved")
+    wait_js(pg, "() => document.getElementById('msg-ins').textContent.includes('Saved')")
+    after = pg.evaluate("""() => ({ y: scrollY, top: document.getElementById('ins-save').getBoundingClientRect().top,
+      focus: document.activeElement && document.activeElement.id, status: document.getElementById('acct-status').textContent,
+      msg: document.getElementById('msg-ins').textContent, live: document.getElementById('msg-ins').getAttribute('aria-live'),
+      under: document.getElementById('msg-ins').getBoundingClientRect().top >= document.getElementById('ins-save').getBoundingClientRect().bottom })""")
+    check(f"{label}: insurance: 'Saved.' shows under Save insurance, in a polite live line", after["msg"] == "Saved." and after["live"] == "polite" and after["under"], after)
+    check(f"{label}: insurance: the top line stays empty", after["status"] == "", after)
+    check(f"{label}: insurance: focus stays on Save insurance", after["focus"] == "ins-save", after)
+    check(f"{label}: insurance: the page did not scroll to the top (button within 40 px of where it was)", y0 > 300 and after["y"] > 300 and abs(after["top"] - top0) <= 40, (y0, top0, after))
+    # Job platform-directory-0037 (his yes 2026-11-13, call 6): the contents list at the top; each link reaches its panel
+    # and moves focus to its heading; Back to top returns.
+    jl = pg.evaluate("() => [...document.querySelectorAll('#acct-toc a[data-jump]')].map(a => [a.getAttribute('data-jump'), a.textContent])")
+    heads = pg.evaluate("""() => [...document.querySelectorAll('section.acct-panel[id], #also-form, details#history')].map(p => [p.id,
+      (p.id === 'history' ? p.querySelector('summary h2') : p.querySelector(p.id === 'also-form' ? 'h3' : ':scope > h2')).textContent])""")
+    check(f"{label}: jump list: one link per panel shown, in page order, in each panel's own heading words", jl == heads and len(jl) >= 8, (jl, heads))
+    for pid, name in jl:
+        if not pg.is_visible("#acct-toc"):
+            pg.evaluate("window.scrollTo(0, 0)")
+        pg.click(f"#acct-toc a[data-jump='{pid}']"); pg.wait_for_timeout(400)
+        got = pg.evaluate("""id => { const p = document.getElementById(id), a = document.activeElement, r = p.getBoundingClientRect();
+          return { top: Math.round(r.top), inPanel: p.contains(a), tag: a.tagName, url: location.hash, open: p.tagName !== 'DETAILS' || p.open, end: scrollY + innerHeight >= document.documentElement.scrollHeight - 2 }; }""", pid)
+        check(f"{label}: jump link '{name}' reaches its panel, focus on its heading", (0 <= got["top"] <= 120 or (got["end"] and 0 <= got["top"] < 500)) and got["inPanel"] and got["tag"] in ("H2", "H3", "SUMMARY") and got["url"] == "" and got["open"], got)
+    pg.evaluate("window.scrollTo(0, document.getElementById('insurance-panel').offsetTop)"); pg.wait_for_timeout(200)
+    check(f"{label}: the pinned contents show once the list has scrolled away", pg.is_visible(".acct-dock"))
+    pg.click("#insurance-panel .to-top"); pg.wait_for_timeout(150)
+    check(f"{label}: Back to top goes to the top", pg.evaluate("scrollY") < 5 and pg.evaluate("document.activeElement.tagName") == "H1")
+    shot(pg, f"{label}-1b-jump-list")
     conf = json.loads(pg.request.get(base + "/__confirmed").text())
     mine = [x for x in conf if x["npi"] == ANN][0]
     check(f"{label}: partial note and insurance reach the export, in Likely", mine["blurbs"].get("ufe", "").startswith("I perform UFE") and mine["insurances"] == ["Aetna"] and mine["confirmed"] is False)
@@ -356,15 +397,15 @@ def flows(b, label, base, vp):
     pg.click("#add-office"); pg.fill("#o1-practice", "Lakeside South"); pg.fill("#o1-street", "9 Unknown Street"); pg.fill("#o1-city", "Chicago")
     pg.select_option("#o1-state", "IL"); pg.fill("#o1-zip", "60605")
     clear(pg); pg.click("#office-form button[type=submit]"); wait_status(pg, "couldn't find the street address for Lakeside South")
-    check(f"{label}: job 16: an address not found is saved and the doctor is told plainly", "center of that office's ZIP code" in pg.inner_text("#acct-status"))
+    check(f"{label}: job 16: an address not found is saved and the doctor is told plainly", "center of that office's ZIP code" in msgs(pg))
     pg.click("#add-office"); pg.fill("#o2-practice", "No Street IR"); pg.fill("#o2-city", "Evanston"); pg.select_option("#o2-state", "IL"); pg.fill("#o2-zip", "60201")
     clear(pg); pg.click("#office-form button[type=submit]"); wait_status(pg, "needs a street address")
-    check(f"{label}: job 16: a new office without a street is refused in plain words", "street address" in pg.inner_text("#acct-status"))
+    check(f"{label}: job 16: a new office without a street is refused in plain words", "street address" in msgs(pg))
     shot(pg, f"{label}-2-full")
     # 3 invite a colleague (Gil)
     pg.fill("#v-npi", GIL); clear(pg); pg.click("#invite-create button[type=submit]"); wait_status(pg, "Invitation link made")
     link = pg.input_value("#invite-link")
-    check(f"{label}: invitation link made from the account page, 4 left", "#invite=" in link and "4 left" in pg.inner_text("#acct-status"))
+    check(f"{label}: invitation link made from the account page, 4 left", "#invite=" in link and "4 left" in msgs(pg))
     # undo the photo (History is folded away until opened)
     pg.click("#history summary"); pg.wait_for_selector("#history li")
     hist = pg.inner_text("#history")
@@ -397,7 +438,7 @@ def flows(b, label, base, vp):
     pg.fill("#e-email", "gil@home.example"); clear(pg); pg.click("#email-form button[type=submit]"); pg.wait_for_selector("#c-code")
     pg.fill("#c-code", "000000" if code_for(pg, base, "gil@home.example") != "000000" else "000001"); clear(pg); pg.click("#code-form button[type=submit]")
     wait_status(pg, "wrong")
-    check(f"{label}: a wrong code is refused plainly", "wrong, expired, or already used" in pg.inner_text("#acct-status"))
+    check(f"{label}: a wrong code is refused plainly", "wrong, expired, or already used" in msgs(pg))
     pg.fill("#c-code", code_for(pg, base, "gil@home.example")); clear(pg); pg.click("#code-form button[type=submit]"); wait_status(pg, "Login email saved")
     check(f"{label}: login email added by code", acct(pg, base, npi=GIL)["email"] == "gil@home.example")
     # 5 revoke a bad inviter (Ann) in one step: Gil drops to partial
@@ -418,7 +459,7 @@ def flows(b, label, base, vp):
     check(f"{label}: a held listing says so before sign-up", "already has an account" in pg.inner_text("#s-who"))
     signup_steps(pg, "ben@home.example")
     pg.wait_for_selector("#c-code")
-    check(f"{label}: second claimant told plainly", "already has an account" in pg.inner_text("#acct-status"))
+    check(f"{label}: second claimant told plainly", "already has an account" in msgs(pg))
     pg.fill("#c-code", code_for(pg, base, "ben@home.example")); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#check-id")
     shot(pg, f"{label}-4-claimant")
     pg.click("#check-id"); pg.wait_for_url(re.compile(r"/__identity/")); pg.click("text=Pass, name matches"); pg.wait_for_selector("#procs")
@@ -438,7 +479,7 @@ def flows(b, label, base, vp):
     pg.goto(f"{base}/account/?npi={GIL}"); pg.wait_for_selector("#s-who")
     signup_steps(pg, "ben@home.example")
     wait_status(pg, "already has an Every Option account")
-    check(f"{label}: a shared email is told plainly", "Sign in with it, or use a different email" in pg.inner_text("#acct-status"))
+    check(f"{label}: a shared email is told plainly", "Sign in with it, or use a different email" in msgs(pg))
     pg.goto(f"{base}/account/?npi={DAN}"); pg.wait_for_selector("#s-who")
     pg.check("#s-ir-no"); pg.fill("#s-other", "Orthopaedic surgery"); pg.fill("#s-email", "dan@ortho.example"); pg.check("#s-agree"); clear(pg); pg.click("#s-send")
     pg.wait_for_selector("#waitlist")
@@ -789,9 +830,9 @@ def live_run(cfg):
             except Exception as e:
                 pelvic_err = type(e).__name__ + ": " + scrub(e)[:200]
             pelvic_on = pg.locator("#proc-pelvic.on").count() == 1
-            lcheck("live: pelvic vein treatment can be added (the test database allows pelvic)", pelvic_on and not pelvic_err, pelvic_err)
+            lcheck("live: pelvic vein embolization and stenting can be added (the test database allows pelvic)", pelvic_on and not pelvic_err, pelvic_err)
             if pelvic_on:
-                mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pelvic .remove"); wait_saved(pg, "vein treatment removed", 15000)
+                mark(pg); pg.once("dialog", lambda d: d.accept()); pg.click("#proc-pelvic .remove"); wait_saved(pg, "embolization and stenting removed", 15000)
             # hae (database change 2026-11-11-hae-procedure.sql; his words 2026-11-11: "Let's do the database changes"): add, on, remove
             hae_err = ""
             try:

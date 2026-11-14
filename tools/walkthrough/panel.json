@@ -909,9 +909,12 @@
      ],
      "tap_budget": 9,
      "finish": {
-      "text_re": "Your note",
-      "selector": "#proc-ufe.on"
-     }
+      "any_of": [
+       {"text_re": "Your note", "selector": "#proc-ufe.on"},
+       {"text_re": "Note saved", "selector": "#proc-ufe.on"}
+      ]
+     },
+     "finish_note": "Job platform-directory-0037: 'Note saved' on screen also meets the line (walkthrough 2026-11-13 found 'Your note' alone too strict: the summary can sit off screen after a save)."
     },
     {
      "id": "undo",
