@@ -20,7 +20,7 @@ description = "Pelvic vein embolization vs. iliac vein stenting, hormone medicin
 h1 = "Chronic pelvic pain from veins (pelvic venous disease): treatments compared, side by side"
 shared_name = "chronic pelvic pain from veins"   # the condition's name, allowed in both pages' H1 (tools/pattern.py)
 # His Doc has no lede paragraph: none is shown (tools/options.py skips an empty lede; his call on the list).
-lede = ""
+lede = "Pelvic vein embolization vs. stenting vs. hormone medicines: early results for embolization are encouraging, and in the one trial against a fake procedure, it eased pain more.[^hansrani][^daniels] Early studies suggest a stent helps the select group of women whose pain comes from a squeezed vein.[^alenichev][^cpp-larkin] Both are done through a tiny skin nick, and most women go home the same day. Hormone medicines ease pain while you take them, but pain often comes back after you stop.[^cheong][^farquhar]"
 read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works, with the studies behind them all. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
 reading_note = [
   "**The pain score.** {d:cpp-note-1}.",
