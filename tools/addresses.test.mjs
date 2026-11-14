@@ -68,7 +68,7 @@ test("no built page keeps the old pelvic address, except _redirects; home lists 
   assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/" data-compare='\/chronic-pelvic-pain\/every-option\/'><strong>Chronic pelvic pain<\/strong>/);   // (job platform-condition-pages-0023: the pelvic in-depth page came, so the card carries its address)
   // job platform-directory-0009: the pelvic finder came, so the home ZIP list offers it and the card shows the count
   assert.match(home, /<option value="\/chronic-pelvic-pain\/">Chronic pelvic pain<\/option>/, "ZIP option now the finder exists");
-  assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/" data-compare='\/chronic-pelvic-pain\/every-option\/'><strong>Chronic pelvic pain<\/strong><span class="proc">Pelvic vein treatment<\/span><span class="count">\d+ doctors listed<\/span>/);
+  assert.match(list, /<li class="t-cpp"><a href="\/chronic-pelvic-pain\/" data-compare='\/chronic-pelvic-pain\/every-option\/'><strong>Chronic pelvic pain<\/strong><span class="proc">Pelvic vein embolization and stenting<\/span><span class="count">\d+ doctors listed<\/span>/);
   // the pelvic card no longer says "Doctor list coming"; hemorrhoids does, until its finder exists (2026-11-11)
   assert.doesNotMatch(home, /<li class="t-cpp">(?:(?!<\/li>).)*Doctor list coming/);
   const page = readFileSync(path.join(SITE, "chronic-pelvic-pain", "index.html"), "utf8");

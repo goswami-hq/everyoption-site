@@ -153,19 +153,18 @@
   {
     "key": "pelvic",
     "abbr": "",
-    "name": "Pelvic vein treatment",
-    "account_sub": "Pelvic vein embolization, and pelvic or iliac vein stenting (May-Thurner)",
-    "short": "pelvic vein treatment",
+    "name": "Pelvic vein embolization and stenting",
+    "short": "pelvic vein embolization and stenting",
     "conditions": [
       "chronic-pelvic-pain"
     ],
     "stage": "listed",
     "view": "pelvic_venous",
-    "patient_name": "pelvic vein treatment",
-    "hub_label": "Pelvic vein treatment doctors",
+    "patient_name": "pelvic vein embolization and stenting",
+    "hub_label": "Pelvic vein embolization and stenting doctors",
     "city_blurb": "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.",
     "finder": {
-      "title": "Find a doctor for pelvic vein treatment",
+      "title": "Find a doctor for pelvic vein embolization and stenting",
       "about": [],
       "sources": []
     },

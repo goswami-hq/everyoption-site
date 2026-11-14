@@ -214,10 +214,11 @@ test("the browser copy is the content file, and the account page loads it", () =
   assert.match(read("site/account/index.html"), /\/assets\/upcoming\.js\?v=/);
   const procs = new Function("window", read("site/assets/procedures.js") + "\nreturn window.EO_PROCS;")({});
   const pel = JSON.parse(read("content/procedures.json")).find((p) => p.key === "pelvic");
-  assert.equal(procs.sub.pelvic, pel.account_sub, "the pelvic row's grey line");
+  assert.ok(!("account_sub" in pel), "no grey line: the name carries both procedures (his words 2026-11-14 00:38 CT)");
+  assert.equal(procs.sub.pelvic, undefined, "no grey line in the browser copy");
 });
 
-test("the account section: its wording, no 'Add', one Save, the pelvic line in the row only", () => {
+test("the account section: its wording, no 'Add', one Save", () => {
   const js = read("src-assets/account.js");
   const a = js.slice(js.indexOf("function alsoForm("), js.indexOf("function officePanel("));
   assert.ok(a.includes('"Other procedures you perform (not on the site yet)"'));
@@ -227,5 +228,6 @@ test("the account section: its wording, no 'Add', one Save, the pelvic line in t
   assert.equal((a.match(/type: "submit"/g) || []).length, 1, "one Save button");
   assert.doesNotMatch(a, /search/i, "no search box");
   const pel = JSON.parse(read("content/procedures.json")).find((p) => p.key === "pelvic");
-  for (const f of ["name", "short", "patient_name", "hub_label"]) assert.ok(!String(pel[f] || "").includes("stenting"), `pelvic ${f} unchanged`);
+  // Job platform-directory-0037 (his words 2026-11-14 00:38 CT: "Put the procedures together"): the name carries both.
+  for (const f of ["name", "short", "patient_name", "hub_label"]) assert.match(String(pel[f] || ""), /^pelvic vein embolization and stenting/i, `pelvic ${f}`);
 });

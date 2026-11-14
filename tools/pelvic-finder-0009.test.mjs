@@ -25,7 +25,7 @@ const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f
 
 test("pelvic is one more procedure, plain words, marked draft", () => {
   assert.ok(PROCS.includes("pelvic"));   // its place in the list is the registry's (job platform-directory-0032)
-  assert.equal(PROC_LONG.pelvic, "Pelvic vein treatment");
+  assert.equal(PROC_LONG.pelvic, "Pelvic vein embolization and stenting");   // his words 2026-11-14 00:38 CT: "Put the procedures together"
   assert.ok(DRAFT_PROCS.includes("pelvic"));
   assert.equal(PELVIC.procedure, "pelvic");
   assert.ok(PELVIC.people.length >= 100, "the exported list");
@@ -41,7 +41,7 @@ test("the pelvic page has the ZIP finder, keeps its intro, links the city pages,
   assert.match(page, /<div id="finder" data-procedure="pelvic" data-learn="#options">/);
   assert.match(page, /<p class="lede">Long-term pelvic pain can have many causes\./, "the page's own intro stays");
   assert.match(page, /Pelvic vein treatments are done through a tiny skin nick, without surgery\. Nothing is cut out of your body\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Compare your options<\/a><\/p>/);   // the compare link since job platform-condition-pages-0023
-  assert.match(page, /<a class="btn" href="#finder">Find a doctor for pelvic vein treatment<\/a>/);
+  assert.match(page, /<a class="btn" href="#finder">Find a doctor for pelvic vein embolization and stenting<\/a>/);
   assert.match(page, /Enter your ZIP code to see doctors near you, nearest first\./);
   for (const s of SLUGS) assert.ok(page.includes(`href="/chronic-pelvic-pain/doctors/${s}/"`), s);
   assert.ok(page.includes('href="/chronic-pelvic-pain/doctors/"'), "the city list");
@@ -56,7 +56,7 @@ test("the finder script shows the same Confirmed by physician box for any proced
 
 test("home: the condition card opens the finder with its count, and the ZIP dropdown offers it", () => {
   const home = read("index.html");
-  assert.match(home, new RegExp(`<li class="t-cpp"><a href="/chronic-pelvic-pain/" data-compare='/chronic-pelvic-pain/every-option/'><strong>Chronic pelvic pain</strong><span class="proc">Pelvic vein treatment</span><span class="count">${PELVIC.people.length} doctors listed</span>`));
+  assert.match(home, new RegExp(`<li class="t-cpp"><a href="/chronic-pelvic-pain/" data-compare='/chronic-pelvic-pain/every-option/'><strong>Chronic pelvic pain</strong><span class="proc">Pelvic vein embolization and stenting</span><span class="count">${PELVIC.people.length} doctors listed</span>`));
   const opts = [...home.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((m) => [m[1], m[2]]);
   assert.deepEqual(opts[3], ["/chronic-pelvic-pain/", "Chronic pelvic pain"]);   // hemorrhoids after it since job 0029
   assert.equal(opts.length, 5);
@@ -70,25 +70,25 @@ test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, ea
   assert.ok(CITIES.draft.includes("pelvic"));
   const hub = await city("/chronic-pelvic-pain/doctors/");
   assert.equal(hub.status, 200);
-  assert.match(hub.html, /<h1>Where can I get pelvic vein treatment\?<\/h1>/);
+  assert.match(hub.html, /<h1>Where can I get pelvic vein embolization and stenting\?<\/h1>/);
   assert.match(hub.html, /<meta name="robots" content="noindex">/);
   for (const s of SLUGS) {
     const { status, html } = await city(`/chronic-pelvic-pain/doctors/${s}/`);
     assert.equal(status, 200, s);
     assert.match(html, /<meta name="robots" content="noindex">/, s);
-    assert.match(html, /<h1>Who does pelvic vein treatment near [^<]+\?<\/h1>/, s);
+    assert.match(html, /<h1>Who does pelvic vein embolization and stenting near [^<]+\?<\/h1>/, s);
     assert.match(html, /Confirmed by physician: 0 nearby\./, s);
     assert.match(html, /href="\/account\/\?procedure=pelvic"/, s);
     assert.match(html, /<a href="\/chronic-pelvic-pain\/">Read about your chronic pelvic pain treatment options<\/a>/, s);
     assert.ok((html.match(/class="card/g) || []).length >= 8, `${s}: at least 8 cards`);
-    assert.doesNotMatch(html, /\(pelvic vein treatment\)|\(\)/, `${s}: no empty or doubled abbreviation`);
+    assert.doesNotMatch(html, /\(pelvic vein embolization and stenting\)|\(\)/, `${s}: no empty or doubled abbreviation`);
     assert.doesNotMatch(html, /Schwartz/, s);
   }
 });
 
 test("other city pages link to the pelvic page for the same metro; pelvic pages link back", async () => {
   const ufe = await city("/fibroids/doctors/new-york-city-area/");
-  assert.match(ufe.html, /<a href="\/chronic-pelvic-pain\/doctors\/new-york-city-area\/">\d+ doctors near New York City are listed for pelvic vein treatment<\/a>/);
+  assert.match(ufe.html, /<a href="\/chronic-pelvic-pain\/doctors\/new-york-city-area\/">\d+ doctors near New York City are listed for pelvic vein embolization and stenting<\/a>/);
   const pel = await city("/chronic-pelvic-pain/doctors/new-york-city-area/");
   assert.match(pel.html, /<a href="\/fibroids\/doctors\/new-york-city-area\/">/);
 });
@@ -97,18 +97,18 @@ test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile stay
   const both = DIR.find((p) => p.l.split(" ").includes("pelvic") && p.l.split(" ").includes("ufe"));
   const b = await doctor(both.p);
   assert.equal(b.status, 200);
-  assert.match(b.html, /<a href="\/chronic-pelvic-pain\/">Pelvic vein treatment<\/a>/);
+  assert.match(b.html, /<a href="\/chronic-pelvic-pain\/">Pelvic vein embolization and stenting<\/a>/);
   assert.doesNotMatch(b.html, /name="robots"/, "indexed for its UFE listing");
   const only = DIR.find((p) => p.l === "pelvic");
   const o = await doctor(only.p);
   assert.equal(o.status, 200);
-  assert.match(o.html, /Likely performs:[\s\S]*<a href="\/chronic-pelvic-pain\/">Pelvic vein treatment<\/a>/);
+  assert.match(o.html, /Likely performs:[\s\S]*<a href="\/chronic-pelvic-pain\/">Pelvic vein embolization and stenting<\/a>/);
   assert.match(o.html, /<meta name="robots" content="noindex">/);
   assert.ok(!sitemaps().includes(only.p), "pelvic-only profile out of the sitemap");
   assert.ok(sitemaps().includes(both.p));
   const nyc = PELVIC.people.find((p) => CITIES.metro_of.pelvic[p.npi] === "new-york-city-area");
   const rec = DIR.find((p) => p.p.endsWith(`-${nyc.npi}/`));
-  assert.match((await doctor(rec.p)).html, /<a href="\/chronic-pelvic-pain\/doctors\/new-york-city-area\/">Other pelvic vein treatment doctors near New York City<\/a>/);
+  assert.match((await doctor(rec.p)).html, /<a href="\/chronic-pelvic-pain\/doctors\/new-york-city-area\/">Other pelvic vein embolization and stenting doctors near New York City<\/a>/);
 });
 
 test("profile search knows the pelvic list (live removals apply to it too)", () => {

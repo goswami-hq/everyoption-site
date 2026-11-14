@@ -114,7 +114,7 @@ test("one procedure list: every copy matches content/procedures.json", () => {
   const issued = JSON.parse(readFileSync(new URL("../content/procedure-keys.json", import.meta.url), "utf8")).issued;
   assert.ok(sql.includes(`insert into procedures (key) values ${issued.map((k) => `('${k}')`).join(", ")}`), "schema.sql seeds every issued key");
   assert.ok(!sql.includes("attestations_procedure_check") && sql.includes("references procedures(key) on delete restrict"));
-  assert.equal(w.EO_PROCS.short.pelvic, "pelvic vein treatment"); assert.equal(w.EO_PROCS.long.pelvic, "Pelvic vein treatment");
+  assert.equal(w.EO_PROCS.short.pelvic, "pelvic vein embolization and stenting"); assert.equal(w.EO_PROCS.long.pelvic, "Pelvic vein embolization and stenting");
   for (const f of ["../site/assets/account.js", "../site/assets/finder.js", "../functions/api/report.js", "../lib/accounts/util.mjs",
     "../lib/accounts/service.mjs", "../lib/accounts/vendors.mjs"]) {
     const t = readFileSync(new URL(f, import.meta.url), "utf8");
