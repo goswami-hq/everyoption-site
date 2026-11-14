@@ -1,0 +1,202 @@
+# The embolization explainer: one source for every embolization page (ai-hq job platform-condition-pages-0020; his words,
+# HQ chat 2026-11-11 14:25 CT: "Across all the embo pages, we need to explain what embolization is simply and the types of
+# things we use as embolic agents simply (what they're made of etc)"). Rendered by tools/embolization.py into the short
+# guide's lead option (fold) and the in-depth page's embolization option (section); tools/pattern.py checks both.
+# Evidence (every fact, its quote and how it was read; number-checked by a fresh agent 2026-11-11):
+# ai-hq projects/platform/content/pages/sources/embolic-materials-evidence-2026-11-11.md. Wording choices that differ
+# from his mockup are on his list: ai-hq projects/platform/content/page-reviews/2026-11-11-embolization-explainer/.
+# No device brand names on either page, including the reference list (content-pipeline compliance); short guide: no
+# study details; in-depth: chemical names in brackets.
+
+fold_heading = "What is embolization?"
+opening = "Embolization means blocking blood flow on purpose, from inside a blood vessel. A doctor guides a thin tube to the small blood vessels that feed the problem area. Then the doctor releases a material that blocks them.[^emb-rinfo]"
+gelatin = "If you avoid pork products or have had a reaction to gelatin, tell your doctor before the procedure.[^emb-embo]"
+
+deep_heading = "What is used to block the blood flow?"
+deep_opening = "Embolization means blocking blood flow on purpose, from inside a blood vessel. A doctor guides a thin tube to the spot and releases a material that blocks the small blood vessels feeding it. Doctors choose the material by the size of the vessels and how long the blockage should last.[^emb-rinfo]"
+deep_gelatin = "Some beads contain gelatin from pigs. If you avoid pork products or have had a reaction to gelatin, tell your doctor. Types without gelatin are available.[^emb-embo][^emb-bb510k][^emb-ez510k14]"
+other_heading = "Other materials doctors use"
+
+[[material]]
+id = "beads"
+name = "Tiny beads"
+term = "microspheres"
+icon = "embo-beads"
+made = "Round beads of plastic. One common type is an acrylic plastic with gelatin from pigs. Others are a water-holding plastic gel (polyvinyl alcohol) or a plastic gel with a thin coating.[^emb-embo][^emb-bb510k][^emb-ez510k14]"
+stays = "They do not dissolve. They stay in place for good. They are not made of metal and do not stop you from having an MRI.[^emb-embo][^emb-bb510k][^emb-ezgudid]"
+
+[[material]]
+id = "particles"
+name = "Small particles"
+term = "polyvinyl alcohol"
+icon = "embo-particles"
+made = "Rough, uneven flakes of a plastic.[^emb-contour]"
+stays = "They stay in place for good.[^emb-contour]"
+
+[[material]]
+id = "coils"
+name = "Tiny metal coils"
+icon = "embo-coil"
+made = "Small springs of platinum or another metal, often with soft fibers. During prostate embolization, doctors sometimes place one in a nearby artery so the beads do not reach the tissue it feeds.[^emb-nester][^emb-rinfo][^emb-maclean23][^emb-richardson25]"
+stays = "They stay in place for good. They are safe in an MRI scanner under set conditions; tell the scanner staff you have them.[^emb-nester]"
+
+[[material]]
+id = "plugs"
+name = "Plugs"
+icon = "embo-plug"
+made = "A small, self-opening plug of fine wire mesh, made of nitinol (a nickel and titanium metal).[^emb-avp]"
+stays = "It stays in place for good. It is safe in an MRI scanner under set conditions; tell the scanner staff you have it.[^emb-avp]"
+
+[[material]]
+id = "glue"
+name = "Medical glue"
+term = "n-butyl cyanoacrylate"
+made = "A liquid glue that the doctor injects into the vein.[^emb-strobl26]"
+stays = "It hardens quickly and blocks the vein.[^emb-rinfo]"
+
+[[material]]
+id = "foam"
+name = "Vein-closing medicine"
+term = "sclerosant"
+icon = "embo-foam"
+made = "A medicine that works like a detergent, often mixed into a foam (sodium tetradecyl sulfate or polidocanol). It irritates the inside lining of the vein.[^emb-sts][^emb-pol]"
+stays = "The vein scars shut. This is not always permanent.[^emb-sts]"
+
+[[material]]
+id = "dissolve"
+name = "Materials that dissolve"
+icon = "embo-dissolve"
+made = "An antibiotic powder (imipenem and cilastatin) that forms very fine particles. It breaks down within hours to days, so blood flow can come back.[^emb-sirgae][^emb-gaucho]"
+stays = "They break down. Early studies suggest knee pain improves about the same with the antibiotic powder as with beads that stay.[^emb-gaucho][^emb-lanza26]"
+
+[[condition]]
+slug = "fibroids"
+label = "fibroids"
+page = "/fibroids/every-option/"
+materials = ["beads", "particles"]
+line = "For fibroids, the material is tiny beads or small particles. They are made of plastic, and some types also contain gelatin from pigs. They stay in place for good.[^emb-embo][^emb-bb510k][^emb-contour]"
+gelatin = true
+
+[[condition]]
+slug = "enlarged-prostate"
+label = "enlarged prostate"
+page = "/enlarged-prostate/every-option/"
+materials = ["beads", "particles", "coils"]
+line = "For the prostate, the material is tiny beads or small particles made of plastic. Some types also contain gelatin from pigs. They stay in place for good. Sometimes the doctor also places a tiny metal coil in a nearby artery, so the beads do not reach the tissue it feeds.[^emb-embo][^emb-bb510k][^emb-contour][^emb-maclean23]"
+gelatin = true
+
+[[condition]]
+slug = "knee-arthritis"
+label = "knee arthritis"
+page = "/knee-arthritis/every-option/"
+materials = ["beads", "dissolve"]
+line = "For the knee, doctors use either tiny particles that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"
+deep_note = "For the knee, doctors use either tiny particles that stay in place for good, or an antibiotic powder that breaks down within hours to days.[^emb-sirgae][^emb-gaucho]"   # his yes 2026-11-12 21:21 CT, from the signed-off knee in-depth Doc
+gelatin = true
+
+[[condition]]
+slug = "hemorrhoids"
+label = "hemorrhoids"
+page = "/hemorrhoids/every-option/"
+materials = ["coils", "beads"]
+line = "For hemorrhoids, the material is tiny metal coils, tiny plastic beads, or both. Both stay in place for good.[^emb-kucukay21][^emb-moussa20][^emb-nester][^emb-embo]"
+gelatin = true
+
+[[condition]]
+slug = "chronic-pelvic-pain"
+label = "chronic pelvic pain"
+page = "/chronic-pelvic-pain/"
+materials = ["coils", "plugs", "glue", "foam"]
+line = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, a medicine that makes the vein scar shut, or other materials. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"
+deep_note = "For pelvic veins, the doctor uses tiny metal coils, small wire-mesh plugs, a medical glue, a medicine that makes the vein scar shut, or other materials. The coils and plugs stay in place for good.[^emb-strobl26][^emb-nester][^emb-avp]"   # in the signed-off pelvic in-depth Doc (2026-11-13), word for word; the same line as the short guide's fold (job platform-condition-pages-0023)
+gelatin = false
+
+[[ref]]
+key = "emb-rinfo"
+cite = "RadiologyInfo.org (Radiological Society of North America and American College of Radiology). Catheter embolization. Reviewed August 5, 2024."
+url = "https://www.radiologyinfo.org/en/info/cathembol"
+
+[[ref]]
+key = "emb-embo"
+cite = "Merit Medical. Tris-acryl gelatin microspheres: instructions for use 404692001MLP_001. 2018."
+url = "https://cloud.merit.com/catalog/IFUs/404692001MLP.pdf"
+
+[[ref]]
+key = "emb-bb510k"
+cite = "US Food and Drug Administration. 510(k) summary K203276: polyvinyl alcohol hydrogel microspheres (Biocompatibles UK). April 20, 2021."
+url = "https://www.accessdata.fda.gov/cdrh_docs/pdf20/K203276.pdf"
+
+[[ref]]
+key = "emb-ez510k14"
+cite = "US Food and Drug Administration. 510(k) summary K141209: coated hydrogel microspheres (CeloNova). 2014."
+url = "https://www.accessdata.fda.gov/cdrh_docs/pdf14/K141209.pdf"
+
+[[ref]]
+key = "emb-ezgudid"
+cite = "US National Library of Medicine. AccessGUDID: coated hydrogel microspheres (Boston Scientific), device identifier 08714729943006 (MRI safety status: MR Safe)."
+url = "https://accessgudid.nlm.nih.gov/devices/08714729943006"
+
+[[ref]]
+key = "emb-contour"
+cite = "Boston Scientific. Polyvinyl alcohol embolization particles: product information. Accessed November 11, 2026."
+url = "https://www.bostonscientific.com/en-US/products/embolization/contour-pva-embolization-particles.html"
+
+[[ref]]
+key = "emb-nester"
+cite = "US Food and Drug Administration. 510(k) K153778: platinum embolization coils with synthetic fibers (Cook). May 19, 2016."
+url = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K153778"
+
+[[ref]]
+key = "emb-avp"
+cite = "Abbott. Nitinol vascular plug: instructions for use ARTEN600304404 A. 2023."
+url = "https://manuals.eifu.abbott/content/dam/av/manuals-eifu/global/BY/en/ARTEN600304404_A.pdf"
+
+[[ref]]
+key = "emb-sts"
+cite = "Sotradecol (sodium tetradecyl sulfate injection), prescribing information. Mylan Institutional. Revised August 2021."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f1756c28-dcd2-4b49-be62-07ca20682018"
+
+[[ref]]
+key = "emb-pol"
+cite = "Asclera (polidocanol injection), prescribing information. Methapharm. 2025."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bb1f342b-5352-4059-a0b2-e60fd652fd28"
+
+[[ref]]
+key = "emb-strobl26"
+cite = "Strobl F, Böhm AK, Mertens L, et al. Pelvic vein embolization using different embolic agents for the treatment of pelvic venous insufficiency: a systematic review and meta-analysis. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;14(6):102599."
+url = "https://doi.org/10.1016/j.jvsv.2026.102599"
+
+[[ref]]
+key = "emb-maclean23"
+cite = "Maclean D, Vigneswaran G, Maher B, et al. The effect of protective coil embolization of penile anastomoses during prostatic artery embolization on erectile function: a propensity-matched analysis. Journal of Vascular and Interventional Radiology. 2023;34(2):218-224."
+url = "https://doi.org/10.1016/j.jvir.2022.10.023"
+
+[[ref]]
+key = "emb-richardson25"
+cite = "Richardson A, Bhatia A, Maini A, et al. Impact on sexual function of protective coil embolization of penile collaterals during prostatic artery embolization. CardioVascular and Interventional Radiology. 2025;48(4):512-521."
+url = "https://doi.org/10.1007/s00270-025-03966-3"
+
+[[ref]]
+key = "emb-sirgae"
+cite = "Ahmed O, et al. [Society of Interventional Radiology position statement on genicular artery embolization.] Journal of Vascular and Interventional Radiology. 2026;37:108803."
+url = "https://doi.org/10.1016/j.jvir.2026.108803"
+
+[[ref]]
+key = "emb-gaucho"
+cite = "Correa MP, Michelin AF, Aguiar LA, et al. Genicular artery embolization using imipenem/cilastatin vs. microsphere for knee osteoarthritis (GAUCHO): 12-month clinical results of a single-blind randomized controlled trial. CardioVascular and Interventional Radiology. 2026;49(9):1825-1837."
+url = "https://doi.org/10.1007/s00270-026-04504-5"
+
+[[ref]]
+key = "emb-lanza26"
+cite = "Lanza E, Poretti D, Pedicini V, et al. Permanent vs. temporary embolic agents in genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. European Journal of Radiology. 2026;202:112968."
+url = "https://doi.org/10.1016/j.ejrad.2026.112968"
+
+[[ref]]
+key = "emb-kucukay21"
+cite = "Küçükay MB, Küçükay F. Superior rectal artery embolization with tris-acryl gelatin microspheres: a randomized comparison of particle size. Journal of Vascular and Interventional Radiology. 2021;32(6):819-825."
+url = "https://doi.org/10.1016/j.jvir.2021.02.011"
+
+[[ref]]
+key = "emb-moussa20"
+cite = "Moussa N, Bonnet B, Pereira H, et al. Mid-term results of superior rectal artery and coils for hemorrhoidal embolization with particles bleeding. CardioVascular and Interventional Radiology. 2020;43(7):1062-1069."
+url = "https://doi.org/10.1007/s00270-020-02441-5"

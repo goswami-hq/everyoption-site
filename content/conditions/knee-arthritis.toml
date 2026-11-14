@@ -1,0 +1,444 @@
+# Arthritis embolization: the third condition page, built on the fibroid template (job 33, draft for his clinical review).
+# His words (2026-11-04): "Maybe we call the page arthritis embolization in general, and then the page can talk about GAE
+# for knees vs other joints"; "use the same type of language as the UFE page". Section match:
+# goswami-hq/ai-hq projects/platform/arthritis-page/section-match.md. Evidence table, grades and how each source was read:
+# projects/platform/arthritis-page/evidence.md.
+# Build: python3 tools/build.py. Reading level: python3 tools/readability.py knee-arthritis.
+# Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point. Citations stay.
+# Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
+# no trial names or evidence grades in the reading text; each option states its own limits and side effects (his
+# correction, 2026-11-03). Job 33 rules (sham-results rule replaced 2026-11-05, his words: "Just drop the sham trial. Instead jump into 'Large trials are currently underway'. Also use the SIR reference for the rest of the page accordingly"); knee numbers never used for another joint;
+# frozen shoulder is not arthritis; the finder is knee only.
+# The 911 line applies his 2026-11-01 fibroid-page rule (his words: "911 advice should be super catch all generic");
+# using it on this page is an inference, on his list (evidence.md (d)8). Sources say "checked straight away" (NHS) or
+# "contact your provider" (MedlinePlus).
+
+slug = "knee-arthritis"
+color = "gae"                  # green, the same color as the GAE finder
+finder = "gae"                 # the finder this page leads to: today's GAE list, knee only
+diagram = "gae"                # tools/diagrams/anim-gae.svgfrag ...
+diagram_at = "embolization"    # ... shown inside this option
+reviewed = "2026-11-05"
+draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
+condition_name = "Osteoarthritis of the knee"
+condition_alt = "Knee osteoarthritis"
+
+# Physician reviewer: empty = no name anywhere, in the page or the schema (his rule, 2026-10-04).
+author_name = ""
+author_credentials = ""
+author_role = ""
+
+# Photo slot: the GAE finder photo (tools/build.py PHOTOS["gae"], credited on How we know).
+hero_image = "/assets/photos/gae-stone-stairs-800.webp"
+hero_alt = "A woman walks toward a wide set of stone steps in a sunny park."
+photo = "gae-stone-stairs"
+photo_alt = "A woman walks toward a wide set of stone steps in a sunny park."
+
+# Search targets (job platform-main-0024; pattern: docs/condition-pattern.md). This page owns "what are my options"; the
+# every-option page owns the comparisons. US volumes, DataForSEO 2026-11-07: knee arthritis treatment 14,800; knee
+# osteoarthritis treatment 9,900; alternatives to knee replacement 2,400; knee replacement alternatives 2,400; what is
+# knee arthritis 1,600; knee arthritis treatment options 170; non surgical knee arthritis treatment 70.
+targets = ["knee arthritis treatment options", "knee arthritis treatment", "knee osteoarthritis treatment", "alternatives to knee replacement", "knee replacement alternatives", "what is knee arthritis", "non surgical knee arthritis treatment"]
+title = "Knee Arthritis Treatment Options, Without Surgery | Every Option"
+description = "Your knee arthritis treatment options, including alternatives to knee replacement: how invasive each is, how well it works, and side effects."
+h1 = "A newer option for knee arthritis pain, without surgery"
+answer = "Osteoarthritis is the most common joint problem. It happens when the cushion in a joint wears down over time.[^mpoa] It cannot be cured, but the pain can often be eased.[^mpoa] If knee pain limits your life, embolization is not your only option. You can also consider exercise, medicines, injections, or surgery.[^mpoa] The right choice depends on your symptoms and goals."
+urgent = "If a joint suddenly turns hot, red, and swollen, you cannot put weight on it, you have a fever, or you feel very sick or faint, call 911."
+finder_button = "Find a doctor for knee embolization (GAE)"
+finder_heading = "A newer option for knee arthritis pain, without surgery"
+finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. You go home the same day."
+# agreed list item 13: the scope note sits under the finder
+finder_note = "This finder lists doctors who perform knee embolization, not other joints."
+finder_how = "#embolization"
+options_heading = "Your other knee arthritis treatment options"
+# Job platform-main-0020: the every-option page link (pattern, docs/condition-pattern.md). A link only; no text changed.
+options_page = "/knee-arthritis/every-option/"
+options_link = "Compare them side by side: knee embolization vs. knee replacement, shots, and medicines"
+faq_heading = "Common questions"
+learn_heading = "Learn more"
+not_advice = "Education, not medical advice. Talk to your doctor about your own care."
+find_heading = "Find a doctor"
+find_text = ["Our free finder lists doctors near you who perform knee embolization (genicular artery embolization). It is not a ranking. It does not show who treats other joints."]
+terms = ["arthritis", "osteoarthritis", "cartilage", "genicular", "embolization", "artery", "arteries", "interventional radiologist", "interventional radiology", "acetaminophen", "ibuprofen", "naproxen", "anti-inflammatory", "duloxetine", "tramadol", "opioids", "steroid", "hyaluronic", "platelet", "plasma", "PRP", "radiofrequency", "ablation", "osteotomy", "arthroscopy", "physical therapy", "therapist"]
+
+[[categories]]
+id = "medicines"
+name = "Exercise and medicines"
+summary = "These are the first steps for most people. No procedure is needed."
+options = ["exercise", "pain-relievers", "other-medicines"]
+
+[[categories]]
+id = "less-invasive"
+name = "Less invasive treatments"
+highlight = "embolization"
+summary = "These are done without surgery. You keep your own knee. Before you agree to surgery, ask about these."
+options = ["embolization", "steroid", "hyaluronic", "prp", "nerve-ablation"]
+
+[[categories]]
+id = "surgery"
+name = "Surgery"
+summary = "Surgery replaces the worn parts of the knee or changes how weight rests on it."
+options = ["knee-replacement", "partial-replacement", "osteotomy", "scope"]
+
+# Other joints: shown open right after the knee section (place = "lead"), each joint with its own evidence and no knee
+# number. Every study here is small and none compared embolization with a fake procedure (evidence.md section 3).
+[[sections]]
+id = "other-joints"
+place = "lead"
+heading = "Embolization for other joints"
+text = [
+  "Doctors are also trying embolization for arthritis in other joints. For these joints, it is too early to know how well it works.[^hipe][^feier][^lee24]",
+  "**Hip.** Early studies suggest it may ease hip pain for up to a year.[^hipe][^feier]",
+  "**Hand and fingers.** It is not yet well studied.[^lee24]",
+  "**Shoulder.** There are no studies yet of embolization for shoulder arthritis.[^aihta]",
+  "**Frozen shoulder** is not arthritis. It is a stiff, painful shoulder from a swollen, scarred joint lining. It often gets better on its own, but this can take up to 3 years.[^fm26] Early studies suggest embolization may ease night pain within weeks.[^okunofs][^allaw]",
+  "The doctor finder on this page lists doctors who perform knee embolization. It does not show who treats other joints.",
+]
+
+[[sections]]
+id = "what"
+# place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
+# Every sentence and tag is the old "What is arthritis of the knee?" section's, with its source; nothing new.
+place = "box"
+heading = "What is knee arthritis (osteoarthritis)?"
+text = [
+  "In arthritis, the cushion between the bones wears away. The bones can rub together. This causes pain, swelling, and stiffness.[^mpoa] The most common kind is called osteoarthritis.[^mpoa] Arthritis is the most common disease of the knee.[^mpknee]",
+]
+symptoms_label = "Common symptoms"
+symptoms = ["Pain when you walk or put weight on the knee", "Swelling", "Stiffness after waking, often 30 minutes or less", "Later, pain at rest or at night"]
+symptoms_cite = "[^mpoa]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor if your symptoms bother you or get worse.[^mpoa] A doctor can check what is causing your symptoms and go over your options."
+
+[[sections]]
+id = "ask"
+place = "after"
+heading = "What should I ask my doctor?"
+# agreed list item 6 (his "Agree", 2026-11-07)
+text = ["You can ask about any option on this page, even one your doctor does not offer."]
+list = [
+  "Which options could work for me, and which could not?",
+  "What has my knee X-ray shown?",
+  "How long would I need to recover?",
+  "Do you offer knee embolization, or can you refer me to someone who does?",
+]
+
+[[faq]]
+q = "Do I need treatment?"
+a = "Not always. Many people manage with exercise, weight loss if needed, and pain relievers. These treatments cannot make arthritis go away, but they can often delay surgery.[^mpoa]"
+
+[[faq]]
+q = "Does embolization fix the arthritis?"
+a = "No. It aims to ease pain. The worn cushion in the joint is still there.[^ucla]"
+
+[[faq]]
+q = "Can I still have a knee replacement later?"
+a = "Yes. GAE does not seem to make a later knee replacement harder, but doctors are still checking.[^sir26]"
+
+[[faq]]
+q = "Do I need a knee replacement?"
+a = "Not always. It is usually for severe arthritis when other treatments no longer help.[^mpoa][^tkr] Many people try exercise, medicines, or injections first. Some also consider embolization. Many people who could have a knee replacement try a full non-surgery program first and still have not had surgery 2 years later.[^skou18]"
+
+[[options]]
+id = "exercise"
+name = "Exercise and weight loss"
+what = "Exercise and physical therapy build strength and keep the knee moving. Losing weight, if you are overweight, takes stress off the knee.[^mpoa]"
+invasive = "No procedure is needed. A physical therapist can show you what to do.[^mpoa]"
+works = "Good evidence suggests exercise helps you use your knee better. It may also ease pain a little.[^lawford] If you are overweight, losing weight with diet and exercise can ease pain more than exercise alone.[^idea]"
+side = "Pain can make it hard to keep active. Ask your doctor for an exercise routine.[^mpoa]"
+
+[[options]]
+id = "pain-relievers"
+name = "Pain relievers"
+what = "These include acetaminophen and anti-inflammatory pills like ibuprofen and naproxen. Creams that go on the skin are another option.[^mpoa]"
+invasive = "These are pills or creams. No procedure is needed."
+works = "Strong evidence shows anti-inflammatory pills ease knee pain. Anti-inflammatory gels on the skin also help some people, with fewer side effects.[^dacosta21] Acetaminophen helps very little.[^machado] None of these fix the knee.[^mpoa]"
+side = "Do not take more than 4,000 mg of acetaminophen a day.[^mpoa] Anti-inflammatory pills can raise the risk of heart attack, stroke, and stomach bleeding. Talk with your doctor before taking them often.[^ibu][^mpoa]"
+
+[[options]]
+id = "other-medicines"
+name = "Other medicines"
+what = "Duloxetine is a prescription pill that can help long-term arthritis pain.[^mpoa] Opioid pain pills, including tramadol, are another kind of prescription pill."
+invasive = "These are pills. No procedure is needed."
+works = "Good evidence suggests duloxetine eases long-term knee pain a little.[^bhandari] Opioid pills ease arthritis pain only slightly.[^dacosta14][^toupin]"
+side = "Side effects make some people stop duloxetine.[^bhandari] Opioid pills cause more side effects than they are worth for most people with arthritis.[^dacosta21][^dacosta14]"
+
+[[options]]
+id = "embolization"
+name = "Knee artery embolization (GAE)"
+# "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07; his GAE name, item 14); the skin-nick line left `invasive`
+lead_heading = "What is genicular (knee) artery embolization (GAE)?"
+what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin.[^bsir][^ucla] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
+invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Most people are back to their normal activities within a few days, instead of 3 to 6 weeks after a knee replacement.[^nhsrec] Relief often starts within about two weeks.[^ucla]"
+works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
+side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin] Serious problems are rare.[^sir26]"
+
+[[options]]
+id = "steroid"
+name = "Steroid shot"
+what = "A steroid medicine is injected into the knee.[^mpoa]"
+invasive = "It is a shot given during an office visit."
+works = "Studies disagree on how much a steroid shot helps. It often eases pain for a while, but the relief usually fades by about 3 months.[^mpoa][^juni] Getting shots again and again does not seem to give more relief.[^mcalindon] Physical therapy may help more than shots over a year.[^deyle]"
+side = "Repeat shots may wear down the knee cushion a little faster.[^mcalindon] If you are planning a knee replacement, tell your surgeon about any recent shot.[^yang22]"
+
+[[options]]
+id = "hyaluronic"
+name = "Gel shots (hyaluronic acid)"
+what = "A gel is injected into the knee. It aims to replace the joint fluid that thins with arthritis.[^cus26]"
+invasive = "They are shots given during office visits."
+works = "Strong evidence shows gel shots ease pain only slightly more than fake shots, too little for most people to notice.[^pereira]"
+side = "Serious problems are a bit more common than with fake shots.[^pereira] The knee can be sore or swollen for a short time.[^cus26]"
+
+[[options]]
+id = "prp"
+name = "Platelet-rich plasma (PRP)"
+what = "Platelets from your own blood are injected into the knee.[^cus26]"
+invasive = "Blood is drawn and the shots are given during office visits.[^restore]"
+works = "Studies disagree on whether PRP helps. It may ease pain for up to 6 months.[^auroux] By one year, it may do no better than a salt water shot.[^restore]"
+side = "Side effects are usually mild and short-lived. The knee can be sore or swollen for a short time.[^restore]"
+
+[[options]]
+id = "nerve-ablation"
+name = "Nerve ablation"
+what = "Heat quiets the nerves that carry pain from the knee.[^cus26]"
+invasive = "Ask your doctor how it is done and how long recovery takes."
+works = "Studies disagree on whether it helps. It may ease pain for about 3 months. Longer relief has not been shown.[^almeida][^malaithong]"
+side = "Serious problems seem no more common than with a fake procedure.[^almeida]"
+
+[[options]]
+id = "knee-replacement"
+name = "Knee replacement"
+what = "Surgery removes the worn cartilage and bone. Metal and plastic parts replace them.[^tkr]"
+invasive = "Surgery takes 1 to 2 hours. Most people leave the hospital in 1 to 4 days.[^tkr][^nhsrec] Most daily activities return in 3 to 6 weeks. Full recovery can take several months.[^tkr][^nhsrec]"
+works = "Strong evidence shows most new knees last a long time. About 8 out of 10 still have their original parts 25 years later.[^evans] For moderate to severe arthritis, a knee replacement can ease pain more than non-surgery care.[^skou15] About 1 to 2 out of 10 people are not satisfied with their new knee.[^bourne][^defrance]"
+side = "Serious problems, like a knee infection, are uncommon: fewer than 2 out of 100 people.[^tkr] Serious problems are more likely with surgery than without it.[^skou15] Some people have ongoing pain or stiffness.[^nhscomp]"
+
+[[options]]
+id = "partial-replacement"
+name = "Partial knee replacement"
+what = "Surgery replaces only the worn part of the knee.[^mpoa]"
+invasive = "Recovery should be shorter than after a full replacement. You may drive again after about 3 weeks instead of 6.[^nhsrec]"
+works = "It is an option when only one part of the knee is worn.[^topkat] Five years later, results are about the same as with a full replacement.[^topkat] A partial knee is more likely to need redoing later on.[^evans]"
+side = "Infection, blood clots, and ongoing pain or stiffness can happen after knee replacement.[^nhscomp]"
+
+[[options]]
+id = "osteotomy"
+name = "Bone realignment (osteotomy)"
+what = "Surgery reshapes the shin bone to shift weight off the worn inner side of the knee. It is mainly for younger, active people with bow legs.[^loke][^birmingham]"
+invasive = "It is surgery on the bone near the knee.[^mpoa]"
+works = "Early studies suggest it eases symptoms more than non-surgery care.[^birmingham] About 1 out of 10 people have a knee replacement more than 10 years later.[^loke]"
+side = "Ask your surgeon about its risks and how long recovery takes."
+
+[[options]]
+id = "scope"
+name = "Knee scope clean-out"
+what = "A camera and small tools wash out or trim the inside of the knee.[^mpoa][^moseley]"
+invasive = "It is surgery done through the skin with a camera.[^mpoa]"
+works = "Strong evidence shows a knee scope clean-out does not help knee arthritis.[^moseley][^kirkley] A major guideline advises against it for knee arthritis.[^aaos]"
+side = "It carries the risks of surgery, such as blood clots and infection.[^thorlund]"
+
+# References, in no particular order: the page numbers them by first use. How each was read: evidence.md.
+[[refs]]
+key = "mpoa"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Osteoarthritis. Reviewed April 9, 2026. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/article/000423.htm"
+[[refs]]
+key = "mpknee"
+cite = "MedlinePlus (U.S. National Library of Medicine). Knee injuries and disorders. Read November 4, 2026."
+url = "https://medlineplus.gov/kneeinjuriesanddisorders.html"
+[[refs]]
+key = "bsir"
+cite = "British Society of Interventional Radiology. Patient information leaflet: Genicular artery embolisation. Read November 4, 2026."
+url = "https://www.bsir.org/patients-1/patient-information-leaflets/adult-procedures/genicular-artery-embolisation/"
+[[refs]]
+key = "ucla"
+cite = "UCLA Health. Genicular artery embolization (GAE). Read November 4, 2026."
+url = "https://uclahealth.org/medical-services/radiology/interventional-radiology/treatments-procedures/genicular-artery-embolization-gae"
+[[refs]]
+key = "cus24"
+cite = "Cusumano LR, Sparks HD, Masterson KE, Genshaft SJ, Plotnik AN, Padia SA. Genicular artery embolization for treatment of symptomatic knee osteoarthritis: 2-year outcomes from a prospective IDE trial. Journal of Vascular and Interventional Radiology. 2024;35(12):1768-1775. doi:10.1016/j.jvir.2024.08.028. PMID 39322180. Single group, no comparison. Grant support includes a device maker."
+url = "https://doi.org/10.1016/j.jvir.2024.08.028"
+[[refs]]
+key = "gen2"
+cite = "Little MW, Harrison R, MacGill S, et al. Genicular artery embolisation in patients with osteoarthritis of the knee (GENESIS 2): protocol for a double-blind randomised sham-controlled trial. CardioVascular and Interventional Radiology. 2023;46(9):1276-1282. PMID 37337060. Funded by a device maker."
+url = "https://europepmc.org/article/MED/37337060"
+[[refs]]
+key = "ashraf"
+cite = "Ashraf N, Tahir MJ, Arabi TZ, et al. Safety and efficacy of genicular artery embolization for knee joint osteoarthritis associated pain: a systematic review. Journal of Endovascular Therapy. 2026;33(4):1642-1659. doi:10.1177/15266028251326770. PMID 40219609."
+url = "https://doi.org/10.1177/15266028251326770"
+[[refs]]
+key = "amin"
+cite = "Amin AT, Safar IEM, Trujillo RB, et al. Outcome and safety of genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. CardioVascular and Interventional Radiology. 2026;49(9):1682-1697. doi:10.1007/s00270-026-04502-7. PMID 42303879."
+url = "https://doi.org/10.1007/s00270-026-04502-7"
+[[refs]]
+key = "aihta"
+cite = "Krenn C, Semlitsch T, Wilfling D. Transarterial periarticular embolisation for knee and shoulder osteoarthritis. Austrian Institute for Health Technology Assessment (AIHTA), 2026. Read through its INAHTA database record, November 4, 2026."
+url = "https://database.inahta.org/article/34963"
+[[refs]]
+key = "hipe"
+cite = "Cavalheiro F, Marinho Lopes P, Sousa F, Sousa P, Linhares D, Neves N. HipE study: hip embolization for pain control in hip osteoarthritis and greater trochanteric pain syndrome, 12 months follow-up. CardioVascular and Interventional Radiology. 2026;49(7):1295-1305. doi:10.1007/s00270-026-04403-9. PMID 41870537. Single group, no comparison."
+url = "https://doi.org/10.1007/s00270-026-04403-9"
+[[refs]]
+key = "feier"
+cite = "Feier AM, Bloj F, Russu OM, Bloj A, Nechifor R, Pop TS. Periarticular embolization as an alternative treatment for surgery-ineligible patients with hip osteoarthritis: a prospective comparative study. Not randomized. Journal of Clinical Medicine. 2026;15(13):5108. doi:10.3390/jcm15135108. PMID 42452568."
+url = "https://doi.org/10.3390/jcm15135108"
+[[refs]]
+key = "lee24"
+cite = "Lee SY, Lim WX, Wu KT, Wu CT, Huang CC, Chang CD. Short-term clinical outcomes of transarterial embolization for symptomatic hand osteoarthritis refractory to conservative treatment. Diagnostic and Interventional Radiology. 2024;30(1):65-71. doi:10.4274/dir.2023.232350. PMID 37927038. Nine patients, no comparison."
+url = "https://doi.org/10.4274/dir.2023.232350"
+[[refs]]
+key = "fm26"
+cite = "Fernández-Martínez AM. Frozen shoulder embolization: clinical and imaging fundamentals for interventionalists. Seminars in Interventional Radiology. 2026;43:1-4. doi:10.1055/a-2841-4309."
+url = "https://doi.org/10.1055/a-2841-4309"
+[[refs]]
+key = "okunofs"
+cite = "Okuno Y, Iwamoto W, Matsumura N, et al. Clinical outcomes of transcatheter arterial embolization for adhesive capsulitis resistant to conservative treatment. Journal of Vascular and Interventional Radiology. 2017;28(2):161-167.e1. doi:10.1016/j.jvir.2016.09.028. PMID 28007330. Single group, no comparison."
+url = "https://doi.org/10.1016/j.jvir.2016.09.028"
+[[refs]]
+key = "allaw"
+cite = "Allaw S, Khabaz K, Yu Q, Ahmed O. Transarterial embolization for refractory adhesive capsulitis and related tendinopathies: a systematic review and meta-analysis. Journal of Vascular and Interventional Radiology. 2026;37(2):107896. doi:10.1016/j.jvir.2025.10.027. PMID 41161413."
+url = "https://doi.org/10.1016/j.jvir.2025.10.027"
+[[refs]]
+key = "idea"
+cite = "Messier SP, Mihalko SL, Legault C, et al. Effects of intensive diet and exercise on knee joint loads, inflammation, and clinical outcomes among overweight and obese adults with knee osteoarthritis: the IDEA randomized clinical trial. JAMA. 2013;310(12):1263-1273. doi:10.1001/jama.2013.277669. PMID 24065013."
+url = "https://doi.org/10.1001/jama.2013.277669"
+[[refs]]
+key = "ibu"
+cite = "MedlinePlus Drug Information (U.S. National Library of Medicine). Ibuprofen. Read November 4, 2026."
+url = "https://medlineplus.gov/druginfo/meds/a682159.html"
+[[refs]]
+key = "aaos"
+cite = "American Academy of Orthopaedic Surgeons. Management of osteoarthritis of the knee (non-arthroplasty): evidence-based clinical practice guideline, 3rd edition. 2021. Read through the AAOS announcement and guideline summaries; the full guideline was not read."
+url = "https://www.aaos.org/aaos-home/newsroom/press-releases/aaos-updates-clinical-practice-guideline-for-osteoarthritis-of-the-knee/"
+[[refs]]
+key = "juni"
+cite = "Jüni P, Hari R, Rutjes AW, et al. Intra-articular corticosteroid for knee osteoarthritis. Cochrane Database of Systematic Reviews. 2015;(10):CD005328. doi:10.1002/14651858.CD005328.pub3. PMID 26490760."
+url = "https://doi.org/10.1002/14651858.CD005328.pub3"
+[[refs]]
+key = "mcalindon"
+cite = "McAlindon TE, LaValley MP, Harvey WF, et al. Effect of intra-articular triamcinolone vs saline on knee cartilage volume and pain in patients with knee osteoarthritis: a randomized clinical trial. JAMA. 2017;317(19):1967-1975. doi:10.1001/jama.2017.5283. PMID 28510679."
+url = "https://doi.org/10.1001/jama.2017.5283"
+[[refs]]
+key = "pereira"
+cite = "Pereira TV, Jüni P, Saadat P, et al. Viscosupplementation for knee osteoarthritis: systematic review and meta-analysis. BMJ. 2022;378:e069722. doi:10.1136/bmj-2022-069722. PMID 36333100."
+url = "https://doi.org/10.1136/bmj-2022-069722"
+[[refs]]
+key = "cus26"
+cite = "Cusumano LR, Padia SA. Navigating the treatment gap in knee osteoarthritis. Seminars in Interventional Radiology. 2026;43:37-41. doi:10.1055/a-2845-7049. Authors report device-maker support."
+url = "https://doi.org/10.1055/a-2845-7049"
+[[refs]]
+key = "restore"
+cite = "Bennell KL, Paterson KL, Metcalf BR, et al. Effect of intra-articular platelet-rich plasma vs placebo injection on pain and medial tibial cartilage volume in patients with knee osteoarthritis: the RESTORE randomized clinical trial. JAMA. 2021;326(20):2021-2030. doi:10.1001/jama.2021.19415. PMID 34812863."
+url = "https://doi.org/10.1001/jama.2021.19415"
+[[refs]]
+key = "tkr"
+cite = "OrthoInfo, American Academy of Orthopaedic Surgeons. Total knee replacement. Read November 4, 2026."
+url = "https://orthoinfo.aaos.org/en/treatment/total-knee-replacement/"
+[[refs]]
+key = "nhsrec"
+cite = "NHS (UK National Health Service). Knee replacement: recovery. Read November 4, 2026."
+url = "https://www.nhs.uk/tests-and-treatments/knee-replacement/recovery/"
+[[refs]]
+key = "nhscomp"
+cite = "NHS (UK National Health Service). Knee replacement: complications. Read November 4, 2026."
+url = "https://www.nhs.uk/tests-and-treatments/knee-replacement/complications/"
+[[refs]]
+key = "bourne"
+cite = "Bourne RB, Chesworth BM, Davis AM, Mahomed NN, Charron KD. Patient satisfaction after total knee arthroplasty: who is satisfied and who is not? Clinical Orthopaedics and Related Research. 2010;468(1):57-63. doi:10.1007/s11999-009-1119-9. PMID 19844772."
+url = "https://doi.org/10.1007/s11999-009-1119-9"
+[[refs]]
+key = "moseley"
+cite = "Moseley JB, O'Malley K, Petersen NJ, et al. A controlled trial of arthroscopic surgery for osteoarthritis of the knee. New England Journal of Medicine. 2002;347(2):81-88. doi:10.1056/NEJMoa013259. PMID 12110735."
+url = "https://doi.org/10.1056/NEJMoa013259"
+[[refs]]
+key = "sir26"
+cite = "Ahmed O, Taslakian B, Okuno Y, et al. Society of Interventional Radiology position statement on genicular artery embolization for symptomatic knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2026;37(7):108803. doi:10.1016/j.jvir.2026.108803. Open access."
+url = "https://doi.org/10.1016/j.jvir.2026.108803"
+[[refs]]
+key = "lawford"
+cite = "Lawford BJ, Hall M, Hinman RS, et al. Exercise for osteoarthritis of the knee. Cochrane Database of Systematic Reviews. 2024;(12):CD004376. doi:10.1002/14651858.CD004376.pub4. PMID 39625083."
+url = "https://doi.org/10.1002/14651858.CD004376.pub4"
+[[refs]]
+key = "dacosta21"
+cite = "da Costa BR, Pereira TV, Saadat P, et al. Effectiveness and safety of non-steroidal anti-inflammatory drugs and opioid treatment for knee and hip osteoarthritis: network meta-analysis. BMJ. 2021;375:n2321. doi:10.1136/bmj.n2321. PMID 34642179."
+url = "https://doi.org/10.1136/bmj.n2321"
+[[refs]]
+key = "machado"
+cite = "Machado GC, Maher CG, Ferreira PH, et al. Efficacy and safety of paracetamol for spinal pain and osteoarthritis: systematic review and meta-analysis of randomised placebo controlled trials. BMJ. 2015;350:h1225. doi:10.1136/bmj.h1225. PMID 25828856."
+url = "https://doi.org/10.1136/bmj.h1225"
+[[refs]]
+key = "bhandari"
+cite = "Bhandari B, Bisht K, Purohit G, et al. Navigating the efficacy and safety landscape of duloxetine in osteoarthritis management: a meta-analysis of randomized controlled trials. Indian Journal of Orthopaedics. 2025;59(8):1123-1136. doi:10.1007/s43465-025-01372-y. PMID 40852552."
+url = "https://doi.org/10.1007/s43465-025-01372-y"
+[[refs]]
+key = "dacosta14"
+cite = "da Costa BR, Nüesch E, Kasteler R, et al. Oral or transdermal opioids for osteoarthritis of the knee or hip. Cochrane Database of Systematic Reviews. 2014;(9):CD003115. doi:10.1002/14651858.CD003115.pub4. PMID 25229835."
+url = "https://doi.org/10.1002/14651858.CD003115.pub4"
+[[refs]]
+key = "toupin"
+cite = "Toupin April K, Bisaillon J, Welch V, et al. Tramadol for osteoarthritis. Cochrane Database of Systematic Reviews. 2019;(5):CD005522. doi:10.1002/14651858.CD005522.pub3. PMID 31132298. Most included trials were industry funded."
+url = "https://doi.org/10.1002/14651858.CD005522.pub3"
+[[refs]]
+key = "auroux"
+cite = "Auroux M, Debionne T, Mainbourg S, Chapurlat R. Efficacy of intra-articular platelet-rich plasma compared with placebo in knee osteoarthritis: a systematic review and meta-analysis. Joint Bone Spine. 2025;92(6):105947. doi:10.1016/j.jbspin.2025.105947. PMID 40653151."
+url = "https://doi.org/10.1016/j.jbspin.2025.105947"
+[[refs]]
+key = "almeida"
+cite = "Almeida M, Saragiotto BT, Hunter DJ, et al. Efficacy and safety of minimally invasive interventions targeting the genicular nerves for knee osteoarthritis: a meta-analysis. Osteoarthritis and Cartilage. 2025;33(5):535-547. doi:10.1016/j.joca.2025.02.780. PMID 40054598."
+url = "https://doi.org/10.1016/j.joca.2025.02.780"
+[[refs]]
+key = "evans"
+cite = "Evans JT, Walker RW, Evans JP, Blom AW, Sayers A, Whitehouse MR. How long does a knee replacement last? A systematic review and meta-analysis of case series and national registry reports with more than 15 years of follow-up. Lancet. 2019;393(10172):655-663. doi:10.1016/S0140-6736(18)32531-5. PMID 30782341."
+url = "https://doi.org/10.1016/S0140-6736(18)32531-5"
+[[refs]]
+key = "skou15"
+cite = "Skou ST, Roos EM, Laursen MB, et al. A randomized, controlled trial of total knee replacement. New England Journal of Medicine. 2015;373(17):1597-1606. doi:10.1056/NEJMoa1505467. PMID 26488691."
+url = "https://doi.org/10.1056/NEJMoa1505467"
+[[refs]]
+key = "skou18"
+cite = "Skou ST, Roos EM, Laursen MB, et al. Total knee replacement and non-surgical treatment of knee osteoarthritis: 2-year outcome from two parallel randomized controlled trials. Osteoarthritis and Cartilage. 2018;26(9):1170-1180. doi:10.1016/j.joca.2018.04.014. PMID 29723634."
+url = "https://doi.org/10.1016/j.joca.2018.04.014"
+[[refs]]
+key = "defrance"
+cite = "DeFrance MJ, Scuderi GR. Are 20% of patients actually dissatisfied following total knee arthroplasty? A systematic review of the literature. Journal of Arthroplasty. 2023;38(3):594-599. doi:10.1016/j.arth.2022.10.011."
+url = "https://doi.org/10.1016/j.arth.2022.10.011"
+[[refs]]
+key = "topkat"
+cite = "Beard DJ, Davies LJ, Cook JA, et al. The clinical and cost-effectiveness of total versus partial knee replacement in patients with medial compartment osteoarthritis (TOPKAT): 5-year outcomes of a randomised controlled trial. Lancet. 2019;394(10200):746-756. doi:10.1016/S0140-6736(19)31281-4. PMID 31326135."
+url = "https://doi.org/10.1016/S0140-6736(19)31281-4"
+[[refs]]
+key = "birmingham"
+cite = "Birmingham TB, Primeau CA, Moyer RF, et al. High tibial osteotomy for medial compartment knee osteoarthritis: a randomized trial with parallel preference arm. Annals of Internal Medicine. 2025;178(9):1238-1248. doi:10.7326/ANNALS-25-00920. PMID 40720836. One center."
+url = "https://doi.org/10.7326/ANNALS-25-00920"
+[[refs]]
+key = "loke"
+cite = "Loke RWK, Chan YK, Lim YH, Tan BWL, Hui JHP. Conversion to total knee arthroplasty after high tibial osteotomy: a systematic review and meta-analysis. Orthopaedic Journal of Sports Medicine. 2025;13(2):23259671241310963. doi:10.1177/23259671241310963. PMID 39916951."
+url = "https://doi.org/10.1177/23259671241310963"
+[[refs]]
+key = "kirkley"
+cite = "Kirkley A, Birmingham TB, Litchfield RB, et al. A randomized trial of arthroscopic surgery for osteoarthritis of the knee. New England Journal of Medicine. 2008;359(11):1097-1107. doi:10.1056/NEJMoa0708333. PMID 18784099."
+url = "https://doi.org/10.1056/NEJMoa0708333"
+[[refs]]
+key = "thorlund"
+cite = "Thorlund JB, Juhl CB, Roos EM, Lohmander LS. Arthroscopic surgery for degenerative knee: systematic review and meta-analysis of benefits and harms. BMJ. 2015;350:h2747. doi:10.1136/bmj.h2747. PMID 26080045."
+url = "https://doi.org/10.1136/bmj.h2747"
+[[refs]]
+key = "singh26"
+cite = "Singh A, Shah M, Vij R, Fountain C, Prologo JD. Intra-articular injection use and total knee arthroplasty after genicular artery embolization for knee osteoarthritis: a matched national claims analysis. Journal of Vascular and Interventional Radiology. 2026:109144. doi:10.1016/j.jvir.2026.109144. PMID 42874703."
+url = "https://doi.org/10.1016/j.jvir.2026.109144"
+[[refs]]
+key = "malaithong"
+cite = "Malaithong W, Tontisirin N, Seangrung R, Wongsak S, Cohen SP. Bipolar radiofrequency ablation of the superomedial, superolateral and inferomedial genicular nerves for chronic osteoarthritis knee pain: a randomized double-blind placebo-controlled trial with 12-month follow-up. Regional Anesthesia and Pain Medicine. 2023;48(4):151-160. doi:10.1136/rapm-2022-103976. PMID 36543391."
+url = "https://doi.org/10.1136/rapm-2022-103976"
+[[refs]]
+key = "lanza"
+cite = "Lanza E, Poretti D, Pedicini V, Kon E, Laghi A. Permanent vs. temporary embolic agents in genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. European Journal of Radiology. 2026;202:112968. doi:10.1016/j.ejrad.2026.112968. PMID 42208168."
+url = "https://doi.org/10.1016/j.ejrad.2026.112968"
+[[refs]]
+key = "deyle"
+cite = "Deyle GD, Allen CS, Allison SC, et al. Physical therapy versus glucocorticoid injection for osteoarthritis of the knee. New England Journal of Medicine. 2020;382(15):1420-1429. doi:10.1056/NEJMoa1905877. PMID 32268027."
+url = "https://doi.org/10.1056/NEJMoa1905877"
+[[refs]]
+key = "yang22"
+cite = "Yang X, Li L, Ren X, Nie L. Do preoperative intra-articular injections of corticosteroids or hyaluronic acid increase the risk of infection after total knee arthroplasty? A meta-analysis. Bone and Joint Research. 2022;11(3):171-179. doi:10.1302/2046-3758.113.BJR-2021-0350.R1. PMID 35311571. Retrospective studies; higher infection risk with a shot in the 3 months before surgery."
+url = "https://doi.org/10.1302/2046-3758.113.BJR-2021-0350.R1"

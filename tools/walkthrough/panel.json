@@ -1,0 +1,1119 @@
+{
+ "version": 1,
+ "updated": "2026-11-08",
+ "sources": [
+  "records/reports/2026-11-06 Fibroids audience and content research.md",
+  "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
+  "records/reports/2026-11-06 Knee arthritis audience and content research.md",
+  "records/reports/2026-11-06 Pelvic vein pain audience and content research.md",
+  "records/reports/2026-11-06 Every Option audience and style research.md"
+ ],
+ "rule": "customer-research: at least five independent data points per persona; where a persona has fewer the note says so. All personas provisional: one pull, one night, 2026-11-06.",
+ "personas": [
+  {
+   "id": "fib-new",
+   "who": "A woman, 41. Heavy periods for three years, passing clots, tired all the time. An ultrasound found fibroids. Works full time. Reads on her phone between things.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/fibroids/",
+   "query": "Searched: fibroid treatment without surgery",
+   "words": [
+    "fibroids",
+    "heavy bleeding",
+    "without surgery",
+    "keep my uterus"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Age 35-54 mean 43 (HCUP SB200)",
+    "Average 3.6 years of symptoms before seeking care (Borah 2013)",
+    "Flooding, clots, anemia about 170 mentions",
+    "Keep my uterus phrasing; 43% under 40 want fertility",
+    "Inpatient UFE 56% private, 27% Medicaid (JAMA Netw Open 2025)"
+   ],
+   "tasks": [
+    {
+     "id": "understand",
+     "function": "understand the condition",
+     "goal": "Find out what the treatment without surgery is and whether you would keep your uterus.",
+     "finish": {
+      "url_re": "^/fibroids",
+      "text_re": "keep your uterus|uterus stays"
+     },
+     "tap_budget": 3,
+     "words": [
+      "keep my uterus",
+      "without surgery",
+      "how it works"
+     ]
+    },
+    {
+     "id": "compare",
+     "function": "compare options",
+     "goal": "See your treatment choices compared, including hysterectomy, and how long recovery takes.",
+     "finish": {
+      "url_re": "every-option",
+      "text_re": "Compared at a glance|recovery"
+     },
+     "tap_budget": 4,
+     "words": [
+      "compare",
+      "hysterectomy",
+      "recovery"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who does this treatment. Your ZIP code is 60619.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 5,
+     "words": [
+      "doctor near me",
+      "ZIP"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fib-surgery",
+   "who": "A woman, 47. Her gynecologist told her she needs a hysterectomy. She does not want one and wants to know what else there is before she agrees. Worried about losing work days and about what her insurance will pay.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/fibroids/every-option/",
+   "query": "Searched: alternatives to hysterectomy for fibroids",
+   "words": [
+    "hysterectomy",
+    "instead of surgery",
+    "second opinion",
+    "insurance"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "53% of diagnosed women told hysterectomy (2024 SIR poll, unverified)",
+    "Median hysterectomy age 47 (JAMA Netw Open 2025)",
+    "28% of employed women missed work (Borah 2013)",
+    "Hysterectomy feels like overkill; 'one and done' language",
+    "62% never heard of UFE (2017 poll)"
+   ],
+   "tasks": [
+    {
+     "id": "compare",
+     "function": "compare options",
+     "goal": "Find out whether there is something other than hysterectomy, and how the recovery compares.",
+     "finish": {
+      "url_re": "every-option",
+      "text_re": "Compared at a glance|hysterectomy"
+     },
+     "tap_budget": 3,
+     "words": [
+      "instead of hysterectomy",
+      "recovery",
+      "weeks off work"
+     ]
+    },
+    {
+     "id": "insurance",
+     "function": "check insurance",
+     "goal": "Find out whether your insurance would pay for the option that is not surgery.",
+     "finish": {
+      "url_re": "/insurance/",
+      "text_re": "cover|insurer|policy"
+     },
+     "tap_budget": 3,
+     "words": [
+      "insurance",
+      "covered",
+      "will it pay"
+     ]
+    },
+    {
+     "id": "call",
+     "function": "pick one to call",
+     "goal": "Choose a doctor near you to call about this. Your ZIP code is 30310. Stop when you tap the phone number of the one you would call.",
+     "finish": {
+      "called": true
+     },
+     "tap_budget": 6,
+     "words": [
+      "doctor near me",
+      "call"
+     ],
+     "start": "/fibroids/"
+    }
+   ]
+  },
+  {
+   "id": "pros-new",
+   "who": "A man, 62. Up four times a night, weak stream. His doctor said enlarged prostate and put him on pills that are not helping much. Worried above all about his sex life.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/enlarged-prostate/",
+   "query": "Searched: enlarged prostate treatment without surgery",
+   "words": [
+    "enlarged prostate",
+    "up all night",
+    "without surgery",
+    "erections"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "About 29% of men in their 60s have lower urinary symptoms (Lee 2017)",
+    "Medicare likely main payer (inference in report)",
+    "Losing ejaculation or erections about 80 mentions, top driver",
+    "Tamsulosin for years, still up 4 to 8 times a night",
+    "Long YouTube and r/bph are where they read"
+   ],
+   "tasks": [
+    {
+     "id": "understand",
+     "function": "understand the condition",
+     "goal": "Find out what the procedure without surgery is and whether it would affect your erections or ejaculation.",
+     "finish": {
+      "url_re": "^/enlarged-prostate",
+      "text_re": "erections|ejaculation"
+     },
+     "tap_budget": 3,
+     "words": [
+      "erections",
+      "sex life",
+      "without surgery"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who does this. Your ZIP code is 85016.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 5,
+     "words": [
+      "who does this near me",
+      "ZIP"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pros-eyes",
+   "who": "A man, 76, on Medicare. Poor eyesight and a shaky hand; he uses his computer with the page enlarged to twice the size and misses small buttons. His urologist offered him surgery for his prostate. He wants to know the other choices.",
+   "device": "zoom200",
+   "mode": "sighted",
+   "start": "/enlarged-prostate/",
+   "query": "Searched: prostate surgery alternatives Medicare",
+   "words": [
+    "prostate",
+    "surgery",
+    "Medicare",
+    "cost"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "About 37% of men in their 70s have symptoms (Lee 2017)",
+    "Medicare and cost asked about 20 times",
+    "Am I too old in my 80s asked",
+    "65+: YouTube 65%, Facebook 59% (Pew)",
+    "Older men under-represented in every source (report's own limit)"
+   ],
+   "tasks": [
+    {
+     "id": "compare",
+     "function": "compare options",
+     "goal": "Compare the other treatments to surgery, especially what each does to your sex life and how long recovery is.",
+     "finish": {
+      "url_re": "every-option",
+      "text_re": "Compared at a glance|Sex life"
+     },
+     "tap_budget": 4,
+     "words": [
+      "compare",
+      "surgery",
+      "sex life"
+     ]
+    },
+    {
+     "id": "insurance",
+     "function": "check insurance",
+     "goal": "Find out whether Medicare pays for the procedure that is not surgery.",
+     "finish": {
+      "url_re": "/insurance/",
+      "text_re": "cover|insurer|policy"
+     },
+     "tap_budget": 3,
+     "words": [
+      "Medicare",
+      "covered",
+      "cost"
+     ]
+    },
+    {
+     "id": "call",
+     "function": "pick one to call",
+     "goal": "Choose a doctor near you to call. Your ZIP code is 33407. Stop when you tap the phone number of the one you would call.",
+     "finish": {
+      "called": true
+     },
+     "tap_budget": 6,
+     "words": [
+      "doctor",
+      "phone number"
+     ],
+     "start": "/enlarged-prostate/"
+    }
+   ],
+   "note": "Poor eyesight and 200% zoom; the plan's Medicare-age man, merged with the prostate offered-surgery slot to keep the panel near 12."
+  },
+  {
+   "id": "knee-new",
+   "who": "A man, 58, still working. Knee arthritis, his doctor says bone on bone. Gel shots did not help. He does not want a knee replacement yet and is suspicious of anyone selling something.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/knee-arthritis/",
+   "query": "Searched: knee arthritis treatment without replacement",
+   "words": [
+    "bone on bone",
+    "without replacement",
+    "knee pain",
+    "how it works"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Knee arthritis audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "About 7M aged 45 to 65 with painful knee arthritis (report)",
+    "About 4 in 10 with severe pain not willing to have replacement (Vina 2017)",
+    "'Bone on bone' and 'gel shots' phrasing",
+    "Distrust of doctors 'lying for money' about 45 mentions",
+    "Facebook local clinic ads and YouTube Shorts"
+   ],
+   "tasks": [
+    {
+     "id": "understand",
+     "function": "understand the condition",
+     "goal": "Find out what this newer treatment is and how it works on your knee.",
+     "finish": {
+      "url_re": "^/knee-arthritis",
+      "text_re": "embolization|blood vessel|arter"
+     },
+     "tap_budget": 3,
+     "words": [
+      "how it works",
+      "knee"
+     ]
+    },
+    {
+     "id": "howknow",
+     "function": "understand how we know",
+     "goal": "Find out who runs this site and whether doctors pay to be listed.",
+     "finish": {
+      "url_re": "^/how-we-know",
+      "text_re": "two groups|Likely performs|Confirmed by physician"
+     },
+     "tap_budget": 4,
+     "words": [
+      "who runs this",
+      "pay",
+      "trust"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who does this. Your ZIP code is 10027.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 5,
+     "words": [
+      "doctor near me",
+      "ZIP"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "knee-daughter",
+   "who": "A woman, 45, researching for her mother, 71, who is on Medicare and was told she needs a knee replacement. The mother does not want surgery. The daughter is on her phone at work, in a hurry.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/knee-arthritis/every-option/",
+   "query": "Searched: alternatives to knee replacement for elderly mother",
+   "words": [
+    "alternatives to knee replacement",
+    "my mother",
+    "Medicare",
+    "near her"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Knee arthritis audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Adult children research for a parent; family mentioned about 75 times",
+    "Women outnumber men at every age with knee arthritis (report)",
+    "Medicare Advantage coverage asked in Reddit threads",
+    "'Covered by Medicare' clinic ads 429 to 444 days",
+    "Fear of surgery and losing independence about 105 mentions"
+   ],
+   "tasks": [
+    {
+     "id": "compare",
+     "function": "compare options",
+     "goal": "Compare the options besides knee replacement that could suit an older woman.",
+     "finish": {
+      "url_re": "every-option",
+      "text_re": "Compared at a glance|replacement"
+     },
+     "tap_budget": 3,
+     "words": [
+      "instead of replacement",
+      "older"
+     ]
+    },
+    {
+     "id": "insurance",
+     "function": "check insurance",
+     "goal": "Find out whether Medicare pays for the non-surgery option.",
+     "finish": {
+      "url_re": "/insurance/",
+      "text_re": "cover|insurer|policy"
+     },
+     "tap_budget": 3,
+     "words": [
+      "Medicare",
+      "covered"
+     ]
+    },
+    {
+     "id": "call",
+     "function": "pick one to call",
+     "goal": "Choose a doctor near your mother to call for her. Her ZIP code is 07030. Stop when you tap the phone number of the one you would call.",
+     "finish": {
+      "called": true
+     },
+     "tap_budget": 6,
+     "words": [
+      "doctor near",
+      "call"
+     ],
+     "start": "/knee-arthritis/"
+    }
+   ]
+  },
+  {
+   "id": "pelvic-new",
+   "who": "A woman, 34, two children. Years of a heavy, dull ache in her pelvis, worse when standing. Scans came back normal and she feels dismissed. She just found the words 'pelvic congestion' online.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/chronic-pelvic-pain/",
+   "query": "Searched: pelvic congestion syndrome normal scan",
+   "words": [
+    "pelvic congestion",
+    "dull ache",
+    "worse standing",
+    "who treats this"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Pelvic vein pain audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Premenopausal, roughly 20 to 45 (Medicina 2021 review)",
+    "80-90% of laparoscopies negative in this condition (same review)",
+    "Not believed, about 105 mentions",
+    "'Heavy', 'dull ache', 'worse standing' phrasing",
+    "About 30 where-or-who asks"
+   ],
+   "tasks": [
+    {
+     "id": "understand",
+     "function": "understand the condition",
+     "goal": "Find out whether this page describes what you have and what causes it.",
+     "finish": {
+      "url_re": "^/chronic-pelvic-pain",
+      "text_re": "congestion"
+     },
+     "tap_budget": 3,
+     "words": [
+      "what it feels like",
+      "veins",
+      "normal scan"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats this. Your ZIP code is 77004.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 5,
+     "words": [
+      "who treats this",
+      "near me"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pelvic-surgery",
+   "who": "A woman, 39. A gynecologist suggested a hysterectomy for her pelvic pain after years of tests. She wonders if it is her veins and whether anything else could help, and whether insurance would pay.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/chronic-pelvic-pain/",
+   "query": "Searched: hysterectomy for pelvic pain alternatives veins",
+   "words": [
+    "pelvic pain",
+    "hysterectomy",
+    "veins",
+    "insurance"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Pelvic vein pain audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Usually after pregnancies (Medicina 2021)",
+    "Hysterectomy that did not help mentioned among wrong treatments",
+    "Gynecologist is gatekeeper",
+    "Insurance asked about 20 times",
+    "Several insurers list ovarian vein embolization as investigational (report, unverified)"
+   ],
+   "tasks": [
+    {
+     "id": "compare",
+     "function": "compare options",
+     "goal": "Find out what the treatments are besides hysterectomy.",
+     "finish": {
+      "url_re": "^/chronic-pelvic-pain",
+      "text_re": "embolization|other .*treatment"
+     },
+     "tap_budget": 3,
+     "words": [
+      "other options",
+      "instead of hysterectomy"
+     ]
+    },
+    {
+     "id": "insurance",
+     "function": "check insurance",
+     "goal": "Find out whether insurance would pay for the vein treatment.",
+     "finish": {
+      "url_re": "/insurance/",
+      "text_re": "cover|insurer|policy"
+     },
+     "tap_budget": 4,
+     "words": [
+      "insurance",
+      "covered"
+     ],
+     "note": "Site has no pelvic coverage page at this build (insurance-links job 2026-11-08, row 9); the hub is the finish line."
+    }
+   ]
+  },
+  {
+   "id": "slow-reader",
+   "who": "A man, 66. Spanish is his first language. He reads English slowly and goes by headings and buttons, not paragraphs. His son told him he has an enlarged prostate and to look up what can be done.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Followed a link from his son",
+   "words": [
+    "prostate",
+    "treatment",
+    "doctor",
+    "how much"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "About 10 Spanish-language 'how much' questions (report)",
+    "Report calls for Spanish versions (inference)",
+    "Adult children research for fathers (report)",
+    "60s and 70s age band",
+    "Cost and Medicare asked about 20 times"
+   ],
+   "tasks": [
+    {
+     "id": "reach",
+     "function": "understand the condition",
+     "goal": "From the first page, get to the part about your prostate problem.",
+     "finish": {
+      "url_re": "^/enlarged-prostate"
+     },
+     "tap_budget": 3,
+     "words": [
+      "prostate"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you. Your ZIP code is 78207.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 6,
+     "words": [
+      "doctor",
+      "ZIP"
+     ],
+     "start": "/enlarged-prostate/"
+    }
+   ],
+   "note": "Fewer than five report data points on reading level itself; reading behaviour is from the plan, not a report. Marked provisional."
+  },
+  {
+   "id": "screen-reader",
+   "who": "A blind woman, 52, using VoiceOver on her phone. She navigates by headings and links. She wants to know about fibroids and to find a doctor. She cannot see the screen.",
+   "device": "phone390",
+   "mode": "screen_reader",
+   "start": "/fibroids/",
+   "query": "Searched: fibroid treatment without surgery",
+   "words": [
+    "fibroids",
+    "without surgery",
+    "find a doctor"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Fibroid age and journey data as for fib-new",
+    "No report data on screen-reader users among these patients (gap)",
+    "WCAG 2.2 requirement stands regardless (W3C)",
+    "Keep my uterus phrasing",
+    "Search by procedure and symptom (product-marketing)"
+   ],
+   "tasks": [
+    {
+     "id": "understand",
+     "function": "understand the condition",
+     "goal": "Find what the treatment is and whether you would keep your uterus.",
+     "finish": {
+      "url_re": "^/fibroids",
+      "text_re": "keep your uterus|uterus stays"
+     },
+     "tap_budget": 8,
+     "words": [
+      "uterus",
+      "how it works"
+     ]
+    },
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you. Your ZIP code is 60614.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 8,
+     "words": [
+      "ZIP",
+      "find doctors"
+     ]
+    },
+    {
+     "id": "report",
+     "function": "report a problem",
+     "goal": "You called a doctor listed here and the number was wrong. Find where to tell the site.",
+     "finish": {
+      "url_re": "^/report",
+      "selector": "#r-name"
+     },
+     "tap_budget": 8,
+     "words": [
+      "report",
+      "wrong number",
+      "error"
+     ]
+    }
+   ],
+   "note": "Fewer than five report data points on this reader; included by plan; a real screen-reader test is still needed."
+  },
+  {
+   "id": "desktop",
+   "who": "A woman, 62, on her laptop at home, researching for her daughter who has pelvic pain. She prefers the full computer view and reads carefully.",
+   "device": "desktop1440",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Searched: why does my daughter have pelvic pain veins",
+   "words": [
+    "pelvic pain",
+    "who runs this",
+    "doctor by name"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Pelvic vein pain audience and content research.md",
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Mothers researching for daughters (report)",
+    "Facebook 59% of 65+ and 77% of women (Pew)",
+    "Trust concerns: dismissal, wrong treatments",
+    "Which specialist to see, about 30 asks",
+    "Desktop use: plan's list, no report figure (gap)"
+   ],
+   "tasks": [
+    {
+     "id": "howknow",
+     "function": "understand how we know",
+     "goal": "Find out who is behind this site and how they decide which doctors to list.",
+     "finish": {
+      "url_re": "^/how-we-know",
+      "text_re": "two groups|Likely performs|Confirmed by physician"
+     },
+     "tap_budget": 4,
+     "words": [
+      "who runs this",
+      "how you choose doctors"
+     ]
+    },
+    {
+     "id": "doctor",
+     "function": "find a doctor by name",
+     "goal": "Her gynecologist mentioned a doctor named Fischman. Find that doctor on this site.",
+     "finish": {
+      "url_re": "^/doctors/[a-z]"
+     },
+     "tap_budget": 4,
+     "words": [
+      "doctor by name",
+      "search"
+     ]
+    },
+    {
+     "id": "report",
+     "function": "report a problem",
+     "goal": "You noticed a doctor's listed phone number is wrong. Find where to report that.",
+     "finish": {
+      "url_re": "^/report",
+      "selector": "#r-name"
+     },
+     "tap_budget": 4,
+     "words": [
+      "report an error",
+      "wrong"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "physician",
+   "who": "An interventional radiologist, 44, in private practice. A colleague said he is listed on this site. He wants to see whether listing is really free, what the listing says, and how to claim it. He is busy and skeptical.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Heard from a colleague",
+   "words": [
+    "claim my profile",
+    "free",
+    "physicians",
+    "edit listing"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Physician-facing reasons listed in page-pipeline (claim)",
+    "product-marketing: physicians claim free",
+    "Report: filming batch for physicians (hypotheses)",
+    "Directory lists 2,637 doctors (handoff)",
+    "No report on physician behaviour on the site (gap)"
+   ],
+   "tasks": [
+    {
+     "id": "trust",
+     "function": "understand how we know",
+     "goal": "Find out whether doctors can pay to be listed or ranked here.",
+     "finish": {
+      "text_re": "no one can pay|cannot pay|No one can pay"
+     },
+     "tap_budget": 3,
+     "words": [
+      "free",
+      "pay",
+      "ranked"
+     ]
+    },
+    {
+     "id": "listing",
+     "function": "find a doctor by name",
+     "goal": "Find the listing of a doctor named Fischman to see what a listing looks like.",
+     "finish": {
+      "url_re": "^/doctors/[a-z]"
+     },
+     "tap_budget": 4,
+     "words": [
+      "directory",
+      "name"
+     ]
+    },
+    {
+     "id": "claim",
+     "function": "claim a profile",
+     "goal": "Get to the place where you would start claiming your own listing. Stop at the form; do not sign up.",
+     "finish": {
+      "any_of": [
+       {
+        "url_re": "^/account",
+        "selector": "input[type=email], input[name=email]"
+       },
+       {
+        "url_re": "^/account",
+        "text_re": "Claim your free listing"
+       }
+      ]
+     },
+     "tap_budget": 4,
+     "words": [
+      "claim",
+      "for physicians",
+      "sign up"
+     ]
+    },
+    {
+     "id": "tick-not-yet",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000031"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. You also do varicocele embolization and thyroid nodule ablation, which this site doesn't cover yet. Let them know you do both, and save it.",
+     "words": [
+      "other procedures",
+      "not on the site",
+      "varicocele",
+      "thyroid"
+     ],
+     "tap_budget": 10,
+     "finish": {
+      "text_re": "Saved",
+      "selector": "#also-form:has(#a-varicocele-embolization[checked]):has(#a-thyroid-nodule-ablation[checked])"
+     }
+    },
+    {
+     "id": "remove-proc",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000072"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Add fibroid embolization (UFE) to your profile, then realise you don't actually do it any more and take it off again.",
+     "words": [
+      "add",
+      "remove",
+      "UFE"
+     ],
+     "tap_budget": 8,
+     "finish": {
+      "text_re": "UFE removed",
+      "selector": "#proc-ufe:not(.on)"
+     }
+    },
+    {
+     "id": "office-insurance",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000106"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Put in your office: Lakeshore Vascular, 200 E Ontario St, Chicago, IL 60611, phone 312-555-0142. Then say you take Medicare and Aetna. Save both.",
+     "words": [
+      "office",
+      "insurance",
+      "save"
+     ],
+     "tap_budget": 18,
+     "finish": {
+      "text_re": "Lakeshore Vascular",
+      "selector": "#insurance-form:has(input[value='Medicare'][checked]):has(input[value='Aetna'][checked])"
+     }
+    },
+    {
+     "id": "note",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000114"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Add fibroid embolization (UFE) to your profile, then add this note for patients on it: 'I see patients on weekdays in Chicago.'",
+     "words": [
+      "note",
+      "UFE",
+      "patients"
+     ],
+     "tap_budget": 9,
+     "finish": {
+      "any_of": [
+       {"text_re": "Your note", "selector": "#proc-ufe.on"},
+       {"text_re": "Note saved", "selector": "#proc-ufe.on"}
+      ]
+     },
+     "finish_note": "Job platform-directory-0037: 'Note saved' on screen also meets the line (walkthrough 2026-11-13 found 'Your note' alone too strict: the summary can sit off screen after a save)."
+    },
+    {
+     "id": "undo",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000023"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. Say you take Medicare and save it. Then change your mind and undo that change.",
+     "words": [
+      "insurance",
+      "undo",
+      "history"
+     ],
+     "tap_budget": 9,
+     "finish": {
+      "text_re": "Undone",
+      "selector": "#insurance-form:not(:has(input[value='Medicare'][checked]))"
+     }
+    },
+    {
+     "id": "sign-out-in",
+     "function": "claim a profile",
+     "setup": {
+      "invite_npi": "1999000015"
+     },
+     "start": "/account/",
+     "goal": "A colleague's invitation link brought you here; accept it. You're on a shared computer. Sign out. Then start signing back in with your email, ann.walk@example.test. Stop when the site asks for the code it emailed you.",
+     "words": [
+      "sign out",
+      "sign in",
+      "email"
+     ],
+     "tap_budget": 7,
+     "finish": {
+      "url_re": "^/account",
+      "selector": "#c-code"
+     }
+    }
+   ],
+   "note": "Fewer than five report data points on physician behaviour on the site; physician flows use the local fixture accounts. Job platform-directory-0036 (his words 2026-11-13 18:39 CT: \"walkthrough agents for account creation management editing etc\"): six signed-in account tasks (choosing a live procedure is inside remove-proc and note); each starts from a fresh local invitation link written at run time by tools/walkthrough/invite_starts.py (setup.invite_npi, made-up fixture doctors), because a model patient cannot read the emailed sign-in code."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-knee",
+   "who": "A man, 68. Bad knee for six years, retired, reads on his phone.",
+   "device": "phone390",
+   "start": "/knee-arthritis/",
+   "query": "Searched: alternatives to knee replacement",
+   "words": [
+    "knee",
+    "without surgery"
+   ],
+   "situation": "Your doctor said your knee needs replacing. You want to know if there is anything else.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Knee arthritis audience and content research.md"
+   ],
+   "note": "Situation from his 2026-11-09 chat; explorers never enter before-and-after."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-fibroid",
+   "who": "A woman, 44, heavy periods for years, told about a hysterectomy at her last appointment. Tired and skeptical.",
+   "device": "phone390dark",
+   "start": "/fibroids/",
+   "query": "Searched: do I really need a hysterectomy",
+   "words": [
+    "hysterectomy",
+    "fibroids"
+   ],
+   "situation": "Your doctor brought up a hysterectomy and you are not sure you want one. You are looking around to see what else there is and who you could talk to.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "note": "Dark mode on a phone, the setting of his screenshot."
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-prostate",
+   "who": "A man, 71, up four times a night. His wife is using the computer with him. Low vision; reads with the browser zoomed.",
+   "device": "zoom200",
+   "start": "/enlarged-prostate/",
+   "query": "Searched: enlarged prostate treatment no surgery",
+   "words": [
+    "prostate",
+    "up at night"
+   ],
+   "situation": "You have been told you have an enlarged prostate and you have tried pills. You want to see what else is out there before your next appointment.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md"
+   ]
+  },
+  {
+   "mode": "explore",
+   "provisional": true,
+   "id": "explore-daughter",
+   "who": "A woman, 52, sitting at a desk, looking things up for her mother. Her mother has pelvic pain nobody has explained.",
+   "device": "desktop1440",
+   "start": "/",
+   "query": "Searched: chronic pelvic pain no diagnosis",
+   "words": [
+    "pelvic pain",
+    "no answers"
+   ],
+   "situation": "Your mother has had pelvic pain for years and no doctor has explained it. You landed on this website and do not know yet if it can help. You want to know if there is something here for her.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Pelvic vein pain audience and content research.md"
+   ]
+  },
+  {
+   "id": "hem-nyc",
+   "who": "A woman, 47, in Brooklyn. Banded twice for bleeding hemorrhoids; the bleeding came back. She does not want surgery after reading recovery stories.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/hemorrhoids/",
+   "query": "Searched: bleeding hemorrhoids after banding no surgery",
+   "words": [
+    "keeps bleeding",
+    "banding didn't work",
+    "no surgery",
+    "who does this near me"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Peak age 45 to 65 in both sexes (1989 national survey, via the report)",
+    "Women 24% vs men 16% (same survey)",
+    "Banding: 28 mentions, some repeat sessions",
+    "Recovery and fear of surgery: 74 mentions",
+    "Most asked: do I need surgery; what kind of doctor do I see"
+   ],
+   "note": "Added by job platform-directory-0029 for the HAE finder re-run.",
+   "tasks": [
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats bleeding hemorrhoids without surgery. Your ZIP code is 11215.",
+     "finish": {
+      "url_re": "^/hemorrhoids",
+      "selector": "#results .card"
+     },
+     "tap_budget": 5,
+     "words": [
+      "near me",
+      "without surgery"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hem-town",
+   "who": "A man, 58, in Greensboro, North Carolina. Bleeding on and off for a year; his doctor checked his colon and said hemorrhoids. He watches doctors explain things on YouTube and wants to know who near him can treat it.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Typed the site name after a YouTube video about hemorrhoid treatment",
+   "words": [
+    "hemorrhoids",
+    "bleeding",
+    "doctor near me",
+    "can't sit"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Peak age 45 to 65 (1989 survey)",
+    "Ages 50 to 64: YouTube 85% (Pew, via the report)",
+    "Doctors explaining on YouTube: 8 of the top 20 videos",
+    "Is it cancer: 153 mentions, so a colon check first is common",
+    "Cost and insurance: 39 comments"
+   ],
+   "note": "Added by job platform-directory-0029: outside a big metro, starting from the home page.",
+   "tasks": [
+    {
+     "id": "find",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats bleeding hemorrhoids. Your ZIP code is 27401.",
+     "finish": {
+      "url_re": "^/hemorrhoids",
+      "selector": "#results .card"
+     },
+     "tap_budget": 6,
+     "words": [
+      "hemorrhoids",
+      "near me"
+     ]
+    }
+   ]
+  }
+ ]
+}

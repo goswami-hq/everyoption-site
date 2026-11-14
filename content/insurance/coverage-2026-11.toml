@@ -1,0 +1,440 @@
+# The public version of the payer coverage table, November 2026. Every cell comes from ai-hq
+# projects/platform/aeo/payer-table/coverage-2026-11.csv and criteria-2026-11.csv (cell ids in `cell`), rewritten in plain
+# words: no policy text, nothing from Carelon beyond his recorded reading (vault/decisions.md, 2026-11-07). His structure
+# and rules: ai-hq job platform-condition-pages-0005 (his "Yes", 2026-11-08 09:00 CT). Medicaid and pelvic veins are out.
+checked_from = "2026-11-07"
+checked_to = "2026-11-08"
+next_check = "February 2027"
+notice_url = "https://www.uhcprovider.com/en/resource-library/news/2026/therapeutic-vascular-embolism-policy.html"
+notice_label = "UnitedHealthcare notice, read November 8, 2026"
+
+# Fixed order on every page, never sorted by coverage. Medicare Advantage products sit under their parent insurer.
+insurers = ["medicare", "uhc", "uhc-ma", "anthem", "aetna", "aetna-ma", "cigna", "humana", "hcsc", "ambetter", "molina", "kaiser"]
+
+[names]
+medicare = "Medicare (Original)"
+uhc = "UnitedHealthcare"
+uhc-ma = "UnitedHealthcare Medicare Advantage"
+anthem = "Anthem (Elevance)"
+aetna = "Aetna"
+aetna-ma = "Aetna Medicare Advantage"
+cigna = "Cigna"
+humana = "Humana Medicare Advantage"
+hcsc = "HCSC (Blue Cross in Illinois, Texas, Montana, New Mexico, and Oklahoma)"
+ambetter = "Ambetter (Centene)"
+molina = "Molina"
+kaiser = "Kaiser Permanente"
+
+[hub_notes]
+kaiser = "Only Kaiser's Washington region publishes criteria we could find. Labels below are for that region."
+
+[policies.ncd]
+name = "Medicare national decision 20.28, Therapeutic Embolization"
+link = "https://www.cms.gov/medicare-coverage-database/view/ncd.aspx?ncdid=52&ncdver=1&bc=0"
+dated = "Dated December 15, 1978"
+[policies.uhc-ufe]
+name = "Abnormal Uterine Bleeding and Uterine Fibroids (2026T0442WW)"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/comm-medical-drug/abnormal-uterine-bleeding-uterine-fibroids.pdf"
+dated = "In effect November 1, 2026"
+[policies.uhc-pae]
+name = "Prostate Surgeries and Interventions (2026T0618P)"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/comm-medical-drug/prostate-surgery.pdf"
+dated = "In effect June 1, 2026"
+[policies.uhc-emb]
+name = "Vascular Embolization: Select Procedures (2026T0669A)"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/index/commercial/vascular-embolization-select-procedures-12012026.pdf"
+dated = "Takes effect December 1, 2026"
+[policies.uhcma-ufe]
+name = "Uterine Services and Procedures (MMP098.12)"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/uterine-services-procedures.pdf"
+dated = "In effect November 1, 2026"
+[policies.uhcma-pae]
+name = "Prostate Services and Procedures and Impotence Treatment (MMP075.14)"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/prostate-services-procs-impotence-tx.pdf"
+dated = "In effect September 1, 2026"
+[policies.uhcma-list]
+name = "UnitedHealthcare Medicare Advantage policy list"
+link = "https://www.uhcprovider.com/en/policies-protocols/medicare-advantage-policies/medicare-advantage-medical-policies.html"
+dated = ""
+[policies.carelon]
+name = "Vascular Embolization and Occlusion Procedures, Carelon guideline CAR15-1126.1"
+link = "https://guidelines.carelonmedicalbenefitsmanagement.com/vascular-embolization-and-occlusion-procedures-2026-11-15/"
+dated = "Takes effect November 15, 2026; an earlier version applies until then"
+[policies.aetna-0304]
+name = "Clinical Policy Bulletin 0304, Fibroid Treatment"
+link = "https://www.aetna.com/cpb/medical/data/300_399/0304.html"
+dated = "Last reviewed April 17, 2026"
+[policies.aetna-0079]
+name = "Clinical Policy Bulletin 0079, Benign Prostatic Hyperplasia"
+link = "https://www.aetna.com/cpb/medical/data/1_99/0079.html"
+dated = "Last reviewed October 15, 2026"
+[policies.aetna-0856]
+name = "Clinical Policy Bulletin 0856, Embolization: Selected Procedures"
+link = "https://www.aetna.com/cpb/medical/data/800_899/0856.html"
+dated = "Last reviewed January 12, 2026"
+[policies.aetna-ma]
+name = "Aetna Medicare guidance on utilization management"
+link = "https://www.aetna.com/content/dam/aetna/pdfs/aetnacom/pdf/instructions-for-accessing-supplemental-guidelines.pdf"
+dated = "Undated; Aetna labels it as of January 1, 2024"
+[policies.cigna]
+name = "Cigna Peripheral Vascular Intervention Guidelines (EviCore, V2.0.2026)"
+link = "https://www.evicore.com/sites/default/files/clinical-guidelines/2026-07/Cigna_PVI%20Guidelines_V2.0.2026_Eff11.05.2026_Pub07.20.2026.pdf"
+dated = "In effect November 5, 2026"
+[policies.humana-ufe]
+name = "Uterine Fibroid Surgical Treatments (HUM-1231-005)"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=U&policyType=medical"
+dated = "In effect April 1, 2026"
+[policies.humana-pae]
+name = "Benign Prostatic Hyperplasia Treatments (HUM-1021-010)"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=B&policyType=medical"
+dated = "In effect September 1, 2026"
+[policies.humana-g]
+name = "Humana Medicare Advantage policy list"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=G&policyType=medical"
+dated = ""
+[policies.humana-h]
+name = "Humana Medicare Advantage policy list"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=H&policyType=medical"
+dated = ""
+[policies.hcsc-pelvic]
+name = "Therapeutic Embolization and Vessel Occlusion to Treat Pelvic Conditions (SUR701.015)"
+link = "https://medicalpolicy.hcsc.com/content/dam/bcbs/medicalpolicy/pdf/surgery/SUR701.015_2026-01-01.pdf"
+dated = "In effect January 1, 2026"
+[policies.hcsc-gae]
+name = "Genicular Artery Embolization (SUR705.048)"
+link = "https://medicalpolicy.bcbstx.com/content/dam/bcbs/medicalpolicy/pdf/surgery/SUR705.048_2025-07-15.pdf"
+dated = "Version dated July 15, 2025; a newer version may exist"
+[policies.ambetter]
+name = "Ambetter clinical policy list (Florida)"
+link = "https://www.ambetterhealth.com/en/fl/provider-resources/clinical-payment-policies/"
+dated = ""
+[policies.molina-list]
+name = "Molina clinical policies"
+link = "https://molinahealthcare.com/en/providers/resources/policies/clinical"
+dated = ""
+[policies.molina-gae]
+name = "Genicular Artery Embolization of the Knee for Osteoarthritis (MCP 410)"
+link = "https://www.molinaclinicalpolicy.com/molinaclinicalpolicy/-/media/Molina/PublicWebsite/PDF/Common/Molina-Clinical-Policy/Genicular-Artery-Embolization-of-the-Knee-for-Osteoarthritis_R.pdf"
+dated = "Last approved December 10, 2025"
+[policies.kaiser-list]
+name = "Kaiser Permanente Washington criteria list"
+link = "https://wa-provider.kaiserpermanente.org/clinical-review/criteria"
+dated = ""
+[policies.kaiser-bph]
+name = "Benign Prostatic Hyperplasia Treatments (Kaiser Permanente Washington)"
+link = "https://wa-provider.kaiserpermanente.org/static/pdf/hosting/clinical/criteria/pdf/bph_treatments.pdf"
+dated = "Latest dated change November 4, 2025"
+[policies.kaiser-knee]
+name = "Non-Surgical Procedures for Knee Pain (Kaiser Permanente Washington)"
+link = "https://wa-provider.kaiserpermanente.org/static/pdf/hosting/clinical/criteria/pdf/gna.pdf"
+dated = "Latest dated change April 1, 2026"
+
+# ---- UFE
+[cells.ufe.medicare]
+cell = "C01"
+chip = "case_by_case"
+policy = "ncd"
+checked = "2026-11-07"
+text = "No specific Medicare policy; decided case by case. No national or local Medicare document we found names this procedure in its title. Each Medicare contractor decides, case by case, whether it is reasonable and necessary, under a general 1978 decision on embolization."
+[cells.ufe.uhc]
+cell = "C05"
+chip = "conditions"
+policy = "uhc-ufe"
+checked = "2026-11-07"
+text = "For fibroids that cause symptoms. UnitedHealthcare's detailed rules are in a licensed tool (InterQual) that is not public. Not covered when the purpose is to preserve the ability to have children."
+[cells.ufe.uhc-ma]
+cell = "C41"
+chip = "conditions"
+policy = "uhcma-ufe"
+checked = "2026-11-08"
+text = "Uses the same conditions as UnitedHealthcare's other plans: fibroids that cause symptoms, with detailed rules in a licensed tool (InterQual) that is not public. Not covered when the purpose is to preserve the ability to have children."
+[cells.ufe.anthem]
+cell = "C09"
+chip = "conditions"
+policy = "carelon"
+checked = "2026-11-07"
+text = "Uterine fibroids with one of these. Based on the Carelon guideline that Anthem plans appear to use."
+items = ["Heavy bleeding", "Pelvic symptoms such as pain, pressure, or passing urine often, when not caused by infection"]
+[cells.ufe.aetna]
+cell = "C13"
+chip = "conditions"
+policy = "aetna-0304"
+checked = "2026-11-07"
+text = "As an alternative to hysterectomy or myomectomy, when one or more fibroid symptoms persist."
+items = ["Heavy periods", "Pain or pressure from the size of the fibroids", "Urinary symptoms from pressure on the bladder", "Pain with sex"]
+[cells.ufe.aetna-ma]
+cell = "C45"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-08"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.ufe.cigna]
+cell = "C17"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-07"
+text = "Fibroids shown on an earlier ultrasound or MRI, plus one of these. Applies where EviCore manages the service for Cigna."
+items = ["Abnormal bleeding, with a normal recent biopsy of the uterine lining", "Period pain that limits daily life and is not helped by pain medicines", "Pain with sex for more than 6 months, with no other cause", "Urinary symptoms from the size of the fibroids"]
+[cells.ufe.humana]
+cell = "C21"
+chip = "conditions"
+policy = "humana-ufe"
+checked = "2026-11-07"
+text = "Fibroids confirmed, for example on imaging. The patient wants to keep the uterus. Symptoms have lasted 3 months or more despite medical treatment, where that treatment is appropriate."
+[cells.ufe.hcsc]
+cell = "C25"
+chip = "conditions"
+policy = "hcsc-pelvic"
+checked = "2026-11-07"
+text = "Fibroids with one of these. One repeat procedure is allowed for continued symptoms."
+items = ["Heavy, irregular, and prolonged bleeding, or low iron", "Pelvic pain, or low back or bladder pressure with passing urine often, when not caused by infection", "No symptoms, but fibroids large enough to feel through the belly and worrying the patient"]
+[cells.ufe.ambetter]
+cell = "C29"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-07"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.ufe.molina]
+cell = "C33"
+chip = "no_policy"
+policy = "molina-list"
+checked = "2026-11-07"
+text = "We found no Molina policy on this procedure in a web search. We could not open Molina's full policy list, so one may exist. Ask your plan."
+[cells.ufe.kaiser]
+cell = "C37"
+chip = "no_policy"
+policy = "kaiser-list"
+checked = "2026-11-07"
+text = "Kaiser's Washington region lists no criteria for this procedure. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
+
+# ---- PAE
+[cells.pae.medicare]
+cell = "C02"
+chip = "case_by_case"
+policy = "ncd"
+checked = "2026-11-07"
+text = "No specific Medicare policy; decided case by case. No national or local Medicare document we found names this procedure in its title. Each Medicare contractor decides, case by case, whether it is reasonable and necessary, under a general 1978 decision on embolization."
+[cells.pae.uhc]
+cell = "C06"
+chip = "conditions"
+policy = "uhc-pae"
+checked = "2026-11-07"
+text = "Either of two routes. All other uses are not covered."
+items = ["Lasting visible blood in the urine that comes from the prostate", "Enlarged prostate symptoms confirmed by a board-certified urologist, after medicines (an alpha-blocker, a 5-alpha reductase inhibitor, or both) have failed, plus one of: a serious other illness (ASA class III or higher), a bleeding disorder, being unable to stop blood thinners, or a prostate over 80 grams on imaging"]
+[cells.pae.uhc-ma]
+cell = "C42"
+chip = "conditions"
+policy = "uhcma-pae"
+checked = "2026-11-08"
+text = "Uses the same conditions as UnitedHealthcare's other plans. All other uses are not covered."
+items = ["Lasting visible blood in the urine that comes from the prostate", "Enlarged prostate symptoms confirmed by a board-certified urologist, after medicines (an alpha-blocker, a 5-alpha reductase inhibitor, or both) have failed, plus one of: a serious other illness (ASA class III or higher), a bleeding disorder, being unable to stop blood thinners, or a prostate over 80 grams on imaging"]
+[cells.pae.anthem]
+cell = "C10"
+chip = "conditions"
+policy = "carelon"
+checked = "2026-11-07"
+text = "Only in two situations. Based on the Carelon guideline that Anthem plans appear to use."
+items = ["Moderate to severe enlarged prostate symptoms in a man who is not a candidate for surgery", "Bleeding from the prostate"]
+[cells.pae.aetna]
+cell = "C14"
+chip = "covered"
+policy = "aetna-0079"
+checked = "2026-11-07"
+text = "Listed as medically necessary for an enlarged prostate, as an alternative to prostate surgery (TURP). The policy statement lists no further conditions."
+short = "As an alternative to prostate surgery (TURP)"
+[cells.pae.aetna-ma]
+cell = "C46"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-08"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.pae.cigna]
+cell = "C18"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-07"
+text = "Enlarged prostate with urinary symptoms, after medicines (an alpha-blocker or a 5-alpha reductase inhibitor) failed or could not be tolerated, plus one of these. A repeat is allowed after a good first response if symptoms return after 6 months. Applies where EviCore manages the service for Cigna."
+items = ["Blood in the urine from the prostate", "Being unable to pass urine, to get off a catheter, when the bladder still works", "Severe symptoms (a score of 20 or more on the AUA symptom questionnaire) with a prostate of 50 cc or more", "Blockage from a protruding middle lobe", "Not a candidate for surgery because of age, other illnesses, a bleeding disorder, or blood thinners"]
+[cells.pae.humana]
+cell = "C22"
+chip = "conditions"
+policy = "humana-pae"
+checked = "2026-11-07"
+text = "Either of two routes."
+items = ["Inside an approved device study", "No history of prostate or bladder cancer, a prostate larger than 80 grams, and not a candidate for surgery"]
+[cells.pae.hcsc]
+cell = "C26"
+chip = "no_policy"
+policy = "hcsc-pelvic"
+checked = "2026-11-07"
+text = "HCSC's pelvic embolization policy no longer addresses this procedure. It had been listed as investigational since May 2021, and that statement was removed on January 1, 2026. We found no separate policy. Ask your plan."
+[cells.pae.ambetter]
+cell = "C30"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-07"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.pae.molina]
+cell = "C34"
+chip = "no_policy"
+policy = "molina-list"
+checked = "2026-11-07"
+text = "We found no Molina policy on this procedure in a web search. We could not open Molina's full policy list, so one may exist. Ask your plan."
+[cells.pae.kaiser]
+cell = "C38"
+chip = "not_covered"
+policy = "kaiser-bph"
+checked = "2026-11-07"
+text = "Kaiser's Washington region says there is not enough evidence. It covers this procedure only inside an approved device study, for Medicare members. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
+
+# ---- GAE
+[cells.gae.medicare]
+cell = "C03"
+chip = "case_by_case"
+policy = "ncd"
+checked = "2026-11-07"
+text = "No specific Medicare policy; decided case by case. No national or local Medicare document we found names this procedure in its title. Each Medicare contractor decides, case by case, whether it is reasonable and necessary, under a general 1978 decision on embolization."
+[cells.gae.uhc]
+cell = "C07"
+chip = "not_covered"
+policy = "uhc-emb"
+checked = "2026-11-07"
+text = "Knee arthritis is listed as unproven, in a policy that takes effect December 1, 2026."
+[cells.gae.uhc-ma]
+cell = "C43"
+notice = true
+chip = "no_policy"
+policy = "uhcma-list"
+checked = "2026-11-08"
+text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on most of these plans, and we could not confirm that this applies to knee embolization. Ask your plan."
+[cells.gae.anthem]
+cell = "C11"
+chip = "not_covered"
+policy = "carelon"
+checked = "2026-11-07"
+text = "Listed by name as not medically necessary. Based on the Carelon guideline that Anthem plans appear to use."
+[cells.gae.aetna]
+cell = "C15"
+chip = "not_covered"
+policy = "aetna-0856"
+checked = "2026-11-07"
+text = "Listed as experimental, investigational, or unproven for knee arthritis pain."
+[cells.gae.aetna-ma]
+cell = "C47"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-08"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.gae.cigna]
+cell = "C19"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-07"
+text = "One of these routes. Applies where EviCore manages the service for Cigna."
+items = ["Knee arthritis: referred by an orthopedic, sports medicine, or rehab specialist; X-ray grade 1 to 3 (how severe the arthritis looks); a pain score of VAS 55 or more or WOMAC 40 or more (two pain scales); and 3 months or more of failed conservative care (anti-inflammatory medicines, joint injection, physical therapy). A grade 4 knee qualifies only if that specialist finds the person is not a candidate for replacement because of age, weight, or other illness", "After knee replacement: bleeding into the joint", "After knee replacement: chronic pain despite pain medicines, with a pain score of VAS 55 or more or WOMAC 40 or more (two pain scales)"]
+[cells.gae.humana]
+cell = "C23"
+chip = "no_policy"
+policy = "humana-g"
+checked = "2026-11-07"
+text = "We found no Medicare Advantage policy on this procedure in Humana's list. No policy does not mean covered or not covered. Ask your plan."
+[cells.gae.hcsc]
+cell = "C27"
+chip = "not_covered"
+policy = "hcsc-gae"
+checked = "2026-11-07"
+text = "Listed as experimental for knee pain of any cause, including arthritis, before or after knee replacement, and for people who cannot have a knee replacement."
+[cells.gae.ambetter]
+cell = "C31"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-07"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.gae.molina]
+cell = "C35"
+chip = "not_covered"
+policy = "molina-gae"
+checked = "2026-11-07"
+text = "Listed as experimental for knee arthritis. For Medicare members, a national or local Medicare decision overrides this policy."
+[cells.gae.kaiser]
+cell = "C39"
+chip = "not_covered"
+policy = "kaiser-knee"
+checked = "2026-11-07"
+text = "Kaiser's Washington region does not cover it for knee arthritis, citing not enough evidence. It does cover it for bleeding into the knee after knee surgery when conservative care fails. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
+
+# ---- HAE (hub only: no condition page)
+[cells.hae.medicare]
+cell = "C04"
+chip = "case_by_case"
+policy = "ncd"
+checked = "2026-11-07"
+text = "No specific Medicare policy; decided case by case. No national or local Medicare document we found names this procedure in its title. Each Medicare contractor decides, case by case, whether it is reasonable and necessary, under a general 1978 decision on embolization."
+[cells.hae.uhc]
+cell = "C08"
+chip = "not_covered"
+policy = "uhc-emb"
+checked = "2026-11-07"
+text = "Hemorrhoids are listed as unproven, in a policy that takes effect December 1, 2026."
+[cells.hae.uhc-ma]
+cell = "C44"
+notice = true
+chip = "no_policy"
+policy = "uhcma-list"
+checked = "2026-11-08"
+text = "We found no Medicare Advantage policy that names this procedure, going by the titles and billing codes in UnitedHealthcare's list. We could not confirm which rules UnitedHealthcare applies to this procedure. From December 1, 2026, it adds an approval step for one embolization billing code on most of these plans, and we could not confirm that this applies to hemorrhoid embolization. Ask your plan."
+[cells.hae.anthem]
+cell = "C12"
+chip = "not_covered"
+policy = "carelon"
+checked = "2026-11-07"
+text = "The guideline does not address this procedure, and it treats anything it does not address as not medically necessary. Based on the Carelon guideline that Anthem plans appear to use."
+[cells.hae.aetna]
+cell = "C16"
+chip = "not_covered"
+policy = "aetna-0856"
+checked = "2026-11-07"
+text = "Listed as experimental, in an entry that names one embolic product. We read that as covering the procedure, and the policy's billing code table lists hemorrhoid embolization as not covered."
+[cells.hae.aetna-ma]
+cell = "C48"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-08"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.hae.cigna]
+cell = "C20"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-07"
+text = "Grade 1 to 3 hemorrhoids after failed non-surgical treatment, including diet and lifestyle changes, plus one of these. A repeat is allowed for recurrent daily bleeding. Applies where EviCore manages the service for Cigna."
+items = ["Repeated bleeding confirmed on anoscopy (an exam inside the anus), or no other source of bleeding", "Other symptoms in people who cannot have office procedures or surgery (blood thinners, a bleeding disorder, a weak immune system, or inflammatory bowel disease)", "Other symptoms after failed banding or sclerotherapy (two office treatments for hemorrhoids)"]
+[cells.hae.humana]
+cell = "C24"
+chip = "no_policy"
+policy = "humana-h"
+checked = "2026-11-07"
+text = "We found no Medicare Advantage policy on this procedure in Humana's list. No policy does not mean covered or not covered. Ask your plan."
+[cells.hae.hcsc]
+cell = "C28"
+chip = "no_policy"
+policy = "hcsc-pelvic"
+checked = "2026-11-07"
+text = "HCSC's pelvic embolization policy no longer addresses this procedure. It was added as experimental on April 15, 2025, and that statement was removed on January 1, 2026. We found no separate policy. Ask your plan."
+[cells.hae.ambetter]
+cell = "C32"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-07"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.hae.molina]
+cell = "C36"
+chip = "no_policy"
+policy = "molina-list"
+checked = "2026-11-07"
+text = "We found no Molina policy on this procedure in a web search. We could not open Molina's full policy list, so one may exist. Ask your plan."
+[cells.hae.kaiser]
+cell = "C40"
+chip = "no_policy"
+policy = "kaiser-list"
+checked = "2026-11-07"
+text = "Kaiser's Washington region lists no criteria for this procedure. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."

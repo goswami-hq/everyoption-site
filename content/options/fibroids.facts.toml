@@ -1,0 +1,301 @@
+# The tie between the simple page (content/conditions/fibroids.toml) and the deep page (content/options/fibroids.toml).
+# His words, 2026-11-05: "not to sync the simple and deep sources so they are exact, but rather have them be tied
+# together in the numbers and sources and relative phrasings". The two pages keep their own text. Each entry names one
+# number or comparison: `simple` must appear in that option's simple text with `refs` cited there; the deep page may
+# state it only as {f:id}, which prints `deep` and its references. A new number on either page fails the build until it
+# is entered here. option = "" means any part of the simple page.
+[[fact]]
+id = "iud-years"
+option = "iud"
+simple = "up to 5 years"
+deep = "up to 5 years"
+refs = ["owh", "mirena"]
+[[fact]]
+id = "ufe-recovery"
+option = ""
+simple = "about 1 week"
+deep = "about 1 week"
+refs = ["sir", "mpuae"]
+[[fact]]
+id = "major-recovery"
+option = ""
+simple = "2 to 6 weeks"
+deep = "2 to 6 weeks"
+refs = ["ccmyo", "mphyst"]
+[[fact]]
+id = "ea-recovery"
+option = "endometrial-ablation"
+simple = "1 to 2 days"
+deep = "1 to 2 days"
+refs = ["mpea"]
+[[fact]]
+id = "gnrh-bleeding"
+option = "hormone-medicines"
+simple = "about 7 out of 10 women"
+deep = "about 7 out of 10 women"
+refs = ["liberty"]
+[[fact]]
+id = "ufe-improve"
+option = "embolization"
+simple = "almost 9 out of 10 women"
+deep = "almost 9 out of 10 women"
+refs = ["iqwig"]
+[[fact]]
+id = "ufe-5yr"
+option = "embolization"
+simple = "about 7 out of 10 women still feel better five years later"
+deep = "about 7 out of 10 women still feel better five years later"
+refs = ["spies"]
+[[fact]]
+id = "ufe-satisfied"
+option = "embolization"
+simple = "just as satisfied as those who had surgery"
+deep = "just as satisfied as women who had surgery (hysterectomy or myomectomy)"
+refs = ["cochrane", "rest"]
+[[fact]]
+id = "ufe-repeat"
+option = "embolization"
+simple = "about 1 out of 4 may need another procedure"
+deep = "about 1 out of 4 may need another procedure"
+refs = ["spies", "femme4", "rest"]
+[[fact]]
+id = "ufe-10yr"
+option = "embolization"
+simple = "after ten years, about 2 out of 3 women avoided a hysterectomy"
+deep = "after ten years, about 2 out of 3 women avoided a hysterectomy"
+refs = ["emmy"]
+[[fact]]
+id = "ufe-menopause"
+option = "embolization"
+simple = "less than 5 out of 100 women go through it"
+deep = "less than 5 out of 100 women go through menopause early"
+refs = ["sir", "rinfo"]
+[[fact]]
+id = "ufe-serious"
+option = "embolization"
+simple = "serious problems are no more common than after surgery"
+deep = "serious problems are no more common than after surgery"
+refs = ["cochrane", "martin"]
+[[fact]]
+id = "rfa-sonata"
+option = "radiofrequency"
+simple = ""
+deep = "about 1 out of 11 women needed surgery within 3 years in one study"
+refs = ["sonata3"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
+[[fact]]
+id = "rfa-dutch"
+option = "radiofrequency"
+simple = ""
+deep = "about 2 out of 5 within 2 years in another"
+refs = ["dutch"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
+[[fact]]
+id = "ea-hyst"
+option = "endometrial-ablation"
+simple = ""
+deep = "about 1 out of 8 women had a hysterectomy within 5 years"
+refs = ["oderkerk"]
+read = "abstract"   # set 2026-11-12 when the short guide dropped this figure; the conservative label, how it was read is not recorded
+[[fact]]
+id = "myo-repeat"
+option = "myomectomy"
+simple = "about 1 out of 8 women may need another procedure"
+deep = "about 1 out of 8 women may need another procedure"
+refs = ["femme4"]
+[[fact]]
+id = "hernia"
+option = ""
+simple = "up to 1 out of 5 people get a hernia at the scar"
+deep = "up to 1 out of 5 people get a hernia at the scar"
+refs = ["cchernia"]
+[[fact]]
+id = "age50"
+option = ""
+simple = "by age 50, about 2 to 8 out of 10 women"
+deep = "by age 50, about 2 to 8 out of 10 women"
+refs = ["owh"]
+[[fact]]
+id = "soak"
+option = ""
+simple = "every hour for 2 to 3 hours"
+deep = "every hour for 2 to 3 hours"
+refs = ["mpbleed"]
+[[fact]]
+id = "cancer"
+option = ""
+simple = "less than 1 out of 200 women who have fibroid surgery"
+deep = "less than 1 out of 200 women who have fibroid surgery"
+refs = ["owh", "fdamorc"]
+
+# ---- Deep page only (job platform-main-0027; sources: ai-hq projects/platform/content/pages/sources/fibroids-evidence-2026-11-07/) ----
+[[fact]]
+id = "gnrh-6mo"
+option = "hormone-medicines"
+simple = ""
+deep = "In four large trials of two medicines (relugolix and elagolix), women were assigned by chance to the medicine or to a placebo (a dummy pill with no active ingredient) and followed over 6 months"
+refs = ["liberty", "schlaff"]
+read = "abstract"
+[[fact]]
+id = "gnrh-placebo"
+option = "hormone-medicines"
+simple = ""
+deep = "In those four trials, about 1 to 2 out of 10 women on the dummy pill met the same bleeding goal (8.7% to 19%)"
+refs = ["liberty", "schlaff"]
+read = "abstract"
+[[fact]]
+id = "ufe-range"
+option = "embolization"
+simple = ""
+deep = "A German health-information institute puts symptom improvement at about 80 to 90 out of 100 women"
+refs = ["iqwig"]
+read = "page"
+[[fact]]
+id = "ufe-sat"
+option = "embolization"
+simple = ""
+deep = "A Cochrane review combined 7 trials (793 women) that assigned women by chance to embolization or to surgery (hysterectomy or myomectomy). It found no clear difference in satisfaction between embolization and surgery up to 2 years (6 trials, 640 women). There was no clear difference at 5 years either"
+refs = ["cochrane"]
+read = "full text"
+[[fact]]
+id = "femme-qol"
+option = "embolization"
+simple = ""
+deep = "A trial assigned 254 women at 29 UK hospitals by chance to myomectomy or to embolization. At 2 years, fibroid quality-of-life scores out of 100 were 84.6 after myomectomy and 80.0 after embolization. After allowing for differences between the women, myomectomy scored 8.0 points higher. At 4 years, myomectomy was 5.0 points higher, a gap that could be due to chance"
+refs = ["femme2", "femme4"]
+read = "abstract"
+[[fact]]
+id = "myo-time"
+option = "myomectomy"
+simple = ""
+deep = "About 1 out of 8 women had another procedure by 4 to 5 years (13% at 4 years in one trial; 12.2% at 5 years across several studies combined). About 1 out of 5 had one by 7 years (20.6% in a large U.S. health system study)"
+refs = ["femme4", "sandberg18", "mitro24"]
+read = "abstract"
+[[fact]]
+id = "myo-pool"
+option = "myomectomy"
+simple = ""
+deep = "It found about 1 out of 5 women had another procedure by 5 years after myomectomy (19%), more than the first combined figure. In the same analysis, the figure was higher after embolization (21%) and after focused ultrasound (49%)"
+refs = ["xu21"]
+read = "abstract"
+[[fact]]
+id = "rfa-pool"
+option = "radiofrequency"
+simple = "about 1 out of 9 within 3 years"
+deep = "Across studies that followed women forward from treatment, about 1 out of 9 women had another procedure for fibroid symptoms by 3 years (11.5%)"
+refs = ["bradley19"]
+read = "abstract"
+[[fact]]
+id = "rfa-esonata"
+option = "radiofrequency"
+simple = ""
+deep = "A Dutch study followed women after the treatment they chose; treatments were not assigned by chance. Within 18 months, about 1 out of 4 women (27.3%) needed another surgery after the no-cut radiofrequency treatment through the vagina, compared with about 1 out of 16 (6.3%) after myomectomy"
+refs = ["esonata"]
+read = "abstract"
+[[fact]]
+id = "fus-sham"
+option = "focused-ultrasound"
+simple = ""
+deep = "A small pilot trial assigned 20 women by chance to focused ultrasound or to a placebo (a fake treatment). By 12 weeks, symptoms improved more after focused ultrasound than after the fake treatment (31 versus 13 points on a symptom score). At 4 weeks, the difference could be due to chance"
+refs = ["promise"]
+read = "abstract"
+[[fact]]
+id = "fus-repeat"
+option = "focused-ultrasound"
+simple = ""
+deep = "In one group of 138 women, 19% had more treatment by 3 years and 23% by 4 years. In another group of 162 women, 59% had more treatment by 5 years"
+refs = ["gorny14", "quinn14"]
+read = "abstract"
+[[fact]]
+id = "fus-firstt"
+option = "focused-ultrasound"
+simple = ""
+deep = "A small trial treated 83 women with focused ultrasound or embolization; some of them were assigned by chance. Another fibroid procedure followed for 13 of 43 (30%) after focused ultrasound, compared with 5 of 40 (12.5%) after embolization"
+refs = ["firstt"]
+read = "full text"
+[[fact]]
+id = "ea-finland"
+option = "endometrial-ablation"
+simple = ""
+deep = "In a Finnish national registry, women with fibroids were almost twice as likely to have a hysterectomy after ablation, after allowing for other differences"
+refs = ["soini17"]
+read = "abstract"
+[[fact]]
+id = "ea-kaiser"
+option = "endometrial-ablation"
+simple = ""
+deep = "In a large U.S. health system study of women treated for fibroids, 35.5% needed another procedure within 7 years of ablation"
+refs = ["mitro24"]
+read = "abstract"
+
+# Hysterectomy section (his Doc comment 2026-11-11). Evidence: ai-hq fibroids-evidence-2026-11-11-hysterectomy.md
+[[fact]]
+id = "hyst-emmy"
+option = "hysterectomy"
+simple = ""
+deep = "A trial in the Netherlands assigned 177 women by chance to embolization or to hysterectomy. Quality of life improved after both, with no clear difference between them at 5 or 10 years. At 10 years, 87% of women were satisfied after hysterectomy and 78% after embolization. Combined with other trials, satisfaction did not clearly differ between embolization and surgery"
+refs = ["emmy", "emmy5", "cochrane"]
+read = "abstract"
+[[fact]]
+id = "hyst-reint"
+option = "hysterectomy"
+simple = ""
+deep = "By 10 years in the Dutch trial, 35% of women treated with embolization (28 of 81) went on to have a hysterectomy, so about 2 out of 3 kept their uterus. In a UK trial, 32% needed another procedure within 5 years after embolization, compared with 4% after surgery, which was mostly hysterectomy"
+refs = ["emmy", "rest"]
+read = "abstract"
+[[fact]]
+id = "hyst-stay"
+option = "hysterectomy"
+simple = ""
+deep = "At one U.S. hospital, 9 out of 10 women who had a nerve block for pain during embolization went home the same day. Without the block, about half did. Some women stay one night for pain control. Embolization is also done in outpatient offices, with no hospital stay at all. In U.S. health records from 2016 to 2019, the stay was 1 day after embolization and 5 days after hysterectomy. Older trials kept women in the hospital longer. In the Dutch trial, women spent an average of 2.5 days in the hospital after embolization and 5.1 days after hysterectomy. That trial ran in the early 2000s, and stays after embolization are shorter now. Surgery through small cuts or the vagina usually means a shorter stay than a larger cut in the belly"
+refs = ["kim25", "geschwind", "deipolyi", "emmy-peri", "pickett23"]
+read = "abstract"
+[[fact]]
+id = "hyst-route"
+option = "hysterectomy"
+simple = ""
+deep = "A Cochrane review of 63 trials (6,811 women) compared ways of doing the surgery. Women got back to normal activities about 11 days sooner after surgery through the vagina, and about 13 days sooner after surgery through small cuts, than after a larger cut in the belly. Surgery through small cuts had about twice as many injuries to the bladder or the tubes that carry urine. The review's example: if about 2 out of 1,000 women have an injury to a tube from the kidney after a larger cut, the figure through small cuts would be between 2 out of 1,000 and 2 out of 100"
+refs = ["pickett23"]
+read = "abstract"
+[[fact]]
+id = "hyst-maryland"
+option = "hysterectomy"
+simple = ""
+deep = "In a Maryland study, 1,299 women had a hysterectomy for noncancer reasons (not only fibroids). Symptoms eased and quality of life rose over 2 years. About 1 out of 12 (8%) still had as many severe symptoms 1 and 2 years later"
+refs = ["kjerulff"]
+read = "abstract"
+[[fact]]
+id = "hyst-harms"
+option = "hysterectomy"
+simple = ""
+deep = "In the Dutch trial, serious problems were not clearly more common after either treatment (2.7% after hysterectomy, 4.9% after embolization). In the 6 weeks after leaving the hospital, minor problems were less common after hysterectomy (40% compared with 58%), and no one went back into the hospital, compared with 11% after embolization"
+refs = ["emmy-peri"]
+read = "abstract"
+[[fact]]
+id = "hyst-ovary"
+option = "hysterectomy"
+simple = ""
+deep = "When the ovaries are kept, studies disagree on whether menopause comes sooner. In one U.S. study, the ovaries stopped working within 4 years in 14.8% of women after hysterectomy, compared with 8.0% of similar women who did not have one. A later U.S. study that tracked an ovarian hormone found no faster decline after hysterectomy"
+refs = ["moorman11", "santoro23"]
+read = "abstract"
+[[fact]]
+id = "hyst-sui"
+option = "hysterectomy"
+simple = ""
+deep = "In a Swedish national study of 165,260 women who had a hysterectomy, later surgery for leaking urine when coughing or exercising (stress incontinence) was more than twice as common as in women who did not have one"
+refs = ["altman07"]
+read = "abstract"
+[[fact]]
+id = "hyst-heart"
+option = "hysterectomy"
+simple = ""
+deep = "In a Minnesota study that followed 2,094 women for about 22 years after a hysterectomy that kept the ovaries, high blood pressure and heart disease were somewhat more common than in women who did not have one, more so for women 35 or younger. A study like this cannot show that the surgery caused it"
+refs = ["laughlin18"]
+read = "abstract"
+[[fact]]
+id = "myo-transfusion"
+option = "myomectomy"
+simple = ""
+deep = "about 1 out of 5 women need a blood transfusion after open surgery, and about 1 out of 20 after surgery through small cuts, in a review of 9 studies"
+refs = ["alghamdi"]
+read = "abstract"

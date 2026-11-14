@@ -1,0 +1,322 @@
+# The deep "every option" page for fibroids. First version: every claim comes from the simple page's sources. No number
+# or comparison appears here except through {f:id} (see fibroids.facts.toml). draft = true keeps it out of search until
+# the complete recorded evidence search is done and he signs off.
+slug = "fibroids"
+path = "/fibroids/every-option/"
+draft = true
+abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
+reviewed = "2026-11-05"
+# Search targets: the comparisons (pattern: docs/condition-pattern.md). The simple page owns "fibroid treatment options".
+targets = ["ufe vs myomectomy", "myomectomy vs hysterectomy", "ufe vs hysterectomy", "fibroid medication", "best treatment for fibroids", "ufe recovery time", "myomectomy recovery time"]
+title = "UFE vs. Myomectomy vs. Hysterectomy, Compared | Every Option"
+description = "Fibroid embolization (UFE) vs. myomectomy, hysterectomy, and medicines: recovery, results, risks, and which treatments keep the uterus, side by side."
+h1 = "Fibroid treatments compared, side by side"
+# The lede opens with the answer and the first target (agreed list item 2, his "Fine" 2026-11-07); the old lede is
+# `read_intro`, under "How to read this page". Numbers in the lede only as ledger facts.
+lede = "UFE vs. myomectomy: both keep the uterus, and good evidence suggests women improve after either one. Some women need another procedure later after either. Embolization works through a tiny skin nick, with no cut in the belly, and recovery takes {f:ufe-recovery} instead of {f:major-recovery}. Hysterectomy is the only treatment that keeps fibroids from returning."
+read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
+reading_note = [
+]
+glance_heading = "Compared at a glance: recovery and which keep the uterus"
+# The first-screen view of the grid: the procedure and its main comparators (walkthrough finding 2, his yes 2026-11-09).
+glance_peek = ["embolization", "myomectomy", "hysterectomy"]
+glance_peek_columns = ["certainty", "recovery"]
+# His Doc suggestion 2026-11-11: say what the surgery is where a patient first meets the word.
+glance_peek_gloss = { hysterectomy = "surgical removal of the uterus" }
+glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor. Select a treatment name to read more about it."
+works_note = "Results under How well it works come from different studies that measured different things (symptoms, bleeding, or needing more treatment later), so they do not rank one treatment above another."
+simple_link = "New to fibroids? Start with the short guide to your fibroid treatment options"
+find_heading = "Find a fibroid embolization doctor"
+city_link = "Fibroid embolization doctors by city"
+# Section headings phrased as the comparisons (the simple page's category names stay as they are there)
+[compare_headings]
+medicines = "Fibroid medicines compared"
+less-invasive = "Embolization vs. other less invasive treatments"
+surgery = "Myomectomy vs. hysterectomy, and other surgery"
+
+
+[[glance]]
+option = "non-hormone-medicines"
+works = "Ease bleeding and cramps; do not treat the fibroids"
+involves = "Pills on period days"
+recovery = "None"
+uterus = "Yes"
+fibroids = "No. Eases bleeding and cramps"
+[[glance]]
+option = "hormone-medicines"
+works = "Greatly reduce bleeding; symptoms often return after stopping"
+involves = "Pills or shots"
+recovery = "None"
+uterus = "Yes"
+fibroids = "Eases symptoms, which often return after stopping"
+[[glance]]
+option = "iud"
+works = "Lightens periods; does not treat the fibroids"
+involves = "Office visit"
+recovery = "Placed during a visit"
+uterus = "Yes"
+fibroids = "No. Lightens periods"
+[[glance]]
+option = "embolization"
+works = "Most women feel much better"
+involves = "Tiny skin nick"
+recovery = "{g:ufe-recovery}"
+uterus = "Yes"
+fibroids = "Yes. Shrinks them"
+[[glance]]
+option = "radiofrequency"
+works = "Results vary: {d:rfa-sonata}, {d:rfa-dutch}"
+involves = "Small cuts, or no cuts through the vagina"
+recovery = "Most go home the same day"
+uterus = "Yes"
+fibroids = "Yes. Heat destroys the fibroid"
+[[glance]]
+option = "focused-ultrasound"
+works = "Eases symptoms; fits only some fibroids"
+involves = "No cut, in an MRI scanner"
+recovery = "Most recover quickly"
+uterus = "Yes"
+fibroids = "Yes, for some fibroids"
+[[glance]]
+option = "endometrial-ablation"
+works = "Treats the lining, not the fibroids; in heavy-bleeding studies, {d:ea-hyst}"
+involves = "No cuts"
+recovery = "{g:ea-recovery}"
+uterus = "Yes"
+fibroids = "No. Treats the lining"
+[[glance]]
+option = "hysteroscopic"
+works = "Helps; works only for fibroids inside the uterus"
+involves = "No cuts, through the cervix"
+recovery = "A few days"
+uterus = "Yes"
+fibroids = "Yes, only those inside the uterus"
+[[glance]]
+option = "myomectomy"
+works = "Quality of life improves"
+involves = "Surgery: larger cut or a few small cuts"
+recovery = "{g:major-recovery}"
+uterus = "Yes"
+fibroids = "Yes. Removes those the surgeon can see"
+[[glance]]
+option = "hysterectomy"
+works = "The only treatment that keeps fibroids from returning; periods stop"
+involves = "Surgery: removes the uterus"
+recovery = "{g:major-recovery}"
+uterus = "No"
+fibroids = "Yes. They cannot return"
+
+[[detail]]
+option = "non-hormone-medicines"
+intro = "You take tranexamic acid only on the days of your period. Pain relievers and iron can help with cramps and tiredness from blood loss.[^mpfib][^txa][^owh]"
+works = "These medicines ease bleeding and cramps. They do not touch the fibroids, so symptoms come back when you stop.[^mpfib][^txa]"
+risks = "Blood clots from tranexamic acid are possible, but rare.[^txa]"
+
+[[detail]]
+option = "hormone-medicines"
+certainty = "Strong evidence shows"
+intro = "This group includes birth control pills or shots, daily pills that lower hormones, and short-term shots before surgery.[^mpfib][^lupron]"
+works = "Strong evidence shows daily hormone-lowering pills greatly reduce bleeding. In a drug-maker-funded trial, bleeding fell greatly for {f:gnrh-bleeding}. Symptoms often come back after stopping.[^owh]"
+evidence = [
+  "* **The strong evidence is for bleeding over the first months.** {d:gnrh-6mo}.",
+  "* **Some women on the dummy pill also improved.** {d:gnrh-placebo}. The medicine's real effect is the gap between the two groups.",
+  "* **Use beyond six months rests mostly on extension studies.** In these, every woman knew she was taking the medicine. One study assigned some women by chance to switch to a dummy pill. Most of those who stopped the medicine saw heavy bleeding return.[^libext][^libwd]",
+]
+risks = "Hot flashes can happen. Some of these medicines weaken bones, so how long you can take them is limited. They are not for women who have had blood clots.[^oriahnn][^myfembree][^lupron]"
+
+[[detail]]
+option = "iud"
+intro = "A small device placed in the uterus during an office visit releases hormone and thins the lining. It lasts {f:iud-years}."
+works = "It lightens periods. It does not treat the fibroids.[^owh]"
+risks = "Spotting is common at first. It is more likely to slip out when fibroids are present.[^obg]"
+
+[[detail]]
+option = "embolization"
+certainty = "Good evidence suggests"
+diagram = true
+intro = "An interventional radiologist passes a thin tube through a tiny skin nick to the arteries that feed the fibroids. Tiny beads or particles block that blood flow, and the fibroids shrink. You keep your uterus. There is no cut in the belly, so there is no belly scar where a hernia can form. Most women go home the same day.[^sir][^mpfib][^mpuae] Recovery takes {f:ufe-recovery}, compared with {f:major-recovery} after major surgery."
+works = "Good evidence suggests most women feel much better: {f:ufe-improve} see their symptoms improve, and {f:ufe-5yr}. Most feel {f:ufe-satisfied}. The tradeoff is that the uterus stays, so {f:ufe-repeat} down the line. Even so, {f:ufe-10yr} entirely."
+evidence = [
+  "* **Most women's symptoms improve.** {d:ufe-range}.",
+  "* **Satisfaction: no clear difference from surgery.** {d:ufe-sat}.",
+  "* **Quality of life: no clear lasting difference from myomectomy.** {d:femme-qol}.",
+  "* **Taken together:** no clear difference in satisfaction. On quality of life, myomectomy scored somewhat higher at first, and later the gap could be due to chance.[^cochrane][^femme2][^femme4]",
+]
+risks = "Strong cramping pain, like very bad period cramps, is common in the first few days. It often comes with nausea and a low fever. Doctors call this post-embolization syndrome. It usually eases within a week.[^sir][^rinfo] Early menopause is uncommon: {f:ufe-menopause}. Overall, {f:ufe-serious}."
+fit = "A radiology expert panel rates embolization usually appropriate or possibly appropriate across the fibroid situations it reviewed.[^acr] Before you agree to surgery, ask about it."
+
+[[detail]]
+option = "radiofrequency"
+intro = "Heat from a small needle destroys the fibroid. The doctor uses small cuts in the belly, or goes through the vagina with no cuts. Most women go home the same day.[^mpfib][^sonata3][^halt]"
+works = "Results vary from study to study: {d:rfa-sonata}, and {d:rfa-dutch}. The first study was funded by the device maker.[^sonata3]"
+evidence = [
+  "* **These two figures differ mainly in what they count.**",
+  "- The first study counted only surgery for heavy bleeding.[^sonata3]",
+  "- The second counted any surgery, most often removing other fibroids through the cervix. It looked back at one center's records.[^dutch]",
+  "* **Across several studies, some women needed another procedure.** {f:rfa-pool}.",
+  "* **Compared with myomectomy, more women needed a second surgery.** {d:rfa-esonata}.",
+]
+risks = "Pain and cramps can happen. Serious problems are possible, but were rare in studies.[^sonata3][^dutch]"
+
+[[detail]]
+option = "focused-ultrasound"
+intro = "Sound waves, guided by an MRI scanner, heat and shrink the fibroid. There is no cut, and most women recover quickly.[^rinfo]"
+certainty = "Early studies suggest"
+works = "Early studies suggest it eases symptoms. It fits only some fibroids, and some women need more treatment later. Not all insurance covers it, so check first.[^rinfo][^fdapma][^bcbsnc]"
+evidence = [
+  "* **It eased symptoms more than a fake treatment in one very small trial.** {d:fus-sham}.",
+  "* **Repeat treatment is common and rises with time.** {d:fus-repeat}.",
+  "* **More women needed another procedure than after embolization.** {d:fus-firstt}.",
+]
+risks = "Belly pain can happen. Skin burns or bruises can happen and usually heal in a week or two.[^rinfo]"
+
+[[detail]]
+option = "endometrial-ablation"
+intro = "Heat or cold destroys the lining of the uterus to lighten periods. There are no cuts. Most women go home the same day and recover in {f:ea-recovery}."
+works = "It treats the lining, not the fibroids, so they stay in place.[^mpfib] The American College of Radiology's expert panel rates it usually not appropriate for fibroids.[^acr] In studies of heavy bleeding, {d:ea-hyst}."
+evidence = [
+  "That hysterectomy figure comes from women with heavy bleeding in general, not women with fibroids.[^oderkerk] Studies of women with fibroids come from health records. None is a trial.",
+  "* **Women with fibroids more often had a hysterectomy later.** {d:ea-finland}.",
+  "* **Some women with fibroids needed another procedure after ablation.** {d:ea-kaiser}.",
+]
+risks = "Cramps and discharge can last a while. It is not for anyone who may want a future pregnancy.[^mpea][^fdaea]"
+
+[[detail]]
+option = "hysteroscopic"
+intro = "A thin camera and small tools go through the cervix and remove fibroids growing inside the uterus. There are no cuts, and recovery takes a few days.[^mpfib][^mphysteroscopy][^ccmyo]"
+certainty = "Early studies suggest"
+works = "Early studies suggest it helps. It only works for fibroids inside the uterus. New fibroids can form later.[^mpfib][^owh]"
+risks = "Cramps and light bleeding can last a few days. Heavy bleeding, infection, or a tear in the uterus are possible, but rare.[^mphysteroscopy]"
+
+[[detail]]
+option = "myomectomy"
+certainty = "Good evidence suggests"
+intro = "Surgery removes the fibroids and leaves the uterus. It takes a larger cut in the belly or a few small cuts. Recovery takes {f:major-recovery}.[^mpfib]"
+works = "Good evidence suggests women's quality of life improves.[^femme2] But small or deep fibroids can be missed, and the more you have, the harder it is to remove them all.[^mayomyo][^aktoz] New ones can also grow, and {f:myo-repeat} down the line.[^mpfib][^ccmyo]"
+evidence = [
+  "* **Repeat procedures rise over time.** {d:myo-time}.",
+  "* **A second combined analysis found a higher rate.** {d:myo-pool}.",
+]
+risks = "Infection, blood clots, and harm to nearby organs are possible, but not common.[^ccmyo] Bleeding is the main risk: {d:myo-transfusion}. Scar tissue (adhesions) forms inside the belly in most women. It often causes no symptoms, but it can cause pain or block the bowel.[^asrm][^ccadh] After open surgery, {f:hernia}."
+
+[[detail]]
+option = "hysterectomy"
+intro = "Surgery removes the whole uterus, through the vagina, small cuts, or a larger cut in the belly. Recovery takes {f:major-recovery}.[^mphyst]"
+# His Doc comment 2026-11-11: "This is the biggest comparison treatment patients are looking at. Why is this the
+# shortest section?" Evidence: ai-hq projects/platform/content/pages/sources/fibroids-evidence-2026-11-11-hysterectomy.md
+works = "It is the only treatment that keeps fibroids from returning. Periods stop, so the heavy bleeding from fibroids ends. Most women feel much better afterward and stay satisfied years later.[^owh][^ccmyo][^emmy][^kjerulff] It also ends the chance of pregnancy."
+evidence = [
+  "* **Compared with embolization: no clear difference in quality of life.** {d:hyst-emmy}.",
+  "* **More women needed more treatment after embolization, but most kept their uterus.** {d:hyst-reint}.",
+  "* **Most women go home the same day after embolization.** {d:hyst-stay}.",
+  "* **How the surgery is done changes recovery.** {d:hyst-route}.",
+  "* **Most women improve, but not all.** {d:hyst-maryland}.",
+]
+risks = """Bleeding, infection, blood clots, and harm to nearby organs can happen.[^mphyst] {d:hyst-harms}.
+Menopause begins right away if both ovaries are also removed.[^mphyst] Scar tissue can make organs stick together. A blocked bowel from scar tissue is possible, but rare.[^asrm][^ccadh] After open surgery, {f:hernia}.
+Longer-term effects are less certain, because they come from studies that followed women after surgery, not from trials.
+{d:hyst-ovary}.
+{d:hyst-sui}.
+{d:hyst-heart}."""
+
+# Deep page references (job platform-main-0027): sources of the deep-only facts.
+[[refs]]
+key = "schlaff"
+cite = "Schlaff WD, Ackerman RT, Al-Hendy A, et al. Elagolix for heavy menstrual bleeding in women with uterine fibroids. New England Journal of Medicine. 2020;382(4):328-340. doi:10.1056/NEJMoa1904351. PMID 31971678. Abstract read."
+url = "https://doi.org/10.1056/NEJMoa1904351"
+[[refs]]
+key = "sandberg18"
+cite = "Sandberg EM, Tummers FHMP, Cohen SL, et al. Reintervention risk and quality of life outcomes after uterine-sparing interventions for fibroids: a systematic review and meta-analysis. Fertility and Sterility. 2018;109(4):698-707.e1. doi:10.1016/j.fertnstert.2017.11.033. PMID 29653718. Abstract read."
+url = "https://doi.org/10.1016/j.fertnstert.2017.11.033"
+[[refs]]
+key = "mitro24"
+cite = "Mitro SD, Xu F, Lee C, et al. Long-term risk of reintervention after surgical leiomyoma treatment in an integrated health care system. Obstetrics and Gynecology. 2024;143(5):619-626. doi:10.1097/AOG.0000000000005557. PMID 38547478. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000005557"
+[[refs]]
+key = "xu21"
+cite = "Xu F, Deng L, Zhang L, et al. The comparison of myomectomy, UAE and MRgFUS in the treatment of uterine fibroids: a meta analysis. International Journal of Hyperthermia. 2021;38(2):24-29. doi:10.1080/02656736.2021.1933216. PMID 34420449. Abstract read."
+url = "https://doi.org/10.1080/02656736.2021.1933216"
+[[refs]]
+key = "esonata"
+cite = "Cooijmans TH, Dujardin Z, van der Meulen JF, et al. Evaluation of the clinical and cost-effectiveness of transcervical ultrasound-guided radiofrequency ablation of leiomyomas (ESONATA): a prospective cohort study. European Journal of Obstetrics, Gynecology, and Reproductive Biology. 2025;311:114062. doi:10.1016/j.ejogrb.2025.114062. PMID 40435802. Abstract read."
+url = "https://doi.org/10.1016/j.ejogrb.2025.114062"
+[[refs]]
+key = "promise"
+cite = "Jacoby VL, Kohi MP, Poder L, et al. PROMISe trial: a pilot, randomized, placebo-controlled trial of magnetic resonance guided focused ultrasound for uterine fibroids. Fertility and Sterility. 2016;105(3):773-780. doi:10.1016/j.fertnstert.2015.11.014. PMID 26658133. Abstract read."
+url = "https://doi.org/10.1016/j.fertnstert.2015.11.014"
+[[refs]]
+key = "gorny14"
+cite = "Gorny KR, Borah BJ, Brown DL, et al. Incidence of additional treatments in women treated with MR-guided focused US for symptomatic uterine fibroids: review of 138 patients with an average follow-up of 2.8 years. Journal of Vascular and Interventional Radiology. 2014;25(10):1506-1512. doi:10.1016/j.jvir.2014.05.012. PMID 24998103. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2014.05.012"
+[[refs]]
+key = "quinn14"
+cite = "Quinn SD, Vedelago J, Gedroyc W, Regan L. Safety and five-year re-intervention following magnetic resonance-guided focused ultrasound (MRgFUS) for uterine fibroids. European Journal of Obstetrics, Gynecology, and Reproductive Biology. 2014;182:247-251. doi:10.1016/j.ejogrb.2014.09.039. PMID 25445107. Abstract read."
+url = "https://doi.org/10.1016/j.ejogrb.2014.09.039"
+[[refs]]
+key = "firstt"
+cite = "Laughlin-Tommaso S, Barnard EP, AbdElmagied AM, et al. FIRSTT study: randomized controlled trial of uterine artery embolization vs focused ultrasound surgery. American Journal of Obstetrics and Gynecology. 2019;220(2):174.e1-174.e13. doi:10.1016/j.ajog.2018.10.032. PMID 30696556. Full text read (PMC6355152)."
+url = "https://doi.org/10.1016/j.ajog.2018.10.032"
+[[refs]]
+key = "soini17"
+cite = "Soini T, Rantanen M, Paavonen J, et al. Long-term follow-up after endometrial ablation in Finland: cancer risks and later hysterectomies. Obstetrics and Gynecology. 2017;130(3):554-560. doi:10.1097/AOG.0000000000002166. PMID 28796675. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000002166"
+[[refs]]
+key = "libext"
+cite = "Al-Hendy A, Lukes AS, Poindexter AN 3rd, et al. Long-term relugolix combination therapy for symptomatic uterine leiomyomas. Obstetrics and Gynecology. 2022;140(6):920-930. doi:10.1097/AOG.0000000000004988. PMID 36357960. Full text read (PMC). Funded by the drug maker."
+url = "https://doi.org/10.1097/AOG.0000000000004988"
+[[refs]]
+key = "libwd"
+cite = "Al-Hendy A, Venturella R, Arjona Ferreira JC, et al. LIBERTY randomized withdrawal study: relugolix combination therapy for heavy menstrual bleeding associated with uterine fibroids. American Journal of Obstetrics and Gynecology. 2023;229(6):662.e1-662.e25. doi:10.1016/j.ajog.2023.08.030. PMID 37666383. Abstract read. Funded by the drug maker."
+url = "https://doi.org/10.1016/j.ajog.2023.08.030"
+[[refs]]
+key = "kjerulff"
+cite = "Kjerulff KH, Langenberg PW, Rhodes JC, Harvey LA, Guzinski GM, Stolley PD. Effectiveness of hysterectomy. Obstetrics and Gynecology. 2000;95(3):319-326. doi:10.1016/s0029-7844(99)00544-x. PMID 10711536. Abstract read."
+url = "https://doi.org/10.1016/s0029-7844(99)00544-x"
+[[refs]]
+key = "emmy-peri"
+cite = "Hehenkamp WJK, Volkers NA, Donderwinkel PFJ, et al. Uterine artery embolization versus hysterectomy in the treatment of symptomatic uterine fibroids (EMMY trial): peri- and postprocedural results from a randomized controlled trial. American Journal of Obstetrics and Gynecology. 2005;193(5):1618-1629. doi:10.1016/j.ajog.2005.05.017. PMID 16260201. Abstract read."
+url = "https://doi.org/10.1016/j.ajog.2005.05.017"
+[[refs]]
+key = "pickett23"
+cite = "Pickett CM, Seeratan DD, Mol BWJ, et al. Surgical approach to hysterectomy for benign gynaecological disease. Cochrane Database of Systematic Reviews. 2023;8(8):CD003677. doi:10.1002/14651858.CD003677.pub6. PMID 37642285. Abstract read."
+url = "https://doi.org/10.1002/14651858.CD003677.pub6"
+[[refs]]
+key = "moorman11"
+cite = "Moorman PG, Myers ER, Schildkraut JM, Iversen ES, Wang F, Warren N. Effect of hysterectomy with ovarian preservation on ovarian function. Obstetrics and Gynecology. 2011;118(6):1271-1279. doi:10.1097/AOG.0b013e318236fd12. PMID 22067716. Abstract read."
+url = "https://doi.org/10.1097/AOG.0b013e318236fd12"
+[[refs]]
+key = "santoro23"
+cite = "Santoro N, Flyckt R, Davis A, et al. Anti-Müllerian hormone level decline in patients undergoing hysterectomy with and without oophorectomy compared with natural menopause. Obstetrics and Gynecology. 2023;141(2):331-340. doi:10.1097/AOG.0000000000005049. PMID 36649324. Abstract read."
+url = "https://doi.org/10.1097/AOG.0000000000005049"
+[[refs]]
+key = "altman07"
+cite = "Altman D, Granath F, Cnattingius S, Falconer C. Hysterectomy and risk of stress-urinary-incontinence surgery: nationwide cohort study. Lancet. 2007;370(9597):1494-1499. doi:10.1016/S0140-6736(07)61635-3. PMID 17964350. Abstract read."
+url = "https://doi.org/10.1016/S0140-6736(07)61635-3"
+[[refs]]
+key = "laughlin18"
+cite = "Laughlin-Tommaso SK, Khan Z, Weaver AL, Smith CY, Rocca WA, Stewart EA. Cardiovascular and metabolic morbidity after hysterectomy with ovarian conservation: a cohort study. Menopause. 2018;25(5):483-492. doi:10.1097/GME.0000000000001043. PMID 29286988. Abstract read."
+url = "https://doi.org/10.1097/GME.0000000000001043"
+[[refs]]
+key = "emmy5"
+cite = "van der Kooij SM, Hehenkamp WJK, Volkers NA, Birnie E, Ankum WM, Reekers JA. Uterine artery embolization vs hysterectomy in the treatment of symptomatic uterine fibroids: 5-year outcome from the randomized EMMY trial. American Journal of Obstetrics and Gynecology. 2010;203(2):105.e1-105.e13. doi:10.1016/j.ajog.2010.01.049. PMID 20579960. Abstract read."
+url = "https://doi.org/10.1016/j.ajog.2010.01.049"
+[[refs]]
+key = "alghamdi"
+cite = "Alghamdi HA, Al-Zahrani M, Alkodae S, et al. Comparative analysis of robotic-assisted laparoscopic myomectomy versus traditional abdominal and laparoscopic myomectomy: a meta analysis and systematic review. African Journal of Reproductive Health. 2025;29(12):230-246. doi:10.29063/ajrh2025/v29i12.22. PMID 41457683. Abstract read."
+url = "https://doi.org/10.29063/ajrh2025/v29i12.22"
+[[refs]]
+key = "kim25"
+cite = "Kim NH, Sarwar A, Tahir MM, et al. Thirty-day healthcare encounters after elective uterine artery embolization for fibroids with and without superior hypogastric nerve block. Journal of Vascular and Interventional Radiology. 2025;36(2):247-254.e3. doi:10.1016/j.jvir.2024.10.019. PMID 39461617. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2024.10.019"
+[[refs]]
+key = "geschwind"
+cite = "Geschwind JF, Afsari B, Nezami N, White J, Shor M, Katsnelson Y. Quality of life assessment after uterine artery embolization in patients with fibroids treated in an ambulatory setting. Diagnostics. 2025;15(6):739. doi:10.3390/diagnostics15060739. PMID 40150082. Abstract read. Four of the six authors work for the clinic group that did the procedures."
+url = "https://doi.org/10.3390/diagnostics15060739"
+[[refs]]
+key = "deipolyi"
+cite = "Deipolyi AR, Annie F, Bush SH, Spies J. Hysterectomy and myomectomy versus uterine artery embolization for symptomatic fibroids and adenomyosis: national and regional trends and adverse events in 70,000 patients. Journal of Vascular and Interventional Radiology. 2025;36(6):1011-1018.e4. doi:10.1016/j.jvir.2025.02.026. PMID 40024281. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2025.02.026"
+[[refs]]
+key = "oderkerk"
+cite = "Oderkerk TJ, Beelen P, Bukkems ALA, et al. Risk of hysterectomy after endometrial ablation: a systematic review and meta-analysis. Obstetrics and Gynecology. 2023;142(1):51-60. doi:10.1097/AOG.0000000000005223. PMID 37290114."
+url = "https://doi.org/10.1097/AOG.0000000000005223"

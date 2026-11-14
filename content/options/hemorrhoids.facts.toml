@@ -1,0 +1,509 @@
+# The tie between the hemorrhoid simple page (content/conditions/hemorrhoids.toml) and its every-option page
+# (content/options/hemorrhoids.toml). Job platform-condition-pages-0014, on the fibroid pattern (tools/options.py);
+# rewritten by job platform-condition-pages-0017 (2026-11-10) to his in-depth edits: each deep line is now the
+# patient wording of the final text (ai-hq projects/platform/content/page-reviews/2026-11-09-hemorrhoids/
+# word-sent-2026-11-10/in-depth-final-2026-11-10.html), number-checked there by a fresh agent. Its "1 in 3" frequencies
+# are written "1 out of 3" here (pattern rule, his words 2026-11-07: "1 out 4"); same meaning.
+# Shared facts: `simple` must appear in that option's simple text with `refs` cited there; the deep page states it only
+# as {f:id}. Deep-only facts (simple = ""): study details, written {d:id}; `read` says how the source was read. This page
+# sets abstract_label = false, so "(abstract only)" is not printed (he deleted its explainer); `read` stays the record.
+# Sources and how each was read: goswami-hq/ai-hq projects/platform/hemorrhoid-page/evidence.md (row in each comment).
+
+# ---- Shared with the simple page ----
+[[fact]]
+id = "steroid-2wk"        # C2, AGA 2026 BPA 3
+option = "creams"
+simple = "more than 2 weeks at a time"
+deep = "more than 2 weeks at a time"
+refs = ["aga"]
+[[fact]]
+id = "hae-year"           # E6, E7: no bleeding 68.7% (De Gregorio), success 72% (Tradi) at 12 months
+option = "embolization"
+simple = "about 2 out of 3 people still have little or no bleeding a year later"
+deep = "about 2 out of 3 people still have little or no bleeding a year later"
+refs = ["degregorio", "tradi"]
+[[fact]]
+id = "incont"             # C10, late incontinence 2.48% in randomized trials
+option = "hemorrhoidectomy"
+simple = "about 2 to 3 out of 100"
+deep = "about 2 to 3 out of 100"
+refs = ["jin25"]
+
+# ---- In-depth page only ----
+[[fact]]
+id = "alonso-n"    # C1
+option = "fiber"
+simple = ""
+deep = "7 trials of 378 people compared fiber with no fiber"
+refs = ["alonso"]
+read = "abstract"
+[[fact]]
+id = "alonso-sym"  # C1
+option = "fiber"
+simple = ""
+deep = "people taking fiber were about half as likely to still have symptoms as people not taking it"
+refs = ["alonso"]
+read = "abstract"
+[[fact]]
+id = "alonso-bleed"  # C1
+option = "fiber"
+simple = ""
+deep = "they were also about half as likely to still bleed"
+refs = ["alonso"]
+read = "abstract"
+[[fact]]
+id = "sturiale"    # C2, grades 1-2, 7 and 14 days
+option = "creams"
+simple = ""
+deep = "A drug-free cream, in 60 people with lower-grade hemorrhoids: every symptom improved more than with placebo after 1 and 2 weeks"
+refs = ["sturiale"]
+read = "abstract"
+[[fact]]
+id = "sahin"       # C2, 41.7% vs 66.9%
+option = "creams"
+simple = ""
+deep = "A boric-acid gel, in 206 people over 4 weeks: less itching, pain, and feeling of a lump. Bleeding with bowel movements: 42% with the gel vs 67% with placebo"
+refs = ["sahin"]
+read = "abstract"
+[[fact]]
+id = "mehdi"       # C2
+option = "creams"
+simple = ""
+deep = "An herbal cream, in 52 people over 3 weeks: less irritation, bleeding, pain, and swelling; itching was no different"
+refs = ["mehdi"]
+read = "abstract"
+[[fact]]
+id = "kwok"        # C2, OR 4.15 at 1 hour
+option = "creams"
+simple = ""
+deep = "In 99 people, lidocaine ointment eased pain in the first hour more than placebo; the effect was short-lived"
+refs = ["kwok"]
+read = "abstract"
+[[fact]]
+id = "shafik"      # C2
+option = "creams"
+simple = ""
+deep = "In 28 people with painful anal problems (10 with hemorrhoids) and 18 healthy volunteers, sitting in warm water relaxed the inner anal muscle and eased pain. The muscle tightened again 25 to 70 minutes later"
+refs = ["shafik"]
+read = "abstract"
+[[fact]]
+id = "flav-n"      # C3
+option = "flavonoid"
+simple = ""
+deep = "14 trials of 1,514 people compared flavonoids with a placebo or no treatment"
+refs = ["alonsoflav"]
+read = "abstract"
+[[fact]]
+id = "flav-sym"    # C3
+option = "flavonoid"
+simple = ""
+deep = "people taking flavonoids were less than half as likely to still have symptoms"
+refs = ["alonsoflav"]
+read = "abstract"
+[[fact]]
+id = "flav-bleed"  # C3
+option = "flavonoid"
+simple = ""
+deep = "about a third as likely to still bleed"
+refs = ["alonsoflav"]
+read = "abstract"
+[[fact]]
+id = "flav-pain"   # C3, pain 0.18-0.69, itching 0.44-0.97
+option = "flavonoid"
+simple = ""
+deep = "about a third as likely to still have pain and about two thirds as likely to still itch"
+refs = ["alonsoflav"]
+read = "abstract"
+[[fact]]
+id = "flav-return"  # C3
+option = "flavonoid"
+simple = ""
+deep = "about half as likely to have symptoms come back"
+refs = ["alonsoflav"]
+read = "abstract"
+[[fact]]
+id = "perera-n"    # C3, Cochrane 2012
+option = "flavonoid"
+simple = ""
+deep = "in 20 trials of 2,344 people"
+refs = ["perera"]
+read = "abstract"
+[[fact]]
+id = "quijano"     # C3, rutosides vs placebo
+option = "flavonoid"
+simple = ""
+deep = "a Cochrane review of 2 trials (150 women)"
+refs = ["quijano"]
+read = "abstract"
+[[fact]]
+id = "jensen-design"  # context 5
+option = ""
+simple = ""
+deep = "One trial, from 1989, tested this. About 186 people with a first episode of grade 2 hemorrhoids were assigned by chance to no treatment or to banding. They were followed for 4 years"
+refs = ["jensen"]
+read = "abstract"
+[[fact]]
+id = "jensen-clear"  # context 5, 31 of 91 vs 6 of 98 (arithmetic 2026-11-10)
+option = ""
+simple = ""
+deep = "Symptoms did not clear in about 1 out of 3 people left untreated (34%), against about 1 out of 16 who were banded (6%)"
+refs = ["jensen"]
+read = "abstract"
+[[fact]]
+id = "jensen-self"  # context 5
+option = ""
+simple = ""
+deep = "1 out of 4 people left untreated (25%) had no further episode in 4 years"
+refs = ["jensen"]
+read = "abstract"
+[[fact]]
+id = "jensen-back"  # context 5, actuarial at 4 years
+option = ""
+simple = ""
+deep = "Among people whose first episode resolved, symptoms returned in about 6 out of 10 left untreated (61%), against about 3 out of 10 after banding (33%)"
+refs = ["jensen"]
+read = "abstract"
+[[fact]]
+id = "nguyen"      # E1
+option = "embolization"
+simple = ""
+deep = "Pooled data from 13 studies of 381 patients: it worked for about 8 out of 10 (82%)"
+refs = ["nguyenhuy"]
+read = "abstract"
+[[fact]]
+id = "aljn"        # E3
+option = "embolization"
+simple = ""
+deep = "A review of 22 studies (810 procedures) found success from 63% to 94%, and repeat treatment in 8% to 20%"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "degreg"      # E6
+option = "embolization"
+simple = ""
+deep = "80 patients in a registry: 68.7% had no bleeding at 12 months; 21.3% had a second embolization and 5% had surgery"
+refs = ["degregorio"]
+read = "abstract"
+[[fact]]
+id = "tradi"       # E7
+option = "embolization"
+simple = ""
+deep = "25 patients: 72% success at 12 months, but 8 of the 18 successes needed 2 sessions"
+refs = ["tradi"]
+read = "abstract"
+[[fact]]
+id = "cai"         # E8
+option = "embolization"
+simple = ""
+deep = "32 patients, with a strict definition of success: 87.5% at 1 month, 59.4% at 6 months, 56.2% at 12 months"
+refs = ["cai"]
+read = "abstract"
+[[fact]]
+id = "falsa"       # E4, E5; condensed on his word 2026-11-10
+option = "embolization"
+simple = ""
+deep = "One small trial of 29 people compared embolization with closed hemorrhoid removal. Pain at the first bowel movement was 0 after embolization vs 6.08 after surgery (0 means no pain), and pain-medicine doses 2.4 vs 28.9. At 1 year, symptoms remained in 6 of 13 vs 5 of 13, and 8 of 13 vs 13 of 13 were satisfied; the trial was too small to compare results at 1 year"
+refs = ["falsarella"]
+read = "full text"
+[[fact]]
+id = "bagla"       # E9, B5
+option = "embolization"
+simple = ""
+deep = "134 patients at one outpatient center, about half after earlier banding. All went home 2 hours after; success was 93% at 1 month, with no longer follow-up"
+refs = ["bagla"]
+read = "full text"
+[[fact]]
+id = "campenni"    # E10
+option = "embolization"
+simple = ""
+deep = "21 patients at high surgical risk with anemia (a low blood count): hemoglobin rose 1.2 g/dL on average. 3 still needed blood transfusions"
+refs = ["campenni"]
+read = "abstract"
+[[fact]]
+id = "tenesmus"    # E13
+option = "embolization"
+simple = ""
+deep = "In one series, 53.1% had an urge to go and 34.4% a low fever; in another, 81.8% had an urge to go that eased in 3 to 5 days"
+refs = ["han", "zhou"]
+read = "abstract"
+[[fact]]
+id = "kucu-ulcer"  # E14; rectosigmoid, corrected 2026-11-10
+option = "embolization"
+simple = ""
+deep = "in a small trial that looked inside everyone with a scope, shallow ulcers were found in 71.4% of patients with the smallest particles and 0% with the largest, all healed by 6 months. 3 of 14 in the smallest-particle group had ulcers higher up in the bowel (the rectosigmoid) that needed enema treatment and healed after 6 months"
+refs = ["kucukay"]
+read = "full text"
+[[fact]]
+id = "nice"        # Guidelines
+option = "embolization"
+simple = ""
+deep = "NICE (England), last reviewed 2018 and based on 84 patients, says it should be used only in research; its next review is due April 2027"
+refs = ["nice"]
+read = "page"
+[[fact]]
+id = "trials"      # Trials under way
+option = "embolization"
+simple = ""
+deep = "against banding or artery tying (80 patients, results expected 2030), against banding (40 patients, 2030), and against hemorrhoid removal (102 patients, 2028)"
+refs = ["brussel", "stratos", "hemembo"]
+read = "page"
+[[fact]]
+id = "vanoost-n"   # C5
+option = "banding"
+simple = ""
+deep = "one trial across several hospitals, in 87 people with grade 3 hemorrhoids, stopped early"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "vanoost-back"  # C5
+option = "banding"
+simple = ""
+deep = "Hemorrhoids came back in about half after banding (48.8%) vs about 1 out of 16 after removal (6.1%), with up to 2 banding sessions allowed"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "vanoost-work"  # C5
+option = "banding"
+simple = ""
+deep = "Back to work after 1 day with banding vs 9 days after removal"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "vanoost-pain"  # C5; 4, not 4.1 (number check 2026-11-10)
+option = "banding"
+simple = ""
+deep = "Pain in the first week: 1 after banding vs 4 after removal, on a pain score where 0 means no pain"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "ding"        # C4, infrared subgroup corrected 2026-11-10
+option = "infrared"
+simple = ""
+deep = "9 randomized trials of moderate quality compared banding with heat or coagulation methods, including infrared. They found no clear difference in success, return of hemorrhoids, or bulging. For infrared alone, banding caused more pain, and bleeding afterward was no different"
+refs = ["ding"]
+read = "abstract"
+[[fact]]
+id = "johanson"    # C4
+option = "infrared"
+simple = ""
+deep = "an older pooled analysis of 5 trials (863 patients) found similar numbers symptom-free at 12 months, but fewer people needed repeat treatment after banding"
+refs = ["johanson92"]
+read = "abstract"
+[[fact]]
+id = "gallo-n"     # C6, comparators read 2026-11-10
+option = "injection"
+simple = ""
+deep = "14 randomized trials compared injection with other non-surgical treatments: banding, heat or electric treatments, fiber, flavonoid pills, other injection mixes, and artery tying"
+refs = ["gallo"]
+read = "full text"
+[[fact]]
+id = "gallo-success"  # C6
+option = "injection"
+simple = ""
+deep = "success was equally likely with injection and with the other treatments"
+refs = ["gallo"]
+read = "full text"
+[[fact]]
+id = "gallo-comp"  # C6, 0.23-0.92
+option = "injection"
+simple = ""
+deep = "complications were about half as likely with injection"
+refs = ["gallo"]
+read = "full text"
+[[fact]]
+id = "hubble-n"    # C7
+option = "ligation"
+simple = ""
+deep = "a UK trial of 372 people in 17 centers"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "hubble-back"  # C7
+option = "ligation"
+simple = ""
+deep = "Hemorrhoids back at 1 year: 30% after artery tying vs 49% after a single banding"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "hubble-repeat"  # C7
+option = "ligation"
+simple = ""
+deep = "Repeat banding made the comparison 30% vs 37.5%, which could be due to chance"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "hubble-serious"  # C7
+option = "ligation"
+simple = ""
+deep = "Serious problems needing a hospital stay: 12 people (7%) after artery tying vs 2 (1%) after banding"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "hubble-pain"  # C7
+option = "ligation"
+simple = ""
+deep = "More pain on day 1 and day 7 after artery tying"
+refs = ["brown16"]
+read = "full text"
+[[fact]]
+id = "jee"         # C7a
+option = "ligation"
+simple = ""
+deep = "in 6 randomized trials of 465 patients, hemorrhoids came back more often after artery tying than after removal; the odds of return were almost 3 times as high. People got back to normal about 14 days sooner after artery tying"
+refs = ["jee"]
+read = "abstract"
+[[fact]]
+id = "lauri-n"     # C8
+option = "stapled"
+simple = ""
+deep = "17 randomized trials of 2,072 patients compared stapled surgery with hemorrhoid removal"
+refs = ["lauricella"]
+read = "abstract"
+[[fact]]
+id = "lauri-bulge"  # C8
+option = "stapled"
+simple = ""
+deep = "Bulging came back about 3 times as often after stapled surgery"
+refs = ["lauricella"]
+read = "abstract"
+[[fact]]
+id = "lauri-all"   # C8
+option = "stapled"
+simple = ""
+deep = "Symptoms overall came back about 1.5 times as often"
+refs = ["lauricella"]
+read = "abstract"
+[[fact]]
+id = "pompeu-n"    # C12
+option = "laser"
+simple = ""
+deep = "15 randomized trials of 1,099 patients compared laser surgery with hemorrhoid removal"
+refs = ["pompeu"]
+read = "abstract"
+[[fact]]
+id = "pompeu-pain"  # C12
+option = "laser"
+simple = ""
+deep = "lower pain on day 1 and day 7 after laser surgery"
+refs = ["pompeu"]
+read = "abstract"
+[[fact]]
+id = "pompeu-days"  # C12, MD -10.78 days
+option = "laser"
+simple = ""
+deep = "back to daily life about 11 days sooner"
+refs = ["pompeu"]
+read = "abstract"
+[[fact]]
+id = "jin21"       # C9; stapled shares the fewest-returns group (number check 2026-11-10)
+option = "hemorrhoidectomy"
+simple = ""
+deep = "a combined analysis of 79 randomized trials (9,232 patients) found closed and open removal, along with stapled surgery, had the fewest returns of hemorrhoids and the most pain of the procedures compared. 73% of the trials had flaws that could skew their results"
+refs = ["jin21"]
+read = "full text"
+[[fact]]
+id = "vanoost-short"  # C5
+option = "hemorrhoidectomy"
+simple = ""
+deep = "hemorrhoids came back in 6.1% after removal vs 48.8% after banding, in one trial of 87 people"
+refs = ["vanoost"]
+read = "full text"
+[[fact]]
+id = "jin25"       # C10
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 2 to 3 out of 100 people in randomized trials (2.48%)"
+refs = ["jin25"]
+read = "abstract"
+[[fact]]
+id = "uhc-date"    # B
+option = ""
+simple = ""
+deep = "December 1, 2026"
+refs = ["uhc"]
+read = "page"
+[[fact]]
+id = "g13"         # E3
+option = "embolization"
+simple = ""
+deep = "grades 1 to 3"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "two-years"   # E3
+option = "embolization"
+simple = ""
+deep = "past about 2 years, where almost no data exist"
+refs = ["aljnainati"]
+read = "full text"
+[[fact]]
+id = "aga-g13"     # AGA 2026
+option = "banding"
+simple = ""
+deep = "grades 1 to 3"
+refs = ["aga"]
+read = "abstract"
+[[fact]]
+id = "aga-g3"      # AGA 2026
+option = "banding"
+simple = ""
+deep = "grade 3 hemorrhoids that do not respond to banding"
+refs = ["aga"]
+read = "abstract"
+[[fact]]
+id = "aga-g4"      # AGA 2026
+option = "hemorrhoidectomy"
+simple = ""
+deep = "grade 4 hemorrhoids need surgical removal"
+refs = ["aga"]
+read = "abstract"
+# ---- 2026-11-12: side-effect rates he accepted in the review Doc (ai-hq hemorrhoid-page/evidence.md, "Added 2026-11-12")
+[[fact]]
+id = "band-problems"
+option = "banding"
+simple = ""
+deep = "In one study of 100 people, about 12 had a problem afterward: severe pain in 7, and bleeding that stopped on its own in 5"
+refs = ["pastor"]
+read = "abstract"
+[[fact]]
+id = "band-hospital"
+option = "banding"
+simple = ""
+deep = "In the UK trial against artery tying, about 1 out of 100 people needed a hospital stay for a serious problem after banding"
+refs = ["brown16"]
+read = "abstract"
+[[fact]]
+id = "hx-urine"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 14 out of 100 people in one large hospital study"
+refs = ["jeong22"]
+read = "abstract"
+[[fact]]
+id = "hx-bleed"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 2 to 5 out of 100 people"
+refs = ["jeong21", "cheng22"]
+read = "abstract"
+[[fact]]
+id = "hx-readmit"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 12 out of 100 people in one study, mostly for pain or bleeding"
+refs = ["siggins"]
+read = "abstract"
+[[fact]]
+id = "hx-narrow"
+option = "hemorrhoidectomy"
+simple = ""
+deep = "about 3 out of 100 people in one study, eased with stretching"
+refs = ["marino"]
+read = "abstract"
+[[fact]]
+id = "emb-avoids"
+option = "embolization"
+simple = ""
+deep = "Embolization is not surgery. Nothing is cut, there is no wound, and no loss of bowel control has been reported, compared with about 2 to 3 out of 100 people after hemorrhoid removal"
+refs = ["jin25"]
+read = "abstract"

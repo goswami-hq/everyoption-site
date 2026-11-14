@@ -1,0 +1,35 @@
+{
+ "about": "Written by goswami-hq/ai-hq scripts/every_option_export.py all: per list, the rows, a hash of the NPIs in order and a hash of the list (without the build's path field), after his listing decisions. tools/listings_check.py fails the build when a list differs. Do not edit.",
+ "procedures": {
+  "ufe": {
+   "rows": 516,
+   "npis_sha256": "94599f76d63d8493b5ed6964394ab655ccd48012c28d679063e82210eb59ba5c",
+   "list_sha256": "ebdb63dd21a30999a176a3c757c28ea2fddfb5947fbee9706ab856cfd2a00af5"
+  },
+  "pae": {
+   "rows": 295,
+   "npis_sha256": "50fa9ffc2fa9653f80368364870aee8108794a46a49d298dd4f4922971096077",
+   "list_sha256": "29e4e52deff218b736b7c3f24d23f7f4b9b8be94c4b1d771d69372ac495698d8"
+  },
+  "gae": {
+   "rows": 169,
+   "npis_sha256": "2f45bec75ebb2fe6876fbb764687a6f9dd2a32d95979a683079d430f6ffe67c9",
+   "list_sha256": "1f597be36c463692435961f9922cf43b289830e643bf31c1b71fd463d4d81277"
+  },
+  "pelvic": {
+   "rows": 172,
+   "npis_sha256": "f0a5ae0e069d366dfaae68f91b966d53d99ad7a33930d36c88c8dcbdd3f81cd2",
+   "list_sha256": "d7b4d7b503031b9befba0fe5943b763ba011a3c47bc85419eb2fc2a523747c9f"
+  },
+  "hae": {
+   "rows": 46,
+   "npis_sha256": "215000166320cd21a246f03e964dcde7ca4d097dfd4739b81524da158f08ac09",
+   "list_sha256": "cd69b5eaefebadee3c1df1f3d1d4dc1513d474ce2ba3e7f7081af21c187ae427"
+  }
+ },
+ "nearby": {
+  "rows": 2028,
+  "npis_sha256": "a35b76cc6e9a2defde7e29273b262ed0d79f30e659c0b53b427fc831a6246e41",
+  "list_sha256": "5c4c9d584aa5b2b97f8d428f7e06f0f3de5e24c184f92500a377f1637f283945"
+ }
+}

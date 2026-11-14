@@ -1,0 +1,17 @@
+# Source for site/_redirects (tools/build.py copies it). Address rule: docs/addresses.md. Exact paths, 301 only, no chains.
+/ufe /fibroids/ 301
+/ufe/ /fibroids/ 301
+/pae /enlarged-prostate/ 301
+/pae/ /enlarged-prostate/ 301
+/gae /knee-arthritis/ 301
+/gae/ /knee-arthritis/ 301
+/pelvic /chronic-pelvic-pain/ 301
+/pelvic/ /chronic-pelvic-pain/ 301
+/hae /hemorrhoids/ 301
+/hae/ /hemorrhoids/ 301
+/arthritis-embolization /knee-arthritis/ 301
+/arthritis-embolization/ /knee-arthritis/ 301
+/claim /report/ 301
+/claim/ /report/ 301
+/pelvic-vein-pain /chronic-pelvic-pain/ 301
+/pelvic-vein-pain/ /chronic-pelvic-pain/ 301

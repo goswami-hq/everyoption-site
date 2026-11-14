@@ -1,0 +1,470 @@
+# The tie between the chronic pelvic pain short guide and its in-depth page (tools/options.py). Written by ai-hq
+# projects/platform/content/page-reviews/2026-11-12-pelvic-deep/to_site.py (job platform-condition-pages-0023).
+# Shared lines: each number the short guide states; `deep` is the in-depth page's wording for the same figure
+# (the in-depth page states it inside a deep-only fact). Deep-only lines: one per item of the signed-off text that
+# holds a number, word for word. Sources and how each was read: ai-hq projects/platform/pelvic-page/evidence-table.md.
+[[fact]]
+id = "cpp-chronic"
+option = ""
+simple = "more than 6 months"
+deep = "Pelvic pain that lasts more than 6 months is called chronic pelvic pain"
+refs = ["ahangari"]
+[[fact]]
+id = "cpp-emb-serious"
+option = "embolization"
+simple = "about 1 out of 100"
+deep = "Serious side effects are possible, but rare: about 1 out of 100"
+refs = ["hanna"]
+[[fact]]
+id = "cpp-stent-rare"
+option = "stent"
+simple = "about 1 to 2 out of 100"
+deep = "A clot in the stent is rare: about 1 out of 100 people or fewer"
+refs = ["wenda"]
+[[fact]]
+id = "cpp-hyst-pain"
+option = "hysterectomy"
+simple = "about 1 out of 3"
+deep = "About 1 out of 3 women may still have some pain afterward"
+refs = ["beard91"]
+[[fact]]
+id = "cpp-note-1"
+option = ""
+simple = ""
+deep = "Most studies on this page ask women to rate their pain from 0 to 10. Zero is no pain, and 10 is the worst pain. A drop of 1 to 2 points was the smallest change women noticed in some studies"
+refs = ["cpp-gerlinger", "cpp-fsmcid"]
+read = "abstract"
+[[fact]]
+id = "cpp-missed-2"
+option = ""
+simple = ""
+deep = "In one study of 113 women treated for pelvic pain from a squeezed vein, the pain had lasted about 6 years on average. Women who had seen two or more other specialists first waited about 8 and a half years"
+refs = ["cpp-larkin"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-works-3"
+option = "embolization"
+simple = ""
+deep = "About 3 out of 4 women have much less pain soon after embolization, and for many the relief lasts for years"
+refs = ["hansrani", "daniels", "cpp-degregorio"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-evidence-4"
+option = "embolization"
+simple = ""
+deep = "Two hospitals in England randomly assigned 60 women to a dye test of the pelvic veins alone, or to the dye test plus embolization with coils. The women were not told which one they had"
+refs = ["hansrani"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-5"
+option = "embolization"
+simple = ""
+deep = "Pain after 12 months, on a 0-to-100 score: it fell from 43 to 15 after embolization. It stayed at 53 after the dye test alone"
+refs = ["hansrani"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-6"
+option = "embolization"
+simple = ""
+deep = "A review looked at 25 studies with 2,038 women. All 18 studies that measured pain before and after found that it dropped"
+refs = ["hanna"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-7"
+option = "embolization"
+simple = ""
+deep = "**About 3 out of 4 women had much less pain soon afterward.** A second review covered 22 studies with 1,308 women. The relief generally held or grew over time"
+refs = ["daniels"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-evidence-8"
+option = "embolization"
+simple = ""
+deep = "**Pain dropped by about 5 to 6 points on the 10-point pain score.** The newest review combined 28 studies with 2,688 patients"
+refs = ["strobl"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-9"
+option = "embolization"
+simple = ""
+deep = "One hospital followed 97 women for about 4 years. Average pain fell from 7.6 to 2.9 out of 10"
+refs = ["kim06"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-evidence-10"
+option = "embolization"
+simple = ""
+deep = "One center in Spain followed 520 women for about 5 years. Average pain fell from 7.6 to 0.9 out of 10, and pain came back in only 5 out of 100 women"
+refs = ["cpp-degregorio"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-evidence-11"
+option = "embolization"
+simple = ""
+deep = "A trial randomly assigned 100 women to coils or to plugs. About 9 out of 10 women were helped at 1 year with either one"
+refs = ["cpp-guirola"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-evidence-12"
+option = "embolization"
+simple = ""
+deep = "A trial at one hospital in Egypt randomly assigned 40 women to embolization with glue or to vein pills. After 12 months, average pain was 3.2 out of 10 after embolization, compared with 5.1 out of 10 on the pills. Pain came back in only 10 out of 100 women after embolization, compared with 45 out of 100 on the pills"
+refs = ["cpp-eleissawy"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-13"
+option = "embolization"
+simple = ""
+deep = "A trial at one hospital randomly assigned 50 women to coil embolization or to open surgery on the ovarian vein. Pain started at 9 out of 10. It fell to 1 out of 10 after embolization and 2 out of 10 after surgery"
+refs = ["emad"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-evidence-14"
+option = "embolization"
+simple = ""
+deep = "One center looked back at 150 women who had embolization and 122 who had vein surgery. Relief came from both, but came a bit more often after vein surgery. These women were not assigned randomly"
+refs = ["cpp-gav-jsr"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-risks-15"
+option = "embolization"
+simple = ""
+deep = "It happens in about 1 out of 20 to 1 out of 5 women. It lasts a few days, and up to 2 weeks in some women. It eases with medicine and goes away"
+refs = ["hanna", "cpp-gav-pes"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-risks-16"
+option = "embolization"
+simple = ""
+deep = "**About 9 out of 100 women have a side effect of some kind, and most are minor.** Examples are a bruise where the tube went in, pain after the procedure, or a mild reaction to the X-ray dye"
+refs = ["hanna"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-risks-17"
+option = "embolization"
+simple = ""
+deep = "**Serious side effects are possible, but rare: about 1 out of 100.** Most of these are fixed with another procedure"
+refs = ["hanna"]
+read = "full text"
+[[fact]]
+id = "cpp-embolization-risks-18"
+option = "embolization"
+simple = ""
+deep = "**A coil can move out of place.** This happened in fewer than 3 out of 100 women. In about 1 out of 100, a coil or plug traveled to the lung"
+refs = ["strobl", "cpp-degregorio"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-selection-19"
+option = "embolization"
+simple = ""
+deep = "In a review of coil embolization, pain returned within 1 to 2 years in 6 to 25 out of 100 women, depending on the study"
+refs = ["sutanto"]
+read = "abstract"
+[[fact]]
+id = "cpp-embolization-selection-20"
+option = "embolization"
+simple = ""
+deep = "In one study of 79 women whose pain had come back, pain eased in about 2 out of 3 women after a second procedure, compared with about 1 out of 3 women who took vein pills alone"
+refs = ["cpp-xue-redo"]
+read = "full text"
+[[fact]]
+id = "cpp-stent-selection-21"
+option = "stent"
+simple = ""
+deep = "In one study of CT scans, about 1 out of 4 people with no vein symptoms had this vein squeezed by more than half. Your doctor looks at your symptoms and your scans together"
+refs = ["kibbe"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-selection-22"
+option = "stent"
+simple = ""
+deep = "In a study of 100 women whose vein was squeezed by more than half while lying down, only 32 still had that narrowing when standing"
+refs = ["cpp-labro"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-selection-23"
+option = "stent"
+simple = ""
+deep = "In one study of 102 women who had embolization and no stent, pain was controlled in about 8 out of 10, whether or not they also had a squeezed vein"
+refs = ["cpp-xue"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-evidence-24"
+option = "stent"
+simple = ""
+deep = "**Pelvic pain eased after a stent in 16 to 80 out of 100 women, depending on the study.** A review looked at 8 studies with 1,605 patients"
+refs = ["alenichev"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-evidence-25"
+option = "stent"
+simple = ""
+deep = "**In the longest study, about 8 out of 10 women had no pelvic pain years later.** One practice in Australia followed 113 women for about 7 years after a stent. Average pain fell from 6.7 to 0.8 out of 10"
+refs = ["cpp-larkin", "cpp-villalba25"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-evidence-26"
+option = "stent"
+simple = ""
+deep = "The center placed a stent in 141 women who had both a squeezed vein and wide veins. Average pain fell from 6.4 to about 2 out of 10 at 12 months"
+refs = ["cpp-trzes"]
+read = "full text"
+[[fact]]
+id = "cpp-stent-evidence-27"
+option = "stent"
+simple = ""
+deep = "**When the narrowing clearly slowed blood flow, about 7 out of 10 women had relief after a stent alone.** This was one study of 49 women. The women who still had pain went on to have embolization, and it eased their pain"
+refs = ["cpp-gav26"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-evidence-28"
+option = "stent"
+simple = ""
+deep = "One trial randomly assigned people with leg vein disease to a stent or to medical care. Leg pain fell from 8 to 2.5 out of 10 with a stent, compared with 8 to 7 out of 10 without one. No trial like this has been done for pelvic pain"
+refs = ["cpp-rossi-rct"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-29"
+option = "stent"
+simple = ""
+deep = "Serious bleeding or a clot in the lungs happened in about 1 out of 100 people or fewer"
+refs = ["razavi"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-30"
+option = "stent"
+simple = ""
+deep = "**A clot in the stent is rare: about 1 out of 100 people or fewer.**"
+refs = ["wenda", "alenichev"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-31"
+option = "stent"
+simple = ""
+deep = "**A stent moving out of place is very rare: about 2 out of 1,000 people.** It can be serious when it happens"
+refs = ["cpp-badesha"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-32"
+option = "stent"
+simple = ""
+deep = "**Two vein stents were recalled in 2021: the Vici and the Venovo.** Ask your doctor which stent they use"
+refs = ["cpp-recall"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-33"
+option = "stent"
+simple = ""
+deep = "About 97 to 99 out of 100 were still open at 1 year, and about 94 out of 100 at 3 years. These studies were in people treated for leg symptoms"
+refs = ["cpp-murphy", "razavi"]
+read = "abstract"
+[[fact]]
+id = "cpp-stent-risks-34"
+option = "stent"
+simple = ""
+deep = "A stent placed at 30 has to last for decades, and studies that long are not yet available"
+refs = ["cpp-trzes", "desai"]
+read = "full text"
+[[fact]]
+id = "cpp-stent-fit-35"
+option = "stent"
+simple = ""
+deep = "**About 1 out of 10 women needed another procedure within a few years.** For some it was embolization of the pelvic veins. For others it was a second procedure on the stent"
+refs = ["cpp-rossi", "cpp-trzes"]
+read = "full text"
+[[fact]]
+id = "cpp-both-36"
+option = ""
+simple = ""
+deep = "A hospital in Egypt randomly assigned 20 women with both problems to a stent alone or to a stent plus embolization. Relief lasted in 10 out of 10 women after both treatments, compared with 5 out of 10 women after a stent alone"
+refs = ["mokhtar"]
+read = "abstract"
+[[fact]]
+id = "cpp-both-37"
+option = ""
+simple = ""
+deep = "Among 184 women, at least half the pain was gone at 12 months in 55 out of 100 after a stent alone, compared with 74 out of 100 after a stent and embolization together. The women were not assigned randomly"
+refs = ["cpp-cai"]
+read = "abstract"
+[[fact]]
+id = "cpp-both-38"
+option = ""
+simple = ""
+deep = "At one U.S. vein center, pain reached its lowest point by 1 month after both treatments, compared with 3 months after either one alone"
+refs = ["cpp-ma"]
+read = "full text"
+[[fact]]
+id = "cpp-hormones-evidence-39"
+option = "hormones"
+simple = ""
+deep = "A trial randomly assigned 84 women to a hormone pill (medroxyprogesterone) or a dummy pill for 4 months. At least half the pain was gone in 73 out of 100 women on the hormone pill, compared with 33 out of 100 women on the dummy pill"
+refs = ["farquhar"]
+read = "abstract"
+[[fact]]
+id = "cpp-hormones-evidence-40"
+option = "hormones"
+simple = ""
+deep = "In the same trial, 9 months after stopping, pain was about the same in both groups"
+refs = ["farquhar"]
+read = "abstract"
+[[fact]]
+id = "cpp-hormones-evidence-41"
+option = "hormones"
+simple = ""
+deep = "A trial randomly assigned 47 women to a monthly shot (goserelin) or to hormone pills for 6 months. A year later, pain relief was greater after the shot"
+refs = ["cpp-soysal"]
+read = "abstract"
+[[fact]]
+id = "cpp-hormones-risks-42"
+option = "hormones"
+simple = ""
+deep = "Each affects more than 1 out of 5 women who take it"
+refs = ["cpp-zoladex"]
+read = "page"
+[[fact]]
+id = "cpp-vein-pills-works-43"
+option = "vein-pills"
+simple = ""
+deep = "The studies were small and lasted about 2 months"
+refs = ["gloviczki", "cpp-akhmet"]
+read = "abstract"
+[[fact]]
+id = "cpp-vein-pills-evidence-44"
+option = "vein-pills"
+simple = ""
+deep = "A review found 11 studies with 748 women. Pain improved in each, but only 3 were small trials that assigned women randomly"
+refs = ["gloviczki"]
+read = "abstract"
+[[fact]]
+id = "cpp-vein-pills-evidence-45"
+option = "vein-pills"
+simple = ""
+deep = "In 83 women followed for 2 months, pain and quality of life improved more with the vein pill. The pill's maker paid for the study"
+refs = ["cpp-akhmet"]
+read = "full text"
+[[fact]]
+id = "cpp-vein-pills-evidence-46"
+option = "vein-pills"
+simple = ""
+deep = "In the trial of 40 women, average pain at 12 months was 5.1 out of 10 on the pills, compared with 3.2 out of 10 after embolization"
+refs = ["cpp-eleissawy"]
+read = "full text"
+[[fact]]
+id = "cpp-vein-pills-risks-47"
+option = "vein-pills"
+simple = ""
+deep = "In a trial of 150 women, only about 7 out of 100 had a headache, nausea, stomach pain, or diarrhea. None was serious"
+refs = ["venotreat"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-works-48"
+option = "hysterectomy"
+simple = ""
+deep = "However, about 1 out of 3 women may still have some pain afterward"
+refs = ["beard91"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-evidence-49"
+option = "hysterectomy"
+simple = ""
+deep = "One hospital followed 36 women with pelvic vein pain. A year after surgery, the typical pain score had fallen from 10 to 0 out of 10. However, 12 of the 36 women still had some pain"
+refs = ["beard91"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-evidence-50"
+option = "hysterectomy"
+simple = ""
+deep = "A study in South Korea of 106 women reported that pain fell more after embolization than after hysterectomy. The study had weaknesses, so this result is uncertain"
+refs = ["cpp-chung", "cpp-champaneria"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-evidence-51"
+option = "hysterectomy"
+simple = ""
+deep = "**After hysterectomy for long-term pelvic pain of any cause, about 1 out of 4 women still had some pain a year later.** A U.S. study followed 308 women. Other studies found anywhere from 12 to 68 out of 100"
+refs = ["cpp-hillis", "cpp-misal"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-risks-52"
+option = "hysterectomy"
+simple = ""
+deep = "**A major complication happens in about 4 to 5 out of 100 women.** Examples are an injury to the bowel or bladder tubes, or a return to the operating room. This is from a study of 194,570 women in England"
+refs = ["cpp-madhvani"]
+read = "full text"
+[[fact]]
+id = "cpp-hysterectomy-risks-53"
+option = "hysterectomy"
+simple = ""
+deep = "**A blood clot in the leg or lungs is rare: about 2 out of 1,000 women.**"
+refs = ["cpp-kahr"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-risks-54"
+option = "hysterectomy"
+simple = ""
+deep = "**Recovery takes 2 to 6 weeks.** It is shorter after surgery through the vagina or through small cuts than after a larger cut in the belly"
+refs = ["cpp-medline", "cpp-pickett"]
+read = "abstract"
+[[fact]]
+id = "cpp-hysterectomy-risks-55"
+option = "hysterectomy"
+simple = ""
+deep = "A review combined 18 studies. Women who had both ovaries removed before menopause were more likely to develop heart disease than women who kept them"
+refs = ["cpp-attach"]
+read = "full text"
+[[fact]]
+id = "cpp-vein-surgery-evidence-56"
+option = "vein-surgery"
+simple = ""
+deep = "In the trial of 50 women, pain started at 9 out of 10. It fell to 2 out of 10 after surgery and 1 out of 10 after embolization"
+refs = ["emad"]
+read = "full text"
+[[fact]]
+id = "cpp-vein-surgery-evidence-57"
+option = "vein-surgery"
+simple = ""
+deep = "At one center that looked back at 122 women who had vein surgery and 150 who had embolization, relief came from both, but came a bit more often after vein surgery"
+refs = ["cpp-gav-jsr"]
+read = "abstract"
+[[fact]]
+id = "cpp-pregnancy-58"
+option = ""
+simple = ""
+deep = "Women have had healthy pregnancies with a stent in place. In two small reports, 27 women had 33 pregnancies, and no stent clotted. Doctors may suggest a blood thinner during pregnancy"
+refs = ["villalba", "cpp-villalba25", "cpp-pappas"]
+read = "abstract"
+[[fact]]
+id = "cpp-found-59"
+option = ""
+simple = ""
+deep = "In one study of 2,384 CT scans of women, about 1 out of 8 showed wide ovarian veins. About 1 out of 5 of those women had pelvic pain on record"
+refs = ["jurga"]
+read = "full text"
+[[fact]]
+id = "cpp-g-embolization"
+option = "embolization"
+simple = ""
+deep = "About 3 out of 4 women have much less pain soon after, and for many the relief lasts for years"
+refs = ["hanna", "cpp-degregorio", "kim06"]
+read = "abstract"
+[[fact]]
+id = "cpp-g-hysterectomy"
+option = "hysterectomy"
+simple = ""
+deep = "About 1 out of 3 women may still have some pain afterward"
+refs = ["beard91"]
+read = "abstract"
+[[fact]]
+id = "cpp-g-hysterectomy-recovery"
+option = "hysterectomy"
+simple = ""
+deep = "2 to 6 weeks"
+refs = ["cpp-pickett", "cpp-medline"]
+read = "abstract"
+[[fact]]
+id = "cpp-cat-vein-63"
+option = ""
+simple = ""
+deep = "Two vein problems can cause this pain, and they often happen together. Veins near the ovaries and uterus can widen and let blood flow the wrong way, sometimes called pelvic congestion syndrome. A large vein in the pelvis can also be squeezed by an artery next to it, which is often called May-Thurner syndrome. Each problem has its own treatment. Both are done through a tiny skin nick, without surgery, and nothing is cut out of your body. Some women need one treatment, and some need both"
+refs = ["desai", "alenichev", "mokhtar"]
+read = "abstract"

@@ -1,0 +1,485 @@
+# The deep "every option" page for an enlarged prostate. Text: his signed-off rewrite 2 (Google Doc
+# 1oThGDUSQWyd7Gc5nDG-MIvs0YhYVqikqAyQelQNIlQs; his words 2026-11-12 15:08 CT: "This looks much better. No changes. It is
+# reviewed."; "Put it on dev site", 15:14 CT). Generated word for word from ai-hq
+# projects/platform/content/page-reviews/2026-11-12-prostate-deep/prostate-deep-revised-2.html by to_site.py in that
+# folder; edit the text there, not here. Written for a patient (his words, 2026-11-12: "Our audience is patients, not
+# board certified physicians"). No number appears except through {f:id} (shared with the simple page) or {d:id} (deep
+# page only); see enlarged-prostate.facts.toml. Evidence and how each source was read: ai-hq
+# projects/platform/pae-page/evidence.md. draft = true: noindex and out of the sitemap until launch.
+slug = "enlarged-prostate"
+path = "/enlarged-prostate/every-option/"
+draft = true
+abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
+reviewed = "2026-11-12"
+targets = ["pae vs turp", "prostate artery embolization vs turp", "bph medication", "best treatment for enlarged prostate", "pae recovery time", "holep vs turp", "urolift vs rezum"]
+title = "PAE vs. TURP vs. Laser Surgery, Compared | Every Option"
+description = "Prostate artery embolization (PAE) vs. TURP, laser surgery, office procedures, and BPH medication: how well each works, side effects, sex life, and recovery."
+h1 = "Enlarged prostate (benign prostatic hyperplasia/BPH) treatments compared, side by side"
+shared_name = "enlarged prostate benign prostatic hyperplasia"   # the diagnosis name, allowed in both pages' H1 (tools/pattern.py)
+lede = "PAE vs. TURP: strong evidence shows TURP surgery relieves symptoms most of the time. Early results for prostate artery embolization (PAE) are encouraging. In the trials that compared them, PAE eased symptoms about as much as TURP, with fewer side effects and a faster recovery. More men need a second treatment after PAE than after surgery. The American Urological Association's {f:aua-year} lists PAE as an option for men with larger prostates.[^cochrane][^knight]"
+read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works, with the studies behind them all. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
+reading_note = [
+  "Numbers from different studies cannot be set side by side. They come from different men, followed for different lengths of time. We compare two treatments only when one study tested both.",
+  "Every Option's physician performs prostate artery embolization. It is held to the same standard of evidence as every other option here.",
+]
+glance_heading = "Compared at a glance: recovery, sex life, and how sure we are"
+glance_peek = ["embolization", "turp"]
+glance_peek_columns = ["certainty", "recovery"]
+glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor. Select a treatment name to read more about it."
+works_note = "Bold words say how sure the evidence is. Results under How well it works come from different studies that measured different things, so they do not rank one treatment above another."
+simple_link = "New to an enlarged prostate? Start with the short guide to your options"
+find_heading = "Find a prostate artery embolization doctor"
+city_link = "Prostate artery embolization doctors by city"
+glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"], ["sex", "Sex life"]]
+
+[compare_headings]
+medicines = "BPH medicines compared"
+less-invasive = "PAE vs. other less invasive treatments"
+surgery = "TURP vs. laser, waterjet, and open surgery"
+
+[compare_notes]
+surgery = "Surgery improves urine flow the most and is the least likely to need repeating. It also carries more risk than the less invasive treatments: bleeding, a urinary catheter, a hospital stay, and, for most men, dry orgasms."
+
+[detail_headings]
+evidence = "What the studies found"
+selection = "Who was studied, and who gets it"
+
+
+[[glance]]
+option = "alpha-blockers"
+works = "Ease symptoms for many men; most notice a change {f:alpha-days}"
+involves = "A daily pill"
+recovery = "None"
+sex = "Ejaculation may change"
+
+[[glance]]
+option = "shrinking-pills"
+works = "Lower the chance of needing surgery. In one large trial, finasteride cut that chance {f:pless-half}"
+involves = "A daily pill, for months"
+recovery = "None"
+sex = "Lower sex drive or erection problems can happen"
+
+[[glance]]
+option = "tadalafil"
+works = "{d:r2-g-pde5}"
+involves = "A daily pill"
+recovery = "None"
+sex = "Also used for erection problems"
+
+[[glance]]
+option = "embolization"
+works = "Eases symptoms about as much as TURP in the trials that compared them, with fewer side effects. More men need a second procedure"
+involves = "A thin tube through a tiny skin nick to the prostate arteries. No cutting, and usually no urinary catheter"
+recovery = "Most men go home the same day and are back to normal within a few days"
+sex = "Most men keep normal ejaculation; in studies, erection scores did not drop on average"
+
+[[glance]]
+option = "urethral-lift"
+works = "Eases symptoms, often {f:lift-2wk}; {f:lift-retreat}"
+involves = "Implants placed through the penis"
+recovery = "{g:lift-week} to normal activity"
+sex = "Usually unchanged"
+
+[[glance]]
+option = "water-vapor"
+works = "Eases symptoms, often {f:steam-3mo}; {f:steam-retreat}"
+involves = "Steam through the penis, often in the office"
+recovery = "Not reported in the studies we read"
+sex = "Lasting erection problems are rare"
+
+[[glance]]
+option = "temporary-implant"
+works = "{d:r2-g-itind}"
+involves = "A device left in the prostate for about a week"
+recovery = "The device is removed after about a week"
+sex = "New problems seem uncommon"
+
+[[glance]]
+option = "balloon"
+works = "Eases symptoms for {f:balloon-2y}, in the prostate sizes tested"
+involves = "A coated balloon through the penis, in the office"
+recovery = "Not reported in the studies we read"
+sex = "Usually unchanged"
+
+[[glance]]
+option = "turp"
+works = "Relieves symptoms most of the time; {f:turp-redo}"
+involves = "Surgery through the penis, in the hospital, with a urinary catheter for {f:turp-stay}"
+recovery = "{g:turp-recovery}"
+sex = "Dry orgasms are common"
+
+[[glance]]
+option = "laser"
+works = "HoLEP relieves symptoms at least as well as TURP"
+involves = "Laser surgery through the penis"
+recovery = "Home the same day or the next"
+sex = "Dry orgasms are common"
+
+[[glance]]
+option = "waterjet"
+works = "{d:r2-g-water}"
+involves = "Water-jet surgery through the penis"
+recovery = "A urinary catheter for a few days"
+sex = "Ejaculation problems are less common than after TURP"
+
+[[glance]]
+option = "open-prostatectomy"
+works = "Often used when the prostate is too large for other surgery. We found no trial comparing it with TURP or laser surgery"
+involves = "Surgery through the belly, open or robotic"
+recovery = "{g:open-recovery} after open surgery"
+sex = "Dry orgasms can happen"
+
+
+[[detail]]
+option = "alpha-blockers"
+certainty = "Good evidence suggests"
+intro = "Tamsulosin and similar pills relax the muscle in the prostate and at the opening of the bladder.[^mpbph][^niddk]"
+works = "Good evidence suggests alpha blockers ease symptoms for many men. {d:r2-alpha-blockers-works-1}. These pills treat the symptoms, not the growth. On their own, they do not lower the chance of needing surgery later.[^mpbph][^niddk][^mtops]"
+risks = [
+  "* **Dizziness is a little more common.** {d:r2-alpha-blockers-risks-2}.",
+  "* **Ejaculation may change.** {d:r2-alpha-blockers-risks-3}.",
+  "* **Tell your eye surgeon.** If you are planning cataract or glaucoma surgery, tell your eye surgeon you take this medicine. It can affect the iris during the operation.[^flomax]",
+]
+
+[[detail]]
+option = "shrinking-pills"
+certainty = "Strong evidence shows"
+intro = "{d:r2-shrinking-pills-intro-4}."
+works = "Strong evidence shows these pills lower the chance of needing surgery in men with enlarged prostates. They also lower the chance of becoming unable to pass urine (urinary retention). In men with larger prostates, adding one of these pills to an alpha blocker helps more than an alpha blocker alone.[^mtops][^pless][^proscar][^avodart][^combat]"
+evidence = [
+  "* **Finasteride cut the chance of needing surgery by about half.** {d:r2-shrinking-pills-evidence-5}.",
+  "- {d:r2-shrinking-pills-evidence-6}.",
+  "- {d:r2-shrinking-pills-evidence-7}.",
+  "* **Two pills together kept more men from getting worse.** {d:r2-shrinking-pills-evidence-8}.",
+  "* **The shrinking pill is what lowers the chance of surgery.** A second large trial, paid for by a drug maker, tested dutasteride plus an alpha blocker against each pill alone. The two pills together eased symptoms more than either pill alone. For avoiding surgery, the two pills together did about the same as dutasteride alone.[^combat]",
+]
+risks = "These pills can lower sex drive, cause erection problems, and mean less semen. They cut the PSA level (a blood test used to check for prostate cancer) by about half, so tell any doctor who checks your PSA that you take one. Both drug labels warn that these pills may raise the chance of a more serious type of prostate cancer.[^proscar][^avodart]"
+
+[[detail]]
+option = "tadalafil"
+certainty = "Early studies suggest"
+intro = "A low daily dose of tadalafil, the erection pill, relaxes muscle in the bladder and prostate.[^niddk][^cialis]"
+works = "Early studies suggest it eases symptoms a little. It may suit men who also want help with erections (it is also an erection pill).[^pde5][^cialis]"
+evidence = [
+  "* **The benefit over a dummy pill was small.** {d:r2-tadalafil-evidence-9}.",
+  "* **Side effects were more common than with a dummy pill.** {d:r2-tadalafil-evidence-10}.",
+]
+risks = "Tadalafil can cause headache, indigestion, and back pain. It must not be taken with nitrate heart medicines. The label does not recommend taking it together with an alpha blocker for prostate symptoms.[^cialis]"
+
+[[detail]]
+option = "embolization"
+diagram = true
+certainty = "Early results are encouraging"
+intro = "An interventional radiologist passes a thin tube through a tiny skin nick at the wrist or groin and guides it into the arteries that feed the prostate. You get numbing medicine at the skin and medicine to help you relax. The doctor then releases tiny beads or particles that block that blood flow. With less blood flow, the prostate shrinks over time. Most men do not need a urinary catheter (a tube that drains the bladder).[^sirpt][^ucla] {d:r2-embolization-intro-12}."
+works = "Early results are encouraging. {d:r2-embolization-works-13}. The trade-offs: TURP improves urine flow more, and more men need a second procedure after PAE. PAE also eased symptoms far more than a fake procedure, and more than taking two pills.[^sham][^cochrane][^abt18][^partem][^peasy][^knight]"
+evidence = [
+  "* **PAE eased symptoms far more than a fake procedure.** {d:r2-embolization-evidence-14}.",
+  "* **PAE vs. TURP: symptom relief is about the same.** {d:r2-embolization-evidence-15}.",
+  "* **PAE vs. TURP: fewer side effects and a shorter hospital stay after PAE.** {d:r2-embolization-evidence-16}.",
+  "- {d:r2-embolization-evidence-17}.",
+  "- {d:r2-embolization-evidence-18}.",
+  "- Urine flow and prostate shrinkage: better after TURP.[^knight]",
+  "* **In the largest single trial, symptom relief was close, and side effects were fewer after PAE.** {d:r2-embolization-evidence-19}.",
+  "- {d:r2-embolization-evidence-20}.",
+  "- {d:r2-embolization-evidence-21}.",
+  "- {d:r2-embolization-evidence-22}.",
+  "* **PAE eased symptoms more than two pills.** {d:r2-embolization-evidence-23}.",
+  "* **PAE vs. laser surgery (HoLEP) in very large prostates: symptom relief was about the same.** {d:r2-embolization-evidence-24}.",
+  "- {d:r2-embolization-evidence-25}.",
+  "- {d:r2-embolization-evidence-26}.",
+  "- {d:r2-embolization-evidence-27}.",
+  "- Urine flow: better after HoLEP.",
+  "- {d:r2-embolization-evidence-28}.",
+  "- No man in either group had a serious problem.[^hope]",
+  "* **In very large prostates, open surgery cleared the blockage better.** {d:r2-embolization-evidence-29}.",
+  "* **In larger groups of men followed over time, most stayed better for years.** These studies had no comparison group, so they cannot show how much of the relief comes from PAE itself.",
+  "- {d:r2-embolization-evidence-30}.",
+  "- {d:r2-embolization-evidence-31}.",
+]
+risks = [
+  "PAE does not cut or remove tissue. That is why it avoids most of the risks of surgery.",
+  "* **Fewer side effects than TURP.** {d:r2-embolization-risks-32}.",
+  "* **Heavy bleeding is very rare.** {d:r2-embolization-risks-33}.",
+  "* **A few days of discomfort is common.** A burning feeling when you pee, needing to pee often, or pelvic pain happened to half of the men in one study. It passes in a few days. You may also see a little blood in your urine or stool.[^sirpt][^gstt][^hope]",
+  "* **Serious problems are uncommon.** {d:r2-embolization-risks-34}.",
+  "* **Beads reaching the bladder, rectum, or penis is rare.** {d:r2-embolization-risks-35}.",
+  "* **Erections are usually not affected.** {d:r2-embolization-risks-36}.",
+  "* **Ejaculation: most men keep it, and some have less semen.** {d:r2-embolization-risks-37}.",
+]
+selection = "The trials enrolled men who were fit for either PAE or surgery. In everyday practice, men who choose PAE are often older, with larger prostates. Some take blood thinners, or cannot have surgery. Results in these men may differ from the trial results.[^cochrane][^kristensen][^ukrope]\n**Men who cannot pass urine and depend on a catheter.** {d:r2-embolization-selection-38}."
+fit = "{d:r2-embolization-fit-39}.\nThe guideline advises seeing a urologist before PAE, and having PAE done by an interventional radiologist trained in it. It says PAE is one of the options for men on blood thinners. It says men should be told that PAE exposes them to radiation (X-rays). For men who depend on a catheter, it recommends surgery that removes prostate tissue.[^aua]"
+unknown = [
+  "* **Whether PAE spares a man from surgery or only delays it.** No trial has measured this.[^cochrane][^bilhim]",
+  "* {d:r2-embolization-unknown-40}.",
+  "* **How PAE compares with laser surgery (HoLEP) in the long run.** The only direct comparison is one small study that ran for a year.[^hope]",
+  "* **Whether surgery is harder after PAE.** Small studies show no sign that it is, but there is no good evidence either way.[^cochrane][^bilhim]",
+]
+
+[[detail]]
+option = "urethral-lift"
+certainty = "Early studies suggest"
+intro = "Small implants, placed through a scope in the urethra, pull the sides of the prostate apart like curtain tiebacks. Nothing is removed.[^mpbph][^niddk][^mpmin]"
+works = "Early studies suggest {d:r2-urethral-lift-works-41}. {d:r2-urethral-lift-works-42}. The lift fits only some prostate sizes and shapes, so ask whether yours fits.[^lift5]"
+evidence = [
+  "* {d:r2-urethral-lift-evidence-43}.",
+  "* **In everyday practice, the number was a little higher.** {d:r2-urethral-lift-evidence-44}.",
+]
+risks = "Side effects were mostly mild and short-lived: burning, blood in the urine, and a sudden need to pee. The trial reported no new lasting erection or ejaculation problems.[^lift5]"
+
+[[detail]]
+option = "water-vapor"
+certainty = "Early studies suggest"
+intro = "Steam, released through a scope in the urethra, destroys some of the inner prostate tissue. It is often done in the doctor's office.[^niddk][^mpmin]"
+works = "Early studies suggest {d:r2-water-vapor-works-45}. {d:r2-water-vapor-works-46}. It was tested only in some prostate sizes, so ask whether yours fits.[^cosmos][^rezum5]"
+evidence = [
+  "* **Fewer men needed more surgery in the maker's trial than in everyday practice.**",
+  "- {d:r2-water-vapor-evidence-47}.",
+  "- {d:r2-water-vapor-evidence-48}.",
+  "* We do not know how much of that gap comes from the men treated and how much from how the procedure is done outside a trial.",
+]
+risks = "Side effects were mostly mild and settled quickly. The trials reported no lasting new erection problems.[^rezum5][^rezum2]"
+
+[[detail]]
+option = "temporary-implant"
+certainty = "Early studies suggest"
+intro = "A small folded metal device is left for about a week in the part of the urethra that runs through the prostate. As it opens, it presses grooves into the tissue. Then it is removed.[^mpmin][^itind]"
+works = "Early studies suggest it helps some men. Many men also felt better after a fake procedure, so doctors are still learning how much of the relief comes from the device. We do not yet know how long the relief lasts.[^itind][^itind4]"
+evidence = [
+  "* **More men improved than after a fake procedure, but many improved after the fake procedure too.** {d:r2-temporary-implant-evidence-49}.",
+  "- {d:r2-temporary-implant-evidence-50}.",
+  "- {d:r2-temporary-implant-evidence-51}.",
+  "* **Longer results come from one small study.** {d:r2-temporary-implant-evidence-52}.",
+]
+risks = "{d:r2-temporary-implant-risks-53}."
+
+[[detail]]
+option = "balloon"
+certainty = "Early studies suggest"
+intro = "A balloon widens the space between the two sides of the prostate. It is coated with a medicine (paclitaxel) meant to keep the channel from closing again.[^pinnacle][^fdaopt]"
+works = "Early studies suggest {d:r2-balloon-works-54}."
+evidence = [
+  "* **Symptoms eased after the balloon, but also a lot after a fake procedure.** {d:r2-balloon-evidence-55}.",
+  "- {d:r2-balloon-evidence-56}.",
+  "- {d:r2-balloon-evidence-57}.",
+  "* {d:r2-balloon-evidence-58}.",
+]
+risks = "Blood in the urine and bladder infection were the most common side effects. Sexual function was unchanged.[^pinnacle2]"
+
+[[detail]]
+option = "turp"
+certainty = "Strong evidence shows"
+intro = "{d:r2-turp-intro-74}."
+works = "Strong evidence shows TURP relieves symptoms most of the time. It is the treatment most other procedures are measured against. {d:r2-turp-works-75}."
+evidence = [
+  "* **The newer kind of TURP causes less bleeding.** {d:r2-turp-evidence-76}.",
+  "* **TURP vs. PAE: symptom relief was about the same.** {d:r2-turp-evidence-77}.",
+]
+risks = [
+  "TURP is a real operation, and its side effects are more common than those of the less invasive treatments.",
+  "* **Dry orgasms:** {d:r2-turp-risks-78}.",
+  "* **Any side effect:** {d:r2-turp-risks-79}.",
+  "* **In the weeks after surgery.** {d:r2-turp-risks-80}.",
+  "- {d:r2-turp-risks-81}",
+  "- {d:r2-turp-risks-82}",
+  "- {d:r2-turp-risks-83}",
+  "- {d:r2-turp-risks-84}",
+  "- {d:r2-turp-risks-85}",
+  "- {d:r2-turp-risks-86}",
+  "* **Later on:** {d:r2-turp-risks-87}.",
+]
+
+[[detail]]
+option = "laser"
+certainty = "Early studies suggest"
+intro = "A laser, passed through a scope, either shells out the enlarged part of the prostate (called HoLEP) or burns it away. Most men go home the same day or the next, with a urinary catheter for a few days.[^mpmin]"
+works = "Early studies suggest HoLEP relieves symptoms at least as well as TURP.[^holepcochrane][^holep]"
+evidence = [
+  "* **HoLEP vs. TURP: less bleeding and a shorter hospital stay with HoLEP.** {d:r2-laser-evidence-88}",
+]
+risks = [
+  "* **Dry orgasms:** {d:r2-laser-risks-89}.",
+  "* **Bleeding and serious problems.** {d:r2-laser-risks-90}.",
+  "* **Leaking urine and erection problems** can happen. Leaking is usually short-lived.[^mpmin][^hope]",
+]
+
+[[detail]]
+option = "waterjet"
+certainty = "Early studies suggest"
+intro = "A high-pressure water jet, passed through a scope, removes the blocking tissue. A urinary catheter stays in for a few days.[^mpmin][^water5]"
+works = "Early studies suggest {d:r2-waterjet-works-91}. This comes from one trial paid for by the maker.[^water5]"
+evidence = [
+  "* **Waterjet vs. TURP: symptoms improved about as much, and fewer men lost ejaculation.** {d:r2-waterjet-evidence-92}.",
+  "- {d:r2-waterjet-evidence-93}.",
+  "- {d:r2-waterjet-evidence-94}.",
+]
+risks = "{d:r2-waterjet-risks-95}."
+
+[[detail]]
+option = "open-prostatectomy"
+intro = "{d:r2-open-prostatectomy-intro-96}."
+works = "It is often used when the prostate is too large for other surgery. We found no trial comparing it with TURP or laser surgery. {d:r2-open-prostatectomy-works-97}."
+risks = "{d:r2-open-prostatectomy-risks-98}."
+
+[[section]]
+id = "score"
+after = "top"
+heading = "The symptom score used on this page"
+text = [
+  "{d:r2-score-scale}.",
+  "{d:r2-score-feel}.",
+]
+
+[[section]]
+id = "waiting"
+after = "medicines"
+heading = "Is waiting safe?"
+text = [
+  "For most men, yes. The evidence suggests it is reasonable to wait and step up treatment if symptoms get worse.[^niddk][^wasson]",
+  "* **In one older trial, men who waited did worse than men who had TURP, but most never needed surgery.** {d:r2-waiting-11}.",
+  "Waiting is not safe for men who cannot pass urine, or who have kidney damage or bladder stones from the blockage. They need treatment, often surgery.[^aua][^niddk]",
+]
+
+[[section]]
+id = "sex"
+after = "less-invasive"
+heading = "Sex life after each treatment"
+text = [
+  "Studies count ejaculation changes in different ways. Some count any change, including less semen. Others count only a dry orgasm (semen going into the bladder, called retrograde ejaculation) or losing ejaculation completely. Check what a number counts before comparing it.[^ejac][^lokesh]",
+  "* **After PAE, most men keep normal ejaculation.**",
+  "- {d:r2-sex-59}.",
+  "- {d:r2-sex-60}.",
+  "- {d:r2-sex-61}.",
+  "* **Ejaculation problems are less common after PAE than after TURP.** When trials were combined, men were about half to two-thirds as likely to have an ejaculation problem after PAE as after TURP.[^cochrane]",
+  "* **After TURP and laser surgery, dry orgasms are common.** {d:r2-sex-62}.",
+  "* **Erections are usually not affected by PAE.** In studies, erection scores did not drop on average. Against TURP, erection scores were about the same after either treatment. In a study across several countries, the average erection score was the same a year after PAE as before it.[^cochrane][^sapoval24]",
+  "* **The lift, steam, implant, and balloon:** each maker's trial reported no new lasting erection or ejaculation problems.[^lift5][^rezum2][^itind][^pinnacle2]",
+]
+
+[[section]]
+id = "repeat"
+after = "less-invasive"
+heading = "Will I need another treatment later?"
+text = [
+  "Any of these treatments may need to be repeated, or followed by a different one. Treatments that remove more tissue are less likely to need repeating, but they are bigger operations.",
+  "* {d:r2-repeat-63}",
+  "- {d:r2-repeat-64}.",
+  "- {d:r2-repeat-65}.",
+  "- {d:r2-repeat-66}.",
+  "* **A repeat treatment is more likely after PAE than after TURP.** {d:r2-repeat-67}.",
+  "* **One study counted several treatments the same way.** {d:r2-repeat-68}.",
+  "- {d:r2-repeat-69}",
+  "- {d:r2-repeat-70}",
+  "- {d:r2-repeat-71}",
+  "- {d:r2-repeat-72}",
+  "- {d:r2-repeat-73}",
+]
+
+# Deep page references (the simple page's [[refs]] are shared; these keys must not repeat them).
+[[refs]]
+key = "abt18"
+cite = "Abt D, Hechelhammer L, Müllhaupt G, et al. Comparison of prostatic artery embolisation (PAE) versus transurethral resection of the prostate (TURP) for benign prostatic hyperplasia: randomised, open label, non-inferiority trial. BMJ. 2018;361:k2338. doi:10.1136/bmj.k2338. PMID 29921613. Full text read."
+url = "https://doi.org/10.1136/bmj.k2338"
+[[refs]]
+key = "partem"
+cite = "Sapoval M, Thiounn N, Descazeaud A, et al. Prostatic artery embolisation versus medical treatment in patients with benign prostatic hyperplasia (PARTEM): a randomised, multicentre, open-label, phase 3, superiority trial. Lancet Regional Health Europe. 2023;31:100672. doi:10.1016/j.lanepe.2023.100672. PMID 37415648. Abstract read."
+url = "https://doi.org/10.1016/j.lanepe.2023.100672"
+[[refs]]
+key = "peasy"
+cite = "Brown N, Kiosoglous A, Castree S, et al. The P-EASY ADVANCE trial: a randomised controlled trial of prostate embolisation vs medication for BPH. BJU International. 2024;134 Suppl 2:38-46. doi:10.1111/bju.16479. PMID 39139009. Full text read (HQ chat, 2026-11-06)."
+url = "https://doi.org/10.1111/bju.16479"
+[[refs]]
+key = "lebani"
+cite = "Lebani BR, Porto DDS, Silva ABD, et al. Randomized controlled trial comparing open simple prostatectomy or prostate artery embolization in large prostates: clinical and urodynamic assessment (PoPAE study). Urology. 2024;189:94-100. doi:10.1016/j.urology.2024.04.024. PMID 38697363. Abstract read."
+url = "https://doi.org/10.1016/j.urology.2024.04.024"
+[[refs]]
+key = "mabud"
+cite = "Mabud TS, Sajan A, Azevedo R, et al. Reintervention through 5 years after prostatic artery embolization for benign prostatic hyperplasia: a national claims analysis. Journal of Vascular and Interventional Radiology. 2026;37(12):109054. doi:10.1016/j.jvir.2026.109054. PMID 42665129. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2026.109054"
+[[refs]]
+key = "kristensen"
+cite = "Kristensen-Alvarez A, Lund-Frank C, Stroomberg HV, et al. Long-term outcomes of prostatic artery embolisation: a nationwide prospective cohort study. European Urology Focus. 2025;11(6):991-998. doi:10.1016/j.euf.2025.08.003. PMID 40846555. Abstract read."
+url = "https://doi.org/10.1016/j.euf.2025.08.003"
+[[refs]]
+key = "bhatia25"
+cite = "Bhatia S, Bhatia A, Richardson AJ, et al. Prostatic artery embolization: mid- to long-term outcomes in 1,075 patients. Journal of Vascular and Interventional Radiology. 2025;36(3):456-466. doi:10.1016/j.jvir.2024.11.002. PMID 39532156. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2024.11.002"
+[[refs]]
+key = "amouyal"
+cite = "Amouyal G, Thiounn N, Pellerin O, et al. Clinical results after prostatic artery embolization using the PErFecTED technique: a single-center study. CardioVascular and Interventional Radiology. 2016;39(3):367-375. doi:10.1007/s00270-015-1267-0. PMID 26702619. Abstract read."
+url = "https://doi.org/10.1007/s00270-015-1267-0"
+[[refs]]
+key = "kawakibi"
+cite = "Kawakibi T, Barry F, McNamara GJP, et al. Within-patient association between improvement in lower urinary tract symptoms and change in sexual function after prostatic artery embolization. Journal of Vascular and Interventional Radiology. 2026;37(10):108974. doi:10.1016/j.jvir.2026.108974. PMID 42486396. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2026.108974"
+[[refs]]
+key = "alizadeh"
+cite = "Alizadeh LS, Radek D, Booz C, et al. Prostatic artery embolization: lessons from 551 procedures at a single-center. Academic Radiology. 2024;31(11):4519-4527. doi:10.1016/j.acra.2024.05.039. PMID 38862346. Abstract read."
+url = "https://doi.org/10.1016/j.acra.2024.05.039"
+[[refs]]
+key = "larussa"
+cite = "LaRussa S, Pantuck M, Wilcox Vanden Berg R, et al. Symptomatic improvement of lower urinary tract symptoms of benign prostatic hyperplasia: a comparative systematic review and meta-analysis of 4 different minimally invasive therapies. Journal of Vascular and Interventional Radiology. 2021;32(9):1328-1340.e11. doi:10.1016/j.jvir.2021.06.019. PMID 34256123. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2021.06.019"
+[[refs]]
+key = "mtops"
+cite = "McConnell JD, Roehrborn CG, Bautista OM, et al. The long-term effect of doxazosin, finasteride, and combination therapy on the clinical progression of benign prostatic hyperplasia. New England Journal of Medicine. 2003;349(25):2387-2398. doi:10.1056/NEJMoa030656. PMID 14681504. Abstract read."
+url = "https://doi.org/10.1056/NEJMoa030656"
+[[refs]]
+key = "bipolar"
+cite = "Alexander CE, Scullion MM, Omar MI, et al. Bipolar versus monopolar transurethral resection of the prostate for lower urinary tract symptoms secondary to benign prostatic obstruction. Cochrane Database of Systematic Reviews. 2019;12:CD009629. doi:10.1002/14651858.CD009629.pub4. PMID 31792928. Full text read."
+url = "https://doi.org/10.1002/14651858.CD009629.pub4"
+[[refs]]
+key = "rubin"
+cite = "Rubin R, et al. Canadian Urological Association Journal. 2026. U.S. TriNetX records study of reoperation after a first BPH procedure (described, not the paper's title). doi:10.5489/cuaj.9601. PMID 42531442. Full text read."
+url = "https://doi.org/10.5489/cuaj.9601"
+[[refs]]
+key = "wasson"
+cite = "Wasson JH, Reda DJ, Bruskewitz RC, et al. A comparison of transurethral surgery with watchful waiting for moderate symptoms of benign prostatic hyperplasia. New England Journal of Medicine. 1995;332(2):75-79. doi:10.1056/NEJM199501123320202. PMID 7527493. Abstract read."
+url = "https://doi.org/10.1056/NEJM199501123320202"
+[[refs]]
+key = "abt5"
+cite = "Müllhaupt G, Hechelhammer L, Graf N, et al. Prostatic artery embolisation versus transurethral resection of the prostate for benign prostatic obstruction: 5-year outcomes of a randomised, open-label, noninferiority trial. European Urology Focus. 2024;10(5):788-795. doi:10.1016/j.euf.2024.03.001. PMID 38531756."
+url = "https://doi.org/10.1016/j.euf.2024.03.001"
+[[refs]]
+key = "barry"
+cite = "Barry MJ, Williford WO, Chang Y, et al. Benign prostatic hyperplasia specific health status measures in clinical research: how much change in the American Urological Association symptom index and the benign prostatic hyperplasia impact index is perceptible to patients? Journal of Urology. 1995;154(5):1770-1774. doi:10.1016/s0022-5347(01)66780-6. PMID 7563343. Abstract read."
+url = "https://doi.org/10.1016/s0022-5347(01)66780-6"
+[[refs]]
+key = "maclean"
+cite = "Maclean D, Vigneswaran G, Maher B, et al. The effect of protective coil embolization of penile anastomoses during prostatic artery embolization on erectile function: a propensity-matched analysis. Journal of Vascular and Interventional Radiology. 2023;34(2):218-224. doi:10.1016/j.jvir.2022.10.023. PMID 36283591. Abstract read."
+url = "https://doi.org/10.1016/j.jvir.2022.10.023"
+[[refs]]
+key = "richardson"
+cite = "Richardson A, Bhatia A, Maini A, et al. Impact on sexual function of protective coil embolization of penile collaterals during prostatic artery embolization. CardioVascular and Interventional Radiology. 2025;48(4):512-521. doi:10.1007/s00270-025-03966-3. PMID 39915324. Abstract read."
+url = "https://doi.org/10.1007/s00270-025-03966-3"
+[[refs]]
+key = "knight"
+cite = "Knight GM, Talwar A, Salem R, Mouli S. Systematic review and meta-analysis comparing prostatic artery embolization to gold-standard transurethral resection of the prostate for benign prostatic hyperplasia. CardioVascular and Interventional Radiology. 2021;44(2):183-193. doi:10.1007/s00270-020-02657-5. PMID 33078236. Abstract read."
+url = "https://doi.org/10.1007/s00270-020-02657-5"
+[[refs]]
+key = "hope"
+cite = "Bhatia S, Bhatia A, Richardson A, et al. Prospective, non-randomized, controlled investigation of prostate artery embolization compared to holmium laser enucleation of prostate for the treatment of symptomatic benign prostatic hyperplasia with prostate volume 80-250 cc: the HOPE trial outcome at 1 year. World Journal of Urology. 2026;44(1):87. doi:10.1007/s00345-025-06115-0. PMID 41528505. Full text read."
+url = "https://doi.org/10.1007/s00345-025-06115-0"
+[[refs]]
+key = "reich"
+cite = "Reich O, Gratzke C, Bachmann A, et al. Morbidity, mortality and early outcome of transurethral resection of the prostate: a prospective multicenter evaluation of 10,654 patients. Journal of Urology. 2008;180(1):246-249. doi:10.1016/j.juro.2008.03.058. PMID 18499179. Abstract read."
+url = "https://doi.org/10.1016/j.juro.2008.03.058"
+[[refs]]
+key = "gild"
+cite = "Gild P, Lenke L, Pompe RS, et al. Assessing the outcome of holmium laser enucleation of the prostate by age, prostate volume, and a history of blood thinning agents: report from a single-center series of more than 1800 consecutive cases. Journal of Endourology. 2021;35(5):639-646. doi:10.1089/end.2020.0605. PMID 33040607. Abstract read."
+url = "https://doi.org/10.1089/end.2020.0605"
+[[refs]]
+key = "rassweiler"
+cite = "Rassweiler J, Teber D, Kuntz R, Hofmann R. Complications of transurethral resection of the prostate (TURP): incidence, management, and prevention. European Urology. 2006;50(5):969-979. doi:10.1016/j.eururo.2005.12.042. PMID 16469429. Abstract read."
+url = "https://doi.org/10.1016/j.eururo.2005.12.042"
+[[refs]]
+key = "gratzke"
+cite = "Gratzke C, Schlenker B, Seitz M, et al. Complications and early postoperative outcome after open prostatectomy in patients with benign prostatic enlargement: results of a prospective multicenter study. Journal of Urology. 2007;177(4):1419-1422. doi:10.1016/j.juro.2006.11.062. PMID 17382744. Abstract read."
+url = "https://doi.org/10.1016/j.juro.2006.11.062"
+[[refs]]
+key = "autorino"
+cite = "Autorino R, Zargar H, Mariano MB, et al. Perioperative outcomes of robotic and laparoscopic simple prostatectomy: a European-American multi-institutional analysis. European Urology. 2015;68(1):86-94. doi:10.1016/j.eururo.2014.11.044. PMID 25484140. Abstract read."
+url = "https://doi.org/10.1016/j.eururo.2014.11.044"
+[[refs]]
+key = "water1"
+cite = "Gilling P, Barber N, Bidair M, et al. WATER: a double-blind, randomized, controlled trial of Aquablation vs transurethral resection of the prostate in benign prostatic hyperplasia. Journal of Urology. 2018;199(5):1252-1261. doi:10.1016/j.juro.2017.12.065. PMID 29360529. Sponsored by the device maker. Abstract read."
+url = "https://doi.org/10.1016/j.juro.2017.12.065"

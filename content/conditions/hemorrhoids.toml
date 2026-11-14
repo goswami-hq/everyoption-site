@@ -1,0 +1,385 @@
+# Hemorrhoids: the fifth condition page, built on the fibroid pattern (job platform-condition-pages-0014; his go
+# 2026-11-09 21:56 CT: "Yes", to the hemorrhoid page wording, simple and in-depth, through the page pipeline).
+# Written with the patient-centric skill: no study descriptions on this page; study details are on the every-option page
+# (content/options/hemorrhoids.toml). Evidence, grades and how each source was read: goswami-hq/ai-hq
+# projects/platform/hemorrhoid-page/evidence.md (rows cited there).
+# His positioning (vault/decisions.md, 2026-11-09): "Bleeding/pain after office treatments failing, after lifestyle
+# changes, for people who don't want surgery. Banding is an alternative that works well for some people".
+# Finder since job platform-directory-0029 (his go 2026-11-11: "Yes start the export"): the HAE list (site/data/hae.json).
+# The finder block below is the only text added; its wording is on his review list (ai-hq
+# projects/platform/design/hae-finder-2026-11-11/list-for-him.md).
+# Framework (his words, 2026-11-01): Medicines (here home care); Less invasive treatments, IR option first; Surgery.
+# Rules: no brand or device names, testimonials, guarantees, superiority claims, practice names or the physician's
+# name; plain frequencies only; no trial names or evidence grades in the reading text; each option states its own limits.
+# Job platform-condition-pages-0017 (2026-11-10): his Google Doc edits, accepted as written (vault/decisions.md, 2026-11-10
+# hemorrhoid lines; ai-hq projects/platform/content/page-reviews/2026-11-09-hemorrhoids/word-sent-2026-11-10/
+# his-short-guide-edits-2026-11-10-accepted.md), with his rulings: the doctor-list line kept, his creams line, "How it works"
+# renamed "Recovery", the new headline. Flavonoid pills added so the two pages agree (in-depth page, his round 2).
+
+slug = "hemorrhoids"
+color = "hem"                  # its own color (ochre), src-assets/site.css
+finder = "hae"                 # the finder this page leads to: the HAE list (job platform-directory-0029)
+nav_name = "Hemorrhoids"
+reviewed = "2026-11-10"
+draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
+condition_name = "Hemorrhoids"
+condition_alt = "Hemorrhoidal disease"
+
+# Physician reviewer: empty = no name anywhere, in the page or the schema (his rule, 2026-10-04).
+author_name = ""
+author_credentials = ""
+author_role = ""
+
+# Search targets (pattern: docs/condition-pattern.md). US volumes, Google Ads through DataForSEO, 2026-11-09 (ai-hq
+# records/reports/research-notes/hemorrhoid-market-2026-11/lens-1-2-demand-and-attention.md): hemorrhoid treatment
+# 368,000 (held by Mayo, NIDDK, Cigna); how to treat hemorrhoids 49,500; bleeding hemorrhoids treatment 4,400;
+# hemorrhoid treatment options 1,300; non surgical hemorrhoid treatment 480; hemorrhoid treatment without surgery no figure.
+targets = ["hemorrhoid treatment options", "non surgical hemorrhoid treatment", "bleeding hemorrhoids treatment", "hemorrhoid treatment", "how to treat hemorrhoids"]
+title = "Hemorrhoid Treatment Options Beyond Home Care | Every Option"
+description = "Your hemorrhoid treatment options, from fiber and banding to non surgical embolization and surgery: how invasive each is, how well it works, side effects."
+h1 = "Bleeding hemorrhoids: every option, with and without surgery"   # his words 2026-11-10 15:03 CT
+hero_intro = "Rectal bleeding always needs a doctor's check first, because it is not always hemorrhoids. Sometimes the doctor needs to check your colon.\nHemorrhoids have multiple treatments available. Fiber eases symptoms for many people. Office treatments such as banding also work well. If bleeding keeps coming back, you can look into embolization, which needs no surgery. Surgery is the most lasting fix."
+diagram = "hae"                # tools/diagrams/anim-hae.svgfrag (his pick, 2026-11-11) ...
+diagram_at = "embolization"    # ... shown inside this option
+# The finder block (job platform-directory-0029). The intro restates the embolization option's own "what" below.
+finder_button = "Find a doctor for hemorrhoid embolization"
+finder_heading = "Find a doctor for hemorrhoid embolization"
+finder_intro = "Hemorrhoid embolization treats bleeding hemorrhoids without surgery, through a tiny skin nick in the wrist or groin."
+finder_how = "#embolization"
+options_page = "/hemorrhoids/every-option/"
+options_link = "Compare them side by side: embolization vs. banding, other office treatments, and surgery"
+answer = "Hemorrhoids are swollen veins in and around the bottom. They are common.[^niddk] Fiber eases symptoms for many people, and office treatments like banding work well for many.[^aga][^alonso] If bleeding keeps coming back after those, embolization is one option that needs no surgery. Surgery is the most lasting fix.[^jin21][^vanoost] The right choice depends on your symptoms and goals."
+urgent = "If you have heavy bleeding that does not stop, feel faint or dizzy, or have a high fever or severe pain after a procedure, get emergency care or call 911."
+options_heading = "Your other hemorrhoid treatment options"
+faq_heading = "Common questions"
+learn_heading = "Learn more"
+not_advice = "Education, not medical advice. Talk to your doctor about your own care."
+find_heading = "Find a doctor"
+find_text = ["Interventional radiologists perform hemorrhoid embolization. Ask your doctor for a referral."]
+terms = ["hemorrhoid", "hemorrhoids", "embolization", "anus", "rectum", "rectal", "colon", "colonoscopy", "fissure", "sitz", "infrared", "coagulation", "ligation", "hemorrhoidectomy", "interventional radiologist", "interventional radiologists", "gastroenterologist", "steroid", "anesthesia", "inflammation", "insurers", "Medicare"]
+
+[[categories]]
+id = "home"
+name = "Home care"
+summary = "Most people start here. No procedure is needed."
+options = ["fiber", "creams", "flavonoid"]
+
+[[categories]]
+id = "less-invasive"
+name = "Less invasive treatments"
+highlight = "embolization"
+summary = "These need no surgery. Banding is usually tried first, in the office. Embolization is an option when bleeding keeps coming back."
+options = ["embolization", "banding", "infrared", "injection"]
+
+[[categories]]
+id = "surgery"
+name = "Surgery"
+summary = "Surgery ties off, lifts, shrinks, or removes the hemorrhoids. It is the most lasting fix, and recovery hurts more."
+options = ["ligation", "stapled", "laser", "hemorrhoidectomy"]
+
+[[sections]]
+id = "what"
+place = "box"
+heading = "What are hemorrhoids?"
+text = [
+  "Hemorrhoids are swollen veins inside the lower rectum (the last part of the bowel) or under the skin around the anus.[^niddk] Hemorrhoids that are inside the rectum can bleed or bulge out and are usually painless. Outside ones can itch, ache, or form a tender lump.[^niddk]",
+]
+symptoms_label = "Common symptoms"
+symptoms = ["Bright red blood on the toilet paper", "A lump that bulges out", "Itching", "Aching or a tender lump"]
+symptoms_cite = "[^niddk]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "Rectal bleeding needs a check with a doctor first. Bleeding can come from other problems, such as colon cancer or bowel inflammation, so see a doctor about any bleeding.[^niddk] Sudden, severe pain can mean a blood clot in a hemorrhoid or a small tear (fissure), and needs a doctor soon.[^aga]"
+
+[[sections]]
+id = "after-banding"
+place = "lead"
+heading = "If bleeding keeps coming back after banding"
+text = [
+  "You have three paths. Banding is a good choice for many people.[^aga] Embolization needs no surgery, and early studies suggest it hurts much less than surgery in the first days.[^falsarella] However, bleeding may come back for some people.[^degregorio] Surgery is the most lasting fix, but also the most painful to recover from.[^jin21][^vanoost]",
+  "If your hemorrhoids bulge out and stay bulging out, surgery is usually needed.[^aga] Embolization is mainly a treatment for bleeding.[^kucukay][^siccr] Studies comparing it with banding are under way.[^brussel][^stratos] Every Option's physician performs embolization.",
+]
+
+[[sections]]
+id = "right-for-me"
+place = "after"
+heading = "Is embolization right for me?"
+text = [
+  "If bleeding keeps coming back after fiber and office treatments and you do not want surgery, it may suit you.[^siccr] Early studies suggest some people also have less aching afterward.[^nguyenhuy][^falsarella]",
+  "It is usually not the right choice if your hemorrhoids bulge out and stay out, or if your main problem is sudden, severe pain from a clot or a tear. It has not been studied in pregnancy.[^aga][^brussel]",
+]
+
+[[sections]]
+id = "serious"
+place = "after"
+heading = "Serious problems after any hemorrhoid treatment"
+text = [
+  "A serious infection in the pelvis is very rare after any hemorrhoid treatment. Get care right away if you have a fever, severe pain, or feel very sick after a procedure.[^aga]",
+]
+
+[[sections]]
+id = "ask"
+place = "after"
+heading = "What should I ask my doctor?"
+list = [
+  "Have you checked my colon? What is causing the bleeding?",
+  "Do my hemorrhoids bulge out? Do they go back in?",
+  "Could banding or another office treatment work for me?",
+  "If I choose embolization, how often does bleeding come back? What happens if it does?",
+  "What is the plan if a problem happens after the procedure?",
+]
+
+[[faq]]
+q = "Does insurance cover hemorrhoid embolization?"
+a = "Coverage varies by plan. Some insurers cover it under set conditions, some list it as unproven or not covered, and Medicare decides case by case.[^cigna][^uhc][^aetna][^ncd] Ask your plan before you book. [See what each insurer's policy says](/insurance/#hae)."
+
+[[faq]]
+q = "Which doctor treats hemorrhoids?"
+a = "Family doctors, gastroenterologists (digestive specialists), and colorectal surgeons check and treat hemorrhoids, and many do banding in the office. Interventional radiologists perform embolization. Ask your doctor for a referral, or contact one of the doctors listed on our site."   # his words 2026-11-10 15:03 CT: "Just leave it"
+
+[[faq]]
+q = "Will hemorrhoids go away on their own?"
+a = "Sometimes. Some people with an early flare have no more flares for years, but for many the symptoms come back.[^jensen]"
+
+[[faq]]
+q = "What if I am pregnant?"
+a = "Hemorrhoids are common in pregnancy. Treatment is usually fiber, treating constipation, and creams. Office treatments can be considered after the birth if symptoms last.[^aga]"
+
+[[options]]
+id = "fiber"
+name = "Fiber and home care"
+what = "This means more fiber from food or a daily fiber supplement and not straining or sitting a long time on the toilet.[^aga]"
+invasive = "No procedure is needed."
+works = "Good evidence suggests fiber eases symptoms and lowers the chance of bleeding.[^alonso] It may not help much with bulging, pain, or itching.[^alonso]"
+side = "Side effects are mild.[^alonso]"
+
+[[options]]
+id = "creams"
+name = "Creams and warm baths"
+what = "Creams, wipes, and sitz baths (sitting in warm water) are often used to soothe itching and aching. They treat symptoms, not the hemorrhoid itself.[^aga]"
+invasive = "No procedure is needed."
+# his line, his clinical judgment (vault/decisions.md 2026-11-10: "This is my clinical judgment. Sure with your change")
+works = "Many people find they ease symptoms for a while, but there is little proof they help in the long run.[^aga]"
+side = "Steroid creams should not be used for more than 2 weeks at a time.[^aga]"
+
+[[options]]
+id = "flavonoid"
+name = "Flavonoid pills"
+what = "Flavonoids are plant compounds taken as daily pills. Like creams, they ease symptoms rather than remove the hemorrhoid.[^alonsoflav][^perera]"
+invasive = "No procedure is needed."
+works = "Early studies suggest they ease bleeding and itching. Large reviews disagree on whether they ease pain.[^alonsoflav][^perera]"
+side = "Few safety problems were found in the trials.[^perera] If you are pregnant, ask your doctor first: a related pill has not been shown safe in pregnancy.[^quijano]"
+
+[[options]]
+id = "embolization"
+name = "Hemorrhoid artery embolization (HAE)"
+lead_heading = "What is hemorrhoid artery embolization (HAE)?"
+what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
+invasive = "Early studies suggest recovery is far less painful than after surgery in the first days.[^falsarella]"
+invasive_heading = "Recovery"   # his word "Fine", 2026-11-10 15:03 CT; the text under it is about recovery
+works = "Early results are encouraging. Most patients bleed less afterward. About 2 out of 3 people still have little or no bleeding a year later. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
+side = "There is no wound, and no loss of bowel control has been reported.[^jin25] You may have pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
+
+[[options]]
+id = "banding"
+name = "Banding"
+what = "A doctor places a tiny rubber band around the base of a hemorrhoid inside the rectum. It cuts off the blood supply, so the hemorrhoid shrinks and falls off.[^niddk]"
+invasive = "It is done in the office, with no cut. Many people are back at work the next day.[^aga][^vanoost]"
+works = "Good evidence suggests banding works well for many people. Hemorrhoids come back more often than after surgery. Some people need more than one session.[^vanoost][^johanson92]"
+side = "You may have a dull ache or pressure for a few days and some bleeding.[^ding][^vanoost]"
+
+[[options]]
+id = "infrared"
+name = "Infrared treatment"
+what = "A small probe uses heat from infrared light to scar the hemorrhoid so it shrinks.[^niddk]"
+invasive = "It is done in the office, with no cut.[^aga]"
+works = "It helps about as much as banding at first. Studies disagree on whether it lasts as long.[^aga][^ding][^johanson92]"
+side = "It hurts less than banding afterward. Bleeding afterward is about the same.[^ding]"   # C4 correction 2026-11-10: the "more bleeding" result was for coagulation methods as a group, not infrared
+
+[[options]]
+id = "injection"
+name = "Injection (sclerotherapy)"
+what = "A doctor injects a medicine into the hemorrhoid so it scars and shrinks.[^gallo]"
+invasive = "It is done in the office, with no cut.[^gallo]"
+works = "Early studies suggest it works about as well as other treatments it was compared with.[^gallo]"
+side = "Problems afterward are less common than after other treatments.[^gallo]"
+
+[[options]]
+id = "ligation"
+name = "Artery tying (ligation)"
+what = "A surgeon uses an ultrasound probe inside the anus to find the arteries that feed the hemorrhoids, then ties them off with stitches. Nothing is cut out.[^brown16]"
+invasive = "This is surgery, with no cut in the skin. Recovery is faster than after standard surgery.[^jee]"
+works = "Early studies suggest it helps, but hemorrhoids come back more often than after standard surgery.[^jee] It may last longer than banding.[^brown16]"
+side = "It hurts more than banding in the first week.[^brown16]"
+
+[[options]]
+id = "stapled"
+name = "Stapled surgery"
+what = "A surgeon uses a stapling tool to lift the hemorrhoids back into place.[^lauricella]"
+invasive = "This is surgery."
+works = "Good evidence suggests symptoms, mostly bulging, come back more often than after standard surgery.[^lauricella]"
+side = "Over the long run, pain and bowel control are about the same as after standard surgery.[^lauricella] Rare but serious problems, such as a hole in the bowel, have been reported.[^cirocco]"
+
+[[options]]
+id = "laser"
+name = "Laser surgery"
+what = "A surgeon shrinks the hemorrhoids with heat from a laser.[^pompeu]"
+invasive = "This is surgery. People got back to daily life sooner than after standard surgery.[^pompeu]"
+works = "Early studies suggest it hurts less than standard surgery. How long it lasts is not yet known.[^pompeu]"
+side = "Bleeding and trouble peeing afterward seem less common than after standard surgery.[^pompeu]"
+
+[[options]]
+id = "hemorrhoidectomy"
+name = "Hemorrhoid removal (hemorrhoidectomy)"
+what = "A surgeon cuts out the hemorrhoids.[^jin21]"
+invasive = "This is surgery. The first week or more is painful, and many people need more than a week off work.[^vanoost][^jin21]"
+works = "Good evidence suggests it is the most lasting fix. Hemorrhoids come back less often than after banding or other procedures.[^jin21][^vanoost]"
+side = "Pain, bleeding, and trouble peeing afterward are more common than after office treatments.[^jin21] Longer-lasting trouble holding stool is uncommon, about 2 to 3 out of 100.[^jin25]"
+
+[[refs]]
+key = "niddk"
+cite = "National Institute of Diabetes and Digestive and Kidney Diseases. Hemorrhoids: definition and facts; symptoms and causes; treatment. Last reviewed October 2016. Read November 9, 2026."
+url = "https://www.niddk.nih.gov/health-information/digestive-diseases/hemorrhoids"
+[[refs]]
+key = "aga"
+cite = "Qureshi W, Hoang S, Frye J, Rao SSC. AGA clinical practice update on diagnosis and treatment of hemorrhoids: expert review. Clinical Gastroenterology and Hepatology. 2026;24(7):1773-1781. doi:10.1016/j.cgh.2026.04.008. PMID 42067175."
+url = "https://doi.org/10.1016/j.cgh.2026.04.008"
+[[refs]]
+key = "alonso"
+cite = "Alonso-Coello P, Mills E, Heels-Ansdell D, et al. Fiber for the treatment of hemorrhoids complications: a systematic review and meta-analysis. American Journal of Gastroenterology. 2006;101(1):181-188. doi:10.1111/j.1572-0241.2005.00359.x. PMID 16405552."
+url = "https://doi.org/10.1111/j.1572-0241.2005.00359.x"
+[[refs]]
+key = "jin21"
+cite = "Jin JZ, Bhat S, Lee KT, et al. Interventional treatments for prolapsing haemorrhoids: network meta-analysis. BJS Open. 2021;5(5):zrab091. doi:10.1093/bjsopen/zrab091. PMID 34633439."
+url = "https://doi.org/10.1093/bjsopen/zrab091"
+[[refs]]
+key = "vanoost"
+cite = "van Oostendorp JY, Dekker L, van Dieren S, et al. Comparison of rubber band ligation and hemorrhoidectomy in patients with symptomatic hemorrhoids grade III: a multicenter, open-label, randomized controlled noninferiority trial. Diseases of the Colon and Rectum. 2025;68(5):572-583. doi:10.1097/DCR.0000000000003679. PMID 39952268."
+url = "https://doi.org/10.1097/DCR.0000000000003679"
+[[refs]]
+key = "falsarella"
+cite = "Falsarella PM, Nasser F, Affonso BB, et al. Embolization of the superior rectal arteries versus closed hemorrhoidectomy (Ferguson technique) in the treatment of hemorrhoidal disease: a randomized clinical trial. Journal of Vascular and Interventional Radiology. 2023;34(5):736-744.e1. doi:10.1016/j.jvir.2023.01.022. PMID 36736690."
+url = "https://doi.org/10.1016/j.jvir.2023.01.022"
+[[refs]]
+key = "degregorio"
+cite = "De Gregorio MA, Guirola JA, Serrano-Casorran C, et al. Catheter-directed hemorrhoidal embolization for rectal bleeding due to hemorrhoids (Goligher grade I-III): prospective outcomes from a Spanish emborrhoid registry. European Radiology. 2023;33(12):8754-8763. doi:10.1007/s00330-023-09923-3. PMID 37458757. Single group, no comparison."
+url = "https://doi.org/10.1007/s00330-023-09923-3"
+[[refs]]
+key = "kucukay"
+cite = "Küçükay MB, Küçükay F. Superior rectal artery embolization with tris-acryl gelatin microspheres: a randomized comparison of particle size. Journal of Vascular and Interventional Radiology. 2021;32(6):819-825. doi:10.1016/j.jvir.2021.02.011. PMID 33640516."
+url = "https://doi.org/10.1016/j.jvir.2021.02.011"
+[[refs]]
+key = "siccr"
+cite = "Gallo G, Martellucci J, Sturiale A, et al. Consensus statement of the Italian Society of Colorectal Surgery (SICCR): management and treatment of hemorrhoidal disease. Techniques in Coloproctology. 2020;24(2):145-164. doi:10.1007/s10151-020-02149-1. PMID 31993837."
+url = "https://doi.org/10.1007/s10151-020-02149-1"
+[[refs]]
+key = "nguyenhuy"
+cite = "Nguyenhuy M, Xu Y, Kok HK, et al. Clinical outcomes following rectal artery embolisation for the treatment of internal haemorrhoids: a systematic review and meta-analysis. Cardiovascular and Interventional Radiology. 2022;45(9):1351-1361. doi:10.1007/s00270-022-03154-7. PMID 35551442."
+url = "https://doi.org/10.1007/s00270-022-03154-7"
+[[refs]]
+key = "brussel"
+cite = "ClinicalTrials.gov NCT05697562. Randomized non-inferiority trial of hemorrhoidal artery embolization versus rubber band ligation or Doppler-guided ligation. UZ Brussel. Recruiting; record read November 9, 2026."
+url = "https://clinicaltrials.gov/study/NCT05697562"
+[[refs]]
+key = "stratos"
+cite = "ClinicalTrials.gov NCT07559630. Rectal arterial embolization versus band ligation for hemorrhoids (STRATOS). University of California, Los Angeles. Recruiting; record read November 9, 2026."
+url = "https://clinicaltrials.gov/study/NCT07559630"
+[[refs]]
+key = "cigna"
+cite = "Cigna Peripheral Vascular Intervention Guidelines (EviCore), version 2.0.2026, effective November 5, 2026: endovascular embolization for hemorrhoids. Read November 7, 2026."
+url = "https://www.evicore.com/sites/default/files/clinical-guidelines/2026-07/Cigna_PVI%20Guidelines_V2.0.2026_Eff11.05.2026_Pub07.20.2026.pdf"
+[[refs]]
+key = "uhc"
+cite = "UnitedHealthcare Commercial Medical Policy 2026T0669A. Vascular embolization: select procedures. Effective December 1, 2026. Read November 7, 2026."
+url = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/index/commercial/vascular-embolization-select-procedures-12012026.pdf"
+[[refs]]
+key = "aetna"
+cite = "Aetna Clinical Policy Bulletin 0856. Embolization: selected procedures. Last review January 12, 2026. Read November 7, 2026."
+url = "https://www.aetna.com/cpb/medical/data/800_899/0856.html"
+[[refs]]
+key = "ncd"
+cite = "Centers for Medicare & Medicaid Services. National Coverage Determination 20.28, Therapeutic Embolization. Read November 7, 2026."
+url = "https://www.cms.gov/medicare-coverage-database/view/ncd.aspx?ncdid=52&ncdver=1&bc=0"
+[[refs]]
+key = "jensen"
+cite = "Jensen SL, Harling H, Arseth-Hansen P, Tange G. The natural history of symptomatic haemorrhoids. International Journal of Colorectal Disease. 1989;4(1):41-44. doi:10.1007/BF01648549. PMID 2708881."
+url = "https://doi.org/10.1007/BF01648549"
+[[refs]]
+key = "bagla"
+cite = "Bagla S, Pavidapha A, Lerner J, et al. Outcomes of hemorrhoidal artery embolization from a multidisciplinary outpatient interventional center. Journal of Vascular and Interventional Radiology. 2023;34(5):745-749. doi:10.1016/j.jvir.2023.01.023. PMID 36736822. Single group, no comparison."
+url = "https://doi.org/10.1016/j.jvir.2023.01.023"
+[[refs]]
+key = "aljnainati"
+cite = "Al Jnainati M, Ikkurthy N, Ayoub M, et al. Outcomes of embolization therapy of superior rectal arteries for the management of grade 1 to 3 internal hemorrhoids: a systematic review of clinical studies. International Journal of Colorectal Disease. 2025;40(1):190. doi:10.1007/s00384-025-04944-4. PMID 40877526."
+url = "https://doi.org/10.1007/s00384-025-04944-4"
+[[refs]]
+key = "tradi"
+cite = "Tradi F, Louis G, Giorgi R, et al. Embolization of the superior rectal arteries for hemorrhoidal disease: prospective results in 25 patients. Journal of Vascular and Interventional Radiology. 2018;29(6):884-892.e1. doi:10.1016/j.jvir.2018.01.778. PMID 29724519. Single group, no comparison."
+url = "https://doi.org/10.1016/j.jvir.2018.01.778"
+[[refs]]
+key = "han"
+cite = "Han X, Xia F, Chen G, et al. Superior rectal artery embolization for bleeding internal hemorrhoids. Techniques in Coloproctology. 2021;25(1):75-80. doi:10.1007/s10151-020-02312-8. PMID 32712932. Single group, no comparison."
+url = "https://doi.org/10.1007/s10151-020-02312-8"
+[[refs]]
+key = "zhou"
+cite = "Zhou H, Li L, Wang WJ, Li YL. Clinical analysis of percutaneous superselective superior rectal artery embolization for grades II-III internal hemorrhoids [in Chinese]. Zhonghua Nei Ke Za Zhi. 2024;63(9):861-865. doi:10.3760/cma.j.cn112138-20231123-00337. PMID 39183158. English abstract only."
+url = "https://doi.org/10.3760/cma.j.cn112138-20231123-00337"
+[[refs]]
+key = "deoliveira"
+cite = "de Oliveira DS, Hora JAB, de Assis AM, et al. Embolization of rectal arteries for treating hemorrhoidal disease using a combination of microspheres and microcoils: a pilot study. Cardiovascular and Interventional Radiology. 2025;48(3):388-394. doi:10.1007/s00270-024-03942-3. PMID 39725725."
+url = "https://doi.org/10.1007/s00270-024-03942-3"
+[[refs]]
+key = "eberspacher"
+cite = "Eberspacher C, Ficuccilli F, Tessieri L, et al. Annoyed with haemorrhoids? Risks of the emborrhoid technique. Digestive Diseases and Sciences. 2021;66(11):3725-3729. doi:10.1007/s10620-021-07208-7. PMID 34398325."
+url = "https://doi.org/10.1007/s10620-021-07208-7"
+[[refs]]
+key = "hess"
+cite = "Hess TN, Baron JJ. Colonic ischemia and necrosis following hemorrhoid embolization: a brief report. American Surgeon. Published online September 8, 2025; 2026;92(1):291-292. doi:10.1177/00031348251378901. PMID 40921478."
+url = "https://doi.org/10.1177/00031348251378901"
+[[refs]]
+key = "johanson92"
+cite = "Johanson JF, Rimm A. Optimal nonsurgical treatment of hemorrhoids: a comparative analysis of infrared coagulation, rubber band ligation, and injection sclerotherapy. American Journal of Gastroenterology. 1992;87(11):1600-1606. PMID 1442682."
+url = "https://pubmed.ncbi.nlm.nih.gov/1442682/"
+[[refs]]
+key = "ding"
+cite = "Ding Z, Xuan J, Tang G, et al. Rubber band ligation versus coagulation for the treatment of haemorrhoids: a meta-analysis of randomised controlled trials. Postgraduate Medical Journal. 2023;99(1175):946-953. doi:10.1136/pmj-2022-141941. PMID 37117040."
+url = "https://doi.org/10.1136/pmj-2022-141941"
+[[refs]]
+key = "gallo"
+cite = "Gallo G, Picciariello A, Armellin C, et al. Sclerotherapy for hemorrhoidal disease: systematic review and meta-analysis. Techniques in Coloproctology. 2024;28(1):28. doi:10.1007/s10151-023-02908-w. PMID 38261136."
+url = "https://doi.org/10.1007/s10151-023-02908-w"
+[[refs]]
+key = "brown16"
+cite = "Brown SR, Tiernan JP, Watson AJM, et al. Haemorrhoidal artery ligation versus rubber band ligation for the management of symptomatic second-degree and third-degree haemorrhoids (HubBLe): a multicentre, open-label, randomised controlled trial. Lancet. 2016;388(10042):356-364. doi:10.1016/S0140-6736(16)30584-0. PMID 27236344."
+url = "https://doi.org/10.1016/S0140-6736(16)30584-0"
+[[refs]]
+key = "jee"
+cite = "Jee J, O'Connell LV, Kaur I, et al. Conventional excisional haemorrhoidectomy versus transanal haemorrhoidal dearterialization for haemorrhoids: a systematic review and meta-analysis. Digestive Surgery. 2024;41(4):204-212. doi:10.1159/000540256. PMID 39084191."
+url = "https://doi.org/10.1159/000540256"
+[[refs]]
+key = "lauricella"
+cite = "Lauricella S, Brucchi F, Mascianà G, et al. Long-term outcomes of stapled haemorrhoidopexy versus conventional haemorrhoidectomy: an updated systematic review, meta-analysis and trial-sequential analysis of randomized controlled trials. International Journal of Colorectal Disease. 2026;41(1):34. doi:10.1007/s00384-026-05080-3. PMID 41535511."
+url = "https://doi.org/10.1007/s00384-026-05080-3"
+[[refs]]
+key = "pompeu"
+cite = "Pompeu BF, Barone GL, Delgado LM, et al. Laser hemorrhoidoplasty versus excisional hemorrhoidectomy: the recovery-durability tradeoff in hemorrhoid surgery, a systematic review of randomized trials. American Surgeon. 2026. doi:10.1177/00031348261471500. PMID 42503488."
+url = "https://doi.org/10.1177/00031348261471500"
+[[refs]]
+key = "jin25"
+cite = "Jin JZ, Men V, Bahl P, et al. The prevalence of incontinence after excisional hemorrhoidectomy and stapled hemorrhoidopexy: a systematic review and meta-analysis. Surgery. 2025;180:109139. doi:10.1016/j.surg.2024.109139. PMID 39854786."
+url = "https://doi.org/10.1016/j.surg.2024.109139"
+[[refs]]
+key = "alonsoflav"
+cite = "Alonso-Coello P, Zhou Q, Martinez-Zapata MJ, et al. Meta-analysis of flavonoids for the treatment of haemorrhoids. British Journal of Surgery. 2006;93(8):909-920. doi:10.1002/bjs.5378. PMID 16736537."
+url = "https://doi.org/10.1002/bjs.5378"
+[[refs]]
+key = "perera"
+cite = "Perera N, Liolitsa D, Iype S, et al. Phlebotonics for haemorrhoids. Cochrane Database of Systematic Reviews. 2012;(8):CD004322. doi:10.1002/14651858.CD004322.pub3. PMID 22895941."
+url = "https://doi.org/10.1002/14651858.CD004322.pub3"
+[[refs]]
+key = "quijano"
+cite = "Quijano CE, Abalos E. Conservative management of symptomatic and/or complicated haemorrhoids in pregnancy and the puerperium. Cochrane Database of Systematic Reviews. 2005;(3):CD004077. doi:10.1002/14651858.CD004077.pub2. PMID 16034920."
+url = "https://doi.org/10.1002/14651858.CD004077.pub2"
+[[refs]]
+key = "cirocco"
+cite = "Cirocco WC. Life threatening sepsis and mortality following stapled hemorrhoidopexy. Surgery. 2008;143(6):824-829. doi:10.1016/j.surg.2007.10.004. PMID 18549901. Abstract read."
+url = "https://doi.org/10.1016/j.surg.2007.10.004"

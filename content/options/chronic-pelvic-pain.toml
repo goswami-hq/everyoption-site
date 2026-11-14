@@ -1,0 +1,486 @@
+# The in-depth "every option" page for chronic pelvic pain from veins. Text: his signed-off final (Google Doc
+# 1d-NsbZYkap_P9IbqUo1VE1Kca_ZofixfzyADwFa2pXE, in Drive `2. Signed off`; his words 2026-11-13 18:52 and 18:55 CT). Generated word for
+# word from ai-hq projects/platform/content/page-reviews/2026-11-12-pelvic-deep/pelvic-deep-final.html by to_site.py in that
+# folder (job platform-condition-pages-0023, his go 2026-11-13 19:01 CT: "Don't make any changes to the text without letting
+# me know"); edit the text there, not here. No number appears except through {d:id} (deep page only); see
+# chronic-pelvic-pain.facts.toml. Evidence and how each source was read: ai-hq projects/platform/pelvic-page/evidence-table.md.
+# Text this file holds that is not in his Doc (title, description, targets, the template's labels) and every place the page
+# differs from his Doc: ai-hq projects/platform/content/page-reviews/2026-11-13-signed-off-to-dev/list-for-him.md.
+# draft = true: noindex and out of the sitemap until launch.
+slug = "chronic-pelvic-pain"
+path = "/chronic-pelvic-pain/every-option/"
+draft = true
+abstract_label = false   # one rule with the other in-depth pages; `read` in the facts file keeps the record
+reviewed = "2026-11-13"
+# Search targets: the procedure searches the short guide left for this page (its toml, 2026-11-07 volumes: pelvic vein
+# embolization 1,300, ovarian vein embolization 1,300, pelvic congestion syndrome embolization 1,600). Not in his Doc.
+targets = ["pelvic vein embolization", "pelvic congestion syndrome embolization", "ovarian vein embolization"]
+title = "Pelvic Vein Embolization vs. Stenting vs. Surgery | Every Option"
+description = "Pelvic vein embolization vs. iliac vein stenting, hormone medicines, vein pills, and surgery for chronic pelvic pain: results, risks, and recovery."
+h1 = "Chronic pelvic pain from veins (pelvic venous disease): treatments compared, side by side"
+shared_name = "chronic pelvic pain from veins"   # the condition's name, allowed in both pages' H1 (tools/pattern.py)
+# His Doc has no lede paragraph: none is shown (tools/options.py skips an empty lede; his call on the list).
+lede = ""
+read_intro = "It helps to know all your options before you choose. Here is what each one involves and how well it works, with the studies behind them all. If a less invasive treatment works for you, it may spare you a bigger surgery or delay it."
+reading_note = [
+  "**The pain score.** {d:cpp-note-1}.",
+  "**Different studies.** Numbers from different studies cannot be set side by side. They come from different women, followed for different lengths of time. We compare two treatments only when one study tested both.",
+  "Every Option's physician performs pelvic vein embolization and stenting. They are held to the same standard of evidence as every other option here.",
+]
+glance_heading = "Compared at a glance: how well each works, what it involves, and recovery"
+glance_peek = ["embolization", "stent"]
+glance_peek_columns = ["certainty", "recovery"]
+glance_note = "Compare the treatments here and pick the ones that interest you. Then take your list to your doctor. Select a treatment name to read more about it."
+# Template labels his Doc does not have (the other in-depth pages' wording; on his list for a yes):
+works_note = "Bold words say how sure the evidence is. Results under How well it works come from different studies that measured different things, so they do not rank one treatment above another."
+simple_link = "New to chronic pelvic pain? Start with the short guide to your options"
+city_link = "Pelvic vein embolization and stenting doctors by city"
+find_heading = "Find a pelvic vein embolization and stenting doctor"
+glance_columns = [["involves", "What it involves"], ["recovery", "Recovery"]]
+# Grid and section names where his Doc differs from the short guide's option names (tools/options.py `names`, `titles`)
+names = { stent = "Iliac vein stenting (May-Thurner syndrome)", hysterectomy = "Hysterectomy with removal of both ovaries (surgical removal of the uterus and ovaries)" }
+titles = { embolization = "Pelvic vein embolization: closing the wide veins", stent = "Iliac vein stenting: opening a squeezed vein (May-Thurner syndrome)", hormones = "Hormone medicines", "vein-pills" = "Vein pills (flavonoids)", hysterectomy = "Hysterectomy with removal of both ovaries", "vein-surgery" = "Surgery to close the ovarian vein" }
+
+[detail_headings]
+evidence = "What the studies found"
+
+
+[[categories]]
+id = "vein"
+name = "Pelvic vein embolization and stenting"
+heading = "Pelvic vein embolization and stenting"
+summary = "{d:cpp-cat-vein-63}."
+note = "Insurance coverage for these treatments varies. Ask your plan before you schedule."
+options = ["embolization", "stent"]
+
+[[categories]]
+id = "medicines"
+name = "Medicines"
+heading = "Medicines compared"
+summary = ""
+options = ["hormones", "vein-pills"]
+
+[[categories]]
+id = "surgery"
+name = "Surgery"
+heading = "Surgery compared"
+summary = ""
+options = ["hysterectomy", "vein-surgery"]
+
+[[glance]]
+option = "embolization"
+works = "{d:cpp-g-embolization}"
+involves = "A thin tube through a tiny skin nick to the wide veins. No cutting, and nothing is removed"
+recovery = "Usually home the same day. About a week of taking it easy"
+
+[[glance]]
+option = "stent"
+works = "It eases pelvic pain for women whose pain comes from a squeezed vein"
+involves = "A thin tube through a tiny skin nick. A small mesh tube stays in the vein for good"
+recovery = "Usually home the same day. Some back pain for the first few days"
+
+[[glance]]
+option = "hormones"
+works = "They ease pain while you take them. Pain often comes back after you stop"
+involves = "Pills or shots"
+recovery = "None"
+
+[[glance]]
+option = "vein-pills"
+works = "They may ease pain"
+involves = "A daily pill"
+recovery = "None"
+
+[[glance]]
+option = "hysterectomy"
+works = "It can ease pain. {d:cpp-g-hysterectomy}"
+involves = "Major surgery. It ends pregnancy and causes menopause"
+recovery = "{d:cpp-g-hysterectomy-recovery}"
+
+[[glance]]
+option = "vein-surgery"
+works = "It can ease pain about as much as embolization"
+involves = "Surgery to tie off and cut the wide vein"
+recovery = "Not reported in the studies we read"
+
+
+[[detail]]
+option = "embolization"
+certainty = "Early results are encouraging"
+headings = { selection = "Will I need another treatment later?" }
+intro = "A doctor guides a thin tube through a tiny skin nick to the wide veins near the ovaries and uterus. Tiny coils, plugs, a medical glue, or a medicine then close those veins.[^strobl]\nYou get numbing medicine at the skin, and sometimes medicine to help you relax. Most women go home the same day. Some centers keep women overnight.[^hansrani][^cpp-rossi][^cpp-eleissawy]"
+works = "Early results are encouraging. {d:cpp-embolization-works-3}. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^hansrani][^daniels][^cpp-degregorio]"
+evidence = [
+  "* **Embolization eased pain more than a fake procedure (a sham).** {d:cpp-embolization-evidence-4}.",
+  "- {d:cpp-embolization-evidence-5}.",
+  "- Quality of life improved after embolization.",
+  "- No woman needed a hospital stay for a side effect.[^hansrani]",
+  "* **Pain fell after embolization in every study that measured it.** {d:cpp-embolization-evidence-6}.",
+  "* {d:cpp-embolization-evidence-7}.",
+  "* {d:cpp-embolization-evidence-8}.",
+  "* **For many women the relief lasted for years.**",
+  "- {d:cpp-embolization-evidence-9}.",
+  "- {d:cpp-embolization-evidence-10}.",
+  "* **Coils or plugs: results were about the same.** {d:cpp-embolization-evidence-11}.",
+  "* **Embolization eased pain more than vein pills (micronized purified flavonoid fraction, sold as Daflon).** {d:cpp-embolization-evidence-12}.",
+  "* **Embolization vs. surgery to close the vein: pain fell after both.**",
+  "- {d:cpp-embolization-evidence-13}.",
+  "- {d:cpp-embolization-evidence-14}.",
+  "* **A second trial against a fake procedure is under way.**[^embolize]",
+]
+risks = [
+  "Embolization does not cut or remove tissue. The uterus and ovaries stay, and there is no surgical wound to heal.",
+  "* **Pain in the pelvis or lower back for the first few days, sometimes with a low fever (post-embolization syndrome).** {d:cpp-embolization-risks-15}.",
+  "* **Doctors usually suggest about a week of taking it easy.**[^cpp-eleissawy][^cpp-badak][^cpp-senechal]",
+  "* {d:cpp-embolization-risks-16}.",
+  "* {d:cpp-embolization-risks-17}.",
+  "* {d:cpp-embolization-risks-18}.",
+  "* **A small clot can form in a nearby vein.** A center found that though some women had one, most caused no symptoms, and none traveled to the lungs.[^cpp-gav-jsr][^cpp-gav-vte]",
+  "* **Hormone levels did not change.** In the study that checked, the ovaries kept working as before.[^kim06]",
+]
+selection = [
+  "* **Pain may come back for some women.** {d:cpp-embolization-selection-19}.",
+  "* **A second procedure can help.** {d:cpp-embolization-selection-20}.",
+]
+fit = "Expert panels in France and Italy name embolization as the first procedure for wide pelvic veins, after scans and after other causes are checked. A U.S. expert panel says embolization and stenting should both be considered.[^lepennec][^baccellieri][^cpp-ajr]"
+
+[[detail]]
+option = "stent"
+certainty = "Early studies suggest"
+headings = { selection = "Who it is for", fit = "Will I need another treatment later?", unknown = "What experts say" }
+intro = "A doctor guides a thin tube through a tiny skin nick to the squeezed vein and places a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]\nIt is done as an outpatient procedure, and most people go home the same day.[^cpp-rossi][^cpp-aurshina]"
+works = "Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein. Pain fell after a stent in every study we read. How many women were helped varied from study to study. No trial has yet compared a stent with a fake procedure for pelvic pain.[^alenichev][^cpp-larkin][^cpp-trzes]"
+evidence = [
+  "* {d:cpp-stent-evidence-24}.",
+  "* {d:cpp-stent-evidence-25}.",
+  "* **At a U.S. vein center, pain fell and stayed lower for a year.** {d:cpp-stent-evidence-26}.",
+  "* {d:cpp-stent-evidence-27}.",
+  "* **The stronger stent studies are about leg symptoms.** {d:cpp-stent-evidence-28}.",
+]
+risks = [
+  "A stent does not cut or remove tissue. It is a permanent implant, so it needs follow-up over the years.",
+  "* **Expect some back pain for the first few days.** Your doctor gives you pain medicine in case you need it. The pain eases with time.",
+  "* **Serious side effects are rare.** {d:cpp-stent-risks-29}.",
+  "* {d:cpp-stent-risks-30}",
+  "* {d:cpp-stent-risks-31}.",
+  "* {d:cpp-stent-risks-32}.",
+  "* **Most stents stay open.** {d:cpp-stent-risks-33}.",
+  "* **You may take a blood thinner for a few months.**[^cpp-ma]",
+  "* **Long-term results in young women are still being studied.** {d:cpp-stent-risks-34}.",
+]
+selection = [
+  "A stent is not for everyone. It is for a select group of women whose pain comes from a squeezed vein. This group is often missed.",
+  "* **A squeezed vein on a scan is not enough.** {d:cpp-stent-selection-21}.",
+  "* **The narrowing can change with your position.** {d:cpp-stent-selection-22}.",
+  "* **Doctors confirm the narrowing from inside the vein.** Other causes of pain are checked first. Then the narrowing is measured during the procedure, often with a tiny ultrasound probe inside the vein.[^desai][^cpp-ma]",
+  "* **Some women with a squeezed vein do well with embolization alone.** {d:cpp-stent-selection-23}.",
+]
+fit = [
+  "* {d:cpp-stent-fit-35}.",
+]
+unknown = "U.S. vein experts say a stent may help some women whose pelvic pain comes from a squeezed vein and limits their life. They advise against a stent for people with few or no symptoms, or when the narrowing is mild.[^desai][^cpp-sir]"
+
+[[detail]]
+option = "hormones"
+certainty = "Good evidence suggests"
+intro = "These are hormone pills or shots. Your doctor prescribes them.[^cheong]"
+works = "Good evidence suggests hormone medicines ease pain while you take them. However, pain often comes back after you stop.[^cheong][^farquhar]"
+evidence = [
+  "* **Hormone pills eased pain more than a dummy pill (a placebo).** {d:cpp-hormones-evidence-39}.",
+  "* **The benefit faded after the pills were stopped.** {d:cpp-hormones-evidence-40}.",
+  "* **A hormone-lowering shot helped more than the pills in one small trial.** {d:cpp-hormones-evidence-41}.",
+]
+risks = [
+  "* **Weight gain and bloating are common with hormone pills.**[^cheong]",
+  "* **Hot flashes, headaches and sweating are common with the hormone-lowering shot.** {d:cpp-hormones-risks-42}.",
+  "* **Do not take hormone pills while trying for a pregnancy.**[^cheong]",
+]
+
+[[detail]]
+option = "vein-pills"
+certainty = "Early studies suggest"
+intro = "These are plant-based pills used for vein problems.[^gloviczki]"
+works = "Early studies suggest they may ease pain. {d:cpp-vein-pills-works-43}."
+evidence = [
+  "* **Pain eased in the studies so far.** {d:cpp-vein-pills-evidence-44}.",
+  "* **Vein pills eased pain more than a dummy pill in one trial.** {d:cpp-vein-pills-evidence-45}.",
+  "* **Embolization eased pain more than vein pills.** {d:cpp-vein-pills-evidence-46}.",
+]
+risks = [
+  "* **Side effects are few.** {d:cpp-vein-pills-risks-47}.",
+]
+
+[[detail]]
+option = "hysterectomy"
+certainty = "Early studies suggest"
+intro = "A surgeon removes the uterus and both ovaries. This is major surgery.[^beard91]"
+works = "Early studies suggest it can ease pain. {d:cpp-hysterectomy-works-48}."
+evidence = [
+  "* **Most women had far less pain a year later.** {d:cpp-hysterectomy-evidence-49}.",
+  "* **Hysterectomy vs. embolization: one small study compared them.** {d:cpp-hysterectomy-evidence-50}.",
+  "* {d:cpp-hysterectomy-evidence-51}.",
+  "* **No trial has tested hysterectomy for this pain.**[^cpp-cochrane-surg]",
+]
+risks = [
+  "No study gives side-effect rates for this surgery when it is done for pelvic vein pain. The numbers here are for hysterectomy done for any noncancer reason.",
+  "* **You can no longer get pregnant.**[^beard91]",
+  "* **Removing both ovaries causes menopause right away.** Doctors often give hormone replacement.[^beard91]",
+  "* {d:cpp-hysterectomy-risks-52}.",
+  "* {d:cpp-hysterectomy-risks-53}",
+  "* {d:cpp-hysterectomy-risks-54}.",
+  "* **Early menopause is linked to a somewhat higher chance of heart disease later in life.** {d:cpp-hysterectomy-risks-55}.",
+]
+
+[[detail]]
+option = "vein-surgery"
+certainty = "Early studies suggest"
+intro = "A surgeon ties off and cuts the wide ovarian vein.[^emad]"
+works = "Early studies suggest it can ease pain about as much as embolization.[^emad][^cpp-gav-jsr]"
+evidence = [
+  "* **Surgery vs. embolization: pain fell after both.**",
+  "- {d:cpp-vein-surgery-evidence-56}.",
+  "- {d:cpp-vein-surgery-evidence-57}.",
+]
+risks = [
+  "* **This is surgery, with a cut in the belly.**[^emad]",
+  "* **Side effects in the first month can happen.** In the one study that reported them, most were a small clot in a nearby vein, found on a scan.[^cpp-gav-jsr]",
+]
+
+[[section]]
+id = "missed"
+after = "top"
+heading = "Why it is often missed"
+text = [
+  "Long-term pelvic pain is common in women, and it has many causes. Many women see doctor after doctor, try treatment after treatment, and still have no answer. For some of them, the cause is the veins in the pelvis. Here is why that cause is easy to miss.[^ahangari][^cpp-khilnani]",
+  "* **Doctors rarely think of the veins.** A panel of experts says vein problems are rarely considered as a cause of pelvic pain.[^cpp-khilnani]",
+  "* **The symptoms look like other conditions.** A dull ache that is worse before a period or after sex can also come from other conditions, such as endometriosis. A woman can have a vein problem and another cause of pain at the same time.[^krambeck][^zlotnik][^beard91]",
+  "* **Common tests can miss it.** Doctors often look for the cause of pelvic pain with a small camera through the belly button (laparoscopy). During that test the belly is filled with gas and the head is tilted down. Both flatten the veins, so wide veins can look normal.[^krambeck]",
+  "* **Wide veins on a scan can be dismissed as normal.** Wide pelvic veins also show up on scans of women who have no pain. So when a scan shows them, they may not be connected to a woman's pain.[^jurga][^rozenblit]",
+  "* **Many women wait years for this diagnosis.** {d:cpp-missed-2}.",
+  "* **Some women do not think to mention it.** At one vein center, almost half of the women later treated for a squeezed vein had not brought up their pelvic pain until a doctor asked.[^cpp-rossi]",
+  "If you have tried many things and still have no answer, ask your doctor whether the veins in your pelvis could be part of your pain.",
+]
+
+[[section]]
+id = "both"
+after = "vein"
+heading = "When both vein problems are present"
+text = [
+  "Many women have both wide veins and a squeezed vein. Which treatment should come first, and who needs both, is still being researched.",
+  "* **In one small trial, treating both gave more lasting relief than a stent alone.** {d:cpp-both-36}.",
+  "* **In a larger study, more women improved when embolization was added.** {d:cpp-both-37}.",
+  "* **Treating both may bring relief sooner.** {d:cpp-both-38}.",
+  "* **Doctors differ on the order.** Some treat the squeezed vein first and add embolization only if pain stays. Others start with embolization, so that a woman may not need a permanent implant.[^cpp-ma][^cpp-xue][^cpp-gav26]",
+]
+
+[[section]]
+id = "waiting"
+after = "medicines"
+heading = "Is waiting safe?"
+text = [
+  "If pain limits your life, talk with your doctor about medicines first. Procedures are an option when medicines do not help. We found no study showing that waiting makes vein-related pelvic pain harder to treat later.[^lepennec][^baccellieri]",
+]
+
+[[section]]
+id = "pregnancy"
+after = "surgery"
+heading = "Pregnancy after each treatment"
+text = [
+  "* **Embolization.** Little is known. Some women have become pregnant afterward, and the reviews found no sign of harm to periods or the ovaries.[^kim06][^daniels]",
+  "* **Stenting.** {d:cpp-pregnancy-58}.",
+  "* **Hormone medicines.** Hormone pills are not taken while trying for a pregnancy.[^cheong]",
+  "* **Hysterectomy.** It ends the chance of pregnancy.[^beard91]",
+]
+
+[[section]]
+id = "found"
+after = "end"
+heading = "How is it found?"
+text = [
+  "Doctors may use an ultrasound, a CT or MRI scan, or a dye test of the veins called a venogram.[^krambeck][^jurga]",
+  "Wide or squeezed veins also show up on scans in some women who have no pain. So your doctor looks at your scans and your symptoms together.[^jurga][^rozenblit][^kibbe]",
+  "* **Wide veins are common on scans.** {d:cpp-found-59}.",
+  "* **A detailed ultrasound can come close to the dye test.** In one study, an ultrasound that scored several vein features together matched the dye test well.[^cpp-mansouri]",
+]
+
+[[section]]
+id = "menopause"
+after = "end"
+heading = "Does the pain stop after menopause?"
+text = [
+  "This is often said, but it has not been well studied.[^bartl]",
+]
+
+# Deep page references (his Doc's list; the short guide's sources keep its cite)
+[[refs]]
+key = "cpp-gerlinger"
+cite = "Gerlinger C, et al. Defining a minimal clinically important difference for endometriosis-associated pelvic pain measured on a visual analog scale: analyses of two placebo-controlled, randomized trials. Health and Quality of Life Outcomes. 2010;8:138. PMID 21106059."
+url = "https://doi.org/10.1186/1477-7525-8-138"
+[[refs]]
+key = "cpp-fsmcid"
+cite = "Responsiveness and thresholds for clinically meaningful changes in worst pain numerical rating scale for dysmenorrhea and nonmenstrual pelvic pain in women with moderate to severe endometriosis. Fertility and Sterility. 2021. PMID 33066973."
+url = "https://doi.org/10.1016/j.fertnstert.2020.07.013"
+[[refs]]
+key = "cpp-khilnani"
+cite = "Khilnani NM, Winokur RS, Marvel RP, Meissner MH. Pelvic venous disorders in women: 5-year update from a Society of Interventional Radiology Foundation-sponsored research consensus panel. Journal of Vascular and Interventional Radiology. 2025;36(1):9-16."
+url = "https://doi.org/10.1016/j.jvir.2024.09.010"
+[[refs]]
+key = "cpp-larkin"
+cite = "Larkin TA, Neasey M, Horsley B, Keys T, Villalba LM. Differences in clinical presentation of chronic pelvic pain caused by iliac vein obstruction impacts referral pathway, time to diagnosis, and post-stenting pain resolution. European Journal of Vascular and Endovascular Surgery. 2026. PMID 42887643."
+url = "https://doi.org/10.1016/j.ejvs.2026.10.013"
+[[refs]]
+key = "cpp-rossi"
+cite = "Rossi FH, Kambara AM. Paradigm shift and long-term results in the diagnosis and treatment of pelvic venous disorder. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2025;14(1):102318."
+url = "https://doi.org/10.1016/j.jvsv.2025.102318"
+[[refs]]
+key = "cpp-eleissawy"
+cite = "Eleissawy MI, Mokhtar HM, Ageez MN, Eleiwa MA, Nagy AA. Transcatheter cyanoacrylate embolization vs. pharmacologic therapy for gonadal vein reflux in symptomatic pelvic venous disorders: a randomized controlled trial. Diagnostic and Interventional Radiology. 2026. PMID 42084271."
+url = "https://doi.org/10.4274/dir.2026.263956"
+[[refs]]
+key = "cpp-degregorio"
+cite = "De Gregorio MA, Guirola JA, Alvarez-Arranz E, Sánchez-Ballestin M, Urbano J, Sierre S. Pelvic venous disorders in women due to pelvic varices: treatment by embolization: experience in 520 patients. Journal of Vascular and Interventional Radiology. 2020;31(10):1560-1569."
+url = "https://doi.org/10.1016/j.jvir.2020.06.017"
+[[refs]]
+key = "cpp-guirola"
+cite = "Guirola JA, Sánchez-Ballestin M, Sierre S, Lahuerta C, Mayoral V, De Gregorio MA. A randomized trial of endovascular embolization treatment in pelvic congestion syndrome: fibered platinum coils versus vascular plugs with 1-year clinical outcomes. Journal of Vascular and Interventional Radiology. 2018;29(1):45-53. PMID 29174618."
+url = "https://doi.org/10.1016/j.jvir.2017.09.011"
+[[refs]]
+key = "cpp-gav-jsr"
+cite = "Gavrilov SG, Mishakina NY, Vasilyiev AV, Kirsanov KV. Retrospective analysis of complications after gonadal vein interventions for pelvic venous disorder. Journal of Surgical Research. 2023;283:249-258. PMID 36423473."
+url = "https://doi.org/10.1016/j.jss.2022.10.062"
+[[refs]]
+key = "cpp-gav-pes"
+cite = "Gavrilov SG, et al. Postembolization syndrome in endovascular interventions on the gonadal veins. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2021. PMID 32932000."
+url = "https://doi.org/10.1016/j.jvsv.2020.09.003"
+[[refs]]
+key = "cpp-badak"
+cite = "Badak B, et al. Endovenous embolization of pelvic congestion syndrome: impact on pain, sexual function, and quality of life. A multidisciplinary prospective single-arm cohort study. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026. PMID 42176980."
+url = "https://doi.org/10.1016/j.jvsv.2026.102532"
+[[refs]]
+key = "cpp-senechal"
+cite = "Senechal Q, et al. Endovascular treatment of pelvic congestion syndrome: visual analog scale follow-up. Frontiers in Cardiovascular Medicine. 2021. PMID 34869656."
+url = "https://doi.org/10.3389/fcvm.2021.751178"
+[[refs]]
+key = "cpp-gav-vte"
+cite = "Gavrilov SG, Mishakina NY, Grishenkova AS. Venous thromboembolism after interventions on the ovarian veins in patients with pelvic venous disorder. Annals of Vascular Surgery. 2023;91:191-200. PMID 36464150."
+url = "https://doi.org/10.1016/j.avsg.2022.11.016"
+[[refs]]
+key = "cpp-xue-redo"
+cite = "Xue S, Li F, Lu T, Wang X, Hu J, Lu X, et al. Endovascular reintervention versus conservative medical therapy for persistent or recurrent venous-origin chronic pelvic pain after primary ovarian vein embolization. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;14(6):102571. PMID 42379296."
+url = "https://doi.org/10.1016/j.jvsv.2026.102571"
+[[refs]]
+key = "cpp-ajr"
+cite = "Knuttinen MG, Machan L, Khilnani NM, Louie M, Caridi TM, et al. Diagnosis and management of pelvic venous disorders: AJR expert panel narrative review. American Journal of Roentgenology. 2023;221(5):565-574. PMID 37095667."
+url = "https://doi.org/10.2214/AJR.22.28796"
+[[refs]]
+key = "cpp-aurshina"
+cite = "Aurshina A, Ostrozhynskyy Y, Alsheekh A, et al. Safety of vascular interventions performed in an office-based laboratory in patients with low/moderate procedural risk. Journal of Vascular Surgery. 2021;73(4):1298-1303."
+url = "https://doi.org/10.1016/j.jvs.2020.09.024"
+[[refs]]
+key = "cpp-labro"
+cite = "Labropoulos N, Raiker A, Raiker A, Souza A, Gasparis A. A duplex ultrasound observational study establishing the impact of position on left iliac vein compression. European Journal of Vascular and Endovascular Surgery. 2026. PMID 42107627."
+url = "https://doi.org/10.1016/j.ejvs.2026.04.044"
+[[refs]]
+key = "cpp-ma"
+cite = "Ma N, Lakhanpal G, Kennedy R, Lakhanpal S, Nayyer S, Pappas PJ. Long-term clinical effectiveness of endovenous interventions for pelvic venous disorders. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;14(6):102597."
+url = "https://doi.org/10.1016/j.jvsv.2026.102597"
+[[refs]]
+key = "cpp-xue"
+cite = "Xue S, Lu T, Sun Q, Qiu P, Cui C, Lu X, Liu X. Impact of iliac vein compression on the outcome of pelvic venous embolization in patients with pelvic venous disorder. Journal of Vascular and Interventional Radiology. 2026;37(5):108545."
+url = "https://doi.org/10.1016/j.jvir.2026.108545"
+[[refs]]
+key = "cpp-trzes"
+cite = "Trzesniowski A, Lakhanpal G, Sulakvelidze L, Kennedy R, Lakhanpal S, Pappas PJ. Long-term follow-up for the treatment of symptomatic pelvic venous insufficiency secondary to combined iliac vein stenosis and ovarian vein reflux treated with iliac vein stenting alone. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2025;13(1):101990."
+url = "https://doi.org/10.1016/j.jvsv.2024.101990"
+[[refs]]
+key = "cpp-villalba25"
+cite = "Villalba L, Larkin T. Iliac venous stenting provides long-term relief from chronic pelvic pain. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2025;13(1):101993."
+url = "https://doi.org/10.1016/j.jvsv.2024.101993"
+[[refs]]
+key = "cpp-gav26"
+cite = "Gavrilov SG, Alenichev AV, Vasiliev AV, Lutsenko MM, Moskalenko YP, Grishenkova AS. Treatment algorithm for patients with nonthrombotic iliac vein lesions and venous-origin chronic pelvic pain. Journal of Vascular and Interventional Radiology. 2026;37(10):108962."
+url = "https://doi.org/10.1016/j.jvir.2026.108962"
+[[refs]]
+key = "cpp-rossi-rct"
+cite = "Rossi FH, Kambara AM, Izukawa NM, Rodrigues TO, Rossi CB, Sousa AG, et al. Randomized double-blinded study comparing medical treatment versus iliac vein stenting in chronic venous disease. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2018;6(2):183-191."
+url = "https://doi.org/10.1016/j.jvsv.2017.11.003"
+[[refs]]
+key = "cpp-badesha"
+cite = "Badesha AS, Siddiqui MM, Bains BRS, Bains PRS, Khan T. A systematic review on the incidence of stent migration in the treatment of acute and chronic iliofemoral disease using dedicated venous stents. Annals of Vascular Surgery. 2022;83:328-348. PMID 35051587."
+url = "https://doi.org/10.1016/j.avsg.2021.12.084"
+[[refs]]
+key = "cpp-recall"
+cite = "Ma Y, Dittman JM, Lavingia KS, Amendola MF. A comparison of patient and device issues reported for recalled venous stent systems. Annals of Vascular Surgery. 2022;87:95-99. PMID 36055459."
+url = "https://doi.org/10.1016/j.avsg.2022.08.002"
+[[refs]]
+key = "cpp-murphy"
+cite = "Murphy E, Gibson K, Sapoval M, Dexter DJ, Kolluri R, Razavi M, et al. Pivotal study evaluating the safety and effectiveness of the Abre venous self-expanding stent system in patients with symptomatic iliofemoral venous outflow obstruction. Circulation: Cardiovascular Interventions. 2022;15(2):e010960. PMID 35105153."
+url = "https://doi.org/10.1161/CIRCINTERVENTIONS.121.010960"
+[[refs]]
+key = "cpp-sir"
+cite = "Vedantham S, Weinberg I, Desai KR, Winokur R, Kolli KP, et al. Society of Interventional Radiology position statement on the management of chronic iliofemoral venous obstruction with endovascular placement of metallic stents. Journal of Vascular and Interventional Radiology. 2023;34(10):1643-1657.e6. PMID 37330211."
+url = "https://doi.org/10.1016/j.jvir.2023.06.013"
+[[refs]]
+key = "cpp-cai"
+cite = "Cai T, Zhang R, Chen K, He J, Chen D, Zhan T. Iliac vein stenting with or without ovarian vein embolization for May-Thurner syndrome-associated pelvic venous disorder in women: a received-treatment retrospective cohort study. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2026;15(1):102641."
+url = "https://doi.org/10.1016/j.jvsv.2026.102641"
+[[refs]]
+key = "cpp-soysal"
+cite = "Soysal ME, Soysal S, Vicdan K, Ozer S. A randomized controlled trial of goserelin and medroxyprogesterone acetate in the treatment of pelvic congestion. Human Reproduction. 2001;16(5):931-939."
+url = "https://doi.org/10.1093/humrep/16.5.931"
+[[refs]]
+key = "cpp-zoladex"
+cite = "Zoladex (goserelin implant) 3.6 mg. Prescribing information. U.S. Food and Drug Administration; revised March 2026."
+url = "https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/019726s076lbl020515s013lbl.pdf"
+[[refs]]
+key = "cpp-akhmet"
+cite = "Akhmetzianov RV, Bredikhin RA. Clinical efficacy of conservative treatment with micronized purified flavonoid fraction in female patients with pelvic congestion syndrome. Pain and Therapy. 2021;10(2):1567-1578."
+url = "https://doi.org/10.1007/s40122-021-00312-6"
+[[refs]]
+key = "cpp-chung"
+cite = "Chung MH, Huh CY. Comparison of treatments for pelvic congestion syndrome. Tohoku Journal of Experimental Medicine. 2003;201(3):131-138."
+url = "https://doi.org/10.1620/tjem.201.131"
+[[refs]]
+key = "cpp-champaneria"
+cite = "Champaneria R, Shah L, Moss J, Gupta JK, Birch J, Middleton LJ, et al. The relationship between pelvic vein incompetence and chronic pelvic pain in women: systematic reviews of diagnosis and treatment effectiveness. Health Technology Assessment. 2016;20(5):1-108. PMID 26789334."
+url = "https://doi.org/10.3310/hta20050"
+[[refs]]
+key = "cpp-hillis"
+cite = "Hillis SD, Marchbanks PA, Peterson HB. The effectiveness of hysterectomy for chronic pelvic pain. Obstetrics and Gynecology. 1995;86(6):941-945. PMID 7501344."
+url = "https://doi.org/10.1016/0029-7844(95)00304-a"
+[[refs]]
+key = "cpp-misal"
+cite = "Misal M, Balk EM, Orlando MS, Pickett C, Lenger SM, et al. Predictors of persistent pain after hysterectomy for chronic pelvic pain: a systematic review. Obstetrics and Gynecology. 2025;146:690-699. PMID 40773758."
+url = "https://doi.org/10.1097/AOG.0000000000006023"
+[[refs]]
+key = "cpp-cochrane-surg"
+cite = "Surgical interventions for the management of chronic pelvic pain in women. Cochrane Database of Systematic Reviews. 2021. PMID 34923620."
+url = "https://doi.org/10.1002/14651858.CD008212.pub2"
+[[refs]]
+key = "cpp-madhvani"
+cite = "Madhvani K, Garcia SF, Fernandez-Felix BM, Zamora J, Carpenter T, Khan KS. Predicting major complications in patients undergoing laparoscopic and open hysterectomy for benign indications. CMAJ. 2022;194(38):E1306-E1317."
+url = "https://doi.org/10.1503/cmaj.220914"
+[[refs]]
+key = "cpp-kahr"
+cite = "Kahr HS, Thorlacius-Ussing O, Christiansen OB, Skals RK, Torp-Pedersen C, Knudsen A. Venous thromboembolic complications to hysterectomy for benign disease: a nationwide cohort study. Journal of Minimally Invasive Gynecology. 2018;25(4):715-723.e2."
+url = "https://doi.org/10.1016/j.jmig.2017.11.017"
+[[refs]]
+key = "cpp-medline"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Hysterectomy. Reviewed March 17, 2026. Read November 1, 2026."
+url = "https://medlineplus.gov/ency/article/002915.htm"
+[[refs]]
+key = "cpp-pickett"
+cite = "Pickett CM, Seeratan DD, Mol BWJ, et al. Surgical approach to hysterectomy for benign gynaecological disease. Cochrane Database of Systematic Reviews. 2023;8(8):CD003677. PMID 37642285."
+url = "https://doi.org/10.1002/14651858.CD003677.pub6"
+[[refs]]
+key = "cpp-attach"
+cite = "Attachaipanich T, Attachaipanich S, Kaewboot K. Cardiovascular outcomes of bilateral oophorectomy: a systematic review and meta-analysis. Indian Heart Journal. 2025;77(6):424-431."
+url = "https://doi.org/10.1016/j.ihj.2025.08.001"
+[[refs]]
+key = "cpp-pappas"
+cite = "Pappas PJ, Lakhanpal G, Soto T, Deol Z, Kennedy R, Lakhanpal S, et al. Pregnancy after iliac vein stenting for pelvic venous insufficiency. Journal of Vascular Surgery: Venous and Lymphatic Disorders. 2022;10(2):342-347. PMID 34587526."
+url = "https://doi.org/10.1016/j.jvsv.2021.09.005"
+[[refs]]
+key = "cpp-mansouri"
+cite = "Mansouri-Tehrani MM, Shahnazari R, Iraji H, Mansouri Tehrani MM, Ghasemi M. Optimizing venographic referrals in pelvic congestion syndrome: a prospective diagnostic accuracy study of ultrasound-based scoring to guide selective venography. Journal of Ultrasound in Medicine. 2026;45(8):1545-1556."
+url = "https://doi.org/10.1002/jum.70199"

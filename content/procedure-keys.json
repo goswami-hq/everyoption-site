@@ -1,0 +1,5 @@
+{
+  "_note": "Procedure keys are permanent: they are stored in doctors' attestations, addresses (/hae/), data file names (site/data/<key>.json) and alert text. A key, once issued, stays in 'issued' forever, in the same place, even after the procedure is retired (plan review items 3 and 9, ai-hq projects/platform/directory/add-a-procedure-plan-2026-11-11.md). Append new keys at the end. 'reserved' words can never be keys; every top-level folder of site/ is refused too (tools/registry.py).",
+  "issued": ["ufe", "pae", "gae", "pelvic", "hae"],
+  "reserved": ["api", "doctors", "data", "assets", "account", "insurance", "report"]
+}

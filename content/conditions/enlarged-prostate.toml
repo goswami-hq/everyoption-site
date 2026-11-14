@@ -1,0 +1,382 @@
+# Enlarged prostate (BPH): the second condition page, built on the fibroid template (job 32, draft for his clinical review).
+# Framework (his words, 2026-11-01): Medicines; Less Invasive Treatments, IR option always first; Surgery. Same layout as
+# /fibroids/ (his words, 2026-11-02: "use the UFE layout as a template"). Language matched section by section to the
+# fibroid page (his words, 2026-11-04): goswami-hq/ai-hq projects/platform/pae-page/section-match.md.
+# Build: python3 tools/build.py. Reading level: python3 tools/readability.py enlarged-prostate.
+# Wording (his rule, 2026-11-02): short plain sentences and few numbers, one simple figure per point ("about 7 out of 10").
+# Citations stay. Every clinical claim carries a [^key] marker pointing at [[refs]] below. Evidence table, grades and how
+# each source was read: goswami-hq/ai-hq projects/platform/pae-page/evidence.md.
+# Rules: no brand names, testimonials, guarantees, superiority claims or the physician's name; plain frequencies only;
+# no trial names or evidence grades in the reading text; each option states its own limits and side effects, never a
+# side effect that cannot happen after another treatment (his correction, 2026-11-03).
+
+slug = "enlarged-prostate"
+color = "pae"                  # blue, the same color as the PAE finder
+finder = "pae"                 # the finder this page leads to
+diagram = "pae"                # tools/diagrams/anim-pae.svgfrag ...
+diagram_at = "embolization"    # ... shown inside this option
+reviewed = "2026-11-05"
+draft = true                   # job 42: noindex and out of the sitemap until his sign-off; delete this line then
+condition_name = "Benign prostatic hyperplasia"
+condition_alt = "Enlarged prostate"
+
+# Physician reviewer: empty = no name anywhere, in the page or the schema (his rule, 2026-10-04).
+author_name = ""
+author_credentials = ""
+author_role = ""
+
+
+# Search targets (job platform-main-0024; pattern: docs/condition-pattern.md). This page owns "what are my options"; the
+# every-option page owns the comparisons. US volumes, DataForSEO 2026-11-07: enlarged prostate treatment 49,500; bph
+# treatment 12,100; what is bph 12,100; what is an enlarged prostate 1,900; enlarged prostate treatment options 1,300;
+# bph treatment options 1,300; alternatives to turp 90; enlarged prostate treatment without surgery 70.
+targets = ["enlarged prostate treatment options", "enlarged prostate treatment", "bph treatment", "bph treatment options", "what is bph", "what is an enlarged prostate", "enlarged prostate treatment without surgery", "alternatives to turp"]
+title = "BPH and Enlarged Prostate Treatment Options | Every Option"
+description = "Your enlarged prostate (BPH) treatment options, including ones without surgery: how invasive each is, how well it works, and side effects."
+h1 = "Shrink an enlarged prostate (benign prostatic hyperplasia) without surgery"
+answer = "An enlarged prostate is common as men age. This is also known as benign prostatic hyperplasia (BPH). BPH is not cancer and does not raise your risk of prostate cancer. Many men have no symptoms.[^mpbph] If you have trouble peeing, embolization is one of many options. You can also consider medicines, other less invasive treatments, or surgery.[^niddk] The right choice depends on your symptoms and goals."
+urgent = "If you cannot pee at all, have a fever with chills, see a lot of blood or clots in your urine, have severe pain, or feel very sick or faint, call 911."
+finder_button = "Find a doctor for prostate artery embolization"
+finder_heading = "Shrink an enlarged prostate without surgery"
+finder_intro = "Prostate artery embolization works through a tiny skin nick. Nothing is cut out. Most men go home the same day.\nMost men are back to normal activities **within a few days**, instead of 3 to 6 weeks after TURP surgery."
+finder_how = "#embolization"
+options_page = "/enlarged-prostate/every-option/"
+options_link = "Compare them side by side: embolization vs. TURP, laser surgery, office procedures, and medicines"
+options_heading = "Your other enlarged prostate treatment options"
+faq_heading = "Common questions"
+learn_heading = "Learn more"
+not_advice = "Education, not medical advice. Talk to your doctor about your own care."
+find_heading = "Find a doctor"
+find_text = ["Our free finder lists doctors near you who perform prostate artery embolization. It is not a ranking."]
+terms = ["prostate", "prostatic", "urethra", "bladder", "embolization", "urologist", "interventional radiologist", "interventional radiology", "retrograde", "ejaculation", "catheter", "alpha blockers", "tamsulosin", "finasteride", "dutasteride", "tadalafil", "PSA", "cataract", "HoLEP", "TURP", "prostatectomy", "hyperplasia"]
+
+[[categories]]
+id = "medicines"
+name = "Medicines"
+summary = "These ease symptoms like frequent peeing and a weak stream. No procedure is needed."
+options = ["alpha-blockers", "shrinking-pills", "tadalafil"]
+
+[[categories]]
+id = "less-invasive"
+name = "Less invasive treatments"
+highlight = "embolization"
+summary = "These treat the prostate without major surgery. Nothing is cut out of your body. Before you agree to surgery, ask about these."
+options = ["embolization", "urethral-lift", "water-vapor", "temporary-implant", "balloon"]
+
+[[categories]]
+id = "surgery"
+name = "Surgery"
+summary = "Surgery removes the part of the prostate that blocks the flow of urine."
+options = ["turp", "laser", "waterjet", "open-prostatectomy"]
+
+[[sections]]
+id = "what"
+# place = "box": the "What is <condition>?" box (job platform-main-0024, the fibroid pattern; docs/condition-pattern.md).
+# Every sentence and tag is the old "What is an enlarged prostate?" section's, with its sources; nothing new.
+place = "box"
+heading = "What is an enlarged prostate (benign prostatic hyperplasia)?"
+text = [
+  "The prostate is a small gland that wraps around the urethra, the tube that carries urine out of the body. In almost all men, it grows with age, which is called benign prostatic hyperplasia (BPH).[^mpbph] It can squeeze the urethra and make it hard to empty the bladder.[^niddk] As men get older, this gets more common, with more than 9 out of 10 men having it in their 80s.[^mpbph]",
+]
+symptoms_label = "Common symptoms"
+symptoms = ["Frequent peeing", "A strong, sudden urge to go", "Getting up at night to pee", "A weak or slow stream", "Straining", "Dribbling at the end"]
+symptoms_cite = "[^mpbph][^niddk]"
+see_doctor_heading = "When to see a doctor"
+see_doctor = "See a doctor if your bladder does not feel empty after you pee, or if self-care has not helped after 2 months.[^mpbph] A doctor also checks for other causes, such as infection or cancer.[^mpbph][^niddk]"
+
+[[sections]]
+id = "ask"
+place = "after"
+heading = "What should I ask my doctor?"
+# agreed list item 6 (his "Agree", 2026-11-07)
+text = ["You can ask about any option on this page, even one your doctor does not offer."]
+list = [
+  "Which options could work for me, and which could not?",
+  "How would each option affect my erections and ejaculation?",
+  "How long would I need to recover, and will I need a urine tube?",
+  "Do you offer prostate artery embolization, or can you refer me to someone who does?",
+]
+
+[[faq]]
+q = "Do I need treatment?"
+a = "Not always. If your symptoms are mild and do not bother you, your doctor may watch them with yearly checkups. You can also drink less before bed and cut back on alcohol and caffeine.[^niddk] These changes can help, and they're safe to try."
+
+[[faq]]
+q = "Does an enlarged prostate mean cancer?"
+a = "No. It is not cancer, and it does not raise your risk of prostate cancer.[^mpbph] Some symptoms can look alike, so your doctor may check your PSA, a blood test, to screen you for prostate cancer.[^mpbph][^niddk]"
+
+[[faq]]
+q = "Will treatment affect my sex life?"
+a = "It depends on the treatment. Many surgeries cause dry orgasms, where semen goes into the bladder.[^calik] Some pills can lower your sex drive or cause erection problems.[^proscar] Ask your doctor how each option fits your goals before you choose."
+
+[[faq]]
+q = "Do I need surgery for an enlarged prostate?"
+a = "Not always. Medicines and less invasive treatments, such as PAE (prostate artery embolization), are also options. Surgery is often used when other treatments have not helped or problems develop.[^niddk]"
+
+[[options]]
+id = "alpha-blockers"
+name = "Alpha blockers"
+what = "These include pills (such as tamsulosin). They relax the muscles around the prostate and bladder so urine flows more easily.[^mpbph][^niddk]"
+invasive = "These are pills. No procedure is needed."
+works = "Good evidence suggests these pills ease symptoms for many men.[^niddk] Most men notice a change within 3 to 7 days.[^mpbph]"
+side = "You may feel dizzy, mostly when you stand up. Ejaculation may change. If you plan eye surgery for cataracts, tell your eye doctor if you take one or have taken one.[^flomax]"
+
+[[options]]
+id = "shrinking-pills"
+name = "Prostate-shrinking pills"
+what = "These are pills (such as finasteride or dutasteride). They lower a hormone that makes the prostate grow, so it slowly shrinks.[^mpbph][^niddk][^proscar]"
+invasive = "These are pills. No procedure is needed."
+works = "It can take 3 to 6 months to feel better.[^mpbph] Strong evidence shows they lower the chance of needing surgery.[^proscar][^avodart] Finasteride cut that chance about in half over 4 years.[^pless][^proscar] Taking one with an alpha blocker may work better than an alpha blocker alone for men with larger prostates.[^niddk][^combat]"
+side = "You may have a lower sex drive or erection problems. They cut your PSA level about in half, so tell your doctor before a PSA test. They may raise the chance of a more serious prostate cancer.[^mpbph][^proscar][^avodart]"
+
+[[options]]
+id = "tadalafil"
+name = "Tadalafil"
+what = "This is a pill. It relaxes muscles around the bladder and prostate. It is also used for erection problems.[^niddk][^cialis]"
+invasive = "This is a pill. No procedure is needed."
+works = "Early studies suggest it eases symptoms a little.[^niddk][^cialis][^pde5]"
+side = "You may have a headache, upset stomach, or back pain. Do not take it with nitrate heart medicines. It is not recommended with alpha blockers for this use.[^cialis]"
+
+[[options]]
+id = "embolization"
+name = "Prostate artery embolization (PAE)"
+# "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07); the lines it now holds left `invasive`
+lead_heading = "What is prostate artery embolization (PAE)?"
+what = "Prostate artery embolization (PAE) treats an enlarged prostate (also called benign prostatic hyperplasia/BPH) without surgery.[^sirpt][^ucla] A thin tube goes through a small puncture in the wrist or groin.[^sirpt][^ucla] Tiny beads or particles slow blood flow to the prostate so it shrinks, and urine can flow more easily.[^sirpt][^ucla] Nothing is cut out.[^sirpt][^ucla] Most men go home the same day.[^ucla][^ukrope]"
+invasive = "You stay awake, with medicine to help you relax. Most men do not need a urine tube through the penis.[^sirpt][^ucla] Most men are back to normal activities within a few days, instead of 3 to 6 weeks after TURP surgery.[^bsir][^penn][^mpturpdc] Avoid heavy activity for about a week.[^bsir][^penn]"
+works = "Early results are encouraging. Most men feel much better, and for many the relief lasts at least three years.[^sham][^pisco] The American Urological Association's 2026 guideline lists PAE as an option for men with larger prostates. It says PAE can improve symptoms by about as much as TURP surgery.[^aua][^cochrane] It is also an option for men who take blood thinners or have a high risk of bleeding.[^aua]\nSome men may need another treatment later, such as a second embolization or surgery: about 1 out of 5 within five years.[^bilhim] If PAE works for you, it may help you avoid or put off surgery. If it does not, surgery is still an option.[^bilhim]"
+side = "You may have a burning feeling in your lower belly, need to pee often, and some pelvic pain for a few days. A little blood in your urine can happen.[^sirpt][^gstt] Most men keep normal ejaculation. Some notice less semen. Losing ejaculation completely is uncommon, and much less common than after TURP surgery.[^ejac][^cochrane][^lokesh][^rawash] PAE does not seem to affect erections.[^cochrane][^sapoval24] Serious problems are uncommon.[^pisco][^cochrane]"
+
+[[options]]
+id = "urethral-lift"
+name = "Urethral lift"
+what = "Small implants lift and hold the prostate away from the urethra, like tiebacks on a curtain.[^niddk][^mpmin]"
+invasive = "It is done through the penis, with no cuts in the skin.[^mpmin] Most men need little or no urine tube time and return to normal activity in about 1 week.[^lift5]"
+works = "Early studies suggest it eases symptoms, often within 2 weeks. It works only for some prostate sizes, so ask if yours fits. Some men need another procedure: about 1 out of 7 within 5 years.[^lift5]"
+side = "Side effects are mostly mild and short-lived. Erections and ejaculation usually stay the same.[^lift5]"
+
+[[options]]
+id = "water-vapor"
+name = "Water vapor (steam) therapy"
+what = "Steam released into the prostate burns away some of the inner tissue. This makes the path for urine larger.[^niddk][^mpmin]"
+invasive = "It is done through the penis, with no cuts in the skin. It can be done in the doctor's office.[^mpmin]"
+works = "Early studies suggest it eases symptoms, often within 3 months. It works only for some prostate sizes, so ask if yours fits.[^rezum5] About 1 out of 7 men need more surgery within 5 years.[^cosmos]"
+side = "Side effects are mostly mild and go away quickly. Lasting erection problems are rare.[^rezum2][^rezum5]"
+
+[[options]]
+id = "temporary-implant"
+name = "Temporary implant"
+what = "A small folded device is placed in the prostate for about a week. As it opens, it makes small cuts that widen the passage. Then it is removed.[^mpmin][^itind]"
+invasive = "It is placed and later removed through the penis, with no cuts in the skin.[^mpmin][^itind]"
+works = "Early studies suggest it helps some men. Many men also felt better after a fake procedure, so doctors are still learning how much of the relief comes from the implant.[^itind] We do not yet know how long it lasts.[^itind4]"
+side = "Side effects are mostly mild and short-lived. New erection or ejaculation problems seem uncommon.[^itind]"
+
+[[options]]
+id = "balloon"
+name = "Medicine-coated balloon"
+what = "A balloon passed through the penis widens the space where the prostate squeezes the urethra. The balloon is coated with a medicine that helps keep it from closing again.[^fdaopt]"
+invasive = "It is done through the penis, with no cuts in the skin. It can be done in the office.[^pinnacle]"
+works = "Early studies suggest it eases symptoms for at least 2 years.[^pinnacle][^pinnacle2] It works only for some prostate sizes, so ask if yours fits.[^pinnacle]"
+side = "You may have blood in your urine or a bladder infection. Sex life usually stays the same.[^pinnacle2]"
+
+[[options]]
+id = "turp"
+name = "Transurethral resection (TURP)"
+what = "Surgery removes the inside of the prostate with a small tool passed through the penis.[^mpturp]"
+invasive = "There are no cuts in the skin. You are asleep or numb from the waist down. Most men stay in the hospital for 1 to 3 days and have a urine tube for 1 to 3 days.[^mpturp] Recovery takes about 3 to 6 weeks.[^mpturpdc]"
+works = "Strong evidence shows it relieves symptoms most of the time.[^mpturp] About 1 out of 10 men need more surgery within 20 years.[^niddk]"
+side = "Many men have dry orgasms afterward, where semen goes into the bladder. This can be permanent.[^mpturpdc][^calik] Bleeding, infection, erection problems, and leaking urine can happen. Scar tissue can narrow the urethra.[^mpturp][^niddk][^nhsturp]"
+
+[[options]]
+id = "laser"
+name = "Laser surgery"
+what = "A laser passed through the penis removes or vaporizes the blocking tissue. One type is called HoLEP.[^mpmin]"
+invasive = "There are no cuts in the skin. Most men go home the same day or the next day, with a urine tube for a few days.[^mpmin] There is less bleeding and a shorter hospital stay than with TURP.[^holep]"
+works = "Early studies suggest HoLEP works at least as well as TURP.[^holep][^holepcochrane] It improves the flow of urine.[^mpmin]"
+side = "Many men have dry orgasms afterward.[^calik][^mpmin] Erection problems and leaking urine can happen.[^mpmin]"
+
+[[options]]
+id = "waterjet"
+name = "Waterjet surgery"
+what = "High-pressure jets of water, passed through the penis, remove the blocking tissue.[^mpmin]"
+invasive = "There are no cuts in the skin. You have a urine tube for a few days.[^mpmin]"
+works = "Early studies suggest it works about as well as TURP for at least 5 years, in small to medium prostates.[^water5]"
+side = "Ejaculation problems are less common than after TURP, but about 1 out of 14 men still have them in the first months.[^water5] Erection problems and leaking urine can happen.[^mpmin]"
+
+[[options]]
+id = "open-prostatectomy"
+name = "Open or robotic prostate removal"
+what = "Surgery through the belly removes the inside of a very large prostate.[^mpsimple]"
+invasive = "It takes a cut in the lower belly, or small cuts with a robot.[^mpsimple][^niddk] After open surgery, most men stay in the hospital for 2 to 4 days with a urine tube. Recovery takes about 6 weeks.[^mpsimple]"
+works = "It is often used when the prostate is too large for other surgery. Most men can pee as usual afterward.[^mpsimple]"
+side = "Dry orgasms, leaking urine, bleeding, and infection can happen.[^mpsimple]"
+
+# References, in no particular order: the page numbers them by first use. How each was read: evidence.md (top).
+[[refs]]
+key = "mpbph"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Enlarged prostate. Reviewed July 1, 2025. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/article/000381.htm"
+[[refs]]
+key = "niddk"
+cite = "National Institute of Diabetes and Digestive and Kidney Diseases (NIH). Prostate enlargement (benign prostatic hyperplasia). Last reviewed June 2024. Read November 4, 2026."
+url = "https://www.niddk.nih.gov/health-information/urologic-diseases/prostate-problems/prostate-enlargement-benign-prostatic-hyperplasia"
+[[refs]]
+key = "flomax"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Tamsulosin hydrochloride capsules. Revised February 2025. Read November 4, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=13a5032d-0be1-4001-916e-459f0b1a051d"
+[[refs]]
+key = "proscar"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Finasteride 5 mg tablets. Revised March 2026. Read November 4, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6f988153-fc74-4ca4-b29a-111f750c4a4b"
+[[refs]]
+key = "pless"
+cite = "McConnell JD, Bruskewitz R, Walsh P, et al. The effect of finasteride on the risk of acute urinary retention and the need for surgical treatment among men with benign prostatic hyperplasia. New England Journal of Medicine. 1998;338(9):557-563. doi:10.1056/NEJM199802263380901. PMID 9475762."
+url = "https://doi.org/10.1056/NEJM199802263380901"
+[[refs]]
+key = "cialis"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Tadalafil tablets. Revised March 2026. Read November 4, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bcd8f8ab-81a2-4891-83db-24a0b0e25895"
+[[refs]]
+key = "sirpt"
+cite = "Society of Interventional Radiology. Enlarged prostate (benign prostatic hyperplasia) and prostate artery embolization. Reviewed September 2024. Read November 4, 2026."
+url = "https://www.sirweb.org/for-patients/conditions-and-treatments/enlarged-prostate/"
+[[refs]]
+key = "ucla"
+cite = "UCLA Health, Department of Radiology. Prostate artery embolization. Read November 4, 2026."
+url = "https://www.uclahealth.org/medical-services/radiology/prostate-imaging/treatments-procedures/prostate-artery-embolization"
+[[refs]]
+key = "gstt"
+cite = "Guy's and St Thomas' NHS Foundation Trust (United Kingdom). After a prostate embolisation. Last reviewed November 2023. Read November 4, 2026."
+url = "https://www.guysandstthomas.nhs.uk/health-information/prostate-embolisation-for-an-enlarged-prostate/after-a-prostate-embolisation"
+[[refs]]
+key = "mpturpdc"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Transurethral resection of the prostate: discharge. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/patientinstructions/000300.htm"
+[[refs]]
+key = "pisco"
+cite = "Pisco JM, Bilhim T, Pinheiro LC, et al. Medium- and long-term outcome of prostate artery embolization for patients with benign prostatic hyperplasia: results in 630 patients. Journal of Vascular and Interventional Radiology. 2016;27(8):1115-1122. doi:10.1016/j.jvir.2016.04.001. PMID 27321890."
+url = "https://doi.org/10.1016/j.jvir.2016.04.001"
+[[refs]]
+key = "cochrane"
+cite = "Jung JH, McCutcheon KA, Borofsky M, et al. Prostatic arterial embolization for the treatment of lower urinary tract symptoms in men with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2022;(3):CD012867. doi:10.1002/14651858.CD012867.pub3. PMID 35349161."
+url = "https://doi.org/10.1002/14651858.CD012867.pub3"
+[[refs]]
+key = "sham"
+cite = "Pisco JM, Bilhim T, Costa NV, et al. Randomised clinical trial of prostatic artery embolisation versus a sham procedure for benign prostatic hyperplasia. European Urology. 2020;77(3):354-362. doi:10.1016/j.eururo.2019.11.010. PMID 31831295."
+url = "https://doi.org/10.1016/j.eururo.2019.11.010"
+[[refs]]
+key = "bilhim"
+cite = "Bilhim T, Costa NV, Torres D, Pinheiro LC, Spaepen E. Long-term outcome of prostatic artery embolization for patients with benign prostatic hyperplasia: single-centre retrospective study in 1072 patients over a 10-year period. CardioVascular and Interventional Radiology. 2022;45(9):1324-1336. doi:10.1007/s00270-022-03199-8. PMID 35778579."
+url = "https://doi.org/10.1007/s00270-022-03199-8"
+[[refs]]
+key = "mpmin"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Prostate resection: minimally invasive. Reviewed April 29, 2025. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/article/007415.htm"
+[[refs]]
+key = "lift5"
+cite = "Roehrborn CG, Barkin J, Gange SN, et al. Five year results of the prospective randomized controlled prostatic urethral L.I.F.T. study. Canadian Journal of Urology. 2017;24(3):8802-8813. PMID 28646935. LIFT pivotal study NCT01294150, sponsored by the device maker."
+url = "https://europepmc.org/article/MED/28646935"
+[[refs]]
+key = "rezum5"
+cite = "McVary KT, Gittelman MC, Goldberg KA, et al. Final 5-year outcomes of the multicenter randomized sham-controlled trial of a water vapor thermal therapy for treatment of moderate to severe lower urinary tract symptoms secondary to benign prostatic hyperplasia. Journal of Urology. 2021;206(3):715-724. doi:10.1097/JU.0000000000001778. PMID 33872051. Sponsored by the device maker (NCT01912339)."
+url = "https://doi.org/10.1097/JU.0000000000001778"
+[[refs]]
+key = "cosmos"
+cite = "Carletti F, Tamborino F, Turcan A, et al. Five-year retreatment and medication restart rates following benign prostate hyperplasia treatments: a nationwide real-world analysis using Epic Cosmos. European Urology Focus. 2026;12(3):383-392. doi:10.1016/j.euf.2026.01.003. PMID 41558957."
+url = "https://doi.org/10.1016/j.euf.2026.01.003"
+[[refs]]
+key = "combat"
+cite = "Roehrborn CG, Siami P, Barkin J, et al. The effects of combination therapy with dutasteride and tamsulosin on clinical outcomes in men with symptomatic benign prostatic hyperplasia: 4-year results from the CombAT study. European Urology. 2010;57(1):123-131. doi:10.1016/j.eururo.2009.09.035. PMID 19825505. Funded by the drug maker (NCT00090103)."
+url = "https://doi.org/10.1016/j.eururo.2009.09.035"
+[[refs]]
+key = "pde5"
+cite = "Pattanaik S, Mavuduru RS, Panda A, et al. Phosphodiesterase inhibitors for lower urinary tract symptoms consistent with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2018;11:CD010060. doi:10.1002/14651858.CD010060.pub2. PMID 30480763."
+url = "https://doi.org/10.1002/14651858.CD010060.pub2"
+[[refs]]
+key = "holepcochrane"
+cite = "Sathianathen N, Hwang EC, Brown SJ, et al. Holmium laser enucleation of the prostate for the treatment of lower urinary tract symptoms in men with benign prostatic hyperplasia. Cochrane Database of Systematic Reviews. 2026;9:CD013291. doi:10.1002/14651858.CD013291.pub2. PMID 42713842."
+url = "https://doi.org/10.1002/14651858.CD013291.pub2"
+[[refs]]
+key = "itind"
+cite = "Chughtai B, Elterman D, Shore N, et al. The iTind temporarily implanted nitinol device for the treatment of lower urinary tract symptoms secondary to benign prostatic hyperplasia: a multicenter, randomized, controlled trial. Urology. 2021;153:270-276. doi:10.1016/j.urology.2020.12.022. PMID 33373708. Sponsored by the device maker (NCT02506465)."
+url = "https://doi.org/10.1016/j.urology.2020.12.022"
+[[refs]]
+key = "rezum2"
+cite = "McVary KT, Gange SN, Gittelman MC, et al. Minimally invasive prostate convective water vapor energy ablation: a multicenter, randomized, controlled study for the treatment of lower urinary tract symptoms secondary to benign prostatic hyperplasia. Journal of Urology. 2016;195(5):1529-1538. doi:10.1016/j.juro.2015.10.181. PMID 26614889. Sponsored by the device maker (NCT01912339)."
+url = "https://doi.org/10.1016/j.juro.2015.10.181"
+[[refs]]
+key = "itind4"
+cite = "Amparore D, De Cillis S, Schulman C, Kadner G, Fiori C, Porpiglia F. Temporary implantable nitinol device for benign prostatic hyperplasia-related lower urinary tract symptoms: over 48-month results. Minerva Urology and Nephrology. 2023;75(6):743-751. doi:10.23736/S2724-6051.23.05322-3. PMID 37350585. Sponsored by the device maker (NCT02145208)."
+url = "https://doi.org/10.23736/S2724-6051.23.05322-3"
+[[refs]]
+key = "nhsturp"
+cite = "NHS (United Kingdom). Transurethral resection of the prostate (TURP): risks. Page last reviewed June 12, 2025. Read November 4, 2026."
+url = "https://www.nhs.uk/conditions/transurethral-resection-of-the-prostate-turp/risks/"
+[[refs]]
+key = "pinnacle"
+cite = "Kaplan SA, Moss J, Freedman S, et al. The PINNACLE study: a double-blind, randomized, sham-controlled study evaluating the Optilume BPH catheter system for the treatment of lower urinary tract symptoms secondary to benign prostatic hyperplasia. Journal of Urology. 2023;210(3):500-509. doi:10.1097/JU.0000000000003568. PMID 37555604. Sponsored by the device maker (NCT04131907)."
+url = "https://doi.org/10.1097/JU.0000000000003568"
+[[refs]]
+key = "pinnacle2"
+cite = "Kaplan SA, Moss JL, Freedman SJ. Two-year long-term follow-up of treatment with the Optilume BPH catheter system in a randomized controlled trial for benign prostatic hyperplasia (the PINNACLE study). Prostate Cancer and Prostatic Diseases. 2024;27(3):531-536. doi:10.1038/s41391-024-00833-z. PMID 38684918. Sponsored by the device maker (NCT04131907)."
+url = "https://doi.org/10.1038/s41391-024-00833-z"
+[[refs]]
+key = "mpturp"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Transurethral resection of the prostate. Reviewed July 1, 2025. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/article/002996.htm"
+[[refs]]
+key = "calik"
+cite = "Calik G, Laguna MP, Gravas S, Albayrak S, de la Rosette J. Preservation of antegrade ejaculation after surgical relief of benign prostatic obstruction is a valid endpoint. World Journal of Urology. 2021;39(7):2277-2289. doi:10.1007/s00345-021-03682-w. PMID 33796882."
+url = "https://doi.org/10.1007/s00345-021-03682-w"
+[[refs]]
+key = "holep"
+cite = "Chen J, Dong W, Gao X, et al. A systematic review and meta-analysis of efficacy and safety comparing holmium laser enucleation of the prostate with transurethral resection of the prostate for patients with prostate volume less than 100 mL or 100 g. Translational Andrology and Urology. 2022;11(4):407-420. doi:10.21037/tau-21-1005. PMID 35558272."
+url = "https://doi.org/10.21037/tau-21-1005"
+[[refs]]
+key = "water5"
+cite = "Gilling PJ, Barber N, Bidair M, et al. Five-year outcomes for Aquablation therapy compared to TURP: results from a double-blind, randomized trial in men with LUTS due to BPH. Canadian Journal of Urology. 2022;29(1):10960-10968. PMID 35150215. Sponsored by the device maker (NCT02505919)."
+url = "https://europepmc.org/article/MED/35150215"
+[[refs]]
+key = "mpsimple"
+cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Simple prostatectomy. Reviewed April 29, 2025. Read November 4, 2026."
+url = "https://medlineplus.gov/ency/article/007416.htm"
+[[refs]]
+key = "ejac"
+cite = "Müllhaupt G, Hechelhammer L, Diener PA, et al. Ejaculatory disorders after prostatic artery embolization: a reassessment of two prospective clinical trials. World Journal of Urology. 2020;38(10):2595-2599. doi:10.1007/s00345-019-03036-7. PMID 31813028."
+url = "https://doi.org/10.1007/s00345-019-03036-7"
+[[refs]]
+key = "avodart"
+cite = "U.S. Food and Drug Administration approved label (DailyMed). Dutasteride capsules. Revised October 2023. Read November 4, 2026."
+url = "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=960797b3-09b1-4d6a-8ece-8b5d918e93e4"
+[[refs]]
+key = "fdaopt"
+cite = "U.S. Food and Drug Administration. Optilume BPH catheter system, P220029, approved June 30, 2023. Read November 4, 2026."
+url = "https://www.fda.gov/medical-devices/recently-approved-devices/optilume-bph-catheter-system-p220029"
+[[refs]]
+key = "ukrope"
+cite = "Ray AF, Powell J, Speakman MJ, et al. Efficacy and safety of prostate artery embolization for benign prostatic hyperplasia: an observational study and propensity-matched comparison with transurethral resection of the prostate (the UK-ROPE study). BJU International. 2018;122(2):270-282. doi:10.1111/bju.14249. PMID 29645352."
+url = "https://doi.org/10.1111/bju.14249"
+[[refs]]
+key = "bsir"
+cite = "British Society of Interventional Radiology. Prostate artery embolisation: patient information leaflet. 2025. Read November 5, 2026."
+url = "https://www.bsir.org/patients-1/patient-information-leaflets/adult-procedures/prostate-artery-embolisation/"
+[[refs]]
+key = "penn"
+cite = "Penn Medicine, Interventional Radiology. Prostate artery embolization: frequently asked questions. Read November 5, 2026."
+url = "https://pennmedicine.org/for-patients-and-visitors/find-a-program-or-service/interventional-radiology/prostate-artery-embolization/prostate-artery-embolization-faqs"
+[[refs]]
+key = "aua"
+cite = "Goueli R, Badlani GH, Welliver C, et al. Management of lower urinary tract symptoms attributed to benign prostatic hyperplasia: AUA guideline (2026) part III: procedural/surgical management. Journal of Urology. Published May 6, 2026, as submitted. doi:10.1097/JU.0000000000005099. Prostate artery embolization: conditional recommendation, evidence grade B, prostates 50 cc or larger."
+url = "https://www.auanet.org/2026BPHGuideline"
+[[refs]]
+key = "lokesh"
+cite = "Lokeshwar SD, Valancy D, Lima TFN, et al. A systematic review of reported ejaculatory dysfunction in clinical trials evaluating minimally invasive treatment modalities for BPH. Current Urology Reports. 2020;21(12):54. doi:10.1007/s11934-020-01012-y. PMID 33104947."
+url = "https://doi.org/10.1007/s11934-020-01012-y"
+[[refs]]
+key = "rawash"
+cite = "Al Rawashdah SF, Pastore AL, Velotti G, et al. Sexual and functional outcomes of prostate artery embolisation: a prospective long-term follow-up, large cohort study. International Journal of Clinical Practice. 2020;74(3):e13454. doi:10.1111/ijcp.13454. PMID 31769906."
+url = "https://doi.org/10.1111/ijcp.13454"
+[[refs]]
+key = "sapoval24"
+cite = "Sapoval MR, Bhatia S, Déan C, et al. Two-year outcomes of prostatic artery embolization for symptomatic benign prostatic hyperplasia: an international, multicenter, prospective study. CardioVascular and Interventional Radiology. 2024;47(11):1515-1524. doi:10.1007/s00270-024-03802-0. PMID 39230672. Funded by an embolic maker (NCT03527589)."
+url = "https://doi.org/10.1007/s00270-024-03802-0"
