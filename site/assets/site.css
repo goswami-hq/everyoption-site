@@ -897,3 +897,21 @@ html.eo-notice-on .find-bar { bottom: calc(var(--notice-h, 0px) + 14px); }
   .hero-cond .find-label { margin-bottom: 6px; }
   .hero-cond form.zip { padding: 14px; gap: 10px; }
 }
+/* Job platform-directory-0037: Your account's contents list (the deep pages' .toc look), a Back to top link in each
+   panel, and each action's message on the line under its button. */
+.t-account .acct-toc { max-width: 40em; margin: 16px 0 0; box-sizing: border-box; }
+.acct-panel .to-top-row { margin: 16px 0 0; font-size: 0.9375rem; }
+.acct-panel .to-top { font-weight: 600; text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .acct-panel .to-top:hover { text-decoration: underline; } }
+.act-wrap { display: grid; gap: 8px; }
+.act-msg { margin: 0; font-size: 0.96875rem; line-height: 1.45; }
+.act-msg:empty { display: none; }
+.act-msg.ok { padding: 8px 12px; border-radius: 10px; background: var(--soft); }
+.act-msg.err { padding: 8px 12px; border-radius: 10px; border: 1px solid currentColor; }
+li.proc > .act-msg:not(:empty) { margin-top: 8px; }
+@media (max-width: 1179px) { .t-account .acct-panel, .t-account #also-form { scroll-margin-top: 64px; } }
+@media (min-width: 1180px) {
+  /* The account panels sit at the left of a wider column, so the rail stands in the free space on their right. */
+  .t-account .acct-dock { left: min(calc(50% + 330px), calc(100% - 15.5rem - 8px)); }
+  .t-account .acct-panel, .t-account #also-form { scroll-margin-top: 24px; }
+}

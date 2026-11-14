@@ -79,6 +79,40 @@
   }
   function say(msg, cls) { statusEl.className = "status " + (cls || ""); statusEl.textContent = msg || ""; if (msg) statusEl.focus(); }
   function hush() { statusEl.className = "status"; statusEl.textContent = ""; }
+  // Job platform-directory-0037 (his yes 2026-11-13 22:58 CT, call 7): in Your account, a save, remove, undo or error
+  // shows on the line under the button that caused it (each such line is a polite live region, made with the panel),
+  // focus stays on that button, and the page does not move. The top line (say) is for page-level events only: sign-in,
+  // sign-out, an invitation accepted, Doximity.
+  var PENDING = null;   // the message to show after the next redraw: { key, msg, cls, focus (an id), top (px) }
+  function msgLine(key) { return el("p", { "class": "act-msg", id: "msg-" + key, "aria-live": "polite" }); }
+  function acts(key, kids) { return el("div", { "class": "act-wrap" }, [el("div", { "class": "acct-actions" }, kids), msgLine(key)]); }
+  function near(key, msg, cls) {
+    var m = document.getElementById("msg-" + key);
+    if (!m) return say(msg, cls);
+    hush();
+    [].forEach.call(out.querySelectorAll(".act-msg"), function (x) { if (x !== m) { x.textContent = ""; x.className = "act-msg"; } });
+    m.className = "act-msg " + (cls || "");
+    // Set the words a moment after a redraw, so a screen reader hears the new live region change.
+    m.textContent = ""; setTimeout(function () { m.textContent = msg || ""; }, 60);
+    var r = m.getBoundingClientRect();
+    if (r.bottom > window.innerHeight || r.top < 0) m.scrollIntoView({ block: "nearest" });
+  }
+  // After a save that redraws the page: show the message where the doctor acted, on the redrawn page.
+  function saved(key, msg, cls, focusId) {
+    var f = document.getElementById(focusId);
+    PENDING = { key: key, msg: msg, cls: cls, focus: focusId, top: f ? f.getBoundingClientRect().top : null };
+    return load();
+  }
+  function showPending() {
+    var p = PENDING; PENDING = null;
+    if (!p) return;
+    var f = document.getElementById(p.focus);
+    if (f) {
+      if (p.top != null) window.scrollBy(0, f.getBoundingClientRect().top - p.top);   // the button stays where it was
+      f.focus({ preventScroll: true });
+    }
+    near(p.key, p.msg, p.cls);
+  }
   function setLede(t) { if (lede) { lede.textContent = t || ""; lede.hidden = !t; } }
   function api(method, path, body, type) {
     var o = { method: method, credentials: "same-origin", headers: {} };
@@ -101,6 +135,7 @@
       [title ? el("h2", { id: id + "-h", text: title }) : null].concat(kids));
   }
   function view(nodes, ledeText) {
+    if (DOCK) { DOCK.remove(); DOCK = null; }
     out.innerHTML = ""; setLede(ledeText);
     nodes.forEach(function (n) { if (n) out.appendChild(n); });
   }
@@ -386,26 +421,27 @@
         var t = el("textarea", { id: "b-" + k, name: "blurb_" + k, rows: "3", maxlength: "300" }); t.value = (p.blurbs || {})[k] || "";
         var count = el("span", { "class": "hint", text: t.value.length + " / 300" });
         t.addEventListener("input", function () { count.textContent = t.value.length + " / 300"; });
-        var saveNote = el("button", { type: "button", "class": "secondary", text: "Save note", onclick: function () {
+        var saveNote = el("button", { type: "button", "class": "secondary", id: "b-save-" + k, text: "Save note", onclick: function () {
           var blurbs = Object.assign({}, p.blurbs || {}); blurbs[k] = t.value;
           var why = document.getElementById("why-b-" + k); why.textContent = "";
           busy(saveNote, true);
           api("PUT", "profile", { blurbs: blurbs }).then(function (j) {
             busy(saveNote, false);
-            if (j.ok) { say(j.changed.length ? "Note saved." : "No changes.", "ok"); return load(); }
+            if (j.ok) return saved("note-" + k, j.changed.length ? "Note saved." : "No changes.", "ok", "b-save-" + k);
             if (j.error === "screened" && j.blocked.blurbs && j.blocked.blurbs[k]) why.textContent = "Not accepted: this has " + j.blocked.blurbs[k].map(function (r) { return REASONS[r] || r; }).join(" and ") + ".";
-            say(words(j), "err");
+            near("note-" + k, words(j), "err");
           });
         } });
         return el("li", { "class": "proc on", id: "proc-" + k }, [
           el("div", { "class": "proc-head" }, [procName(k, [el("span", { "class": "proc-state", text: "✓ You perform this" })])]),
-          el("details", { "class": "proc-note", open: !!t.value }, [el("summary", { text: t.value ? "Your note" : "Add a note for patients" }),
+          el("details", { "class": "proc-note", id: "pnote-" + k, open: !!t.value }, [el("summary", { id: "pnote-s-" + k, text: t.value ? "Your note" : "Add a note for patients" }),
             el("label", { "for": "b-" + k }, ["Note for " + PROC[k] + " ", count]), t, el("p", { "class": "err small", id: "why-b-" + k }),
-            el("div", { "class": "acct-actions" }, [saveNote])]),
-          el("button", { type: "button", "class": "link remove", "data-proc": k, text: "Remove " + PROC[k], onclick: function () {
+            acts("note-" + k, [saveNote])]),
+          el("button", { type: "button", "class": "link remove", id: "remove-" + k, "data-proc": k, text: "Remove " + PROC[k], onclick: function () {
             if (!window.confirm("Remove " + PROC[k] + " from your account? You can add it again any time.")) return;
-            api("POST", "withdraw", { procedure: k }).then(function (j) { if (j.ok) { say(PROC[k] + " removed.", "ok"); load(); } else say(words(j), "err"); });
-          } })
+            api("POST", "withdraw", { procedure: k }).then(function (j) { if (j.ok) saved("proc-" + k, PROC[k] + " removed.", "ok", "add-" + k); else near("proc-" + k, words(j), "err"); });
+          } }),
+          msgLine("proc-" + k)
         ]);
       }
       var stmt = el("div", { "class": "attest", hidden: true }, [
@@ -414,14 +450,14 @@
           var b = this; busy(b, true);
           api("POST", "attest", { procedures: [k], agree: true }).then(function (j) {
             busy(b, false);
-            if (j.ok) { say(PROC[k] + " added.", "ok"); load(); } else say(words(j), "err");
+            if (j.ok) saved("proc-" + k, PROC[k] + " added.", "ok", "pnote-s-" + k); else near("proc-" + k, words(j), "err");
           });
         } }), el("button", { type: "button", "class": "link", text: "Cancel", onclick: function () { stmt.hidden = true; add.hidden = false; add.focus(); } })])
       ]);
-      var add = el("button", { type: "button", "class": "secondary add", "data-proc": k, text: "Add", "aria-label": "Add " + PROC[k], onclick: function () { add.hidden = true; stmt.hidden = false; stmt.querySelector("button").focus(); } });
+      var add = el("button", { type: "button", "class": "secondary add", id: "add-" + k, "data-proc": k, text: "Add", "aria-label": "Add " + PROC[k], onclick: function () { add.hidden = true; stmt.hidden = false; stmt.querySelector("button").focus(); } });
       return el("li", { "class": "proc", id: "proc-" + k }, [
         el("div", { "class": "proc-head" }, [procName(k), add]),
-        stmt]);
+        stmt, msgLine("proc-" + k)]);
     });
     return panel("procs", "Procedures", [
       el("p", { "class": "small muted", text: "Add each procedure you personally perform. Adding one records your statement that you perform it. Notes: no links, phone numbers, or patient stories, and no words like best, guaranteed, or cure." }),
@@ -459,18 +495,18 @@
       el("p", { "class": "small muted", id: "also-line", text: "Private. This does not list you and does not add a procedure to your listing. It tells us what to add next. When one goes live, we will ask you to confirm it." }),
       el("div", { "class": "also-groups" }, folds),
       field("a-other", "Something else", other, "(optional)"), why,
-      el("div", { "class": "acct-actions" }, [save])]);
+      acts("also", [save])]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault(); why.textContent = ""; other.removeAttribute("aria-invalid"); busy(save, true);
       api("PUT", "profile", { also_performs: [].slice.call(f.querySelectorAll('input[name="also_performs"]:checked')).map(function (x) { return x.value; }),
         also_performs_other: other.value.trim() }).then(function (j) {
         busy(save, false);
-        if (j.ok) { say(j.changed.length ? "Saved." : "No changes.", "ok"); return load(); }
+        if (j.ok) return saved("also", j.changed.length ? "Saved." : "No changes.", "ok", "also-save");
         if (j.error === "screened" && j.blocked && j.blocked.also_performs_other) {
           why.textContent = "Not accepted: this has " + j.blocked.also_performs_other.map(function (r) { return REASONS[r] || r; }).join(" and ") + ".";
           other.setAttribute("aria-invalid", "true");
         }
-        say(words(j), "err");
+        near("also", words(j), "err");
       });
     });
     return f;
@@ -494,12 +530,12 @@
     }
     list.forEach(function (o, i) { offs.appendChild(officeRow(o, i)); });
     var book = el("input", { id: "p-book", name: "booking_url", type: "url", maxlength: "300", placeholder: "https://", inputmode: "url" }); book.value = p.booking_url || "";
-    var save = el("button", { type: "submit", text: "Save offices" });
+    var save = el("button", { type: "submit", id: "office-save", text: "Save offices" });
     var f = el("form", { "class": "acct-form", id: "office-form", novalidate: true }, [offs,
       el("div", null, [el("button", { "class": "link", type: "button", id: "add-office", text: "+ Add another office", onclick: function () {
         var n = offs.querySelectorAll("fieldset.office").length; if (n < 5) offs.appendChild(officeRow({}, n)); if (n + 1 >= 5) this.hidden = true; } })]),
       field("p-book", "Website or booking link", book, "(optional)"),
-      el("div", { "class": "acct-actions" }, [save])]);
+      acts("offices", [save])]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var bad = [];
@@ -517,22 +553,21 @@
       var link = book.value.trim();
       if (link && !/^https?:\/\//i.test(link)) link = "https://" + link;
       if (link && !/^https:\/\/[^\s/]+\.[^\s/]+/i.test(link)) { book.setAttribute("aria-invalid", "true"); bad.push(book); } else book.removeAttribute("aria-invalid");
-      if (bad.length) { say("Please check the highlighted details.", "err"); bad[0].focus(); return; }
+      if (bad.length) { near("offices", "Please check the highlighted details.", "err"); bad[0].focus(); return; }
       busy(save, true);
       api("PUT", "profile", { offices: offices, booking_url: link }).then(function (j) {
         busy(save, false);
         if (j.ok) {
           var miss = (j.unmatched || []).map(function (i) { var o = offices[i] || {}; return o.practice || o.street || "one office"; });
-          say(miss.length ? (j.changed.length ? "Saved. " : "") + "We couldn't find the street address for " + miss.join(" and ") +
-            " on the map, so patients see the distance to the center of that office's ZIP code instead. Check the address, or leave it as it is." : j.changed.length ? "Saved." : "No changes.", "ok");
-          return load();
+          return saved("offices", miss.length ? (j.changed.length ? "Saved. " : "") + "We couldn't find the street address for " + miss.join(" and ") +
+            " on the map, so patients see the distance to the center of that office's ZIP code instead. Check the address, or leave it as it is." : j.changed.length ? "Saved." : "No changes.", "ok", "office-save");
         }
         var rows = [].slice.call(offs.querySelectorAll("fieldset.office")).filter(function (fs) {
           return [].some.call(fs.querySelectorAll("input"), function (x) { return x.value.trim(); }); }), first = null;
         if (j.error === "street_required") (j.offices || []).forEach(function (i) {
           var s = rows[i] && rows[i].querySelector('[name="street"]'); if (s) { s.setAttribute("aria-invalid", "true"); first = first || s; } });
         if (j.error === "invalid" && (j.fields || []).indexOf("booking_url") >= 0) { book.setAttribute("aria-invalid", "true"); first = first || book; }
-        say(j.error === "invalid" && first === book ? "Please check the website link. It should start with https://." : words(j), "err");
+        near("offices", j.error === "invalid" && first === book ? "Please check the website link. It should start with https://." : words(j), "err");
         if (first) first.focus();
       });
     });
@@ -585,12 +620,12 @@
       everOn = everOn || on;
     });
     save.addEventListener("click", function () {
-      if (on && !states.length) { say("Add at least one state where you can see patients by video.", "err"); pick.focus(); return; }
+      if (on && !states.length) { near("tele", "Add at least one state where you can see patients by video.", "err"); pick.focus(); return; }
       busy(save, true);
       api("PUT", "profile", { telehealth: { offers: on, states: states } }).then(function (j) {
         busy(save, false);
-        if (j.ok) { say(j.changed.length ? "Video visits saved." : "No changes.", "ok"); return load(); }
-        say(words(j), "err");
+        if (j.ok) return saved("tele", j.changed.length ? "Video visits saved." : "No changes.", "ok", "tele-save");
+        near("tele", words(j), "err");
       });
     });
     drawStates();
@@ -598,7 +633,7 @@
       el("p", { "class": "small muted", id: "tele-help", text: "Do you see patients by video or phone? Patients can look for doctors who do. Add each state where you are licensed to see a patient." }),
       el("div", { "class": "tele-row" }, [sw, full ? null : el("p", { "class": "tele-partial small", id: "tele-partial",
         text: "Saved now; patients see it once you have full access." })]),
-      where, el("div", { "class": "acct-actions" }, [save])]);
+      where, acts("tele", [save])]);
   }
 
   // Phone photos are often 3 to 12 MB, sideways in their raw pixels, or HEIC. The browser decodes the photo (turned the
@@ -649,15 +684,15 @@
       : el("div", { "class": "photo-big empty", id: "photo-now", "aria-hidden": "true" });
     inp.addEventListener("change", function () {
       var file = inp.files && inp.files[0]; if (!file) return;
-      busy(pick, true); say("Preparing your photo…", "");
+      busy(pick, true); near("photo", "Preparing your photo…", "");
       shrink(file).then(function (blob) {
         return api("POST", "photo", blob, "image/jpeg");
       }).then(function (j) {
         busy(pick, false); inp.value = "";
-        if (j.ok) { say("Photo saved.", "ok"); load(); } else say(words(j), "err");
+        if (j.ok) saved("photo", "Photo saved.", "ok", "photo-pick"); else near("photo", words(j), "err");
       }, function (e) {
         busy(pick, false); inp.value = "";
-        say(e && e.small ? WORDS.photo_dimensions : /heic|heif/i.test(file.type + file.name)
+        near("photo", e && e.small ? WORDS.photo_dimensions : /heic|heif/i.test(file.type + file.name)
           ? "This browser cannot open HEIC photos. On an iPhone, choose the photo from Photos in Safari; on a computer, save it as a JPEG first."
           : "We could not read that file as a photo. Try a JPEG or PNG.", "err");
       });
@@ -665,10 +700,10 @@
     return panel("photo-panel", "Photo", [
       el("div", { "class": "photo-row" }, [img, el("div", null, [
         el("p", { "class": "small muted", text: "A head-and-shoulders photo. Any phone photo works: we shrink it and remove location and camera details." }),
-        el("div", { "class": "acct-actions" }, [pick, inp,
+        acts("photo", [pick, inp,
           p.photo_key ? el("button", { type: "button", "class": "link", id: "photo-remove", text: "Remove", onclick: function () {
             if (!window.confirm("Remove your photo from your card?")) return;
-            api("DELETE", "photo").then(function (j) { if (j.ok) { say("Photo removed.", "ok"); load(); } else say(words(j), "err"); });
+            api("DELETE", "photo").then(function (j) { if (j.ok) saved("photo", "Photo removed.", "ok", "photo-pick"); else near("photo", words(j), "err"); });
           } }) : null])])])
     ]);
   }
@@ -677,7 +712,7 @@
     var p = me.profile || {};
     var other = el("input", { id: "i-other", name: "insurance_other", maxlength: "100" }); other.value = p.insurance_other || "";
     var conf = el("input", { type: "checkbox", name: "insurance_confirm", id: "i-confirm", checked: !!p.insurance_confirm });
-    var save = el("button", { type: "submit", text: "Save insurance" });
+    var save = el("button", { type: "submit", id: "ins-save", text: "Save insurance" });
     var f = el("form", { "class": "acct-form", id: "insurance-form", novalidate: true }, [
       el("fieldset", null, [el("legend", { text: "Plans you take" }), el("div", { "class": "checks ins-grid" },
         (me.insurers || []).map(function (n) {
@@ -685,13 +720,13 @@
         }))]),
       field("i-other", "Other plans", other),
       el("div", { "class": "checks" }, [el("label", { "for": "i-confirm" }, [conf, "Add “Confirm with the office”"])]),
-      el("div", { "class": "acct-actions" }, [save])]);
+      acts("ins", [save])]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault(); busy(save, true);
       api("PUT", "profile", { insurances: [].slice.call(f.querySelectorAll('input[name="insurances"]:checked')).map(function (x) { return x.value; }),
         insurance_other: other.value.trim(), insurance_confirm: conf.checked }).then(function (j) {
         busy(save, false);
-        if (j.ok) { say(j.changed.length ? "Saved." : "No changes.", "ok"); load(); } else say(words(j), "err");
+        if (j.ok) saved("ins", j.changed.length ? "Saved." : "No changes.", "ok", "ins-save"); else near("ins", words(j), "err");
       });
     });
     return panel("insurance-panel", "Insurance", [f]);
@@ -714,8 +749,8 @@
     }
     if (!me.dispute && (a.claim_npi || (a.npi && a.level !== "full")) && (idOn || doxOn)) kids.push(el("div", { "class": "acct-actions", id: "proof" }, [
       idOn ? el("button", { type: "button", id: "check-id", "class": "secondary", text: "Confirm with photo ID", onclick: function () {
-        api("POST", "check/identity", {}).then(function (j) { if (j.url) location.assign(j.url); else if (j.already) load(); else say(words(j), "err"); }); } }) : null,
-      doxOn && !me.doximity_linked ? el("a", { "class": "btn secondary", href: "/api/account/doximity/start", id: "dox-link", text: "Confirm with Doximity" }) : null]));
+        api("POST", "check/identity", {}).then(function (j) { if (j.url) location.assign(j.url); else if (j.already) load(); else near("proof", words(j), "err"); }); } }) : null,
+      doxOn && !me.doximity_linked ? el("a", { "class": "btn secondary", href: "/api/account/doximity/start", id: "dox-link", text: "Confirm with Doximity" }) : null]), msgLine("proof"));
     if (me.can && me.can.invite) kids.push(inviteBox(me));
     if (doxOn && !me.doximity_linked && a.level === "full") kids.push(el("p", { "class": "small" },
       [el("a", { href: "/api/account/doximity/start", text: "Link Doximity" }), " to sign in with Doximity next time."]));
@@ -727,16 +762,16 @@
     var inv = me.invites || { left: 0, sent: [] };
     var inp = el("input", { id: "v-npi", name: "npi", inputmode: "numeric", maxlength: "10" });
     var res = el("div", { id: "invite-out" });
-    var go = el("button", { type: "submit", "class": "secondary", text: "Make a link", disabled: inv.left <= 0 });
+    var go = el("button", { type: "submit", "class": "secondary", id: "invite-go", text: "Make a link", disabled: inv.left <= 0 });
     var f = el("form", { "class": "acct-form sub", id: "invite-create", novalidate: true }, [
       el("h3", { text: "Invite a colleague" }),
       el("p", { "class": "small", id: "invite-left", text: inviteWords(inv.left) }),
-      field("v-npi", "Their NPI", inp), el("div", { "class": "acct-actions" }, [go]), res
+      field("v-npi", "Their NPI", inp), acts("invite", [go]), res
     ]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       api("POST", "invite/create", { npi: inp.value.trim() }).then(function (j) {
-        if (j._status !== 201) return say(words(j), "err");
+        if (j._status !== 201) return near("invite", words(j), "err");
         res.innerHTML = "";
         var link = el("input", { id: "invite-link", readonly: true, value: j.url });
         res.appendChild(el("p", { "class": "small", text: "Link for " + j.name + (j.held ? " (this listing already has an account; it will reach us first)" : "") + ":" }));
@@ -749,7 +784,7 @@
         res.appendChild(el("div", { "class": "acct-actions" }, [copy]));
         document.getElementById("invite-left").textContent = inviteWords(j.left);
         if (j.left <= 0) go.disabled = true;
-        say("Invitation link made. " + j.left + " left.", "ok");
+        near("invite", "Invitation link made. " + j.left + " left.", "ok");
       });
     });
     return f;
@@ -758,22 +793,22 @@
   function emailPanel(me) {
     var a = me.account;
     var inp = el("input", { id: "e-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true });
-    var go = el("button", { type: "submit", "class": "secondary", text: "Send a code" });
+    var go = el("button", { type: "submit", "class": "secondary", id: "email-go", text: "Send a code" });
     var f = el("form", { "class": "acct-form", id: "email-form", novalidate: true }, [
       el("p", { "class": "small", text: a.email ? "Now: " + a.email + ". To change it, type the new one; we send it a code." :
         "Add an email you'll keep, so you can sign in again. We send it a 6-digit code." }),
-      field("e-email", a.email ? "New email" : "Email", inp), el("div", { "class": "acct-actions" }, [go])
+      field("e-email", a.email ? "New email" : "Email", inp), acts("email", [go])
     ]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var addr = inp.value.trim();
-      function ask() { return api("POST", "email", { email: addr }).then(function (j) { if (j._status !== 202) { say(words(j), "err"); return null; } return j.challenge; }); }
+      function ask() { return api("POST", "email", { email: addr }).then(function (j) { if (j._status !== 202) { near("email", words(j), "err"); return null; } return j.challenge; }); }
       busy(go, true);
       ask().then(function (ch) {
         busy(go, false);
         if (!ch) return;
         say("We sent a 6-digit code to " + addr + ".", "ok");
-        codeStep(addr, ch, function () { say("Login email saved.", "ok"); load(); }, ask, load);
+        codeStep(addr, ch, function () { hush(); PENDING = { key: "email", msg: "Login email saved.", cls: "ok", focus: "email-go", top: null }; load(); }, ask, load);
       });
     });
     return panel("email-panel", a.email ? "Login email" : "Add a login email", [f], a.email ? "" : "need");
@@ -791,17 +826,19 @@
   }
   function historyPanel() {
     var ul = el("ul", { "class": "history" });
-    var d = el("details", { id: "history", "class": "acct-panel history-panel" }, [el("summary", null, [el("h2", { text: "History" })]),
-      el("p", { "class": "small muted", text: "Every change is kept. Undo puts back what was there before." }), ul]);
+    var d = el("details", { id: "history", "class": "acct-panel history-panel" }, [el("summary", { id: "history-sum" }, [el("h2", { id: "history-h", text: "History" })]),
+      el("p", { "class": "small muted", text: "Every change is kept. Undo puts back what was there before." }), msgLine("history"), ul]);
     d.addEventListener("toggle", function () {
       if (!d.open || d.loaded) return; d.loaded = true;
       api("GET", "edits").then(function (j) {
+        // A jump opened History: once its list is in, put it at the top again (the page was too short before).
+        if (d.jumpPending) setTimeout(function () { d.jumpPending = false; d.scrollIntoView({ block: "start" }); }, 0);
         (j.edits || []).forEach(function (e) {
           ul.appendChild(el("li", null, [
             el("span", { "class": "h-what" }, [(FIELD[e.field] || e.field) + (e.undo_of ? " (undone)" : "") + (e.by_you ? "" : " (earlier account)"),
               el("time", { "class": "h-when", datetime: e.at, text: when(e.at) })]),
             e.undoable ? el("button", { "class": "link undo", type: "button", text: "Undo", "data-edit": e.id, onclick: function () {
-              api("POST", "undo", { edit_id: e.id }).then(function (r) { if (r.ok) { say("Undone.", "ok"); load(); } else say(words(r), "err"); });
+              api("POST", "undo", { edit_id: e.id }).then(function (r) { if (r.ok) saved("history", "Undone.", "ok", "history-sum"); else near("history", words(r), "err"); });
             } }) : null
           ]));
         });
@@ -810,8 +847,91 @@
     return d;
   }
 
+  // ---- Job platform-directory-0037 (his yes 2026-11-13 22:58 CT, call 6: "table of contents style jump header"): a
+  // contents list at the top of Your account, one link per panel shown, in page order, in each panel's own heading
+  // words; a "Back to top" link in each panel; and, as on the deep pages (deep-nav.js, same classes and look), a pinned
+  // copy once the list scrolls away: a side rail from 1180 px, a one-line bar at the top on narrower screens. A link moves
+  // focus to the panel's heading. Links never change the address (this page redraws on a hash change).
+  var DOCK = null, TARGETS = [], DOCK_FRAME = 0, DOCK_NOW = null;
+  function panelHead(p) {
+    return p.id === "history" ? document.getElementById("history-sum") : p.querySelector(p.id === "also-form" ? "h3" : ":scope > h2");
+  }
+  function jumpTo(id) {
+    var p = document.getElementById(id); if (!p) return;
+    if (p.tagName === "DETAILS" && !p.open) { p.jumpPending = true; p.open = true; }   // History loads its list on opening
+    var h = panelHead(p) || p;
+    p.scrollIntoView({ block: "start" });
+    if (!h.matches("summary, a, button")) h.setAttribute("tabindex", "-1");
+    h.focus({ preventScroll: true });
+  }
+  function toTop() {
+    window.scrollTo(0, 0);
+    var h1 = document.querySelector("main h1");
+    if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
+  }
+  function topLink() {
+    return el("p", { "class": "to-top-row" }, [el("a", { "class": "to-top", href: "#main", text: "Back to top", onclick: function (ev) { ev.preventDefault(); openDock(false); toTop(); } })]);
+  }
+  function jumpList() {
+    var ps = [].slice.call(out.querySelectorAll("section.acct-panel[id], #also-form, details#history"));
+    TARGETS = ps;
+    var items = ps.map(function (p) {
+      var h = p.id === "history" ? p.querySelector("summary h2") : panelHead(p);
+      return el("li", null, [el("a", { href: "#" + p.id, "data-jump": p.id, text: h ? h.textContent : p.id })]);
+    });
+    return el("nav", { "class": "toc acct-toc", id: "acct-toc", "aria-labelledby": "acct-toc-h" }, [
+      el("p", { "class": "toc-title", id: "acct-toc-h", text: "On this page" }), el("ol", null, items)]);
+  }
+  function openDock(yes) {
+    if (!DOCK) return;
+    DOCK.classList.toggle("is-open", yes); DOCK.querySelector(".toc-bar").setAttribute("aria-expanded", String(yes));
+  }
+  function pinJump(toc) {
+    var dock = el("div", { "class": "toc-dock acct-dock" });
+    dock.innerHTML = '<button type="button" class="toc-bar" aria-expanded="false" aria-controls="acct-toc-panel">' +
+      '<span class="toc-bar-k">Contents</span><span class="toc-now" aria-hidden="true"></span>' +
+      '<svg class="toc-chev" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '<nav class="toc-panel" id="acct-toc-panel" aria-label="Contents, pinned"><p class="toc-title">On this page</p></nav>';
+    var panelEl = dock.querySelector(".toc-panel");
+    panelEl.appendChild(toc.querySelector("ol").cloneNode(true));
+    panelEl.appendChild(el("a", { "class": "to-top", href: "#main", text: "Back to top", onclick: function (ev) { ev.preventDefault(); openDock(false); toTop(); } }));
+    dock.querySelector(".toc-bar").addEventListener("click", function () { openDock(!dock.classList.contains("is-open")); });
+    document.body.appendChild(dock);
+    DOCK = dock; DOCK_NOW = null;
+    markDock();
+  }
+  function markDock() {
+    DOCK_FRAME = 0;
+    var toc = document.getElementById("acct-toc");
+    if (!DOCK || !toc) return;
+    var past = toc.getBoundingClientRect().bottom < 0;
+    if (past !== DOCK.classList.contains("is-on")) { DOCK.classList.toggle("is-on", past); if (!past) openDock(false); }
+    var line = window.innerHeight / 3, hit = null;
+    for (var i = 0; i < TARGETS.length; i++) { if (TARGETS[i].getBoundingClientRect().top <= line) hit = TARGETS[i]; else break; }
+    var id = hit ? hit.id : "";
+    if (id === DOCK_NOW) return;
+    DOCK_NOW = id;
+    var name = "";
+    [].forEach.call(document.querySelectorAll("#acct-toc a[data-jump], .acct-dock a[data-jump]"), function (a) {
+      if (a.getAttribute("data-jump") === id) { a.setAttribute("aria-current", "location"); name = a.textContent; } else a.removeAttribute("aria-current");
+    });
+    DOCK.querySelector(".toc-now").textContent = name;
+  }
+  document.addEventListener("click", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[data-jump]");
+    if (a) { ev.preventDefault(); openDock(false); jumpTo(a.getAttribute("data-jump")); return; }
+    if (DOCK && !DOCK.contains(ev.target)) openDock(false);
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && DOCK && DOCK.classList.contains("is-open")) { openDock(false); DOCK.querySelector(".toc-bar").focus(); }
+  });
+  addEventListener("scroll", function () { if (DOCK && !DOCK_FRAME) DOCK_FRAME = requestAnimationFrame(markDock); }, { passive: true });
+  addEventListener("resize", function () { DOCK_NOW = null; markDock(); });
+
   function dashboard(me) {
     var a = me.account, wasOpen = !!(document.getElementById("history") || {}).open;
+    // Folds the doctor had open stay open through the redraw, so nothing below them moves.
+    var openIds = [].map.call(out.querySelectorAll("details[open][id]"), function (d) { return d.id; });
     var head = el("div", { "class": "acct-head", id: "acct-head" }, [
       el("div", null, [el("p", { "class": "acct-name" }, [el("strong", { text: a.name })]),
         el("p", { "class": "small muted" }, [a.npi ? "NPI " + a.npi + " · " : a.claim_npi ? "NPI " + a.claim_npi + " · " : "",
@@ -826,7 +946,13 @@
       parts.push(accessPanel(me), emailPanel(me));
     }
     view(parts, null);
+    openIds.forEach(function (id) { var d = document.getElementById(id); if (d && d.tagName === "DETAILS") d.open = true; });
     if (wasOpen) { var h = document.getElementById("history"); if (h) h.open = true; }
+    [].forEach.call(out.querySelectorAll("section.acct-panel[id], details#history"), function (p) { p.appendChild(topLink()); });
+    var toc = jumpList();
+    head.parentNode.insertBefore(toc, head.nextSibling);
+    pinJump(toc);
+    showPending();
   }
 
   function load() {
