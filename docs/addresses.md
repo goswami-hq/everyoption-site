@@ -11,6 +11,10 @@ His yes, 2026-11-06: "Yes change the addresses now" (change 1 of the architectur
    - `/<condition>/doctors/<metro>/`: a city page
    - `/<condition>/insurance/`: the coverage page for that condition's procedure (his yes, 2026-11-08; noindex until launch)
    One page sits outside a condition: `/insurance/`, the coverage hub across procedures.
+   Legal pages sit outside conditions too (to-do W32, ai-hq job platform-launch-0005, 2026-11-13): `/terms/` (visitor
+   terms of use), `/privacy/` (privacy policy), `/physician-terms/` (physician account terms). Linked from every page's
+   footer, in the page sitemap, and noindex on the dev site by the same `_headers` rule as every other page. Their
+   texts are `content/legal/`, word for word from his signed-off drafts; `tools/legal.py` builds them.
 2. Addresses name the condition, never the procedure. `/knee-arthritis/`, not `/arthritis-embolization/` or `/gae/`.
 3. A procedure that treats two conditions keeps one city list, under its main condition. The other
    condition's page links to that list; it does not get a second copy.

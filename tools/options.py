@@ -26,6 +26,7 @@ card only.
 """
 import datetime, html, pathlib, re, tomllib
 import condition
+from legal import FINDER_TERMS   # W32, job platform-launch-0005
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DIR = ROOT / "content" / "options"
@@ -437,7 +438,7 @@ def find_block(c, d, finder_href, city_hub, city_links=""):
             f'<form class="zip" method="get" action="{e(action)}#finder" role="search" aria-label="Find doctors by ZIP code">'
             '<div class="f"><label for="end-zip">Your ZIP code</label>'
             '<input id="end-zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 60611" required></div>'
-            f'<button type="submit">Find doctors</button></form>{city_links}{city}</section>')
+            f'<button type="submit">Find doctors</button></form>{FINDER_TERMS}{city_links}{city}</section>')
 
 
 def schema(c, d, origin, publisher):

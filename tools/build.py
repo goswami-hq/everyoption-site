@@ -12,6 +12,7 @@ import cities
 import condition
 import directory
 import insurance
+import legal
 import listings_check
 import options
 import pattern
@@ -22,6 +23,9 @@ SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
               "to be listed, ranked higher, or sent patients.")
 CONTACT = "errors@everyoptionmd.com"
+NOTICE_JS = "/assets/notice.js"   # src-assets/notice.js
+# W32 (ai-hq job platform-launch-0005; his text 2026-11-13): one line directly under every "Find doctors" button.
+FINDER_TERMS = legal.FINDER_TERMS
 ORIGIN = "https://everyoptionmd.com"
 REVIEWED = "2026-11-01"
 LISTINGS_AS_OF = "2026-10-29"   # the national views the finder data was exported from (directory v3 job 4d)
@@ -95,7 +99,7 @@ def ver(url):
     return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
 
 
-def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=()):
+def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=(), canonical=None):
     head = "".join(f'<link rel="stylesheet" href="{ver(s)}">' for s in css) + head
     # Walkthrough finding 3 (his yes, 2026-11-09): "Conditions" from a condition's short page opens the home list with
     # that condition's card changed (src-assets/home-from.js), so the list cannot send the reader back where they were.
@@ -104,6 +108,9 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
     nav = "".join(f'<a href="{back_to if h == "/#conditions" else h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
+    # W32 (ai-hq job platform-launch-0005): the first-visit notice bar on every page, Function-rendered shells included.
+    # Kept out of `scripts`, which also picks the body class.
+    js += f'<script src="{ver(NOTICE_JS)}" defer></script>'
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -111,7 +118,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-{"" if path == "/404" else f'<link rel="canonical" href="{ORIGIN}{path}">'}
+{"" if path == "/404" else f'<link rel="canonical" href="{ORIGIN}{canonical or path}">'}
 <link rel="stylesheet" href="{ver('/assets/site.css')}">
 <meta name="color-scheme" content="light dark">
 {js}
@@ -131,6 +138,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
 <p><a href="/doctors/">Find a doctor by name</a> · <a href="/fibroids/doctors/">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/how-we-know/">How we know</a></p>
+{legal.footer_line()}
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
 </body>
@@ -208,6 +216,7 @@ def home():
 <div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
 <div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
 <button type="submit">Find doctors</button></div>
+{FINDER_TERMS}
 <p id="home-status" class="hs-status" role="status"></p>
 </form></div></section>"""
     # The film and the hero sit in a labelled landmark, so nothing on the page is outside one (axe "region", 2026-11-09).
@@ -305,6 +314,7 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, n
 <select id="radius" name="r"><option value="25">25 miles</option><option value="50" selected>50 miles</option><option value="100">100 miles</option><option value="250">250 miles</option></select></div>
 <button type="submit">Find doctors</button>
 </form>
+{FINDER_TERMS}
 {results}
 </div>
 {f'<p class="small muted find-scope">{e(note)}</p>' if note else ""}
@@ -469,7 +479,7 @@ AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Searc
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
-SITEMAP_PAGES = ["/", "/how-we-know/", "/doctors/"]
+SITEMAP_PAGES = ["/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
 
 
 def drafts():
@@ -595,13 +605,17 @@ def main():
     for k in PROCS:
         if k in MOVED:     # the finder now lives on the condition page; site/_redirects sends a 301
             to = MOVED[k]
-            write(f"{k}/index.html", f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{ORIGIN}{to}"><meta http-equiv="refresh" content="0; url={to}"><p><a href="{to}">This page moved.</a></p>')
+            # W32: a full page (header, footer, disclosure) around the same refresh, so no page lacks the footer
+            write(f"{k}/index.html", page(f"/{k}/", "Moved | Every Option", "This page moved.",
+                                          f'<h1>This page moved</h1><p><a href="{to}">Go to the new page.</a></p>',
+                                          head=f'<meta http-equiv="refresh" content="0; url={to}">', canonical=to))
             continue
         write(f"{k}/index.html", finder(k))
     write("how-we-know/index.html", how())
     write("report/index.html", report())
     write("account/index.html", account())
     write("404.html", not_found())
+    legal.write_all(page, write)   # W32: /terms/, /privacy/, /physician-terms/
     with open(os.path.join(ROOT, "content", "redirects.txt"), encoding="utf-8") as fh:   # job platform-main-0015
         write("_redirects", "".join(l for l in fh if l.strip() and not l.startswith("#")))
     for old in RENAMED:   # a renamed page's old folder goes, so only site/_redirects answers its old address

@@ -89,7 +89,7 @@ def has_box(c):
 # the one reference and extend this check). Each rule cites its decision in docs/condition-pattern.md.
 
 MENU = ["Home", "Conditions", "Insurance", "Directory", "How we know", "For physicians"]
-FOOTER_LINKS = ['href="/report/"', 'href="/doctors/"', 'href="/insurance/"', 'href="/how-we-know/"']
+FOOTER_LINKS = ['href="/report/"', 'href="/doctors/"', 'href="/insurance/"', 'href="/how-we-know/"', 'href="/terms/"', 'href="/privacy/"', 'href="/physician-terms/"']   # last three: W32
 SITE_LABEL, SITE_LABEL_SR = "Doctor's website", "Doctor's website, opens in a new tab"
 SITE_LABEL_FILES = ["src-assets/finder.js", "lib/cities.mjs", "lib/directory.mjs"]
 
