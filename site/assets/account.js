@@ -66,6 +66,17 @@
     (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
     return n;
   }
+  // W32 (ai-hq job platform-launch-0005): the agreement's own words link to the pages they name. Only links are added:
+  // the words read the same, and the agreement stored with each attestation (lib/accounts/service.mjs AGREEMENT) stays plain text.
+  function agreement(span, text) {
+    span.textContent = "";
+    String(text || "").split(/(terms of service|privacy policy)/).forEach(function (t) {
+      if (t === "terms of service" || t === "privacy policy")
+        span.appendChild(el("a", { href: t === "privacy policy" ? "/privacy/" : "/physician-terms/", target: "_blank", rel: "noopener", text: t }));
+      else if (t) span.appendChild(document.createTextNode(t));
+    });
+    return span;
+  }
   function say(msg, cls) { statusEl.className = "status " + (cls || ""); statusEl.textContent = msg || ""; if (msg) statusEl.focus(); }
   function hush() { statusEl.className = "status"; statusEl.textContent = ""; }
   function setLede(t) { if (lede) { lede.textContent = t || ""; lede.hidden = !t; } }
@@ -246,7 +257,7 @@
         el("p", { "class": "small muted", text: "Every Option lists interventional radiologists for now. We will add you to the waitlist." })]);
       var email = el("input", { id: "s-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true });
       var agree = el("input", { type: "checkbox", name: "agree", id: "s-agree", required: true });
-      var agreeText = el("span", { id: "s-agree-text", text: j.agreement });
+      var agreeText = agreement(el("span", { id: "s-agree-text" }), j.agreement);
       var agreeRow = el("label", { "class": "agree", "for": "s-agree" }, [agree, agreeText]);
       var why = el("p", { "class": "err small", id: "why-agree" });
       var send = el("button", { type: "submit", id: "s-send", text: "Email me a code" });
@@ -257,7 +268,7 @@
       q.addEventListener("change", function () {
         var notIr = no.checked;
         otherWrap.hidden = !notIr; q.removeAttribute("aria-invalid");
-        agreeText.textContent = notIr ? "I am the physician with this NPI. I accept the Every Option terms of service and privacy policy." : j.agreement;
+        agreement(agreeText, notIr ? "I am the physician with this NPI. I accept the Every Option terms of service and privacy policy." : j.agreement);
         send.textContent = notIr ? "Join the waitlist" : "Email me a code";
       });
       function signup(addr) {
@@ -301,7 +312,7 @@
         el("div", { "class": "who-box" }, [el("p", { "class": "who-name" }, [el("strong", { text: pv.name }), el("span", { "class": "muted", text: " · NPI " + pv.npi })]),
           el("p", { "class": "small", text: pv.listed_for.length ? "On Every Option for " + procList(pv.listed_for) + "." : "Not on Every Option yet; accepting adds you." }),
           el("p", { "class": "small", text: pv.level === "full" ? "This invitation gives full access: your card shows as confirmed by physician once you choose your procedures." : "This invitation gives partial access." })]),
-        el("label", { "class": "agree", "for": "i-agree" }, [agree, el("span", { text: pv.agreement })]),
+        el("label", { "class": "agree", "for": "i-agree" }, [agree, agreement(el("span"), pv.agreement)]),
         el("div", { "class": "acct-actions" }, [go])
       ]);
       f.addEventListener("submit", function (ev) {
