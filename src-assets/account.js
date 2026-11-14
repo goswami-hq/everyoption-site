@@ -93,9 +93,16 @@
     [].forEach.call(out.querySelectorAll(".act-msg"), function (x) { if (x !== m) { x.textContent = ""; x.className = "act-msg"; } });
     m.className = "act-msg " + (cls || "");
     // Set the words a moment after a redraw, so a screen reader hears the new live region change.
-    m.textContent = ""; setTimeout(function () { m.textContent = msg || ""; }, 60);
-    var r = m.getBoundingClientRect();
-    if (r.bottom > window.innerHeight || r.top < 0) m.scrollIntoView({ block: "nearest" });
+    m.textContent = ""; setTimeout(function () { m.textContent = msg || ""; clearOfBars(m); }, 60);
+  }
+  // Keep a message in sight: above the first-visit notice bar (fixed to the bottom, notice.js) and below the pinned
+  // contents bar. The walkthrough of 2026-11-14 saw "Saved." hidden under the notice bar.
+  function clearOfBars(m) {
+    var r = m.getBoundingClientRect(), bar = document.querySelector(".eo-notice");
+    var bottom = window.innerHeight - (bar && bar.offsetHeight ? bar.getBoundingClientRect().height : 0) - 8;
+    var top = DOCK && DOCK.classList.contains("is-on") && window.matchMedia("(max-width: 1179px)").matches ? 56 : 8;
+    if (r.bottom > bottom) window.scrollBy(0, Math.min(r.bottom - bottom, r.top - top));
+    else if (r.top < top) window.scrollBy(0, r.top - top);
   }
   // After a save that redraws the page: show the message where the doctor acted, on the redrawn page.
   function saved(key, msg, cls, focusId) {

@@ -349,17 +349,24 @@ def flows(b, label, base, vp):
     pg.check("#insurance-form input[value=Aetna]"); clear(pg)
     # Job platform-directory-0037 (his yes 2026-11-13, call 7): the message shows under the button that saved, focus
     # stays on it, and the page does not jump to the top.
-    pg.locator("#ins-save").scroll_into_view_if_needed(); y0 = pg.evaluate("scrollY"); top0 = pg.evaluate("document.getElementById('ins-save').getBoundingClientRect().top")
+    # The button sits just above the notice bar (or the screen's bottom), as the walkthrough of 2026-11-14 had it.
+    pg.locator("#ins-save").scroll_into_view_if_needed()
+    pg.evaluate("""() => { const b = document.getElementById('ins-save').getBoundingClientRect(), n = document.querySelector('.eo-notice');
+      const floor = n ? n.getBoundingClientRect().top : innerHeight; window.scrollBy(0, b.bottom - (floor - 6)); }""")
+    pg.wait_for_timeout(100); y0 = pg.evaluate("scrollY"); top0 = pg.evaluate("document.getElementById('ins-save').getBoundingClientRect().top")
     mark(pg); pg.click("#ins-save"); wait_saved(pg, "Saved")
     wait_js(pg, "() => document.getElementById('msg-ins').textContent.includes('Saved')")
     after = pg.evaluate("""() => ({ y: scrollY, top: document.getElementById('ins-save').getBoundingClientRect().top,
       focus: document.activeElement && document.activeElement.id, status: document.getElementById('acct-status').textContent,
       msg: document.getElementById('msg-ins').textContent, live: document.getElementById('msg-ins').getAttribute('aria-live'),
-      under: document.getElementById('msg-ins').getBoundingClientRect().top >= document.getElementById('ins-save').getBoundingClientRect().bottom })""")
+      under: document.getElementById('msg-ins').getBoundingClientRect().top >= document.getElementById('ins-save').getBoundingClientRect().bottom,
+      bar: !!document.querySelector('.eo-notice'),
+      clear: document.getElementById('msg-ins').getBoundingClientRect().bottom <= (document.querySelector('.eo-notice') ? document.querySelector('.eo-notice').getBoundingClientRect().top : innerHeight) })""")
     check(f"{label}: insurance: 'Saved.' shows under Save insurance, in a polite live line", after["msg"] == "Saved." and after["live"] == "polite" and after["under"], after)
     check(f"{label}: insurance: the top line stays empty", after["status"] == "", after)
+    check(f"{label}: insurance: the message is in sight, above the notice bar (walkthrough 2026-11-14 saw it hidden)", after["clear"], after)
     check(f"{label}: insurance: focus stays on Save insurance", after["focus"] == "ins-save", after)
-    check(f"{label}: insurance: the page did not scroll to the top (button within 40 px of where it was)", y0 > 300 and after["y"] > 300 and abs(after["top"] - top0) <= 40, (y0, top0, after))
+    check(f"{label}: insurance: the page did not scroll to the top (the button moved at most 150 px, to show the message)", y0 > 300 and after["y"] > 300 and -5 <= top0 - after["top"] <= 150, (y0, top0, after))
     # Job platform-directory-0037 (his yes 2026-11-13, call 6): the contents list at the top; each link reaches its panel
     # and moves focus to its heading; Back to top returns.
     jl = pg.evaluate("() => [...document.querySelectorAll('#acct-toc a[data-jump]')].map(a => [a.getAttribute('data-jump'), a.textContent])")
