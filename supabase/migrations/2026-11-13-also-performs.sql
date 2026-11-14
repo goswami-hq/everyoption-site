@@ -1,5 +1,5 @@
 -- Job platform-directory-0036: procedures a doctor performs that are not on the site yet, for a database where
--- supabase/schema.sql is already applied. Private: never in the public overlay, the export or any page. Not applied yet.
+-- supabase/schema.sql is already applied. Private: never in the public overlay, the export or any page. Applied 2026-11-13 to the test database by `scripts/eo_db_apply.py` (ai-hq).
 -- Keep this and schema.sql in step. Safe to run twice; adds empty defaults and never rewrites existing data.
 alter table profiles add column if not exists also_performs jsonb not null default '[]';
 alter table profiles drop constraint if exists profiles_also_performs_check;
