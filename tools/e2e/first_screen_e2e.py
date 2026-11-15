@@ -17,6 +17,13 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 SITE = ROOT / "site"
 W, H = 390, 844
 TAP = 44
+# Find doctors button at least this far above the first-visit notice bar, at 390 x 844 and 1,440 x 900 (ai-hq job
+# platform-web-design-0013; his go 2026-11-14 21:04 CT). Listed exception: pelvic, whose page-top strip (his pick T3)
+# and opening paragraph (kept in place, his words 2026-11-14 21:04 CT) sit above its finder. Measured 2026-11-14 with
+# the shared finder spacing: -40 px at 390 x 844, -24 px at 1,440 x 900 (button under the bar until it is dismissed).
+# His call 15 in ai-hq projects/platform/design/consistency-2026-11-14/list-for-him.md decides it.
+BAR_GAP = 16
+BAR_GAP_EXCEPT = {"chronic-pelvic-pain"}
 
 n = fails = 0
 
@@ -68,6 +75,15 @@ def common(name, pg):
     check(f"{name}: menu on one row", len(set(round(x) for x in menu)) == 1, menu)
 
 
+def bar_gap(name, pg, slug):
+    g = pg.evaluate("""() => { const b = document.querySelector('#zip-form button'), n = document.querySelector('.eo-notice');
+        if (!b || !n || getComputedStyle(n).display === 'none') return null;
+        return Math.round(n.getBoundingClientRect().top - b.getBoundingClientRect().bottom); }""")
+    if slug in BAR_GAP_EXCEPT:
+        return
+    check(f"{name}: Find doctors at least {BAR_GAP} px above the notice bar", g is not None and g >= BAR_GAP, g)
+
+
 def run(origin):
     cond = conditions()
     city = profile = None
@@ -100,6 +116,7 @@ def run(origin):
                 if pg.locator("#zip-form").count():
                     on_first_screen(name, pg, "#zip-form input[name='zip']")
                     tall_enough(name, on_first_screen(name, pg, "#zip-form button"), "#zip-form button")
+                    bar_gap(name, pg, slug)
                 if deep:
                     # compare link on the first screen (walkthrough fix 1, his words 2026-11-09: "1-4 changes let's do them")
                     sel = "a.find-compare" if pg.locator("a.find-compare").count() else "p.hero-compare a"
@@ -141,6 +158,17 @@ def run(origin):
                 common(name, pg)
                 on_first_screen(name, pg, "h1")
             check(f"{scheme}: no console errors", not errors, errors[:3])
+            ctx.close()
+            # the same notice-bar rule on desktop, first visit
+            ctx = b.new_context(viewport={"width": 1440, "height": 900}, color_scheme=scheme, device_scale_factor=1)
+            pg = ctx.new_page()
+            for slug, _deep in cond:
+                pg.goto(origin + f"/{slug}/")
+                pg.wait_for_load_state("load")
+                pg.wait_for_timeout(250)
+                pg.evaluate("window.scrollTo(0, 0)")
+                if pg.locator("#zip-form").count():
+                    bar_gap(f"{scheme} 1440 /{slug}/", pg, slug)
             ctx.close()
         b.close()
 

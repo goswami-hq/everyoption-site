@@ -106,6 +106,11 @@ scrolled to the top, in light and dark.
 - **First screen at 390 x 844 (`first-screen`):** H1; "Compare your options" (where an every-option page exists); the ZIP
   box and the "Find doctors" button. Button bottom on 2026-11-09: 749 (fibroids), 778 (prostate), 755 (knee), 727
   (pelvic).
+- **Clear of the notice bar** (`first-screen`, job platform-web-design-0013, his go 2026-11-14 21:04 CT): on a first
+  visit, at 390 x 844 and 1,440 x 900, the "Find doctors" button ends at least 16 px above the notice bar. One shared
+  finder spacing on all five simple pages (`src-assets/site.css`, "platform-web-design-0013"). Listed exception:
+  pelvic (-40 px phone, -24 px desktop on 2026-11-14), because its page-top strip and opening paragraph, which stay as
+  they are on his word, sit above the finder; his call 15 decides it.
 - **Compare link on the first screen** (walkthrough fix 1, his words 2026-11-09 11:49 CT, L601: "1-4 changes let's do
   them, also run through the design skill"): `<a class="find-compare">Compare your options</a>` beside "How it works",
   before the finder, to the every-option page; none on a condition without one. The "Compare them side by side"
