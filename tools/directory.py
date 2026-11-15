@@ -235,7 +235,8 @@ def az_nav(by, e, current=None):
 
 
 def index_body(by, e, count):
-    return f"""<h1>Find a doctor by name</h1>
+    import trail   # fix B (2026-11-15)
+    return trail.html_of([trail.HOME, ("Find a doctor by name", None)]) + f"""<h1>Find a doctor by name</h1>
 <div id="dir" class="dir-search">
 <label for="dir-q">Doctor’s name</label>
 <input id="dir-q" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. Maria Lopez">

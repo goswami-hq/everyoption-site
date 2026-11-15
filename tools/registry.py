@@ -11,9 +11,9 @@ them, or reads them through this module:
 
 Stages: "page" (condition page and a "Doctor list coming" card, no list), "listed" (finder and list, noindex profiles:
 what "draft" meant before), "public". Optional parts a procedure declares in "parts": animation (its scene in
-tools/diagrams/anim-<key>.svgfrag and site/assets/procedure-anim.js), banner (site/assets/proc-banner.js), coverage (an
+tools/diagrams/anim-<key>.svgfrag and src-assets/procedure-anim.js), banner (site/assets/proc-banner.js), coverage (an
 insurance page in content/insurance/pages.toml), animations (several named drawings on one page, each in
-tools/diagrams/anim-<name>.svgfrag and site/assets/pelvic-anim.js: the pelvic page, one per treatment fold), payer_table (rows in content/insurance/coverage-*.toml), city_pages (a
+tools/diagrams/anim-<name>.svgfrag and src-assets/pelvic-anim.js: the pelvic page, one per treatment fold), payer_table (rows in content/insurance/coverage-*.toml), city_pages (a
 "procs" entry in content/metros.json). A part that is not declared is left out; a declared part whose file is missing
 fails the build (check()).
 """
@@ -322,8 +322,8 @@ def check(site=None):
                 errs.append(f"procedure {k}: drawing {name} needs a name starting {k}- and tools/diagrams/anim-{name}.svgfrag")
             if set(a) != {"alt", "route", "route_text", "caps"} or len(a.get("caps", [])) != 3:
                 errs.append(f"procedure {k}: drawing {name} needs alt, route, route_text and 3 caps")
-            if not re.search(rf'"{name}"', (ROOT / "site" / "assets" / "pelvic-anim.js").read_text(encoding="utf-8")):
-                errs.append(f"procedure {k}: drawing {name} has no scene in site/assets/pelvic-anim.js")
+            if not re.search(rf'"{name}"', (ROOT / "src-assets" / "pelvic-anim.js").read_text(encoding="utf-8")):
+                errs.append(f"procedure {k}: drawing {name} has no scene in src-assets/pelvic-anim.js")
         if parts.get("banner"):
             js = ROOT / "site" / "assets" / ("life-strip.js" if parts["banner"] == "life" else "proc-banner.js")
             if not js.exists() or not re.search(rf"\b{k}\s*:", js.read_text(encoding="utf-8")):

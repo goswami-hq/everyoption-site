@@ -18,6 +18,7 @@ import options
 import pattern
 import registry
 import procedures_sql
+import trail
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -99,13 +100,17 @@ def ver(url):
     return f"{url}?v={hashlib.sha256(f.read_bytes()).hexdigest()[:10]}" if f.exists() else url
 
 
-def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=(), canonical=None):
+def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=(), canonical=None, section=None):
     head = "".join(f'<link rel="stylesheet" href="{ver(s)}">' for s in css) + head
     # Walkthrough finding 3 (his yes, 2026-11-09): "Conditions" from a condition's short page opens the home list with
     # that condition's card changed (src-assets/home-from.js), so the list cannot send the reader back where they were.
     slug = path.strip("/")
     back_to = f"/?from={slug}#conditions" if slug in condition.slugs() else "/#conditions"
-    nav = "".join(f'<a href="{back_to if h == "/#conditions" else h}"{" aria-current=\"page\"" if h == path else ""}>{e(t)}</a>' for h, t in NAV)
+    # Fix B (his yes, 2026-11-15): the menu marks the item a page belongs to, not only the item's own page
+    # (tools/trail.py section_of; a request-time shell names its section).
+    sec = section or trail.section_of(path)
+    mark = lambda h: ' aria-current="page"' if h == path else (' aria-current="true"' if h == sec else "")
+    nav = "".join(f'<a href="{back_to if h == "/#conditions" else h}"{mark(h)}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
     # W32 (ai-hq job platform-launch-0005): the first-visit notice bar on every page, Function-rendered shells included.
@@ -260,7 +265,7 @@ PROC_VARY = "Results vary from person to person. Talk to a doctor about whether 
 
 def diagram(k, vary=True):
     """One procedure drawing. A named drawing ("pelvic-embo") is marked data-own and uses classes, not ids, so a page can
-    hold two; site/assets/pelvic-anim.js drives those, site/assets/procedure-anim.js the rest."""
+    hold two; src-assets/pelvic-anim.js drives those, src-assets/procedure-anim.js the rest."""
     import pathlib
     a = PROC_ANIM[k]
     if k not in PROCS:
@@ -277,7 +282,7 @@ def diagram(k, vary=True):
 <div class="route"><svg class="inset" viewBox="20 10 180 295" aria-hidden="true">{body_shape}<path id="routeLine" d="{d}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><circle id="routeDot" cx="{cx}" cy="{cy}" r="7" fill="var(--card)" stroke="var(--accent)" stroke-width="3.5"/></svg><span>{e(a["route_text"])}</span></div></div>
 <div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
 <figcaption aria-live="polite">{caps}</figcaption>
-<button type="button" class="proc-replay" data-replay hidden>Replay</button>
+<div class="proc-ctl" hidden><button type="button" class="proc-play" data-play>Pause</button><button type="button" class="proc-replay" data-replay>Replay</button></div>
 {f'<p class="small muted proc-vary">{PROC_VARY}</p>' if vary else ""}
 </figure>"""
 
@@ -296,7 +301,7 @@ def own_diagram(k, a, vary):
 <div class="route"><svg class="inset" viewBox="20 10 180 295" aria-hidden="true">{body_shape}<path class="route-line" d="{d}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="{cx}" cy="{cy}" r="7" fill="var(--card)" stroke="var(--accent)" stroke-width="3.5"/></svg><span>{e(a["route_text"])}</span></div></div>
 <div class="proc-steps" role="group" aria-label="Step" hidden>{btns}</div>
 <figcaption aria-live="polite">{caps}</figcaption>
-<button type="button" class="proc-replay" data-replay hidden>Replay</button>
+<div class="proc-ctl" hidden><button type="button" class="proc-play" data-play>Pause</button><button type="button" class="proc-replay" data-replay>Replay</button></div>
 {f'<p class="small muted proc-vary">{PROC_VARY}</p>' if vary else ""}
 </figure>"""
 
@@ -399,7 +404,7 @@ def credits():
 
 
 def how():
-    body = f"""<h1>How we know</h1>
+    body = trail.html_of([trail.HOME, ("How we know", None)]) + f"""<h1>How we know</h1>
 <div class="prose">
 <p class="lede">We look through public information so you can find who near you does a procedure. Doctors can claim their own listing for free, and anyone can report an error.</p>
 <h2>What the two groups mean</h2>
@@ -451,7 +456,7 @@ def report():
     """Job 19: the report-an-error form, open to anyone. Claiming a profile is separate (/account/, physicians only).
     A report is stored for us to read; it never changes a listing."""
     reasons = "".join(f'<label><input type="radio" name="reason" value="{k}"> {e(t)}</label>' for k, t in REASONS)
-    body = f"""<h1>Report an error</h1>
+    body = trail.html_of([trail.HOME, ("Report an error", None)]) + f"""<h1>Report an error</h1>
 <div class="prose">
 <p class="lede">Tell us what’s wrong with a listing. Anyone can send a report.</p>
 <p class="small">Are you the doctor? <a href="/account/" id="r-claim">Claim your profile</a> instead.</p>
@@ -478,7 +483,7 @@ def account():
     """Jobs 10 and 11: physician accounts, built but not open. With no backend connected the page says so and the
     script stores nothing and offers the report form (its link carries the card's NPI). Claiming needs an account
     (his words, 2026-11-02), so nothing else stands in for it. Open, the script builds the forms: Is this you?, the code, invitations."""
-    body = f"""<h1>For physicians</h1>
+    body = trail.html_of([trail.HOME, ("For physicians", None)]) + f"""<h1>For physicians</h1>
 <div class="prose">
 <div id="acct-closed" class="notice" role="status"><p><strong>Accounts are not open yet.</strong> When they open, physicians can claim their profile here. To tell us about an error now, use the <a id="closed-report" href="/report/">report form</a>.</p></div>
 </div>
@@ -494,7 +499,7 @@ def account():
 
 
 def not_found():
-    body = """<h1>Page not found</h1><p>Find a doctor for:</p>
+    body = trail.html_of([trail.HOME, ("Page not found", None)]) + """<h1>Page not found</h1><p>Find a doctor for:</p>
 <ul class="finders">""" + "".join(
         f'<li><a href="/{c["slug"]}/"><strong>{e(c["card"]["name"])}</strong></a></li>'
         for c, p, _ in registry.condition_rows() if p) + "</ul>" + ("<p>Read about:</p><ul class=\"finders\">" + "".join(
@@ -659,7 +664,8 @@ def main():
         # sitemap) until he signs off; clear it then.
         robots = '<meta name="robots" content="noindex">\n' if c.get("draft") else ""
         nojs = '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>'
-        body = condition.body(c, diagram, e, condition.hero(c, finder_block))
+        # Fix B (2026-11-15): the short guide gets the trail every other page has (Home > its condition)
+        body = trail.html_of(trail.condition(slug)) + condition.body(c, diagram, e, condition.hero(c, finder_block))
         block = cities.city_block(c["finder"], city_pages, e) if c.get("finder") else ""
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
@@ -694,11 +700,11 @@ def main():
                                               f"Doctors listed on Every Option whose last name starts with {label}.",
                                               directory.letter_body(by, k, e), cls="prose-page dir-page"))
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
-    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%")
+    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%", section="/#conditions")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
                         # one sentence per procedure for its city pages: its "city_blurb" in content/procedures.json
                         registry.city_blurbs(), LISTINGS_AS_OF, SITE)
-    shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page")
+    shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page", section="/doctors/")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
                  "// from content/directory.json. Edit those, not this file.\n"

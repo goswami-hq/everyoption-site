@@ -76,5 +76,7 @@ def body(path):
 
 
 def write_all(page, write):
+    import trail   # fix B (2026-11-15): Home > the page's footer label
+    names = dict(FOOTER_LINKS)
     for path, (_, title, desc) in PAGES.items():
-        write(path.strip("/") + "/index.html", page(path, title, desc, body(path)))
+        write(path.strip("/") + "/index.html", page(path, title, desc, trail.html_of([trail.HOME, (names[path], None)]) + body(path)))

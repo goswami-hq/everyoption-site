@@ -1,8 +1,9 @@
 // Chronic pelvic pain: the two "How it works" drawings, one in each treatment fold (his pick B, 2026-11-14, ai-hq
 // projects/platform/design/procedure-animations/pelvic-b-animated-2026-11-14.html, round 3; his "Yes both look good add it
-// to the dev site", 15:28 CT). Same 14 s story, steps and controls as site/assets/procedure-anim.js, which handles pages
+// to the dev site", 15:28 CT). Same 14 s story, steps and controls as src-assets/procedure-anim.js, which handles pages
 // with one drawing; this file drives each figure marked data-own on its own, so the two can sit on one page.
 // The build writes the Before picture into each figure for readers without JavaScript; this script redraws it live.
+// Fix G (his yes, 2026-11-15): Pause / Play and held steps, as in src-assets/procedure-anim.js.
 (function () {
 var figs = document.querySelectorAll('.proc[data-own]'); if (!figs.length) return;
 var NS = "http://www.w3.org/2000/svg", D = 14, STEPS = [0, 3, 10], KEY = [2, 8.4, 14];
@@ -123,6 +124,8 @@ var KEYS = { "pelvic-embo": "embo", "pelvic-stent": "stent" };
   var rl = fig.querySelector(".route-line"), rLen = rl.getTotalLength(); rl.style.strokeDasharray = rLen;
   var bs = [].slice.call(fig.querySelectorAll("[data-step]")), caps = [].slice.call(fig.querySelectorAll(".proc-cap"));
   var t = 0, clock = 0, playing = false, last = 0, shown = null, visible = false, started = false, ticking = false, rest = false, ended = 0;
+  var paused = false, stopAt = null, pb = fig.querySelector("[data-play]");
+  function label() { if (pb) pb.textContent = paused || t >= D ? "Play" : "Pause"; }
   function render(T) {
     var a = seg(T, 10, 13.4), pulse = reduce ? .5 : .5 + .5 * Math.sin(clock * 3.2);
     sc.draw(T, a, pulse, clock);
@@ -132,23 +135,27 @@ var KEYS = { "pelvic-embo": "embo", "pelvic-stent": "stent" };
   }
   function frame(now) {
     var dt = Math.min(.05, (now - last) / 1000); last = now; clock += dt;
-    if (playing) { t += dt; if (t >= D) { t = D; playing = false; ended = clock; } }
+    if (playing) { t += dt;
+      if (stopAt !== null && t >= stopAt) { t = stopAt; stopAt = null; playing = false; paused = true; label(); }
+      else if (t >= D) { t = D; playing = false; ended = clock; label(); } }
     render(t);
     if (ended && clock - ended > 15) { rest = true; ended = 0; }   // rests about 15 s after the story ends, as on the other pages
-    if (visible && !reduce && !rest) requestAnimationFrame(frame); else ticking = false;
+    if (visible && !reduce && !rest && !paused) requestAnimationFrame(frame); else ticking = false;
   }
-  function wake() { if (ticking || reduce || !visible || rest) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
-  function play(at, step) { if (reduce) { t = KEY[step]; render(t); return; } t = at; playing = true; rest = false; ended = 0; wake(); }
+  function wake() { if (ticking || reduce || !visible || rest || paused) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
+  function play(at, step, hold) { if (reduce) { t = KEY[step]; render(t); return; } t = at; playing = true; rest = false; ended = 0; paused = false; stopAt = hold == null ? null : hold; label(); wake(); }
+  function toggle() { if (!paused && t < D) { paused = true; label(); return; } if (t >= D) { play(0, 0); return; } paused = false; playing = true; rest = false; label(); wake(); }
   fig.addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
-    if (b.dataset.step) { var i = +b.dataset.step; play(STEPS[i], i); } else if (b.dataset.replay !== undefined) play(0, 0);
+    if (b.dataset.step) { var i = +b.dataset.step; play(STEPS[i], i, KEY[i]); } else if (b.dataset.play !== undefined) toggle(); else if (b.dataset.replay !== undefined) play(0, 0);
   });
   fig.classList.add("js");
   [].forEach.call(fig.querySelectorAll("[hidden]"), function (el) { el.hidden = false; });
+  if (reduce && pb) pb.hidden = true;
   fig._seek = function (T) { t = T; playing = false; rest = true; clock = 1; render(T); };   // for the build's screenshot check
   t = reduce ? KEY[0] : 0; render(t);
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible && !started && !reduce) { started = true; playing = true; } wake(); }, { threshold: .3 }).observe(fig);
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible && !started && !reduce && !paused) { started = true; playing = true; } wake(); }, { threshold: .3 }).observe(fig);
   } else if (!reduce) { visible = true; started = true; playing = true; wake(); }
 });
 })();

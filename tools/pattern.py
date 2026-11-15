@@ -115,7 +115,8 @@ def chrome_errors(tag, p, conditions_href="/#conditions"):
     items = [html.unescape(re.sub(r"<[^>]+>", "", x)) for x in re.findall(r"<a [^>]*>.*?</a>", nav.group(1))]
     if items != MENU:
         errs.append(f"{tag}: menu is {items}, not {MENU}")
-    if f'<a href="{conditions_href}">Conditions</a>' not in nav.group(1):
+    # fix B (2026-11-15): the menu may mark Conditions as the section this page sits in
+    if not re.search(rf'<a href="{re.escape(conditions_href)}"(?: aria-current="true")?>Conditions</a>', nav.group(1)):
         errs.append(f'{tag}: menu "Conditions" does not go to {conditions_href}')
     foot = re.search(r'<footer class="site">.*?</footer>', p["html"], re.S)
     if not foot:

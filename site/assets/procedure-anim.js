@@ -1,7 +1,9 @@
 // Patient animation for a procedure: before, during, after. Starts when scrolled into view, and stops drawing off screen.
+// Fix G (his yes, ai-hq HQ chat 2026-11-15 17:14 CT; friends' feedback: people "want to sometimes read slower than the
+// diagrams move"): Pause / Play freezes the whole drawing; a tapped step plays that step, then holds on it until Play.
 // Template: ai-hq projects/platform/design/procedure-animations/README.md
 (function () {
-  var fig = document.querySelector(".proc:not([data-own])"); if (!fig) return;   // data-own: site/assets/pelvic-anim.js
+  var fig = document.querySelector(".proc:not([data-own])"); if (!fig) return;   // data-own: src-assets/pelvic-anim.js
   var cur = fig.dataset.proc;
   var D = 14, STEPS = [0, 3, 10], KEY = [2, 8.4, 14];
   var NS = "http://www.w3.org/2000/svg";
@@ -124,6 +126,8 @@
   });
 
   var t = 0, clock = 0, playing = false, last = 0, shown = null, visible = false, started = false, ticking = false, rest = false, ended = 0;
+  var paused = false, stopAt = null, pb = fig.querySelector("[data-play]");
+  function label() { if (pb) pb.textContent = paused || t >= D ? "Play" : "Pause"; }
   var rl = $("routeLine"), rLen = rl.getTotalLength(); rl.style.strokeDasharray = rLen;
   function render(T) {
     var sc = S[cur], a = seg(T, 10, 13.4);
@@ -161,29 +165,38 @@
   }
   function frame(now) {
     var dt = Math.min(.05, (now - last) / 1000); last = now; clock += dt;
-    if (playing) { t += dt; if (t >= D) { t = D; playing = false; ended = clock; } }
+    if (playing) { t += dt;
+      if (stopAt !== null && t >= stopAt) { t = stopAt; stopAt = null; playing = false; paused = true; label(); }
+      else if (t >= D) { t = D; playing = false; ended = clock; label(); } }
     render(t);
     // Job 20: rest about 15 seconds after the story ends, to save battery. The knee rests straight. Replay restarts it.
     if (ended && clock - ended > 15 && (cur !== "gae" || Math.sin(clock * 2.2 - 1.57) < -.97)) { rest = true; ended = 0; }
-    if (visible && !reduce && !rest) requestAnimationFrame(frame); else ticking = false;
+    if (visible && !reduce && !rest && !paused) requestAnimationFrame(frame); else ticking = false;
   }
-  function wake() { if (ticking || reduce || !visible || rest) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
-  function play(at, step) {
+  function wake() { if (ticking || reduce || !visible || rest || paused) return; ticking = true; last = performance.now(); requestAnimationFrame(frame); }
+  function play(at, step, hold) {
     if (reduce) { t = KEY[step]; render(t); return; }
-    t = at; playing = true; rest = false; ended = 0; wake();
+    t = at; playing = true; rest = false; ended = 0; paused = false; stopAt = hold == null ? null : hold; label(); wake();
+  }
+  function toggle() {
+    if (!paused && t < D) { paused = true; label(); return; }          // the loop stops at its next frame
+    if (t >= D) { play(0, 0); return; }                               // after the end, Play starts the story again
+    paused = false; playing = true; rest = false; label(); wake();
   }
   fig.addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
-    if (b.dataset.step) { var i = +b.dataset.step; play(STEPS[i], i); }
+    if (b.dataset.step) { var i = +b.dataset.step; play(STEPS[i], i, KEY[i]); }
+    else if (b.dataset.play !== undefined) toggle();
     else if (b.dataset.replay !== undefined) play(0, 0);
   });
   fig.classList.add("js");
   [].forEach.call(fig.querySelectorAll("[hidden]"), function (el) { el.hidden = false; });
+  if (reduce && pb) pb.hidden = true;   // nothing moves on its own, so there is nothing to pause
   t = reduce ? KEY[0] : 0; render(t);
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
-      if (visible && !started && !reduce) { started = true; playing = true; }
+      if (visible && !started && !reduce && !paused) { started = true; playing = true; }
       wake();
     }, { threshold: .3 }).observe(fig);
   } else if (!reduce) { visible = true; started = true; playing = true; wake(); }
