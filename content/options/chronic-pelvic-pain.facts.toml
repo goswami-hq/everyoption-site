@@ -129,7 +129,7 @@ read = "abstract"
 id = "cpp-embolization-risks-15"
 option = "embolization"
 simple = ""
-deep = "It happens in about 1 out of 20 to 1 out of 5 women. It lasts a few days, and up to 2 weeks in some women. It eases with medicine and goes away"
+deep = "It happens in about 4 to 20 out of 100 women, depending on the study. It lasts a few days, and up to 2 weeks in some women. It eases with medicine and goes away"
 refs = ["hanna", "cpp-gav-pes"]
 read = "full text"
 [[fact]]
@@ -255,8 +255,8 @@ read = "abstract"
 id = "cpp-stent-risks-33"
 option = "stent"
 simple = ""
-deep = "About 97 to 99 out of 100 were still open at 1 year, and about 94 out of 100 at 3 years. These studies were in people treated for leg symptoms"
-refs = ["cpp-murphy", "razavi"]
+deep = "About 96 to 99 out of 100 were still open at 1 year. About 3 out of 4 stayed open on their own at 3 years. With a second maintenance procedure, about 94 out of 100 stayed open. These studies were in people treated for leg symptoms"
+refs = ["cpp-murphy", "razavi", "wenda"]
 read = "abstract"
 [[fact]]
 id = "cpp-stent-risks-34"
@@ -431,7 +431,7 @@ id = "cpp-pregnancy-58"
 option = ""
 simple = ""
 deep = "Women have had healthy pregnancies with a stent in place. In two small reports, 27 women had 33 pregnancies, and no stent clotted. Doctors may suggest a blood thinner during pregnancy"
-refs = ["villalba", "cpp-villalba25", "cpp-pappas"]
+refs = ["cpp-villalba25", "cpp-pappas"]
 read = "abstract"
 [[fact]]
 id = "cpp-found-59"
@@ -445,7 +445,7 @@ id = "cpp-g-embolization"
 option = "embolization"
 simple = ""
 deep = "About 3 out of 4 women have much less pain soon after, and for many the relief lasts for years"
-refs = ["hanna", "cpp-degregorio", "kim06"]
+refs = ["hanna", "cpp-degregorio", "kim06", "daniels"]
 read = "abstract"
 [[fact]]
 id = "cpp-g-hysterectomy"
