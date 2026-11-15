@@ -964,3 +964,23 @@ li.proc > .act-msg:not(:empty) { margin-top: 8px; }
 .condition-page:not(.options-page) .hero-cond form.zip label { margin-bottom: 3px; }
 .condition-page:not(.options-page) .hero-cond form.zip input, .condition-page:not(.options-page) .hero-cond form.zip select { min-height: 44px; height: 44px; }
 .condition-page:not(.options-page) .hero-cond form.zip button { min-height: 44px; }
+
+/* Fix A (his yes, ai-hq HQ chat 2026-11-15 17:38 CT): the condition strip under the trail on every page of a condition
+   (tools/trail.py strip_html, lib/cities.mjs strip). One row; the current page is filled with the condition's colour.
+   Phones: one line that scrolls sideways if it must; every link keeps a 44 px tap height. */
+nav.cond-strip { margin: 0 0 18px; }
+nav.cond-strip ul { list-style: none; display: flex; gap: 6px; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
+nav.cond-strip ul::-webkit-scrollbar { display: none; }
+nav.cond-strip li { flex: none; }
+nav.cond-strip a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--card); color: var(--ink); text-decoration: none; font-size: 0.9375rem; font-weight: 600; white-space: nowrap; }
+nav.cond-strip a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+@media (hover: hover) and (pointer: fine) { nav.cond-strip a:not([aria-current]):hover { border-color: var(--accent); color: var(--accent); } }
+@media (max-width: 480px) {
+  /* phones: one row of equal tabs across the width, so all of them show; a long name wraps to two short lines */
+  nav.cond-strip { margin-bottom: 10px; }
+  nav.cond-strip ul { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; overflow: visible; }
+  nav.cond-strip a { display: flex; justify-content: center; text-align: center; min-height: 44px; height: 100%; padding: 4px 6px; border-radius: 12px;
+    white-space: normal; line-height: 1.15; font-size: 0.8125rem; }
+  nav.cond-strip .cs-more { display: none; }
+}

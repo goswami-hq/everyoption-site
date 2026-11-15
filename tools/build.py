@@ -638,6 +638,11 @@ def main():
     # Job 42: city pages. The build counts each metro and writes what the request-time renderer needs.
     metro_cfg, city_pages, _ = cities.plan(ROOT, SITE)
     city_entries = cities.sitemap_entries(city_pages, LISTINGS_AS_OF)
+    # Fix A (2026-11-15): the condition strip's links for the request-time city pages (lib/cities.mjs)
+    with open(os.path.join(ROOT, "lib", "strip.mjs"), "w", encoding="utf-8") as fh:
+        fh.write("// Written by tools/build.py from tools/trail.py (the condition strip). Edit that file, not this one.\n"
+                 f"export const STRIP = {json.dumps(trail.strip_data(), ensure_ascii=False)};\n"
+                 f"export const STRIP_LABEL = {json.dumps({k: trail.label(registry.condition_of(k)['slug']) for k in trail.strip_data()}, ensure_ascii=False)};\n")
     write("index.html", home())
     for k in PROCS:
         if k in MOVED:     # the finder now lives on the condition page; site/_redirects sends a 301
@@ -665,7 +670,8 @@ def main():
         robots = '<meta name="robots" content="noindex">\n' if c.get("draft") else ""
         nojs = '<noscript><p class="notice">This finder needs JavaScript to sort doctors by distance.</p></noscript>'
         # Fix B (2026-11-15): the short guide gets the trail every other page has (Home > its condition)
-        body = trail.html_of(trail.condition(slug)) + condition.body(c, diagram, e, condition.hero(c, finder_block))
+        # Fix A (2026-11-15): the condition strip under the trail, Quick guide marked
+        body = trail.html_of(trail.condition(slug)) + trail.strip_html(slug, "quick") + condition.body(c, diagram, e, condition.hero(c, finder_block))
         block = cities.city_block(c["finder"], city_pages, e) if c.get("finder") else ""
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"

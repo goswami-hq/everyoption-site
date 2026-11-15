@@ -41,5 +41,30 @@ class Trail(unittest.TestCase):
         self.assertGreater(seen, 40)
 
 
+class Strip(unittest.TestCase):
+    """Fix A (his yes, 2026-11-15 17:38 CT): every built page of a condition carries the condition strip right under the
+    trail, with its own tab marked; the strip's links all exist."""
+    def test_condition_pages(self):
+        import trail
+        want = {"": "quick", "every-option/": "deep", "insurance/": "insurance"}
+        seen = 0
+        for slug in registry.BY_SLUG:
+            for sub, kind in want.items():
+                f = SITE / slug / sub / "index.html"
+                if not f.exists():
+                    continue
+                seen += 1
+                t = f.read_text(encoding="utf-8")
+                m = re.search(r'</ol></nav><nav class="cond-strip"[^>]*><ul>(.*?)</ul></nav>', t, re.S)
+                self.assertTrue(m, f"{slug}/{sub}: no strip right under the trail")
+                cur = re.findall(r'class="cs-([a-z]+)"[^>]*aria-current="page"', m.group(1))
+                self.assertEqual(cur, [kind], f"{slug}/{sub}")
+                for k, _, href in trail.strip_items(slug):
+                    path = href.split("#")[0]
+                    if path.endswith("/") and not path.startswith("/insurance/"):
+                        self.assertTrue((SITE / path.strip("/") / "index.html").exists(), f"{slug}: {k} -> {href}")
+        self.assertGreaterEqual(seen, 13)
+
+
 if __name__ == "__main__":
     unittest.main()

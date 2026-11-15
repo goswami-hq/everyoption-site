@@ -120,7 +120,8 @@ def procedure_body(p, data, copy):
     kinds = {data["cells"][p["key"]][k]["chip"] for k in data["insurers"]}
     no, refs = says_no(copy)
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
-    return (crumbs([("Home", "/"), (registry.BY_SLUG[p["slug"]]["label"], f'/{p["slug"]}/'), ("Insurance coverage", None)]) +
+    import trail   # fix A (2026-11-15): the condition strip, Insurance marked
+    return (crumbs([("Home", "/"), (registry.BY_SLUG[p["slug"]]["label"], f'/{p["slug"]}/'), ("Insurance coverage", None)]) + trail.strip_html(p["slug"], "insurance") +
             f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{header_notice(copy)}{jump(p, data, copy)}'
             f'<h2 id="by-insurer">Coverage by insurer</h2>{legend(kinds, copy)}<div class="ins-cards">{cards}</div>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>{no}'
