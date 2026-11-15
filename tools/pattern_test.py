@@ -128,8 +128,8 @@ class PatternTest(unittest.TestCase):
     def test_order_and_chrome_fail(self):
         errs = self.site(("fibroids/every-option/index.html", '<div class="glance-peek">', '<div class="gone">'))
         self.assertTrue(any("at-a-glance view missing" in e for e in errs), errs)
-        errs = self.site(("fibroids/index.html", '<a href="/?from=fibroids#conditions" aria-current="true">Conditions</a>', '<a href="/#conditions">Conditions</a>'))
-        self.assertTrue(any('"Conditions" does not go to /?from=fibroids#conditions' in e for e in errs), errs)
+        errs = self.site(("fibroids/index.html", '<a href="/conditions/" aria-current="true">Conditions</a>', '<a href="/#conditions">Conditions</a>'))
+        self.assertTrue(any('"Conditions" does not go to /conditions/' in e for e in errs), errs)
         errs = self.site(("index.html", '<p class="cov-link home-cov">', '<p class="gone">'))
         self.assertTrue(any("home: no insurance hub link" in e for e in errs), errs)
         errs = self.site(("doctors/index.html", 'href="/doctors/a/"', 'href="/doctors/x/"'))

@@ -984,3 +984,29 @@ nav.cond-strip a[aria-current="page"] { background: var(--accent); border-color:
     white-space: normal; line-height: 1.15; font-size: 0.8125rem; }
   nav.cond-strip .cs-more { display: none; }
 }
+
+/* Fix C (his yes, 2026-11-15 17:50 CT): the Conditions page. One card per condition, its name to the quick guide, then
+   its pages as a short list of links (the same four the condition strip shows). */
+ul.cond-cards { list-style: none; margin: 20px 0 8px; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+.cond-card { background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--accent); border-radius: var(--radius); padding: 16px 20px 10px; }
+.cond-card h2 { margin: 0; font-size: 1.5rem; }
+.cond-card h2 a { color: var(--ink); text-decoration: none; }
+.cond-card .cond-proc { margin: 4px 0 6px; color: var(--muted); font-size: 0.96875rem; line-height: 1.35; }
+.cond-card .cond-links { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, max-content); column-gap: 22px; }
+@media (max-width: 380px) { .cond-card .cond-links { grid-template-columns: max-content; } }
+.cond-card .cond-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent); font-weight: 600; }
+.what-ir { margin-top: 30px; max-width: 37em; }
+.what-ir .refs { padding-left: 1.2em; }
+
+/* Fix D (his yes, 2026-11-15 17:50 CT): the Find a doctor page. The home page's search form, on the page's own ground. */
+.find-search { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; margin: 16px 0 28px; max-width: 40em; }
+.find-search label { display: block; font-size: 0.9375rem; color: var(--muted); margin-bottom: 5px; }
+.find-search .hs-row button { min-height: 48px; }
+.find-search .hs-status { color: var(--ink); font-weight: 600; }
+ul.find-hubs { padding-left: 1.2em; }
+ul.find-hubs li { margin: 6px 0; }
+ul.find-hubs a { display: inline-block; padding: 10px 0; margin: -10px 0; font-weight: 600; }
+
+/* Fix D (2026-11-15): "Find a doctor" is longer than "Directory". On phones Home leaves the menu (the logo is the way
+   home, as on most sites), so the four items keep their spacing. */
+@media (max-width: 480px) { nav.top a[href="/"] { display: none; } }

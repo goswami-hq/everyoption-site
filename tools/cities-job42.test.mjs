@@ -188,7 +188,9 @@ test("links: /fibroids/ lists the cities in plain HTML; a profile in a metro lin
   const block = /<nav class="by-city"[\s\S]*?<\/nav>/.exec(f)[0];
   for (const s of FIRST_11) assert.ok(block.includes(`href="/fibroids/doctors/${s}/"`), s);
   assert.ok(f.indexOf("by-city") > f.indexOf('id="results"'), "under the finder");
-  assert.match(read("index.html"), /<a href="\/fibroids\/doctors\/">Doctors by city<\/a>/);
+  // fix D (2026-11-15): the footer's "Doctors by city" goes to the Find a doctor page, which lists every condition's hub
+  assert.match(read("index.html"), /<a href="\/find-a-doctor\/#by-city">Doctors by city<\/a>/);
+  assert.match(read("find-a-doctor/index.html"), /<h2 id="by-city">[\s\S]*href="\/fibroids\/doctors\/"/);
   assert.match(read("doctors/index.html"), /href="\/fibroids\/doctors\/"/);
   const atl = CITIES.metros.ufe.find((m) => m.slug === "atlanta-ga"), p = metroList(UFE, atl)[0];
   resetDirectory();

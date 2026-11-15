@@ -83,7 +83,9 @@ def photo(key, lazy=True, cls="photo"):
 
 LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").read_text()
 WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#ffb648"/><stop offset=".55" stop-color="#ffb648" stop-opacity=".45"/><stop offset="1" stop-color="#ffb648" stop-opacity="0"/></linearGradient></defs><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
-NAV = [("/", "Home"), ("/#conditions", "Conditions"), ("/insurance/", "Insurance"), ("/doctors/", "Directory"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
+# Fixes C and D (his yes, ai-hq HQ chat 2026-11-15 17:50 CT): "Conditions" opens its own page, not a section of the home
+# page, and "Directory" became "Find a doctor", one front door to every way of finding a doctor.
+NAV = [("/", "Home"), ("/conditions/", "Conditions"), ("/insurance/", "Insurance"), ("/find-a-doctor/", "Find a doctor"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -104,13 +106,11 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
     head = "".join(f'<link rel="stylesheet" href="{ver(s)}">' for s in css) + head
     # Walkthrough finding 3 (his yes, 2026-11-09): "Conditions" from a condition's short page opens the home list with
     # that condition's card changed (src-assets/home-from.js), so the list cannot send the reader back where they were.
-    slug = path.strip("/")
-    back_to = f"/?from={slug}#conditions" if slug in condition.slugs() else "/#conditions"
     # Fix B (his yes, 2026-11-15): the menu marks the item a page belongs to, not only the item's own page
     # (tools/trail.py section_of; a request-time shell names its section).
     sec = section or trail.section_of(path)
     mark = lambda h: ' aria-current="page"' if h == path else (' aria-current="true"' if h == sec else "")
-    nav = "".join(f'<a href="{back_to if h == "/#conditions" else h}"{mark(h)}>{e(t)}</a>' for h, t in NAV)
+    nav = "".join(f'<a href="{h}"{mark(h)}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
     js = "".join(f'<script src="{ver(s)}" defer></script>' for s in scripts)
     # W32 (ai-hq job platform-launch-0005): the first-visit notice bar on every page, Function-rendered shells included.
@@ -142,7 +142,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/doctors/">Find a doctor by name</a> · <a href="/fibroids/doctors/">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/how-we-know/">How we know</a></p>
+<p><a href="/find-a-doctor/">Find a doctor</a> · <a href="/doctors/">Find a doctor by name</a> · <a href="/find-a-doctor/#by-city">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/how-we-know/">How we know</a></p>
 {legal.footer_line()}
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
@@ -403,6 +403,68 @@ def credits():
     return f'<h2>Photos</h2><p>Photos are free-license stock photos, used for illustration only.</p><ul class="small">{"".join(items)}</ul>' if items else ""
 
 
+# Fix C (his yes, 2026-11-15 17:50 CT): the Conditions page. The cards, each with its pages (tools/trail.py strip_items),
+# and a short "What is interventional radiology?". The IR lines are new patient text: noindex, and listed for his
+# sign-off, until he signs them off (CONDITIONS_SIGNED = True then; ai-hq design/site-architecture-2026-11-15/).
+CONDITIONS_SIGNED = False
+IR_SOURCES = [("Society of Interventional Radiology. What is interventional radiology? (updated February 2025)", "https://www.sirweb.org/patients/"),
+              ("Society of Interventional Radiology. Interventional radiology (IR) FAQs", "https://www.sirweb.org/patient-center/faqs/")]
+IR_TEXT = [
+    "Interventional radiologists are doctors who use imaging, such as X-ray, ultrasound, CT or MRI, to see inside the body and guide treatment.",
+    "They treat through a thin tube or needle passed through a tiny skin nick, instead of a surgical cut. For many of these treatments, people go home the same day.",
+    "Every doctor we list is an interventional radiologist.",
+]
+
+
+def conditions_page():
+    cards = ""
+    for c, p, _ in registry.condition_rows():
+        if not p:
+            continue
+        links = "".join(f'<li><a href="{e(href)}">{e(name)}</a></li>' for _, name, href in trail.strip_items(c["slug"]))
+        cards += (f'<li class="cond-card t-{c["card"]["color"]}"><h2><a href="/{c["slug"]}/">{e(c["card"]["name"])}</a></h2>'
+                  f'<p class="cond-proc">{e(c["card"]["line"])}</p><ul class="cond-links">{links}</ul></li>')
+    refs = "".join(f'<li><a href="{u}" rel="noopener">{e(t)}</a></li>' for t, u in IR_SOURCES)
+    body = trail.html_of([trail.HOME, ("Conditions", None)]) + f"""<h1>Conditions</h1>
+<p class="lede">Each condition has a quick guide, a deep dive into every option, what insurers say, and doctors near you.</p>
+<ul class="cond-cards">{cards}</ul>
+<p class="more-soon">And more options coming soon.</p>
+<section class="what-ir" aria-labelledby="ir-h"><h2 id="ir-h">What is interventional radiology?</h2>
+{"".join(f"<p>{e(t)}</p>" for t in IR_TEXT)}
+<p class="small muted">Sources:</p><ol class="refs small">{refs}</ol></section>
+<p class="small muted">Education, not medical advice.</p>"""
+    head = "" if CONDITIONS_SIGNED else '<meta name="robots" content="noindex">\n'
+    return page("/conditions/", "Conditions and Every Treatment Option | Every Option",
+                "Fibroids, an enlarged prostate, knee arthritis, chronic pelvic pain and bleeding hemorrhoids: a quick guide, a deep "
+                "dive into every option, insurance, and doctors near you for each.", body, head=head)
+
+
+def find_page():
+    """Fix D (his yes, 2026-11-15 17:50 CT): one front door to doctors. The ZIP search first (the home page's form and
+    script), then the two other ways and what each is for."""
+    opts = "".join(f'<option value="/{c["slug"]}/">{e(c["card"]["name"])}</option>' for c, p, _ in registry.condition_rows() if p)
+    hubs = "".join(f'<li><a href="/{c["slug"]}/doctors/">{e(c["card"]["name"])}</a> <span class="muted">{e(c["card"]["line"])}</span></li>'
+                   for c, p, _ in registry.condition_rows() if p and c.get("city_pages"))
+    body = trail.html_of([trail.HOME, ("Find a doctor", None)]) + f"""<h1>Find a doctor</h1>
+<p class="lede">Choose a condition and enter your ZIP code. You will see doctors near you who perform its procedure, nearest first.</p>
+<form id="home-search" class="hero-search find-search" role="search" aria-label="Find a doctor" novalidate>
+<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
+<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
+<button type="submit">Find doctors</button></div>
+{FINDER_TERMS}
+<p id="home-status" class="hs-status" role="status"></p>
+</form>
+<h2 id="by-city">Browse doctors by city</h2>
+<p>See everyone listed in a metro area, for one procedure.</p>
+<ul class="find-hubs">{hubs}</ul>
+<h2 id="by-name">Look up a doctor by name</h2>
+<p>Check a doctor you have been referred to, or one you already know. <a href="/doctors/">Find a doctor by name</a>.</p>
+<p class="small muted">This list is not a recommendation or a ranking. <a href="/how-we-know/">How we know</a>.</p>"""
+    return page("/find-a-doctor/", "Find a Doctor Near You | Every Option",
+                "Find doctors near you who perform embolization for fibroids, an enlarged prostate, knee arthritis, pelvic vein pain "
+                "or bleeding hemorrhoids, by ZIP code, by city or by name.", body, ["/assets/home-search.js"], cls="prose-page find-page")
+
+
 def how():
     body = trail.html_of([trail.HOME, ("How we know", None)]) + f"""<h1>How we know</h1>
 <div class="prose">
@@ -516,7 +578,7 @@ AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Searc
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
-SITEMAP_PAGES = ["/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+SITEMAP_PAGES = ["/", "/find-a-doctor/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
 
 
 def drafts():
@@ -653,6 +715,8 @@ def main():
                                           head=f'<meta http-equiv="refresh" content="0; url={to}">', canonical=to))
             continue
         write(f"{k}/index.html", finder(k))
+    write("conditions/index.html", conditions_page())   # fix C
+    write("find-a-doctor/index.html", find_page())      # fix D
     write("how-we-know/index.html", how())
     write("report/index.html", report())
     write("account/index.html", account())
@@ -706,11 +770,11 @@ def main():
                                               f"Doctors listed on Every Option whose last name starts with {label}.",
                                               directory.letter_body(by, k, e), cls="prose-page dir-page"))
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
-    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%", section="/#conditions")
+    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%", section="/find-a-doctor/")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
                         # one sentence per procedure for its city pages: its "city_blurb" in content/procedures.json
                         registry.city_blurbs(), LISTINGS_AS_OF, SITE)
-    shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page", section="/doctors/")
+    shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page doctor-page", section="/find-a-doctor/")
     with open(os.path.join(ROOT, "lib", "directory-shell.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 27): the site's header and footer around a profile, and the index setting\n"
                  "// from content/directory.json. Edit those, not this file.\n"

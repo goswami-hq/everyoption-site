@@ -41,13 +41,13 @@ test("peek cells carry the grid's own text", () => {
   }
 });
 
-test("Conditions in the menu: marked from a condition's short page, plain elsewhere", () => {
-  for (const p of [...Object.keys(WITH), "chronic-pelvic-pain/"]) {
-    // fix B (2026-11-15): on a condition's pages the menu also marks Conditions as the section
-    assert.ok(page(p).includes(`<a href="/?from=${p.slice(0, -1)}#conditions" aria-current="true">Conditions</a>`), p);
+test("Conditions in the menu: its own page, marked on every page of a condition, plain elsewhere", () => {
+  // fix C (his yes, 2026-11-15): the menu's Conditions opens /conditions/, not a section of the home page
+  for (const p of [...Object.keys(WITH), "chronic-pelvic-pain/", "fibroids/every-option/"]) {
+    assert.ok(page(p).includes('<a href="/conditions/" aria-current="true">Conditions</a>'), p);
   }
-  assert.ok(page("").includes('<a href="/#conditions">Conditions</a>'), "home keeps its own link");
-  assert.ok(page("fibroids/every-option/").includes('<a href="/#conditions" aria-current="true">Conditions</a>'), "the comparison page is not the card's target");
+  assert.ok(page("").includes('<a href="/conditions/">Conditions</a>'), "home: plain");
+  assert.ok(page("conditions/").includes('<a href="/conditions/" aria-current="page">Conditions</a>'), "its own page");
 });
 
 test("home: each condition with a comparison page gives its card the address; the page loads the script; banner sits in a landmark", () => {

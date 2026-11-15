@@ -88,7 +88,7 @@ def has_box(c):
 # ---- Page parts and fixed wording (job platform-web-design-0009; his yes 2026-11-09 22:06 CT: rebuild the pattern as
 # the one reference and extend this check). Each rule cites its decision in docs/condition-pattern.md.
 
-MENU = ["Home", "Conditions", "Insurance", "Directory", "How we know", "For physicians"]
+MENU = ["Home", "Conditions", "Insurance", "Find a doctor", "How we know", "For physicians"]   # fixes C and D, 2026-11-15
 FOOTER_LINKS = ['href="/report/"', 'href="/doctors/"', 'href="/insurance/"', 'href="/how-we-know/"', 'href="/terms/"', 'href="/privacy/"', 'href="/physician-terms/"']   # last three: W32
 SITE_LABEL, SITE_LABEL_SR = "Doctor's website", "Doctor's website, opens in a new tab"
 SITE_LABEL_FILES = ["src-assets/finder.js", "lib/cities.mjs", "lib/directory.mjs"]
@@ -106,7 +106,7 @@ def in_order(errs, tag, t, marks):
         at = i
 
 
-def chrome_errors(tag, p, conditions_href="/#conditions"):
+def chrome_errors(tag, p, conditions_href="/conditions/"):
     """Header menu (six items, Conditions target) and footer, on every page."""
     errs = []
     nav = re.search(r'<nav class="top" aria-label="Main">(.*?)</nav>', p["html"], re.S)
@@ -172,7 +172,7 @@ def simple_parts(tag, p, c, slug, deep_path):
             errs.append(f'{tag}: no "{cov["link"]}" link in the lead option')
     elif 'class="cov-link"' in t:
         errs.append(f"{tag}: insurance link with no coverage page")
-    errs += chrome_errors(tag, p, f"/?from={slug}#conditions")
+    errs += chrome_errors(tag, p)   # fix C: one Conditions page for every page
     errs += ruling_errors(tag, t, c)
     errs += embo_errors(tag, t, c)
     return errs

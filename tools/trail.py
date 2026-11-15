@@ -18,7 +18,7 @@ HOME = ("Home", "/")
 QUICK = "Quick guide"
 DEEP = "Deep dive, every option"
 SECTIONS = {   # menu item marked on pages that are not the menu item's own address
-    "/#conditions": "Conditions", "/insurance/": "Insurance", "/doctors/": "Directory",
+    "/conditions/": "Conditions", "/insurance/": "Insurance", "/find-a-doctor/": "Find a doctor",
     "/how-we-know/": "How we know", "/account/": "For physicians",
 }
 
@@ -46,8 +46,8 @@ def section_of(path):
     """The menu item a page sits under: its own address, else by where it lives."""
     if path == "/":
         return "/"
-    if path.startswith("/doctors/"):
-        return "/doctors/"
+    if path.startswith("/doctors/") or "/doctors/" in path:   # name pages, profiles, city lists and city pages (fix D)
+        return "/find-a-doctor/"
     if path == "/insurance/" or path.endswith("/insurance/"):
         return "/insurance/"
     if path in ("/how-we-know/",):
@@ -55,7 +55,7 @@ def section_of(path):
     if path in ("/account/",):
         return "/account/"
     if path.strip("/").split("/")[0] in registry.BY_SLUG:
-        return "/#conditions"
+        return "/conditions/"
     return None
 
 
