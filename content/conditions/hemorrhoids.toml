@@ -179,7 +179,7 @@ lead_heading = "What is hemorrhoid artery embolization (HAE)?"
 what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
 invasive = "Early studies suggest recovery is far less painful than after surgery in the first days.[^falsarella]"
 invasive_heading = "Recovery"   # his word "Fine", 2026-11-10 15:03 CT; the text under it is about recovery
-works = "Early results are encouraging. Most patients bleed less afterward. About 2 out of 3 people still have little or no bleeding a year later. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
+works = "Early results are encouraging. Most patients bleed less afterward. About 2 out of 3 people still have little or no bleeding a year later, some after a second embolization. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
 side = "There is no wound, and no loss of bowel control has been reported.[^jin25] You may have pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
 
 [[options]]

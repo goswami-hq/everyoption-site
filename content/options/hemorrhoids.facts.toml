@@ -19,8 +19,8 @@ refs = ["aga"]
 [[fact]]
 id = "hae-year"           # E6, E7: no bleeding 68.7% (De Gregorio), success 72% (Tradi) at 12 months
 option = "embolization"
-simple = "about 2 out of 3 people still have little or no bleeding a year later"
-deep = "about 2 out of 3 people still have little or no bleeding a year later"
+simple = "about 2 out of 3 people still have little or no bleeding a year later, some after a second embolization"
+deep = "about 2 out of 3 people still have little or no bleeding a year later, some after a second embolization"
 refs = ["degregorio", "tradi"]
 [[fact]]
 id = "incont"             # C10, late incontinence 2.48% in randomized trials
@@ -62,7 +62,7 @@ read = "abstract"
 id = "sahin"       # C2, 41.7% vs 66.9%
 option = "creams"
 simple = ""
-deep = "A boric-acid gel, in 206 people over 4 weeks: less itching, pain, and feeling of a lump. Bleeding with bowel movements: 42% with the gel vs 67% with placebo"
+deep = "A sodium pentaborate gel, in 206 people over 4 weeks: less itching, pain, and feeling of a lump. Bleeding with bowel movements: 42% with the gel vs 67% with placebo"
 refs = ["sahin"]
 read = "abstract"
 [[fact]]
@@ -139,7 +139,7 @@ read = "abstract"
 id = "jensen-design"  # context 5
 option = ""
 simple = ""
-deep = "One trial, from 1989, tested this. About 186 people with a first episode of grade 2 hemorrhoids were assigned by chance to no treatment or to banding. They were followed for 4 years"
+deep = "One trial, from 1989, tested this. About 186 people with a first episode of grade 2 hemorrhoids were assigned by chance to no treatment or to banding. They were followed for up to 4 years"
 refs = ["jensen"]
 read = "abstract"
 [[fact]]
@@ -328,7 +328,7 @@ read = "full text"
 id = "hubble-repeat"  # C7
 option = "ligation"
 simple = ""
-deep = "Repeat banding made the comparison 30% vs 37.5%, which could be due to chance"
+deep = "Repeat banding made the comparison 27% vs 37.5%, which could be due to chance"
 refs = ["brown16"]
 read = "full text"
 [[fact]]
@@ -412,7 +412,7 @@ read = "full text"
 id = "jin25"       # C10
 option = "hemorrhoidectomy"
 simple = ""
-deep = "about 2 to 3 out of 100 people in randomized trials (2.48%)"
+deep = "about 2 to 3 out of 100 people after hemorrhoid removal or stapled surgery (2.48%)"
 refs = ["jin25"]
 read = "abstract"
 [[fact]]
@@ -504,6 +504,6 @@ read = "abstract"
 id = "emb-avoids"
 option = "embolization"
 simple = ""
-deep = "Embolization is not surgery. Nothing is cut, there is no wound, and no loss of bowel control has been reported, compared with about 2 to 3 out of 100 people after hemorrhoid removal"
+deep = "Embolization is not surgery. Nothing is cut, there is no wound, and no loss of bowel control has been reported, compared with about 2 to 3 out of 100 people after hemorrhoid removal or stapled surgery"
 refs = ["jin25"]
 read = "abstract"
