@@ -171,7 +171,7 @@ lead_heading = "What is genicular (knee) artery embolization (GAE)?"
 what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin.[^bsir][^ucla] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
 invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Most people are back to their normal activities within a few days, instead of 3 to 6 weeks after a knee replacement.[^nhsrec] Relief often starts within about two weeks.[^ucla]"
 works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
-side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin] Serious problems are rare.[^sir26]"
+side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin][^vzsham] Serious problems are rare.[^sir26]"
 
 [[options]]
 id = "steroid"
@@ -350,6 +350,10 @@ url = "https://doi.org/10.1007/s11999-009-1119-9"
 key = "moseley"
 cite = "Moseley JB, O'Malley K, Petersen NJ, et al. A controlled trial of arthroscopic surgery for osteoarthritis of the knee. New England Journal of Medicine. 2002;347(2):81-88. doi:10.1056/NEJMoa013259. PMID 12110735."
 url = "https://doi.org/10.1056/NEJMoa013259"
+[[refs]]
+key = "vzsham"
+cite = "van Zadelhoff TA, Bos PK, Moelker A, et al. Genicular artery embolisation versus sham embolisation for symptomatic osteoarthritis of the knee: a randomised controlled trial. BMJ Open. 2024;14:e087047. doi:10.1136/bmjopen-2024-087047. PMID 39353688. Full text read."
+url = "https://doi.org/10.1136/bmjopen-2024-087047"
 [[refs]]
 key = "sir26"
 cite = "Ahmed O, Taslakian B, Okuno Y, et al. Society of Interventional Radiology position statement on genicular artery embolization for symptomatic knee osteoarthritis. Journal of Vascular and Interventional Radiology. 2026;37(7):108803. doi:10.1016/j.jvir.2026.108803. Open access."

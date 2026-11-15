@@ -553,7 +553,7 @@ id = "r2-embolization-risks-19"
 option = "embolization"
 simple = ""
 deep = "about 1 to 3 out of 10 people. It usually fades within a month"
-refs = ["sir26"]
+refs = ["sir26", "vz24"]
 read = "abstract"
 [[fact]]
 id = "r2-embolization-risks-20"
@@ -566,7 +566,7 @@ read = "abstract"
 id = "r2-embolization-risks-21"
 option = "embolization"
 simple = ""
-deep = "about 3 out of 1,000 people, in the radiology society's count of more than 1,000 reported cases. It was more common in one early U.S. study that used very small beads that stay: 7 out of 40 people. All of those healed on their own"
+deep = "about 3 out of 1,000 people, according to the radiology society's 2026 statement. It was more common in one early U.S. study that used very small beads that stay: 7 out of 40 people. All of those healed on their own"
 refs = ["sir26", "padia"]
 read = "abstract"
 [[fact]]
@@ -622,7 +622,7 @@ read = "abstract"
 id = "r2-embolization-unknown-29"
 option = "embolization"
 simple = ""
-deep = "In one study, knee scans 2 years later showed less swelling of the joint lining, while the overall wear had gone on"
+deep = "In one study, knee scans 1 year later showed less swelling of the joint lining, while the overall wear had gone on"
 refs = ["genesis"]
 read = "abstract"
 [[fact]]
@@ -853,7 +853,7 @@ read = "abstract"
 id = "r2-partial-replacement-risks-62"
 option = "partial-replacement"
 simple = ""
-deep = "The risks are the same kinds as with a full replacement: infection, blood clots, and lasting pain or stiffness. Recovery is shorter. You may drive after about 3 weeks, compared with about 6 weeks after a full replacement. The sources we read give no separate rates"
+deep = "The risks are the same kinds as with a full replacement: infection, blood clots, and lasting pain or stiffness. Recovery is shorter. You may drive after about 3 weeks, compared with at least 6 weeks after a full replacement. The sources we read give no separate rates"
 refs = ["nhscomp", "nhsrec"]
 read = "page"
 [[fact]]
