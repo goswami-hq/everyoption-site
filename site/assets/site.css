@@ -945,3 +945,15 @@ li.proc > .act-msg:not(:empty) { margin-top: 8px; }
 @media (max-width: 480px) { .hero-cond .find-label:has(+ .find-proc) { margin-bottom: 2px; } .hero-cond .find-proc { margin-bottom: 6px; } }
 /* Job platform-directory-0038 (his call 10): the Undo beside a save message, a link-style button, tap target 44 px tall. */
 .act-msg .act-undo { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0 -12px 4px; padding: 0 6px; font-weight: 600; }
+/* ai-hq job platform-web-design-0013 (his words 2026-11-14 21:04 CT: "Yes but only so long as the pelvic pain paragraph
+   location and layout doesn't change"): one finder spacing on the five short condition pages, phone and desktop, so the
+   Find doctors button clears the first-visit notice bar. Finder area only; no word or order changes. The heading rule
+   applies only where the finder sits straight under the heading, so pelvic's heading and opening paragraph keep their
+   place and layout. */
+.condition-page:not(.options-page) .hero-cond h1:has(+ .find-first) { margin-bottom: 8px; }
+.condition-page:not(.options-page) .hero-cond .find-first { margin-top: 0; }
+.condition-page:not(.options-page) .hero-cond .find-intro { line-height: 1.45; margin-bottom: 10px; }
+.condition-page:not(.options-page) .hero-cond form.zip { padding: 12px 16px 14px; gap: 10px; }
+.condition-page:not(.options-page) .hero-cond form.zip label { margin-bottom: 3px; }
+.condition-page:not(.options-page) .hero-cond form.zip input, .condition-page:not(.options-page) .hero-cond form.zip select { min-height: 44px; height: 44px; }
+.condition-page:not(.options-page) .hero-cond form.zip button { min-height: 44px; }
