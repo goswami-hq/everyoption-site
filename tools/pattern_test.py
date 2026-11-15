@@ -95,8 +95,8 @@ class PatternTest(unittest.TestCase):
             self.assertIn(part, last)
 
     def test_compare_link_missing_or_late_fails(self):
-        errs = self.site(("fibroids/index.html", '<a class="find-compare" href="/fibroids/every-option/">Compare your options</a>', ""))
-        self.assertTrue(any('no first-screen "Compare your options"' in e for e in errs), errs)
+        errs = self.site(("fibroids/index.html", '<a class="find-compare" href="/fibroids/every-option/">Deep dive, every option</a>', ""))
+        self.assertTrue(any('no first-screen "Deep dive, every option"' in e for e in errs), errs)
         # no condition is left without an every-option page (job platform-condition-pages-0023), so the rule is checked on
         # the pelvic simple page read as if it had none
         f = SITE / "chronic-pelvic-pain" / "index.html"
@@ -108,7 +108,7 @@ class PatternTest(unittest.TestCase):
         # job platform-condition-pages-0014 wrote this for hemorrhoids with no doctor list (hero-compare under the intro).
         # Since job platform-directory-0029 every condition page has a finder, so the check runs on the hemorrhoid
         # finder's compare link; the no-finder branch in tools/pattern.py stays for a future page without one.
-        errs = self.site(("hemorrhoids/index.html", '<a class="find-compare" href="/hemorrhoids/every-option/">Compare your options</a>', ''))
+        errs = self.site(("hemorrhoids/index.html", '<a class="find-compare" href="/hemorrhoids/every-option/">Deep dive, every option</a>', ''))
         self.assertTrue(any(e.startswith("hemorrhoids simple: no first-screen") for e in errs), errs)
 
     def test_glance_caption_and_count_fail(self):

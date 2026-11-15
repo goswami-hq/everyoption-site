@@ -10,7 +10,7 @@ rendered on request, so their half of the check is tools/condition-pattern.test.
 """
 import html, json, pathlib, re, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-import condition, embolization, options
+import condition, embolization, options, trail
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
@@ -146,10 +146,10 @@ def simple_parts(tag, p, c, slug, deep_path):
     # with no finder the link sits under the intro (hero-compare, job platform-condition-pages-0014)
     compare = None
     if deep_path:
-        compare = (f'<a class="find-compare" href="{deep_path}">Compare your options</a>' if finder else
-                   f'<p class="hero-compare"><a href="{deep_path}">Compare your options</a></p>')
+        compare = (f'<a class="find-compare" href="{deep_path}">{trail.DEEP}</a>' if finder else
+                   f'<p class="hero-compare"><a href="{deep_path}">{trail.DEEP}</a></p>')
     if compare and compare not in t:
-        errs.append(f'{tag}: no first-screen "Compare your options" link to {deep_path}')
+        errs.append(f'{tag}: no first-screen "{trail.DEEP}" link to {deep_path}')
     if compare and finder and t.find('class="find-compare"') > t.find('id="zip-form"'):
         errs.append(f"{tag}: the compare link comes after the finder")
     # every finder names its procedure once, in the same place on all five, built from the registry (ai-hq job

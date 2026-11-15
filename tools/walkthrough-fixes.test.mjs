@@ -9,11 +9,11 @@ const WITH = { "fibroids/": "/fibroids/every-option/", "enlarged-prostate/": "/e
 test("first-screen compare link on every condition with a comparison page (pelvic since job platform-condition-pages-0023)", () => {
   for (const [p, to] of Object.entries(WITH)) {
     const html = page(p);
-    assert.match(html, new RegExp(`<p class="find-links"><a href="#[a-z-]+">How it works</a><a class="find-compare" href="${to}">Compare your options</a></p>`), p);
+    assert.match(html, new RegExp(`<p class="find-links"><a href="#[a-z-]+">How it works</a><a class="find-compare" href="${to}">Deep dive, every option</a></p>`), p);
     assert.ok(html.indexOf('class="find-compare"') < html.indexOf('id="zip-form"'), `${p}: link comes before the finder`);
   }
   const pelvic = page("chronic-pelvic-pain/");
-  assert.match(pelvic, /<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Compare your options<\/a><\/p>/);
+  assert.match(pelvic, /<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Deep dive, every option<\/a><\/p>/);
   assert.ok(pelvic.indexOf('class="find-compare"') < pelvic.indexOf('id="zip-form"'), "pelvic: link comes before the finder");
 });
 

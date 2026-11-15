@@ -313,7 +313,7 @@ RENAMED = ["arthritis-embolization", "pelvic-vein-pain"]   # job platform-main-0
 
 
 # Patient walkthrough finding 1 (his "1-4 changes let's do them", 2026-11-09): the comparison page, from the first screen.
-COMPARE_LINK = "Compare your options"
+COMPARE_LINK = trail.DEEP   # his page names, 2026-11-15 (was "Compare your options")
 FIND_TOP = {k: tuple(p["finder"]["top"]) for k, p in PROCS.items() if p["finder"].get("top")}   # the top of a finder (his yes, 2026-11-02)
 
 

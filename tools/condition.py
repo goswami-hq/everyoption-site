@@ -17,6 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "conditions"
 
 import registry, embolization
+import trail as registry_names   # the two page names (tools/trail.py)
 COVERAGE = registry.coverage()   # a procedure's declared coverage page, content/procedures.json "parts"
 PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
 
@@ -299,7 +300,7 @@ def hero(c, finder_fn):
     if not c.get("finder"):
         # job platform-condition-pages-0014: a page with no finder still gets the first-screen comparison link
         # (walkthrough finding 1) when it has an every-option page
-        cmp = (f'<p class="hero-compare"><a href="{html.escape(c["options_page"], quote=True)}">Compare your options</a></p>'
+        cmp = (f'<p class="hero-compare"><a href="{html.escape(c["options_page"], quote=True)}">{html.escape(registry_names.DEEP)}</a></p>'
                if c.get("options_page") else "")
         return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{hero_paras(c)}{cmp}</section>'
     # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)

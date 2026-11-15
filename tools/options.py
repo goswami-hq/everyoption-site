@@ -451,7 +451,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
     top = "".join(show(sec) for sec in extra.get("top", []))
     when = datetime.date.fromisoformat(d["reviewed"])
     # fix B (2026-11-15): the condition's word comes from tools/trail.py, the same on every page of the condition
-    body = (trail.html_of(trail.condition(c["slug"], ("Every option", None))) + f'<h1>{e(d["h1"])}</h1>{peek()}'
+    body = (trail.html_of(trail.condition(c["slug"], (trail.DEEP, None))) + f'<h1>{e(d["h1"])}</h1>{peek()}'
             # The comparison and the finder button first, so the first screen on a phone reads as a comparison (the button
             # stays on it: his call 3, 2026-11-07); then the lede and the guide link.
             + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + (f'<p class="lede">{lede}</p>' if d["lede"] else "")
@@ -500,7 +500,7 @@ def schema(c, d, origin, publisher):
                       **({"alternateName": c["condition_alt"]} if c.get("condition_alt") else {}),
                       "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
             "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"}}
-    crumbs = trail.condition(c["slug"], ("Every option", d["path"]))
+    crumbs = trail.condition(c["slug"], (trail.DEEP, d["path"]))
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList",
           "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": origin + u} for i, (n, u) in enumerate(crumbs, 1)]}
     return condition.ld(page) + "\n" + condition.ld(bc)

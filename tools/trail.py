@@ -13,6 +13,10 @@ import html
 import registry
 
 HOME = ("Home", "/")
+# The two pages of a condition, named by him (HQ chat 2026-11-15 17:2x CT, picking from the options offered:
+# "Quick guide / Deep dive, every option"). Trail, first-screen link, home card and the deep page's way back use these.
+QUICK = "Quick guide"
+DEEP = "Deep dive, every option"
 SECTIONS = {   # menu item marked on pages that are not the menu item's own address
     "/#conditions": "Conditions", "/insurance/": "Insurance", "/doctors/": "Directory",
     "/how-we-know/": "How we know", "/account/": "For physicians",

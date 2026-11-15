@@ -10,7 +10,7 @@
   var proc = a.querySelector(".proc"), count = a.querySelector(".count"), compare = a.getAttribute("data-compare");
   if (compare) {
     a.setAttribute("href", compare);
-    if (proc) proc.textContent = "Compare your options";
+    if (proc) proc.textContent = "Deep dive, every option";   // tools/trail.py DEEP
     if (count) count.remove();
     return;
   }

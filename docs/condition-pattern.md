@@ -58,7 +58,7 @@ every-option, city and coverage pages (his words 2026-11-07, L525: "Let's build 
 Hemorrhoids (job platform-condition-pages-0014, his go 2026-11-09) has both pages and no doctor list (no all-specialty
 hemorrhoid directory for now, his words 2026-11-09 21:49 CT, L622: "No not now, that's a ton of architecture work"): no
 finder, no city pages, no find-a-doctor block; its simple page is one centered reading column (`cond-grid no-finder`)
-with the "Compare your options" link under the intro (`hero-compare`); volumes in its tomls. `pattern` and
+with the "Deep dive, every option" (was "Compare your options" until 2026-11-15) link under the intro (`hero-compare`); volumes in its tomls. `pattern` and
 `first-screen` treat a condition without `finder` this way. Known break (2026-11-09): its compare link is 24 px tall, under the 44 px
 tap rule (`first-screen` fails it; listed, not fixed, by job platform-web-design-0009). Chronic pelvic pain has the simple page with the finder and four city pages (2026-11-07, L533: "Yes to both changes and
 the builder"), no every-option page and no coverage page yet (pelvic insurance is to-do W24 with the pelvic build,
@@ -87,7 +87,7 @@ scrolled to the top, in light and dark.
   description and the shared phrasing; "the patient's goal" is not checked.
 - **Order from the top** (`pattern` checks the order of the parts marked *):
   1. header and menu; condition banner strip (hidden under 360 px);
-  2. *H1, a short finder intro, *the links row "How it works" and "Compare your options", the *ZIP finder (ZIP box,
+  2. *H1, a short finder intro, *the links row "How it works" and "Deep dive, every option" (was "Compare your options" until 2026-11-15), the *ZIP finder (ZIP box,
      distance, button "Find doctors");
   3. "Doctors by city" fold (a condition with city pages; open on desktop and with JavaScript off, closed under 760 px,
      `src-assets/city-fold.js`);
@@ -103,7 +103,7 @@ scrolled to the top, in light and dark.
      your doctor does not offer." (agreed list item 6, his words 2026-11-07, L537: "6. Agree"; not checked), Common questions,
      *References);
   9. *"Page last reviewed <Month D, YYYY>"; footer.
-- **First screen at 390 x 844 (`first-screen`):** H1; "Compare your options" (where an every-option page exists); the ZIP
+- **First screen at 390 x 844 (`first-screen`):** H1; "Deep dive, every option" (was "Compare your options" until 2026-11-15) (where an every-option page exists); the ZIP
   box and the "Find doctors" button. Button bottom on 2026-11-09: 749 (fibroids), 778 (prostate), 755 (knee), 727
   (pelvic).
 - **Clear of the notice bar** (`first-screen`, job platform-web-design-0013, his go 2026-11-14 21:04 CT): on a first
@@ -112,7 +112,7 @@ scrolled to the top, in light and dark.
   pelvic (-40 px phone, -24 px desktop on 2026-11-14), because its page-top strip and opening paragraph, which stay as
   they are on his word, sit above the finder; his call 15 decides it.
 - **Compare link on the first screen** (walkthrough fix 1, his words 2026-11-09 11:49 CT, L601: "1-4 changes let's do
-  them, also run through the design skill"): `<a class="find-compare">Compare your options</a>` beside "How it works",
+  them, also run through the design skill"): `<a class="find-compare">Deep dive, every option</a>` beside "How it works",
   before the finder, to the every-option page; none on a condition without one. The "Compare them side by side"
   control in "Your other options" stays. `pattern`, `first-screen`, node `walkthrough-fixes.test.mjs`.
 - **Coverage link** (his words 2026-11-08 21:35 CT, L583: "We also need actual links to the insurance pages
@@ -358,7 +358,7 @@ review before launch.
   paragraph, a symptom list of two or more items, or the "When to see a doctor" fold, and a symptom list styled as
   pills; the "Common symptoms" label and the citations are not checked. A draft condition without the box content is
   skipped and named.
-- **Compare link.** "Compare your options" on the simple page's first screen; "Compare them side by side: …" as an
+- **Compare link.** "Deep dive, every option" (was "Compare your options" until 2026-11-15) on the simple page's first screen; "Compare them side by side: …" as an
   outlined control with an arrow below the option groups, so it reads as a link and not a heading (his words 2026-11-09:
   "reads as not clearly a link and seems more like the heading given its position over the 3 options"; ai-hq
   `projects/platform/design/knee-compare-link-2026-11-09/`). City pages: "Compare <procedure> with …" where an
@@ -422,7 +422,7 @@ Exact strings; change one only on his word, then update the code and this table 
 
 | String | Where it shows | Written in |
 | --- | --- | --- |
-| "Compare your options" | simple page first screen | `tools/build.py` `COMPARE_LINK` |
+| "Deep dive, every option" (was "Compare your options" until 2026-11-15) | simple page first screen | `tools/build.py` `COMPARE_LINK` |
 | "Compare them side by side: …" | simple page, below the option groups | condition toml `options_link` |
 | "At a glance: N of M treatments" / "See all M and how well each works" | every-option first screen | `tools/options.py` (peek) |
 | "What the evidence says", "Recovery" (view); "How well it works" (grid) | every-option | `tools/options.py` |
@@ -521,7 +521,7 @@ finder, headings or labels is checked against all five, and the rule goes here a
   with an arrow; links are judged by sight in the walkthrough's affordance check.
 - **Tap targets at least 44 px tall** (house standard from the design reviews, ai-hq
   `projects/platform/design/insurance-links-2026-11-08/` and `knee-compare-link-2026-11-09/`) (controls 48 px; the comparison control 54 px). `first-screen` checks the ZIP
-  button, "Compare your options", "See all M", the comparison finder button and "Does insurance cover it? →".
+  button, "Deep dive, every option" (was "Compare your options" until 2026-11-15), "See all M", the comparison finder button and "Does insurance cover it? →".
 - **Light and dark.** Every page works in both (house standard, same reviews); the home banner is dark in every theme. Text contrast at least 4.5:1.
   `first-screen` runs every check in both schemes; contrast is not checked by it (the walkthrough's axe pass covers it).
 - **No sideways scroll** from 320 to 1440 px (same house standard; `first-screen` at 390, `tools/e2e/anim_e2e.py` on
