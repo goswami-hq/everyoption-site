@@ -1169,7 +1169,7 @@ read = "abstract"
 id = "r2-waterjet-evidence-94"
 option = "waterjet"
 simple = ""
-deep = "Loss of ejaculation at 3 months: 7 out of 100 men after waterjet, compared with 25 out of 100 men after TURP"
+deep = "Ejaculation problems at 3 months: 7 out of 100 men after waterjet, compared with 25 out of 100 men after TURP"
 refs = ["water5"]
 read = "abstract"
 [[fact]]
