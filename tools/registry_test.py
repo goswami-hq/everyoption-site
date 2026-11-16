@@ -54,8 +54,8 @@ class RegistryChecks(unittest.TestCase):
         self.assertTrue(any("life-strip.js has no noscene scene" in e for e in self.errs()), self.errs())
 
     def test_declared_coverage_page_must_be_built(self):
-        registry.BY_KEY["hae"]["parts"]["coverage"] = {"path": "/hemorrhoids/insurance/", "link": "x"}
-        self.assertTrue(any("coverage page /hemorrhoids/insurance/" in e for e in self.errs()), self.errs())
+        registry.BY_KEY["pelvic"]["parts"]["coverage"] = {"path": "/chronic-pelvic-pain/insurance/", "link": "x"}   # hae has its own page since fix F (2026-11-15)
+        self.assertTrue(any("coverage page /chronic-pelvic-pain/insurance/" in e for e in self.errs()), self.errs())
 
     def test_declared_payer_table_needs_rows(self):
         registry.BY_KEY["pelvic"]["parts"]["payer_table"] = True

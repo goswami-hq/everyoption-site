@@ -65,8 +65,10 @@ def card(key, proc, data, copy, fold=True):
         return f'{head}{chip(c["chip"], copy)}<p>{e(c["text"])}</p>{items}{meta}</article>'
     lead, rest = (c["text"], "") if f"{proc}-{key}" in copy["full_summary"] else split_lead(c["text"])   # see pages.toml
     more = f"<p>{e(rest)}</p>" if rest else ""
+    # fix F (his yes, 2026-11-15 19:01 CT): the label explains itself inside the card; the key above the cards is gone
+    means = f'<p class="ins-means"><strong>{e(copy["chips"][c["chip"]])}:</strong> {e(copy["legend"][c["chip"]])}</p>'
     return (f'{head}<details class="ins-more"><summary>{chip(c["chip"], copy)}<span class="ins-lead">{e(lead)}</span></summary>'
-            f'{more}{items}{meta}</details></article>')
+            f'{more}{items}{means}{meta}</details></article>')
 
 
 def jump(p, data, copy):
@@ -74,6 +76,17 @@ def jump(p, data, copy):
     links = "".join(f'<li><a href="#{p["key"]}-{i}">{e(copy["jump_names"].get(i, data["names"][i]))}</a></li>' for i in data["insurers"])
     return (f'<nav class="ins-jump" aria-labelledby="ins-jump-label"><p id="ins-jump-label">{e(copy["jump_label"])}</p><ul>{links}</ul>'
             f'<p class="ins-jump-no"><a href="#if-no">What if my insurer says no?</a></p></nav>')
+
+
+def picker(p, data, copy):
+    """Fix F (his yes, 2026-11-15 19:01 CT): the condition is known on its own coverage page, so the page asks one thing.
+    Hidden in the HTML; src-assets/insurance.js shows it, hides the jump list, and puts the chosen insurer's card under it
+    (open), with the says-no and questions links. "My insurer isn't listed" shows the questions to ask. No script: today's page."""
+    opts = "".join(f'<option value="{p["key"]}-{i}">{e(data["names"][i])}</option>' for i in data["insurers"])
+    return (f'<div class="ins-pick" id="ins-pick" hidden><label for="ins-who">Your insurer</label>'
+            f'<select id="ins-who"><option value="" disabled selected>Select your insurer</option>{opts}'
+            '<option value="none">My insurer isn’t listed</option></select>'
+            '<div class="ins-answer" id="ins-answer" aria-live="polite"></div></div>')
 
 
 def legend(kinds, copy):
@@ -117,13 +130,13 @@ def reviewed(copy):
 
 def procedure_body(p, data, copy):
     cards = "".join(card(k, p["key"], data, copy) for k in data["insurers"])
-    kinds = {data["cells"][p["key"]][k]["chip"] for k in data["insurers"]}
     no, refs = says_no(copy)
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
     import trail   # fix A (2026-11-15): the condition strip, Insurance marked
     return (crumbs([("Home", "/"), (registry.BY_SLUG[p["slug"]]["label"], f'/{p["slug"]}/'), ("Insurance coverage", None)]) + trail.strip_html(p["slug"], "insurance") +
-            f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{header_notice(copy)}{jump(p, data, copy)}'
-            f'<h2 id="by-insurer">Coverage by insurer</h2>{legend(kinds, copy)}<div class="ins-cards">{cards}</div>'
+            f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{picker(p, data, copy)}{header_notice(copy)}{jump(p, data, copy)}'
+            # fix F: every card under one fold, open in the HTML (no script: today's page); insurance.js closes it
+            f'<details class="ins-all" id="ins-all" open><summary><h2 id="by-insurer">See every insurer</h2></summary><div class="ins-cards">{cards}</div></details>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>{no}'
             f'<h2 id="next">Next steps</h2><ul class="ins-links"><li><a href="/{p["slug"]}/">{e(p["guide"])}</a></li>'
             f'<li><a href="/{p["slug"]}/every-option/">{e(p["compare"])}</a></li><li><a href="/{p["slug"]}/#finder">{e(p["finder"])}</a></li>'
@@ -186,22 +199,30 @@ def hub_body(data, copy):
     changes = "".join(f'<li>{e(c).replace("{notice}", notice)}</li>' for c in hub["changes"])
     method = "".join(f"<p>{e(m)}</p>" for m in hub["method"])
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
-    # folded on phones like the coverage pages (his "Yes", 2026-11-08 12:00 CT)
-    own_cards = {p["key"]: "".join(card(i, p["key"], data, copy) for i in data["insurers"]) for p in own}
-    def hub_toc():
-        # The hub is the longest page after the comparison pages (about 10,800 px on a phone), so it gets the same
-        # contents list and pinned bar (his "Yes", 2026-11-10 06:23 CT). The entries are the hub's own h2s below.
-        items = [("changes", "Changes coming soon"), ("by-procedure", "Coverage by procedure"),
-                 ("dataset", "Every insurer, every procedure")] + list(heading.items()) + [
-                 ("ask", "Questions to ask your plan"), ("method", "How we checked")]
-        lis = "".join(f'<li><a href="#{i}">{e(t)}</a></li>' for i, t in items)
-        return f'<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page</p><ol>{lis}</ol></nav>'
-    return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>{header_notice(copy)}'
-            + hub_toc() +
+    def hub_pick():
+        # Fix F (his yes, 2026-11-15 19:01 CT): from the menu, two boxes, condition then insurer, giving the same card on
+        # the condition's own coverage page. A condition with no coverage data (pelvic) says so. Hidden with no script.
+        cov = registry.coverage()
+        conds = ""
+        for c, pr, _ in registry.condition_rows():
+            if not pr:
+                continue
+            path = cov.get(pr["key"], {}).get("path", "")
+            conds += f'<option value="{e(path) or "none"}" data-key="{pr["key"]}">{e(c["card"]["name"])}</option>'
+        ins = "".join(f'<option value="{i}">{e(data["names"][i])}</option>' for i in data["insurers"])
+        return ('<form class="ins-pick ins-pick-hub" id="ins-pick-hub" hidden novalidate>'
+                '<div class="f"><label for="ins-cond">Condition</label><select id="ins-cond" required>'
+                f'<option value="" disabled selected>Select a condition</option>{conds}</select></div>'
+                '<div class="f"><label for="ins-who">Your insurer</label><select id="ins-who">'
+                f'<option value="" selected>Select your insurer</option>{ins}<option value="none">My insurer isn\u2019t listed</option></select></div>'
+                '<button type="submit">See coverage</button><p class="ins-pick-msg" id="ins-pick-msg" role="status"></p></form>')
+    # Fix F: the every-insurer grid stays (it is the page's Dataset) but folds, closed; the HAE cards moved to
+    # /hemorrhoids/insurance/, and the contents list went with the length it served.
+    return (crumbs([("Home", "/"), ("Insurance coverage", None)]) + f'<h1>{e(hub["h1"])}</h1><p class="lede">{e(hub["answer"])}</p>'
+            + hub_pick() + header_notice(copy) +
+            f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}</ul>'
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
-            f'<h2 id="by-procedure">Coverage by procedure</h2><ul class="ins-links">{links}{"".join(f'<li><a href="#{k}">{e(hub[k + "_label"])}: coverage by insurer, with conditions</a></li>' for k in heading)}</ul>'
-            f'<h2 id="dataset">Every insurer, every procedure</h2>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div>'
-            + "".join(f'<h2 id="{k}">{e(t)}</h2><div class="ins-cards">{own_cards[k]}</div>' for k, t in heading.items()) +
+            f'<details class="ins-all ins-dataset"><summary><h2 id="dataset">Every insurer, every procedure</h2></summary>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div></details>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>'
             f'<h2 id="method">How we checked</h2>{method}<p><strong>Next check:</strong> {e(data["next_check"])}.</p>{reviewed(copy)}')
 

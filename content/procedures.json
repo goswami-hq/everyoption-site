@@ -225,6 +225,10 @@
         ]
       },
       "banner": "life",
+      "coverage": {
+        "path": "/hemorrhoids/insurance/",
+        "link": "Does insurance cover hemorrhoid embolization?"
+      },
       "city_pages": true,
       "payer_table": true
     }

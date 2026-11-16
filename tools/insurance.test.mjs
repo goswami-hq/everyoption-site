@@ -6,7 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
 const SITE = new URL("../site/", import.meta.url).pathname;
-const PAGES = ["fibroids/insurance", "enlarged-prostate/insurance", "knee-arthritis/insurance", "insurance"];
+const PAGES = ["fibroids/insurance", "enlarged-prostate/insurance", "knee-arthritis/insurance", "hemorrhoids/insurance", "insurance"];   // hemorrhoids: fix F, 2026-11-15
 const read = (p) => readFileSync(path.join(SITE, p, "index.html"), "utf8");
 const PLAN = "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan.";
 const CHIPS = ["Covered with conditions", "Covered", "Not covered", "No specific policy", "Decided case by case", "Not yet checked"];
@@ -61,7 +61,7 @@ test("the coverage links land where the walkthroughs put them, with the target p
 
 test("every procedure page has 12 cards in the fixed order, each with a chip, a date, and a link", () => {
   const order = ["medicare", "uhc", "uhc-ma", "anthem", "aetna", "aetna-ma", "cigna", "humana", "hcsc", "ambetter", "molina", "kaiser"];
-  for (const [p, key] of [["fibroids/insurance", "ufe"], ["enlarged-prostate/insurance", "pae"], ["knee-arthritis/insurance", "gae"]]) {
+  for (const [p, key] of [["fibroids/insurance", "ufe"], ["enlarged-prostate/insurance", "pae"], ["knee-arthritis/insurance", "gae"], ["hemorrhoids/insurance", "hae"]]) {
     const t = read(p);
     const ids = [...t.matchAll(new RegExp(`<article class="card ins-card" id="${key}-([a-z-]+)"`, "g"))].map((m) => m[1]);
     assert.deepEqual(ids, order, p);
@@ -93,7 +93,7 @@ test("required lines, sections, and data limits", () => {
     assert.match(t, /Page last reviewed/, p);
     assert.doesNotMatch(t, /pelvic vein|ovarian vein|Medicaid plan/i, p);
   }
-  for (const p of PAGES.slice(0, 3)) assert.match(read(p), /What if my insurer says no\?/, p);
+  for (const p of PAGES.slice(0, 4)) assert.match(read(p), /What if my insurer says no\?/, p);
   assert.doesNotMatch(read("fibroids/insurance") + read("enlarged-prostate/insurance") + read("knee-arthritis/insurance"), /id="hae-/);
 });
 
@@ -104,12 +104,12 @@ test("the hub carries Dataset data, method, next check, and both dated changes",
   assert.match(t, /December 1, 2026/);
   assert.match(t, /November 15, 2026/);
   assert.match(t, /Next check:/);
-  assert.match(t, /id="hae-medicare"/);
+  assert.match(t, /href="\/hemorrhoids\/insurance\/"/);   // fix F (2026-11-15): HAE has its own page now
   for (const c of ["/fibroids/insurance/", "/enlarged-prostate/insurance/", "/knee-arthritis/insurance/"]) assert.ok(t.includes(`href="${c}"`), c);
 });
 
 // Phone-length job platform-condition-pages-0008 (his "Yes", 2026-11-08 11:15 CT).
-const COVERAGE = [["fibroids/insurance", "ufe"], ["enlarged-prostate/insurance", "pae"], ["knee-arthritis/insurance", "gae"]];
+const COVERAGE = [["fibroids/insurance", "ufe"], ["enlarged-prostate/insurance", "pae"], ["knee-arthritis/insurance", "gae"], ["hemorrhoids/insurance", "hae"]];
 
 test("the jump list comes before the cards, in their order, with plain links and the says-no link", () => {
   for (const [p, key] of COVERAGE) {
@@ -149,14 +149,19 @@ test("what decides coverage or hedges a firm line stays visible with the details
   assert.match(visible("knee-arthritis/insurance", "gae-molina"), /Medicare decision overrides this policy/);
 });
 
-test("the hub folds only its HAE cards: 12 folds, the script loads, the dataset grid stays open", () => {   // his "Yes", 2026-11-08 12:00 CT
+// Fix F (his yes, 2026-11-15 19:01 CT): the HAE cards moved to /hemorrhoids/insurance/; the hub's every-insurer grid
+// folds, closed, and keeps no card folds inside it; the hub's two-box picker is hidden until the script shows it.
+test("the hub: no cards of its own, the dataset grid folded and closed, the picker present, the script loads", () => {
   const t = read("insurance");
-  assert.equal((t.match(/<details class="ins-more">/g) || []).length, 12);
+  assert.equal((t.match(/<details class="ins-more">/g) || []).length, 0);
   assert.match(t, /insurance\.js/);
-  const grid = t.slice(t.indexOf('id="dataset"'), t.indexOf('id="hae"'));
-  assert.doesNotMatch(grid, /<details/);
+  assert.match(t, /<details class="ins-all ins-dataset"><summary><h2 id="dataset">/);
+  const grid = t.slice(t.indexOf('id="dataset"'), t.indexOf('id="ask"'));
+  assert.equal((grid.match(/<details/g) || []).length, 0);
+  assert.match(t, /<form class="ins-pick ins-pick-hub" id="ins-pick-hub" hidden/);
   for (const k of ["hae-uhc-ma", "hae-anthem", "hae-aetna", "hae-molina"]) {
-    const card = t.slice(t.indexOf(`id="${k}"`), t.indexOf("</article>", t.indexOf(`id="${k}"`)));
+    const h = read("hemorrhoids/insurance");
+    const card = h.slice(h.indexOf(`id="${k}"`), h.indexOf("</article>", h.indexOf(`id="${k}"`)));
     assert.match(card, /<span class="ins-lead">[^<]*\.\s+\S/, `${k}: whole text in the summary`);
   }
 });
@@ -164,7 +169,7 @@ test("the hub folds only its HAE cards: 12 folds, the script loads, the dataset 
 test("the source file is present",() => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));
 
 test("the sources list is folded at every width, every source number points inside it, and the script opens it", () => {   // his "Collapse sources for sure", 2026-11-08
-  for (const p of PAGES.slice(0, 3)) {
+  for (const p of PAGES.slice(0, 4)) {
     const h = read(p);
     const fold = h.match(/<details class="ins-sources"><summary><h2 id="sources">Sources \((\d+)\)<\/h2><\/summary><ol class="refs">([\s\S]*?)<\/ol><\/details>/);
     assert.ok(fold, `${p}: sources folded in a closed details with a counted heading`);
@@ -178,7 +183,7 @@ test("the sources list is folded at every width, every source number points insi
 
 test("the hub grid: every insurer has four rows in order, each with its full name, status, policy link and own date, plus one phone date line", () => {   // his "Yes", 2026-11-08 12:06 CT
   const t = read("insurance");
-  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="hae"'));
+  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="ask"'));
   const cards = grid.split('<section class="card ins-hub-card">').slice(1);
   assert.equal(cards.length, 12);
   for (const c of cards) {
@@ -203,10 +208,31 @@ test("the hub grid: every insurer has four rows in order, each with its full nam
 
 test("each hub row links to that insurer's card for that procedure", () => {
   const t = read("insurance");
-  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="hae"'));
+  const grid = t.slice(t.indexOf('class="ins-hub"'), t.indexOf('id="ask"'));
   for (const c of grid.split('<section class="card ins-hub-card">').slice(1)) {
     const hrefs = [...c.matchAll(/<dt><a href="([^"]+)"/g)].map((m) => m[1]);
     const i = hrefs[0].split("#ufe-")[1];
-    assert.deepEqual(hrefs, [`/fibroids/insurance/#ufe-${i}`, `/enlarged-prostate/insurance/#pae-${i}`, `/knee-arthritis/insurance/#gae-${i}`, `#hae-${i}`]);
+    assert.deepEqual(hrefs, [`/fibroids/insurance/#ufe-${i}`, `/enlarged-prostate/insurance/#pae-${i}`, `/knee-arthritis/insurance/#gae-${i}`, `/hemorrhoids/insurance/#hae-${i}`]);
+  }
+});
+
+// Fix F (his yes, ai-hq HQ chat 2026-11-15 19:01 CT): each coverage page asks for the insurer. The picker is hidden in the
+// HTML (no script: the page as before), lists every card in order plus "My insurer isn't listed", every card says what its
+// label means, and the full list sits in one fold that is open in the HTML.
+test("coverage pages: hidden insurer picker matching the cards, labels explained in each card, every card in one open fold", () => {
+  for (const [p, key] of COVERAGE) {
+    const t = read(p);
+    const pick = t.split('<div class="ins-pick" id="ins-pick" hidden>')[1];
+    assert.ok(pick, `${p}: picker hidden in the HTML`);
+    const sel = pick.split("</select>")[0];
+    assert.match(sel, /<option value="" disabled selected>Select your insurer<\/option>/, p);
+    const vals = [...sel.matchAll(/<option value="([a-z-]+)">/g)].map((m) => m[1]);
+    const cards = [...t.matchAll(new RegExp(`<article class="card ins-card" id="(${key}-[a-z-]+)"`, "g"))].map((m) => m[1]);
+    assert.deepEqual(vals, [...cards, "none"], p);
+    assert.ok(t.indexOf('id="ins-pick"') < t.indexOf('class="ins-jump"'), `${p}: picker above the jump list`);
+    assert.match(t, /<details class="ins-all" id="ins-all" open><summary><h2 id="by-insurer">See every insurer<\/h2><\/summary>/, p);
+    assert.doesNotMatch(t, /class="ins-legend"/, `${p}: no key above the cards`);
+    for (const c of t.split('<article class="card ins-card"').slice(1)) assert.match(c.split("</article>")[0], /<p class="ins-means"><strong>[^<]+:<\/strong> [^<]+<\/p>/, `${p}: label explained`);
+    assert.match(t, /<h2 id="ask">/, p);
   }
 });

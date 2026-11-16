@@ -107,3 +107,29 @@ p.ins-meta { margin-top: 12px; }
    between 1180 and 1399 px the printed "On this page" list at the top is the contents. */
 @media (min-width: 1180px) and (max-width: 1399px) { .insurance-page .toc-dock { display: none; } }
 @media (min-width: 1400px) { .insurance-page .toc-dock { left: calc(50% - 25.5rem - 16.5rem); } }
+
+/* Fix F (his yes, ai-hq HQ chat 2026-11-15 19:01 CT): the insurer picker, the chosen card under it, and every card folded. */
+.ins-pick { margin: 18px 0 20px; padding: 18px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.ins-pick[hidden] { display: none; }
+.ins-pick label { display: block; font-weight: 600; margin-bottom: 6px; }
+.ins-pick select { height: 48px; }
+.ins-pick select:invalid, .ins-pick select:has(option[value=""]:checked) { color: var(--muted); border-color: var(--accent); }
+.ins-answer:empty { display: none; }
+.ins-answer { margin-top: 14px; }
+.ins-answer .ins-card { margin: 0; box-shadow: none; }
+.ins-answer .ins-none ul { margin: 6px 0 0; }
+.ins-answer-links { display: flex; flex-wrap: wrap; gap: 0 22px; margin: 10px 0 0; }
+.ins-answer-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.ins-means { font-size: 0.9375rem; color: var(--muted); }
+.ins-means strong { color: var(--ink); }
+.ins-all { margin-top: 28px; }
+.ins-all > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.ins-all > summary::-webkit-details-marker { display: none; }
+.ins-all > summary > h2 { margin: 0; }
+.ins-all > summary::after { content: "+"; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+.ins-all[open] > summary::after { content: "\2013"; }
+.ins-pick-hub { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.ins-pick-hub .f { flex: 1 1 220px; min-width: 0; }
+.ins-pick-hub button { min-height: 48px; }
+.ins-pick-msg { flex: 1 1 100%; margin: 0; min-height: 1.2em; font-weight: 600; }
+.ins-pick-msg:empty { display: none; }
