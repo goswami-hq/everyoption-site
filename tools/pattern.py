@@ -88,7 +88,7 @@ def has_box(c):
 # ---- Page parts and fixed wording (job platform-web-design-0009; his yes 2026-11-09 22:06 CT: rebuild the pattern as
 # the one reference and extend this check). Each rule cites its decision in docs/condition-pattern.md.
 
-MENU = ["Home", "Conditions", "Insurance", "Find a doctor", "How we know", "For physicians"]   # fixes C and D, 2026-11-15
+MENU = ["Home", "Conditions", "Insurance", "Find a doctor", "About", "For physicians"]   # fixes C, D, E, 2026-11-15
 FOOTER_LINKS = ['href="/report/"', 'href="/doctors/"', 'href="/insurance/"', 'href="/how-we-know/"', 'href="/terms/"', 'href="/privacy/"', 'href="/physician-terms/"']   # last three: W32
 SITE_LABEL, SITE_LABEL_SR = "Doctor's website", "Doctor's website, opens in a new tab"
 SITE_LABEL_FILES = ["src-assets/finder.js", "lib/cities.mjs", "lib/directory.mjs"]

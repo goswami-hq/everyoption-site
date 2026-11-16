@@ -19,7 +19,7 @@ QUICK = "Quick guide"
 DEEP = "Deep dive, every option"
 SECTIONS = {   # menu item marked on pages that are not the menu item's own address
     "/conditions/": "Conditions", "/insurance/": "Insurance", "/find-a-doctor/": "Find a doctor",
-    "/how-we-know/": "How we know", "/account/": "For physicians",
+    "/about/": "About", "/account/": "For physicians",
 }
 
 
@@ -50,8 +50,8 @@ def section_of(path):
         return "/find-a-doctor/"
     if path == "/insurance/" or path.endswith("/insurance/"):
         return "/insurance/"
-    if path in ("/how-we-know/",):
-        return "/how-we-know/"
+    if path in ("/about/", "/how-we-know/"):   # fix E: How the doctor lists work sits under About
+        return "/about/"
     if path in ("/account/",):
         return "/account/"
     if path.strip("/").split("/")[0] in registry.BY_SLUG:

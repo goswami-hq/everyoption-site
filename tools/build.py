@@ -85,7 +85,7 @@ LOGO = (pathlib.Path(__file__).resolve().parent / "diagrams" / "logo.svgfrag").r
 WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#ffb648"/><stop offset=".55" stop-color="#ffb648" stop-opacity=".45"/><stop offset="1" stop-color="#ffb648" stop-opacity="0"/></linearGradient></defs><path d="M20 0 C2 60 38 120 20 190 C6 250 34 320 20 400"/></svg>'
 # Fixes C and D (his yes, ai-hq HQ chat 2026-11-15 17:50 CT): "Conditions" opens its own page, not a section of the home
 # page, and "Directory" became "Find a doctor", one front door to every way of finding a doctor.
-NAV = [("/", "Home"), ("/conditions/", "Conditions"), ("/insurance/", "Insurance"), ("/find-a-doctor/", "Find a doctor"), ("/how-we-know/", "How we know"), ("/account/", "For physicians")]
+NAV = [("/", "Home"), ("/conditions/", "Conditions"), ("/insurance/", "Insurance"), ("/find-a-doctor/", "Find a doctor"), ("/about/", "About"), ("/account/", "For physicians")]   # fix E (2026-11-15): "How we know" became About
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -142,7 +142,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/find-a-doctor/">Find a doctor</a> · <a href="/doctors/">Find a doctor by name</a> · <a href="/find-a-doctor/#by-city">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/how-we-know/">How we know</a></p>
+<p><a href="/find-a-doctor/">Find a doctor</a> · <a href="/doctors/">Find a doctor by name</a> · <a href="/find-a-doctor/#by-city">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/about/">About</a> · <a href="/how-we-know/">How the doctor lists work</a></p>
 {legal.footer_line()}
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
@@ -234,7 +234,7 @@ def home():
 <p class="cov-link home-cov"><a href="/insurance/">Will insurance cover it?</a></p>
 <div class="plain two">
 <div><h2>Who runs this</h2>
-<p>{e(DISCLOSURE)} <a href="/how-we-know/">How we know</a>.</p></div>
+<p>{e(DISCLOSURE)} <a href="/about/">About Every Option</a>.</p></div>
 <div><h2>How it works</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
 <p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p></div>
@@ -386,7 +386,7 @@ def finder(k):
 <div class="about">{about}{src}</div>
 <h2 id="how-it-works">How it works</h2>
 {diagram(k)}
-<p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How we know</a>.</p>
+<p class="small muted" style="margin-top:22px">This list is not a recommendation or a ranking. Whether {e(p["abbr"])} is right for you is a decision for you and your doctor. <a href="/how-we-know/">How the doctor lists work</a>.</p>
 <p class="small muted">Listings checked as of {LISTINGS_AS_OF}. Page last reviewed {REVIEWED}.</p>{FIND_BAR}"""
     return page(f"/{k}/", f"{p['name']} ({p['abbr']}): find a doctor near you | Every Option",
                 f"Doctors listed for {p['name'].lower()} ({p['abbr']}) near your ZIP code, nearest first.", body,
@@ -459,14 +459,52 @@ def find_page():
 <ul class="find-hubs">{hubs}</ul>
 <h2 id="by-name">Look up a doctor by name</h2>
 <p>Check a doctor you have been referred to, or one you already know. <a href="/doctors/">Find a doctor by name</a>.</p>
-<p class="small muted">This list is not a recommendation or a ranking. <a href="/how-we-know/">How we know</a>.</p>"""
+<p class="small muted">This list is not a recommendation or a ranking. <a href="/how-we-know/">How the doctor lists work</a>.</p>"""
     return page("/find-a-doctor/", "Find a Doctor Near You | Every Option",
                 "Find doctors near you who perform embolization for fibroids, an enlarged prostate, knee arthritis, pelvic vein pain "
                 "or bleeding hemorrhoids, by ZIP code, by city or by name.", body, ["/assets/home-search.js"], cls="prose-page find-page")
 
 
+# Fix E (his yes, ai-hq HQ chat 2026-11-15 18:06 CT): About. Who runs this, what IR is (the signed-off lines on the
+# Conditions page), how the condition pages are written, a way to the doctor-list page, errors, photo credits. The
+# "how pages are written" lines are new patient text: noindex until he signs them off (ABOUT_SIGNED = True then).
+ABOUT_SIGNED = False
+ABOUT_HOW = [
+    "Each condition page covers every treatment, with and without surgery, not only the ones interventional radiologists do.",
+    "We write them from published studies and medical guidelines. Each page lists its sources at the bottom, and we check its numbers against those sources.",
+    "A practicing interventional radiologist reads and signs off every condition page before it goes up. Each page shows the date it was last reviewed.",
+]
+
+
+def about():
+    refs = "".join(f'<li><a href="{u}" rel="noopener">{e(t)}</a></li>' for t, u in IR_SOURCES)
+    body = trail.html_of([trail.HOME, ("About", None)]) + f"""<h1>About Every Option</h1>
+<div class="prose">
+<p class="lede">Every Option explains every treatment for common conditions, including ones without surgery, and lists doctors near you who perform them.</p>
+<h2>Who runs this</h2>
+<p>{e(DISCLOSURE)}</p>
+<h2>What is interventional radiology?</h2>
+{"".join(f"<p>{e(t)}</p>" for t in IR_TEXT)}
+<p class="small muted">Sources:</p><ol class="refs small">{refs}</ol>
+<h2>How the condition pages are written</h2>
+{"".join(f"<p>{e(t)}</p>" for t in ABOUT_HOW)}
+<h2>How the doctor lists work</h2>
+<p>Where the doctor information comes from, what the two groups on each card mean, and how doctors claim their free profile: <a href="/how-we-know/">How the doctor lists work</a>.</p>
+<h2>Report an error</h2>
+<p>Use the <a href="/report/">report form</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
+{credits()}
+<p class="small muted">Education, not medical advice. Talk to your doctor about your own care.</p>
+</div>"""
+    head = "" if ABOUT_SIGNED else '<meta name="robots" content="noindex">\n'
+    return page("/about/", "About Every Option | Who Runs It and How Pages Are Written",
+                "Who runs Every Option, what interventional radiology is, how the condition pages are written and checked, and how "
+                "the doctor lists work.", body, head=head)
+
+
 def how():
-    body = trail.html_of([trail.HOME, ("How we know", None)]) + f"""<h1>How we know</h1>
+    # fix E (his yes, 2026-11-15 18:06 CT): this page is now only about the doctor lists; who runs the site, what IR is
+    # and how the condition pages are written moved to About (about() below). Same address, so every link still works.
+    body = trail.html_of([trail.HOME, ("About", "/about/"), ("How the doctor lists work", None)]) + f"""<h1>How the doctor lists work</h1>
 <div class="prose">
 <p class="lede">We look through public information so you can find who near you does a procedure. Doctors can claim their own listing for free, and anyone can report an error.</p>
 <h2>What the two groups mean</h2>
@@ -474,9 +512,6 @@ def how():
 <div><dt>Confirmed by physician</dt><dd>The doctor told us they perform it, and we have confirmed the account is theirs.</dd></div>
 <div><dt>Likely performs this procedure</dt><dd>Public information points to this doctor performing it, or the doctor told us so from an account we have not yet confirmed (the card says so). Call the office to confirm.</dd></div>
 </dl>
-<h2>Who runs this</h2>
-<p>{e(DISCLOSURE)}</p>
-<p>Confirming is free.</p>
 <h2>Where the information comes from</h2>
 <ul>
 <li>Doctors’ profiles on hospital, university, and practice websites, and search results for those pages.</li>
@@ -502,10 +537,10 @@ def how():
 <p>If something on a listing is wrong, anyone can tell us with the <a href="/report/">report form</a> or by email to <a href="mailto:{CONTACT}">{CONTACT}</a>. A report does not change a listing by itself.</p>
 <h2>Claim your profile</h2>
 <p>Only the physician can claim their own profile, with a free <a href="/account/">account</a>. A physician with an account can add their procedures, offices, phone, and website at once; their card stays under “Likely performs” until we know the account is theirs, and then moves to “Confirmed by physician.”</p>
-{credits()}
+<p>Who runs this site, and how the condition pages are written: <a href="/about/">About Every Option</a>.</p>
 <p class="small muted">Education, not medical advice. Last reviewed {REVIEWED}.</p>
 </div>"""
-    return page("/how-we-know/", "How We Find and List Doctors | Every Option",
+    return page("/how-we-know/", "How the Doctor Lists Work | Every Option",
                 "What the two groups on Every Option mean, where the information comes from, and how to report an error.",
                 body)
 
@@ -717,6 +752,7 @@ def main():
         write(f"{k}/index.html", finder(k))
     write("conditions/index.html", conditions_page())   # fix C
     write("find-a-doctor/index.html", find_page())      # fix D
+    write("about/index.html", about())   # fix E
     write("how-we-know/index.html", how())
     write("report/index.html", report())
     write("account/index.html", account())
