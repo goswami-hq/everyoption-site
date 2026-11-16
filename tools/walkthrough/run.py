@@ -209,7 +209,57 @@ def describe_controls(controls):
 
 TAP_FIELDS = ('"tap_words": "the words on the thing you tap, or on or beside the box you type in, copied as they appear; if it has no words, what it looks like", '
               '"where": "where it is on the screen, in your own words", "down_pct": <how far down the screen it is, 0 to 100>, "across_pct": <how far across, 0 to 100>, ')
+# Walkthrough 2026-11-15 finding 1 (his "Yes", ai-hq HQ chat 20:00 CT): a person on a phone taps a list box, sees its
+# choices, and picks one. A headless screenshot never shows the open list, so a tap on a <select> reports its choices in
+# words, and "choose" picks one by the words on it (pick_option below). Both cost a tap, as a finger does.
+CHOOSE_FIELD = '"option": "the choice you pick, copied as it appears, if choose", '
 EXPLORE_FIELDS = ('"expected": "what you expected your last tap to show, or (nothing yet)", "met": "yes|no|partly|nothing yet", "surprise": "anything that surprised or stopped you, or empty", ')
+
+
+def _has(hay, needle):
+    """Whole words of needle inside hay, both normalized (as match_score does: "ted" is not in "UnitedHealthcare")."""
+    return bool(needle) and f" {needle} " in f" {hay} "
+
+
+def pick_option(wanted, options):
+    """The index of the one option a person meant, or None. Same words first; then the one option holding the words; then
+    the longest option the words hold (so "Aetna Medicare Advantage plan" is that option, not "Aetna"). Two or more fits at
+    any step, or none, is a miss, as a vague pick is on a real list. Repeated option texts count once (the first)."""
+    w = norm(wanted)
+    if not w:
+        return None
+    seen, opts = set(), []
+    for i, o in enumerate(options):
+        n = norm(o)
+        if n and n not in seen:
+            seen.add(n); opts.append((i, n))
+    exact = [i for i, n in opts if n == w]
+    if exact:
+        return exact[0]
+    holds = [i for i, n in opts if _has(n, w)]
+    if len(holds) == 1:
+        return holds[0]
+    if holds:
+        return None
+    inside = [(len(n), i) for i, n in opts if _has(w, n)]
+    if not inside:
+        return None
+    top = max(k for k, _ in inside)
+    best = [i for k, i in inside if k == top]
+    return best[0] if len(best) == 1 else None
+
+
+CHOICES_SHOWN = 60   # a long list is read as far as a person scrolling a picker would before giving up; the rest is counted
+
+
+def choices_text(labels):
+    shown = "; ".join(labels[:CHOICES_SHOWN])
+    return shown + (f"; and {len(labels) - CHOICES_SHOWN} more" if len(labels) > CHOICES_SHOWN else "")
+
+
+# option.label is what the list shows (the label attribute, else the text with spaces collapsed) and what select_option
+# matches; the runner selects by index so the two can never disagree (review round 1, fix 2).
+SELECT_OPTIONS = "el => [...el.options].map((o, i) => ({label: o.label, i, off: o.disabled})).filter(o => !o.off)"
 
 
 def build_message(persona, task, sees, trail, taps, budget, url_path, visible, aria, controls, sr_pos):
@@ -231,11 +281,11 @@ def build_message(persona, task, sees, trail, taps, budget, url_path, visible, a
     extra = EXPLORE_FIELDS if explore else ""
     if sees:
         head.append('Answer with one JSON object only: {"looking_for": "what you are looking for, in your own words", "thinking": "one short sentence", '
-                    '"action": "tap|type|scroll_down|scroll_up|back|done|give_up", ' + TAP_FIELDS + extra +
+                    '"action": "tap|type|choose|scroll_down|scroll_up|back|done|give_up", ' + TAP_FIELDS + CHOOSE_FIELD + extra +
                     '"text": "what you type, if type", "submit": false, "why": "one short sentence"}')
     else:
         head.append('Answer with one JSON object only: {"looking_for": "what you are looking for, in your own words", "thinking": "one short sentence", '
-                    '"action": "tap|type|scroll_down|scroll_up|back|read_more|read_from|done|give_up", "target": <number of the control, or heading line for read_from>, ' + extra +
+                    '"action": "tap|type|choose|scroll_down|scroll_up|back|read_more|read_from|done|give_up", "target": <number of the control, or heading line for read_from>, ' + CHOOSE_FIELD + extra +
                     '"text": "what you type, if type", "submit": false, "why": "one short sentence"}')
     return "\n\n".join(head)
 
@@ -472,6 +522,7 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
     kind = persona.get("kind", "fixed")
     visited, vw, vh = {}, DEVICES[device]["viewport"]["width"], DEVICES[device]["viewport"]["height"]
     taps = scrolls = backs = fails = misses = 0
+    opened = None   # (address, box) of the list box the patient last tapped open; choose works only on that one (review fix 1)
     called = False
     finish_step = None
     outcome, sr_pos = None, 0
@@ -494,9 +545,9 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
                "expected": d.get("expected", ""), "met": d.get("met", ""), "surprise": d.get("surprise", ""),
                "axe": {"violations": len(axe.get("violations", [])), "incomplete": len(axe.get("incomplete", [])), "error": axe.get("error")}}
         how, words = "", ""
-        if sees and act in ("tap", "type"):
+        if sees and act in ("tap", "type", "choose"):
             words = str(d.get("tap_words") or "")
-            target, how = resolve(words, d.get("where"), d.get("down_pct"), d.get("across_pct"), controls, vw, vh, visible.splitlines(), want_field=act == "type")
+            target, how = resolve(words, d.get("where"), d.get("down_pct"), d.get("across_pct"), controls, vw, vh, visible.splitlines(), want_field=act in ("type", "choose"))
             rec["named"] = {"tap_words": words, "where": d.get("where", ""), "down_pct": d.get("down_pct"), "across_pct": d.get("across_pct"), "resolved_how": how, "miss": target is None}
         else:
             target = next((c for c in controls if c["n"] == d.get("target")), None)
@@ -505,11 +556,22 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
         try:
             if act in ("done", "give_up", "error"):
                 rec["result"] = act; steps.append(rec); log.write(json.dumps(rec) + "\n"); outcome = act; break
+            if act != "choose":
+                # any other action closes a native list on a phone (review round 2, fix 1); a tap on a list box reopens it below
+                opened = None
             if act == "tap":
                 if not target and sees:
                     taps += 1; misses += 1; result = "you tapped there and nothing happened"
                 elif not target:
                     result = "tap on nothing (no such control)"; fails += 1
+                elif target.get("tag") == "select":
+                    opts = page.locator(f'[data-wt="{target["n"]}"]').first.evaluate(SELECT_OPTIONS)
+                    taps += 1
+                    if opts:
+                        opened = (url_path, control_key(target))
+                        result = "a list opened with these choices: " + choices_text([o["label"] for o in opts]) + '. To pick one, answer "choose" with this box and the choice'
+                    else:
+                        result = "a list opened, but it has nothing you can choose"
                 elif target["href"].startswith(("tel:", "mailto:")):
                     taps += 1; called = target["href"].startswith("tel:"); result = "tapped a " + target["href"].split(":")[0] + " link"
                 else:
@@ -537,6 +599,32 @@ def run_task(browser, engine, persona, task, a, spend, cwd, system):
                         loc.press("Enter", timeout=4000)
                         page.wait_for_timeout(1200)
                     result = f'typed "{d.get("text", "")}"'
+            elif act == "choose":
+                taps += 1
+                if not target and sees:
+                    misses += 1; result = "you could not find a list box there"
+                elif not target or target.get("tag") != "select":
+                    fails += 1; result = "that is not a list box"
+                elif opened != (url_path, control_key(target)):
+                    # a person cannot pick from a list she has not opened: the tap is spent and the list stays shut (fix 1)
+                    result = "that list is not open; tap the box first to see its choices"
+                else:
+                    loc = page.locator(f'[data-wt="{target["n"]}"]').first
+                    opts = loc.evaluate(SELECT_OPTIONS)
+                    labels = [o["label"] for o in opts]
+                    k = pick_option(str(d.get("option", "")), labels)
+                    if k is None:
+                        result = f'no single choice matches "{d.get("option", "")}"; the choices are: ' + choices_text(labels)
+                    else:
+                        before = page.url
+                        loc.select_option(index=opts[k]["i"], timeout=5000)
+                        opened = None
+                        try:
+                            page.wait_for_load_state("load", timeout=6000)
+                        except Exception:
+                            pass
+                        page.wait_for_timeout(700)
+                        result = f'chose "{labels[k]}"' + (", and the page changed to " + page.url.replace(a.origin, "") if page.url != before else "")
             elif act in ("scroll_down", "scroll_up"):
                 sign = 1 if act == "scroll_down" else -1
                 page.evaluate("s => window.scrollBy(0, s * Math.round(innerHeight * 0.8))", sign); page.wait_for_timeout(350); scrolls += 1; result = "scrolled"

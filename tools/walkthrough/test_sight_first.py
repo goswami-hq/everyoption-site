@@ -11,6 +11,56 @@ def ctl(n, vis, y=100, x=20, w=300, h=44, href="/x/", tag="a", **kw):
     return dict(n=n, vis=vis, text=kw.pop("text", vis), tag=tag, href=href, x=x, y=y, w=w, h=h, type="", value=kw.pop("value", ""), placeholder=kw.pop("placeholder", ""), label=kw.pop("label", ""), **kw)
 
 
+class Choose(unittest.TestCase):
+    """Finding 1, 2026-11-15: picking from a list box by the words on the choice (review round 1, fixes 2, 3, 5)."""
+    OPTS = ["Medicare (Original)", "UnitedHealthcare", "UnitedHealthcare Medicare Advantage", "Aetna", "Aetna Medicare Advantage", "My insurer isn\u2019t listed"]
+
+    def pick(self, w, opts=None):
+        k = run.pick_option(w, opts or self.OPTS)
+        return None if k is None else (opts or self.OPTS)[k]
+
+    def test_exact(self):
+        self.assertEqual(self.pick("Aetna"), "Aetna")
+
+    def test_case_and_quotes(self):
+        self.assertEqual(self.pick('"unitedhealthcare"'), "UnitedHealthcare")
+
+    def test_fragment_unique(self):
+        self.assertEqual(self.pick("Original"), "Medicare (Original)")
+
+    def test_fragment_ambiguous_is_a_miss(self):
+        self.assertIsNone(self.pick("Medicare Advantage"))
+
+    def test_unknown_is_a_miss(self):
+        self.assertIsNone(self.pick("Medicaid"))
+        self.assertIsNone(self.pick(""))
+
+    def test_longest_option_inside_the_words(self):
+        self.assertEqual(self.pick("Aetna Medicare Advantage plan"), "Aetna Medicare Advantage")
+        self.assertEqual(self.pick("I have UnitedHealthcare through work"), "UnitedHealthcare")
+
+    def test_whole_words_only(self):
+        self.assertIsNone(self.pick("ted"))
+
+    def test_repeated_text_counts_once(self):
+        opts = ["Fibroids", "Fibroids", "Knee arthritis"]
+        self.assertEqual(run.pick_option("Fibroids", opts), 0)
+
+    def test_label_with_line_break(self):
+        # SELECT_OPTIONS returns option.label (spaces collapsed); even raw text with a newline still matches by words
+        self.assertEqual(run.pick_option("Enlarged prostate", ["Fibroids", "Enlarged\n   prostate"]), 1)
+
+    def test_long_list_capped(self):
+        txt = run.choices_text([f"State {i}" for i in range(70)])
+        self.assertTrue(txt.endswith("; and 10 more")); self.assertIn("State 59", txt); self.assertNotIn("State 60;", txt)
+
+    def test_select_is_a_field(self):
+        # a real <select>: its visible text is all its options; its own name comes from its label
+        c = ctl(1, "Medicare (Original) UnitedHealthcare Aetna", tag="select", href="", label="Your insurer")
+        target, how = run.resolve("Your insurer", "", None, None, [c, ctl(2, "", tag="input", href="", label="Your ZIP code")], VW, VH, want_field=True)
+        self.assertEqual((target["n"], how), (1, "text"))
+
+
 class Resolve(unittest.TestCase):
     def test_exact_words(self):
         c = ctl(1, "Compare them side by side", href="/knee/every-option/")
