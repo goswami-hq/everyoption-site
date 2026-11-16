@@ -469,10 +469,11 @@ def find_page():
 # Conditions page), how the condition pages are written, a way to the doctor-list page, errors, photo credits. The
 # "how pages are written" lines are new patient text: noindex until he signs them off (ABOUT_SIGNED = True then).
 ABOUT_SIGNED = False
-ABOUT_HOW = [
-    "Each condition page covers every treatment, with and without surgery, not only the ones interventional radiologists do.",
-    "We write them from published studies and medical guidelines. Each page lists its sources at the bottom, and we check its numbers against those sources.",
-    "A practicing interventional radiologist reads and signs off every condition page before it goes up. Each page shows the date it was last reviewed.",
+ABOUT_HOW = [   # kept general on his word (2026-11-15 18:08 CT): "it doesn't need to be super in depth or super specific to
+    # our exact process / We honestly shouldn't give every detail because that's part of our competitive edge"
+    "Our pages cover every treatment, with and without surgery.",
+    "They are based on published research and medical guidelines, with the sources listed on each page.",
+    "A practicing interventional radiologist reviews every condition page.",
 ]
 
 
