@@ -1010,3 +1010,17 @@ ul.find-hubs a { display: inline-block; padding: 10px 0; margin: -10px 0; font-w
 /* Fix D (2026-11-15): "Find a doctor" is longer than "Directory". On phones Home leaves the menu (the logo is the way
    home, as on most sites), so the four items keep their spacing. */
 @media (max-width: 480px) { nav.top a[href="/"] { display: none; } }
+
+/* His notes, 2026-11-15 18:01 CT: the condition box starts empty and reads as something to choose; both boxes the same
+   height so the labels line up (iOS draws a select taller than an input). */
+.find-search input, .find-search select { height: 48px; }
+.hero-search select:invalid, .find-search select:invalid { color: var(--muted); }
+.find-search select:invalid { border-color: var(--accent); }
+.home-page .hero select:invalid { color: #5f6b66; }
+select[aria-invalid="true"] { border-color: #a82a1e; box-shadow: 0 0 0 1px #a82a1e; }
+@media (prefers-color-scheme: dark) { select[aria-invalid="true"] { border-color: #f2b8b5; box-shadow: 0 0 0 1px #f2b8b5; } }
+/* the condition box takes its own row on the Find a doctor page, so "Select a condition" and the longest name show whole */
+.find-search .hs-row .f:first-child { flex: 1 1 100%; }
+.find-search .hs-row .f-zip { flex: 1 1 140px; }
+/* home search: the condition box gets the larger share, so "Select a condition" shows whole; on a narrow phone it takes its own row */
+.home-page .hs-row .f:first-child { flex: 3 1 205px; } .home-page .hs-row .f-zip { flex: 2 1 105px; }

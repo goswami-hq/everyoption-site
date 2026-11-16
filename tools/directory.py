@@ -244,7 +244,7 @@ def index_body(by, e, count):
 <ul id="dir-results" class="dir-list"></ul>
 <noscript><p class="notice">Search needs JavaScript. Use the letters below to browse by last name.</p></noscript>
 </div>
-<p><a href="/fibroids/doctors/">Browse fibroid embolization doctors by city</a></p>
+<p>Looking for doctors near you instead? <a href="/find-a-doctor/">Find a doctor</a> by condition and ZIP code, or by city.</p>
 <h2>Browse by last name</h2>
 {az_nav(by, e)}
 <p>If a doctor is missing, it usually means we have not found them yet.</p>

@@ -191,7 +191,7 @@ test("links: /fibroids/ lists the cities in plain HTML; a profile in a metro lin
   // fix D (2026-11-15): the footer's "Doctors by city" goes to the Find a doctor page, which lists every condition's hub
   assert.match(read("index.html"), /<a href="\/find-a-doctor\/#by-city">Doctors by city<\/a>/);
   assert.match(read("find-a-doctor/index.html"), /<h2 id="by-city">[\s\S]*href="\/fibroids\/doctors\/"/);
-  assert.match(read("doctors/index.html"), /href="\/fibroids\/doctors\/"/);
+  assert.match(read("doctors/index.html"), /href="\/find-a-doctor\/"/);   // his note 2026-11-15: no fibroid-only link here
   const atl = CITIES.metros.ufe.find((m) => m.slug === "atlanta-ga"), p = metroList(UFE, atl)[0];
   resetDirectory();
   const r = await handleDoctor(new Request(`http://localhost/doctors/x-${p.npi}/`), { backend: null, noCache: true, ASSETS });

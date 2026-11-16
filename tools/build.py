@@ -218,7 +218,7 @@ def home():
 <p class="lede-sub">{e(HOME_HOW)}</p></div>
 <form id="home-search" class="hero-search" role="search" aria-label="Find a doctor" novalidate>
 <p class="find-label">Find a doctor near you</p>
-<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
+<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond" required><option value="" disabled selected>Select a condition</option>{opts}</select></div>
 <div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
 <button type="submit">Find doctors</button></div>
 {FINDER_TERMS}
@@ -406,7 +406,7 @@ def credits():
 # Fix C (his yes, 2026-11-15 17:50 CT): the Conditions page. The cards, each with its pages (tools/trail.py strip_items),
 # and a short "What is interventional radiology?". The IR lines are new patient text: noindex, and listed for his
 # sign-off, until he signs them off (CONDITIONS_SIGNED = True then; ai-hq design/site-architecture-2026-11-15/).
-CONDITIONS_SIGNED = False
+CONDITIONS_SIGNED = True   # his "Yes", HQ chat 2026-11-15 18:01 CT, to the three IR lines as written
 IR_SOURCES = [("Society of Interventional Radiology. What is interventional radiology? (updated February 2025)", "https://www.sirweb.org/patients/"),
               ("Society of Interventional Radiology. Interventional radiology (IR) FAQs", "https://www.sirweb.org/patient-center/faqs/")]
 IR_TEXT = [
@@ -448,7 +448,7 @@ def find_page():
     body = trail.html_of([trail.HOME, ("Find a doctor", None)]) + f"""<h1>Find a doctor</h1>
 <p class="lede">Choose a condition and enter your ZIP code. You will see doctors near you who perform its procedure, nearest first.</p>
 <form id="home-search" class="hero-search find-search" role="search" aria-label="Find a doctor" novalidate>
-<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond">{opts}</select></div>
+<div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond" required><option value="" disabled selected>Select a condition</option>{opts}</select></div>
 <div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
 <button type="submit">Find doctors</button></div>
 {FINDER_TERMS}
@@ -578,7 +578,7 @@ AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Searc
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
-SITEMAP_PAGES = ["/", "/find-a-doctor/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
 
 
 def drafts():
