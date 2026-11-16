@@ -1024,3 +1024,12 @@ select[aria-invalid="true"] { border-color: #a82a1e; box-shadow: 0 0 0 1px #a82a
 .find-search .hs-row .f-zip { flex: 1 1 140px; }
 /* home search: the condition box gets the larger share, so "Select a condition" shows whole; on a narrow phone it takes its own row */
 .home-page .hs-row .f:first-child { flex: 3 1 205px; } .home-page .hs-row .f-zip { flex: 2 1 105px; }
+
+/* Walkthrough 2026-11-15 (his "Yes", HQ chat 20:00 CT): the name lookup right under the Find a doctor search (finding 7);
+   jump links over the deep page's full list (finding 8); the home search's Terms line readable on the dark hero (finding 10). */
+.find-byname { margin: -14px 0 28px; }
+.find-byname a { display: inline-block; padding: 10px 0; margin: -10px 0; font-weight: 600; }
+nav.group-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; margin: 4px 0 12px; }
+nav.group-jump .k { color: var(--muted); }
+nav.group-jump a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.home-page .hero-search .find-terms { color: #e6d8c6; }

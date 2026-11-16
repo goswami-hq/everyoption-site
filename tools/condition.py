@@ -22,6 +22,9 @@ COVERAGE = registry.coverage()   # a procedure's declared coverage page, content
 PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
 
 
+FINDER_WHO = "Interventional radiologists who perform "
+
+
 def finder_names(c):
     """The one line under "Find a doctor near you" that names the finder's procedure (ai-hq job platform-directory-0038,
     his call 12: a patient who read about the procedure could not tell the finder was for it). Built from the registry's
@@ -32,7 +35,9 @@ def finder_names(c):
     if not hub.endswith(" doctors"):
         raise ValueError(f'{c["slug"]}: registry hub_label "{hub}" does not end " doctors"; the finder line is built from it')
     words = hub.removesuffix(" doctors")
-    return "Doctors who perform " + words[0].lower() + words[1:]
+    # Walkthrough 2026-11-15 finding 5 (his "Yes", HQ chat 20:00 CT): the line names the specialty, so a reader asking
+    # "what kind of doctor does this?" finds it at the finder (every listed doctor is one: How the doctor lists work).
+    return FINDER_WHO + words[0].lower() + words[1:]
 
 
 def coverage_link(c):

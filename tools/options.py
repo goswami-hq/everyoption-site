@@ -458,7 +458,11 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             + f'<p class="see-every see-simple"><a href="/{c["slug"]}/">{e(d["simple_link"])}</a></p>'
             # Reading notes after the finder button, so the button shows on the first screen (his call 3, 2026-11-07).
             + how + "".join(f'<p class="reading-note small">{txt(t) if (PH.search(t) or condition.MARK.search(t) or "**" in t) else e(t)}</p>' for t in _notes(d)) + f'{toc(c, d, titles, extra)}{box}{top}'
-            f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>{table}{glance_find(c, d)}{sections}'
+            # walkthrough 2026-11-15 finding 8 (his "Yes", HQ chat 20:00 CT): jump links to each group of the full list
+            f'<h2 id="glance">{e(d["glance_heading"])}</h2><p class="small muted">{e(d["glance_note"])}</p>'
+            f'<nav class="group-jump" aria-label="Jump to a group"><span class="k">Jump to:</span> '
+            + " <span aria-hidden=\"true\">·</span> ".join(f'<a href="#{k["id"]}">{e(k["name"])}</a>' for k in cats_of(c, d))
+            + f'</nav>{table}{glance_find(c, d)}{sections}'
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
     body += f'<div class="condition deep-refs">{condition.references(refs)}</div>'

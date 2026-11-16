@@ -338,15 +338,24 @@
      "function": "understand how we know",
      "goal": "Find out who runs this site and whether doctors pay to be listed.",
      "finish": {
-      "url_re": "^/how-we-know",
-      "text_re": "two groups|Likely performs|Confirmed by physician"
+      "any_of": [
+       {
+        "url_re": "^/about",
+        "text_re": "no one can pay"
+       },
+       {
+        "url_re": "^/how-we-know",
+        "text_re": "two groups|Likely performs|Confirmed by physician"
+       }
+      ]
      },
      "tap_budget": 4,
      "words": [
       "who runs this",
       "pay",
       "trust"
-     ]
+     ],
+     "note": "Finish line updated 2026-11-15 (walkthrough finding 6, his \"Yes\" 20:00 CT): About now holds who runs the site."
     },
     {
      "id": "find",
@@ -724,14 +733,23 @@
      "function": "understand how we know",
      "goal": "Find out who is behind this site and how they decide which doctors to list.",
      "finish": {
-      "url_re": "^/how-we-know",
-      "text_re": "two groups|Likely performs|Confirmed by physician"
+      "any_of": [
+       {
+        "url_re": "^/about",
+        "text_re": "no one can pay"
+       },
+       {
+        "url_re": "^/how-we-know",
+        "text_re": "two groups|Likely performs|Confirmed by physician"
+       }
+      ]
      },
      "tap_budget": 4,
      "words": [
       "who runs this",
       "how you choose doctors"
-     ]
+     ],
+     "note": "Finish line updated 2026-11-15 (walkthrough finding 6, his \"Yes\" 20:00 CT): About now holds who runs the site."
     },
     {
      "id": "doctor",

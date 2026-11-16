@@ -33,6 +33,12 @@
     // A history entry, so Back returns the reader to where they were (job 20: Back used to leave the page).
     if (id && location.hash !== "#" + id && history.pushState) { history.pushState(null, "", "#" + id); pushed = true; }
     open(id);
+    // Walkthrough 2026-11-15 finding 12 (his "Yes", 20:00 CT): "How it works" under the intro also opens its fold, so the
+    // reader lands on the drawing, not on a second closed "How it works".
+    if (a.closest(".find-links") && !a.classList.contains("find-compare")) {
+      var hf = (document.getElementById(id) || document).querySelector("details.how-fold");
+      if (hf) { hf.open = true; hf.scrollIntoView({ block: "start" }); }
+    }
   });
   // The animation starts over when "How it works" opens, so nobody finds it already finished.
   var how = document.querySelector("details.how-fold");
@@ -44,8 +50,16 @@
     if (f) { if (!pushed) f.scrollIntoView({ block: "center" }); f.focus({ preventScroll: true }); }
   }
   window.addEventListener("popstate", function () { if (from && location.hash === fromHash) home(); });
+  // Walkthrough 2026-11-15 finding 4 (his "Yes", 20:00 CT): the bar also steps aside while a procedure drawing is on
+  // screen, so it never covers the drawing or its steps.
   var bar = document.querySelector(".find-bar"), finder = document.getElementById("finder");
   if (bar && finder && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (e) { bar.hidden = e[0].isIntersecting; }).observe(finder);
+    var seen = new Set();
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) seen.add(e.target); else seen.delete(e.target); });
+      bar.hidden = seen.size > 0;
+    });
+    io.observe(finder);
+    [].forEach.call(document.querySelectorAll("figure.proc"), function (f) { io.observe(f); });
   }
 })();

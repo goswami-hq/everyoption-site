@@ -421,7 +421,8 @@ def conditions_page():
     for c, p, _ in registry.condition_rows():
         if not p:
             continue
-        links = "".join(f'<li><a href="{e(href)}">{e(name)}</a></li>' for _, name, href in trail.strip_items(c["slug"]))
+        # walkthrough 2026-11-15 finding 9: each card's links say which condition they are for, to a screen reader
+        links = "".join(f'<li><a href="{e(href)}" aria-label="{e(name)}: {e(c["card"]["name"])}">{e(name)}</a></li>' for _, name, href in trail.strip_items(c["slug"]))
         cards += (f'<li class="cond-card t-{c["card"]["color"]}"><h2><a href="/{c["slug"]}/">{e(c["card"]["name"])}</a></h2>'
                   f'<p class="cond-proc">{e(c["card"]["line"])}</p><ul class="cond-links">{links}</ul></li>')
     refs = "".join(f'<li><a href="{u}" rel="noopener">{e(t)}</a></li>' for t, u in IR_SOURCES)
@@ -454,6 +455,7 @@ def find_page():
 {FINDER_TERMS}
 <p id="home-status" class="hs-status" role="status"></p>
 </form>
+<p class="find-byname">Know the doctor’s name? <a href="/doctors/">Look them up by name</a>.</p>
 <h2 id="by-city">Browse doctors by city</h2>
 <p>See everyone listed in a metro area, for one procedure.</p>
 <ul class="find-hubs">{hubs}</ul>

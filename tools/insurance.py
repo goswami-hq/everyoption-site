@@ -137,6 +137,9 @@ def procedure_body(p, data, copy):
             f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{picker(p, data, copy)}{header_notice(copy)}{jump(p, data, copy)}'
             # fix F: every card under one fold, open in the HTML (no script: today's page); insurance.js closes it
             f'<details class="ins-all" id="ins-all" open><summary><h2 id="by-insurer">See every insurer</h2></summary><div class="ins-cards">{cards}</div></details>'
+            # walkthrough 2026-11-15 finding 2 (his "Yes", HQ chat 20:00 CT): seen without the picker or the fold
+            f'<p class="ins-unlisted"><strong>Medicaid, or your insurer is not listed?</strong> We did not check Medicaid or every insurer. '
+            f'<a href="#ask">Questions to ask your plan</a></p>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>{no}'
             f'<h2 id="next">Next steps</h2><ul class="ins-links"><li><a href="/{p["slug"]}/">{e(p["guide"])}</a></li>'
             f'<li><a href="/{p["slug"]}/every-option/">{e(p["compare"])}</a></li><li><a href="/{p["slug"]}/#finder">{e(p["finder"])}</a></li>'
