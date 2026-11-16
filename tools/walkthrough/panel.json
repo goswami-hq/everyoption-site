@@ -1,14 +1,15 @@
 {
- "version": 1,
- "updated": "2026-11-08",
+ "version": 2,
+ "updated": "2026-11-15",
  "sources": [
   "records/reports/2026-11-06 Fibroids audience and content research.md",
   "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
   "records/reports/2026-11-06 Knee arthritis audience and content research.md",
   "records/reports/2026-11-06 Pelvic vein pain audience and content research.md",
-  "records/reports/2026-11-06 Every Option audience and style research.md"
+  "records/reports/2026-11-06 Every Option audience and style research.md",
+  "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
  ],
- "rule": "customer-research: at least five independent data points per persona; where a persona has fewer the note says so. All personas provisional: one pull, one night, 2026-11-06.",
+ "rule": "customer-research: at least five independent data points per persona; where a persona has fewer the note says so. All personas provisional: one pull, one night, 2026-11-06. Personas added 2026-11-15 come from the same reports (hemorrhoids: 2026-11-09), one more pull, no new research; wife-two borrows one point from another condition's report (its note says so).",
  "personas": [
   {
    "id": "fib-new",
@@ -910,8 +911,14 @@
      "tap_budget": 9,
      "finish": {
       "any_of": [
-       {"text_re": "Your note", "selector": "#proc-ufe.on"},
-       {"text_re": "Note saved", "selector": "#proc-ufe.on"}
+       {
+        "text_re": "Your note",
+        "selector": "#proc-ufe.on"
+       },
+       {
+        "text_re": "Note saved",
+        "selector": "#proc-ufe.on"
+       }
       ]
      },
      "finish_note": "Job platform-directory-0037: 'Note saved' on screen also meets the line (walkthrough 2026-11-13 found 'Your note' alone too strict: the summary can sit off screen after a save)."
@@ -1114,6 +1121,341 @@
      ]
     }
    ]
+  },
+  {
+   "id": "fib-medicaid",
+   "who": "A woman, 36, on Medicaid. Heavy periods and clots for two years; an ultrasound found fibroids. She wants to keep the chance of having another child. Money is tight, so she checks cost before anything else.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Typed the site name from a Facebook post about fibroids",
+   "words": [
+    "insurance",
+    "Medicaid",
+    "cover",
+    "fibroids",
+    "doctor near me"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Inpatient UFE payer: 27.0% Medicaid (JAMA Netw Open 2025, report line 33)",
+    "Women about 35 to 54, Black women over-represented, large Medicaid share (report summary)",
+    "43% under 40 want to keep fertility (report, as for fib-new)",
+    "Average 3.6 years of symptoms before care (Borah 2013)",
+    "The site's insurance check leaves out Medicaid (site method text, 2026-11-08)"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Tests 'My insurer isn't listed' from the menu.",
+   "tasks": [
+    {
+     "id": "insurance-menu",
+     "function": "check insurance",
+     "goal": "Find out whether your insurance would pay for the fibroid treatment that is not surgery. You have Medicaid.",
+     "start": "/",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#ins-answer .ins-none"
+       },
+       {
+        "url_re": "insurance",
+        "text_re": "Medicaid"
+       }
+      ]
+     },
+     "tap_budget": 6,
+     "words": [
+      "insurance",
+      "Medicaid",
+      "cover"
+     ]
+    },
+    {
+     "id": "find-menu",
+     "function": "find a doctor near a ZIP",
+     "goal": "Find a doctor near you who treats fibroids without surgery. Your ZIP code is 48205.",
+     "start": "/conditions/",
+     "finish": {
+      "url_re": "^/fibroids",
+      "selector": "#results .card"
+     },
+     "tap_budget": 5,
+     "words": [
+      "find a doctor",
+      "near me"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hem-uhc",
+   "who": "A man, 52, with UnitedHealthcare through work. His colon was checked and his doctor said bleeding hemorrhoids. His wife keeps telling him to get it fixed; he wants to know what it costs before he calls anyone.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/hemorrhoids/",
+   "query": "Searched: hemorrhoid treatment without surgery covered by insurance",
+   "words": [
+    "insurance",
+    "UnitedHealthcare",
+    "covered",
+    "all the options"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-09 Hemorrhoid audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Cost and insurance: 39 comments, 28 Reddit threads (report)",
+    "HAE ads: insurance or Medicare named in 17 of 35 (report)",
+    "Peak age 45 to 65 (1989 survey, via the report)",
+    "A partner may push them to go (report: who decides)",
+    "Most-asked includes 'what will it cost' and 'do I need surgery' (report)"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Tests the new hemorrhoid insurance page and whether the strip makes the deep dive easy to find (the friends' complaint).",
+   "tasks": [
+    {
+     "id": "insurance-pick",
+     "function": "check insurance",
+     "goal": "Find out whether UnitedHealthcare pays for the treatment without surgery.",
+     "finish": {
+      "url_re": "^/hemorrhoids/insurance",
+      "selector": "#ins-answer .ins-chosen"
+     },
+     "tap_budget": 3,
+     "words": [
+      "insurance",
+      "UnitedHealthcare"
+     ]
+    },
+    {
+     "id": "deep",
+     "function": "compare options",
+     "goal": "See every treatment for bleeding hemorrhoids side by side, in detail, so you can compare them.",
+     "finish": {
+      "url_re": "^/hemorrhoids/every-option"
+     },
+     "tap_budget": 2,
+     "words": [
+      "compare",
+      "all the options",
+      "side by side"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pros-referred",
+   "who": "A man, 69, retired, on Medicare. His primary care doctor gave him the name of a doctor, Dr. Sclafani, for an enlarged prostate. His wife is reading with him at the computer and wants to know who runs this site before they trust it.",
+   "device": "desktop1440",
+   "mode": "sighted",
+   "start": "/",
+   "query": "Typed the site name his doctor wrote on a card",
+   "words": [
+    "doctor's name",
+    "who runs this",
+    "Medicare"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "PAE referrals: urology 48%, self 30%, primary care 11% (single center 2015 to 2020, report)",
+    "Wives as co-researchers (report: who decides)",
+    "Men in their 60s and 70s, many retired (report summary)",
+    "Medicare very likely the main payer (report, inference)",
+    "Men say each urologist pushes his own procedure; second opinions common (report: objections)"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Tests the Find a doctor page's name route and About.",
+   "tasks": [
+    {
+     "id": "name",
+     "function": "find a doctor by name",
+     "goal": "Find the doctor named Sclafani that your doctor told you about.",
+     "finish": {
+      "url_re": "^/doctors/salvatore-sclafani"
+     },
+     "tap_budget": 4,
+     "words": [
+      "doctor's name",
+      "search"
+     ]
+    },
+    {
+     "id": "about",
+     "function": "understand how we know",
+     "goal": "Find out who runs this site and whether doctors pay to be on it.",
+     "finish": {
+      "any_of": [
+       {
+        "url_re": "^/about",
+        "text_re": "no one can pay"
+       },
+       {
+        "url_re": "^/how-we-know"
+       }
+      ]
+     },
+     "tap_budget": 3,
+     "words": [
+      "who runs this",
+      "about"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "wife-two",
+   "who": "A woman, 50, with fibroids herself. She also reads up for her husband, 58, who gets up three times a night to urinate. She uses her phone and moves between what she reads for herself and for him.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/fibroids/",
+   "query": "Searched: fibroid treatment without surgery",
+   "words": [
+    "prostate",
+    "other conditions",
+    "what kind of doctor"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Fibroids audience and content research.md",
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Wives as co-researchers for prostate (prostate report: who decides)",
+    "Women about 35 to 54 with fibroids (fibroid report summary)",
+    "Men in their 50s to 70s with urinary symptoms (prostate report)",
+    "Which specialist to see, about 30 asks (pelvic report via the desktop persona)",
+    "Most-asked for hemorrhoids too: what kind of doctor do I see (hemorrhoid report)"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Tests moving between conditions through the menu's Conditions page, and the 'What is interventional radiology?' lines. One of the five points is borrowed from another condition's report.",
+   "tasks": [
+    {
+     "id": "switch",
+     "function": "understand the condition",
+     "goal": "Now find the part of this site about your husband's problem: an enlarged prostate.",
+     "finish": {
+      "url_re": "^/enlarged-prostate/"
+     },
+     "tap_budget": 3,
+     "words": [
+      "prostate",
+      "other conditions"
+     ]
+    },
+    {
+     "id": "which-doctor",
+     "function": "understand how we know",
+     "goal": "Find out what kind of doctor does these treatments without surgery.",
+     "finish": {
+      "text_re": "Interventional radiologists are doctors who use imaging"
+     },
+     "tap_budget": 4,
+     "words": [
+      "what kind of doctor",
+      "who does this"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "knee-city",
+   "who": "A man, 61, on Medicare. A Facebook ad sent him straight to a list of knee doctors in New York. He knows nothing about the treatment yet and does not trust clinic ads.",
+   "device": "phone390",
+   "mode": "sighted",
+   "start": "/knee-arthritis/doctors/new-york-city-area/",
+   "query": "Tapped a Facebook ad: knee pain treatment near you",
+   "words": [
+    "knee replacement",
+    "compare",
+    "Medicare",
+    "is this real"
+   ],
+   "source_reports": [
+    "records/reports/2026-11-06 Knee arthritis audience and content research.md"
+   ],
+   "provisional": true,
+   "data_points": [
+    "Facebook local clinic ads, some 'covered by Medicare' ads running 429 to 444 days (report)",
+    "Distrust of doctors 'lying for money', about 45 mentions (report)",
+    "About 4 in 10 with severe pain not willing to have replacement (Vina 2017)",
+    "Medicare Advantage coverage asked in Reddit threads (report)",
+    "About 7M aged 45 to 65 with painful knee arthritis (report)"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Lands deep, on a city page, and must find his way out through the trail and the strip.",
+   "tasks": [
+    {
+     "id": "compare-from-city",
+     "function": "compare options",
+     "goal": "Find out how this knee treatment compares with a knee replacement.",
+     "finish": {
+      "url_re": "^/knee-arthritis/every-option"
+     },
+     "tap_budget": 3,
+     "words": [
+      "knee replacement",
+      "compare"
+     ]
+    },
+    {
+     "id": "medicare",
+     "function": "check insurance",
+     "goal": "Find out whether Medicare pays for this knee treatment.",
+     "finish": {
+      "url_re": "^/knee-arthritis/insurance",
+      "selector": "#ins-answer .ins-chosen"
+     },
+     "tap_budget": 4,
+     "words": [
+      "Medicare",
+      "covered"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "explore-slow",
+   "mode": "explore",
+   "provisional": true,
+   "who": "A woman, 66. Reads slowly and likes to look at pictures at her own pace. Her husband has an enlarged prostate.",
+   "device": "phone390",
+   "start": "/enlarged-prostate/",
+   "query": "Searched: how does prostate embolization work",
+   "words": [
+    "how it works",
+    "picture",
+    "step by step"
+   ],
+   "situation": "You want to see how the treatment works, step by step, at your own pace. Moving pictures go too fast for you.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Tests the drawings' Pause and the held steps (fix G); explorers never enter before-and-after."
+  },
+  {
+   "id": "explore-menu",
+   "mode": "explore",
+   "provisional": true,
+   "who": "A man, 45, on a laptop. A friend sent him the home page; he has no particular condition in mind yet and clicks around the top menu.",
+   "device": "desktop1440",
+   "start": "/",
+   "query": "A friend's link",
+   "words": [
+    "what is this site",
+    "conditions",
+    "insurance"
+   ],
+   "situation": "Work out what this site is for, what it covers, and whether you would trust it. Use the menu at the top.",
+   "tap_budget": 10,
+   "source_reports": [
+    "records/reports/2026-11-06 Every Option audience and style research.md"
+   ],
+   "note": "Added 2026-11-15 (his words, HQ chat 19:09 CT: \"add some extra personas that tackle cases we haven't covered\") for the new navigation: menu Conditions and Find a doctor pages, About, the condition strip, the insurer picker, the hemorrhoid insurance page. Walks the new menu: Conditions, Insurance, Find a doctor, About."
   }
  ]
 }
