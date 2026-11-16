@@ -228,7 +228,8 @@ def hub_body(data, copy):
             f'<h2 id="changes">Changes coming soon</h2><ul>{changes}</ul>'
             f'<details class="ins-all ins-dataset"><summary><h2 id="dataset">Every insurer, every procedure</h2></summary>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div></details>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>'
-            f'<h2 id="method">How we checked</h2>{method}<p><strong>Next check:</strong> {e(data["next_check"])}.</p>{reviewed(copy)}')
+            # no next-check date: nothing scheduled keeps it (his "A3 remove it", HQ chat 2026-11-16 14:30 CT)
+            f'<h2 id="method">How we checked</h2>{method}{reviewed(copy)}')
 
 
 def ld(d):

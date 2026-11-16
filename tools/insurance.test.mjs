@@ -97,13 +97,13 @@ test("required lines, sections, and data limits", () => {
   assert.doesNotMatch(read("fibroids/insurance") + read("enlarged-prostate/insurance") + read("knee-arthritis/insurance"), /id="hae-/);
 });
 
-test("the hub carries Dataset data, method, next check, and both dated changes", () => {
+test("the hub carries Dataset data, method, no next-check promise, and both dated changes", () => {
   const t = read("insurance");
   const ld = [...t.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
   assert.ok(ld.some((x) => x["@type"] === "Dataset"));
   assert.match(t, /December 1, 2026/);
   assert.match(t, /November 15, 2026/);
-  assert.match(t, /Next check:/);
+  assert.doesNotMatch(t, /Next check|February 2027/);   // his "A3 remove it" (2026-11-16)
   assert.match(t, /href="\/hemorrhoids\/insurance\/"/);   // fix F (2026-11-15): HAE has its own page now
   for (const c of ["/fibroids/insurance/", "/enlarged-prostate/insurance/", "/knee-arthritis/insurance/"]) assert.ok(t.includes(`href="${c}"`), c);
 });
