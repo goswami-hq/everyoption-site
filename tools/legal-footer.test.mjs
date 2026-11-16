@@ -29,6 +29,7 @@ function footerErrors(tag, html) {
   if (!foot[0].includes(DISCLOSURE)) errs.push(`${tag}: footer lacks the disclosure line`);
   if (!foot[0].includes("Education, not medical advice.")) errs.push(`${tag}: footer lacks "Education, not medical advice."`);
   if (!/<script src="\/assets\/notice\.js\?v=[0-9a-f]{10}" defer><\/script>/.test(html)) errs.push(`${tag}: notice.js not loaded with defer`);
+  if (!/<script src="\/assets\/to-top\.js\?v=[0-9a-f]{10}" defer><\/script>/.test(html)) errs.push(`${tag}: to-top.js not loaded with defer`);   // his words 2026-11-16: every page
   const buttons = (html.match(/Find doctors<\/button>/g) || []).length, lines = html.split(FINDER_LINE).length - 1;
   if (buttons !== lines) errs.push(`${tag}: ${buttons} "Find doctors" buttons, ${lines} terms lines`);
   return errs;

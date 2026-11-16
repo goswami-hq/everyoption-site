@@ -66,7 +66,7 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     const r = await get(`/fibroids/doctors/${m.slug}/`);
     assert.equal(r.status, 200, m.slug);
     // W32 (job platform-launch-0005): the notice bar's script is the one script a city page loads; the cards need none.
-    assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/notice\.js\?v=[0-9a-f]{10}" defer>)/, "no script needed or loaded");
+    assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top)\.js\?v=[0-9a-f]{10}" defer>)/, "no script needed or loaded");
     const want = finderMetro(UFE, m).map((p) => p.npi);
     // job platform-main-0013: pages with 5+ towns group the cards by town (order checked in cities-facts-towns.test.mjs)
     if (/<div class="town-group">/.test(r.html)) assert.deepEqual([...cards(r.html)].sort(), [...want].sort(), `${m.slug}: same doctors`);
@@ -156,7 +156,7 @@ test("addresses: unknown slug and a metro under the bar 404; no trailing slash 3
   assert.match(r.html, /<h1>Where can I get fibroid embolization \(UFE\)\?<\/h1>/);
   for (const s of FIRST_11) assert.ok(r.html.includes(`href="/fibroids/doctors/${s}/"`), s);
   assert.match(r.html, /<li id="ga"><strong>Georgia<\/strong>: \d+ doctors listed\. City pages: <a href="\/fibroids\/doctors\/atlanta-ga\/">Atlanta<\/a>/);
-  assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/notice\.js\?v=[0-9a-f]{10}" defer>)/);   // W32: notice.js only
+  assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top)\.js\?v=[0-9a-f]{10}" defer>)/);   // W32: notice.js only; 2026-11-16: and the Back to top arrow (to-top.js), which needs no data
   const post = await handleCity(new Request("http://localhost/fibroids/doctors/atlanta-ga/", { method: "POST" }), { backend: null, noCache: true, ASSETS });
   assert.equal(post.status, 405);
 });

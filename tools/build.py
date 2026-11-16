@@ -25,6 +25,7 @@ DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. L
               "to be listed, ranked higher, or sent patients.")
 CONTACT = "errors@everyoptionmd.com"
 NOTICE_JS = "/assets/notice.js"   # src-assets/notice.js
+TO_TOP_JS = "/assets/to-top.js"   # src-assets/to-top.js: the Back to top arrow on every page (his words, 2026-11-16 07:02 CT)
 # W32 (ai-hq job platform-launch-0005; his text 2026-11-13): one line directly under every "Find doctors" button.
 FINDER_TERMS = legal.FINDER_TERMS
 ORIGIN = "https://everyoptionmd.com"
@@ -116,6 +117,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
     # W32 (ai-hq job platform-launch-0005): the first-visit notice bar on every page, Function-rendered shells included.
     # Kept out of `scripts`, which also picks the body class.
     js += f'<script src="{ver(NOTICE_JS)}" defer></script>'
+    js += f'<script src="{ver(TO_TOP_JS)}" defer></script>'
     return f"""<!doctype html>
 <html lang="en">
 <head>

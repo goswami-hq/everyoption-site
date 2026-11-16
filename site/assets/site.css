@@ -1033,3 +1033,18 @@ nav.group-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10p
 nav.group-jump .k { color: var(--muted); }
 nav.group-jump a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 .home-page .hero-search .find-terms { color: #e6d8c6; }
+
+/* Back to top arrow on every page (his words, ai-hq HQ chat 2026-11-16 07:02 CT; src-assets/to-top.js). Bottom right,
+   48 px, above the first-visit notice and, where it shows, the "Find a doctor" bar. */
+.to-top-btn { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom) + var(--notice-h, 0px)); z-index: 5;
+  width: 48px; height: 48px; display: grid; place-items: center; padding: 0; border-radius: 50%; cursor: pointer;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 8px 22px -10px rgba(40, 30, 20, .45);
+  animation: dock-in 180ms var(--ease-out) both; }
+.to-top-btn[hidden] { display: none; }
+.to-top-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .to-top-btn:hover { color: var(--accent); border-color: var(--accent); } }
+body:has(.find-bar:not([hidden]):not(.over-results)) .to-top-btn { bottom: calc(16px + 50px + 12px + env(safe-area-inset-bottom) + var(--notice-h, 0px)); }
+@media (min-width: 761px) { .to-top-btn { right: 24px; bottom: calc(24px + var(--notice-h, 0px)); }
+  body:has(.find-bar:not([hidden]):not(.over-results)) .to-top-btn { bottom: calc(14px + 50px + 12px + var(--notice-h, 0px)); } }
+@media (prefers-reduced-motion: reduce) { .to-top-btn { animation: none; } }
+@media print { .to-top-btn { display: none; } }
