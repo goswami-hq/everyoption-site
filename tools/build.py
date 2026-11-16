@@ -468,7 +468,7 @@ def find_page():
 # Fix E (his yes, ai-hq HQ chat 2026-11-15 18:06 CT): About. Who runs this, what IR is (the signed-off lines on the
 # Conditions page), how the condition pages are written, a way to the doctor-list page, errors, photo credits. The
 # "how pages are written" lines are new patient text: noindex until he signs them off (ABOUT_SIGNED = True then).
-ABOUT_SIGNED = False
+ABOUT_SIGNED = True   # his "Yes", HQ chat 2026-11-15 18:25 CT, to the three lines as written
 ABOUT_HOW = [   # kept general on his word (2026-11-15 18:08 CT): "it doesn't need to be super in depth or super specific to
     # our exact process / We honestly shouldn't give every detail because that's part of our competitive edge"
     "Our pages cover every treatment, with and without surgery.",
@@ -614,7 +614,7 @@ AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Searc
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
-SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/about/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
 
 
 def drafts():
