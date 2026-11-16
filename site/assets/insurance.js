@@ -43,6 +43,11 @@
     }
     answer.appendChild(links());
     if (!keepHash && history.replaceState) history.replaceState(null, "", "#" + v);
+    // Walkthrough 2026-11-15 run 2 item A: the answer can land below a phone's first screen; bring it up after a pick
+    if (!keepHash && answer.firstChild && answer.scrollIntoView) {
+      var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+      answer.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+    }
   }
   function fromHash() {
     var id = location.hash.slice(1);
