@@ -34,10 +34,13 @@ test("peek cells carry the grid's own text", () => {
     const html = page(p.slice(1)), start = html.indexOf('class="glance-peek"');
     const peek = html.slice(start, html.indexOf("</table>", start)), grid = html.slice(html.indexOf('class="glance"'));
     for (const m of peek.matchAll(/<td data-label="([^"]+)">(.*?)<\/td>/g)) {
-      const found = m[1] === "What the evidence says" ? grid.includes(m[2]) : grid.includes(`data-label="${m[1]}">${m[2]}</td>`);
-      assert.ok(found, `${p}: "${m[2]}" (${m[1]}) is not in the full grid`);
+      assert.ok(grid.includes(m[2]), `${p}: "${m[2]}" (${m[1]}) is not in the full grid`);
     }
-    assert.match(peek, /What the evidence says/, `${p}: the view states how sure the evidence is`);
+    // his note 2026-11-16 08:14 CT ("Good evidence suggests what?"): the evidence word never stands alone; each row's
+    // "How well it works" carries the effect, after the certainty word where there is one
+    const works = [...peek.matchAll(/<td data-label="How well it works">(.*?)<\/td>/g)].map((m) => m[1]);
+    assert.ok(works.length >= 2, `${p}: the view says how well each works`);
+    for (const w of works) assert.match(w, /<span class="eff">[^<]+<\/span>$/, `${p}: an effect after the evidence word: ${w}`);
   }
 });
 

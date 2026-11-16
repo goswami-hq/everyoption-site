@@ -1048,3 +1048,19 @@ body:has(.find-bar:not([hidden]):not(.over-results)) .to-top-btn { bottom: calc(
   body:has(.find-bar:not([hidden]):not(.over-results)) .to-top-btn { bottom: calc(14px + 50px + 12px + var(--notice-h, 0px)); } }
 @media (prefers-reduced-motion: reduce) { .to-top-btn { animation: none; } }
 @media print { .to-top-btn { display: none; } }
+
+/* His note (HQ chat 2026-11-16 08:14 CT): the first-screen "At a glance" table was three cramped columns on a phone. On a
+   phone each treatment becomes one block: its name, then how well it works, then recovery, each value labelled. */
+.glance-peek .cert { font-weight: 600; }
+@media (max-width: 560px) {
+  .glance-peek table, .glance-peek tbody, .glance-peek caption { display: block; }
+  .glance-peek thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .glance-peek tbody tr { display: block; padding: 10px 0; border-top: 1px solid var(--line); }
+  .glance-peek tbody th, .glance-peek tbody td { display: block; width: auto; border-top: 0; padding: 0; }
+  .glance-peek tbody th { margin-bottom: 4px; }
+  .glance-peek tbody td + td { margin-top: 2px; }
+  .glance-peek tbody td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: 0.9375rem; }
+}
+/* the evidence word is a label on its own line, the effect is the sentence under it (as in the full grid) */
+.glance-peek .cert { display: block; }
+@media (max-width: 560px) { .glance-peek tbody td[data-label="How well it works"]::before { content: none; } }

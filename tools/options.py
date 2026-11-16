@@ -377,13 +377,14 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         option's whole certainty word, or its full effect phrase when it has none, so the view states how sure the
         evidence is; recovery alone would favour the procedure (reviewer, 2026-11-09)."""
         ids, keys = d["glance_peek"], d["glance_peek_columns"]
-        labels = {**dict(gcols), "certainty": "What the evidence says"}
+        # His note (HQ chat 2026-11-16 08:14 CT): "Good evidence suggests what?" The certainty word alone is half a
+        # sentence; the cell now carries the whole of the grid's "How well it works" (certainty word, then the effect).
+        labels = {**dict(gcols), "certainty": "How well it works"}
 
         def cell(i, k):
             if k != "certainty":
                 return value(i, k)
-            c = det[i].get("certainty", "")
-            return f'<strong class="cert">{e(c)}</strong>' if c else _works(glance[i], det[i], facts, quiet)
+            return _works(glance[i], det[i], facts, quiet)
         missing = [i for i in ids if i not in glance] + [k for k in keys if k not in labels]
         if missing:
             raise TieError(f'glance_peek: unknown option or column: {missing}')
