@@ -236,3 +236,14 @@ test("coverage pages: hidden insurer picker matching the cards, labels explained
     assert.match(t, /<h2 id="ask">/, p);
   }
 });
+
+// His note (HQ chat 2026-11-15 21:51 CT): the hub's route and the condition page's route ended on different screens,
+// because the address used the card's own id (#ufe-aetna) and the browser opened the folded list at that card. The picker
+// writes and the hub sends "#pick-<insurer>", and an old card-id link is turned into the picker's answer.
+test("picker addresses use #pick-, never a card id; old card-id links are taken over", () => {
+  const js = readFileSync(path.join(SITE, "assets", "insurance.js"), "utf8");
+  assert.match(js, /replaceState\(null, "", "#pick-" \+ v\)/);
+  assert.match(js, /"#pick-none" : w \? "#pick-" \+ key \+ "-" \+ w/);
+  assert.match(js, /if \(all\) all\.open = false;/);
+  for (const [p, key] of COVERAGE) assert.doesNotMatch(read(p), new RegExp(`id="pick-${key}-`), `${p}: no element owns a #pick- address`);
+});

@@ -42,7 +42,9 @@
       answer.appendChild(c);
     }
     answer.appendChild(links());
-    if (!keepHash && history.replaceState) history.replaceState(null, "", "#" + v);
+    // "#pick-<insurer>", never the card's own id: a link to "#ufe-aetna" made the browser open the folded full list and
+    // jump to the closed card there, so the hub's route ended on a different screen (his note, HQ chat 2026-11-15 21:51 CT)
+    if (!keepHash && history.replaceState) history.replaceState(null, "", "#pick-" + v);
     // Walkthrough 2026-11-15 run 2 item A: the answer can land below a phone's first screen; bring it up after a pick
     if (!keepHash && answer.firstChild && answer.scrollIntoView) {
       var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
@@ -50,10 +52,17 @@
     }
   }
   function fromHash() {
-    var id = location.hash.slice(1);
-    if (!pick || !id) return false;
+    var id = location.hash.slice(1), v = id.indexOf("pick-") === 0 ? id.slice(5) : id;
+    if (!pick || !v) return false;
     for (var i = 0; i < who.options.length; i++) {
-      if (who.options[i].value === id) { who.value = id; show(id, true); return true; }
+      if (who.options[i].value === v) {
+        who.value = v; show(v, true);
+        if (all) all.open = false;   // undo the browser opening the full list for an old "#ufe-aetna" link
+        if (id !== "pick-" + v && history.replaceState) history.replaceState(null, "", "#pick-" + v);
+        var up = function () { answer.scrollIntoView({ block: "start" }); };
+        up(); requestAnimationFrame(up); window.addEventListener("load", up, { once: true });
+        return true;
+      }
     }
     return false;
   }
@@ -94,7 +103,7 @@
       if (!cond.value) { msg.textContent = "Select a condition."; cond.setAttribute("aria-invalid", "true"); cond.focus(); return; }
       if (cond.value === "none") { msg.textContent = "We have not checked insurers for this condition yet."; return; }
       var key = cond.options[cond.selectedIndex].getAttribute("data-key"), w = ins.value;
-      location.href = cond.value + (w === "none" ? "#none" : w ? "#" + key + "-" + w : "");
+      location.href = cond.value + (w === "none" ? "#pick-none" : w ? "#pick-" + key + "-" + w : "");
     });
   }
 })();
