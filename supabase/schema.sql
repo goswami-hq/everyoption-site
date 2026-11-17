@@ -33,8 +33,12 @@ create table accounts (
   -- job platform-launch-0009: one doctor's invitation limit, raised by his hand-edit tool (null = 5). Same as
   -- supabase/migrations/2026-11-17-invite-slots.sql.
   invite_limit integer constraint accounts_invite_limit_check check (invite_limit between 0 and 50),
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  -- job platform-launch-0010: the owner role (the owner box on the account page). At most one account (index below);
+  -- set only by his hand-edit tool, never by the site. Same as supabase/migrations/2026-11-17-owner-role.sql.
+  is_owner boolean not null default false
 );
+create unique index accounts_one_owner on accounts (is_owner) where is_owner;
 
 create table profiles (
   id uuid primary key default gen_random_uuid(),
@@ -108,7 +112,9 @@ create table invitations (                                            -- one NPI
   used_by uuid references accounts(id),
   revoked_at timestamptz,
   created_at timestamptz not null default now(),
-  check ((kind = 'doctor') = (inviter_account_id is not null) and (kind <> 'doctor' or slot is not null))
+  check ((kind = 'doctor') = (inviter_account_id is not null) and (kind <> 'doctor' or slot is not null)),
+  -- job platform-launch-0010: the registry name when made, for the invitation lists. Same as 2026-11-17-owner-role.sql.
+  npi_name text constraint invitations_npi_name_check check (length(npi_name) <= 200)
 );
 
 create index invitations_inviter_idx on invitations (inviter_account_id);
