@@ -565,7 +565,16 @@ class LiveSite:
     # handed to the browser as is and followed without them (checked against two local servers, 2026-11-03).
     def attach(self, ctx):
         import urllib.parse
+        from playwright._impl._errors import TargetClosedError
         def add(route):
+            # A request still in flight when its context closes (a lazy image after a search page is shut) raises
+            # TargetClosedError here, which Playwright re-raises at the next browser call and so failed a live run
+            # (ai-hq job platform-web-design-0017, 2026-11-16, step 3). The context is gone: nothing to fulfil.
+            try:
+                fetch_and_fulfill(route)
+            except TargetClosedError:
+                pass
+        def fetch_and_fulfill(route):
             url = route.request.url
             if not self.ours(url):
                 return route.continue_()
