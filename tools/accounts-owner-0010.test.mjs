@@ -176,17 +176,17 @@ test("withdraw for doctors: frees the slot; each side withdraws only its own", a
   assert.equal((await w.signIn(DAN === "x" ? DAN : "1999000080", "anna@x.example").then((c) => c.post("invite/withdraw", { id: made[2].id }))).status, 404);
 });
 
-test("30 owner invitations a day; the 31st is refused; refused attempts do not count; the next day starts again", async () => {
+test("100 owner invitations a day (job platform-launch-0011; was 30); the 101st is refused; refused attempts do not count; the next day starts again", async () => {
   const w = world();
   const gil = await owner(w);
-  assert.equal(OWNER_DAY, 30);
+  assert.equal(OWNER_DAY, 100);
   w.clock.t = Date.parse("2026-11-02T00:10:00Z");
   const again = await w.signIn(GIL, EMAIL[GIL]);                   // a fresh session after the clock moved
   for (let i = 0; i < 5; i++) assert.equal((await make(again, { npi: DAN, kind: "full" })).body.error, "not_radiologist");
-  for (let i = 0; i < 30; i++) { const r = await make(again, { npi: CARA, kind: "full" }); assert.equal(r.status, 201, `#${i + 1} ${JSON.stringify(r.body)}`); }
+  for (let i = 0; i < 100; i++) { const r = await make(again, { npi: CARA, kind: "full" }); assert.equal(r.status, 201, `#${i + 1} ${JSON.stringify(r.body)}`); }
   const r31 = await make(again, { npi: CARA, kind: "full" });
   assert.equal(r31.status, 429); assert.equal(r31.body.error, "owner_day_limit");
-  assert.equal((await w.backend.data.many("invitations")).length, 30);
+  assert.equal((await w.backend.data.many("invitations")).length, 100);
   w.clock.t = Date.parse("2026-11-03T00:10:00Z");
   const next = await w.signIn(GIL, EMAIL[GIL]);
   assert.equal((await make(next, { npi: CARA, kind: "full" })).status, 201);

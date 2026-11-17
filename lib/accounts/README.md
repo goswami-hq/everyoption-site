@@ -125,3 +125,24 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
 - Migration `supabase/migrations/2026-11-17-invite-slots.sql` (applied to the test project 2026-11-17; production
   before the merge, launch checklist). Tests: `tools/accounts-invitations-0009.test.mjs`; browser
   `tools/e2e/accounts_e2e.py` (flow `invitations_0009`; local stand-in `/__test/expire?npi=`).
+
+## Job platform-launch-0011 (2026-11-17): hide my profile (his words 16:24 CT; design yes 16:26 CT)
+- `POST hide`, `POST show { reconfirm }`: full access only (re-read from the database on every call; partial gets 403
+  `full_needed`, and `me.hide` is null so the page shows no box). Table `hidden_profiles` (one live row per NPI,
+  `by_whom` doctor or every_option); nothing a doctor entered and no sourced tag changes. One `edits` row (field
+  `hidden`, undoable from the history) and one alert (NPI and level) per hide and show.
+- Show again: one tap when the last confirmation (proof, or an attestation) is under 12 months old; older, 409
+  `reconfirm_needed` until the doctor re-ticks each listed procedure's statement (`reconfirm: true` writes fresh
+  attestation rows and a `reconfirm` edit). His hide (`every_option`) answers 403 `hidden_by_us` to the doctor.
+- Where the flag is honored: `data.overlay()` adds marker rows `{ npi, hidden: true }`; `overlayFor` puts hidden NPIs in
+  `removed` (every procedure) and `hidden`, so `/api/listings`, the finder, city pages and their structured data drop
+  them; the name search (`directory.js`) drops `hidden`; the profile (`lib/directory.mjs`) answers 404 "This doctor is
+  not listed right now." with noindex; `exportConfirmed` skips them; ai-hq `every_option_export.py` reads the live hidden
+  NPIs and leaves them off every static list (so the next build drops the profile, A to Z and sitemap entries).
+- 6-month reminder: `svc.hiddenReminders()` (doctor hides only, once, to the login email), started by
+  `sweep.mjs` on traffic (`/api/listings`, `/api/account/*`) at most once an hour, because the site has no scheduled
+  sender (the daily cleanup is a database job).
+- His hand edits: ai-hq `eo_hand_edit.py hide NPI` / `unhide NPI` (`svc.handHide`), any NPI, account or not
+  (`edits.account_id` may be null). Owner box cap: 100 a day (was 30).
+- Migration `supabase/migrations/2026-11-17-hide-profile.sql`. Tests `tools/accounts-hide-0011.test.mjs`; browser flow
+  `hide` in `tools/e2e/accounts_e2e.py` (live and local).

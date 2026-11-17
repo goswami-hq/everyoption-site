@@ -1547,6 +1547,164 @@ def owner_run(cfg):
     return 0 if R["passed"] == R["total"] else 1
 
 
+def hide_run(cfg):
+    """Job platform-launch-0011: hide my profile, live on the dev site (test project, his NPI, phone 390x844) or local."""
+    import subprocess
+    SECRET_VALUES[:] = [cfg.get(k) for k in ("access_id", "access_secret", "gmail_password", "supabase_key") if cfg.get(k)]
+    local = cfg.get("mode") == "local"
+    site = LocalSite(cfg) if local else LiveSite(cfg)
+    base, npi, brk = site.base, cfg["npi"], cfg.get("break", "")
+    email_addr = test_email(cfg)
+    limit_s = int(cfg.get("hide_wait", 90))
+    R["live"] = {"base": base, "mode": cfg.get("mode", "live"), "flow": "hide", "email": email_addr, "steps": [], "seconds": {}}
+    fails, current = [], {"pg": None}
+
+    def lcheck(name, ok, detail=""):
+        if brk and brk == name:
+            ok = not ok
+        check(name, ok, detail)
+        if not ok and current["pg"] is not None and len(fails) < 8:
+            p = os.path.join(OUT, f"fail-{len(fails) + 1:02d}.png")
+            try:
+                current["pg"].screenshot(path=p, full_page=True); fails.append({"check": name, "shot": p})
+            except Exception:
+                fails.append({"check": name, "shot": ""})
+        return ok
+
+    def step(x):
+        R["live"]["steps"].append(x); print("--", x)
+
+    def call(pg, method, path, body=None):
+        return pg.evaluate("""([m, p, b]) => fetch('/api/account/' + p, { method: m, credentials: 'same-origin',
+            headers: b ? { 'Content-Type': 'application/json' } : {}, body: b ? JSON.stringify(b) : undefined })
+            .then(r => r.text().then(t => ({ status: r.status, text: t })))""", [method, path, body])
+
+    def get(pg, path):
+        return pg.evaluate("""(p) => fetch(p, { credentials: 'same-origin', cache: 'no-store' })
+            .then(r => r.text().then(t => ({ status: r.status, text: t, robots: r.headers.get('X-Robots-Tag') || '' })))""", path)
+
+    def listing(pg):
+        r = get(pg, "/api/listings?procedure=ufe")
+        try:
+            return json.loads(r["text"])
+        except ValueError:
+            return {"people": [], "removed": [], "hidden": [], "status": r["status"]}
+
+    def until(pg, label, test):
+        t0 = time.time()
+        while True:
+            ok, last = test()
+            if ok or time.time() - t0 > limit_s:
+                R["live"]["seconds"][label] = round(time.time() - t0, 1)
+                return ok, last
+            pg.wait_for_timeout(5000)
+
+    def hand(*args):
+        if local:
+            r = site._get(f"/__test/{args[-2]}?npi={args[-1]}")
+            return 0 if "hidden" in r else 2
+        p = subprocess.run(list(cfg["hand_edit"]) + list(args), capture_output=True, text=True, timeout=180)
+        R["live"].setdefault("hand_edit", []).append({"args": list(args), "exit": p.returncode,
+                                                       "tail": scrub((p.stderr or p.stdout or "").strip()[-200:])})
+        return p.returncode
+
+    link = site.make_invite()
+    if link:
+        SECRET_VALUES.append(link.split("#invite=")[-1]); SECRET_VALUES.append(link)
+    vp = {"width": 390, "height": 844}
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        ctx = b.new_context(viewport=vp, is_mobile=True, has_touch=True)
+        site.attach(ctx)
+        pg = ctx.new_page(); watch(pg, "hide"); current["pg"] = pg
+        try:
+            step("1 his test account at Full from his invitation, with UFE and one office (reset by the runner first)")
+            ip = site.ip(pg)
+            if not link:
+                raise SetupFailed("no invitation link was handed to the test")
+            pg.goto(link); pg.wait_for_selector("#invite-form", timeout=30000)
+            if pg.get_attribute("#i-email", "readonly") is None:
+                pg.fill("#i-email", email_addr)
+            pg.check("#i-agree"); pg.click("#i-send"); pg.wait_for_selector("#c-code", timeout=30000)
+            c = site.code(email_addr)
+            if not c:
+                raise SetupFailed("no code reached the inbox within 150 s")
+            pg.fill("#c-code", c); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+            lcheck("hide: his account is Full", "Full access" in pg.inner_text("#acct-level"))
+            add_proc(pg, "ufe")
+            r = call(pg, "PUT", "profile", {"offices": [{"practice": "Every Option Test Office", "street": "100 Test Plaza", "city": "Chicago",
+                                                          "state": "IL", "zip": "60611", "phone": ""}]})
+            lcheck("hide: test office saved", r["status"] == 200, r)
+            ok, last = until(pg, "listed_before", lambda: (lambda o: (any(x["npi"] == npi and x.get("confirmed") for x in o.get("people", [])), o))(listing(pg)))
+            lcheck(f"hide: before hiding, /api/listings?procedure=ufe has him as Confirmed within {limit_s} s", ok, str(last)[:200])
+            path = next((x.get("path") for x in last.get("people", []) if x["npi"] == npi), "") or f"/doctors/{npi}/"
+            R["live"]["profile_path_seen"] = bool(path)
+            step("2 the Hide my profile box: Update my offices beside it; the confirm step names search engines and AI answers")
+            pg.reload(); pg.wait_for_selector("#hide-go", timeout=30000)
+            lcheck("hide: the box shows for full access, with Update my offices", pg.is_visible("#hide-go") and pg.is_visible("#hide-offices"))
+            pg.click("#hide-offices"); pg.wait_for_timeout(800)
+            lcheck("hide: Update my offices goes to the offices section", pg.evaluate("() => { const r = document.getElementById('offices-panel').getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }"))
+            pg.locator("#hide-panel").scroll_into_view_if_needed(); pg.click("#hide-go"); pg.wait_for_selector("#hide-yes", state="visible", timeout=10000)
+            lcheck("hide: the confirm step says search engines and AI answers may keep an old copy",
+                   "Search engines and AI answers may keep an old copy" in pg.inner_text("#hide-confirm"))
+            pg.locator("#hide-panel").screenshot(path=os.path.join(OUT, "hide-1-confirm.png"))
+            pg.click("#hide-yes"); pg.wait_for_selector("#hide-show", timeout=30000)
+            lcheck("hide: the page says hidden and offers Show my profile", "Your profile is hidden" in pg.inner_text("#hide-state") and pg.is_visible("#hide-show"))
+            pg.locator("#hide-panel").screenshot(path=os.path.join(OUT, "hide-2-hidden.png"))
+            step(f"3 within {limit_s} s: off /api/listings, and the profile address shows the not-listed page with noindex")
+            ok, last = until(pg, "off_listings", lambda: (lambda o: (not any(x["npi"] == npi for x in o.get("people", [])) and npi in o.get("hidden", []), o))(listing(pg)))
+            lcheck(f"hide: /api/listings?procedure=ufe lacks him within {limit_s} s", ok, str(last)[:200])
+            ok, prof = until(pg, "profile_not_listed", lambda: (lambda r: ("This doctor is not listed right now." in r["text"], r))(get(pg, path)))
+            lcheck(f"hide: his profile address shows the not-listed page within {limit_s} s", ok, str(prof)[:200])
+            lcheck("hide: the not-listed page has noindex and nothing of his", '<meta name="robots" content="noindex">' in prof["text"]
+                   and "Test Office" not in prof["text"] and "Goswami" not in prof["text"].replace("goswami-hq", "") and "ld+json" not in prof["text"], prof["text"][:200])
+            step(f"4 Show my profile: back as Confirmed within {limit_s} s")
+            pg.click("#hide-show"); pg.wait_for_selector("#hide-go", timeout=30000)
+            ok, last = until(pg, "back_listings", lambda: (lambda o: (any(x["npi"] == npi and x.get("confirmed") for x in o.get("people", [])), o))(listing(pg)))
+            lcheck(f"hide: back on /api/listings as Confirmed within {limit_s} s", ok, str(last)[:200])
+            ok, prof = until(pg, "profile_back", lambda: (lambda r: ("Confirmed by physician" in r["text"], r))(get(pg, path)))
+            lcheck(f"hide: his profile shows Confirmed again within {limit_s} s", ok, str(prof)[:120])
+            step("5 hand-edit hide on the test project: hidden by Every Option, no Show button, the show route refuses")
+            lcheck("hide: hand-edit `hide` on his NPI succeeds", hand("--yes", "hide", npi) in (0, 3))
+            pg.reload(); pg.wait_for_selector("#hide-state", timeout=30000)
+            lcheck("hide: the page says Hidden by Every Option, with the report form link", "Hidden by Every Option. Write to us to change this." in pg.inner_text("#hide-state")
+                   and pg.locator("#hide-write").count() == 1)
+            lcheck("hide: no Show my profile button", pg.locator("#hide-show").count() == 0 and pg.locator("#hide-reconfirm").count() == 0)
+            r = call(pg, "POST", "show", {})
+            lcheck("hide: the doctor's show is refused (403 hidden_by_us)", r["status"] == 403 and "hidden_by_us" in r["text"], r)
+            pg.locator("#hide-panel").screenshot(path=os.path.join(OUT, "hide-3-by-every-option.png"))
+            step("6 hand-edit unhide (show) on the test project")
+            lcheck("hide: hand-edit `unhide` on his NPI succeeds", hand("--yes", "unhide", npi) in (0, 3))
+            pg.reload(); pg.wait_for_selector("#hide-go", timeout=30000)
+            lcheck("hide: the box is back to Hide my profile", pg.is_visible("#hide-go"))
+            ok, last = until(pg, "back_after_hand", lambda: (lambda o: (any(x["npi"] == npi and x.get("confirmed") for x in o.get("people", [])), o))(listing(pg)))
+            lcheck(f"hide: back on /api/listings after his unhide within {limit_s} s", ok, str(last)[:200])
+        except SetupFailed as e:
+            R["live"]["setup_failed"] = scrub(e)
+            print("SETUP FAILED", scrub(e))
+        except Exception as e:
+            lcheck(f"hide: step ran without error ({R['live']['steps'][-1] if R['live']['steps'] else 'start'})", False, type(e).__name__ + ": " + scrub(e)[:200])
+        finally:
+            step("7 reset and check empty")
+            try:
+                R["live"]["reset_after"] = site.reset(site.ip(pg))
+                rem = site.remaining(site.ip(pg))
+                R["live"]["remaining"] = rem
+                lcheck("hide: the test database is left with no test rows", rem and not any(rem.values()), rem)
+            except Exception as e:
+                R["live"]["reset_failed"] = type(e).__name__ + ": " + scrub(e)[:200]
+                check("hide: reset after the run", False, R["live"]["reset_failed"])
+            ctx.close(); b.close()
+    R["live"]["fail_shots"] = fails
+    R["passed"] = sum(c["ok"] for c in R["checks"]); R["total"] = len(R["checks"])
+    text = scrub(json.dumps(R, indent=1))
+    open(os.path.join(OUT, "results.json"), "w").write(text)
+    print(f"{R['passed']} of {R['total']} checks")
+    if R["live"].get("setup_failed") or R["live"].get("reset_failed"):
+        return 3
+    return 0 if R["passed"] == R["total"] else 1
+
+
 def live_main():
     global OUT
     OUT = sys.argv[2]
@@ -1554,6 +1712,8 @@ def live_main():
     cfg = json.loads(sys.stdin.read())
     if cfg.get("flow") == "owner" and not cfg.get("reset_only"):
         return owner_run(cfg)
+    if cfg.get("flow") == "hide" and not cfg.get("reset_only"):
+        return hide_run(cfg)
     return invite_run(cfg) if cfg.get("flow") == "invite" and not cfg.get("reset_only") else live_run(cfg)
 
 

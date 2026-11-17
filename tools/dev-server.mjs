@@ -71,6 +71,9 @@ function testOp(op, npi) {
     a[0].is_owner = true;
     return { owner: true };
   }
+  if (op === "hide" || op === "unhide") {   // job platform-launch-0011: stands in for his hand-edit tool's hide / unhide NPI
+    return makeService(backend, { origin: "http://localhost" }).handHide(npi, op === "hide").then((r) => ({ hidden: r.hidden, changed: r.changed }));
+  }
   if (op === "expire") {       // job platform-launch-0009: the unused invitations this NPI's account made lapse now
     const by = new Set(rows("accounts").filter((a) => a.npi === npi).map((a) => a.id));
     const hit = rows("invitations").filter((r) => by.has(r.inviter_account_id) && !r.used_at);
@@ -175,7 +178,7 @@ http.createServer(async (req, res) => {
   }
   // Job 21: stand-ins for the test-only database functions (ai-hq projects/platform/accounts/job21/test-reset.sql), so
   // the live test's flow runs here first. Same rule: only one NPI (?npi=) and the test email pattern.
-  if (backend && url.pathname.startsWith("/__test/")) return asJSON(res, testOp(url.pathname.slice(8), url.searchParams.get("npi") || ""));
+  if (backend && url.pathname.startsWith("/__test/")) return asJSON(res, await testOp(url.pathname.slice(8), url.searchParams.get("npi") || ""));
   if (url.pathname === "/__store") { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify([...store.entries()].map(([k, v]) => [k, v.val]))); return; }
   let p = path.join(ROOT, decodeURIComponent(url.pathname));
   if (!p.startsWith(ROOT)) { res.writeHead(400); res.end(); return; }

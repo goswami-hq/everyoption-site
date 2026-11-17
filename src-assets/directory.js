@@ -43,7 +43,10 @@
         if (!placed) x.l = x.l.filter(function (k) { return k !== proc; });
       });
     });
-    people = out.filter(function (x) { return x.l.length || x.ros; }).map(function (x) {
+    // Job platform-launch-0011: a hidden profile leaves the name search entirely, roster or not.
+    var hid = {};
+    PROCS.forEach(function (proc) { var o = overlays[proc]; (o && o.hidden || []).forEach(function (n) { hid[n] = 1; }); });
+    people = out.filter(function (x) { return !hid[x.p.slice(-11, -1)] && (x.l.length || x.ros); }).map(function (x) {
       x.f = fold(x.n + (x.d ? " " + x.d.split(",")[0] : "")); x.w = x.f.split(" "); x.k = x.f.replace(/ /g, ""); return x;
     });
   }

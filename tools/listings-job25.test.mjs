@@ -43,7 +43,7 @@ test("allow-list: only public fields; never email, proof, history or waitlist", 
   assert.equal(r.status, 200);
   assert.match(r.headers.get("Cache-Control"), /public, max-age=60/);
   assert.equal(r.headers.get("Set-Cookie"), null);
-  assert.deepEqual(Object.keys(r.body).sort(), ["people", "procedure", "removed"]);
+  assert.deepEqual(Object.keys(r.body).sort(), ["hidden", "people", "procedure", "removed"]);   // hidden: job platform-launch-0011
   const p = r.body.people[0];
   assert.deepEqual(Object.keys(p).sort(), ["blurb", "booking_url", "confirmed", "display", "insurance_confirm", "insurance_other", "insurances",
     "name", "npi", "offices", "path", "photo"]);
@@ -148,7 +148,7 @@ test("slow database: answers 503 at the time limit instead of hanging", async ()
 
 test("accounts not connected: an empty overlay (no console error on the finder); photos 404", async () => {
   const r = await handlePublic(new Request("http://x/api/listings?procedure=ufe"), {});
-  assert.equal(r.status, 200); assert.deepEqual(await r.json(), { procedure: "ufe", people: [], removed: [] });
+  assert.equal(r.status, 200); assert.deepEqual(await r.json(), { procedure: "ufe", people: [], removed: [], hidden: [] });
   assert.equal((await handlePublic(new Request("http://x/api/listings?procedure=zz"), {})).status, 404);
   assert.equal((await handlePublic(new Request("http://x/api/photo/1999000015-0123456789abcdef.png"), {})).status, 404);
 });
@@ -176,11 +176,13 @@ test("Supabase overlay: one request with embedded accounts and attestations; hol
   const calls = [];
   const d = supabaseData("https://p.supabase.co", "sb_secret_x", async (url, init) => {
     calls.push(url); assert.ok(init.signal, "has a time limit");
+    if (/hidden_profiles/.test(url)) return new Response("[]", { status: 200 });   // job platform-launch-0011: the second read
     return new Response(JSON.stringify([{ npi: ANN, attested: ["pae"], accounts: { id: "a1", npi: ANN, level: "basic", name: "Ann",
       attestations: [{ npi: ANN, procedure: "ufe" }, { npi: "1999999999", procedure: "gae" }] } }]), { status: 200 });
   });
   const rows = await d.overlay();
-  assert.equal(calls.length, 1);
+  assert.equal(calls.length, 2);
+  assert.match(calls[1], /\/rest\/v1\/hidden_profiles\?select=npi&shown_at=is\.null/);
   assert.match(calls[0], /\/rest\/v1\/profiles\?select=.*accounts\(id,npi,level,name,first_name,last_name,attestations\(npi,procedure\)\)/);
   assert.deepEqual(rows[0].held, ["ufe"]); assert.equal(rows[0].account.level, "basic"); assert.equal(rows[0].accounts, undefined);
 });
@@ -251,6 +253,7 @@ test("listed only on the current holder's own attestation (an undo after takeove
 test("Supabase overlay reads pages of 1,000 until a short page (Supabase cuts at 1,000 silently)", async () => {
   const offs = [];
   const d = supabaseData("https://p.supabase.co", "k", async (url) => {
+    if (/hidden_profiles/.test(url)) return new Response("[]", { status: 200 });   // job platform-launch-0011
     const off = +/offset=(\d+)/.exec(url)[1]; offs.push(off);
     const n = off < 2000 ? 1000 : 3;
     return new Response(JSON.stringify(Array.from({ length: n }, (_, i) => ({ npi: String(1e9 + off + i), attested: [], accounts: null }))), { status: 200 });

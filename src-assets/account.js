@@ -40,7 +40,8 @@
     invite_limit: "You have no invitations left. A link you withdraw, or one that expires unused, gives its place back.", invite_self: "That is your own NPI.",
     invite_email_fixed: "This invitation is for the email it was sent to.",
     invite_email_own: "Use the login email already on your account.",
-    owner_only: "Only the site owner can do this.", owner_day_limit: "That is 30 invitations today, the most in one day. Try again tomorrow.",
+    owner_only: "Only the site owner can do this.", owner_day_limit: "That is 100 invitations today, the most in one day. Try again tomorrow.",
+    hidden_by_us: "Hidden by Every Option. Write to us to change this.", reconfirm_needed: "Confirm your details first (see below).",
     invite_not_live: "That link was already used, withdrawn, or has expired.", not_found: "We could not find that. Reload the page and try again.",
     not_radiologist: "Invitations are for radiologists for now.",
     street_required: "Each new office needs a street address, such as 100 Main Street, Suite 2.",
@@ -460,6 +461,7 @@
 
   function seeLine(me) {
     var a = me.account, done = (me.profile && me.profile.attested) || [];
+    if (me.hide && me.hide.hidden) return "Your profile is hidden. Patients cannot find you on Every Option.";
     if (!done.length) return me.listed_for.length
       ? "Your public listing still shows under Likely performs for " + procList(me.listed_for) + ". Choose your procedures below to add your own details to it."
       : "You are not on any procedure list yet. Choose the procedures you perform below.";
@@ -997,7 +999,7 @@
       });
     });
     var f = el("form", { "class": "acct-form", id: "owner-form", novalidate: true }, [
-      el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. You can make up to 30 a day." }),
+      el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. You can make up to 100 a day." }),
       field("o-npi", "Their NPI", npi), el("div", { "class": "acct-actions" }, [look]), who,
       el("fieldset", { id: "o-kinds" }, [el("legend", { text: "Access" }), el("div", { "class": "checks" }, [
         el("label", { "for": "o-full" }, [full, "Full access (most doctors): photo, invitations, and Confirmed by physician"]),
@@ -1165,6 +1167,57 @@
   addEventListener("scroll", function () { if (DOCK && !DOCK_FRAME) DOCK_FRAME = requestAnimationFrame(markDock); }, { passive: true });
   addEventListener("resize", function () { DOCK_NOW = null; markDock(); });
 
+  // ---- Job platform-launch-0011 (his words, HQ chat 2026-11-17 16:24 CT; design yes 16:26 CT): hide my profile. Full
+  // access only (the server checks again); a hide by Every Option shows only its line and the report form link.
+  function hidePanel(me) {
+    var h = me.hide, a = me.account;
+    if (!h) return null;
+    if (h.hidden && h.by === "every_option") return panel("hide-panel", "Hide my profile", [
+      el("p", { id: "hide-state", "class": "see-line need" }, ["Hidden by Every Option. Write to us to change this. ",
+        el("a", { href: "/report/?npi=" + a.npi, id: "hide-write", text: "Write to us" })])]);
+    if (!h.can) return null;
+    var offices = el("button", { type: "button", "class": "secondary", id: "hide-offices", text: "Update my offices", onclick: function () { jumpTo("offices-panel"); } });
+    if (h.hidden) {
+      var kids = [el("p", { id: "hide-state", "class": "see-line need", text: "Your profile is hidden" + (h.since ? " since " + day(h.since) : "") + ". Patients cannot find you on Every Option. Everything you entered is saved." })];
+      var show = function (re) {
+        var b = document.getElementById(re ? "hide-reconfirm" : "hide-show"); busy(b, true);
+        api("POST", "show", re ? { reconfirm: true } : {}).then(function (j) {
+          busy(b, false);
+          if (j.ok) { PENDING = { key: "see", msg: "Your profile shows again. Patients can find you within about a minute.", cls: "ok", focus: "see-line", top: null }; load(); return; }
+          if (j.error === "reconfirm_needed") { load(); return; }
+          near("hide", words(j), "err");
+        });
+      };
+      if (h.reconfirm) {
+        var done = (me.profile && me.profile.attested) || [];
+        var tick = el("input", { type: "checkbox", id: "hide-agree" });
+        var go = el("button", { type: "button", id: "hide-reconfirm", text: "Confirm and show my profile", disabled: true, onclick: function () { show(true); } });
+        tick.addEventListener("change", function () { go.disabled = !tick.checked; });
+        kids.push(el("p", { text: "It has been more than a year since you last confirmed your details. Confirm them before your profile shows again." }),
+          done.length ? el("ul", { "class": "small", id: "hide-statements" }, done.map(function (k) { return el("li", { text: me.attest_wording[k] }); })) : null,
+          el("label", { "class": "check", "for": "hide-agree" }, [tick, " These statements are still true, and my details are up to date."]),
+          acts("hide", [go, offices]));
+      } else kids.push(acts("hide", [el("button", { type: "button", id: "hide-show", text: "Show my profile", onclick: function () { show(false); } }), offices]));
+      return panel("hide-panel", "Hide my profile", kids);
+    }
+    var confirmBox = el("div", { id: "hide-confirm", hidden: true }, [
+      el("p", { text: "Patients will not find you on Every Option. Search engines and AI answers may keep an old copy for a while." }),
+      el("div", { "class": "acct-actions" }, [
+        el("button", { type: "button", id: "hide-yes", text: "Yes, hide my profile", onclick: function () {
+          var b = this; busy(b, true);
+          api("POST", "hide", {}).then(function (j) {
+            busy(b, false);
+            if (j.ok) { PENDING = { key: "see", msg: "Your profile is hidden. It leaves every list within about a minute.", cls: "ok", focus: "see-line", top: null }; load(); }
+            else near("hide", words(j), "err");
+          }); } }),
+        el("button", { type: "button", "class": "link", id: "hide-cancel", text: "Cancel", onclick: function () { confirmBox.hidden = true; ask.hidden = false; ask.focus(); } })])]);
+    var ask = el("button", { type: "button", "class": "secondary", id: "hide-go", text: "Hide my profile", onclick: function () { ask.hidden = true; confirmBox.hidden = false; document.getElementById("hide-yes").focus(); } });
+    return panel("hide-panel", "Hide my profile", [
+      el("p", { text: "Between jobs, or not ready to be found? Hide your profile. You leave every Every Option list and page within about a minute. Everything you entered stays saved, and you can show it again any time." }),
+      el("p", { "class": "small muted", text: "Search engines and AI answers may keep an old copy for a while. Changing jobs? You may only need to update your offices." }),
+      acts("hide", [ask, offices]), confirmBox]);
+  }
+
   function dashboard(me) {
     var a = me.account, wasOpen = !!(document.getElementById("history") || {}).open;
     // Folds the doctor had open stay open through the redraw, so nothing below them moves.
@@ -1179,7 +1232,7 @@
     var parts = [head];
     if (a.npi) {
       parts.push(seePanel(me), namePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me),
-        me.owner ? ownerPanel(me) : null, emailPanel(me), historyPanel());
+        hidePanel(me), me.owner ? ownerPanel(me) : null, emailPanel(me), historyPanel());
     } else {
       parts.push(accessPanel(me), emailPanel(me));
     }

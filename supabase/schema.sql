@@ -167,7 +167,8 @@ create table attestations (
 
 create table edits (                                                  -- every change, kept; undo adds a row
   id uuid primary key default gen_random_uuid(),
-  account_id uuid not null references accounts(id),
+  -- job platform-launch-0011: null for his hand hide of an NPI with no account (2026-11-17-hide-profile.sql).
+  account_id uuid references accounts(id),
   npi text not null,
   field text not null,
   before jsonb,
@@ -186,6 +187,20 @@ create table exceptions (                                             -- the onl
   at timestamptz not null default now(),
   resolved_at timestamptz
 );
+
+-- Job platform-launch-0011: hide my profile. One row per hide; shown_at null while live (one live row per NPI).
+-- by_whom: 'doctor' (the holder, full access) or 'every_option' (his hand edit, which the doctor cannot undo).
+-- Same as supabase/migrations/2026-11-17-hide-profile.sql.
+create table hidden_profiles (
+  id uuid primary key default gen_random_uuid(),
+  npi text not null constraint hidden_profiles_npi_check check (npi ~ '^[0-9]{10}$'),
+  by_whom text not null constraint hidden_profiles_by_check check (by_whom in ('doctor', 'every_option')),
+  account_id uuid references accounts(id),
+  hidden_at timestamptz not null default now(),
+  shown_at timestamptz,
+  reminded_at timestamptz
+);
+create unique index hidden_profiles_one_live on hidden_profiles (npi) where shown_at is null;
 
 create table waitlist (
   id uuid primary key default gen_random_uuid(),
@@ -207,7 +222,7 @@ create table rate_hits (
 -- Row level security: on everywhere, no policies, so only the service role gets in.
 do $$ declare t text; begin
   foreach t in array array['accounts','profiles','login_links','codes','invitations','radiologist_names','sessions',
-                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits','procedures'] loop
+                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits','procedures','hidden_profiles'] loop
     execute format('alter table %I enable row level security', t);
     execute format('alter table %I force row level security', t);
     execute format('revoke all on %I from anon, authenticated', t);
