@@ -32,7 +32,7 @@ CHANNELS = [
     ("YouTube", "https://www.youtube.com/@everyoptionmd", "Our films in full, in one place."),
     ("TikTok", "https://www.tiktok.com/@every.option.md", "Short videos on treatments you may not have heard of."),
     ("Instagram", "https://www.instagram.com/everyoptionmd", "Short videos and pictures, one treatment at a time."),
-    ("X", "https://x.com/everyoptionmd", "News when we add a condition or a guide."),
+    ("X", "https://x.com/everyoptionmd", "Updates from Every Option."),
 ]
 
 ICONS = {   # 24 x 24, drawn here, currentColor

@@ -248,7 +248,7 @@ def home():
 <p>{e(DISCLOSURE)} <a href="/about/">About Every Option</a>.</p></div>
 <div><h2>How it works</h2>
 <p>Choose a condition, enter your ZIP code, and see who is nearby. Then call their office and ask whether it’s right for you.</p>
-<p>We explain these treatments in plain language. Follow along on {" · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)}.</p></div>
+<p>We explain these treatments in plain language.</p></div>
 </div></div>"""
     # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
     return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
