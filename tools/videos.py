@@ -207,6 +207,7 @@ def header_icons():
 
 
 BAND_LINE = "We make short films that explain treatments in plain language."
+ABOUT_ONLY_LINE = "A short film about what Every Option is for. Films on each condition are coming."   # reviewer round 2
 COMPACT_HEAD = "Follow Every Option"
 COMPACT_LINE = "Our first short films are on the way. Follow us to see them."
 
@@ -221,7 +222,7 @@ def home_band(rows, ver=lambda u: u):
     live = posting() | {"YouTube"}
     more = '<p class="watch-all"><a href="/videos/">All videos</a></p>'
     return (f'<section class="watch" aria-labelledby="watch-h"><div class="watch-head"><h2 id="watch-h">Watch and follow</h2>'
-            f'<p>{e(BAND_LINE)}</p></div><div class="watch-film">{film(brand, ver, page_link=False)}</div>'
+            f'<p>{e(BAND_LINE if any(v["condition"] != "about" for v in shown(rows)) else ABOUT_ONLY_LINE)}</p></div><div class="watch-film">{film(brand, ver, page_link=False)}</div>'
             f'<div class="watch-links">{channels(live=live)}{more}</div></section>')
 
 
