@@ -34,7 +34,13 @@ EMAIL = re.compile(r"\b([a-z]+@everyoptionmd\.com)\b")
 
 
 def footer_line():
-    return '<p class="legal-links">' + " · ".join(f'<a href="{h}">{t}</a>' for h, t in FOOTER_LINKS) + "</p>"
+    # Owner line (his signatures 2026-11-16: Every Option assigned to East Blue). Site d5ed567 put it in the built pages
+    # only; here it survives every rebuild (ai-hq job platform-web-design-0019).
+    return ('<p class="legal-links">' + " · ".join(f'<a href="{h}">{t}</a>' for h, t in FOOTER_LINKS)
+            + " · " + OWNER_LINE + "</p>")
+
+
+OWNER_LINE = "© 2026 East Blue Holdings LLC"
 
 
 def text(path):

@@ -1,0 +1,44 @@
+# Every Option's videos (ai-hq job platform-web-design-0019; his words, HQ chat 2026-11-16 21:55 to 22:48 CT).
+# tools/videos.py reads this file; tools/build.py draws /videos/, the home "Watch and follow" band and the VideoObject
+# data from it. Rules:
+# - A video with an empty youtube_id never shows anywhere. With no shown video, /videos/ and its menu item are not built.
+# - condition: a condition slug from content/conditions.json, or "about" for the brand film.
+# - order: its place in its condition's playlist (lowest first).
+# - still: the file stem in src-assets/media/ (<still>-540.jpg and <still>-1080.jpg).
+# - transcript: a file in content/videos/ (one paragraph per line).
+# - upload_date: the YouTube upload date (YYYY-MM-DD), filled in with youtube_id.
+# - test_only = true: a layout entry for the dev site. The build refuses it on main or with EO_RELEASE=1.
+#   Remove it before PR #5 is merged (ai-hq launch checklist).
+
+[[video]]
+key = "brand-film"
+title = "You deserve to know every option"
+description = "Many conditions can be treated in more ways than medicine or surgery. This short film shows what Every Option is for."
+condition = "about"
+order = 1
+youtube_id = ""            # empty until the film is on YouTube (sound, captions, upload: a post gate)
+upload_date = ""
+seconds = 31
+aspect = "9:16"
+still = "video-brand-film"
+still_alt = "The Every Option sign under a bright sun, with the words: You deserve to know every option."
+transcript = "brand-film.txt"
+page = "/about/"
+
+# Dev site only: shows the layout with the brand film's still before the film is on YouTube. Tapping play loads
+# YouTube with a made-up ID, so YouTube says the video is unavailable.
+[[video]]
+key = "brand-film-layout-test"
+test_only = true
+title = "You deserve to know every option"
+description = "Many conditions can be treated in more ways than medicine or surgery. This short film shows what Every Option is for."
+condition = "about"
+order = 1
+youtube_id = "TESTONLY000"
+upload_date = "2026-11-16"
+seconds = 31
+aspect = "9:16"
+still = "video-brand-film"
+still_alt = "The Every Option sign under a bright sun, with the words: You deserve to know every option."
+transcript = "brand-film.txt"
+page = "/about/"

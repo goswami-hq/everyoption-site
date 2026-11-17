@@ -113,7 +113,8 @@ def chrome_errors(tag, p, conditions_href="/conditions/"):
     if not nav:
         return [f"{tag}: no main menu"]
     items = [html.unescape(re.sub(r"<[^>]+>", "", x)) for x in re.findall(r"<a [^>]*>.*?</a>", nav.group(1))]
-    if items != MENU:
+    # "Videos" sits before About only while a film is shown (ai-hq job platform-web-design-0019; tools/videos.py)
+    if items not in (MENU, MENU[:4] + ["Videos"] + MENU[4:]):
         errs.append(f"{tag}: menu is {items}, not {MENU}")
     # fix B (2026-11-15): the menu may mark Conditions as the section this page sits in
     if not re.search(rf'<a href="{re.escape(conditions_href)}"(?: aria-current="true")?>Conditions</a>', nav.group(1)):

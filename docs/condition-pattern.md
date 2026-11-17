@@ -343,6 +343,14 @@ review before launch.
   (walkthrough fix 4, L601; `pattern`, node `walkthrough-fixes.test.mjs`). On phones under 560 px the Insurance item is
   hidden and the other five sit on one row (L584; `first-screen`). The physician entry is a clear item at the top (his
   words 2026-11-03: "a clear page at the top that physicians can click on").
+- **Videos and channel icons** (ai-hq job platform-web-design-0019; his words 2026-11-16 22:48 CT: "Build it on the
+  site"). "Videos" (`/videos/`) sits before About only while a film in `content/videos.toml` has a YouTube ID; hidden
+  under 360 px (`pattern` accepts the menu with or without it). Four small icons (YouTube, TikTok, Instagram, X), each
+  named "Every Option on <channel>", sit right of the menu at 1,100 px and wider, on the logo row below that (menu on
+  its own row), and are left out under 340 px. The home page carries a "Watch and follow" band under the condition list
+  (brand film plus four channel buttons; buttons only until the film has an ID); the footer "Follow" line stays. Films
+  load nothing from YouTube before a tap (`tools/e2e/videos_e2e.py`); a `test_only` entry is refused on main
+  (`python3 tools/videos.py --release-check`, `tools/videos_test.py`).
 - **Banner strip.** Condition pages show the banner version of their procedure animation, hidden under 360 px;
   stylized, not anatomically exact (his words 2026-11-02: "aren't supposed to be anatomically exact"). One animation
   per procedure: `tools/e2e/anim_e2e.py`; the strip itself is not checked.

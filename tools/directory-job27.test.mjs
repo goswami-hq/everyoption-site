@@ -273,7 +273,9 @@ d = json.load(sys.stdin); print(json.dumps(directory.indexed(directory.members(d
 
 test("review round 1: security headers on every profile response, since site/_headers skips Functions", async () => {
   const { SECURITY } = await import("../lib/directory.mjs");
-  const file = read("_headers");
+  // The static pages may also allow the youtube-nocookie.com player frame while a film is shown (tools/videos.py,
+  // ai-hq job platform-web-design-0019); profiles embed no film, so that one directive is left out of the comparison.
+  const file = read("_headers").replace(" frame-src https://www.youtube-nocookie.com;", "");
   for (const [k, v] of Object.entries(SECURITY)) assert.ok(file.includes(`${k}: ${v}`), `same as site/_headers: ${k}`);
   const npi = npiOf(LIKELY);
   for (const [path, status] of [[LIKELY.p, 200], [`/doctors/x-${npi}/`, 301], ["/doctors/x-1234567893/", 404]]) {

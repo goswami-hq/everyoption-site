@@ -19,6 +19,7 @@ import pattern
 import registry
 import procedures_sql
 import trail
+import videos
 
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "site")
 DISCLOSURE = ("Every Option is run by a practicing interventional radiologist. Listings are free, and no one can pay "
@@ -87,6 +88,12 @@ WAVE = '<svg class="spine-wave" viewBox="0 0 40 400" preserveAspectRatio="none" 
 # Fixes C and D (his yes, ai-hq HQ chat 2026-11-15 17:50 CT): "Conditions" opens its own page, not a section of the home
 # page, and "Directory" became "Find a doctor", one front door to every way of finding a doctor.
 NAV = [("/", "Home"), ("/conditions/", "Conditions"), ("/insurance/", "Insurance"), ("/find-a-doctor/", "Find a doctor"), ("/about/", "About"), ("/account/", "For physicians")]   # fix E (2026-11-15): "How we know" became About
+# Videos (ai-hq job platform-web-design-0019; his words 2026-11-16 22:48 CT: "Build it on the site"): content/videos.toml.
+# "Videos" joins the menu only while at least one film has a YouTube ID (tools/videos.py).
+VIDEOS = videos.load()
+SHOWN_VIDEOS = videos.shown(VIDEOS)
+if SHOWN_VIDEOS:
+    NAV.insert(NAV.index(("/about/", "About")), ("/videos/", "Videos"))
 # His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
           ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
@@ -136,6 +143,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <header class="site"><div class="wrap">
 <a class="brand" href="/">{LOGO}</a>
 <nav class="top" aria-label="Main">{nav}</nav>
+{videos.header_icons()}
 </div></header>
 {banner}<main id="main"><div class="wrap">
 {body}
@@ -234,6 +242,7 @@ def home():
 <ul class="fork-list stops">{rows}</ul>
 <p class="more-soon">And more options coming soon.</p>
 <p class="cov-link home-cov"><a href="/insurance/">Will insurance cover it?</a></p>
+{videos.home_band(VIDEOS, ver)}
 <div class="plain two">
 <div><h2>Who runs this</h2>
 <p>{e(DISCLOSURE)} <a href="/about/">About Every Option</a>.</p></div>
@@ -244,8 +253,8 @@ def home():
     # agreed list items 11 and 19 (his "Agree with style recs", 2026-11-07): title, description, Organization and WebSite
     return page("/", "Every Option: Less Invasive Treatments and Who Performs Them",
                 "Free guides to every treatment for fibroids, an enlarged prostate, knee arthritis, pelvic vein pain, and bleeding hemorrhoids, "
-                "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js", "/assets/home-from.js"],
-                head=home_schema(), banner=banner, cls="home-page")
+                "and for most, doctors nearby who perform embolization.", body, ["/assets/ride.js", "/assets/home-search.js", "/assets/home-from.js", "/assets/videos.js"],
+                head=home_schema() + videos.schema([v for v in SHOWN_VIDEOS if v["condition"] == "about"][:1]), banner=banner, cls="home-page")
 
 
 # The animation text per procedure (template: ai-hq projects/platform/design/procedure-animations/README.md, his yes
@@ -554,6 +563,49 @@ REASONS = [("not_performed", "Doesn’t perform this procedure"), ("contact", "W
            ("moved", "No longer practices here"), ("other", "Something else")]
 
 
+def videos_page():
+    """/videos/ (job platform-web-design-0019): channel buttons at the top, then one section per condition in playlist
+    order, the brand film first under "About Every Option"."""
+    import registry as reg
+    sections, cur = [], None
+    for v in SHOWN_VIDEOS:
+        if v["condition"] != cur:
+            cur = v["condition"]
+            name = "About Every Option" if cur == "about" else reg.BY_SLUG[cur]["card"]["name"]
+            sections.append([cur, name, []])
+        sections[-1][2].append(v)
+    def page_name(v):
+        if v["page"] == "/about/":
+            return "About Every Option"
+        slug = v["page"].strip("/").split("/")[0]
+        return f"Read the guide: {reg.BY_SLUG[slug]['card']['name']}" if slug in reg.BY_SLUG else v["page"]
+    secs = "".join(f'<section class="vid-sec" aria-labelledby="vs-{e(k)}"><h2 id="vs-{e(k)}">{e(n)}</h2><div class="vid-grid">'
+                   + "".join(videos.film(v, ver, page_name=page_name(v)) for v in vs) + "</div></section>"
+                   for k, n, vs in sections)
+    body = trail.html_of([trail.HOME, ("Videos", None)]) + f"""<h1>Videos</h1>
+<p class="lede">Short films that explain conditions and their treatments in plain language.</p>
+<h2 class="chans-h">Watch and follow</h2>
+{videos.channels("chans chans-row")}
+{secs}
+<p class="small muted">Education, not medical advice. Talk to your doctor about your own care. A film plays from YouTube only after you press play.</p>"""
+    head = "" if videos.real(VIDEOS) else '<meta name="robots" content="noindex">\n'
+    return page("/videos/", "Videos | Every Option", "Short films that explain conditions and their treatments in plain language, "
+                "from Every Option.", body, ["/assets/videos.js"], head=head + videos.schema(SHOWN_VIDEOS), cls="prose-page videos-page")
+
+
+def headers_frame_src(on):
+    """site/_headers: the static pages' Content-Security-Policy lets the youtube-nocookie.com player frame load only
+    while a film is shown (job platform-web-design-0019). Idempotent; the rest of the file is untouched."""
+    p = os.path.join(SITE, "_headers")
+    with open(p, encoding="utf-8") as fh:
+        text = fh.read()
+    text = text.replace(" " + videos.FRAME_SRC + ";", "")
+    if on:
+        text = text.replace("frame-ancestors 'none';", videos.FRAME_SRC + "; frame-ancestors 'none';", 1)
+    with open(p, "w", encoding="utf-8") as fh:
+        fh.write(text)
+
+
 def report():
     """Job 19: the report-an-error form, open to anyone. Claiming a profile is separate (/account/, physicians only).
     A report is stored for us to read; it never changes a listing."""
@@ -619,6 +671,8 @@ ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agen
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
 SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/about/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+if videos.real(VIDEOS):
+    SITEMAP_PAGES.append("/videos/")   # only real films; a test entry never reaches the sitemap
 
 
 def drafts():
@@ -726,7 +780,7 @@ def copy_src_assets():
         import shutil
         os.makedirs(os.path.join(SITE, "assets", "media"), exist_ok=True)
         for name in sorted(os.listdir(media)):
-            if name.endswith((".mp4", ".png", ".webp")):   # .webp: the embolization material pictures (job 0020)
+            if name.endswith((".mp4", ".png", ".webp", ".jpg")):   # .jpg: video stills (job platform-web-design-0019)   # .webp: the embolization material pictures (job 0020)
                 shutil.copyfile(os.path.join(media, name), os.path.join(SITE, "assets", "media", name))
 
 
@@ -758,6 +812,12 @@ def main():
     write("conditions/index.html", conditions_page())   # fix C
     write("find-a-doctor/index.html", find_page())      # fix D
     write("about/index.html", about())   # fix E
+    vdir = os.path.join(SITE, "videos")
+    if SHOWN_VIDEOS:
+        write("videos/index.html", videos_page())   # job platform-web-design-0019
+    elif os.path.isdir(vdir):
+        shutil.rmtree(vdir)   # no film has a YouTube ID: the page does not exist in the build
+    headers_frame_src(bool(SHOWN_VIDEOS))
     write("how-we-know/index.html", how())
     write("report/index.html", report())
     write("account/index.html", account())
