@@ -37,7 +37,7 @@
     email_in_use: "That email already has an Every Option account. Sign in with it, or use a different email.",
     npi_taken: "This listing already has an account. We will look into it and contact you.",
     invite_invalid: "This invitation has expired, was already used, or was withdrawn. Ask for a new one.",
-    invite_limit: "You have no invitations left. An unused link gives its place back once it expires.", invite_self: "That is your own NPI.",
+    invite_limit: "You have no invitations left. A link you withdraw, or one that expires unused, gives its place back.", invite_self: "That is your own NPI.",
     invite_email_fixed: "This invitation is for the email it was sent to.",
     invite_email_own: "Use the login email already on your account.",
     owner_only: "Only the site owner can do this.", owner_day_limit: "That is 30 invitations today, the most in one day. Try again tomorrow.",
@@ -945,6 +945,9 @@
           api("POST", "owner/withdraw", { id: v.id }).then(function (j) {
             busy(btn, false);
             if (!j.ok) return near("owner-list", words(j), "err");
+            // Review round 1: if the withdrawn link is the one still shown above, take it off the screen.
+            var shown = document.getElementById("o-out");
+            if (shown && shown.getAttribute("data-id") === String(v.id)) { shown.innerHTML = ""; shown.removeAttribute("data-id"); }
             near("owner-list", "Withdrawn. That link no longer works.", "ok");
             refreshOwner(ul);
           });
@@ -994,7 +997,7 @@
       });
     });
     var f = el("form", { "class": "acct-form", id: "owner-form", novalidate: true }, [
-      el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. There is no limit on how many you make." }),
+      el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. You can make up to 30 a day." }),
       field("o-npi", "Their NPI", npi), el("div", { "class": "acct-actions" }, [look]), who,
       el("fieldset", { id: "o-kinds" }, [el("legend", { text: "Access" }), el("div", { "class": "checks" }, [
         el("label", { "for": "o-full" }, [full, "Full access (most doctors): photo, invitations, and Confirmed by physician"]),
@@ -1013,7 +1016,7 @@
         if (j._status !== 201) return near("owner", words(j), "err");
         var name = titleCase(j.name);
         npi.value = ""; email.value = ""; trainee.checked = false; checked = null; who.innerHTML = ""; go.disabled = true;
-        made.innerHTML = ""; made.appendChild(linkBox("o", j.url, name, j.expires_at));
+        made.innerHTML = ""; made.setAttribute("data-id", String(j.id)); made.appendChild(linkBox("o", j.url, name, j.expires_at));
         near("owner", "Link made for " + name + ".", "ok");
         refreshOwner(ul);
       });

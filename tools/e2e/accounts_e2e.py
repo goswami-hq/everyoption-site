@@ -1463,8 +1463,13 @@ def owner_run(cfg):
             link_b = pg.input_value("#o-link")
             SECRET_VALUES.append(link_b); SECRET_VALUES.append(link_b.split("#invite=")[-1])
             lcheck("owner: a second, different link", link_b != link_a and "#invite=" in link_b)
+            # Review round 1: withdrawing the link still on screen takes it off the screen.
             pg.wait_for_selector("#o-list li[data-status=live]", timeout=20000)
             wait_js(pg, "() => document.querySelectorAll('#o-list li[data-status=live]').length >= 2", timeout=20000)
+            bid = pg.get_attribute(f"#o-list li[data-status=live]:has-text('{names[FIX_B]}')", "id").replace("o-inv-", "")
+            pg.click(f"#o-wd-{bid}"); pg.wait_for_selector(f"#o-inv-{bid}[data-status=withdrawn]", timeout=20000)
+            lcheck("owner: withdrawing the link just made takes it off the screen", pg.locator("#o-link").count() == 0)
+            pg.wait_for_selector("#o-list li[data-status=live]", timeout=20000)
             lt = pg.inner_text("#o-list")
             lcheck("owner: the list shows both, with name, kind, made and expires", names[FIX_A] in lt and names[FIX_B] in lt and "Full access" in lt
                    and "Partial access, to " + email_b in lt and "Made " in lt and "expires " in lt, lt[:300])
@@ -1476,9 +1481,7 @@ def owner_run(cfg):
             lcheck("owner: after a reload no link is on the page or in any answer", pg.locator("#o-link").count() == 0
                    and not any(t in src for t in toks) and not re.search(r"#invite=[0-9a-f]{64}", src))
             oshot(pg, "owner-3-list")
-            step("7 withdraw the partial link; it then fails with the usual page")
-            bid = pg.get_attribute(f"#o-list li[data-status=live]:has-text('{names[FIX_B]}')", "id").replace("o-inv-", "")
-            pg.click(f"#o-wd-{bid}"); pg.wait_for_selector(f"#o-inv-{bid}[data-status=withdrawn]", timeout=20000)
+            step("7 the withdrawn partial link fails with the usual page")
             lcheck("owner: the list says Withdrawn", "Withdrawn" in pg.inner_text(f"#o-inv-{bid}"))
             c2 = b.new_context(viewport=vp, is_mobile=True, has_touch=True); site.attach(c2); others.append(c2)
             p2 = c2.new_page(); watch(p2, "owner-withdrawn")
