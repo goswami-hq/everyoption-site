@@ -37,7 +37,9 @@
     email_in_use: "That email already has an Every Option account. Sign in with it, or use a different email.",
     npi_taken: "This listing already has an account. We will look into it and contact you.",
     invite_invalid: "This invitation has expired, was already used, or was withdrawn. Ask for a new one.",
-    invite_limit: "You have used all 5 invitations.", invite_self: "That is your own NPI.",
+    invite_limit: "You have no invitations left. An unused link gives its place back once it expires.", invite_self: "That is your own NPI.",
+    invite_email_fixed: "This invitation is for the email it was sent to.",
+    invite_email_own: "Use the login email already on your account.",
     not_radiologist: "Invitations are for radiologists for now.",
     street_required: "Each new office needs a street address, such as 100 Main Street, Suite 2.",
     full_needed: "This needs full access.",
@@ -377,28 +379,44 @@
     });
   }
 
-  // ---- An invitation: the doctor's listing and one agreement. Procedures come after, in Your account.
+  // ---- An invitation: the doctor's listing, a login email and its code, one agreement. Procedures come after, in Your
+  // account. Job platform-launch-0009: nothing is made until the code is right; a published-email invitation keeps
+  // the address it was sent to.
   function invitation(tok) {
     return api("POST", "invite/preview", { token: tok }).then(function (pv) {
       if (!pv.ok) { say(words(pv), "err"); entry(); return; }
+      var fixed = !!pv.email;
+      var email = el("input", { id: "i-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true });
+      if (fixed) { email.value = pv.email; email.readOnly = true; }
       var agree = el("input", { type: "checkbox", name: "agree", id: "i-agree" });
-      var go = el("button", { type: "submit", text: "Accept" });
+      var go = el("button", { type: "submit", id: "i-send", text: "Email me a code" });
       var f = el("form", { "class": "acct-form", id: "invite-form", novalidate: true }, [
         el("div", { "class": "who-box" }, [el("p", { "class": "who-name" }, [el("strong", { text: pv.name }), el("span", { "class": "muted", text: " · NPI " + pv.npi })]),
           el("p", { "class": "small", text: pv.listed_for.length ? "On Every Option for " + procList(pv.listed_for) + "." : "Not on Every Option yet; accepting adds you." }),
-          el("p", { "class": "small", text: pv.level === "full" ? "This invitation gives full access: your card shows as confirmed by physician once you choose your procedures." : "This invitation gives partial access." })]),
+          el("p", { "class": "small", id: "i-level", text: pv.level === "full" ? "This invitation gives full access: your card shows as confirmed by physician once you choose your procedures." : "This invitation gives partial access." })]),
+        field("i-email", "Login email", email, fixed ? "(the address this invitation was sent to)" : "(one you'll keep; personal is fine)"),
+        el("p", { "class": "small muted", id: "i-email-note", text: fixed ? "We send it a 6-digit code." : "Enter an email you'll keep. We send it a 6-digit code." }),
         el("label", { "class": "agree", "for": "i-agree" }, [agree, agreement(el("span"), pv.agreement)]),
         el("div", { "class": "acct-actions" }, [go])
       ]);
+      function accept(addr) { return api("POST", "invite/accept", { token: tok, agree: true, email: addr }); }
       f.addEventListener("submit", function (ev) {
         ev.preventDefault();
+        var addr = email.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(addr)) { email.setAttribute("aria-invalid", "true"); email.focus(); return say("Please check your email address.", "err"); }
+        email.removeAttribute("aria-invalid");
         if (!agree.checked) { agree.setAttribute("aria-invalid", "true"); agree.focus(); return say("Please tick the box to continue.", "err"); }
+        agree.removeAttribute("aria-invalid");
         busy(go, true);
-        api("POST", "invite/accept", { token: tok, agree: true }).then(function (j) {
+        accept(addr).then(function (j) {
           busy(go, false);
-          if (!j.ok) return say(words(j), "err");
-          say("Done. Next, choose the procedures you perform, and add a login email so you can sign in again.", "ok");
-          load();
+          if (j._status !== 202) return say(words(j), "err");
+          say("We sent a 6-digit code to " + j.email + ".", "ok");
+          codeStep(j.email, j.challenge, function () {
+            say("You are in. Next, choose the procedures you perform.", "ok");
+            load();
+          }, function () { return accept(addr).then(function (x) { return x._status === 202 ? x.challenge : (say(words(x), "err"), null); }); },
+          fixed ? null : function () { invitation(tok); });
         });
       });
       view([panel("invite", "Your invitation", [f])], null);
@@ -834,7 +852,7 @@
     return panel("access", "Access", kids);
   }
 
-  function inviteWords(n) { return "A link for one colleague's NPI, good once for 7 days. They get full access. You have " + n + " of 5 left. Send it yourself."; }
+  function inviteWords(n, of) { return "A link for one colleague's NPI, good once for 7 days. They get full access. You have " + n + " of " + (of || 5) + " left. Send it yourself. An unused link gives its place back once it expires."; }
   function inviteBox(me) {
     var inv = me.invites || { left: 0, sent: [] };
     var inp = el("input", { id: "v-npi", name: "npi", inputmode: "numeric", maxlength: "10" });
@@ -842,7 +860,7 @@
     var go = el("button", { type: "submit", "class": "secondary", id: "invite-go", text: "Make a link", disabled: inv.left <= 0 });
     var f = el("form", { "class": "acct-form sub", id: "invite-create", novalidate: true }, [
       el("h3", { text: "Invite a colleague" }),
-      el("p", { "class": "small", id: "invite-left", text: inviteWords(inv.left) }),
+      el("p", { "class": "small", id: "invite-left", text: inviteWords(inv.left, inv.limit) }),
       field("v-npi", "Their NPI", inp), acts("invite", [go]), res
     ]);
     f.addEventListener("submit", function (ev) {
@@ -859,7 +877,7 @@
           if (navigator.clipboard) navigator.clipboard.writeText(j.url).then(function () { copy.textContent = "Copied"; }, selected); else selected();
         });
         res.appendChild(el("div", { "class": "acct-actions" }, [copy]));
-        document.getElementById("invite-left").textContent = inviteWords(j.left);
+        document.getElementById("invite-left").textContent = inviteWords(j.left, inv.limit);
         if (j.left <= 0) go.disabled = true;
         near("invite", "Invitation link made. " + j.left + " left.", "ok");
       });

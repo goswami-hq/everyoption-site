@@ -245,10 +245,14 @@ async function useUpEmail(w) {
 test("fixed: with the email cap used up, his invitation over a held listing still completes, and the notice is recorded", async () => {
   const w = prodLike();
   await w.signIn(ANN, STRANGER, "203.0.113.200");
-  await useUpEmail(w);
   const tok = await w.invite(ANN, "owner");
   const real = w.client("198.51.100.4");
-  const r = await real.post("invite/accept", { token: tok, agree: true });
+  // job platform-launch-0009: the code is sent first; the cap is used up before it is typed
+  const s = await real.post("invite/accept", { token: tok, agree: true, email: "real-ann@home.example" }, { raw: true });
+  assert.equal(s.status, 202);
+  const code = w.lastCode("real-ann@home.example");
+  await useUpEmail(w);
+  const r = await real.post("code", { challenge: s.body.challenge, code });
   assert.equal(r.status, 200, JSON.stringify(r.body));
   assert.equal((await real.get("me")).body.account.npi, ANN);
   assert.ok((await w.backend.data.many("exceptions", { kind: "notice_failed" })).length >= 1);

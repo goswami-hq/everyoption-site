@@ -64,6 +64,26 @@ def code_for(pg, base, to):
     return None
 
 
+def accept_invite(pg, base, email, wrong_first=False, label=""):
+    """Job platform-launch-0009: the invitation page asks for a login email and its 6-digit code. Returns steps taken."""
+    steps = 0
+    if pg.get_attribute("#i-email", "readonly") is None:           # a published-email invitation keeps its address
+        pg.fill("#i-email", email); steps += 1
+    to = pg.input_value("#i-email")
+    pg.check("#i-agree"); steps += 1
+    pg.click("#invite-form button[type=submit]"); steps += 1
+    pg.wait_for_selector("#c-code")
+    if wrong_first:
+        right = code_for(pg, base, to)
+        pg.fill("#c-code", "000000" if right != "000000" else "000001"); clear(pg); pg.click("#code-form button[type=submit]")
+        wait_status(pg, "wrong")
+        check(f"{label}: a wrong invitation code is refused plainly, nothing made", "wrong, expired, or already used" in msgs(pg)
+              and not any(a.get("email") == to for a in store(pg, base).get("accounts", [])))
+    pg.fill("#c-code", code_for(pg, base, to)); steps += 1
+    clear(pg); pg.click("#code-form button[type=submit]"); steps += 1
+    return steps
+
+
 def store(pg, base):
     return json.loads(pg.request.get(base + "/__accounts").text())
 
@@ -292,7 +312,7 @@ def photos(b, label, base, vp):
     pg.goto(base + "/__invite?kind=owner&npi=1999000106")
     r = json.loads(pg.inner_text("pre") if pg.locator("pre").count() else pg.inner_text("body"))
     pg.goto(r["url"].replace("http://localhost:" + base.rsplit(":", 1)[1], base)); pg.wait_for_selector("#invite-form")
-    pg.check("#i-agree"); pg.click("#invite-form button[type=submit]"); pg.wait_for_selector("#photo-pick")
+    accept_invite(pg, base, "hal@home.example"); pg.wait_for_selector("#photo-pick")
     size = os.path.getsize(f["big"])
     pg.set_input_files("#photo", f["big"]); wait_status(pg, "Photo saved", 20000)
     wait_js(pg, "document.getElementById('photo-now').naturalWidth > 0")
@@ -455,22 +475,20 @@ def flows(b, label, base, vp):
     pg.goto(link.replace("http://localhost:8787", base)); steps += 1                   # the click on the link
     pg.wait_for_selector("#invite-form")
     view = pg.inner_text("#invite-form")
-    pg.check("#i-agree"); steps += 1
-    pg.click("#invite-form button[type=submit]"); steps += 1
+    shot(pg, f"{label}-3a-invitation-page")
+    steps += accept_invite(pg, base, "gil@home.example", wrong_first=True, label=label)
     pg.wait_for_selector("#acct-level")
     R["paths"][f"{label}-invitation"] = {"steps": steps, "seconds": round(time.monotonic() - t0, 2)}
     check(f"{label}: invitation opens to the doctor's listing with one agreement", "Gil Fourtest" in view and "On Every Option for UFE" in view and "I am Gil Fourtest" in view, view)
-    check(f"{label}: invitation gives full access with no email asked", "Full access" in pg.inner_text("#acct-level") and acct(pg, base, npi=GIL)["email"] is None)
-    check(f"{label}: no login email: that section is marked", "need" in (pg.get_attribute("#email-panel", "class") or ""))
+    check(f"{label}: invitation page asks for a login email we send a code to", "Enter an email you'll keep. We send it a 6-digit code." in view, view)
+    check(f"{label}: invitation gives full access with the confirmed login email", "Full access" in pg.inner_text("#acct-level") and acct(pg, base, npi=GIL)["email"] == "gil@home.example")
+    check(f"{label}: login email set: that section is not marked", "need" not in (pg.get_attribute("#email-panel", "class") or ""))
     fits(pg, f"{label} invitation dashboard")
     shot(pg, f"{label}-3-invited")
-    # add a login email later
-    pg.fill("#e-email", "gil@home.example"); clear(pg); pg.click("#email-form button[type=submit]"); pg.wait_for_selector("#c-code")
-    pg.fill("#c-code", "000000" if code_for(pg, base, "gil@home.example") != "000000" else "000001"); clear(pg); pg.click("#code-form button[type=submit]")
-    wait_status(pg, "wrong")
-    check(f"{label}: a wrong code is refused plainly", "wrong, expired, or already used" in msgs(pg))
-    pg.fill("#c-code", code_for(pg, base, "gil@home.example")); clear(pg); pg.click("#code-form button[type=submit]"); wait_status(pg, "Login email saved")
-    check(f"{label}: login email added by code", acct(pg, base, npi=GIL)["email"] == "gil@home.example")
+    # change the login email later (still by code)
+    pg.fill("#e-email", "gil2@home.example"); clear(pg); pg.click("#email-form button[type=submit]"); pg.wait_for_selector("#c-code")
+    pg.fill("#c-code", code_for(pg, base, "gil2@home.example")); clear(pg); pg.click("#code-form button[type=submit]"); wait_status(pg, "Login email saved")
+    check(f"{label}: login email changed by code", acct(pg, base, npi=GIL)["email"] == "gil2@home.example")
     # 5 revoke a bad inviter (Ann) in one step: Gil drops to partial
     r = json.loads(pg.request.get(base + f"/__revoke?who={ANN}").text())
     pg.reload(); pg.wait_for_selector("#acct-level")
@@ -517,6 +535,61 @@ def flows(b, label, base, vp):
     shot(pg, f"{label}-5-waitlist")
     ctx.close()
     photos(b, label, base, vp)
+    invitations_0009(b, label, base, vp)
+
+
+def invitations_0009(b, label, base, vp):
+    """Job platform-launch-0009: email and code on every invitation; the counting rule; published stays partial."""
+    ALEK, IVY = "1999000114", "1999000122"
+    ctx = b.new_context(viewport=vp); pg = ctx.new_page(); watch(pg, label + "-inv9")
+    r = json.loads(pg.request.get(base + f"/__invite?kind=owner&npi={ALEK}").text())
+    pg.goto(r["url"].replace("http://localhost:8787", base)); pg.wait_for_selector("#invite-form")
+    view = pg.inner_text("#invite-form")
+    check(f"{label}: inv9: his invitation shows the name and full-access wording and asks for an email",
+          "Wiśniewska-Kowalczyk" in view and "full access" in view and "Enter an email you'll keep. We send it a 6-digit code." in view, view[:300])
+    shot(pg, f"{label}-9a-invitation")
+    pg.check("#i-agree"); clear(pg); pg.click("#invite-form button[type=submit]")
+    wait_status(pg, "check your email")
+    check(f"{label}: inv9: no email, no code sent", not pg.locator("#c-code").count() and not acct(pg, base, npi=ALEK))
+    accept_invite(pg, base, "alek@home.example")
+    pg.wait_for_selector("#acct-level")
+    check(f"{label}: inv9: his invitation gives full access, Confirmed, with the confirmed email",
+          "Full access" in pg.inner_text("#acct-level") and acct(pg, base, npi=ALEK)["email"] == "alek@home.example")
+    add_proc(pg, "ufe")
+    card = [x for x in json.loads(pg.request.get(base + "/__confirmed").text()) if x["npi"] == ALEK]
+    check(f"{label}: inv9: with UFE ticked the card is Confirmed", bool(card) and card[0]["confirmed"], card)
+    check(f"{label}: inv9: the invite box shows 5 left", "5 of 5 left" in pg.inner_text("#invite-left"))
+    for npi in (ANN, BEN, CARA, GIL, "1999000106"):
+        pg.fill("#v-npi", npi); clear(pg); pg.click("#invite-create button[type=submit]"); wait_status(pg, "Invitation link made")
+    check(f"{label}: inv9: after 5 links the box shows 0 left and the button is off",
+          "0 of 5 left" in pg.inner_text("#invite-left") and pg.is_disabled("#invite-go"))
+    x = json.loads(pg.request.get(base + f"/__test/expire?npi={ALEK}").text())
+    pg.reload(); pg.wait_for_selector("#invite-left")
+    check(f"{label}: inv9: expired unused links give their slots back", x.get("expired") == 5 and "5 of 5 left" in pg.inner_text("#invite-left")
+          and not pg.is_disabled("#invite-go"), x)
+    pg.fill("#v-npi", DAN); clear(pg); pg.click("#invite-create button[type=submit]"); wait_status(pg, "radiologists")
+    check(f"{label}: inv9: a non-radiologist is refused", "Invitations are for radiologists" in msgs(pg))
+    pg.fill("#v-npi", ALEK); clear(pg); pg.click("#invite-create button[type=submit]"); wait_status(pg, "own NPI")
+    check(f"{label}: inv9: own NPI is refused", "That is your own NPI." in msgs(pg))
+    shot(pg, f"{label}-9b-invite-box")
+    # sign out, sign in again with the same email and a code
+    pg.click("#signout"); pg.wait_for_selector("#l-email")
+    pg.fill("#l-email", "alek@home.example"); clear(pg); pg.click("#l-send"); pg.wait_for_selector("#c-code")
+    pg.fill("#c-code", code_for(pg, base, "alek@home.example")); clear(pg); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level")
+    check(f"{label}: inv9: signs in again with the same email and code, still full", "Full access" in pg.inner_text("#acct-level"))
+    ctx.close()
+    # published-email invitation: the address is fixed, partial, no invitations
+    ctx = b.new_context(viewport=vp); pg = ctx.new_page(); watch(pg, label + "-inv9p")
+    r = json.loads(pg.request.get(base + f"/__invite?kind=published&npi={IVY}&email=ivy@pubtest-ir.example").text())
+    pg.goto(r["url"].replace("http://localhost:8787", base)); pg.wait_for_selector("#invite-form")
+    check(f"{label}: inv9: a published-email invitation shows its address, fixed", pg.input_value("#i-email") == "ivy@pubtest-ir.example"
+          and pg.get_attribute("#i-email", "readonly") is not None and "partial access" in pg.inner_text("#invite-form"))
+    accept_invite(pg, base, None)
+    pg.wait_for_selector("#acct-level")
+    check(f"{label}: inv9: published-email invitation gives partial, Likely, no invitations", "Partial access" in pg.inner_text("#acct-level")
+          and not pg.locator("#invite-create").count() and acct(pg, base, npi=IVY)["email"] == "ivy@pubtest-ir.example")
+    shot(pg, f"{label}-9c-published")
+    ctx.close()
 
 
 # ---------------------------------------------------------------------------------------------------------------------

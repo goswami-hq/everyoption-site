@@ -30,6 +30,9 @@ create table accounts (
   terms_version text not null,
   terms_accepted_at timestamptz not null,
   doximity_id text unique,
+  -- job platform-launch-0009: one doctor's invitation limit, raised by his hand-edit tool (null = 5). Same as
+  -- supabase/migrations/2026-11-17-invite-slots.sql.
+  invite_limit integer constraint accounts_invite_limit_check check (invite_limit between 0 and 50),
   created_at timestamptz not null default now()
 );
 
@@ -80,7 +83,7 @@ create table login_links (                                           -- Doximity
 create table codes (                                                  -- 6-digit codes: sign-up, sign-in, email change
   id uuid primary key default gen_random_uuid(),
   challenge_hash text not null unique,                               -- sha-256 of the challenge the browser holds
-  purpose text not null check (purpose in ('signup', 'claim', 'login', 'email_change')),
+  purpose text not null constraint codes_purpose_check check (purpose in ('signup', 'claim', 'login', 'email_change', 'invite')),
   email text not null,
   code_hash text not null,                                           -- sha-256 of the code salted with the challenge
   payload jsonb not null default '{}',
@@ -91,21 +94,24 @@ create table codes (                                                  -- 6-digit
 );
 
 create table invitations (                                            -- one NPI, one use, 7 days; inviter recorded
+  -- job platform-launch-0009: only used and live invitations count toward a doctor's limit; the cap holds in
+  -- eo_insert_doctor_invite (below), not in a unique key. Same as supabase/migrations/2026-11-17-invite-slots.sql.
   id uuid primary key default gen_random_uuid(),
   token_hash text not null unique,
   npi text not null check (npi ~ '^[0-9]{10}$'),
   kind text not null check (kind in ('owner', 'doctor', 'published')),
   inviter_account_id uuid references accounts(id),                   -- null for his own invitations
-  slot integer check (slot between 1 and 5),                         -- a doctor's invitations: 5 for life, atomically
+  slot integer constraint invitations_slot_check check (slot between 1 and 50),  -- a doctor's invitations: the count when made
   email text,                                                        -- published-email invitations only
   expires_at timestamptz not null,
   used_at timestamptz,
   used_by uuid references accounts(id),
   revoked_at timestamptz,
   created_at timestamptz not null default now(),
-  unique (inviter_account_id, slot),
   check ((kind = 'doctor') = (inviter_account_id is not null) and (kind <> 'doctor' or slot is not null))
 );
+
+create index invitations_inviter_idx on invitations (inviter_account_id);
 
 create table radiologist_names (                                      -- national list: last name + first initial
   name_key text primary key,
@@ -261,8 +267,24 @@ set search_path = public as $$
   returning *;
 $$;
 
+-- A doctor's invitation (job platform-launch-0009): under the inviter's row lock, count the used and live ones and
+-- insert only while under its limit (null = 5). Nothing returned: the limit is reached.
+create function eo_insert_doctor_invite(p_token_hash text, p_npi text, p_inviter uuid, p_expires_at timestamptz)
+returns setof invitations language plpgsql security definer set search_path = public as $$
+declare lim integer; n integer; r invitations;
+begin
+  select coalesce(invite_limit, 5) into lim from accounts where id = p_inviter for update;
+  if not found then return; end if;
+  select count(*) into n from invitations where inviter_account_id = p_inviter
+    and (used_at is not null or (revoked_at is null and expires_at > now()));
+  if n >= lim then return; end if;
+  insert into invitations (token_hash, npi, kind, inviter_account_id, slot, expires_at)
+    values (p_token_hash, p_npi, 'doctor', p_inviter, n + 1, p_expires_at) returning * into r;
+  return next r;
+end $$;
+
 revoke all on function eo_hit(text, integer, integer), eo_consume_link(text), eo_try_code(text, text, integer),
-  eo_consume_invite(text) from public, anon, authenticated;
+  eo_consume_invite(text), eo_insert_doctor_invite(text, text, uuid, timestamptz) from public, anon, authenticated;
 
 -- Housekeeping (run daily with pg_cron when connected): expired links and sessions and old rate windows go.
 create function eo_cleanup() returns void language sql security definer set search_path = public as $$

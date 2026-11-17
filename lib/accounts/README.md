@@ -28,6 +28,8 @@ Doximity. The work-email check is gone. Nothing here is open: with no configurat
 ## His commands (no web route)
 - `node tools/invite.mjs <NPI>`: his invitation (full access), prints the link. `--published <email>`: basic, to an
   address printed on the doctor's own page (sending it is his email gate). `--dev <url>` runs against the dev server.
+  From chat: ai-hq `scripts/eo_hand_edit.py invite NPI [--published EMAIL]` (test by default, `--target prod`), and
+  `invite-limit NPI N` to raise one doctor's limit (job platform-launch-0009).
 - `node tools/revoke-inviter.mjs <NPI or account id>`: the bad inviter and everyone downstream lose full access.
 
 ## Connecting (on his yes: ai-hq `ops/approvals/spend/2026-11-01-accounts-services.md`)
@@ -107,3 +109,19 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
   state). Any holder saves it on the account page (logged, undoable, no contact alert or email); only full access sends it
   out (`/api/listings`, the export). A takeover resets it. Column: `supabase/schema.sql`, migration in
   `supabase/migrations/2026-11-06-telehealth.sql` (not applied anywhere).
+
+## Job platform-launch-0009 (2026-11-17): invitations (his yes, HQ chat 2026-11-17 12:41 CT)
+- Email and code on every invitation. `POST invite/accept { token, agree, email }` checks the invitation and the
+  email and sends a 6-digit code (purpose `invite`; the sign-up limits `signup_ip`, `signup_email` and the daily
+  email caps). Nothing is made and the invitation stays unused until `POST code` gets the right code (5 tries, as
+  every code); then the invitation is used once and the account made with that login email. A published-email
+  invitation takes only its invited address (`invite_email_fixed`); the page shows it filled in and fixed. A holder
+  accepting (signed in, or typing its own login email) is upgraded in place.
+- Counting rule: only used and live (unused, unrevoked, unexpired) invitations count toward a doctor's limit, so an
+  expired or withdrawn unused link frees its slot. The cap holds in `eo_insert_doctor_invite` (locks the inviter's
+  row, counts, inserts); the old unique (inviter, slot 1-5) key is gone. `data.insertDoctorInvite` in both adapters.
+- `accounts.invite_limit`: null = 5, 0 to 50, set only by his hand-edit tool. The invite box shows "n of limit left".
+- Refused doctor's or published-email invitation for a held NPI: exception `invite_npi_held` and one alert (no link).
+- Migration `supabase/migrations/2026-11-17-invite-slots.sql` (applied to the test project 2026-11-17; production
+  before the merge, launch checklist). Tests: `tools/accounts-invitations-0009.test.mjs`; browser
+  `tools/e2e/accounts_e2e.py` (flow `invitations_0009`; local stand-in `/__test/expire?npi=`).

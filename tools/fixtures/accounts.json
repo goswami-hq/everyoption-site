@@ -89,6 +89,15 @@
       "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
       "city": "Rancho Santa Margarita",
       "state": "CA"
+    },
+    "1999000122": {
+      "type": "NPI-1",
+      "first": "Ivy",
+      "last": "Pubtest",
+      "taxonomy": "2085R0204X",
+      "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
+      "city": "Chicago",
+      "state": "IL"
     }
   },
   "listings": {

@@ -6,27 +6,30 @@ import { exportConfirmed } from "../lib/accounts/service.mjs";
 
 const tokOf = (url) => /#invite=([0-9a-f]{64})$/.exec(url)[1];
 
-test("his invitation: opens to the listing; tick procedures, one agreement; full access; no form, no email", async () => {
+test("his invitation: opens to the listing; one agreement, a login email and its code; full access", async () => {
   const w = world(), c = w.client("10.5.0.1");
   const tok = await w.invite(ANN, "owner");
   const pv = await c.post("invite/preview", { token: tok });
   assert.equal(pv.status, 200); assert.equal(pv.body.name, "Ann Testone"); assert.deepEqual(pv.body.listed_for, ["ufe", "pae"]);
   assert.equal(pv.body.level, "full"); assert.match(pv.body.agreement, /^I am Ann Testone/);
   assert.equal((await c.post("invite/accept", { token: tok, procedures: ["ufe"] })).body.error, "agree_required");
-  const r = await c.post("invite/accept", { token: tok, procedures: ["ufe", "pae"], agree: true });
+  // job platform-launch-0009: no email, no account; the code first, then the account
+  assert.equal((await c.post("invite/accept", { token: tok, agree: true }, { raw: true })).body.error, "invalid");
+  const r = await c.post("invite/accept", { token: tok, procedures: ["ufe", "pae"], agree: true, email: "ann@home.example" });
   assert.equal(r.status, 200); assert.equal(r.body.level, "full");
   const me = (await c.get("me")).body;
-  assert.equal(me.account.npi, ANN); assert.equal(me.account.email, null, "no login email asked"); assert.equal(me.account.proof, "invite_owner");
+  assert.equal(me.account.npi, ANN); assert.equal(me.account.email, "ann@home.example", "the confirmed login email"); assert.equal(me.account.proof, "invite_owner");
   assert.deepEqual(me.can, { attest: true, blurbs: true, insurances: true, contact: true, photo: true, invite: true });
   assert.deepEqual(me.profile.attested, ["pae", "ufe"]);
-  assert.equal(w.outbox.length, 0, "nothing sent");
+  assert.equal(w.outbox.length, 1, "the code only"); assert.match(w.outbox[0].subject, /is your Every Option code/);
   const inv = (await w.backend.data.many("invitations"))[0];
   assert.equal(inv.kind, "owner"); assert.equal(inv.inviter_account_id, null); assert.equal(inv.used_by, me.account.id);
   assert.ok(!JSON.stringify(inv).includes(tok), "token stored only as a hash");
-  // a login email only when they want to edit later
-  const s = await c.post("email", { email: "ann@home.example" });
-  assert.equal((await c.post("code", { challenge: s.body.challenge, code: w.lastCode("ann@home.example") })).status, 200);
-  assert.equal((await w.backend.data.one("accounts", { npi: ANN })).email, "ann@home.example");
+  // and the same email signs in again after the session ends
+  w.clock.t += 13 * 3600 * 1000;
+  const again = w.client("10.5.0.2"), l = await again.post("login", { email: "ann@home.example" });
+  assert.equal((await again.post("code", { challenge: l.body.challenge, code: w.lastCode("ann@home.example") })).status, 200);
+  assert.equal((await again.get("me")).body.account.npi, ANN);
 });
 
 test("invitations: one NPI, one use, 7 days", async () => {
@@ -210,7 +213,8 @@ test("the holder accepting an invitation upgrades in place", async () => {
   const w = world();
   const b = await w.signIn(BEN, EMAIL[BEN]);
   const tok = await w.invite(BEN, "owner");
-  assert.equal((await b.post("invite/accept", { token: tok, agree: true, procedures: ["gae"] })).body.level, "full");
+  assert.equal((await b.post("invite/accept", { token: tok, agree: true, procedures: ["gae"], email: "other@home.example" }, { raw: true })).body.error, "invite_email_own");
+  assert.equal((await b.post("invite/accept", { token: tok, agree: true, procedures: ["gae"], email: EMAIL[BEN] })).body.level, "full");
   const a = await w.backend.data.many("accounts", { npi: BEN });
   assert.equal(a.length, 1); assert.equal(a[0].level, "full"); assert.equal(a[0].email, "ben@home.example");
 });
@@ -245,7 +249,7 @@ test("r1-1: after a takeover the squatter's contact details, photo and attestati
   assert.equal((await w.backend.data.one("profiles", { npi: ANN })).blurbs.ufe, "Squatter words.", "the reset is undoable");
 });
 
-test("r1-1b: his invitation over a held listing also starts a fresh card; a removed holder with no email is an exception", async () => {
+test("r1-1b: his invitation over a held listing also starts a fresh card; the removed holder is told at its login email", async () => {
   const w = world();
   const squat = w.client("10.9.1.1");
   await squat.post("invite/accept", { token: await w.invite(GIL, "owner"), agree: true, procedures: ["ufe"] });
@@ -254,7 +258,10 @@ test("r1-1b: his invitation over a held listing also starts a fresh card; a remo
   await c.post("invite/accept", { token: await w.invite(GIL, "owner"), agree: true, procedures: ["gae"] });
   const card = (await exportConfirmed(w.backend)).find((x) => x.npi === GIL);
   assert.deepEqual(card.procedures, ["gae"]); assert.equal(card.booking_url, "");
-  assert.equal((await w.backend.data.many("exceptions", { kind: "holder_removed_no_email" })).length, 1);
+  // job platform-launch-0009: every invitation now sets a login email, so the removed holder is emailed
+  assert.equal((await w.backend.data.many("exceptions", { kind: "holder_removed_no_email" })).length, 0);
+  const squatEmail = (await w.backend.data.many("accounts", { lost_npi: GIL }))[0].email;
+  assert.ok(squatEmail && w.outbox.some((m) => m.to === squatEmail && !/is your Every Option code/.test(m.subject)));
 });
 
 // Decision 3A (job 31): code tries count per email and connection together, so another connection is not blocked.
@@ -341,25 +348,26 @@ test("r2-5a: the waitlist rule holds for his and published invitations too", asy
   await assert.rejects(w.svc().createInvite({ kind: "published", npi: DAN, email: "dan@ortho.example" }), /not_radiologist/);
 });
 
-test("r2-5b: on Supabase a slot conflict (409) is retried with the next slot", async () => {
+test("r2-5b (job platform-launch-0009): on Supabase a doctor's invitation is counted and inserted by eo_insert_doctor_invite; none back is the limit", async () => {
   const inviter = { id: "0b8a1c2d-0000-4000-8000-000000000001", npi: ANN, level: "full", invite_banned: false };
-  let rows = 2, posts = 0;
+  let calls = [], full = false;
   const f = async (url, init = {}) => {
     if (/rpc\/eo_hit/.test(url)) return new Response("true");
-    if (/invitations\?select=\*&inviter_account_id=/.test(url)) return new Response(JSON.stringify(Array.from({ length: rows }, (_, i) => ({ id: "i" + i }))));
-    if (/\/invitations$/.test(url) && init.method === "POST") {
-      posts++; const body = JSON.parse(init.body);
-      if (body.slot === 3) { rows = 3; return new Response("{}", { status: 409 }); }
-      return new Response(JSON.stringify([{ id: "new", ...body }]), { status: 201 });
-    }
-    if (/accounts\?select/.test(url)) return new Response("[]");
+    if (/rpc\/eo_insert_doctor_invite/.test(url)) { const body = JSON.parse(init.body); calls.push(body);
+      return new Response(JSON.stringify(full ? [] : [{ id: "new", slot: 1, ...body }])); }
+    if (/\/invitations$/.test(url) && init.method === "POST") throw new Error("plain insert used for a doctor's invitation");
+    if (/accounts\?select/.test(url)) return new Response(JSON.stringify([inviter]));
     if (/edits$/.test(url)) return new Response(JSON.stringify([{ id: "e1" }]), { status: 201 });
     return new Response("[]");
   };
   const b = { data: supabaseData("https://a.supabase.co", "k", f), nppes: { async lookup() { return { type: "NPI-1", first: "Gil", last: "Fourtest", taxonomy: "2085R0204X" }; } },
     listings: { async get() { return null; } } };
   const r = await makeService(b, {}).createInvite({ kind: "doctor", npi: GIL, inviter });
-  assert.equal(r.ok, true); assert.equal(posts, 2, "second try with slot 4");
+  assert.equal(r.ok, true); assert.equal(calls.length, 1);
+  assert.deepEqual(Object.keys(calls[0]).sort(), ["p_expires_at", "p_inviter", "p_npi", "p_token_hash"]);
+  assert.equal(calls[0].p_inviter, inviter.id); assert.equal(calls[0].p_npi, GIL);
+  full = true;
+  await assert.rejects(makeService(b, {}).createInvite({ kind: "doctor", npi: GIL, inviter }), /invite_limit/);
 });
 
 test("takeover needs the exact first name: a near match leaves the listing where it is and goes to exceptions", async () => {

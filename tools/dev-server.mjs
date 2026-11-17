@@ -65,6 +65,12 @@ function testOp(op, npi) {
     a.forEach((x) => { x.level = "full"; });
     return { promoted: a.length };
   }
+  if (op === "expire") {       // job platform-launch-0009: the unused invitations this NPI's account made lapse now
+    const by = new Set(rows("accounts").filter((a) => a.npi === npi).map((a) => a.id));
+    const hit = rows("invitations").filter((r) => by.has(r.inviter_account_id) && !r.used_at);
+    hit.forEach((r) => { r.expires_at = new Date(Date.now() - 1000).toISOString(); });
+    return { expired: hit.length };
+  }
   const counts = {};
   for (const [name, list] of T) {
     if (name === "radiologist_names") continue;

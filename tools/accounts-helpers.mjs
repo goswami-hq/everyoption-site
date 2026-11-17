@@ -13,7 +13,7 @@ export function world(opts = {}) {
   const backend = localBackend({ nppes: FIX.nppes, listings: FIX.listings, radiologists: FIX.radiologists, doximity: !!opts.doximity, geocodes: FIX.geocodes });
   const clock = { t: Date.parse("2026-11-01T12:00:00Z") };
   const env = { backend, now: () => clock.t, origin: "http://localhost:8787", ...opts.env };
-  const w = { backend, clock, env, outbox: backend.email.outbox, svc: () => makeService(backend, env) };
+  const w = { backend, clock, env, outbox: backend.email.outbox, svc: () => makeService(backend, env), seq: 0 };
   w.client = (ip = "10.0.0.1") => {
     const jar = {};
     const c = {
@@ -30,7 +30,17 @@ export function world(opts = {}) {
         return { status: r.status, body: j, headers: r.headers };
       },
       get: (p) => c.call("GET", p),
-      post: (p, b, x) => c.call("POST", p, b ?? {}, x),
+      // Job platform-launch-0009: accepting an invitation is two steps (email, then its code). post("invite/accept")
+      // runs both, with a fresh test address unless the body names one; { raw: true } runs the first step only.
+      post: (p, b, x) => (p === "invite/accept" && !(x && x.raw) ? c.accept(b ?? {}) : c.call("POST", p, b ?? {}, x)),
+      async accept(body) {
+        // A published-email invitation takes its own address: try without one first, as the page does.
+        let s = await c.call("POST", "invite/accept", body);
+        if (s.status === 400 && s.body && s.body.error === "invalid" && !body.email)
+          s = await c.call("POST", "invite/accept", { ...body, email: `invitee${++w.seq}@test.example` });
+        if (s.status !== 202) return s;
+        return c.call("POST", "code", { challenge: s.body.challenge, code: w.lastCode(s.body.email) });
+      },
       put: (p, b) => c.call("PUT", p, b),
     };
     return c;
