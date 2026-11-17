@@ -45,8 +45,9 @@ test("shown name: 'Goes-by Last, Degree'; registry capitals put in title case; t
   assert.equal(N.displayName({ first: "ROBERT", last: "SMITH", goes_by: "Bob", degree: "DO", credential: "M.D." }), "Bob Smith, DO");
   assert.equal(N.displayName({ first: "Ann", last: "McDonald" }), "Ann McDonald", "no degree known: name only; mixed case kept");
   assert.equal(N.displayName({ first: "ANNE-MARIE", last: "O'BRIEN" }), "Anne-Marie O'Brien");
-  assert.equal(N.registryLine({ first: "ROBERT", middle: "JAMES", last: "SMITH", goes_by: "Bob" }), "Listed in the NPI Registry as Robert J. Smith");
-  assert.equal(N.registryLine({ first: "ROBERT", last: "SMITH", goes_by: "Bob" }), "Listed in the NPI Registry as Robert Smith");
+  assert.equal(N.registryLine({ first: "ROBERT", middle: "JAMES", last: "SMITH", goes_by: "Bob" }), "Listed in the NPI Registry (the national list of U.S. health care providers) as Robert J. Smith");
+  assert.equal(N.registryLine({ first: "ROBERT", last: "SMITH", goes_by: "Bob" }), "Listed in the NPI Registry (the national list of U.S. health care providers) as Robert Smith");
+  assert.equal(N.registryLine({ first: "ROBERT", last: "SMITH", goes_by: "robert" }), "", "same as the registry first name: no line");
   assert.equal(N.registryLine({ first: "ROBERT", middle: "JAMES", last: "SMITH" }), "", "no goes-by: no line");
 });
 
@@ -65,7 +66,7 @@ test("service: saves degree and goes-by; refuses anything else; the last name ca
   assert.equal(r.status, 200); assert.deepEqual(r.body.changed.sort(), ["degree", "goes_by"]);
   const me1 = (await c.get("me")).body;
   assert.equal(me1.names.shown, `Bob ${N.nameCase(FIX.nppes[BEN].last)}, DO`);
-  assert.match(me1.names.registry_line, /^Listed in the NPI Registry as \S+ Q\. \S+$/);
+  assert.match(me1.names.registry_line, /^Listed in the NPI Registry \(the national list of U\.S\. health care providers\) as \S+ Q\. \S+$/);
   assert.equal((await c.put("profile", { degree: "", goes_by: "" })).status, 200, "the reset: as in the NPI Registry");
   assert.equal((await c.get("me")).body.names.shown, me0.names.shown);
 });
@@ -91,8 +92,8 @@ test("alerts: every degree or goes-by change posts NPI, old and new to the alert
   const a = w.backend.alert.sent.slice(n0);
   assert.equal(a.length, 1, "one alert for one save");
   assert.match(a[0], new RegExp(`degree or first name changed, NPI ${BEN}`));
-  assert.match(a[0], /degree: "as in the NPI Registry \(MD PhD\)" -> "DO"/);
-  assert.match(a[0], /goes-by first name: "registry first name" -> "Bob"/);
+  assert.match(a[0], /degree: "\(as in the NPI Registry: MD PhD\)" -> "DO"/);
+  assert.match(a[0], /goes-by first name: "\(registry first name, [^)]+\)" -> "Bob"/);
   assert.match(a[0], /Now shown as "Bob [^"]+, DO"/);
   assert.equal((await w.backend.data.many("exceptions", { kind: "name_change" })).length, 1, "recorded too");
   await c.put("profile", { degree: "DO" });                // no change: no alert
@@ -102,7 +103,7 @@ test("alerts: every degree or goes-by change posts NPI, old and new to the alert
   await c.post("undo", { edit_id: e.id });
   await settle();
   assert.equal(w.backend.alert.sent.length, n0 + 2, "an undo alerts too");
-  assert.match(w.backend.alert.sent.at(-1), /degree: "DO" -> "as in the NPI Registry \(MD PhD\)"/);
+  assert.match(w.backend.alert.sent.at(-1), /degree: "DO" -> "\(as in the NPI Registry: MD PhD\)"/);
   // The save never waits for the alert: with the alert service down, the save still answers 200.
   w.backend.alert.fail = true;
   assert.equal((await c.put("profile", { goes_by: "Robbie" })).status, 200);
@@ -120,12 +121,12 @@ test("shown on the overlay, profile, finder data, city cards and structured data
   const shown = `Bob ${N.nameCase(FIX.nppes[BEN].last)}, MD`;
   assert.equal(p.display, shown);
   assert.equal(p.path, before.path, "the profile address does not change");
-  assert.match(p.registry_line, /^Listed in the NPI Registry as /);
+  assert.match(p.registry_line, /^Listed in the NPI Registry \(the national list/);
   const ov = { ufe: await overlayFor(w.backend, "ufe") };
   const d = mergeDoctor(BEN, null, ov);
   assert.equal(d.display, shown);
   const html = render(BEN, d);
-  assert.match(html, new RegExp(`<h1>${shown}</h1><p class="small muted reg-name">Listed in the NPI Registry as `));
+  assert.match(html, new RegExp(`<h1>${shown}</h1><p class="badge">Interventional radiologist</p><p class="small muted reg-name">Listed in the NPI Registry \\(the national list`));
   assert.match(html, new RegExp(`<title>${shown}, interventional radiologist`));
   assert.match(html, new RegExp(`"@type":"Person","name":"${shown}"`));
   assert.equal(profilePath(d.name, BEN), p.path);
@@ -169,7 +170,7 @@ test("database: four columns with empty defaults, the same list as the code, and
 test("account page: the panel, the fixed list, the last-name line with both links", () => {
   const js = read("src-assets/account.js");
   assert.match(js, /panel\("name-panel", "Your name"/);
-  assert.match(js, /Your last name comes from the NPI Registry\. To change it, /);
+  assert.match(js, /Your last name is the one the NPI Registry showed when you signed up\. If it has changed, /);
   assert.match(js, /href: "https:\/\/nppes\.cms\.hhs\.gov\/"/);
   assert.match(js, /href: "\/report\/" \+ rq/);
   assert.match(js, /"As in the NPI Registry"/);

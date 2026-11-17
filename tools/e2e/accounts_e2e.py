@@ -998,7 +998,7 @@ def live_run(cfg):
                 names["degree kept"] = pg.input_value("#n-degree") == "MD MPH"
                 names["goes-by kept"] = pg.input_value("#n-goes-by") == "Test"
                 names["shown"] = f"test {last}, md mph".lower() in pg.inner_text("#name-shown").lower()
-                names["last-name line"] = "Your last name comes from the NPI Registry" in pg.inner_text("#name-last")
+                names["last-name line"] = "Your last name is the one the NPI Registry showed when you signed up" in pg.inner_text("#name-last")
             except Exception as e:
                 names["error"] = type(e).__name__ + ": " + scrub(e)[:200]
             lcheck("live: one degree change and one goes-by change save and stay after a refresh (the test database has the name columns)",
@@ -1017,7 +1017,7 @@ def live_run(cfg):
                 t0 = time.monotonic()
                 while time.monotonic() - t0 < 95:
                     pg.goto(base + href); body = pg.inner_text("main") if pg.locator("main").count() else pg.inner_text("body")
-                    prof = {"h1": pg.inner_text("h1"), "registry line": "Listed in the NPI Registry as" in body}
+                    prof = {"h1": pg.inner_text("h1"), "registry line": "Listed in the NPI Registry (the national list" in body}
                     if prof["registry line"] and prof["h1"].lower() == f"test {last}, md mph".lower():
                         break
                     pg.wait_for_timeout(8000)
