@@ -78,7 +78,7 @@ text = [
 heading = "How well do they work?"
 text = [
   "**Embolization.** Early results are encouraging. About 3 out of 4 women have much less pain soon after embolization, and for many the relief lasts for years. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^strobl][^hanna][^kim06][^laborda][^hansrani][^embolize][^daniels]",
-  "**Stenting.** Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein, and that when both vein problems are present, treating both gives more lasting relief than a stent alone.[^alenichev][^mokhtar][^razavi][^kibbe] For a swollen leg, most people have less swelling after a stent, but it goes away fully for only about 3 to 5 out of 10. Leg pain tends to improve more than swelling.[^rajuneglen06][^neglen07][^hong22][^liuh26]",
+  "**Stenting.** Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein, and that when both vein problems are present, treating both gives more lasting relief than a stent alone.[^alenichev][^mokhtar][^razavi][^kibbe] For a swollen leg, most people have less swelling after a stent. While it goes away completely in 3 to 5 out of 10 patients, 6 to 8 out of 10 patients see improvement. Pain also tends to improve more reliably than swelling.[^rajuneglen06][^neglen07][^hong22][^liuh26][^ye12]",
 ]
 [[lead_pair.parts]]
 heading = "Side effects"
@@ -186,7 +186,7 @@ id = "stent"
 name = "Opening a squeezed vein with a stent"
 what = "If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open. The stent stays in for good.[^desai]"
 invasive = "It is done through a tiny skin nick. Nothing is cut out of your body.[^desai]"
-works = "Studies disagree on how often a stent alone eases pelvic pain. Some women also need embolization afterward.[^alenichev][^mokhtar] Most of what we know about stents is about leg pain and swelling, not pelvic pain.[^razavi] For a swollen leg, most people have less swelling after a stent, but it goes away fully for only about 3 to 5 out of 10. Leg pain tends to improve more than swelling.[^rajuneglen06][^neglen07][^hong22][^liuh26] A squeezed vein is common in people with no symptoms, so it is not always the cause.[^kibbe]"
+works = "Studies disagree on how often a stent alone eases pelvic pain. Some women also need embolization afterward.[^alenichev][^mokhtar] Most of what we know about stents is about leg pain and swelling, not pelvic pain.[^razavi] For a swollen leg, most people have less swelling after a stent. While it goes away completely in 3 to 5 out of 10 patients, 6 to 8 out of 10 patients see improvement. Pain also tends to improve more reliably than swelling.[^rajuneglen06][^neglen07][^hong22][^liuh26][^ye12] A squeezed vein is common in people with no symptoms, so it is not always the cause.[^kibbe]"
 side = "Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 to 2 out of 100.[^wenda] Doctors may suggest a blood thinner during a later pregnancy.[^villalba]"
 
 [[options]]
@@ -324,6 +324,10 @@ url = "https://doi.org/10.1016/j.ejvs.2022.04.005"
 key = "liuh26"
 cite = "Liu H, Zeng Q, Li F, et al. Comparison of the Zylox Penguin venous stent system and Zilver Vena stent for non-thrombotic iliac vein lesions: a multicentre randomised controlled trial. European Journal of Vascular and Endovascular Surgery. 2026. doi:10.1016/j.ejvs.2026.02.043. PMID 41759711."
 url = "https://doi.org/10.1016/j.ejvs.2026.02.043"
+[[refs]]
+key = "ye12"
+cite = "Ye K, Lu X, Li W, et al. Long-term outcomes of stent placement for symptomatic nonthrombotic iliac vein compression lesions in chronic venous disease. Journal of Vascular and Interventional Radiology. 2012;23(4):497-502. doi:10.1016/j.jvir.2011.12.021. PMID 22342482."
+url = "https://doi.org/10.1016/j.jvir.2011.12.021"
 [[refs]]
 key = "wenda"
 cite = "Wen-da W, Yu Z, Yue-Xin C. Stenting for chronic obstructive venous disease: a current comprehensive meta-analysis and systematic review. Phlebology. 2016;31(6):376-389. doi:10.1177/0268355515596474. PMID 26205370."

@@ -158,7 +158,7 @@ evidence = [
   "* **At a U.S. vein center, pain fell and stayed lower for a year.** {d:cpp-stent-evidence-26}.",
   "* {d:cpp-stent-evidence-27}.",
   "* **The stronger stent studies are about leg symptoms.** {d:cpp-stent-evidence-28}.",
-  "* **Leg swelling often eases, but not always fully.** {f:cpp-stent-swelling}. Leg pain tends to improve more than swelling.[^rajuneglen06][^neglen07]",
+  "* **For a swollen leg, most people have less swelling after a stent.** {f:cpp-stent-swelling}, and {f:cpp-stent-swelling-better}. Pain also tends to improve more reliably than swelling.[^rajuneglen06][^neglen07]",
 ]
 risks = [
   "A stent does not cut or remove tissue. It is a permanent implant, so it needs follow-up over the years.",

@@ -24,9 +24,15 @@ refs = ["wenda"]
 [[fact]]
 id = "cpp-stent-swelling"
 option = "stent"
-simple = "about 3 to 5 out of 10"
-deep = "For a swollen leg, most people have less swelling after a stent, but it goes away fully for only about 3 to 5 out of 10"
-refs = ["rajuneglen06", "neglen07", "hong22", "liuh26"]
+simple = "3 to 5 out of 10"
+deep = "Swelling goes away completely in 3 to 5 out of 10 patients"
+refs = ["rajuneglen06", "neglen07", "liuh26"]
+[[fact]]
+id = "cpp-stent-swelling-better"
+option = "stent"
+simple = "6 to 8 out of 10"
+deep = "6 to 8 out of 10 patients see improvement"
+refs = ["neglen07", "hong22", "ye12"]
 [[fact]]
 id = "cpp-hyst-pain"
 option = "hysterectomy"
