@@ -1649,7 +1649,7 @@ def hide_run(cfg):
                    "Search engines and AI answers may keep an old copy" in pg.inner_text("#hide-confirm"))
             pg.locator("#hide-panel").screenshot(path=os.path.join(OUT, "hide-1-confirm.png"))
             pg.click("#hide-yes"); pg.wait_for_selector("#hide-show", timeout=30000)
-            lcheck("hide: the page says hidden and offers Show my profile", "Your profile is hidden" in pg.inner_text("#hide-state") and pg.is_visible("#hide-show"))
+            lcheck("hide: the page says hidden and offers Show my profile", "Your profile has been hidden since" in pg.inner_text("#hide-state") and pg.is_visible("#hide-show"))
             pg.locator("#hide-panel").screenshot(path=os.path.join(OUT, "hide-2-hidden.png"))
             step(f"3 within {limit_s} s: off /api/listings, and the profile address shows the not-listed page with noindex")
             ok, last = until(pg, "off_listings", lambda: (lambda o: (not any(x["npi"] == npi for x in o.get("people", [])) and npi in o.get("hidden", []), o))(listing(pg)))
