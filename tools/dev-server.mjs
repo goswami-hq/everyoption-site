@@ -65,6 +65,12 @@ function testOp(op, npi) {
     a.forEach((x) => { x.level = "full"; });
     return { promoted: a.length };
   }
+  if (op === "owner") {        // job platform-launch-0010: stands in for his hand-edit tool's `owner NPI` (one owner at most)
+    const a = rows("accounts").filter((x) => x.npi === npi);
+    if (a.length !== 1 || rows("accounts").some((x) => x.is_owner && x.npi !== npi)) return { owner: false };
+    a[0].is_owner = true;
+    return { owner: true };
+  }
   if (op === "expire") {       // job platform-launch-0009: the unused invitations this NPI's account made lapse now
     const by = new Set(rows("accounts").filter((a) => a.npi === npi).map((a) => a.id));
     const hit = rows("invitations").filter((r) => by.has(r.inviter_account_id) && !r.used_at);

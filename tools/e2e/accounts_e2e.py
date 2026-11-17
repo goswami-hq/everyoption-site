@@ -1329,11 +1329,228 @@ def invite_run(cfg):
     return 0 if R["passed"] == R["total"] else 1
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Job platform-launch-0010 (his "1. Yes", HQ chat 2026-11-17 15:12 CT): the owner box, live on the dev site (test
+# project) or on a local server, at phone size. The runner (ai-hq scripts/every_option_live_test.py run --owner) resets
+# his test account, makes his invitation with the hand-edit tool and passes the link in memory only (invite_url), plus
+# the hand-edit command (hand_edit: argv list) this test uses to make his account the owner and to try a second owner.
+# Two made-up NPIs (lib/accounts/preview-fixtures.mjs on the dev site, the fixture registry locally); links and tokens
+# are scrubbed from every line and file, and blurred in every screenshot.
+FIX_A, FIX_B = "1999000015", "1999000023"
+
+
+def owner_run(cfg):
+    import urllib.parse, subprocess
+    SECRET_VALUES[:] = [cfg.get(k) for k in ("access_id", "access_secret", "gmail_password", "supabase_key") if cfg.get(k)]
+    local = cfg.get("mode") == "local"
+    site = LocalSite(cfg) if local else LiveSite(cfg)
+    base, npi, brk = site.base, cfg["npi"], cfg.get("break", "")
+    email_addr = test_email(cfg)
+    tag = cfg["email_tag"]
+    email_a = cfg["email_user"].replace("@", f"+eo21-{tag}a@")
+    email_b = cfg["email_user"].replace("@", f"+eo21-{tag}b@")
+    names = {FIX_A: "Testone", FIX_B: "Sampletwo"} if local else {FIX_A: "Alpha", FIX_B: "Bravo"}
+    R["live"] = {"base": base, "mode": cfg.get("mode", "live"), "flow": "owner", "email": email_addr, "steps": []}
+    fails, current = [], {"pg": None}
+    BLUR = "#o-link, #invite-link { filter: blur(7px) !important; }"
+
+    def lcheck(name, ok, detail=""):
+        if brk and brk == name:
+            ok = not ok
+        check(name, ok, detail)
+        if not ok and current["pg"] is not None and len(fails) < 8:
+            p = os.path.join(OUT, f"fail-{len(fails) + 1:02d}.png")
+            try:
+                current["pg"].add_style_tag(content=BLUR)
+                current["pg"].screenshot(path=p, full_page=True); fails.append({"check": name, "shot": p})
+            except Exception:
+                fails.append({"check": name, "shot": ""})
+        return ok
+
+    def step(x):
+        R["live"]["steps"].append(x); print("--", x)
+
+    def oshot(pg, name):
+        pg.add_style_tag(content=BLUR); shot(pg, name)
+
+    def call(pg, method, path, body=None):
+        return pg.evaluate("""([m, p, b]) => fetch('/api/account/' + p, { method: m, credentials: 'same-origin',
+            headers: b ? { 'Content-Type': 'application/json' } : {}, body: b ? JSON.stringify(b) : undefined })
+            .then(r => r.text().then(t => ({ status: r.status, text: t })))""", [method, path, body])
+
+    def hand(*args):
+        """The hand-edit tool on the test project (live), or the dev server's stand-in (local)."""
+        if local:
+            r = site._get(f"/__test/owner?npi={args[-1]}")
+            return 0 if r.get("owner") else 2
+        p = subprocess.run(list(cfg["hand_edit"]) + list(args), capture_output=True, text=True, timeout=180)
+        R["live"].setdefault("hand_edit", []).append({"args": list(args), "exit": p.returncode,
+                                                       "tail": scrub((p.stderr or p.stdout or "").strip()[-200:])})
+        return p.returncode
+
+    def sign_in_code(pg, addr, code):
+        pg.fill("#c-code", code); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+
+    def accept(pg, link, addr, label):
+        pg.goto(link); pg.wait_for_selector("#invite-form", timeout=30000)
+        if pg.get_attribute("#i-email", "readonly") is None:
+            pg.fill("#i-email", addr)
+        pg.check("#i-agree"); pg.click("#i-send"); pg.wait_for_selector("#c-code", timeout=30000)
+        c = site.code(addr)
+        if not c:
+            raise SetupFailed(f"no code reached the inbox for {label} within 150 s")
+        sign_in_code(pg, addr, c)
+
+    link = site.make_invite()
+    if link:
+        SECRET_VALUES.append(urllib.parse.urlsplit(link).fragment.split("=", 1)[-1]); SECRET_VALUES.append(link)
+    vp = {"width": 390, "height": 844}
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        ctx = b.new_context(viewport=vp, is_mobile=True, has_touch=True)
+        site.attach(ctx)
+        try:
+            ctx.grant_permissions(["clipboard-read", "clipboard-write"], origin=base)
+        except Exception:
+            pass
+        pg = ctx.new_page(); watch(pg, "owner"); current["pg"] = pg
+        others = []
+        try:
+            step("1 his test account from his invitation (reset by the runner first)")
+            ip = site.ip(pg)
+            if not link:
+                raise SetupFailed("no invitation link was handed to the test")
+            accept(pg, link, email_addr, "his invitation")
+            lcheck("owner: his account is Full", "Full access" in pg.inner_text("#acct-level"))
+            step("2 before the owner role: no owner box, and the owner routes refuse")
+            lcheck("owner: no owner box before the role is set", pg.locator("#owner").count() == 0)
+            r = call(pg, "GET", "owner/invites")
+            lcheck("owner: the owner list refuses a non-owner (403)", r["status"] == 403 and "owner_only" in r["text"], r)
+            r = call(pg, "POST", "owner/invite", {"npi": FIX_A, "kind": "full"})
+            lcheck("owner: making an owner link refuses a non-owner (403)", r["status"] == 403, r)
+            step("3 the hand-edit tool makes his test account the owner (test project)")
+            lcheck("owner: hand-edit `owner` on his NPI succeeds", hand("--yes", "owner", npi) in (0, 3))
+            pg.reload(); pg.wait_for_selector("#owner", timeout=30000)
+            lcheck("owner: the owner box shows once the role is set", pg.is_visible("#owner-form"))
+            step("4 a full-access link for a made-up NPI: name first, then the link once, with Copy and Share")
+            pg.fill("#o-npi", FIX_A); pg.click("#o-check"); pg.wait_for_selector("#o-name", timeout=30000)
+            lcheck("owner: the registry name shows before he confirms", names[FIX_A].lower() in pg.inner_text("#o-name").lower(), pg.inner_text("#o-name"))
+            lcheck("owner: full access is the default", pg.is_checked("#o-full") and not pg.is_visible("#o-email"))
+            oshot(pg, "owner-1-looked-up")
+            pg.click("#o-go"); pg.wait_for_selector("#o-link", timeout=30000)
+            link_a = pg.input_value("#o-link")
+            SECRET_VALUES.append(link_a); SECRET_VALUES.append(link_a.split("#invite=")[-1])
+            lcheck("owner: the link is a dev-site invitation link", bool(re.fullmatch(re.escape(base) + r"/account/#invite=[0-9a-f]{64}", link_a)))
+            lcheck("owner: the link says when it expires and that it works once", "Works once, for this NPI only." in pg.inner_text("#o-expires")
+                   and pg.inner_text("#o-expires").startswith("Expires "))
+            pg.click("#o-copy"); pg.wait_for_timeout(500)
+            got = pg.evaluate("() => navigator.clipboard.readText().catch(() => '')")
+            lcheck("owner: Copy puts the link on the clipboard", got == link_a)
+            pg.evaluate("() => navigator.clipboard.writeText('x')")
+            has_share = pg.evaluate("() => !!navigator.share")
+            if not has_share:
+                pg.click("#o-share"); pg.wait_for_timeout(500)
+                got = pg.evaluate("() => navigator.clipboard.readText().catch(() => '')")
+                lcheck("owner: Share without a share sheet falls back to Copy", got == link_a)
+            else:
+                lcheck("owner: Share button present", pg.is_visible("#o-share"))
+            oshot(pg, "owner-2-link-made")
+            step("5 a partial-access link to a published email for the second made-up NPI")
+            pg.fill("#o-npi", FIX_B); pg.click("#o-check"); pg.wait_for_selector("#o-name", timeout=30000)
+            pg.check("#o-part")
+            lcheck("owner: partial shows the email field and turns off the trainee tick", pg.is_visible("#o-email") and pg.is_disabled("#o-trainee"))
+            pg.fill("#o-email", email_b); pg.click("#o-go"); pg.wait_for_selector("#o-link", timeout=30000)
+            link_b = pg.input_value("#o-link")
+            SECRET_VALUES.append(link_b); SECRET_VALUES.append(link_b.split("#invite=")[-1])
+            lcheck("owner: a second, different link", link_b != link_a and "#invite=" in link_b)
+            pg.wait_for_selector("#o-list li[data-status=live]", timeout=20000)
+            wait_js(pg, "() => document.querySelectorAll('#o-list li[data-status=live]').length >= 2", timeout=20000)
+            lt = pg.inner_text("#o-list")
+            lcheck("owner: the list shows both, with name, kind, made and expires", names[FIX_A] in lt and names[FIX_B] in lt and "Full access" in lt
+                   and "Partial access, to " + email_b in lt and "Made " in lt and "expires " in lt, lt[:300])
+            step("6 the link is not shown again: not after a reload, not in the page source or any answer")
+            pg.reload(); pg.wait_for_selector("#o-list li", timeout=30000)
+            wait_js(pg, "() => document.querySelectorAll('#o-list li[data-status]').length >= 2", timeout=20000)
+            src = pg.content() + call(pg, "GET", "me")["text"] + call(pg, "GET", "owner/invites")["text"] + call(pg, "GET", "edits")["text"]
+            toks = [link_a.split("#invite=")[-1], link_b.split("#invite=")[-1]]
+            lcheck("owner: after a reload no link is on the page or in any answer", pg.locator("#o-link").count() == 0
+                   and not any(t in src for t in toks) and not re.search(r"#invite=[0-9a-f]{64}", src))
+            oshot(pg, "owner-3-list")
+            step("7 withdraw the partial link; it then fails with the usual page")
+            bid = pg.get_attribute(f"#o-list li[data-status=live]:has-text('{names[FIX_B]}')", "id").replace("o-inv-", "")
+            pg.click(f"#o-wd-{bid}"); pg.wait_for_selector(f"#o-inv-{bid}[data-status=withdrawn]", timeout=20000)
+            lcheck("owner: the list says Withdrawn", "Withdrawn" in pg.inner_text(f"#o-inv-{bid}"))
+            c2 = b.new_context(viewport=vp, is_mobile=True, has_touch=True); site.attach(c2); others.append(c2)
+            p2 = c2.new_page(); watch(p2, "owner-withdrawn")
+            p2.goto(link_b); p2.wait_for_timeout(2500)
+            wait_js(p2, "() => (document.getElementById('acct-status') || {}).textContent.length > 0", timeout=20000)
+            lcheck("owner: the withdrawn link shows the no-longer-works message", "was withdrawn" in msgs(p2) and p2.locator("#invite-form").count() == 0, msgs(p2)[:200])
+            shot(p2, "owner-4-withdrawn-link")
+            step("8 the full link in a fresh browser: a test address and its code; that account is Full")
+            c3 = b.new_context(viewport=vp, is_mobile=True, has_touch=True); site.attach(c3); others.append(c3)
+            p3 = c3.new_page(); watch(p3, "owner-fixture"); current["pg"] = p3
+            accept(p3, link_a, email_a, "the made-up doctor")
+            lcheck("owner: the made-up doctor's account is Full", "Full access" in p3.inner_text("#acct-level"), p3.inner_text("#acct-level"))
+            lcheck("owner: it has no owner box", p3.locator("#owner").count() == 0)
+            r = call(p3, "POST", "owner/invite", {"npi": FIX_B, "kind": "full", "trainee": True})
+            lcheck("owner: its owner routes refuse it, trainee tick included (403)", r["status"] == 403 and call(p3, "GET", "owner/invites")["status"] == 403, r)
+            step("9 a second owner is refused: by the tool and by the database")
+            lcheck("owner: hand-edit `owner` on a second account is refused", hand("--yes", "owner", FIX_A) == 2)
+            if not local:
+                try:
+                    site._rest("PATCH", f"accounts?npi=eq.{FIX_A}", {"is_owner": True}); idx = "accepted"
+                except SetupFailed as e:
+                    idx = str(e)
+                lcheck("owner: the database index refuses a second owner (HTTP 409)", "HTTP 409" in idx, idx[:200])
+            step("10 a doctor withdraws their own link and gets its place back")
+            p3.reload(); p3.wait_for_selector("#invite-left", timeout=30000)
+            p3.fill("#v-npi", FIX_B); p3.click("#invite-create button[type=submit]"); p3.wait_for_selector("#invite-link", timeout=30000)
+            SECRET_VALUES.append(p3.input_value("#invite-link")); SECRET_VALUES.append(p3.input_value("#invite-link").split("#invite=")[-1])
+            lcheck("owner: the doctor box offers Copy and Share too", p3.is_visible("#invite-copy") and p3.is_visible("#invite-share"))
+            p3.reload(); p3.wait_for_selector("#invite-list li[data-status=live]", timeout=30000)
+            before = p3.inner_text("#invite-left")
+            p3.click("#invite-list li[data-status=live] button"); wait_status(p3, "its place is free again", timeout=20000)
+            lcheck("owner: a doctor's withdraw frees the slot (4 left, then 5)", "4 of 5 left" in before and "5 of 5 left" in p3.inner_text("#invite-left"),
+                   [before[-60:], p3.inner_text("#invite-left")[-60:]])
+            current["pg"] = pg
+            step("11 his list shows the full link as used, by whom and when")
+            pg.reload(); pg.wait_for_selector("#o-list li[data-status=used]", timeout=30000)
+            lcheck("owner: the list says Used by the made-up doctor", email_a in pg.inner_text("#o-list li[data-status=used]"))
+        except SetupFailed as e:
+            R["live"]["setup_failed"] = scrub(e)
+            print("SETUP FAILED", scrub(e))
+        except Exception as e:
+            lcheck(f"owner: step ran without error ({R['live']['steps'][-1] if R['live']['steps'] else 'start'})", False, type(e).__name__ + ": " + scrub(e)[:200])
+        finally:
+            step("12 reset and check empty")
+            try:
+                R["live"]["reset_after"] = site.reset(site.ip(pg))
+                rem = site.remaining(site.ip(pg))
+                R["live"]["remaining"] = rem
+                lcheck("owner: the test database is left with no test rows", rem and not any(rem.values()), rem)
+            except Exception as e:
+                R["live"]["reset_failed"] = type(e).__name__ + ": " + scrub(e)[:200]
+                check("owner: reset after the run", False, R["live"]["reset_failed"])
+            for c in others:
+                c.close()
+            ctx.close(); b.close()
+    R["live"]["fail_shots"] = fails
+    R["passed"] = sum(c["ok"] for c in R["checks"]); R["total"] = len(R["checks"])
+    text = scrub(json.dumps(R, indent=1))
+    open(os.path.join(OUT, "results.json"), "w").write(text)
+    print(f"{R['passed']} of {R['total']} checks")
+    if R["live"].get("setup_failed") or R["live"].get("reset_failed"):
+        return 3
+    return 0 if R["passed"] == R["total"] else 1
+
+
 def live_main():
     global OUT
     OUT = sys.argv[2]
     os.makedirs(OUT, exist_ok=True)
     cfg = json.loads(sys.stdin.read())
+    if cfg.get("flow") == "owner" and not cfg.get("reset_only"):
+        return owner_run(cfg)
     return invite_run(cfg) if cfg.get("flow") == "invite" and not cfg.get("reset_only") else live_run(cfg)
 
 

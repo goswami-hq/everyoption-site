@@ -40,6 +40,8 @@
     invite_limit: "You have no invitations left. An unused link gives its place back once it expires.", invite_self: "That is your own NPI.",
     invite_email_fixed: "This invitation is for the email it was sent to.",
     invite_email_own: "Use the login email already on your account.",
+    owner_only: "Only the site owner can do this.", owner_day_limit: "That is 30 invitations today, the most in one day. Try again tomorrow.",
+    invite_not_live: "That link was already used, withdrawn, or has expired.", not_found: "We could not find that. Reload the page and try again.",
     not_radiologist: "Invitations are for radiologists for now.",
     street_required: "Each new office needs a street address, such as 100 Main Street, Suite 2.",
     full_needed: "This needs full access.",
@@ -384,7 +386,9 @@
   // the address it was sent to.
   function invitation(tok) {
     return api("POST", "invite/preview", { token: tok }).then(function (pv) {
-      if (!pv.ok) { say(words(pv), "err"); entry(); return; }
+      // Job platform-launch-0010: the sign-in page first, then the message (entry() clears the status line, so a dead
+      // link used to land on a blank sign-in page with no word of why).
+      if (!pv.ok) { entry(); say(words(pv), "err"); return; }
       var fixed = !!pv.email;
       var email = el("input", { id: "i-email", name: "email", type: "email", maxlength: "200", autocomplete: "email", required: true });
       if (fixed) { email.value = pv.email; email.readOnly = true; }
@@ -861,28 +865,162 @@
     var f = el("form", { "class": "acct-form sub", id: "invite-create", novalidate: true }, [
       el("h3", { text: "Invite a colleague" }),
       el("p", { "class": "small", id: "invite-left", text: inviteWords(inv.left, inv.limit) }),
-      field("v-npi", "Their NPI", inp), acts("invite", [go]), res
+      field("v-npi", "Their NPI", inp), acts("invite", [go]), res,
+      (inv.sent || []).length ? el("h3", { text: "Your links" }) : null, msgLine("invite-list"),
+      (inv.sent || []).length ? el("ul", { "class": "o-list", id: "invite-list" }, inv.sent.map(function (v) {
+        var li = el("li", { "class": "o-inv", id: "v-inv-" + v.id, "data-status": v.status }, [
+          el("p", null, [el("strong", { text: v.name ? titleCase(v.name) : "NPI " + v.npi }), el("span", { "class": "muted", text: " · NPI " + v.npi })]),
+          el("p", { "class": "small", text: (STATUS_WORDS[v.status] || v.status) + ". Made " + day(v.created_at) + (v.status === "live" ? ", expires " + day(v.expires_at) : "") + "." })]);
+        if (v.status === "live") li.appendChild(el("button", { type: "button", "class": "link remove", id: "v-wd-" + v.id, text: "Withdraw",
+          "aria-label": "Withdraw the link for " + (v.name ? titleCase(v.name) : "NPI " + v.npi), onclick: function () {
+            var btn = this; busy(btn, true);
+            api("POST", "invite/withdraw", { id: v.id }).then(function (j) {
+              busy(btn, false);
+              if (!j.ok) return near("invite-list", words(j), "err");
+              load().then(function () { near("invite-list", "Withdrawn. That link no longer works, and its place is free again.", "ok"); });
+            });
+          } }));
+        return li;
+      })) : null
     ]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       api("POST", "invite/create", { npi: inp.value.trim() }).then(function (j) {
         if (j._status !== 201) return near("invite", words(j), "err");
         res.innerHTML = "";
-        var link = el("input", { id: "invite-link", readonly: true, value: j.url });
-        res.appendChild(el("p", { "class": "small", text: "Link for " + j.name + (j.held ? " (this listing already has an account; it will reach us first)" : "") + ":" }));
-        res.appendChild(link);
-        var copy = el("button", { type: "button", "class": "secondary", id: "invite-copy", text: "Copy link" });
-        copy.addEventListener("click", function () {
-          function selected() { link.focus(); link.select(); copy.textContent = "Press copy on your device"; }
-          if (navigator.clipboard) navigator.clipboard.writeText(j.url).then(function () { copy.textContent = "Copied"; }, selected); else selected();
-        });
-        res.appendChild(el("div", { "class": "acct-actions" }, [copy]));
+        if (j.held) res.appendChild(el("p", { "class": "small", text: "This listing already has an account, so the link will reach us first." }));
+        // Job platform-launch-0010: Copy and Share, as in the owner box; the ids invite-link and invite-copy stay.
+        res.appendChild(linkBox("invite", j.url, j.name, j.expires_at));
         document.getElementById("invite-left").textContent = inviteWords(j.left, inv.limit);
         if (j.left <= 0) go.disabled = true;
         near("invite", "Invitation link made. " + j.left + " left.", "ok");
       });
     });
     return f;
+  }
+
+  // ---- Job platform-launch-0010 (his "1. Yes", HQ chat 2026-11-17 15:12 CT): the owner box. Shown only when the server
+  // says this account is the owner (me.owner); every owner route checks again on the server. The link is shown once,
+  // right after it is made, and is never in the list or the page again (the server keeps only its hash).
+  var DAY = { month: "short", day: "numeric", year: "numeric" };
+  function day(t) { return new Date(t).toLocaleDateString("en-US", DAY); }
+  function linkBox(prefix, url, name, expires) {
+    var link = el("input", { id: prefix + "-link", readonly: true, value: url, "aria-label": "Invitation link for " + name });
+    var copy = el("button", { type: "button", "class": "secondary", id: prefix + "-copy", text: "Copy" });
+    var share = el("button", { type: "button", "class": "secondary", id: prefix + "-share", text: "Share" });
+    var note = el("p", { "class": "small", id: prefix + "-copied", "aria-live": "polite" });
+    function doCopy() {
+      function selected() { link.focus(); link.select(); note.textContent = "Press copy on your device."; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { note.textContent = "Copied."; }, selected);
+      else selected();
+    }
+    copy.addEventListener("click", doCopy);
+    share.addEventListener("click", function () {
+      if (navigator.share) navigator.share({ title: "Every Option invitation", url: url }).catch(function (e) { if (!e || e.name !== "AbortError") doCopy(); });
+      else doCopy();
+    });
+    return el("div", { "class": "notice", id: prefix + "-made" }, [
+      el("p", null, [el("strong", { text: "Link for " + name + "." }), " Send it yourself."]),
+      link, el("div", { "class": "acct-actions" }, [copy, share]), note,
+      el("p", { "class": "small", id: prefix + "-expires", text: "Expires " + day(expires) + ". Works once, for this NPI only." }),
+      el("p", { "class": "small muted", text: "This link shows only now. To send it again, withdraw it and make a new one." })]);
+  }
+  var STATUS_WORDS = { live: "Not used yet", used: "Used", expired: "Expired", withdrawn: "Withdrawn" };
+  function ownerList(list, ul) {
+    ul.innerHTML = "";
+    if (!list.length) { ul.appendChild(el("li", { "class": "muted", text: "No invitations yet." })); return; }
+    list.forEach(function (v) {
+      var status = STATUS_WORDS[v.status] || v.status;
+      if (v.status === "used" && v.used_by) status = "Used by " + v.used_by.name + (v.used_by.email ? " (" + v.used_by.email + ")" : "") + ", " + day(v.used_at);
+      else if (v.status === "used") status = "Used " + day(v.used_at);
+      else if (v.status === "withdrawn" && v.withdrawn_at) status = "Withdrawn " + day(v.withdrawn_at);
+      var li = el("li", { "class": "o-inv", id: "o-inv-" + v.id, "data-status": v.status }, [
+        el("p", null, [el("strong", { text: v.name || "NPI " + v.npi }), el("span", { "class": "muted", text: " · NPI " + v.npi })]),
+        el("p", { "class": "small", text: (v.kind === "partial" ? "Partial access, to " + v.email : "Full access") + ". Made " + day(v.created_at) +
+          (v.status === "live" ? ", expires " + day(v.expires_at) : "") + "." }),
+        el("p", { "class": "small", id: "o-st-" + v.id, text: status + "." })]);
+      if (v.status === "live") li.appendChild(el("button", { type: "button", "class": "link remove", id: "o-wd-" + v.id, text: "Withdraw",
+        "aria-label": "Withdraw the invitation for " + (v.name || "NPI " + v.npi), onclick: function () {
+          var btn = this; busy(btn, true);
+          api("POST", "owner/withdraw", { id: v.id }).then(function (j) {
+            busy(btn, false);
+            if (!j.ok) return near("owner-list", words(j), "err");
+            near("owner-list", "Withdrawn. That link no longer works.", "ok");
+            refreshOwner(ul);
+          });
+        } }));
+      ul.appendChild(li);
+    });
+  }
+  function refreshOwner(ul) { return api("GET", "owner/invites").then(function (j) { if (j.ok) ownerList(j.invites || [], ul); }); }
+  function ownerPanel(me) {
+    var npi = el("input", { id: "o-npi", name: "npi", inputmode: "numeric", maxlength: "10", autocomplete: "off" });
+    var look = el("button", { type: "button", "class": "secondary", id: "o-check", text: "Look up" });
+    var who = el("div", { id: "o-who", "aria-live": "polite" });
+    var full = el("input", { type: "radio", name: "o-kind", id: "o-full", value: "full", checked: true });
+    var part = el("input", { type: "radio", name: "o-kind", id: "o-part", value: "published" });
+    var email = el("input", { id: "o-email", name: "email", type: "email", maxlength: "200", autocomplete: "off" });
+    var emailRow = field("o-email", "The email printed on their own page", email);
+    emailRow.hidden = true;
+    var trainee = el("input", { type: "checkbox", id: "o-trainee" });
+    var traineeRow = el("label", { "class": "agree", "for": "o-trainee" }, [trainee,
+      el("span", { text: "Still listed as a trainee. The registry shows only the trainee code (390200000X) for this NPI, as it does for many fellows." })]);
+    var go = el("button", { type: "submit", id: "o-go", text: "Make the link", disabled: true });
+    var made = el("div", { id: "o-out" });
+    var ul = el("ul", { "class": "o-list", id: "o-list" });
+    var checked = null;
+    function reset() { checked = null; who.innerHTML = ""; go.disabled = true; made.innerHTML = ""; }
+    npi.addEventListener("input", reset);
+    function kind() { return part.checked ? "published" : "full"; }
+    [full, part].forEach(function (r) { r.addEventListener("change", function () {
+      emailRow.hidden = kind() !== "published"; trainee.disabled = kind() === "published"; if (trainee.disabled) trainee.checked = false;
+    }); });
+    look.addEventListener("click", function () {
+      var v = npi.value.replace(/\D/g, "");
+      if (!/^\d{10}$/.test(v)) return near("owner", "Type the 10-digit NPI.", "err");
+      busy(look, true); reset();
+      api("GET", "owner/check?npi=" + v).then(function (j) {
+        busy(look, false);
+        if (!j.ok) return near("owner", words(j), "err");
+        checked = j;
+        var lines = [el("p", { id: "o-name" }, [el("strong", { text: titleCase(j.name) }), el("span", { "class": "muted", text: " · NPI " + j.npi })])];
+        if (j.self) lines.push(el("p", { "class": "small", text: "That is your own NPI." }));
+        else if (j.held) lines.push(el("p", { "class": "small", text: "This NPI already has an account. A full-access link moves the listing to whoever opens it." }));
+        if (!j.radiology && !j.listed) lines.push(el("p", { "class": "small", id: "o-not-rad", text: j.trainee_only
+          ? "The registry lists this NPI only as a trainee. Tick the trainee box to make a full-access link." : "The registry does not list a radiology specialty for this NPI, so a link would be refused." }));
+        lines.push(el("p", { "class": "small muted", text: "Is this the right doctor? Then choose the access and make the link." }));
+        lines.forEach(function (n) { who.appendChild(n); });
+        go.disabled = !!j.self;
+      });
+    });
+    var f = el("form", { "class": "acct-form", id: "owner-form", novalidate: true }, [
+      el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. There is no limit on how many you make." }),
+      field("o-npi", "Their NPI", npi), el("div", { "class": "acct-actions" }, [look]), who,
+      el("fieldset", { id: "o-kinds" }, [el("legend", { text: "Access" }), el("div", { "class": "checks" }, [
+        el("label", { "for": "o-full" }, [full, "Full access (most doctors): photo, invitations, and Confirmed by physician"]),
+        el("label", { "for": "o-part" }, [part, "Partial access, to an email printed on their own page: they show under Likely performs"])])]),
+      emailRow, traineeRow, acts("owner", [go]), made
+    ]);
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      if (!checked) return near("owner", "Look up the NPI first.", "err");
+      var body = { npi: checked.npi, kind: kind() };
+      if (body.kind === "published") body.email = email.value.trim();
+      if (trainee.checked && body.kind === "full") body.trainee = true;
+      busy(go, true);
+      api("POST", "owner/invite", body).then(function (j) {
+        busy(go, false);
+        if (j._status !== 201) return near("owner", words(j), "err");
+        var name = titleCase(j.name);
+        npi.value = ""; email.value = ""; trainee.checked = false; checked = null; who.innerHTML = ""; go.disabled = true;
+        made.innerHTML = ""; made.appendChild(linkBox("o", j.url, name, j.expires_at));
+        near("owner", "Link made for " + name + ".", "ok");
+        refreshOwner(ul);
+      });
+    });
+    var p = panel("owner", "Invite doctors", [f, el("h3", { text: "Your invitations" }), msgLine("owner-list"), ul]);
+    refreshOwner(ul);
+    return p;
   }
 
   function emailPanel(me) {
@@ -912,7 +1050,8 @@
   var FIELD = { degree: "Degree", goes_by: "First name you go by", blurbs: "Notes", insurances: "Insurance plans", insurance_other: "Other plans", insurance_confirm: "Confirm with the office",
     booking_url: "Website link", telehealth: "Video visits",
     also_performs: "Other procedures (private)", also_performs_other: "Something else (private)", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
-    takeover: "Listing moved to you", lost_npi: "Listing lost", login_email: "Login email", invite: "Invitation made", doximity: "Doximity linked" };
+    takeover: "Listing moved to you", lost_npi: "Listing lost", login_email: "Login email", invite: "Invitation made", doximity: "Doximity linked",
+    owner_invite: "Invitation made (owner box)", invite_withdrawn: "Invitation withdrawn", owner: "Owner role" };
   var WHEN = { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" };
   function when(t) {
     var d = new Date(t), now = new Date();
@@ -1036,7 +1175,8 @@
     ]);
     var parts = [head];
     if (a.npi) {
-      parts.push(seePanel(me), namePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me), emailPanel(me), historyPanel());
+      parts.push(seePanel(me), namePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me),
+        me.owner ? ownerPanel(me) : null, emailPanel(me), historyPanel());
     } else {
       parts.push(accessPanel(me), emailPanel(me));
     }
