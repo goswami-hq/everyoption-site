@@ -458,7 +458,7 @@
   function namePanel(me) {
     var a = me.account, p = me.profile || {}, n = me.names || {};
     var deg = el("select", { id: "n-degree", name: "degree" }, [el("option", { value: "",
-      text: "As in the NPI Registry" + (n.registry_degree ? " (" + n.registry_degree + ")" : " (none listed)"), selected: !p.degree })]
+      text: "As in the NPI Registry" + (n.registry_degree ? " (" + n.registry_degree + ")" : " (no degree shown)"), selected: !p.degree })]
       .concat((n.degrees || []).map(function (d) { return el("option", { value: d, text: d, selected: p.degree === d }); })));
     var gb = el("input", { id: "n-goes-by", name: "goes_by", maxlength: "30", autocomplete: "given-name", value: p.goes_by || "" });
     var save = el("button", { type: "submit", id: "name-save", text: "Save name" });
@@ -466,27 +466,27 @@
     var f = el("form", { "class": "acct-form", id: "name-form", novalidate: true }, [
       field("n-degree", "Degree", deg),
       field("n-goes-by", "First name you go by", gb, "(optional) Leave blank to use " + (n.registry_first ? n.registry_first + ", " : "") +
-        "your first name in the NPI Registry. Letters, spaces, hyphens and apostrophes only."),
+        "your first name in the NPI Registry. Letters, spaces, hyphens, and apostrophes only."),
       acts("name", [save])]);
     f.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var v = gb.value.replace(/\s+/g, " ").trim();
-      if (v && (v.length > 30 || !/^\p{L}[\p{L}\p{M} '\u2019\-]*$/u.test(v) || /['\u2019\-]$/.test(v))) {
+      if (v && (v.length > 30 || !/^\p{L}[\p{L}\p{M} '\u2018\u2019\u02bc\-]*$/u.test(v) || /['\u2018\u2019\u02bc\-]$/.test(v))) {
         gb.setAttribute("aria-invalid", "true"); gb.focus();
-        return near("name", "Use only letters, spaces, hyphens and apostrophes, up to 30 characters.", "err");
+        return near("name", "Use only letters, spaces, hyphens, and apostrophes, up to 30 characters. Start with a letter, and do not end with a hyphen or apostrophe.", "err");
       }
       gb.removeAttribute("aria-invalid"); busy(save, true);
       api("PUT", "profile", { degree: deg.value, goes_by: v }).then(function (j) {
         busy(save, false);
         if (j.ok) saved("name", j.changed.length ? "Saved." : "No changes.", "ok", "name-save", j.changed);
-        else near("name", j.error === "invalid" ? "Use only letters, spaces, hyphens and apostrophes, up to 30 characters." : words(j), "err");
+        else near("name", j.error === "invalid" ? "Use only letters, spaces, hyphens, and apostrophes, up to 30 characters. Start with a letter, and do not end with a hyphen or apostrophe." : words(j), "err");
       });
     });
     return panel("name-panel", "Your name", [
-      el("p", { "class": "name-shown", id: "name-shown" }, ["Shown to patients as ", el("strong", { text: n.shown || a.name }), "."]),
-      el("p", { "class": "small muted", id: "name-last" }, ["Your last name comes from the NPI Registry. To change it, ",
-        el("a", { href: "https://nppes.cms.hhs.gov/", rel: "noopener", target: "_blank", text: "update your NPI record" }), " or ",
-        el("a", { href: "/report/" + rq, text: "report it to us" }), "."]),
+      el("p", { "class": "name-shown", id: "name-shown" }, ["Patients will see your name as ", el("strong", { text: n.shown || a.name }), "."]),
+      el("p", { "class": "small muted", id: "name-last" }, ["Your last name is the one the NPI Registry showed when you signed up. If it has changed, ",
+        el("a", { href: "https://nppes.cms.hhs.gov/", rel: "noopener", target: "_blank", text: "update your NPI record" }), " first, then ",
+        el("a", { href: "/report/" + rq, text: "tell us on the report form" }), " (choose Something else and give your new last name) so we can update it here."]),
       f]);
   }
 
