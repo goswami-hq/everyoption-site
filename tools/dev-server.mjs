@@ -135,7 +135,7 @@ http.createServer(async (req, res) => {
   // Stand-ins for his two local commands (tools/invite.mjs, tools/revoke-inviter.mjs --dev).
   if (backend && url.pathname === "/__invite") {
     const q = url.searchParams;
-    try { return asJSON(res, await makeService(backend, { origin }).createInvite({ kind: q.get("kind") || "owner", npi: q.get("npi"), email: q.get("email") || "" })); }
+    try { return asJSON(res, await makeService(backend, { origin }).createInvite({ kind: q.get("kind") || "owner", npi: q.get("npi"), email: q.get("email") || "", trainee: q.get("trainee") === "1" })); }
     catch (e) { return asJSON(res, { error: e.code || e.message }); }
   }
   if (backend && url.pathname === "/__revoke") {

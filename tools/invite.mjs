@@ -3,6 +3,7 @@
 //   node tools/invite.mjs <NPI>                                  his invitation
 //   node tools/invite.mjs <NPI> --published <email>              basic, to an address printed on the doctor's own page
 //   ... --dev http://localhost:8792                              against the local dev server (made-up people)
+//   ... --trainee                                                his invitation only: a registry entry with only the trainee code
 // Real database: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the environment (never in the repo); EO_ORIGIN for the
 // link (default https://everyoptionmd.com).
 import { makeService } from "../lib/accounts/service.mjs";
@@ -21,15 +22,15 @@ async function main(argv) {
   const pi = argv.indexOf("--published"), di = argv.indexOf("--dev");
   const email = pi >= 0 ? argv[pi + 1] : "";
   if (!npi || (pi >= 0 && !email)) { console.error("usage: node tools/invite.mjs <NPI> [--published <email>] [--dev <url>]"); return 2; }
-  const kind = pi >= 0 ? "published" : "owner";
+  const kind = pi >= 0 ? "published" : "owner", trainee = argv.includes("--trainee");
   let r;
   if (di >= 0) {
-    const res = await fetch(`${argv[di + 1]}/__invite?npi=${npi}&kind=${kind}&email=${encodeURIComponent(email)}`);
+    const res = await fetch(`${argv[di + 1]}/__invite?npi=${npi}&kind=${kind}&email=${encodeURIComponent(email)}${trainee ? "&trainee=1" : ""}`);
     r = await res.json();
   } else {
     const b = realBackend();
     if (!b) { console.error("Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, or use --dev <url>."); return 2; }
-    try { r = await makeService(b, { origin: process.env.EO_ORIGIN || "https://everyoptionmd.com" }).createInvite({ kind, npi, email }); }
+    try { r = await makeService(b, { origin: process.env.EO_ORIGIN || "https://everyoptionmd.com" }).createInvite({ kind, npi, email, trainee }); }
     catch (e) { r = { error: e.code || e.message }; }
   }
   if (!r.ok) { console.error("not made:", r.error); return 1; }

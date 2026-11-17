@@ -98,6 +98,16 @@
       "taxonomy_desc": "Radiology, Vascular & Interventional Radiology",
       "city": "Chicago",
       "state": "IL"
+    },
+    "1999000130": {
+      "type": "NPI-1",
+      "first": "Tom",
+      "last": "Fellowtest",
+      "credential": "MD",
+      "taxonomy": "390200000X",
+      "taxonomy_desc": "Student in an Organized Health Care Education/Training Program",
+      "city": "Chicago",
+      "state": "IL"
     }
   },
   "listings": {

@@ -219,3 +219,16 @@ test("the invitation codes count against the sign-up limits (3 an hour per email
   for (let i = 0; i < 4; i++) sts.push((await w.client("10.90.12." + i).post("invite/accept", { token: tok, agree: true, email: "ann@home.example" }, { raw: true })).status);
   assert.deepEqual(sts, [202, 202, 202, 429]);
 });
+
+test("his invitation with --trainee: a registry entry with only the trainee code passes; never for a doctor's invitation or by default", async () => {
+  const w = world(), TOM = "1999000130";
+  await assert.rejects(w.svc().createInvite({ kind: "owner", npi: TOM }), /not_radiologist/, "default keeps the rule");
+  const r = await w.svc().createInvite({ kind: "owner", npi: TOM, trainee: true });
+  assert.equal(r.ok, true); assert.equal(r.trainee, true);
+  await assert.rejects(w.svc().createInvite({ kind: "published", npi: TOM, email: "tom@x.example", trainee: true }), /not_radiologist/);
+  const ann = await his(w);
+  assert.equal((await ann.post("invite/create", { npi: TOM, trainee: true })).body.error, "not_radiologist", "a doctor's invitation keeps the rule");
+  await assert.rejects(w.svc().createInvite({ kind: "owner", npi: DAN, trainee: true }), /not_radiologist/, "a non-radiologist specialty code is still refused");
+  const c = w.client("10.90.13.1");
+  assert.equal((await c.post("invite/accept", { token: tokOf(r.url), agree: true, email: "tom@home.example" })).body.level, "full");
+});
