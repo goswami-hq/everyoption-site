@@ -1064,3 +1064,78 @@ body:has(.find-bar:not([hidden]):not(.over-results)) .to-top-btn { bottom: calc(
 /* the evidence word is a label on its own line, the effect is the sentence under it (as in the full grid) */
 .glance-peek .cert { display: block; }
 @media (max-width: 560px) { .glance-peek tbody td[data-label="How well it works"]::before { content: none; } }
+
+/* ---- Videos and channels (ai-hq job platform-web-design-0019; his words 2026-11-16: "Let's find a way to have the social
+   media pages more prominently featured on the site instead of a small link"). Markup: tools/videos.py. ---- */
+header.site nav.top { margin-left: auto; }
+.social-icons { display: flex; align-items: center; gap: 0; }
+.social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 40px; min-height: 44px; color: #e6d8c6; border-radius: 10px; transition: color 160ms ease, transform 140ms var(--ease-out); }
+.social-icons a:active { transform: scale(.94); }
+.social-icons a:focus-visible { outline: 2px solid var(--gold, #ffb648); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) { .social-icons a:hover { color: var(--gold, #ffb648); } }
+@media (min-width: 481px) { .social-icons { padding-left: 10px; margin-left: 4px; border-left: 1px solid rgba(230, 216, 198, .25); } }
+@media (max-width: 480px) { .social-icons { order: 1; margin-left: auto; } nav.top { order: 2; } .social-icons a { width: 40px; } }
+@media (max-width: 359px) { .social-icons a { width: 36px; } }
+
+.chans { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 560px) { .chans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 980px) { .chans-row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.chan { display: flex; align-items: center; gap: 12px; height: 100%; min-height: 64px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; color: var(--ink); text-decoration: none; transition: border-color 160ms ease, transform 140ms var(--ease-out); }
+.chan svg { flex: none; color: var(--pine); }
+.chan strong { display: block; font-weight: 600; }
+.chan-what { display: block; color: var(--muted); font-size: 0.9375rem; line-height: 1.35; }
+.chan:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .chan:hover { border-color: var(--pine); } }
+
+.vid { margin: 0; }
+.vid-frame { position: relative; width: 100%; max-width: 300px; border-radius: var(--radius); overflow: hidden; background: var(--soft); }
+.vid-frame[style*="16 / 9"] { max-width: 640px; }
+.vid-play { display: block; width: 100%; height: 100%; color: var(--pine); }
+.vid-play img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vid-btn { position: absolute; inset: 0; display: grid; place-items: center; --play-ink: #fffdf8; }
+.vid-btn svg { width: 68px; height: 68px; filter: drop-shadow(0 6px 14px rgba(20, 30, 25, .35)); transition: transform 160ms var(--ease-out); }
+.vid-play:active .vid-btn svg { transform: scale(.95); }
+@media (hover: hover) and (pointer: fine) { .vid-play:hover .vid-btn svg { transform: scale(1.06); } }
+.vid-play:focus-visible { outline: 3px solid var(--accent); outline-offset: -5px; border-radius: var(--radius); }
+@media (prefers-color-scheme: dark) { .vid-btn { --play-ink: #1c1a17; } }
+.vid-player { display: block; width: 100%; height: 100%; border: 0; }
+.vid figcaption { max-width: 34em; }
+.vid-title { margin: 14px 0 2px; font: 400 1.375rem/1.25 var(--serif); }
+.vid-len { margin: 0 0 6px; color: var(--muted); font-size: 0.9375rem; }
+.vid-line { margin: 0 0 4px; }
+.vid-test { display: inline-block; margin: 12px 0 0; padding: 6px 10px; border-radius: 8px; background: var(--soft); color: var(--warn); font-size: 0.875rem; font-weight: 600; }
+.vid-words summary { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.vid-words-in { padding: 4px 0 8px; font-size: 0.96875rem; }
+.vid-words-in p { margin: 0 0 8px; }
+.vid-more { margin: 4px 0 0; }
+.vid-more a { display: inline-block; padding: 10px 0; }
+.vid-grid { display: grid; gap: 32px 28px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin-top: 14px; }
+.vid-sec { margin-top: 40px; }
+.videos-page .chans-h { margin-top: 26px; }
+
+.watch { margin: 44px 0 8px; padding: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; display: grid; gap: 4px 36px; grid-template-columns: minmax(0, 1fr); }
+.watch h2 { margin-top: 0; }
+.watch-head p { margin-bottom: 4px; }
+.watch-film .vid-frame { max-width: 220px; }
+.watch-film .vid-title { font-size: 1.25rem; }
+.watch-all { margin: 12px 0 0; }
+.watch-all a { display: inline-block; padding: 10px 0; font-weight: 600; }
+@media (min-width: 760px) {
+  .watch { padding: 30px 32px; grid-template-columns: 260px minmax(0, 1fr); grid-template-areas: "film head" "film links"; align-items: start; }
+  .watch-film { grid-area: film; } .watch-head { grid-area: head; } .watch-links { grid-area: links; }
+  .watch-film .vid-frame { max-width: 260px; }
+}
+.watch-compact { display: block; }
+/* The header icons need the wide header on every page (as the home and condition pages already have), so menu and icons
+   stay on one row at 1440 (job platform-web-design-0019). */
+@media (min-width: 481px) { header.site .wrap { max-width: 1440px; padding-left: var(--gut); padding-right: var(--gut); } }
+@media (min-width: 481px) and (max-width: 1099px) { .social-icons { order: 1; margin-left: auto; padding-left: 0; border-left: 0; } header.site nav.top { order: 2; width: 100%; margin-left: 0; } }
+@media (max-width: 389px) { .social-icons a { width: 36px; } }
+@media (max-width: 359px) { .social-icons a { width: 32px; } nav.top a[href="/videos/"] { display: none; } }   /* the smallest phones: no room for a fifth item; the home band links to /videos/ */
+@media (max-width: 389px) { header.site .wrap { column-gap: 8px; } .social-icons a { width: 34px; } }
+@media (max-width: 339px) { .social-icons { display: none; } }   /* 320 px phones: no room beside the logo; the footer and home band carry the channels */
+@media (min-width: 760px) { .watch { grid-template-rows: auto 1fr; } .watch-links { align-self: start; } }
+.spine .watch { margin-left: 28px; }   /* lines up with the condition cards (.spine > * 18 px, .fork-list a 10 px) */
+@media (min-width: 760px) and (max-width: 1099px) { .watch .chans { grid-template-columns: minmax(0, 1fr); } }
+.videos-page .lede { max-width: 25em; }   /* wraps the same before and after the web font loads (no shift) */
+@media (max-width: 559px) { .watch-compact .chans { grid-template-columns: repeat(2, minmax(0, 1fr)); } .watch-compact .chan-what { display: none; } .watch-compact .chan { min-height: 52px; } }
