@@ -22,6 +22,12 @@ simple = "about 1 to 2 out of 100"
 deep = "A clot in the stent is rare: about 1 out of 100 people or fewer"
 refs = ["wenda"]
 [[fact]]
+id = "cpp-stent-swelling"
+option = "stent"
+simple = "about 3 to 5 out of 10"
+deep = "For a swollen leg, most people have less swelling after a stent, but it goes away fully for only about 3 to 5 out of 10"
+refs = ["rajuneglen06", "neglen07", "hong22", "liuh26"]
+[[fact]]
 id = "cpp-hyst-pain"
 option = "hysterectomy"
 simple = "about 1 out of 3"
