@@ -473,13 +473,13 @@
       var v = gb.value.replace(/\s+/g, " ").trim();
       if (v && (v.length > 30 || !/^\p{L}[\p{L}\p{M} '\u2019\-]*$/u.test(v) || /['\u2019\-]$/.test(v))) {
         gb.setAttribute("aria-invalid", "true"); gb.focus();
-        return near("name", "Use letters, spaces, hyphens and apostrophes only, up to 30.", "err");
+        return near("name", "Use only letters, spaces, hyphens and apostrophes, up to 30 characters.", "err");
       }
       gb.removeAttribute("aria-invalid"); busy(save, true);
       api("PUT", "profile", { degree: deg.value, goes_by: v }).then(function (j) {
         busy(save, false);
         if (j.ok) saved("name", j.changed.length ? "Saved." : "No changes.", "ok", "name-save", j.changed);
-        else near("name", j.error === "invalid" ? "Use letters, spaces, hyphens and apostrophes only, up to 30." : words(j), "err");
+        else near("name", j.error === "invalid" ? "Use only letters, spaces, hyphens and apostrophes, up to 30 characters." : words(j), "err");
       });
     });
     return panel("name-panel", "Your name", [
