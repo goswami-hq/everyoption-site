@@ -690,6 +690,34 @@ class LiveSite:
         url = self.cfg["supabase_url"].rstrip("/") + "/storage/v1/" + path
         return self._open(urllib.request.Request(url, json.dumps(body).encode(), {"apikey": self.cfg["supabase_key"], "Content-Type": "application/json"}, method=method))
 
+    # Job platform-launch-0009: the colleague row and its lapse, test project only, with the same key the reset uses.
+    def _rest(self, method, path, body=None):
+        import urllib.request
+        url = self.cfg["supabase_url"].rstrip("/") + "/rest/v1/" + path
+        return self._open(urllib.request.Request(url, None if body is None else json.dumps(body).encode(),
+                          {"apikey": self.cfg["supabase_key"], "Content-Type": "application/json", "Prefer": "return=representation"}, method=method))
+
+    def account_id(self):
+        rows = self._rest("GET", f"accounts?select=id&npi=eq.{self.cfg['npi']}") or []
+        return rows[0]["id"] if rows else None
+
+    def colleague_row(self, target_npi):
+        """One doctor's invitation from his test account, through the same locked count (eo_insert_doctor_invite)."""
+        import hashlib, secrets, datetime
+        exp = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)).isoformat()
+        r = self._db("eo_insert_doctor_invite", {"p_token_hash": hashlib.sha256(secrets.token_hex(32).encode()).hexdigest(),
+                                                 "p_npi": target_npi, "p_inviter": self.account_id(), "p_expires_at": exp})
+        return bool(r)
+
+    def expire_colleague(self):
+        aid = self.account_id()
+        past = "2026-01-01T00:00:00Z"
+        rows = self._rest("PATCH", f"invitations?inviter_account_id=eq.{aid}&used_at=is.null", {"expires_at": past}) or []
+        return len(rows)
+
+    def make_invite(self):
+        return self.cfg.get("invite_url")
+
     def photo_objects(self):
         rows = self._storage("POST", "object/list/photos", {"prefix": self.cfg["npi"], "limit": 1000}) or []
         return [f"{self.cfg['npi']}/{r['name']}" for r in rows if r.get("name")]
@@ -817,6 +845,16 @@ class LocalSite(LiveSite):
 
     def public_key_blocked(self, pg, photo_key):
         return None, "not testable locally (no database here)"
+
+    def colleague_row(self, target_npi):
+        return True                       # locally the account page makes it (the fixture registry knows the NPI)
+
+    def expire_colleague(self):
+        return self._get(f"/__test/expire?npi={self.cfg['npi']}")["expired"]
+
+    def make_invite(self):
+        r = self._get(f"/__invite?kind=owner&npi={self.cfg['npi']}&trainee=1")
+        return r["url"].replace("http://localhost:8787", self.base) if r.get("url") else None
 
 
 def live_run(cfg):
@@ -1137,11 +1175,166 @@ def live_run(cfg):
     return 0 if R["passed"] == R["total"] else 1
 
 
+def invite_run(cfg):
+    """Job platform-launch-0009: his invitation on the dev site, at phone size. The runner made the invitation (ai-hq
+    scripts/eo_hand_edit.py invite, test project) after resetting his test account, and passes the link here in memory
+    only (invite_url); it is scrubbed from every line and file this test writes."""
+    import urllib.parse
+    SECRET_VALUES[:] = [cfg.get(k) for k in ("access_id", "access_secret", "gmail_password", "supabase_key") if cfg.get(k)]
+    site = LocalSite(cfg) if cfg.get("mode") == "local" else LiveSite(cfg)
+    base, npi, brk = site.base, cfg["npi"], cfg.get("break", "")
+    email_addr = test_email(cfg)
+    FIXTURE = "1999000015"                 # a made-up NPI: never a real colleague's
+    R["live"] = {"base": base, "mode": cfg.get("mode", "live"), "flow": "invite", "email": email_addr, "steps": []}
+    fails, current = [], {"pg": None}
+
+    def lcheck(name, ok, detail=""):
+        if brk and brk == name:
+            ok = not ok
+        check(name, ok, detail)
+        if not ok and current["pg"] is not None and len(fails) < 8:
+            p = os.path.join(OUT, f"fail-{len(fails) + 1:02d}.png")
+            try:
+                current["pg"].screenshot(path=p, full_page=True); fails.append({"check": name, "shot": p})
+            except Exception:
+                fails.append({"check": name, "shot": ""})
+        return ok
+
+    def step(x):
+        R["live"]["steps"].append(x); print("--", x)
+
+    def listed(pg, want_confirmed=True, timeout=90):
+        """Seconds until /api/listings?procedure=ufe carries his NPI as confirmed (or, want_confirmed False, does not)."""
+        t0 = time.monotonic()
+        while time.monotonic() - t0 < timeout:
+            r = pg.request.get(base + "/api/listings?procedure=ufe&t=" + str(int(time.time())), headers=site.headers(), max_redirects=0)
+            txt = r.text() if r.status == 200 else ""
+            found = False
+            try:
+                stack = [json.loads(txt)]
+                while stack:
+                    x = stack.pop()
+                    if isinstance(x, dict):
+                        if x.get("npi") == npi and x.get("confirmed") is True:
+                            found = True
+                        stack.extend(x.values())
+                    elif isinstance(x, list):
+                        stack.extend(x)
+            except ValueError:
+                pass
+            if found == want_confirmed:
+                return round(time.monotonic() - t0, 1)
+            pg.wait_for_timeout(6000)
+        return None
+
+    def left(pg):
+        pg.reload(); pg.wait_for_selector("#invite-left", timeout=30000)
+        m = re.search(r"You have (\d+) of (\d+) left", pg.inner_text("#invite-left"))
+        return (int(m.group(1)), int(m.group(2))) if m else None
+
+    link = site.make_invite()
+    if link:
+        tok = urllib.parse.urlsplit(link).fragment.split("=", 1)[-1]
+        SECRET_VALUES.append(tok); SECRET_VALUES.append(link)
+    vp = {"width": 390, "height": 844}
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        ctx = b.new_context(viewport=vp, is_mobile=True, has_touch=True)
+        site.attach(ctx)
+        pg = ctx.new_page(); watch(pg, "invite"); current["pg"] = pg
+        try:
+            step("1 access; his test account reset by the runner before the invitation was made")
+            ip = site.ip(pg)
+            if not link:
+                raise SetupFailed("no invitation link was handed to the test")
+            before = site.remaining(ip) or {}
+            lcheck("invite: before the run his NPI holds no account (only the new invitation row)",
+                   not before.get("accounts") and not before.get("profiles") and before.get("invitations") == 1, before)
+            step("2 open the invitation at phone size")
+            pg.goto(link); pg.wait_for_selector("#invite-form", timeout=30000)
+            view = pg.inner_text("#invite-form")
+            lcheck("invite: the page shows his name", f"{cfg['first']} {cfg['last']}".lower() in view.lower(), view[:200])
+            lcheck("invite: the page shows the full-access wording", "This invitation gives full access" in view, view[:300])
+            lcheck("invite: the page asks for an email we send a code to", "Enter an email you'll keep. We send it a 6-digit code." in view)
+            shot(pg, "invite-1-page")
+            pg.fill("#i-email", email_addr); pg.check("#i-agree"); pg.click("#i-send")
+            pg.wait_for_selector("#c-code", timeout=30000)
+            shot(pg, "invite-2-code")
+            lcheck("invite: no account is made before the code", not (site.remaining(ip) or {}).get("accounts"))
+            c = site.code(email_addr)
+            if not c:
+                raise SetupFailed("no invitation code reached the inbox within 150 s")
+            pg.fill("#c-code", c); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+            step("3 full access and Confirmed")
+            lcheck("invite: account level is Full", "Full access" in pg.inner_text("#acct-level"), pg.inner_text("#acct-level"))
+            shot(pg, "invite-3-account")
+            add_proc(pg, "ufe")
+            pg.wait_for_selector("#see-line", timeout=20000)
+            lcheck("invite: How patients see you says Confirmed", "Shown under Confirmed by physician for UFE" in pg.inner_text("#see-line"), pg.inner_text("#see-line"))
+            secs = listed(pg, True)
+            R["live"]["confirmed_seconds"] = secs
+            lcheck("invite: within 90 s /api/listings?procedure=ufe carries his NPI as confirmed", secs is not None, secs)
+            lr = left(pg)
+            lcheck("invite: the invite box shows 5 left", lr == (5, 5), lr)
+            shot(pg, "invite-4-confirmed")
+            step("4 one colleague link (made-up NPI; never opened, never sent), then its lapse")
+            pg.fill("#v-npi", FIXTURE); pg.click("#invite-create button[type=submit]")
+            pg.wait_for_timeout(2500)
+            page_made = pg.locator("#invite-link").count() > 0
+            if cfg.get("mode") != "local":
+                lcheck("invite: the account page refuses an NPI the national registry does not know", not page_made and "not an individual's NPI" in msgs(pg), msgs(pg)[:200])
+                lcheck("invite: a colleague invitation row is made through the locked count (test project)", site.colleague_row(FIXTURE))
+            else:
+                lcheck("invite: a colleague link is made from the account page", page_made)
+            lr = left(pg)
+            lcheck("invite: the box shows 4 left", lr == (4, 5), lr)
+            shot(pg, "invite-5-four-left")
+            n = site.expire_colleague()
+            lr = left(pg)
+            lcheck("invite: once expired, the unused link gives its slot back (5 left)", n == 1 and lr == (5, 5), [n, lr])
+            step("5 sign out, sign in again with the same email and a code")
+            pg.click("#signout"); pg.wait_for_selector("#login-form", timeout=20000)
+            pg.fill("#l-email", email_addr); pg.click("#l-send"); pg.wait_for_selector("#c-code", timeout=30000)
+            c = site.code(email_addr)
+            lcheck("invite: a sign-in code arrives", bool(c))
+            if c:
+                pg.fill("#c-code", c); pg.click("#code-form button[type=submit]"); pg.wait_for_selector("#acct-level", timeout=30000)
+                lcheck("invite: lands on his account, still Full", "Full access" in pg.inner_text("#acct-level") and npi in pg.inner_text("main"))
+                shot(pg, "invite-6-signed-in-again")
+        except SetupFailed as e:
+            R["live"]["setup_failed"] = scrub(e)
+            print("SETUP FAILED", scrub(e))
+        except Exception as e:
+            lcheck(f"invite: step ran without error ({R['live']['steps'][-1] if R['live']['steps'] else 'start'})", False, type(e).__name__ + ": " + scrub(e)[:200])
+        finally:
+            step("6 reset and check empty; the finder no longer shows him as confirmed")
+            try:
+                R["live"]["reset_after"] = site.reset(site.ip(pg))
+                rem = site.remaining(site.ip(pg))
+                R["live"]["remaining"] = rem
+                lcheck("invite: the test database is left with no test rows (account and invitation rows gone)", rem and not any(rem.values()), rem)
+                gone = listed(pg, False, timeout=100)
+                lcheck("invite: after the reset /api/listings no longer shows him as confirmed", gone is not None, gone)
+            except Exception as e:
+                R["live"]["reset_failed"] = type(e).__name__ + ": " + scrub(e)[:200]
+                check("invite: reset after the run", False, R["live"]["reset_failed"])
+            ctx.close(); b.close()
+    R["live"]["fail_shots"] = fails
+    R["passed"] = sum(c["ok"] for c in R["checks"]); R["total"] = len(R["checks"])
+    text = scrub(json.dumps(R, indent=1))
+    open(os.path.join(OUT, "results.json"), "w").write(text)
+    print(f"{R['passed']} of {R['total']} checks")
+    if R["live"].get("setup_failed") or R["live"].get("reset_failed"):
+        return 3
+    return 0 if R["passed"] == R["total"] else 1
+
+
 def live_main():
     global OUT
     OUT = sys.argv[2]
     os.makedirs(OUT, exist_ok=True)
-    return live_run(json.loads(sys.stdin.read()))
+    cfg = json.loads(sys.stdin.read())
+    return invite_run(cfg) if cfg.get("flow") == "invite" and not cfg.get("reset_only") else live_run(cfg)
 
 
 def main():

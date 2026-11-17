@@ -232,3 +232,9 @@ test("his invitation with --trainee: a registry entry with only the trainee code
   const c = w.client("10.90.13.1");
   assert.equal((await c.post("invite/accept", { token: tokOf(r.url), agree: true, email: "tom@home.example" })).body.level, "full");
 });
+
+test("review round 1: --trainee refuses a registry entry with no codes at all", async () => {
+  const w = world();
+  w.backend.nppes.lookup = async () => ({ type: "NPI-1", first: "No", last: "Codes", credential: "MD", taxonomy: "", taxonomies: [] });
+  await assert.rejects(w.svc().createInvite({ kind: "owner", npi: "1999000130", trainee: true }), /not_radiologist/);
+});
