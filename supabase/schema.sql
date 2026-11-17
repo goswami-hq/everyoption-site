@@ -273,5 +273,5 @@ create function eo_cleanup() returns void language sql security definer set sear
 $$;
 revoke all on function eo_cleanup() from public, anon, authenticated;
 
--- Photos: a private Storage bucket "photos" (created in the dashboard), 1 MB cap, image/jpeg, image/png, image/webp.
+-- Photos: a private Storage bucket "photos" (created in the dashboard), 2 MB cap (lib/accounts/image.mjs PHOTO_CAP), image/jpeg, image/png, image/webp.
 -- The export copies published photos into the static site, so the public site never reads Supabase.
