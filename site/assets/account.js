@@ -419,7 +419,7 @@
       kids.push(tags);
     }
     var img = full && p.photo_key ? el("img", { "class": "photo", src: "/api/account/photo?v=" + encodeURIComponent(p.photo_key.slice(-12)), alt: "", width: "64", height: "64" }) : null;
-    kids.push(el("div", { "class": "top" }, [img, el("div", { "class": "who" }, [el("h3", { text: a.name }),
+    kids.push(el("div", { "class": "top" }, [img, el("div", { "class": "who" }, [el("h3", { text: (me.names && me.names.shown) || a.name }),
       el("span", { "class": "badge", text: "Interventional radiologist" })])]));
     if (!full && done.length) kids.push(el("p", { "class": "confirm-office small muted", text: "Details not confirmed by this doctor. Check with the office before you go." }));
     if (o) kids.push(el("p", { "class": "where" }, [o.practice ? el("span", { "class": "practice", text: o.practice }) : null, o.practice ? el("br") : null,
@@ -451,6 +451,43 @@
       cardPreview(me),
       el("p", { "class": "small muted", text: "Saved changes show in patient searches within about a minute." })
     ]);
+  }
+
+  // ---- Job platform-web-design-0018 (his B, HQ chat 2026-11-16 18:57 CT; go 19:07 CT): degree from a fixed list and an
+  // optional first name the doctor goes by. The last name comes from the NPI Registry and is not editable here.
+  function namePanel(me) {
+    var a = me.account, p = me.profile || {}, n = me.names || {};
+    var deg = el("select", { id: "n-degree", name: "degree" }, [el("option", { value: "",
+      text: "As in the NPI Registry" + (n.registry_degree ? " (" + n.registry_degree + ")" : " (none listed)"), selected: !p.degree })]
+      .concat((n.degrees || []).map(function (d) { return el("option", { value: d, text: d, selected: p.degree === d }); })));
+    var gb = el("input", { id: "n-goes-by", name: "goes_by", maxlength: "30", autocomplete: "given-name", value: p.goes_by || "" });
+    var save = el("button", { type: "submit", id: "name-save", text: "Save name" });
+    var rq = "?npi=" + encodeURIComponent(a.npi) + "&name=" + encodeURIComponent(a.name);
+    var f = el("form", { "class": "acct-form", id: "name-form", novalidate: true }, [
+      field("n-degree", "Degree", deg),
+      field("n-goes-by", "First name you go by", gb, "(optional) Leave blank to use " + (n.registry_first ? n.registry_first + ", " : "") +
+        "your first name in the NPI Registry. Letters, spaces, hyphens and apostrophes only."),
+      acts("name", [save])]);
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var v = gb.value.replace(/\s+/g, " ").trim();
+      if (v && (v.length > 30 || !/^\p{L}[\p{L}\p{M} '\u2019\-]*$/u.test(v) || /['\u2019\-]$/.test(v))) {
+        gb.setAttribute("aria-invalid", "true"); gb.focus();
+        return near("name", "Use only letters, spaces, hyphens and apostrophes, up to 30 characters.", "err");
+      }
+      gb.removeAttribute("aria-invalid"); busy(save, true);
+      api("PUT", "profile", { degree: deg.value, goes_by: v }).then(function (j) {
+        busy(save, false);
+        if (j.ok) saved("name", j.changed.length ? "Saved." : "No changes.", "ok", "name-save", j.changed);
+        else near("name", j.error === "invalid" ? "Use only letters, spaces, hyphens and apostrophes, up to 30 characters." : words(j), "err");
+      });
+    });
+    return panel("name-panel", "Your name", [
+      el("p", { "class": "name-shown", id: "name-shown" }, ["Shown to patients as ", el("strong", { text: n.shown || a.name }), "."]),
+      el("p", { "class": "small muted", id: "name-last" }, ["Your last name comes from the NPI Registry. To change it, ",
+        el("a", { href: "https://nppes.cms.hhs.gov/", rel: "noopener", target: "_blank", text: "update your NPI record" }), " or ",
+        el("a", { href: "/report/" + rq, text: "report it to us" }), "."]),
+      f]);
   }
 
   function procPanel(me) {
@@ -854,7 +891,7 @@
     return panel("email-panel", a.email ? "Login email" : "Add a login email", [f], a.email ? "" : "need");
   }
 
-  var FIELD = { blurbs: "Notes", insurances: "Insurance plans", insurance_other: "Other plans", insurance_confirm: "Confirm with the office",
+  var FIELD = { degree: "Degree", goes_by: "First name you go by", blurbs: "Notes", insurances: "Insurance plans", insurance_other: "Other plans", insurance_confirm: "Confirm with the office",
     booking_url: "Website link", telehealth: "Video visits",
     also_performs: "Other procedures (private)", also_performs_other: "Something else (private)", offices: "Offices", photo: "Photo", attested: "Procedures", level: "Access level", account: "Account created",
     takeover: "Listing moved to you", lost_npi: "Listing lost", login_email: "Login email", invite: "Invitation made", doximity: "Doximity linked" };
@@ -981,7 +1018,7 @@
     ]);
     var parts = [head];
     if (a.npi) {
-      parts.push(seePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me), emailPanel(me), historyPanel());
+      parts.push(seePanel(me), namePanel(me), procPanel(me), officePanel(me), telePanel(me), photoPanel(me), insurancePanel(me), accessPanel(me), emailPanel(me), historyPanel());
     } else {
       parts.push(accessPanel(me), emailPanel(me));
     }

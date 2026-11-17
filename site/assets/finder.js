@@ -68,6 +68,8 @@
           phone: "", url: "", lat: null, lon: null } : Object.assign({}, people[i]);
         p.confirmed = !!c.confirmed;
         if (p.confirmed) delete p.from_account; else p.from_account = true;
+        // Job platform-web-design-0018: the doctor's shown name ("Goes-by Last, Degree"); p.name stays the registry name.
+        if (c.display) p.display = c.display; else delete p.display;
         var offs = (c.offices || []).filter(function (o) { return o && o.city; });
         if (offs.length) {
           var f = offs[0];
@@ -188,13 +190,13 @@
   function card(p) {
     var kids = [];
     var photo = p.photo && (/^\/(photos|api\/photo)\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo) || (p.test && p.photo === TEST_AVATAR))
-      ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + p.name, width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
+      ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + (p.display || p.name), width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
     var top = el("div", { "class": "top" }, [
       photo,
       el("div", { "class": "who" }, [
         // Job platform-web-design-0008: the link comes from the data (tools/directory.py stamp_paths, or the listings
         // overlay for a doctor who joined after the build); this file never builds a profile address itself.
-        !p.test && p.path ? el("h3", null, [el("a", { href: p.path, text: p.name })]) : el("h3", { text: p.name }),
+        !p.test && p.path ? el("h3", null, [el("a", { href: p.path, text: p.display || p.name })]) : el("h3", { text: p.display || p.name }),
         p.badge ? el("span", { "class": "badge", text: BADGE[p.badge] || p.badge }) : null
       ]),
       el("span", { "class": "dist", text: mi(p.miles) })
