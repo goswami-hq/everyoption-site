@@ -1178,7 +1178,7 @@
     if (!h.can) return null;
     var offices = el("button", { type: "button", "class": "secondary", id: "hide-offices", text: "Update my offices", onclick: function () { jumpTo("offices-panel"); } });
     if (h.hidden) {
-      var kids = [el("p", { id: "hide-state", "class": "see-line need", text: "Your profile is hidden" + (h.since ? " since " + day(h.since) : "") + ". Patients cannot find you on Every Option. Everything you entered is saved." })];
+      var kids = [el("p", { id: "hide-state", "class": "see-line need", text: (h.since ? "Your profile has been hidden since " + day(h.since) : "Your profile is hidden") + ". Patients cannot find you on Every Option. Everything you entered is saved." })];
       var show = function (re) {
         var b = document.getElementById(re ? "hide-reconfirm" : "hide-show"); busy(b, true);
         api("POST", "show", re ? { reconfirm: true } : {}).then(function (j) {
@@ -1207,13 +1207,13 @@
           var b = this; busy(b, true);
           api("POST", "hide", {}).then(function (j) {
             busy(b, false);
-            if (j.ok) { PENDING = { key: "see", msg: "Your profile is hidden. It leaves every list within about a minute.", cls: "ok", focus: "see-line", top: null }; load(); }
+            if (j.ok) { PENDING = { key: "see", msg: "Your profile is hidden. It leaves patient searches within about a minute.", cls: "ok", focus: "see-line", top: null }; load(); }
             else near("hide", words(j), "err");
           }); } }),
         el("button", { type: "button", "class": "link", id: "hide-cancel", text: "Cancel", onclick: function () { confirmBox.hidden = true; ask.hidden = false; ask.focus(); } })])]);
     var ask = el("button", { type: "button", "class": "secondary", id: "hide-go", text: "Hide my profile", onclick: function () { ask.hidden = true; confirmBox.hidden = false; document.getElementById("hide-yes").focus(); } });
     return panel("hide-panel", "Hide my profile", [
-      el("p", { text: "Between jobs, or not ready to be found? Hide your profile. You leave every Every Option list and page within about a minute. Everything you entered stays saved, and you can show it again any time." }),
+      el("p", { text: "Between jobs, or not ready to be found? Hide your profile. Within about a minute you leave patient searches and city lists, and your profile page says you are not listed. Name lists and the site map catch up at our next update. Everything you entered stays saved, and you can show it again any time." }),
       el("p", { "class": "small muted", text: "Search engines and AI answers may keep an old copy for a while. Changing jobs? You may only need to update your offices." }),
       acts("hide", [ask, offices]), confirmBox]);
   }

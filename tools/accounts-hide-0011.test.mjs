@@ -160,7 +160,10 @@ test("his hide blocks the doctor's show; the page says hidden by Every Option; t
   await w.svc().handHide(ANN, true);
   assert.equal((await c.get("me")).body.hide.by, "every_option");
   const off = await w.svc().handHide(ANN, false);
-  assert.equal(off.hidden, false);
+  assert.equal(off.hidden, true, "review round 1: his unhide gives the doctor's own hide back");
+  assert.equal((await c.get("me")).body.hide.by, "doctor");
+  assert.ok((await listing(w)).hidden.includes(ANN));
+  assert.equal((await c.post("show", {})).status, 200);
   assert.ok(!(await listing(w)).hidden.includes(ANN));
   // a partial account hidden by him still sees the line (no show button)
   const ben = await w.signIn(BEN, EMAIL[BEN], undefined, ["ufe"]);
@@ -224,4 +227,20 @@ test("the overlay keeps hidden NPIs off even when their rows look public", async
     { npi: ANN, hidden: true }];
   const ov = await overlayFor({ data: { overlay: async () => rows } }, "ufe");
   assert.deepEqual(ov.people, []); assert.deepEqual(ov.removed, [ANN]); assert.deepEqual(ov.hidden, [ANN]);
+});
+
+test("review round 1: the photo route, a downgraded doctor's reminder, and a database failure on a hidden profile", async () => {
+  const w = world(), c = await fullAnn(w);
+  await w.backend.data.update("profiles", { npi: ANN }, { photo_key: `${ANN}/abcdef12.jpg` });
+  assert.ok(await w.backend.data.publicPhoto(ANN));
+  await c.post("hide", {});
+  assert.equal(await w.backend.data.publicPhoto(ANN), null, "no photo while hidden");
+  await w.backend.data.update("accounts", { npi: ANN }, { level: "basic" });
+  w.clock.t += 200 * DAY;
+  assert.deepEqual(await w.svc().hiddenReminders(), { sent: 0, skipped: 1 });
+  // the overlay unreadable: the static page is served uncached and noindex
+  resetDirectory();
+  const down = { data: { overlay: async () => { throw new Error("down"); } } };
+  const r = await handleDoctor(new Request("http://everyoptionmd.com" + STATIC.path), { backend: down, ASSETS, now: () => w.clock.t });
+  assert.equal(r.headers.get("Cache-Control"), "no-store"); assert.equal(r.headers.get("X-Robots-Tag"), "noindex");
 });

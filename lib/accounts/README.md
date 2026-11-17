@@ -146,3 +146,8 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
   (`edits.account_id` may be null). Owner box cap: 100 a day (was 30).
 - Migration `supabase/migrations/2026-11-17-hide-profile.sql`. Tests `tools/accounts-hide-0011.test.mjs`; browser flow
   `hide` in `tools/e2e/accounts_e2e.py` (live and local).
+- Review round 1: within about a minute a hide reaches `/api/listings`, the finder, city pages, the name search and the
+  profile; the A to Z letter pages, `/data/*.json` and the sitemap are static and drop the doctor only at the next
+  ai-hq export plus build. With the database unreadable a profile is served from the static record uncached and noindex
+  (a hide cannot be seen then). The photo route refuses a hidden NPI. His `unhide` over a doctor's own hide gives the
+  doctor's hide back. The reminder goes only to a holder still at full access.
