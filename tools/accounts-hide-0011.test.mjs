@@ -155,13 +155,15 @@ test("his hide blocks the doctor's show; the page says hidden by Every Option; t
   // his undo of his hide: shown again
   await w.svc().handUndoHidden(ed.id);
   assert.ok(!(await listing(w)).hidden.includes(ANN));
-  // his hide over the doctor's own hide replaces it; his unhide then shows the profile (the doctor hides again if they want)
+  // his hide over the doctor's own hide replaces it; his unhide gives the doctor's own hide back
   await c.post("hide", {});
   await w.svc().handHide(ANN, true);
   assert.equal((await c.get("me")).body.hide.by, "every_option");
   const off = await w.svc().handHide(ANN, false);
   assert.equal(off.hidden, true, "review round 1: his unhide gives the doctor's own hide back");
   assert.equal((await c.get("me")).body.hide.by, "doctor");
+  assert.ok((await listing(w)).hidden.includes(ANN));
+  await assert.rejects(w.svc().handHide(ANN, false), /hidden_by_doctor/, "review round 2: his unhide never ends the doctor's own hide");
   assert.ok((await listing(w)).hidden.includes(ANN));
   assert.equal((await c.post("show", {})).status, 200);
   assert.ok(!(await listing(w)).hidden.includes(ANN));

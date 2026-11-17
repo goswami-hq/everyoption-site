@@ -151,3 +151,4 @@ only; started by ai-hq `scripts/every_option_live_test.py` on the mini); `"mode"
   ai-hq export plus build. With the database unreadable a profile is served from the static record uncached and noindex
   (a hide cannot be seen then). The photo route refuses a hidden NPI. His `unhide` over a doctor's own hide gives the
   doctor's hide back. The reminder goes only to a holder still at full access.
+- Review round 2: his `unhide` refuses a hide the doctor made (409 `hidden_by_doctor`); only the doctor ends it.
