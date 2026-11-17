@@ -70,6 +70,19 @@ class ListRules(unittest.TestCase):
         self.assertNotIn("vid-play", band)
         self.assertEqual(band.count('class="chan"'), 4)
 
+    def test_compact_band_promises_nothing_to_watch(self):
+        rows = videos.load(toml(dict(key="a")), release=False, slugs=SLUGS)
+        band = videos.home_band(rows)
+        self.assertIn(videos.COMPACT_HEAD, band)
+        self.assertNotIn("chan-what", band)
+        self.assertNotIn("Watch and follow", band)
+
+    def test_channel_line_only_while_posting(self):
+        h = videos.channels(live={"YouTube"})
+        self.assertEqual(h.count("chan-what"), 1)
+        self.assertIn("Our films in full", h)
+        self.assertNotIn("TikTok</strong><span", h)
+
     def test_order_brand_first_then_playlist(self):
         rows = videos.load(toml(dict(key="k2", cond="knee-arthritis", order=2, yt="bbbbbbbbbbb", date="2026-11-16"),
                                 dict(key="k1", cond="knee-arthritis", order=1, yt="ccccccccccc", date="2026-11-16"),

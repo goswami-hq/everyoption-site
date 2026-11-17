@@ -181,10 +181,21 @@ def schema(rows):
                    for x in out)
 
 
-def channels(cls="chans"):
+def posting(path=LIST):
+    """Channels with at least one post, from content/videos.toml [channels] (true/false per channel). YouTube also
+    counts as posting once a film with a YouTube ID is shown. A channel's what-you-get line shows only while it posts
+    (reviewer round 1, 2026-11-16: a line describing an empty channel is not true)."""
+    with open(path, "rb") as fh:
+        flags = tomllib.load(fh).get("channels", {})
+    return {n for n, _, _ in CHANNELS if flags.get(n.lower())}
+
+
+def channels(cls="chans", live=frozenset()):
+    def what(n, w):
+        return f'<span class="chan-what">{e(w)}</span>' if n in live else ""
     items = "".join(f'<li><a class="chan" href="{u}" rel="noopener" target="_blank">{icon(n, 22)}'
-                    f'<span><strong>{e(n)}</strong><span class="chan-what">{e(what)}</span></span></a></li>'
-                    for n, u, what in CHANNELS)
+                    f'<span><strong>{e(n)}</strong>{what(n, w)}</span></a></li>'
+                    for n, u, w in CHANNELS)
     return f'<ul class="{cls}" aria-label="Every Option on social media">{items}</ul>'
 
 
@@ -196,19 +207,22 @@ def header_icons():
 
 
 BAND_LINE = "We make short films that explain treatments in plain language."
+COMPACT_HEAD = "Follow Every Option"
+COMPACT_LINE = "Our first short films are on the way. Follow us to see them."
 
 
 def home_band(rows, ver=lambda u: u):
     """Home "Watch and follow": the brand film and the four channel buttons; channel buttons only, compact, until the
     brand film has a YouTube ID."""
     brand = next((v for v in shown(rows) if v["condition"] == "about"), None)
-    if not brand:
-        return (f'<section class="watch watch-compact" aria-labelledby="watch-h"><h2 id="watch-h">Watch and follow</h2>'
-                f'<p>{e(BAND_LINE)}</p>{channels("chans chans-row")}</section>')
+    if not brand:   # nothing to watch yet: follow only, channel names only
+        return (f'<section class="watch watch-compact" aria-labelledby="watch-h"><h2 id="watch-h">{e(COMPACT_HEAD)}</h2>'
+                f'<p>{e(COMPACT_LINE)}</p>{channels("chans chans-row")}</section>')
+    live = posting() | {"YouTube"}
     more = '<p class="watch-all"><a href="/videos/">All videos</a></p>'
     return (f'<section class="watch" aria-labelledby="watch-h"><div class="watch-head"><h2 id="watch-h">Watch and follow</h2>'
             f'<p>{e(BAND_LINE)}</p></div><div class="watch-film">{film(brand, ver, page_link=False)}</div>'
-            f'<div class="watch-links">{channels()}{more}</div></section>')
+            f'<div class="watch-links">{channels(live=live)}{more}</div></section>')
 
 
 def release_check(site=ROOT / "site"):

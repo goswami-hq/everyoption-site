@@ -1088,7 +1088,7 @@ header.site nav.top { margin-left: auto; }
 @media (hover: hover) and (pointer: fine) { .chan:hover { border-color: var(--pine); } }
 
 .vid { margin: 0; }
-.vid-frame { position: relative; width: 100%; max-width: 300px; border-radius: var(--radius); overflow: hidden; background: var(--soft); box-shadow: 0 14px 34px -24px rgba(60, 40, 20, .6); }
+.vid-frame { position: relative; width: 100%; max-width: 300px; border-radius: var(--radius); overflow: hidden; background: var(--soft); }
 .vid-frame[style*="16 / 9"] { max-width: 640px; }
 .vid-play { display: block; width: 100%; height: 100%; color: var(--pine); }
 .vid-play img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -1117,7 +1117,7 @@ header.site nav.top { margin-left: auto; }
 .watch h2 { margin-top: 0; }
 .watch-head p { margin-bottom: 4px; }
 .watch-film .vid-frame { max-width: 220px; }
-.watch-film .vid-title { font-size: 1.1875rem; }
+.watch-film .vid-title { font-size: 1.25rem; }
 .watch-all { margin: 12px 0 0; }
 .watch-all a { display: inline-block; padding: 10px 0; font-weight: 600; }
 @media (min-width: 760px) {

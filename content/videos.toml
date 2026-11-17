@@ -10,6 +10,14 @@
 # - test_only = true: a layout entry for the dev site. The build refuses it on main or with EO_RELEASE=1.
 #   Remove it before PR #5 is merged (ai-hq launch checklist).
 
+# Channels with at least one post (true/false). A channel's "what you get there" line shows on the site only while it
+# posts; YouTube also counts once a film above has a YouTube ID. Set each to true after its first post (post gate).
+[channels]
+youtube = false
+tiktok = false
+instagram = false
+x = false
+
 [[video]]
 key = "brand-film"
 title = "You deserve to know every option"

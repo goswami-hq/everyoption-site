@@ -563,6 +563,9 @@ REASONS = [("not_performed", "Doesn’t perform this procedure"), ("contact", "W
            ("moved", "No longer practices here"), ("other", "Something else")]
 
 
+VIDEOS_REVIEWED = "2026-11-16"   # the /videos/ page's words; change when they change
+
+
 def videos_page():
     """/videos/ (job platform-web-design-0019): channel buttons at the top, then one section per condition in playlist
     order, the brand film first under "About Every Option"."""
@@ -582,15 +585,20 @@ def videos_page():
     secs = "".join(f'<section class="vid-sec" aria-labelledby="vs-{e(k)}"><h2 id="vs-{e(k)}">{e(n)}</h2><div class="vid-grid">'
                    + "".join(videos.film(v, ver, page_name=page_name(v)) for v in vs) + "</div></section>"
                    for k, n, vs in sections)
+    # The lede and description say what the shown films are (reviewer round 1, 2026-11-16): the brand film alone is not
+    # a film about any condition.
+    if any(v["condition"] != "about" for v in SHOWN_VIDEOS):
+        lede = desc = "Short films that explain conditions and their treatments in plain language."
+    else:
+        lede = desc = "A short film about what Every Option is for. Films on each condition are coming."
     body = trail.html_of([trail.HOME, ("Videos", None)]) + f"""<h1>Videos</h1>
-<p class="lede">Short films that explain conditions and their treatments in plain language.</p>
+<p class="lede">{e(lede)}</p>
 <h2 class="chans-h">Watch and follow</h2>
-{videos.channels("chans chans-row")}
+{videos.channels("chans chans-row", live=videos.posting() | {"YouTube"})}
 {secs}
-<p class="small muted">Education, not medical advice. Talk to your doctor about your own care. A film plays from YouTube only after you press play.</p>"""
+<p class="small muted">Education, not medical advice. Talk to your doctor about your own care. A film plays from YouTube only after you press play. Last reviewed {VIDEOS_REVIEWED}.</p>"""
     head = "" if videos.real(VIDEOS) else '<meta name="robots" content="noindex">\n'
-    return page("/videos/", "Videos | Every Option", "Short films that explain conditions and their treatments in plain language, "
-                "from Every Option.", body, ["/assets/videos.js"], head=head + videos.schema(SHOWN_VIDEOS), cls="prose-page videos-page")
+    return page("/videos/", "Videos | Every Option", desc, body, ["/assets/videos.js"], head=head + videos.schema(SHOWN_VIDEOS), cls="prose-page videos-page")
 
 
 def headers_frame_src(on):
