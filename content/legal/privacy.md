@@ -1,6 +1,6 @@
 # Every Option privacy policy
 
-Last updated: November 13, 2026
+Last updated: November 17, 2026
 
 East Blue Holdings LLC ("Every Option", "we", "us") runs everyoptionmd.com and the Every Option service. This policy describes the information we handle and why. It covers people reading the site, people who send us a report or a message, and physicians who make an account. Every Option is an educational publication. It is not a health care provider, and it does not collect medical records.
 
@@ -15,6 +15,8 @@ East Blue Holdings LLC ("Every Option", "we", "us") runs everyoptionmd.com and t
 1.4 We, and companies that work with us, may use cookies, pixels and similar tools to understand how the service is used, to measure and show advertising, and to protect the service. You can block or delete cookies in your browser settings.
 
 1.5 Videos and links may take you to other platforms (such as YouTube, Instagram or TikTok). Those platforms have their own privacy practices, which we do not control.
+
+1.6 Some pages show videos from outside video services, such as YouTube. When a video loads or plays, that service may collect information about your visit under its own privacy policy.
 
 ## 2. Reports and messages
 

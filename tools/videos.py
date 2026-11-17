@@ -158,12 +158,13 @@ def film(v, ver=lambda u: u, level=3, page_link=True, page_name=None):
     if page_link and v["page"]:
         link = f'<p class="vid-more"><a href="{e(v["page"])}">{e(page_name or v["page"])}</a></p>'
     body = "".join(f"<p>{e(l)}</p>" for l in words(v))
+    note = f'\n<p class="vid-note">{e(v["note"])}</p>' if v.get("note") else ""   # his item 5 A, 2026-11-17
     a = v["aspect"].replace(":", " / ")
     return f"""<figure class="vid" data-aspect="{e(v['aspect'])}"{mark}>
 <div class="vid-frame" style="aspect-ratio: {a}"><a class="vid-play" href="https://www.youtube.com/watch?v={e(v['youtube_id'])}" data-yt="{e(v['youtube_id'])}" data-title="{t}" aria-label="{e(label)}" rel="noopener" target="_blank">{still(v, ver)}<span class="vid-btn">{PLAY}</span></a></div>
 <figcaption>{flag}<h{level} class="vid-title">{t}</h{level}>
 <p class="vid-len">{e(length(v['seconds']))}</p>
-<p class="vid-line">{e(v['description'])}</p>
+<p class="vid-line">{e(v['description'])}</p>{note}
 <details class="vid-words"><summary>Read the words in the film</summary><div class="vid-words-in">{body}</div></details>
 {link}</figcaption></figure>"""
 

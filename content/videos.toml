@@ -7,6 +7,7 @@
 # - still: the file stem in src-assets/media/ (<still>-540.jpg and <still>-1080.jpg).
 # - transcript: a file in content/videos/ (one paragraph per line).
 # - upload_date: the YouTube upload date (YYYY-MM-DD), filled in with youtube_id.
+# - note (optional): one line shown under the description.
 # - test_only = true: a layout entry for the dev site. The build refuses it on main or with EO_RELEASE=1.
 #   Remove it before PR #5 is merged (ai-hq launch checklist).
 
@@ -22,6 +23,8 @@ x = false
 key = "brand-film"
 title = "You deserve to know every option"
 description = "Many conditions can be treated in more ways than medicine or surgery. This short film shows what Every Option is for."
+# note (optional): one line under the description. His item 5 A, 2026-11-17 11:53 CT: the film lists treatments the site does not cover yet.
+note = "This site covers fibroids, enlarged prostate, knee arthritis pain, chronic pelvic pain and bleeding hemorrhoids, with more on the way."
 condition = "about"
 order = 1
 youtube_id = ""            # empty until the film is on YouTube (sound, captions, upload: a post gate)

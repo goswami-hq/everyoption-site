@@ -1103,6 +1103,7 @@ header.site nav.top { margin-left: auto; }
 .vid-title { margin: 14px 0 2px; font: 400 1.375rem/1.25 var(--serif); }
 .vid-len { margin: 0 0 6px; color: var(--muted); font-size: 0.9375rem; }
 .vid-line { margin: 0 0 4px; }
+.vid-note { margin: 0 0 4px; color: var(--muted); font-size: 0.9375rem; }
 .vid-test { display: inline-block; margin: 12px 0 0; padding: 6px 10px; border-radius: 8px; background: var(--soft); color: var(--warn); font-size: 0.875rem; font-weight: 600; }
 .vid-words summary { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
 .vid-words-in { padding: 4px 0 8px; font-size: 0.96875rem; }
