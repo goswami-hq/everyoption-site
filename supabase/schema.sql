@@ -56,6 +56,13 @@ create table profiles (
   also_performs jsonb not null default '[]' constraint profiles_also_performs_check check (jsonb_typeof(also_performs) = 'array'
     and jsonb_array_length(also_performs) <= 100),
   also_performs_other text not null default '' constraint profiles_also_performs_other_check check (length(also_performs_other) <= 120),
+  -- job platform-web-design-0018: degree from the fixed list ('' = as in the NPI Registry), goes-by first name ('' = the
+  -- registry first name), and what the registry said when the profile was made (null: not read yet). The service checks
+  -- the values; the database keeps the lengths. Same as supabase/migrations/2026-11-16-name-degree.sql.
+  degree text not null default '' constraint profiles_degree_check check (degree in ('', 'MD', 'DO', 'MBBS', 'MBChB', 'MD PhD', 'DO PhD', 'MD MPH', 'MD MBA')),
+  goes_by text not null default '' constraint profiles_goes_by_check check (length(goes_by) <= 30),
+  registry_credential text constraint profiles_registry_credential_check check (length(registry_credential) <= 100),
+  registry_middle text not null default '' constraint profiles_registry_middle_check check (length(registry_middle) <= 60),
   updated_at timestamptz not null default now()
 );
 

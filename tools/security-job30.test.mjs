@@ -201,12 +201,12 @@ test("holds: the public overlay carries only allow-listed fields (no email, proo
   await c.put("profile", { offices: [officeAt("3125550100")], telehealth: { offers: true, states: ["IL"] } });
   let ov = await overlayFor(w.backend, "gae");
   const keys = new Set(ov.people.flatMap((p) => Object.keys(p)));
-  assert.deepEqual([...keys].sort(), ["blurb", "booking_url", "confirmed", "insurance_confirm", "insurance_other", "insurances", "name", "npi", "offices", "path", "photo"],
+  assert.deepEqual([...keys].sort(), ["blurb", "booking_url", "confirmed", "display", "insurance_confirm", "insurance_other", "insurances", "name", "npi", "offices", "path", "photo"],
     "partial: video visits stay private (job platform-directory-0007)");
   assert.doesNotMatch(JSON.stringify(ov), /@|email_code|proof/);
   await w.idCheck(c);                                        // full access adds exactly one key
   ov = await overlayFor(w.backend, "gae");
-  assert.deepEqual(Object.keys(ov.people.find((p) => p.npi === BEN)).sort(), ["blurb", "booking_url", "confirmed", "insurance_confirm",
+  assert.deepEqual(Object.keys(ov.people.find((p) => p.npi === BEN)).sort(), ["blurb", "booking_url", "confirmed", "display", "insurance_confirm",
     "insurance_other", "insurances", "name", "npi", "offices", "path", "photo", "telehealth"]);
   assert.doesNotMatch(JSON.stringify(ov), /@|email_code|proof/);
 });

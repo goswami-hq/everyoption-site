@@ -37,12 +37,14 @@
           x = at[c.npi] = { n: c.name, c: f.city, s: f.state, p: c.path, l: [], ros: false };
           out.push(x);
         } else if (f) { x.c = f.city; x.s = f.state; }
+        // Job platform-web-design-0018: show "Goes-by Last, Degree"; the search keeps the registry name too.
+        if (c.display) x.d = c.display;
         if (placed && x.l.indexOf(proc) < 0) x.l.push(proc);
         if (!placed) x.l = x.l.filter(function (k) { return k !== proc; });
       });
     });
     people = out.filter(function (x) { return x.l.length || x.ros; }).map(function (x) {
-      x.f = fold(x.n); x.w = x.f.split(" "); x.k = x.f.replace(/ /g, ""); return x;
+      x.f = fold(x.n + (x.d ? " " + x.d.split(",")[0] : "")); x.w = x.f.split(" "); x.k = x.f.replace(/ /g, ""); return x;
     });
   }
   function load() {
@@ -74,7 +76,7 @@
     var hits = people.map(function (x) { return [score(x, toks, joined), x]; }).filter(function (h) { return h[0] >= 0; })
       .sort(function (a, b) { return a[0] - b[0] || (a[1].w[a[1].w.length - 1] < b[1].w[b[1].w.length - 1] ? -1 : 1) || (a[1].f < b[1].f ? -1 : 1); });
     hits.slice(0, MAX).forEach(function (h) {
-      var li = el("li"), a = el("a", { href: h[1].p }, h[1].n);
+      var li = el("li"), a = el("a", { href: h[1].p }, h[1].d || h[1].n);
       li.appendChild(a); li.appendChild(document.createTextNode(" ")); li.appendChild(el("span", { "class": "muted" }, h[1].c + ", " + h[1].s));
       list.appendChild(li);
     });

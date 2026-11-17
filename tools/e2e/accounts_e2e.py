@@ -779,7 +779,7 @@ def live_run(cfg):
         data = raw if raw is not None else (json.dumps(body or {}) if method != "GET" else None)
         return pg.request.fetch(base + path, method=method, headers=h, data=data, max_redirects=0)
 
-    def find_card(pg, tier, want_photo=False, timeout=95, gone=False):
+    def find_card(pg, tier, want_photo=False, timeout=95, gone=False, who=None):
         """A patient (fresh signed-out browser, empty cache) searches the UFE finder by the office ZIP until the card is
         in `tier` (or gone). Returns the seconds taken or None; `pg` is left on the last search page for screenshots."""
         t0 = time.monotonic()
@@ -791,8 +791,8 @@ def live_run(cfg):
             q.click("#zip-form button")
             wait_js(q, "!document.querySelector('#results').hasAttribute('aria-busy')", timeout=20000)
             q.wait_for_timeout(300)
-            cards = q.locator("#results li.card", has_text=f"{first} {last}")
-            inside = q.locator(f"section.{tier} li.card", has_text=f"{first} {last}")
+            cards = q.locator("#results li.card", has_text=who or f"{first} {last}")
+            inside = q.locator(f"section.{tier} li.card", has_text=who or f"{first} {last}")
             found = None
             if gone and cards.count() == 0:
                 found = round(time.monotonic() - t0, 1)
@@ -985,6 +985,45 @@ def live_run(cfg):
                     out.wait_for_timeout(8000)
             lcheck("live: the removed photo's public address stops working", gone_s is not None, gone_s)
             out_ctx.close()
+            # 4b job platform-web-design-0018: one degree change and one goes-by change, each its own save (each sends one
+            # alert to the directory alerts channel); the finder card shows "Goes-by Last, Degree"; the profile shows the
+            # registry line. The test rows, these included, go at the reset.
+            step("4b degree and goes-by")
+            pg.goto(base + "/account/"); pg.wait_for_selector("#name-form", timeout=30000)
+            names = {}
+            try:
+                pg.select_option("#n-degree", "MD MPH"); clear(pg); mark(pg); pg.click("#name-save"); wait_saved(pg, "Saved", 15000)
+                pg.fill("#n-goes-by", "Test"); clear(pg); mark(pg); pg.click("#name-save"); wait_saved(pg, "Saved", 15000)
+                pg.reload(); pg.wait_for_selector("#name-form", timeout=30000)
+                names["degree kept"] = pg.input_value("#n-degree") == "MD MPH"
+                names["goes-by kept"] = pg.input_value("#n-goes-by") == "Test"
+                names["shown"] = f"test {last}, md mph".lower() in pg.inner_text("#name-shown").lower()
+                names["last-name line"] = "Your last name comes from the NPI Registry" in pg.inner_text("#name-last")
+            except Exception as e:
+                names["error"] = type(e).__name__ + ": " + scrub(e)[:200]
+            lcheck("live: one degree change and one goes-by change save and stay after a refresh (the test database has the name columns)",
+                   names and all(v is True for v in names.values()), names)
+            secs = find_card(pg, "tier-a", who=f"Test {last}, MD MPH")
+            q = last_search.get("page") or pg
+            lcheck("live: the finder card shows the goes-by name and degree within about 90 s", secs is not None, secs)
+            href = ""
+            if secs is not None:
+                a = q.locator("section.tier-a li.card", has_text=f"Test {last}, MD MPH").locator("h3 a")
+                href = a.first.get_attribute("href") if a.count() else ""
+                lcheck("live: the card has no registry line", "Listed in the NPI Registry" not in q.locator("section.tier-a li.card", has_text=f"Test {last}").first.inner_text())
+            shot(q, "live-5-name"); done_search()
+            prof = {}
+            if href:
+                t0 = time.monotonic()
+                while time.monotonic() - t0 < 95:
+                    pg.goto(base + href); body = pg.inner_text("main") if pg.locator("main").count() else pg.inner_text("body")
+                    prof = {"h1": pg.inner_text("h1"), "registry line": "Listed in the NPI Registry as" in body}
+                    if prof["registry line"] and prof["h1"].lower() == f"test {last}, md mph".lower():
+                        break
+                    pg.wait_for_timeout(8000)
+            lcheck("live: the profile shows the goes-by name and degree, and the registry-name line",
+                   bool(prof) and prof.get("registry line") is True and prof.get("h1", "").lower() == f"test {last}, md mph".lower(), prof)
+            pg.goto(base + "/account/"); pg.wait_for_selector("#acct-level", timeout=30000)
             # 5 sign out, sign in again
             step("5 sign out and in")
             pg.click("#signout"); pg.wait_for_selector("#login-form", timeout=20000)
