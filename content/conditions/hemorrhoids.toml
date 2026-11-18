@@ -21,7 +21,6 @@ color = "hem"                  # its own color (ochre), src-assets/site.css
 finder = "hae"                 # the finder this page leads to: the HAE list (job platform-directory-0029)
 nav_name = "Hemorrhoids"
 reviewed = "2026-11-10"
-draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Hemorrhoids"
 condition_alt = "Hemorrhoidal disease"
 

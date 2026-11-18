@@ -13,7 +13,6 @@
 # own (the pattern bars the short guide's new headline here; his call on the list).
 slug = "hemorrhoids"
 path = "/hemorrhoids/every-option/"
-draft = true
 reviewed = "2026-11-10"
 abstract_label = false   # he deleted the line explaining "(abstract only)"; `read` in the facts file keeps the record
 # Search targets (pattern: docs/condition-pattern.md), disjoint from the simple page's. US volumes, Google Ads through

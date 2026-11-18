@@ -9,7 +9,6 @@
 # draft = true: noindex and out of the sitemap until launch.
 slug = "chronic-pelvic-pain"
 path = "/chronic-pelvic-pain/every-option/"
-draft = true
 abstract_label = false   # one rule with the other in-depth pages; `read` in the facts file keeps the record
 reviewed = "2026-11-13"
 # Search targets: the procedure searches the short guide left for this page (its toml, 2026-11-07 volumes: pelvic vein

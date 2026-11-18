@@ -8,7 +8,7 @@ import registry
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA, COPY = ROOT / "content/insurance/coverage-2026-11.toml", ROOT / "content/insurance/pages.toml"
-ROBOTS = '<meta name="robots" content="noindex">\n'
+ROBOTS = ''   # indexed since launch, 2026-11-18 (merge 13:20 CT; launch plan item 9, his yes 09:00 CT); was noindex before launch
 CSS = ["/assets/insurance.css"]
 JS = ["/assets/insurance.js", "/assets/deep-nav.js"]   # deep-nav pins the hub's contents list; it does nothing on pages without one   # opens the card details at 768 px and up; with no script the details still open on tap
 # A shape for every label, so the meaning never rests on color. Text always says it too.
