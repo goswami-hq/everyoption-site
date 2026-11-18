@@ -411,7 +411,9 @@ def credits():
         if p["page"] not in seen:
             seen.add(p["page"])
             items.append(f'<li><a href="{e(p["page"])}" rel="noopener" target="_blank">{e(p["what"])}</a> by {e(p["by"])} on Pexels</li>')
-    return f'<h2>Photos</h2><p>Photos are free-license stock photos, used for illustration only.</p><ul class="small">{"".join(items)}</ul>' if items else ""
+    photos = f'<h2>Photos</h2><p>Photos are free-license stock photos, used for illustration only.</p><ul class="small">{"".join(items)}</ul>' if items else ""
+    # Launch approval 2026-11-18 (his yes 09:00 CT): a voluntary Stability AI credit for the films' generated music.
+    return photos + '<p class="small">Music in our videos: Powered by Stability AI.</p>'
 
 
 # Fix C (his yes, 2026-11-15 17:50 CT): the Conditions page. The cards, each with its pages (tools/trail.py strip_items),

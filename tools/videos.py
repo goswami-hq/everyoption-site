@@ -159,6 +159,9 @@ def film(v, ver=lambda u: u, level=3, page_link=True, page_name=None):
         link = f'<p class="vid-more"><a href="{e(v["page"])}">{e(page_name or v["page"])}</a></p>'
     body = "".join(f"<p>{e(l)}</p>" for l in words(v))
     note = f'\n<p class="vid-note">{e(v["note"])}</p>' if v.get("note") else ""   # his item 5 A, 2026-11-17
+    # credit (optional): the sound credit line, e.g. "Music and sound generated with AI (Stable Audio)" (ai-hq launch
+    # approval 2026-11-18, his yes 09:00 CT).
+    note += f'\n<p class="vid-note vid-credit">{e(v["credit"])}</p>' if v.get("credit") else ""
     a = v["aspect"].replace(":", " / ")
     return f"""<figure class="vid" data-aspect="{e(v['aspect'])}"{mark}>
 <div class="vid-frame" style="aspect-ratio: {a}"><a class="vid-play" href="https://www.youtube.com/watch?v={e(v['youtube_id'])}" data-yt="{e(v['youtube_id'])}" data-title="{t}" aria-label="{e(label)}" rel="noopener" target="_blank">{still(v, ver)}<span class="vid-btn">{PLAY}</span></a></div>
