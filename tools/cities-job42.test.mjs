@@ -209,16 +209,20 @@ test("sitemaps: an index of one file per page type; drafts, /account/ and /repor
   assert.match(read("robots.txt"), /Sitemap: https:\/\/everyoptionmd\.com\/sitemap\.xml/);
   const pages = read("sitemap-pages.xml");
   assert.ok(pages.includes("<loc>https://everyoptionmd.com/fibroids/</loc><lastmod>2026-11-02</lastmod>"), "fibroids reviewed date");
-  for (const u of ["/account/", "/report/", "/enlarged-prostate/", "/knee-arthritis/"]) assert.ok(!pages.includes(`com${u}<`), u);
+  for (const u of ["/account/", "/report/", "/hemorrhoids/", "/chronic-pelvic-pain/"]) assert.ok(!pages.includes(`com${u}<`), u);   // drafts since launch day 2026-11-18
+  for (const u of ["/fibroids/", "/enlarged-prostate/", "/knee-arthritis/"]) assert.ok(pages.includes(`com${u}<`), u);   // indexed at launch
   const city = [...read("sitemap-cities.xml").matchAll(/<loc>https:\/\/everyoptionmd\.com([^<]*)<\/loc><lastmod>2026-10-29<\/lastmod>/g)].map((m) => m[1]);
-  assert.deepEqual(city.sort(), ["/fibroids/doctors/", ...CITIES.metros.ufe.map((m) => `/fibroids/doctors/${m.slug}/`)].sort());
+  // Launch day (2026-11-18): prostate and knee are indexed, so their city pages join the fibroid ones.
+  const want = [["ufe", "fibroids"], ["pae", "enlarged-prostate"], ["gae", "knee-arthritis"]].flatMap(([k, slug]) =>
+    [`/${slug}/doctors/`, ...(CITIES.metros[k] || []).map((m) => `/${slug}/doctors/${m.slug}/`)]);
+  assert.deepEqual(city.sort(), want.sort());
   const all = idx + pages + read("sitemap-cities.xml") + read("sitemap-doctors.xml");
   assert.ok(!all.includes("/404"), "no 404 in any sitemap");
 });
 
 test("draft condition pages send noindex; fibroids does not; 404 has no canonical; no third-party script on condition pages", () => {
-  for (const s of ["enlarged-prostate", "knee-arthritis"]) assert.match(read(`${s}/index.html`), /<meta name="robots" content="noindex">/, s);
-  assert.doesNotMatch(read("fibroids/index.html"), /name="robots"/);
+  for (const s of ["hemorrhoids", "chronic-pelvic-pain"]) assert.match(read(`${s}/index.html`), /<meta name="robots" content="noindex">/, s);   // procedures still "listed"
+  for (const s of ["fibroids", "enlarged-prostate", "knee-arthritis"]) assert.doesNotMatch(read(`${s}/index.html`), /name="robots"/, s);   // indexed at launch, 2026-11-18
   assert.doesNotMatch(read("404.html"), /rel="canonical"/);
   for (const s of ["fibroids", "enlarged-prostate", "knee-arthritis"]) {
     const h = read(`${s}/index.html`);

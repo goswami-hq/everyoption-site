@@ -76,7 +76,7 @@ class PatternTest(unittest.TestCase):
 
     def test_published_condition_without_box_content_fails(self):
         c = condition.load("knee-arthritis")
-        c.pop("draft")
+        c.pop("draft", None)   # knee is indexed since launch day (2026-11-18)
         # job platform-main-0024: knee has the box now; take its content away to test the rule
         c["sections"] = [x for x in c["sections"] if x.get("place") != "box"]
         orig = condition.load

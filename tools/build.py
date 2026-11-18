@@ -117,6 +117,8 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
     # Fix B (his yes, 2026-11-15): the menu marks the item a page belongs to, not only the item's own page
     # (tools/trail.py section_of; a request-time shell names its section).
     sec = section or trail.section_of(path)
+    if path != "/404" and "BreadcrumbList" not in head and "BreadcrumbList" not in body:
+        head += trail.breadcrumb_ld(body, canonical or path, ORIGIN)
     mark = lambda h: ' aria-current="page"' if h == path else (' aria-current="true"' if h == sec else "")
     nav = "".join(f'<a href="{h}"{mark(h)}>{e(t)}</a>' for h, t in NAV)
     social = " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{t}</a>' for t, u in SOCIAL)
