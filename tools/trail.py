@@ -37,6 +37,34 @@ def html_of(items, top_id=True):
     return f'<nav class="crumbs"{" id=\"top\"" if top_id else ""} aria-label="Breadcrumb"><ol>{"".join(lis)}</ol></nav>'
 
 
+TRAIL_RE = None
+
+
+def breadcrumb_ld(body, path, origin):
+    """BreadcrumbList JSON-LD read from the trail the page shows (launch item 17, his "B yes" 2026-11-16 14:30 CT:
+    breadcrumb data on every page with a trail, turned on with indexing). '' when the page has no trail."""
+    import json
+    import re
+    global TRAIL_RE
+    TRAIL_RE = TRAIL_RE or re.compile(r'<nav class="crumbs"[^>]*aria-label="Breadcrumb"><ol>(.*?)</ol></nav>', re.S)
+    m = TRAIL_RE.search(body)
+    if not m:
+        return ""
+    items = []
+    for li in re.findall(r"<li>(.*?)</li>", m.group(1), re.S):
+        a = re.match(r'<a href="([^"]+)">(.*?)</a>$', li, re.S)
+        cur = re.match(r'<span aria-current="page">(.*?)</span>$', li, re.S)
+        if a:
+            items.append((html.unescape(re.sub(r"<[^>]+>", "", a.group(2))), html.unescape(a.group(1))))
+        elif cur:
+            items.append((html.unescape(re.sub(r"<[^>]+>", "", cur.group(1))), path))
+    if len(items) < 2:
+        return ""
+    data = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": n, "item": origin + u} for i, (n, u) in enumerate(items, 1)]}
+    return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+
+
 def condition(slug, *rest):
     """Home > <condition> [> rest...]. With no rest the condition page itself is current."""
     return [HOME, (label(slug), f"/{slug}/")] + list(rest)
