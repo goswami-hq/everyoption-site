@@ -9,7 +9,7 @@
 # - upload_date: the YouTube upload date (YYYY-MM-DD), filled in with youtube_id.
 # - note (optional): one line shown under the description.
 # - test_only = true: a layout entry for the dev site. The build refuses it on main or with EO_RELEASE=1.
-#   Remove it before PR #5 is merged (ai-hq launch checklist).
+#   The brand-film layout test was removed 2026-11-18 when the real film got its YouTube ID.
 
 # Channels with at least one post (true/false). A channel's "what you get there" line shows on the site only while it
 # posts; YouTube also counts once a film above has a YouTube ID. Set each to true after its first post (post gate).
@@ -29,27 +29,8 @@ note = "This site covers fibroids, enlarged prostate, knee arthritis pain, chron
 credit = "Music and sound generated with AI (Stable Audio)"
 condition = "about"
 order = 1
-youtube_id = ""            # empty until the film is on YouTube (sound, captions, upload: a post gate)
-upload_date = ""
-seconds = 31
-aspect = "9:16"
-still = "video-brand-film"
-still_alt = "The Every Option sign under a bright sun, with the words: You deserve to know every option."
-transcript = "brand-film.txt"
-page = "/about/"
-
-# Dev site only: shows the layout with the brand film's still before the film is on YouTube. Tapping play loads
-# YouTube with a made-up ID, so YouTube says the video is unavailable.
-[[video]]
-key = "brand-film-layout-test"
-test_only = true
-credit = "Music and sound generated with AI (Stable Audio)"
-title = "You deserve to know every option"
-description = "Many conditions can be treated in more ways than medicine or surgery. This short film shows what Every Option is for."
-condition = "about"
-order = 1
-youtube_id = "TESTONLY000"
-upload_date = "2026-11-16"
+youtube_id = "b3uTsPdZ97E"   # unlisted Short on @everyoptionmd, uploaded by him 2026-11-18 (ai-hq post approval 2026-11-18-brand-film-youtube-unlisted)
+upload_date = "2026-11-18"
 seconds = 31
 aspect = "9:16"
 still = "video-brand-film"
