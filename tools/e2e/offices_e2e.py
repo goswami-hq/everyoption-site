@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Job 16: doctors with several offices, rendered by the real finder.js. The test profile (site/data/test-profile.json)
-on localhost, and its absence on the live host name; made-up doctors with 1 and 5 offices through request
+"""Job 16: doctors with several offices, rendered by the real finder.js. The made-up test profile
+(tools/e2e/fixtures/test-profile.json, no longer shipped with the site since 2026-11-18) injected into each procedure
+list, and that the finder never asks for it on the live host name; made-up doctors with 1 and 5 offices through request
 interception. 390 and 1280 px, light and dark. Local server only.
 
   node tools/dev-server.mjs 8791 &
@@ -15,6 +16,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "..", "..", "site", "data")
 R = {"checks": []}
 TEST = "Sample Doctor, MD (test listing)"
+FIXTURE = json.load(open(os.path.join(HERE, "fixtures", "test-profile.json")))
+
+
+def with_test(proc):
+    """The procedure list with the fixture doctor added, as the finder's old test loader did on previews."""
+    real = json.load(open(os.path.join(DATA, proc + ".json")))
+    add = [dict(p, **({"blurb": p["blurbs"][proc]} if (p.get("blurbs") or {}).get(proc) else {}), test=True)
+           for p in FIXTURE["people"] if proc in (p.get("procedures") or [])]
+    return json.dumps(dict(real, people=add + real["people"]))
 
 
 def check(name, ok, detail=""):
@@ -62,6 +72,8 @@ def run(b, width, scheme):
     pg = ctx.new_page(); errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     for proc, path in (("ufe", "fibroids"), ("pae", "enlarged-prostate"), ("gae", "gae")):
+        body_t = with_test(proc)
+        pg.route(f"**/data/{proc}.json", (lambda b: lambda r: r.fulfill(status=200, content_type="application/json", body=b))(body_t))
         pg.goto(f"{BASE}/{path}/")
         cards = search(pg, "60605", 25)
         t = [c for c in cards if c["name"] == TEST]
@@ -77,8 +89,8 @@ def run(b, width, scheme):
               len(t["all"]) == 3 and all(" mi" in x for x in t["all"]) and "555-01" not in t["all"][0] and all("555-01" in x for x in t["all"][1:]) and "Evanston" in t["all"][1]
               and "2 Example Avenue" in t["all"][1] and t["lead"] == "Sample Interventional Radiology", t["all"])
         check(f"{tag} {proc}: real address card says distance is from your ZIP center", t["note"])
-        img = pg.evaluate("(() => { const i = [...document.querySelectorAll('li.card')].find(c => c.querySelector('h3').textContent.includes('test listing')).querySelector('img.photo'); return i ? [i.complete, i.naturalWidth, i.getAttribute('src')] : null; })()")
-        check(f"{tag} {proc}: drawn avatar loads", img and img[0] and img[1] > 0 and img[2] == "/assets/test-avatar.svg", img)
+        img = pg.evaluate("(() => [...document.querySelectorAll('li.card')].find(c => c.querySelector('h3').textContent.includes('test listing')).querySelector('img.photo'))()")
+        check(f"{tag} {proc}: a photo path outside the upload pattern is not shown", img is None, img)
         if proc == "ufe":
             pg.locator("li.card", has_text=TEST).first.screenshot(path=os.path.join(OUT, f"test-profile-{width}-{scheme}.png"))
             cards = search(pg, "60540", 25)
@@ -86,6 +98,7 @@ def run(b, width, scheme):
             check(f"{tag}: from 60540 the Naperville office leads", t and t[0]["practice"] == "Sample IR West" and t[0]["call"] == "Call (630) 555-0187", t[:1])
             cards = search(pg, "62711", 50)
             check(f"{tag}: from 62711 within 50 mi the test profile is absent (all offices outside)", not any(c["name"] == TEST for c in cards))
+        pg.unroute(f"**/data/{proc}.json")
     # made-up doctors: 1 office (no extra list), 5 offices, all offices outside
     real = json.load(open(os.path.join(DATA, "ufe.json")))
     body = json.dumps(dict(real, people=[FIVE, ONE, OUTSIDE] + real["people"]))
@@ -125,6 +138,7 @@ def live_host(b):
     pg.goto("https://everyoptionmd.com/fibroids/")
     cards = search(pg, "60605", 25)
     check("live host: test profile absent", not any(c["name"] == TEST for c in cards) and len(cards) > 0, len(cards))
+    check("live host: the site ships no test profile", not os.path.exists(os.path.join(DATA, "test-profile.json")))
     check("live host: test profile file never requested", not asked, asked)
     ctx.close()
 

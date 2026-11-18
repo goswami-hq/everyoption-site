@@ -1,8 +1,9 @@
-// Job 16: the finder's office rule and the test profile's host guard, run from the real site/assets/finder.js.
+// Job 16: the finder's office rule, run from the real site/assets/finder.js; and that the test profile no longer ships
+// (removed before launch, his yes 2026-11-18; the fixture lives in tools/e2e/fixtures/).
 //   node --test tools/finder-job16.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import vm from "node:vm";
 import { PROCS } from "../lib/procedures.mjs";
 
@@ -18,8 +19,8 @@ function fn(name) {                      // the text of one top-level function i
   throw new Error("unbalanced " + name);
 }
 const ctx = vm.createContext({});
-vm.runInContext([fn("miles"), fn("place"), fn("testHost")].join("\n"), ctx);
-const { place, testHost } = ctx;
+vm.runInContext([fn("miles"), fn("place")].join("\n"), ctx);
+const { place } = ctx;
 
 const C = [41.868, -87.617];             // ZIP 60605 center (site/data/zip/606.json)
 const office = (practice, lat, lon, extra = {}) => ({ practice, street: "1 Test Way", city: "X", state: "IL", zip: "60000", phone: "", lat, lon, geo: "address", ...extra });
@@ -54,17 +55,17 @@ test("a failed address uses its ZIP center; offices with no point and unclaimed 
   assert.equal(place({ name: "I", lat: null, lon: null }, C, 250), null);
 });
 
-test("the test profile can never load on the live host", () => {
-  for (const h of ["everyoptionmd.com", "www.everyoptionmd.com", "everyoptionmd.com.evil.example", "pages.dev.everyoptionmd.com", "",
-    "everyoption-site.pages.dev", "someone-else.pages.dev", "x.everyoption-site.pages.dev.evil.example"])
-    assert.equal(testHost(h), false, h);
-  for (const h of ["localhost", "every-option-job-5.everyoption-site.pages.dev"]) assert.equal(testHost(h), true, h);
-  assert.match(SRC, /if \(!testHost\(location\.hostname\)\) return Promise\.resolve\(\[\]\);/, "the load is behind the host check");
-  assert.equal((SRC.match(/test-profile\.json/g) || []).length, 1, "loaded from one place only");
+test("the site ships no test profile and the finder never asks for one", () => {
+  for (const f of ["../site/data/test-profile.json", "../site/assets/test-avatar.svg", "../src-assets/test-avatar.svg"])
+    assert.equal(existsSync(new URL(f, import.meta.url)), false, f);
+  for (const f of ["../site/assets/finder.js", "../src-assets/finder.js"]) {
+    const s = readFileSync(new URL(f, import.meta.url), "utf8");
+    assert.ok(!/test-profile\.json|test-avatar|loadTest|testHost/.test(s), f + " still loads a test profile");
+  }
 });
 
 test("the test profile is made up and never in the public procedure data", async () => {
-  const t = JSON.parse(readFileSync(new URL("../site/data/test-profile.json", import.meta.url), "utf8"));
+  const t = JSON.parse(readFileSync(new URL("./e2e/fixtures/test-profile.json", import.meta.url), "utf8"));
   const { npiOk } = await import("../functions/api/report.js");
   const [p] = t.people;
   assert.equal(p.name, "Sample Doctor, MD (test listing)"); assert.equal(npiOk(p.npi), false, "NPI fails the check digit");

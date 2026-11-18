@@ -95,8 +95,7 @@
     if (data) return Promise.resolve(data);
     if (!loading) {
       var ov = loadOverlay(), inTime = Promise.race([ov, wait(OVERLAY_MS, null)]);
-      loading = Promise.all([getJSON("/data/" + PROC + ".json"), loadTest()]).then(function (x) {
-        var base = x[0]; if (x[1].length) base = Object.assign({}, base, { people: x[1].concat(base.people) });
+      loading = getJSON("/data/" + PROC + ".json").then(function (base) {
         return inTime.then(function (o) {
           data = o ? mergeOverlay(base, o) : base;
           if (!o) ov.then(function (late) { if (late && data === base) data = mergeOverlay(base, late); });
@@ -161,16 +160,8 @@
     c.miles = miles(center, [p.lat, p.lon]);
     return c.miles <= r ? c : null;
   }
-  // Job 16 test profile (his words, 2026-11-02): made-up, loaded only on localhost and *.pages.dev, never live.
-  var TEST_AVATAR = "/assets/test-avatar.svg";
-  function testHost(h) { return h === "localhost" || /^[a-z0-9-]+\.everyoption-site\.pages\.dev$/.test(h); }   // branch previews, not the bare production alias
-  function loadTest() {
-    if (!testHost(location.hostname)) return Promise.resolve([]);
-    return getJSON("/data/test-profile.json").then(function (t) {
-      return (t.people || []).filter(function (p) { return (p.procedures || []).indexOf(PROC) >= 0; })
-        .map(function (p) { var c = Object.assign({}, p, (p.blurbs || {})[PROC] ? { blurb: p.blurbs[PROC] } : {}); c.test = true; return c; });
-    }, function () { return []; });
-  }
+  // Job 16's test profile was removed before launch (his yes, 2026-11-18); tests inject made-up doctors instead
+  // (tools/e2e/offices_e2e.py and its fixtures folder).
 
   function showPhone(p) {          // every US number as (xxx) xxx-xxxx, any extension after; anything else as written
     var m = (p || "").match(/^\s*(\+?1[\s.\-]*)?\(?(\d{3})\)?[\s.\-]*(\d{3})[\s.\-]*(\d{4})\s*(?:(?:ext\.?|extension|x)\s*(\d+))?\s*(?:\([^)]*\))?\s*$/i);
@@ -189,7 +180,7 @@
   function safeHttps(u) { try { var x = new URL(u); return x.protocol === "https:" ? x.href : ""; } catch (e) { return ""; } }
   function card(p) {
     var kids = [];
-    var photo = p.photo && (/^\/(photos|api\/photo)\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo) || (p.test && p.photo === TEST_AVATAR))
+    var photo = p.photo && (/^\/(photos|api\/photo)\/[0-9]{10}-[0-9a-f]{8,32}\.(jpg|png|webp)$/.test(p.photo))
       ? el("img", { "class": "photo", src: p.photo, alt: "Photo of " + (p.display || p.name), width: "64", height: "64", loading: "lazy", decoding: "async" }) : null;
     var top = el("div", { "class": "top" }, [
       photo,
