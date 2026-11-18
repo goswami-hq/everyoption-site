@@ -111,7 +111,7 @@ dataset_name = "Insurance coverage of embolization procedures by U.S. insurer, N
 dataset_description = "For Medicare and 9 large U.S. insurers: the coverage status of uterine fibroid, prostate artery, genicular artery, and hemorrhoid artery embolization in their written medical policies, in plain words, with each policy's link and the date checked."
 changes = [
   "UnitedHealthcare: a new policy takes effect December 1, 2026. It lists knee (GAE) and hemorrhoid (HAE) embolization as unproven. On the same date, UnitedHealthcare adds an approval step for one embolization billing code on most of its Medicare Advantage plans. {notice}",
-  "Anthem: the Carelon guideline that Anthem plans appear to use has a new version that takes effect November 15, 2026. Our Anthem entries use the new version. The earlier version applies until then.",
+  "Anthem: the Carelon guideline that Anthem plans appear to use has a new version, effective November 15, 2026. Our Anthem entries use the new version.",
 ]
 method = [
   "Where an insurer's written policy could be read, we read the newest version we could find. For Medicare, we read the national decision and checked local decisions and articles by title.",
