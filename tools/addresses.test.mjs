@@ -72,5 +72,5 @@ test("no built page keeps the old pelvic address, except _redirects; home lists 
   // the pelvic card no longer says "Doctor list coming"; hemorrhoids does, until its finder exists (2026-11-11)
   assert.doesNotMatch(home, /<li class="t-cpp">(?:(?!<\/li>).)*Doctor list coming/);
   const page = readFileSync(path.join(SITE, "chronic-pelvic-pain", "index.html"), "utf8");
-  assert.match(page, /<meta name="robots" content="noindex/, "still a draft");
+  assert.doesNotMatch(page, /name="robots"/, "indexed since launch day, 2026-11-18");
 });

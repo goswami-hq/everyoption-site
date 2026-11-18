@@ -8,7 +8,6 @@
 # draft = true: noindex and out of the sitemap until launch.
 slug = "knee-arthritis"
 path = "/knee-arthritis/every-option/"
-draft = true
 abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
 reviewed = "2026-11-12"
 targets = ["gae vs knee replacement", "genicular artery embolization vs knee replacement", "knee arthritis injections compared", "best treatment for knee arthritis", "gae recovery time", "partial vs total knee replacement"]

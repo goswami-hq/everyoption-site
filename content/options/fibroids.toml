@@ -3,7 +3,6 @@
 # the complete recorded evidence search is done and he signs off.
 slug = "fibroids"
 path = "/fibroids/every-option/"
-draft = true
 abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
 reviewed = "2026-11-05"
 # Search targets: the comparisons (pattern: docs/condition-pattern.md). The simple page owns "fibroid treatment options".

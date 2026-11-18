@@ -695,6 +695,20 @@ def condition_dates():
     return {f"/{s}/": condition.load(s)["reviewed"] for s in condition.slugs() if s not in drafts()}
 
 
+def launch_pages():
+    """Indexed since launch day (2026-11-18; launch plan item 9): each in-depth "every option" page with its reviewed
+    date, the insurance hub and each coverage page with the coverage copy's reviewed date. A deep page with draft stays out."""
+    out = []
+    for slug in options.slugs():
+        c, d, f = options.load(slug)
+        if not d.get("draft"):
+            out.append((d["path"], d.get("reviewed") or c.get("reviewed")))
+    copy = insurance.load()[1]
+    out.append(("/insurance/", copy.get("reviewed")))
+    out += [(f'/{p["slug"]}/insurance/', copy.get("reviewed")) for p in copy["pages"]]
+    return sorted(out)
+
+
 def urlset(entries):
     urls = "".join(f"<url><loc>{ORIGIN}{e(u)}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>" for u, d in entries)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n'
@@ -703,7 +717,7 @@ def urlset(entries):
 def sitemaps(profiles=(), letters=(), cities=()):
     """Job 42 (city-pages 4): a sitemap index with one file per page type, so indexing can be read per type."""
     files = {
-        "sitemap-pages.xml": [(u, REVIEWED) for u in SITEMAP_PAGES] + sorted(condition_dates().items()),
+        "sitemap-pages.xml": [(u, REVIEWED) for u in SITEMAP_PAGES] + sorted(condition_dates().items()) + launch_pages(),
         "sitemap-cities.xml": list(cities),
         "sitemap-doctors.xml": [(u, None) for u in letters] + [(u, None) for u in profiles],   # job 27: indexed groups only
     }
@@ -865,7 +879,7 @@ def main():
                                                          ["/assets/condition.js", "/assets/procedure-anim.js", "/assets/pelvic-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/deep-nav.js", "/assets/city-fold.js"],
                                                          css=["/assets/condition-box.css"], head=robots + options.schema(c, d, ORIGIN, "Every Option"),
                                                          cls=f"prose-page condition-page options-page t-{c['color']}", banner=condition_strip(slug)))
-    insurance.write_all(page, write, ORIGIN)   # noindex and out of the sitemap until launch; linked since job 0013
+    insurance.write_all(page, write, ORIGIN)   # indexed and in the sitemap since launch, 2026-11-18; linked since job 0013
     # Job 27: the doctor directory. Profiles are rendered on request by lib/directory.mjs from the files written here.
     with open(os.path.join(ROOT, "content", "directory.json"), encoding="utf-8") as fh:
         setting = json.load(fh)["index"]

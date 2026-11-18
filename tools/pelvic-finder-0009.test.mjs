@@ -23,10 +23,10 @@ const DIR = JSON.parse(read("data/directory.json")).people;
 const SLUGS = ["new-york-city-area", "washington-dc", "philadelphia-pa", "baltimore-md"];
 const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f)).map((f) => read(f)).join("\n");
 
-test("pelvic is one more procedure, plain words, marked draft", () => {
+test("pelvic is one more procedure, plain words, public since launch day", () => {
   assert.ok(PROCS.includes("pelvic"));   // its place in the list is the registry's (job platform-directory-0032)
   assert.equal(PROC_LONG.pelvic, "Pelvic vein embolization and stenting");   // his words 2026-11-14 00:38 CT: "Put the procedures together"
-  assert.ok(DRAFT_PROCS.includes("pelvic"));
+  assert.ok(!DRAFT_PROCS.includes("pelvic"));   // public since launch day, 2026-11-18 (his words 13:27 CT)
   assert.equal(PELVIC.procedure, "pelvic");
   assert.ok(PELVIC.people.length >= 100, "the exported list");
   for (const p of PELVIC.people) { assert.ok(!("grade" in p) && !("evidence" in p), "no grades or quotes published"); }
@@ -35,9 +35,9 @@ test("pelvic is one more procedure, plain words, marked draft", () => {
   assert.deepEqual([politi.city, politi.state], ["Meriden", "CT"], "Politi in central Connecticut (his word 2026-11-07)");
 });
 
-test("the pelvic page has the ZIP finder, keeps its intro, links the city pages, and stays noindex", () => {
+test("the pelvic page has the ZIP finder, keeps its intro, links the city pages, and is indexed", () => {
   const page = read("chronic-pelvic-pain/index.html");
-  assert.match(page, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(page, /name="robots"/);
   assert.match(page, /<div id="finder" data-procedure="pelvic" data-learn="#options">/);
   assert.match(page, /<p class="lede">Long-term pelvic pain can have many causes\./, "the page's own intro stays");
   assert.match(page, /Pelvic vein embolization and stenting work through a tiny skin nick, without surgery\. Nothing is cut out of your body\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/chronic-pelvic-pain\/every-option\/">Deep dive, every option<\/a><\/p>/);   // the compare link since job platform-condition-pages-0023; words his call 8 (2026-11-14, job platform-directory-0038)
@@ -45,7 +45,7 @@ test("the pelvic page has the ZIP finder, keeps its intro, links the city pages,
   assert.match(page, /Enter your ZIP code to see doctors near you, nearest first\./);
   for (const s of SLUGS) assert.ok(page.includes(`href="/chronic-pelvic-pain/doctors/${s}/"`), s);
   assert.ok(page.includes('href="/chronic-pelvic-pain/doctors/"'), "the city list");
-  assert.ok(!sitemaps().includes("/chronic-pelvic-pain/"), "out of the sitemap");
+  assert.ok(sitemaps().includes("/chronic-pelvic-pain/"), "in the sitemap");   // public since launch day, 2026-11-18 (his words 13:27 CT)
 });
 
 test("the finder script shows the same Confirmed by physician box for any procedure", () => {
@@ -64,18 +64,19 @@ test("home: the condition card opens the finder with its count, and the ZIP drop
   assert.doesNotMatch(home, /<li class="t-cpp">(?:(?!<\/li>).)*Doctor list coming/);
 });
 
-test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, each noindex with the 0 confirmed box", async () => {
+test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, each indexed with the 0 confirmed box", async () => {
   // The four first pages stay; more cities join as they reach the bar (counts not frozen, his words 2026-11-10).
   for (const s of SLUGS) assert.ok(CITIES.metros.pelvic.some((m) => m.slug === s), s);
-  assert.ok(CITIES.draft.includes("pelvic"));
+  assert.ok(!CITIES.draft.includes("pelvic"));   // public since launch day, 2026-11-18 (his words 13:27 CT)
   const hub = await city("/chronic-pelvic-pain/doctors/");
   assert.equal(hub.status, 200);
   assert.match(hub.html, /<h1>Where can I get pelvic vein embolization and stenting\?<\/h1>/);
-  assert.match(hub.html, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(hub.html, /name="robots"/);
   for (const s of SLUGS) {
     const { status, html } = await city(`/chronic-pelvic-pain/doctors/${s}/`);
     assert.equal(status, 200, s);
-    assert.match(html, /<meta name="robots" content="noindex">/, s);
+    // robots: the test host is not production, so the metro page sends noindex here whatever the stage (lib/cities.mjs
+    // the draft rule is covered by CITIES.draft above. Was: assert.match noindex, s
     assert.match(html, /<h1>Who does pelvic vein embolization and stenting near [^<]+\?<\/h1>/, s);
     assert.match(html, /Confirmed by physician: 0 nearby\./, s);
     assert.match(html, /href="\/account\/\?procedure=pelvic"/, s);
@@ -93,7 +94,7 @@ test("other city pages link to the pelvic page for the same metro; pelvic pages 
   assert.match(pel.html, /<a href="\/fibroids\/doctors\/new-york-city-area\/">/);
 });
 
-test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile stays noindex and out of the sitemap", async () => {
+test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile is indexed and in the sitemap", async () => {
   const both = DIR.find((p) => p.l.split(" ").includes("pelvic") && p.l.split(" ").includes("ufe"));
   const b = await doctor(both.p);
   assert.equal(b.status, 200);
@@ -103,8 +104,8 @@ test("profiles: the pelvic tag links the pelvic page; a pelvic-only profile stay
   const o = await doctor(only.p);
   assert.equal(o.status, 200);
   assert.match(o.html, /Likely performs:[\s\S]*<a href="\/chronic-pelvic-pain\/">Pelvic vein embolization and stenting<\/a>/);
-  assert.match(o.html, /<meta name="robots" content="noindex">/);
-  assert.ok(!sitemaps().includes(only.p), "pelvic-only profile out of the sitemap");
+  assert.doesNotMatch(o.html, /name="robots"/);
+  assert.ok(sitemaps().includes(only.p), "pelvic-only profile in the sitemap");   // public since launch day, 2026-11-18 (his words 13:27 CT)
   assert.ok(sitemaps().includes(both.p));
   const nyc = PELVIC.people.find((p) => CITIES.metro_of.pelvic[p.npi] === "new-york-city-area");
   const rec = DIR.find((p) => p.p.endsWith(`-${nyc.npi}/`));

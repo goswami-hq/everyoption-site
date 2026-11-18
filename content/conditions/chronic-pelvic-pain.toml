@@ -14,7 +14,6 @@ color = "cpp"                  # its own color (teal), as on the home card
 finder = "pelvic"              # the finder this page leads to: the pelvic vein list (job platform-directory-0009)
 nav_name = "Chronic pelvic pain"  # the home card name (his words, 2026-11-04)
 reviewed = "2026-11-12"
-draft = true                   # noindex and out of the sitemap until his sign-off; delete this line then
 condition_name = "Pelvic venous disorders"
 condition_alt = "Pelvic congestion syndrome"
 

@@ -20,12 +20,11 @@ function htmlFiles(dir, out = []) {
   return out;
 }
 
-test("the new pages are noindex and out of every sitemap", () => {
+test("the insurance pages are indexed and in the pages sitemap since launch day (2026-11-18)", () => {
+  const sm = readFileSync(path.join(SITE, "sitemap-pages.xml"), "utf8");
   for (const p of PAGES) {
-    assert.match(read(p), /<meta name="robots" content="noindex">/, p);
-  }
-  for (const n of readdirSync(SITE).filter((f) => f.startsWith("sitemap") && f.endsWith(".xml"))) {
-    assert.doesNotMatch(readFileSync(path.join(SITE, n), "utf8"), /insurance/, n);
+    assert.doesNotMatch(read(p), /name="robots"/, p);
+    assert.ok(sm.includes(`https://everyoptionmd.com/${p}/<`), p);
   }
 });
 

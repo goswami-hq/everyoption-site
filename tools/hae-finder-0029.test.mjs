@@ -22,11 +22,11 @@ const HAE = JSON.parse(read("data/hae.json"));
 const DIR = JSON.parse(read("data/directory.json")).people;
 const sitemaps = () => readdirSync(SITE).filter((f) => /^sitemap.*\.xml$/.test(f)).map((f) => read(f)).join("\n");
 
-test("HAE is one more procedure, marked draft, with no grades or quotes published", () => {
+test("HAE is one more procedure, public since launch day, with no grades or quotes published", () => {
   assert.ok(PROCS.includes("hae"));   // its place in the list is the registry's (job platform-directory-0032)
   assert.equal(PROC_LONG.hae, "Hemorrhoid artery embolization (HAE)");
   assert.equal(PROC_SHORT.hae, "HAE");
-  assert.ok(DRAFT_PROCS.includes("hae"));
+  assert.ok(!DRAFT_PROCS.includes("hae"));   // public since launch day, 2026-11-18 (his words 13:27 CT)
   assert.equal(HAE.procedure, "hae");
   assert.ok(HAE.people.length >= 40, "the exported list");
   for (const p of HAE.people) {
@@ -36,9 +36,9 @@ test("HAE is one more procedure, marked draft, with no grades or quotes publishe
   assert.ok(HAE.people.some((p) => p.npi === "1679647267"), "Ferris stays on HAE: his own expertise line names it (job 0029 stage 1)");
 });
 
-test("the hemorrhoid page has the ZIP finder, its button in the lead option, keeps its text, and stays noindex", () => {
+test("the hemorrhoid page has the ZIP finder, its button in the lead option, keeps its text, and is indexed", () => {
   const page = read("hemorrhoids/index.html");
-  assert.match(page, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(page, /name="robots"/);
   assert.match(page, /<div id="finder" data-procedure="hae" data-learn="#options">/);
   assert.match(page, /<p class="lede">Rectal bleeding always needs a doctor&#x27;s check first/, "the page's own intro stays, first paragraph");
   assert.equal((page.match(/<p class="lede">/g) || []).length >= 2, true, "the intro's two paragraphs stay two");
@@ -56,7 +56,7 @@ test("the hemorrhoid page has the ZIP finder, its button in the lead option, kee
   assert.match(page, /data-replay/, "the animation stays");
   assert.ok(page.includes('href="/hemorrhoids/doctors/new-york-city-area/"'));
   assert.ok(page.includes('href="/hemorrhoids/doctors/"'), "the city list");
-  assert.ok(!sitemaps().includes("/hemorrhoids/"), "out of the sitemap");
+  assert.ok(sitemaps().includes("/hemorrhoids/"), "in the sitemap");   // public since launch day, 2026-11-18 (his words 13:27 CT)
   assert.doesNotMatch(page, /Covered by insurance/i);
 });
 
@@ -78,15 +78,16 @@ test("404 and profile search know HAE", () => {
   assert.match(read("_redirects"), /^\/hae\/? \/hemorrhoids\/ 301$/m);
 });
 
-test("the New York City HAE page: bar of 8 within 25 miles, noindex, the 0 confirmed box", async () => {
+test("the New York City HAE page: bar of 8 within 25 miles, indexed, the 0 confirmed box", async () => {
   assert.deepEqual(CITIES.metros.hae.map((m) => m.slug), ["new-york-city-area"]);
-  assert.ok(CITIES.draft.includes("hae"));
+  assert.ok(!CITIES.draft.includes("hae"));   // public since launch day, 2026-11-18 (his words 13:27 CT)
   const hub = await city("/hemorrhoids/doctors/");
   assert.equal(hub.status, 200);
-  assert.match(hub.html, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(hub.html, /name="robots"/);
   const { status, html } = await city("/hemorrhoids/doctors/new-york-city-area/");
   assert.equal(status, 200);
-  assert.match(html, /<meta name="robots" content="noindex">/);
+  // robots: the test host is not production, so the metro page sends noindex here whatever the stage (lib/cities.mjs
+  // the draft rule is covered by CITIES.draft above. Was: assert.match noindex
   assert.match(html, /Confirmed by physician: 0 nearby\./);
   assert.match(html, /href="\/account\/\?procedure=hae"/);
   assert.ok((html.match(/class="card/g) || []).length >= 8, "at least 8 cards");
@@ -97,7 +98,7 @@ test("the New York City HAE page: bar of 8 within 25 miles, noindex, the 0 confi
   assert.match(ufe.html, /As of October 29, 2026/, "other procedures keep the shared stamp");
 });
 
-test("profiles: the HAE tag links the hemorrhoid page; an HAE-only profile stays noindex and out of the sitemap", async () => {
+test("profiles: the HAE tag links the hemorrhoid page; an HAE-only profile is indexed and in the sitemap", async () => {
   const both = DIR.find((p) => (p.l || "").split(" ").includes("hae") && (p.l || "").split(" ").includes("ufe"));
   const b = await doctor(both.p);
   assert.equal(b.status, 200);
@@ -106,6 +107,6 @@ test("profiles: the HAE tag links the hemorrhoid page; an HAE-only profile stays
   const o = await doctor(only.p);
   assert.equal(o.status, 200);
   assert.match(o.html, /<a href="\/hemorrhoids\/">[^<]*HAE[^<]*<\/a>/);
-  assert.match(o.html, /<meta name="robots" content="noindex">/);
-  assert.ok(!sitemaps().includes(only.p), "HAE-only profile out of the sitemap");
+  assert.doesNotMatch(o.html, /name="robots"/);
+  assert.ok(sitemaps().includes(only.p), "HAE-only profile in the sitemap");   // public since launch day, 2026-11-18 (his words 13:27 CT)
 });

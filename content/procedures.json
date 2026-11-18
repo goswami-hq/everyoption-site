@@ -158,7 +158,7 @@
     "conditions": [
       "chronic-pelvic-pain"
     ],
-    "stage": "listed",
+    "stage": "public",
     "view": "pelvic_venous",
     "patient_name": "pelvic vein embolization and stenting",
     "hub_label": "Pelvic vein embolization and stenting doctors",
@@ -202,7 +202,7 @@
     "conditions": [
       "hemorrhoids"
     ],
-    "stage": "listed",
+    "stage": "public",
     "view": "hemorrhoid_embolization",
     "patient_name": "hemorrhoid embolization",
     "hub_label": "Hemorrhoid embolization doctors",
