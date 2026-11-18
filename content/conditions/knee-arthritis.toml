@@ -168,7 +168,7 @@ id = "embolization"
 name = "Knee artery embolization (GAE)"
 # "What is <procedure>?" answer block (agreed list item 1, his "Agree" 2026-11-07; his GAE name, item 14); the skin-nick line left `invasive`
 lead_heading = "What is genicular (knee) artery embolization (GAE)?"
-what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin.[^bsir][^ucla] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
+what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin and sometimes at the ankle.[^bsir][^ucla][^ratcliffe26] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
 invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Most people are back to their normal activities within a few days, instead of 3 to 6 weeks after a knee replacement.[^nhsrec] Relief often starts within about two weeks.[^ucla]"
 works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
 side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin][^vzsham] Serious problems are rare.[^sir26]"
@@ -238,6 +238,10 @@ works = "Strong evidence shows a knee scope clean-out does not help knee arthrit
 side = "It carries the risks of surgery, such as blood clots and infection.[^thorlund]"
 
 # References, in no particular order: the page numbers them by first use. How each was read: evidence.md.
+[[refs]]
+key = "ratcliffe26"
+cite = "Ratcliffe J, et al. Transpedal genicular artery embolization for knee osteoarthritis: a single-center cohort of 110 knees. European Journal of Radiology. 2026;202:112935. doi:10.1016/j.ejrad.2026.112935. Abstract and parts of the full text read (described, not the paper's title)."
+url = "https://doi.org/10.1016/j.ejrad.2026.112935"
 [[refs]]
 key = "mpoa"
 cite = "MedlinePlus Medical Encyclopedia (U.S. National Library of Medicine). Osteoarthritis. Reviewed April 9, 2026. Read November 4, 2026."
