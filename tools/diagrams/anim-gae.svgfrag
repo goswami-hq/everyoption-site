@@ -1,0 +1,38 @@
+<g id="scene-gae">
+        <g id="gaeShin">
+          <path class="limb-fill" d="M138 175 C128 240 140 400 158 660 L232 660 C250 400 262 240 262 175 Z"/>
+          <path class="limb-edge" d="M138 182 C128 240 140 400 158 660 M232 660 C250 400 262 240 262 182"/>
+        </g>
+        <path class="limb-fill" d="M118 -24 C122 60 130 120 138 175 A62 62 0 0 0 262 175 C276 120 288 60 292 -24 Z"/>
+        <path class="limb-edge" d="M118 -24 C122 60 130 120 138 175 M262 175 C276 120 288 60 292 -24"/>
+        <g id="gaeShinBone">
+          <path class="bone" d="M172 196 C180 188 220 188 230 196 C232 215 220 228 218 245 L212 660 L190 660 L184 245 C182 228 170 215 172 196 Z"/>
+          <path class="vessel" d="M148 190 C150 240 160 400 170 660"/>
+        </g>
+        <ellipse id="gaeCap" class="capsule" cx="222" cy="172" rx="66" ry="52"/>
+        <circle id="gaeGlow" class="glow" cx="240" cy="170" r="108"/>
+        <path class="bone" d="M178 -24 L232 -24 L230 110 C232 130 244 145 240 164 C236 182 180 182 172 164 C168 145 180 130 180 110 Z"/>
+        <ellipse class="bone" cx="256" cy="170" rx="13" ry="24"/>
+        <path class="vessel" d="M138 -24 C138 60 140 120 148 190"/>
+        <g id="gaeNeo">
+          <path id="neo1" class="neo" d="M226 134 C240 126 250 142 262 134"/>
+          <path id="neo2" class="neo" d="M222 150 C238 142 252 160 272 150"/>
+          <path id="neo3" class="neo" d="M224 166 C240 158 256 176 278 168"/>
+          <path id="neo4" class="neo" d="M222 184 C238 176 252 194 272 186"/>
+          <path id="neo5" class="neo" d="M226 200 C240 192 250 208 264 202"/>
+        </g>
+        <g id="gaeBolts" class="bolt">
+          <path d="M292 118 L306 106 L302 120 L318 108"/><path d="M306 172 L324 166 L314 178 L334 174"/>
+          <path d="M288 222 L304 232 L298 220 L316 230"/><path d="M226 86 L236 68 L238 82 L250 62"/>
+        </g>
+        <path id="gaeBrL" class="branch" d="M141 100 C170 92 205 112 228 140"/>
+        <path id="gaeBrR" class="branch" d="M148 190 C175 214 205 212 228 196"/>
+        <g class="flow"></g>
+        <path id="gaeCathL" class="cath" d="M138 -24 C138 40 139 80 141 100 C170 92 205 112 222 134"/>
+        <path id="gaeCathR" class="cath" d="M138 -24 C138 60 140 120 148 190 C175 214 205 212 222 200"/>
+        <g class="beads"></g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M326 284 L268 206"/><text class="label" x="322" y="304">Knee</text>
+          <path class="leader" d="M108 56 L134 56"/><text class="label" x="104" y="61" text-anchor="end">Artery</text>
+        </g>
+      </g>

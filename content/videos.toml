@@ -1,0 +1,39 @@
+# Every Option's videos (ai-hq job platform-web-design-0019; his words, HQ chat 2026-11-16 21:55 to 22:48 CT).
+# tools/videos.py reads this file; tools/build.py draws /videos/, the home "Watch and follow" band and the VideoObject
+# data from it. Rules:
+# - A video with an empty youtube_id never shows anywhere. With no shown video, /videos/ and its menu item are not built.
+# - condition: a condition slug from content/conditions.json, or "about" for the brand film.
+# - order: its place in its condition's playlist (lowest first).
+# - still: the file stem in src-assets/media/ (<still>-540.jpg and <still>-1080.jpg).
+# - transcript: a file in content/videos/ (one paragraph per line).
+# - upload_date: the YouTube upload date (YYYY-MM-DD), filled in with youtube_id.
+# - note (optional): one line shown under the description.
+# - test_only = true: a layout entry for the dev site. The build refuses it on main or with EO_RELEASE=1.
+#   The brand-film layout test was removed 2026-11-18 when the real film got its YouTube ID.
+
+# Channels with at least one post (true/false). A channel's "what you get there" line shows on the site only while it
+# posts; YouTube also counts once a film above has a YouTube ID. Set each to true after its first post (post gate).
+[channels]
+youtube = false
+tiktok = false
+instagram = false
+x = false
+
+[[video]]
+key = "brand-film"
+title = "You deserve to know every option"
+description = "Many conditions can be treated in more ways than medicine or surgery. This short film shows what Every Option is for."
+# note (optional): one line under the description. His item 5 A, 2026-11-17 11:53 CT: the film lists treatments the site does not cover yet.
+note = "This site covers fibroids, enlarged prostate, knee arthritis pain, chronic pelvic pain and bleeding hemorrhoids, with more on the way."
+# credit (optional): one line under the note. Launch approval 2026-11-18 (his yes 09:00 CT).
+credit = "Music and sound generated with AI (Stable Audio)"
+condition = "about"
+order = 1
+youtube_id = "b3uTsPdZ97E"   # unlisted Short on @everyoptionmd, uploaded by him 2026-11-18 (ai-hq post approval 2026-11-18-brand-film-youtube-unlisted)
+upload_date = "2026-11-18"
+seconds = 31
+aspect = "9:16"
+still = "video-brand-film"
+still_alt = "The Every Option sign under a bright sun, with the words: You deserve to know every option."
+transcript = "brand-film.txt"
+page = "/about/"

@@ -1,0 +1,869 @@
+{
+ "checks": [
+  {
+   "check": "fibroids 390 light: 200",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 light: one h1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 390 light: one group per category",
+   "ok": true,
+   "detail": "3"
+  },
+  {
+   "check": "fibroids 390 light: every other option in one group",
+   "ok": true,
+   "detail": "['non-hormone-medicines', 'hormone-medicines', 'iud', 'radiofrequency', 'focused-ultrasound', 'endometrial-ablation', 'hysteroscopic', 'myomectomy', 'hysterectomy']"
+  },
+  {
+   "check": "fibroids 390 light: the lead option is open and its group row points to it",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: everything starts collapsed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: every jump link and marker has a target",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 390 light: diagram shown at embolization",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: a link to an option opens it and its group",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: no console errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 390 light: section headings and buttons at least 44 px tall",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 390 light: a group opens",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: and closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: a reference marker opens References and lands on it",
+   "ok": true,
+   "detail": "0.328125"
+  },
+  {
+   "check": "fibroids 390 light: FAQ schema matches visible questions",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: no author in schema while the setting is empty",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 light: link / resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 light: link /how-we-know/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 light: link /account/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 light: link /report/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 dark: 200",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 dark: one h1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 390 dark: one group per category",
+   "ok": true,
+   "detail": "3"
+  },
+  {
+   "check": "fibroids 390 dark: every other option in one group",
+   "ok": true,
+   "detail": "['non-hormone-medicines', 'hormone-medicines', 'iud', 'radiofrequency', 'focused-ultrasound', 'endometrial-ablation', 'hysteroscopic', 'myomectomy', 'hysterectomy']"
+  },
+  {
+   "check": "fibroids 390 dark: the lead option is open and its group row points to it",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: everything starts collapsed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: every jump link and marker has a target",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 390 dark: diagram shown at embolization",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: a link to an option opens it and its group",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: no console errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 390 dark: section headings and buttons at least 44 px tall",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 390 dark: a group opens",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: and closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: a reference marker opens References and lands on it",
+   "ok": true,
+   "detail": "0.328125"
+  },
+  {
+   "check": "fibroids 390 dark: FAQ schema matches visible questions",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: no author in schema while the setting is empty",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390 dark: link / resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 dark: link /how-we-know/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 dark: link /account/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 390 dark: link /report/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 light: 200",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 light: one h1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 1280 light: one group per category",
+   "ok": true,
+   "detail": "3"
+  },
+  {
+   "check": "fibroids 1280 light: every other option in one group",
+   "ok": true,
+   "detail": "['non-hormone-medicines', 'hormone-medicines', 'iud', 'radiofrequency', 'focused-ultrasound', 'endometrial-ablation', 'hysteroscopic', 'myomectomy', 'hysterectomy']"
+  },
+  {
+   "check": "fibroids 1280 light: the lead option is open and its group row points to it",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: everything starts collapsed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: every jump link and marker has a target",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 1280 light: diagram shown at embolization",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: a link to an option opens it and its group",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: no console errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 1280 light: a group opens",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: and closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: a reference marker opens References and lands on it",
+   "ok": true,
+   "detail": "-0.40625"
+  },
+  {
+   "check": "fibroids 1280 light: FAQ schema matches visible questions",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: no author in schema while the setting is empty",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 light: link / resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 light: link /how-we-know/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 light: link /account/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 light: link /report/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 dark: 200",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 dark: one h1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "fibroids 1280 dark: one group per category",
+   "ok": true,
+   "detail": "3"
+  },
+  {
+   "check": "fibroids 1280 dark: every other option in one group",
+   "ok": true,
+   "detail": "['non-hormone-medicines', 'hormone-medicines', 'iud', 'radiofrequency', 'focused-ultrasound', 'endometrial-ablation', 'hysteroscopic', 'myomectomy', 'hysterectomy']"
+  },
+  {
+   "check": "fibroids 1280 dark: the lead option is open and its group row points to it",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: everything starts collapsed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: every jump link and marker has a target",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 1280 dark: diagram shown at embolization",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: a link to an option opens it and its group",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: no console errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "fibroids 1280 dark: a group opens",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: and closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: a reference marker opens References and lands on it",
+   "ok": true,
+   "detail": "-0.40625"
+  },
+  {
+   "check": "fibroids 1280 dark: FAQ schema matches visible questions",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: no author in schema while the setting is empty",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280 dark: link / resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 dark: link /how-we-know/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 dark: link /account/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "fibroids 1280 dark: link /report/ resolves",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "check": "home 320: Fibroids card opens /fibroids/",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 320: no link to the old /ufe/ page",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 320: PAE and GAE cards open their pages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 320: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "home 320: t-ufe card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/fibroids/', [534.5625, 587.359375]]"
+  },
+  {
+   "check": "home 320: t-pae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/pae/', [459.28125, 512.078125]]"
+  },
+  {
+   "check": "home 320: t-gae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/gae/', [488.078125, 540.875]]"
+  },
+  {
+   "check": "home 390: Fibroids card opens /fibroids/",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 390: no link to the old /ufe/ page",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 390: PAE and GAE cards open their pages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 390: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "home 390: t-ufe card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/fibroids/', [623.390625, 676.1875]]"
+  },
+  {
+   "check": "home 390: t-pae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/pae/', [543, 595.796875]]"
+  },
+  {
+   "check": "home 390: t-gae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/gae/', [576.90625, 629.703125]]"
+  },
+  {
+   "check": "home 768: Fibroids card opens /fibroids/",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 768: no link to the old /ufe/ page",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 768: PAE and GAE cards open their pages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 768: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "home 768: t-ufe card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/fibroids/', [497.421875, 550.21875]]"
+  },
+  {
+   "check": "home 768: t-pae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/pae/', [489.78125, 542.578125]]"
+  },
+  {
+   "check": "home 768: t-gae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/gae/', [489.78125, 542.578125]]"
+  },
+  {
+   "check": "home 1280: Fibroids card opens /fibroids/",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 1280: no link to the old /ufe/ page",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 1280: PAE and GAE cards open their pages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "home 1280: no sideways scroll",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "home 1280: t-ufe card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/fibroids/', [602.140625, 654.9375]]"
+  },
+  {
+   "check": "home 1280: t-pae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/pae/', [595.015625, 647.8125]]"
+  },
+  {
+   "check": "home 1280: t-gae card reaches the ZIP box in one tap",
+   "ok": true,
+   "detail": "['http://localhost:8792/gae/', [595.015625, 647.8125]]"
+  },
+  {
+   "check": "fibroids 390: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: How it works opens #embolization and shows it",
+   "ok": true,
+   "detail": "[0, 14]"
+  },
+  {
+   "check": "fibroids 390: How it works goes to the embolization section",
+   "ok": true,
+   "detail": "embolization"
+  },
+  {
+   "check": "fibroids 390: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 16, 'y': 780, 'width': 358, 'height': 50}"
+  },
+  {
+   "check": "fibroids 390: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 390: the embolization section's button returns to the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: How it works opens #embolization and shows it",
+   "ok": true,
+   "detail": "[0, 14]"
+  },
+  {
+   "check": "fibroids 1280: How it works goes to the embolization section",
+   "ok": true,
+   "detail": "embolization"
+  },
+  {
+   "check": "fibroids 1280: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 1098.0625, 'y': 836, 'width': 157.9375, 'height': 50}"
+  },
+  {
+   "check": "fibroids 1280: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "fibroids 1280: the embolization section's button returns to the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: How it works opens #how-it-works and shows it",
+   "ok": true,
+   "detail": "[0, 0]"
+  },
+  {
+   "check": "pae 390: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 16, 'y': 780, 'width': 358, 'height': 50}"
+  },
+  {
+   "check": "pae 390: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 390: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: How it works opens #how-it-works and shows it",
+   "ok": true,
+   "detail": "[0, 0]"
+  },
+  {
+   "check": "pae 1280: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 1098.0625, 'y': 836, 'width': 157.9375, 'height': 50}"
+  },
+  {
+   "check": "pae 1280: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pae 1280: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: How it works opens #how-it-works and shows it",
+   "ok": true,
+   "detail": "[0, 0]"
+  },
+  {
+   "check": "gae 390: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 16, 'y': 780, 'width': 358, 'height': 50}"
+  },
+  {
+   "check": "gae 390: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 390: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: headline, then the finder, then the education",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: one benefit sentence with a How it works link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: How it works opens #how-it-works and shows it",
+   "ok": true,
+   "detail": "[0, 0]"
+  },
+  {
+   "check": "gae 1280: one Find a doctor bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: bar hidden while the finder is visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: bar shows once the finder scrolls away",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: bar at least 44 px tall and inside the screen",
+   "ok": true,
+   "detail": "{'x': 1098.0625, 'y': 836, 'width': 157.9375, 'height': 50}"
+  },
+  {
+   "check": "gae 1280: tapping the bar puts focus in the ZIP box",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gae 1280: and the bar hides again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "/ufe/ forwards to /fibroids/",
+   "ok": true,
+   "detail": "http://localhost:8792/fibroids/"
+  },
+  {
+   "check": "/ufe/ forwarding lands on the fibroid finder",
+   "ok": true,
+   "detail": "http://localhost:8792/fibroids/?zip=60611&r=25"
+  },
+  {
+   "check": "_redirects sends /ufe to /fibroids/ with a 301",
+   "ok": true,
+   "detail": "[['/ufe', '/fibroids/', '301'], ['/ufe/', '/fibroids/', '301'], ['/claim', '/report/', '301'], ['/claim/', '/report/', '301']]"
+  },
+  {
+   "check": "_redirects sends /ufe/ to /fibroids/ with a 301",
+   "ok": true,
+   "detail": "[['/ufe', '/fibroids/', '301'], ['/ufe/', '/fibroids/', '301'], ['/claim', '/report/', '301'], ['/claim/', '/report/', '301']]"
+  },
+  {
+   "check": "sitemap no longer lists /ufe/",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

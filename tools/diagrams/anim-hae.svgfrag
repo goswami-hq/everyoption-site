@@ -1,0 +1,34 @@
+<g id="scene-hae">
+        <g id="haeAll">
+          <path class="skin" d="M-30 -40 L200 -40 L200 268 C190 312 150 336 96 336 C40 336 -10 306 -30 270 Z"/>
+          <path class="skin" d="M430 -40 L200 -40 L200 268 C210 312 250 336 304 336 C360 336 410 306 430 270 Z"/>
+          <ellipse class="skin-hi" cx="92" cy="214" rx="62" ry="44" transform="rotate(12 92 214)"/>
+          <ellipse class="skin-hi" cx="308" cy="214" rx="62" ry="44" transform="rotate(-12 308 214)"/>
+          <path class="crease" d="M200 -40 L200 268"/>
+          <path class="organ" d="M150 -40 L250 -40 L250 196 C250 236 226 262 212 280 L188 280 C174 262 150 236 150 196 Z"/>
+          <path class="light" d="M192 -40 L208 -40 L208 176 Q200 186 192 176 Z"/>
+          <path class="vessel" d="M150 -24 C140 60 140 140 168 208"/><path class="vessel" d="M250 -24 C260 60 260 140 232 208"/>
+          <circle id="haeGlow" class="glow" cx="200" cy="228" r="84"/>
+          <g id="haeCush">
+            <ellipse class="fib" cx="200" cy="228" rx="42" ry="34"/>
+            <ellipse id="haeCushH" class="fib-hot" cx="200" cy="228" rx="42" ry="34"/>
+            <path class="swirl" d="M176 220 C184 202 216 200 224 218"/>
+            <g id="haeNeo">
+              <path id="haeNeo1" class="neo" d="M168 212 C174 226 176 238 182 250"/>
+              <path id="haeNeo2" class="neo" d="M200 196 C196 214 204 236 200 258"/>
+              <path id="haeNeo3" class="neo" d="M232 212 C226 226 224 238 218 250"/>
+            </g>
+          </g>
+          <path id="haeBrL" class="branch" d="M150 -24 C140 60 140 140 168 208"/>
+          <path id="haeBrR" class="branch" d="M250 -24 C260 60 260 140 232 208"/>
+          <g class="flow"></g>
+          <path id="haeCathL" class="cath" d="M150 -24 C143 34 141 64 142 84"/>
+          <path id="haeCathR" class="cath" d="M250 -24 C257 34 259 64 258 84"/>
+          <g class="beads"></g><g id="haeCoils"></g>
+        </g>
+        <g id="haeDrops"></g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M290 196 L240 222"/><text class="label" x="294" y="200">Hemorrhoid</text>
+          <path class="leader" d="M272 70 L262 74"/><text class="label" x="276" y="74">Artery</text>
+        </g>
+      </g>

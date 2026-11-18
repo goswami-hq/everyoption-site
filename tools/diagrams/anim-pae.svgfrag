@@ -1,0 +1,24 @@
+<g id="scene-pae">
+        <path class="vessel" d="M200 -24 L200 22 C160 40 60 80 45 180 C40 230 50 270 70 335"/>
+        <path class="vessel" d="M200 22 C240 40 340 80 355 180 C360 230 350 270 330 335"/>
+        <clipPath id="paeClip"><path d="M200 42 C262 42 286 82 280 122 C274 158 240 178 200 178 C160 178 126 158 120 122 C114 82 138 42 200 42 Z"/></clipPath>
+        <path class="bladder" d="M200 42 C262 42 286 82 280 122 C274 158 240 178 200 178 C160 178 126 158 120 122 C114 82 138 42 200 42 Z"/>
+        <g clip-path="url(#paeClip)"><rect id="paeFluid" class="urine" x="110" y="40" width="180" height="150" opacity=".55"/></g>
+        <text x="200" y="104" text-anchor="middle" font-size="15" fill="#5c4c22" font-family="var(--sans)">Bladder</text>
+        <g id="paeGland">
+          <circle id="paeGlow" class="glow" cx="200" cy="228" r="112"/>
+          <ellipse class="organ" cx="200" cy="228" rx="74" ry="56"/>
+          <ellipse id="paeHot" class="hot" cx="200" cy="228" rx="74" ry="56"/>
+        </g>
+        <path id="paeUrethra" class="urethra" d="M200 176 L200 350"/>
+        <path id="paeBrL" class="branch" d="M45 215 C60 285 105 285 156 234"/>
+        <path id="paeBrR" class="branch" d="M355 215 C340 285 295 285 244 234"/>
+        <g class="flow"></g><g id="paeUrine"></g>
+        <path id="paeCathL" class="cath" d="M200 -24 L200 22 C160 40 60 80 45 180 L45 215 C60 285 105 285 150 240"/>
+        <path id="paeCathR" class="cath" d="M200 -24 L200 22 C240 40 340 80 355 180 L355 215 C340 285 295 285 250 240"/>
+        <g class="beads"></g>
+        <g class="labels" aria-hidden="true">
+          <path class="leader" d="M252 326 L236 292"/><text class="label" x="252" y="342">Prostate</text>
+          <text class="label" x="312" y="40">Artery</text>
+        </g>
+      </g>

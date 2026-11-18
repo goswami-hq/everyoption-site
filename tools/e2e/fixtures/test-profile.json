@@ -1,0 +1,35 @@
+{
+ "_note": "Job 16 test profile (his words, 2026-11-02: \"add a test confirmed profile so we can see what everything looks like, put it in zip code 60605\"). Made up: the NPI fails the check digit, the streets are invented, the phones are fictional 555-01xx numbers. finder.js loads this file only when the host is localhost or ends in .pages.dev, never on everyoptionmd.com. Remove before launch (checklist in ai-hq ops/approvals/posts/2026-10-29-every-option-launch.md).",
+ "people": [
+  {
+   "npi": "1999999990",
+   "name": "Sample Doctor, MD (test listing)",
+   "badge": "verified",
+   "procedures": ["ufe", "pae", "gae"],
+   "confirmed": true,
+   "practice": "Sample Interventional Radiology",
+   "city": "Chicago",
+   "state": "IL",
+   "city_label": "",
+   "phone": "(312) 555-0142",
+   "url": "",
+   "lat": 41.8685,
+   "lon": -87.6245,
+   "photo": "/assets/test-avatar.svg",
+   "blurbs": {
+    "ufe": "Test note: I perform uterine fibroid embolization in Chicago, Evanston, and Naperville. Call the office to ask whether it fits you.",
+    "pae": "Test note: I perform prostate artery embolization at all three offices. Call to ask whether it fits you.",
+    "gae": "Test note: I perform genicular artery embolization for knee pain. Call the office to ask whether it fits you."
+   },
+   "insurances": ["Aetna", "Blue Cross Blue Shield", "Medicare", "UnitedHealthcare"],
+   "insurance_other": "Most local plans (test)",
+   "insurance_confirm": true,
+   "booking_url": "https://example.com/",
+   "offices": [
+    {"practice": "Sample Interventional Radiology", "street": "1 Test Plaza, Suite 100", "city": "Chicago", "state": "IL", "zip": "60605", "phone": "(312) 555-0142", "lat": 41.8685, "lon": -87.6245, "geo": "address"},
+    {"practice": "Sample IR North", "street": "2 Example Avenue", "city": "Evanston", "state": "IL", "zip": "60201", "phone": "(847) 555-0123", "lat": 42.0551, "lon": -87.6889, "geo": "address"},
+    {"practice": "Sample IR West", "street": "3 Placeholder Court", "city": "Naperville", "state": "IL", "zip": "60540", "phone": "(630) 555-0187", "lat": 41.7671, "lon": -88.1468, "geo": "address"}
+   ]
+  }
+ ]
+}

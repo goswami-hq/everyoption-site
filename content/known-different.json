@@ -1,0 +1,4 @@
+{
+ "what": "Job 38 (2026-11-05): people the directory may show under one exact name, city and state, because the federal records show they are different people. tools/build.py fails when two shown people share an exact name, city and state and their NPIs are not listed together here. Add a pair only with the evidence in why.",
+ "pairs": []
+}
