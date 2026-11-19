@@ -12,6 +12,7 @@ NAME = "Abhishek Goswami"
 DEGREE = "MD"
 SPECIALTY = "interventional radiology"
 TITLE = "Founder and Medical Director"
+CONTACT = "accounts@everyoptionmd.com"   # the site's general contact (terms); his blurb, HQ chat 2026-11-19 08:54 CT
 ANCHOR = "/about/#abhishek-goswami"   # his own entry under "Our reviewers"; the section is /about/#reviewers
 
 
@@ -53,4 +54,5 @@ def about_section():
 <div class="reviewer" id="abhishek-goswami">
 <p class="reviewer-name"><strong>{html.escape(NAME)}, {DEGREE}</strong><br>{TITLE}</p>
 <ul class="reviewer-training">{training}</ul>
-</div>"""
+</div>
+<p>Interested in being a reviewer? Reach out to us at <a href="mailto:{CONTACT}?subject=Reviewer">{CONTACT}</a>.</p>"""
