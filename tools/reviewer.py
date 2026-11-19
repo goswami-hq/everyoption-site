@@ -52,7 +52,7 @@ def about_section():
 <p>A physician reviews every condition page against current medical research. We check each page against its sources before we publish it and again at every revision.</p>
 <h3>Our reviewers</h3>
 <div class="reviewer" id="abhishek-goswami">
-<p class="reviewer-name"><strong>{html.escape(NAME)}, {DEGREE}</strong><br>{TITLE}</p>
+<p class="reviewer-name"><strong>{html.escape(NAME)}, {DEGREE}</strong><br>{TITLE} at Every Option</p>
 <ul class="reviewer-training">{training}</ul>
 </div>
 <p>Interested in being a reviewer? Reach out to us at <a href="mailto:{CONTACT}?subject=Reviewer">{CONTACT}</a>.</p>"""
