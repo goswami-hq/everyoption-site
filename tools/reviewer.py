@@ -22,9 +22,10 @@ def long_date(iso):
 
 
 def line(iso):
-    """One small line under the H1: "Medically reviewed by <name, MD>, interventional radiology · <date>"."""
+    """One small line under the H1: "Reviewed by <name, MD>, interventional radiology · <date>"."""
+    # "Reviewed by", not "Medically reviewed by": his choice, HQ chat 2026-11-19 09:00 CT ("less presumptuous to other physicians")
     who = f'<a href="{ANCHOR}">{html.escape(NAME)}, {DEGREE}</a>'
-    return (f'<p class="reviewed-by small muted">Medically reviewed by {who}, {SPECIALTY} '
+    return (f'<p class="reviewed-by small muted">Reviewed by {who}, {SPECIALTY} '
             f'<span aria-hidden="true">·</span> <time datetime="{html.escape(iso)}">{long_date(iso)}</time></p>')
 
 
