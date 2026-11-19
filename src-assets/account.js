@@ -959,8 +959,12 @@
   }
   function refreshOwner(ul) { return api("GET", "owner/invites").then(function (j) { if (j.ok) ownerList(j.invites || [], ul); }); }
   function ownerPanel(me) {
-    var npi = el("input", { id: "o-npi", name: "npi", inputmode: "numeric", maxlength: "10", autocomplete: "off" });
+    // HQ chat 2026-11-19 (his words: "The most annoying step is looking up NPI in a different tab"): one box takes a
+    // name or an NPI. A name lists matches from Every Option and the NPI Registry; tapping one looks it up as an NPI.
+    var npi = el("input", { id: "o-npi", name: "npi", maxlength: "80", autocomplete: "off", autocapitalize: "words", spellcheck: "false" });
+    var ost = stateSelect("o-state", "");
     var look = el("button", { type: "button", "class": "secondary", id: "o-check", text: "Look up" });
+    var picks = el("div", { id: "o-results", "aria-live": "polite" });
     var who = el("div", { id: "o-who", "aria-live": "polite" });
     var full = el("input", { type: "radio", name: "o-kind", id: "o-full", value: "full", checked: true });
     var part = el("input", { type: "radio", name: "o-kind", id: "o-part", value: "published" });
@@ -975,14 +979,42 @@
     var ul = el("ul", { "class": "o-list", id: "o-list" });
     var checked = null;
     function reset() { checked = null; who.innerHTML = ""; go.disabled = true; made.innerHTML = ""; }
-    npi.addEventListener("input", reset);
+    npi.addEventListener("input", function () { reset(); picks.innerHTML = ""; });
+    npi.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); look.click(); } });
     function kind() { return part.checked ? "published" : "full"; }
     [full, part].forEach(function (r) { r.addEventListener("change", function () {
       emailRow.hidden = kind() !== "published"; trainee.disabled = kind() === "published"; if (trainee.disabled) trainee.checked = false;
     }); });
+    function byName(q) {
+      if (!/[A-Za-z\u00C0-\u024F]{1,}[\s,]+[A-Za-z\u00C0-\u024F]{2,}/.test(q)) return near("owner", "Type a first and last name, or a 10-digit NPI.", "err");
+      busy(look, true); reset(); picks.innerHTML = "";
+      api("GET", "owner/search?name=" + encodeURIComponent(q) + (ost.value ? "&state=" + ost.value : "")).then(function (j) {
+        busy(look, false);
+        if (!j.ok) return near("owner", words(j), "err");
+        near("owner", "", "");
+        if (j.registry === "unavailable") picks.appendChild(el("p", { "class": "notice small", text: "The NPI Registry is not answering right now, so only doctors already on Every Option are shown." }));
+        if (!j.results.length) return picks.appendChild(el("p", { "class": "small", id: "o-none", text: "No physician found with that name" + (ost.value ? " in " + ost.value : "") + ". Check the spelling" + (ost.value ? " or try any state" : "") + "." }));
+        picks.appendChild(el("p", { "class": "small muted", text: "Tap the doctor." }));
+        picks.appendChild(el("ul", { "class": "pick", id: "o-picks" }, j.results.map(function (p) {
+          var where = [p.city && titleCase(p.city), p.state].filter(Boolean).join(", ");
+          return el("li", null, [el("button", { type: "button", "class": "pick-row", "data-npi": p.npi, onclick: function () { picks.innerHTML = ""; check(p.npi); } }, [
+            el("span", { "class": "pick-name", text: titleCase(p.name) + (p.credential ? ", " + p.credential.replace(/\./g, "") : "") }),
+            el("span", { "class": "pick-meta", text: [where, p.specialty, "NPI " + p.npi].filter(Boolean).join(" · ") }),
+            p.listed_for.length ? el("span", { "class": "pick-listed", text: "On Every Option for " + procList(p.listed_for) }) : null
+          ])]);
+        })));
+        if (j.more) picks.appendChild(el("p", { "class": "small muted", text: "More matches than shown. Pick a state to narrow it." }));
+      });
+    }
     look.addEventListener("click", function () {
-      var v = npi.value.replace(/\D/g, "");
-      if (!/^\d{10}$/.test(v)) return near("owner", "Type the 10-digit NPI.", "err");
+      var q = npi.value.trim(), digits = q.replace(/[\s-]/g, "");
+      if (/^\d+$/.test(digits)) {
+        if (!/^\d{10}$/.test(digits)) return near("owner", "An NPI has 10 digits.", "err");
+        picks.innerHTML = ""; return check(digits);
+      }
+      byName(q);
+    });
+    function check(v) {
       busy(look, true); reset();
       api("GET", "owner/check?npi=" + v).then(function (j) {
         busy(look, false);
@@ -997,10 +1029,11 @@
         lines.forEach(function (n) { who.appendChild(n); });
         go.disabled = !!j.self;
       });
-    });
+    }
     var f = el("form", { "class": "acct-form", id: "owner-form", novalidate: true }, [
       el("p", { "class": "small", text: "Only you see this box. Each link is for one doctor's NPI. It works once and lasts 7 days. You can make up to 100 a day." }),
-      field("o-npi", "Their NPI", npi), el("div", { "class": "acct-actions" }, [look]), who,
+      el("div", { "class": "row2" }, [field("o-npi", "Their name or NPI", npi, "(first and last name)"), field("o-state", "State", ost)]),
+      el("div", { "class": "acct-actions" }, [look]), picks, who,
       el("fieldset", { id: "o-kinds" }, [el("legend", { text: "Access" }), el("div", { "class": "checks" }, [
         el("label", { "for": "o-full" }, [full, "Full access (most doctors): photo, invitations, and Confirmed by physician"]),
         el("label", { "for": "o-part" }, [part, "Partial access, to an email printed on their own page: they show under Likely performs"])])]),
