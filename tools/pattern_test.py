@@ -39,7 +39,7 @@ class PatternTest(unittest.TestCase):
         self.assertIn("chronic-pelvic-pain: simple and every-option", checked)
 
     def test_shared_title_phrasing_fails(self):
-        errs = self.site(("fibroids/every-option/index.html", "<title>UFE vs. Myomectomy vs. Hysterectomy, Compared",
+        errs = self.site(("fibroids/every-option/index.html", "<title>Uterine Fibroid Embolization vs. Myomectomy",
                           "<title>Fibroid Treatment Options Compared"))
         self.assertTrue(any("share phrasing" in e for e in errs), errs)
         self.assertTrue(any("chases the other page" in e for e in errs), errs)
