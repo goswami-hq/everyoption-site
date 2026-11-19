@@ -1148,3 +1148,6 @@ header.site nav.top { margin-left: auto; }
 .reviewer-name { margin-bottom: 0.25rem; }
 .reviewer ul.reviewer-training { list-style: none; padding: 0; padding-inline-start: 0; margin: 0; }
 .reviewer-training li { margin: 0.15rem 0; }
+
+/* city-page card: the doctor, procedure and city in one sentence (lib/cities.mjs doesLine, his yes 2026-11-19) */
+.card .does { margin: 0.35rem 0 0; }
