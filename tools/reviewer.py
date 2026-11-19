@@ -31,19 +31,22 @@ def person(origin):
     """schema.org Person matching the visible line (a Physician type describes a practice, so Person with credentials)."""
     return {"@type": "Person", "@id": origin + ANCHOR, "name": NAME, "honorificSuffix": DEGREE, "jobTitle": TITLE,
             "knowsAbout": "Interventional radiology", "url": origin + ANCHOR,
+            "alumniOf": [{"@type": "CollegeOrUniversity", "name": school} for _, school, _ in TRAINING],
             "worksFor": {"@id": origin + "/#organization"}}
 
 
-TRAINING = ["Medical school, Emory University",
-            "Radiology residency, University of Chicago",
-            "Interventional radiology fellowship, Northwestern University"]
+# (label, school, field); his wording, HQ chat 2026-11-19 08:53 CT
+TRAINING = [("Medical school", "Emory University", ""),
+            ("Residency", "University of Chicago", "Radiology"),
+            ("Fellowship", "Northwestern University", "Interventional Radiology")]
 
 
 def about_section():
     """The reviewer section on the About page, the target of every line's link. Wording from his notes, HQ chat 2026-11-19
     08:35 CT: a physician reviews against current medical research; checked against sources before publishing and at every
     revision; an "Our reviewers" list with him as the only reviewer for now; each training line on its own line."""
-    training = "".join(f"<li>{html.escape(t)}</li>" for t in TRAINING)
+    training = "".join(f"<li>{html.escape(label)}: {html.escape(school)}" + (f" ({html.escape(field)})" if field else "") + "</li>"
+                       for label, school, field in TRAINING)
     return f"""<h2 id="reviewers">Who reviews the condition pages</h2>
 <p>A physician reviews every condition page against current medical research. We check each page against its sources before we publish it and again at every revision.</p>
 <h3>Our reviewers</h3>
