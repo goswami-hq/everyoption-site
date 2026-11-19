@@ -31,12 +31,13 @@ const factLines = (html) => {
 };
 const num = (s, re) => { const m = re.exec(s); assert.ok(m, `${re} in "${s}"`); return m[1]; };
 
-test("facts block: 4 to 6 standalone lines under the answer, and every number matches a recount of the card list", async () => {
+// His pick A (HQ chat 2026-11-19 09:44 CT): two lines that the answer does not already say, below the list, under
+// "About this list". The towns, practices, confirmed and other-procedure lines were dropped as repeats.
+test("facts block: 2 standalone lines below the doctor list, folded, and every number matches a recount of the card list", async () => {
   for (const m of CITIES.metros.ufe) {
     const html = await get(`/fibroids/doctors/${m.slug}/`), lines = factLines(html), list = metroList(LISTS.ufe, m);
-    assert.ok(lines.length >= 4 && lines.length <= 6, `${m.slug}: ${lines.length} lines`);
-    assert.ok(html.indexOf('<p class="answer">') < html.indexOf('<ul class="facts"'), "under the answer");
-    assert.ok(html.indexOf('<ul class="facts"') < html.indexOf("<h2>Which doctors"), "above the list");
+    assert.equal(lines.length, 2, `${m.slug}: ${lines.length} lines`);
+    assert.ok(html.lastIndexOf('<li class="card') < html.indexOf('<details class="facts-more"><summary>About this list</summary><ul class="facts"'), "below the list, folded");
     // recount, independent of the page's own code: from each center, every doctor's nearest office
     const d = LISTS.ufe.filter((p) => !p.test).map((p) => {
       const spots = p.offices && p.offices.some((o) => o.lat != null) ? p.offices.filter((o) => o.lat != null) : (p.lat != null ? [p] : []);
@@ -44,23 +45,13 @@ test("facts block: 4 to 6 standalone lines under the answer, and every number ma
       return ds.length ? Math.min(...ds) : Infinity;
     }).filter((x) => x <= 25);
     assert.equal(d.length, npis(html).length, `${m.slug}: recount matches the cards`);
-    const [a, b, c, e, f] = lines;
+    const [a, b] = lines;
     assert.match(a, /^As of October 29, 2026, we list /, "first line carries the listings date");
     assert.equal(+num(a, /we list (\d+) doctors? for UFE within 10 miles/), d.filter((x) => x <= 10).length, `${m.slug}: within 10`);
     assert.equal(+num(a, /, and (\d+) within 25 miles\.$/), d.length, `${m.slug}: within 25`);
     const near = Math.min(...d), said = num(b, /is (under 1 mile|\d+ miles?) from ZIP/);
     assert.equal(said, near < 1 ? "under 1 mile" : `${Math.round(near)} mile${Math.round(near) === 1 ? "" : "s"}`, `${m.slug}: nearest`);
-    const towns = new Set(npis(html).map((n) => town(list.find((p) => p.npi === n)))).size;
-    if (towns === 1) assert.match(c, /all work in one town/, `${m.slug}: one town`);
-    else assert.equal(+num(c, /work in (\d+) towns/), towns, `${m.slug}: towns`);
-    const practices = new Set(list.map((p) => ((p.lead ? p.lead.practice : p.practice) || "").trim().toLowerCase().replace(/\s+/g, " ")).filter(Boolean));
-    assert.equal(+num(c, /at (\d+) separate practices?\./), practices.size, `${m.slug}: practices`);
     for (const p of list) for (const name of [p.practice, p.lead && p.lead.practice]) if (name && name.length > 3) assert.ok(!lines.join(" ").includes(name), `${m.slug}: no practice names (${name})`);
-    assert.match(e, new RegExp(`^None of the ${d.length} doctors listed for UFE .* confirmed it on Every Option yet\\.$`), `${m.slug}: confirmed 0`);
-    const others = ALL.filter((k) => k !== "ufe").map((k) => [k, metroList(LISTS[k], m).length]).filter(([, n]) => n);
-    if (others.length) {
-      for (const [k, n] of others) assert.ok(f.includes(`${n} doctor${n === 1 ? "" : "s"} for ${PROC_SHORT[k]}`), `${m.slug}: ${k} ${n} in "${f}"`);
-    } else assert.equal(f, undefined);
     for (const l of lines) {
       assert.match(l, /^[A-Z].*\.$/, `${m.slug}: a whole sentence: ${l}`);
       assert.ok(l.split(/\s+/).length <= 30, `${m.slug}: short: ${l}`);
@@ -76,7 +67,8 @@ test("town groups: 5+ towns grouped with jump links, every card once, nearest fi
     const towns = new Set(list.map(town)), got = npis(html);
     assert.equal(new Set(got).size, got.length, `${m.slug}: no card twice`);
     assert.deepEqual([...got].sort(), list.map((p) => p.npi).sort(), `${m.slug}: every card`);
-    assert.doesNotMatch(html, /<details|\shidden[\s>]|display:\s*none/, "JS off: nothing folded away");
+    // the doctor cards: nothing folded away with JS off (only the two-line facts note below the list is folded, 2026-11-19)
+    assert.doesNotMatch(html.replace(/<details class="facts-more">[\s\S]*?<\/details>/, ""), /<details|\shidden[\s>]|display:\s*none/, "JS off: nothing folded away");
     if (towns.size < GROUP_AT) {
       assert.doesNotMatch(html, /town-group/, `${m.slug}: one list`);
       assert.deepEqual(got, list.map((p) => p.npi), `${m.slug}: nearest first`);
@@ -112,7 +104,7 @@ test("Confirmed stays above every town group: the 0 box today, and a confirmed d
   assert.ok(tierA > 0 && tierA < out.indexOf('<div class="town-group">'), "Confirmed tier above the groups");
   assert.equal(npis(out).filter((n) => n === pick.npi).length, 1, "the confirmed doctor shows once, in Confirmed");
   assert.equal(npis(out)[0], pick.npi);
-  assert.ok(factLines(out)[3].startsWith(`1 of the ${list.length} doctors listed for UFE near New York City has confirmed it`));
+  assert.ok(out.includes("One confirmed it themselves"), "the answer counts the confirmed doctor");
 });
 
 test("less shared text: one sentence and the fibroid link; the blank line is one sentence; no clinical claim added", async () => {
