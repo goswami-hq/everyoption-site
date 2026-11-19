@@ -17,6 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "conditions"
 
 import registry, embolization
+import reviewer   # the reviewer line and Person (tools/reviewer.py), his yes 2026-11-19
 import trail as registry_names   # the two page names (tools/trail.py)
 COVERAGE = registry.coverage()   # a procedure's declared coverage page, content/procedures.json "parts"
 PROCEDURES = registry.lib_procedures()   # key, names and coverage per listed procedure (tools/options.py, tools/pattern.py)
@@ -276,16 +277,8 @@ def schema(c, url, origin, publisher):
                   "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
         "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"},
     }
-    if c.get("author_name"):
-        # Off until he decides (his words, 2026-11-01: "if we truly need a name, I can figure out how to put my name on
-        # it"). schema.org's "Physician" type describes a practice, so a person goes in as Person with credentials.
-        who = {"@type": "Person", "name": c["author_name"]}
-        if c.get("author_credentials"):
-            who["honorificSuffix"] = c["author_credentials"]
-        if c.get("author_role"):
-            who["jobTitle"] = c["author_role"]
-        page["reviewedBy"] = who
-        page["author"] = who
+    # his name as reviewer (his yes, HQ chat 2026-11-19 07:20 CT), the same words as the visible line
+    page["reviewedBy"] = reviewer.person(origin)
     return ld(page)
 
 
@@ -307,7 +300,7 @@ def hero(c, finder_fn):
         # (walkthrough finding 1) when it has an every-option page
         cmp = (f'<p class="hero-compare"><a href="{html.escape(c["options_page"], quote=True)}">{html.escape(registry_names.DEEP)}</a></p>'
                if c.get("options_page") else "")
-        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{hero_paras(c)}{cmp}</section>'
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{reviewer.line(c["reviewed"])}{hero_paras(c)}{cmp}</section>'
     # a scope note under the finder (agreed list item 13, 2026-11-07: the knee finder covers the knee only)
     note = {"note": c["finder_note"]} if c.get("finder_note") else {}
     # compare: the condition's every-option page, on the first screen; a condition with none (pelvic) has no link
@@ -318,8 +311,8 @@ def hero(c, finder_fn):
     # job platform-web-design-0011 (his "Yes" 2026-11-14 08:40 CT): `intro_after_finder` puts the finder straight under
     # the H1, as on fibroids, prostate and knee, and the intro paragraphs word for word right below it (hemorrhoids)
     if c.get("intro_after_finder"):
-        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{find}{hero_paras(c)}</section>'
-    return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{hero_paras(c)}{find}</section>'
+        return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{reviewer.line(c["reviewed"])}{find}{hero_paras(c)}</section>'
+    return f'<section class="hero-cond"><h1>{html.escape(c["h1"])}</h1>{reviewer.line(c["reviewed"])}{hero_paras(c)}{find}</section>'
 
 
 def body(c, diagram_fn, e, top=""):
@@ -338,11 +331,7 @@ def body(c, diagram_fn, e, top=""):
     learn = "".join(section(refs, s) for s in c["sections"] if s.get("place") not in ("lead", "box")) + faq(refs, c)
     parts.append(f'<section id="learn"><h2>{html.escape(c["learn_heading"])}</h2>{learn}{{REFS}}</section>')
     parts = [p.replace("{REFS}", references(refs)) for p in parts]
-    author = (f'<p class="small muted">Reviewed by {e(c["author_name"])}'
-              f'{", " + e(c["author_credentials"]) if c.get("author_credentials") else ""}.</p>' if c.get("author_name") else "")
-    import datetime
-    d = datetime.date.fromisoformat(c["reviewed"])
-    parts.append(f'<p class="small muted">Page last reviewed {d.strftime("%B")} {d.day}, {d.year}.</p>{author}')
+    # the reviewed date moved under the H1 as the reviewer line (his yes, HQ chat 2026-11-19 07:20 CT)
     unused = [r["key"] for r in c["refs"] if r["key"] not in refs.order]
     if unused:
         raise ValueError(f"{c['slug']}: references listed but never cited: {unused}")

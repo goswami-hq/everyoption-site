@@ -16,6 +16,7 @@ import legal
 import listings_check
 import options
 import pattern
+import reviewer   # About page reviewer section, his yes 2026-11-19
 import registry
 import procedures_sql
 import trail
@@ -501,6 +502,7 @@ def about():
 <p class="lede">Every Option explains every treatment for common conditions, including ones without surgery, and lists doctors near you who perform them.</p>
 <h2>Who runs this</h2>
 <p>{e(DISCLOSURE)}</p>
+{reviewer.about_section()}
 <h2>What is interventional radiology?</h2>
 {"".join(f"<p>{e(t)}</p>" for t in IR_TEXT)}
 <p class="small muted">Sources:</p><ol class="refs small">{refs}</ol>

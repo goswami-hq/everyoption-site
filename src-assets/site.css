@@ -1140,3 +1140,11 @@ header.site nav.top { margin-left: auto; }
 @media (min-width: 760px) and (max-width: 1099px) { .watch .chans { grid-template-columns: minmax(0, 1fr); } }
 .videos-page .lede { max-width: 25em; }   /* wraps the same before and after the web font loads (no shift) */
 @media (max-width: 559px) { .watch-compact .chans { grid-template-columns: repeat(2, minmax(0, 1fr)); } .watch-compact .chan-what { display: none; } .watch-compact .chan { min-height: 52px; } }
+
+/* reviewer line under each condition page's H1 (tools/reviewer.py, his yes 2026-11-19) */
+.reviewed-by { margin: 0.25rem 0 0.75rem; }
+.reviewed-by a { color: inherit; }
+.reviewer { margin: 0.5rem 0 1rem; }
+.reviewer-name { margin-bottom: 0.25rem; }
+.reviewer ul.reviewer-training { list-style: none; padding: 0; padding-inline-start: 0; margin: 0; }
+.reviewer-training li { margin: 0.15rem 0; }

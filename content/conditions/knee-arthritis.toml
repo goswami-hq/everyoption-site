@@ -18,7 +18,7 @@ color = "gae"                  # green, the same color as the GAE finder
 finder = "gae"                 # the finder this page leads to: today's GAE list, knee only
 diagram = "gae"                # tools/diagrams/anim-gae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
-reviewed = "2026-11-05"
+reviewed = "2026-11-12"
 condition_name = "Osteoarthritis of the knee"
 condition_alt = "Knee osteoarthritis"
 

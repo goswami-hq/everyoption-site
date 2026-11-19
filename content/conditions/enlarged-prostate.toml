@@ -15,7 +15,7 @@ color = "pae"                  # blue, the same color as the PAE finder
 finder = "pae"                 # the finder this page leads to
 diagram = "pae"                # tools/diagrams/anim-pae.svgfrag ...
 diagram_at = "embolization"    # ... shown inside this option
-reviewed = "2026-11-05"
+reviewed = "2026-11-12"
 condition_name = "Benign prostatic hyperplasia"
 condition_alt = "Enlarged prostate"
 

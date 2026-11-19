@@ -35,6 +35,7 @@ with the option's id ("**Stenting.**" for `stent`), since that is the line the s
 """
 import datetime, html, pathlib, re, tomllib
 import condition
+import reviewer   # tools/reviewer.py, his yes 2026-11-19
 import trail
 from legal import FINDER_TERMS   # W32, job platform-launch-0005
 
@@ -450,9 +451,8 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
         sections += "".join(show(sec) for sec in extra.get(k["id"], []))
     sections += "".join(show(sec) for sec in extra.get("end", []))
     top = "".join(show(sec) for sec in extra.get("top", []))
-    when = datetime.date.fromisoformat(d["reviewed"])
     # fix B (2026-11-15): the condition's word comes from tools/trail.py, the same on every page of the condition
-    body = (trail.html_of(trail.condition(c["slug"], (trail.DEEP, None))) + trail.strip_html(c["slug"], "deep") + f'<h1>{e(d["h1"])}</h1>{peek()}'
+    body = (trail.html_of(trail.condition(c["slug"], (trail.DEEP, None))) + trail.strip_html(c["slug"], "deep") + f'<h1>{e(d["h1"])}</h1>{reviewer.line(d["reviewed"])}{peek()}'
             # The comparison and the finder button first, so the first screen on a phone reads as a comparison (the button
             # stays on it: his call 3, 2026-11-07); then the lede and the guide link.
             + (f'<p class="cta"><a class="btn" href="{finder_href}">{e(c["finder_button"])}</a></p>' if c.get("finder") else "") + (f'<p class="lede">{lede}</p>' if d["lede"] else "")
@@ -467,7 +467,7 @@ def render(c, d, f, diagram_fn, finder_href, city_hub="", city_links=""):
             f'{find_block(c, d, finder_href, city_hub, city_links)}<p class="urgent-line">{e(c["urgent"])}</p>')
     # The references fold uses the simple page's fold styling (design review 2026-11-06: it showed a bare browser arrow).
     body += f'<div class="condition deep-refs">{condition.references(refs)}</div>'
-    body += f'<p class="small muted">{e(c["not_advice"])} Page last reviewed {when.strftime("%B")} {when.day}, {when.year}.</p>'
+    body += f'<p class="small muted">{e(c["not_advice"])}</p>'   # date now in the reviewer line under the H1
     return body
 
 
@@ -504,7 +504,8 @@ def schema(c, d, origin, publisher):
             "about": {"@type": "MedicalCondition", "name": c["condition_name"],
                       **({"alternateName": c["condition_alt"]} if c.get("condition_alt") else {}),
                       "possibleTreatment": [{"@type": "MedicalTherapy", "name": o["name"]} for o in c["options"]]},
-            "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"}}
+            "publisher": {"@type": "Organization", "@id": origin + "/#organization", "name": publisher, "url": origin + "/"},
+            "reviewedBy": reviewer.person(origin)}
     crumbs = trail.condition(c["slug"], (trail.DEEP, d["path"]))
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList",
           "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": origin + u} for i, (n, u) in enumerate(crumbs, 1)]}

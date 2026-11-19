@@ -57,8 +57,8 @@ def text_limits(errs, tag, p, targets):
         errs.append(f"{tag}: no search targets (`targets`)")
     elif not has(p["title"], targets[0]):
         errs.append(f'{tag}: title does not hold its first target "{targets[0]}"')
-    if "Page last reviewed" not in p["html"]:
-        errs.append(f'{tag}: no "Page last reviewed" date')
+    if "Page last reviewed" not in p["html"] and 'class="reviewed-by' not in p["html"]:
+        errs.append(f'{tag}: no reviewed date (reviewer line or "Page last reviewed")')
 
 
 def box_errors(tag, p, c):
@@ -139,10 +139,10 @@ def simple_parts(tag, p, c, slug, deep_path):
     finder = bool(c.get("finder"))   # a condition with no doctor list (hemorrhoids) has no finder (L622)
     top = ([('"How it works" link', '<p class="find-links"><a href="#'), ("ZIP finder", 'id="zip-form"')] if finder
            else [("intro", '<p class="lede">')])
-    in_order(errs, tag, t, [("H1", "<h1>")] + top + [('"What is" box', '<section class="what-box"'),
+    # reviewer line right under the H1 (his yes, HQ chat 2026-11-19 07:20 CT; tools/reviewer.py)
+    in_order(errs, tag, t, [("H1", "<h1>"), ("reviewer line", '<p class="reviewed-by')] + top + [('"What is" box', '<section class="what-box"'),
                             ("lead option", '<section class="lead-option"'), ("other options", '<section id="options">'),
-                            ("Learn more", '<section id="learn">'), ("references", 'id="references"'),
-                            ('"Page last reviewed"', "Page last reviewed")])
+                            ("Learn more", '<section id="learn">'), ("references", 'id="references"')])
     # compare link on the first screen, beside "How it works" (walkthrough fix 1, his words 2026-11-09 "1-4 changes let's do them")
     # with no finder the link sits under the intro (hero-compare, job platform-condition-pages-0014)
     compare = None
@@ -245,12 +245,12 @@ def embo_errors(tag, t, c, deep=False):
 def deep_parts(tag, p, c, d, slug):
     errs, t = [], p["html"]
     fb = [("finder button", '<p class="cta"><a class="btn" href="/' + slug + '/#finder">')] if c.get("finder") else []
-    in_order(errs, tag, t, [("breadcrumbs", '<nav class="crumbs"'), ("H1", "<h1>"), ("at-a-glance view", 'class="glance-peek"')]
+    in_order(errs, tag, t, [("breadcrumbs", '<nav class="crumbs"'), ("H1", "<h1>"), ("reviewer line", '<p class="reviewed-by'), ("at-a-glance view", 'class="glance-peek"')]
                             # a page whose signed-off Doc has no lede shows none (pelvic, job platform-condition-pages-0023)
                             + fb + ([("lede", '<p class="lede">')] if d.get("lede") else []) + [("link to the simple page", 'class="see-every see-simple"'),
                             ("contents list", '<nav class="toc"'), ('"What is" box', '<section class="what-box"'),
                             ("glance table", '<table class="glance"')] + ([("find-a-doctor block", '<section class="find-end"')] if c.get("finder") else []) + [
-                            ("references", 'id="references"'), ('"Page last reviewed"', "Page last reviewed")])
+                            ("references", 'id="references"')])
     # caption states the slice, the link the full count (his 5B, 2026-11-09 21:42 CT)
     n, m = len(d.get("glance_peek", [])), len(d.get("glance", []))
     peek = re.search(r'<div class="glance-peek">.*?</div>', t, re.S)
