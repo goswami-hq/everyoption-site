@@ -12,7 +12,7 @@ NAME = "Abhishek Goswami"
 DEGREE = "MD"
 SPECIALTY = "interventional radiology"
 TITLE = "Founder and Medical Director"
-ANCHOR = "/about/#reviewer"
+ANCHOR = "/about/#abhishek-goswami"   # his own entry under "Our reviewers"; the section is /about/#reviewers
 
 
 def long_date(iso):
@@ -34,10 +34,20 @@ def person(origin):
             "worksFor": {"@id": origin + "/#organization"}}
 
 
+TRAINING = ["Medical school, Emory University",
+            "Radiology residency, University of Chicago",
+            "Interventional radiology fellowship, Northwestern University"]
+
+
 def about_section():
-    """The reviewer section on the About page, the target of every line's link. New patient-facing text: on the dev site
-    for his sign-off; naming the training programs is his call (open question in the wording draft)."""
-    return f"""<h2 id="reviewer">Who reviews the condition pages</h2>
-<p><strong>{html.escape(NAME)}, {DEGREE}</strong>, {TITLE}, Every Option.</p>
-<p>Medical school at Emory University. Radiology residency at the University of Chicago. Interventional radiology fellowship at Northwestern University.</p>
-<p>He checks each condition page against its sources before it goes live, and again when it changes.</p>"""
+    """The reviewer section on the About page, the target of every line's link. Wording from his notes, HQ chat 2026-11-19
+    08:35 CT: a physician reviews against current medical research; checked against sources before publishing and at every
+    revision; an "Our reviewers" list with him as the only reviewer for now; each training line on its own line."""
+    training = "".join(f"<li>{html.escape(t)}</li>" for t in TRAINING)
+    return f"""<h2 id="reviewers">Who reviews the condition pages</h2>
+<p>A physician reviews every condition page against current medical research. We check each page against its sources before we publish it and again at every revision.</p>
+<h3>Our reviewers</h3>
+<div class="reviewer" id="abhishek-goswami">
+<p class="reviewer-name"><strong>{html.escape(NAME)}, {DEGREE}</strong><br>{TITLE}</p>
+<ul class="reviewer-training">{training}</ul>
+</div>"""

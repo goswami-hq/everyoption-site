@@ -1144,3 +1144,7 @@ header.site nav.top { margin-left: auto; }
 /* reviewer line under each condition page's H1 (tools/reviewer.py, his yes 2026-11-19) */
 .reviewed-by { margin: 0.25rem 0 0.75rem; }
 .reviewed-by a { color: inherit; }
+.reviewer { margin: 0.5rem 0 1rem; }
+.reviewer-name { margin-bottom: 0.25rem; }
+.reviewer ul.reviewer-training { list-style: none; padding: 0; padding-inline-start: 0; margin: 0; }
+.reviewer-training li { margin: 0.15rem 0; }
