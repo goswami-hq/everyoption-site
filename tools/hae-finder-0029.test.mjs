@@ -47,7 +47,8 @@ test("the hemorrhoid page has the ZIP finder, its button in the lead option, kee
     const hero = page.slice(page.indexOf('<section class="hero-cond">'), page.indexOf('<div id="status"'));
     const h1 = hero.indexOf("<h1>"), find = hero.indexOf('<section class="find-first">'), terms = hero.indexOf('class="small muted find-terms"'), lede = hero.indexOf('<p class="lede">');
     assert.ok(h1 >= 0 && h1 < find && find < terms && terms < lede, `order H1, finder, terms line, intro: ${[h1, find, terms, lede]}`);
-    assert.ok(/<\/h1><section class="find-first">/.test(hero), "nothing between the H1 and the finder");
+    // 2026-11-19 (his yes, HQ chat 07:20 CT): only the reviewer line sits between the H1 and the finder
+    assert.ok(/<\/h1><p class="reviewed-by[^>]*>.*?<\/p><section class="find-first">/.test(hero), "only the reviewer line between the H1 and the finder");
     assert.ok(/<\/section><p class="lede">Rectal bleeding[^<]*<\/p><p class="lede">Hemorrhoids have multiple treatments available\.[^<]*<\/p><\/section>$/.test(hero), "the two paragraphs right below the finder, closing the first screen");
   }
   assert.match(page, /Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery\. It treats bleeding hemorrhoids\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/hemorrhoids\/every-option\/">Deep dive, every option<\/a><\/p>/);

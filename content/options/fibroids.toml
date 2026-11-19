@@ -4,7 +4,7 @@
 slug = "fibroids"
 path = "/fibroids/every-option/"
 abstract_label = false   # his yes 2026-11-10 21:29 CT, one rule with hemorrhoids; `read` in the facts file keeps the record
-reviewed = "2026-11-05"
+reviewed = "2026-11-12"
 # Search targets: the comparisons (pattern: docs/condition-pattern.md). The simple page owns "fibroid treatment options".
 targets = ["ufe vs myomectomy", "myomectomy vs hysterectomy", "ufe vs hysterectomy", "fibroid medication", "best treatment for fibroids", "ufe recovery time", "myomectomy recovery time"]
 title = "UFE vs. Myomectomy vs. Hysterectomy, Compared | Every Option"

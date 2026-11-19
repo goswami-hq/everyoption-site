@@ -208,7 +208,7 @@ test("sitemaps: an index of one file per page type; drafts, /account/ and /repor
   for (const f of ["sitemap-pages.xml", "sitemap-cities.xml", "sitemap-doctors.xml"]) assert.ok(idx.includes(`https://everyoptionmd.com/${f}`), f);
   assert.match(read("robots.txt"), /Sitemap: https:\/\/everyoptionmd\.com\/sitemap\.xml/);
   const pages = read("sitemap-pages.xml");
-  assert.ok(pages.includes("<loc>https://everyoptionmd.com/fibroids/</loc><lastmod>2026-11-02</lastmod>"), "fibroids reviewed date");
+  assert.ok(pages.includes("<loc>https://everyoptionmd.com/fibroids/</loc><lastmod>2026-11-12</lastmod>"), "fibroids reviewed date");
   for (const u of ["/account/", "/report/"]) assert.ok(!pages.includes(`com${u}<`), u);
   for (const u of ["/fibroids/", "/enlarged-prostate/", "/knee-arthritis/", "/hemorrhoids/", "/chronic-pelvic-pain/"]) assert.ok(pages.includes(`com${u}<`), u);   // indexed at launch
   const city = [...read("sitemap-cities.xml").matchAll(/<loc>https:\/\/everyoptionmd\.com([^<]*)<\/loc><lastmod>2026-10-29<\/lastmod>/g)].map((m) => m[1]);
