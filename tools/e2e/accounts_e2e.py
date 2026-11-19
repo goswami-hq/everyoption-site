@@ -1432,6 +1432,17 @@ def owner_run(cfg):
             lcheck("owner: hand-edit `owner` on his NPI succeeds", hand("--yes", "owner", npi) in (0, 3))
             pg.reload(); pg.wait_for_selector("#owner", timeout=30000)
             lcheck("owner: the owner box shows once the role is set", pg.is_visible("#owner-form"))
+            # HQ chat 2026-11-19 (his words: "The most annoying step is looking up NPI in a different tab"): by name.
+            step("4a find the made-up doctor by name: matches list with their NPIs; a tap looks it up")
+            full_a = ("Ann " if local else "") + names[FIX_A]
+            pg.fill("#o-npi", full_a); pg.press("#o-npi", "Enter"); pg.wait_for_selector("#o-picks, #o-none", timeout=30000)
+            lcheck("owner: a name search lists the doctor with the NPI", pg.locator(f'#o-picks [data-npi="{FIX_A}"]').count() == 1, pg.inner_text("#o-results"))
+            oshot(pg, "owner-0-name-search")
+            if pg.locator(f'#o-picks [data-npi="{FIX_A}"]').count():
+                pg.click(f'#o-picks [data-npi="{FIX_A}"]'); pg.wait_for_selector("#o-name", timeout=30000)
+                lcheck("owner: tapping a match looks up that NPI", f"NPI {FIX_A}" in pg.inner_text("#o-name") and pg.is_enabled("#o-go"), pg.inner_text("#o-name"))
+                lcheck("owner: the match list closes after the tap", pg.locator("#o-picks").count() == 0)
+            pg.fill("#o-npi", "")
             step("4 a full-access link for a made-up NPI: name first, then the link once, with Copy and Share")
             pg.fill("#o-npi", FIX_A); pg.click("#o-check"); pg.wait_for_selector("#o-name", timeout=30000)
             lcheck("owner: the registry name shows before he confirms", names[FIX_A].lower() in pg.inner_text("#o-name").lower(), pg.inner_text("#o-name"))

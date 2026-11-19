@@ -273,3 +273,22 @@ test("the doctor box lists its links with status, newest first, and shows no lin
   assert.doesNotMatch(JSON.stringify(sent), HEX64);
   void a;
 });
+
+// HQ chat 2026-11-19 10:02 CT (his words: "The most annoying step is looking up NPI in a different tab"): the owner box
+// finds a doctor by name. Owner only; same results as sign-up's search; counted against owner_check, not the IP limit.
+test("owner search by name: owner only, finds the registry doctor with the NPI, and is not held to the IP look-up limit", async () => {
+  const w = world();
+  const gil = await owner(w);
+  const ann = await w.full(ANN, EMAIL[ANN]);
+  const r = await gil.get("owner/search?name=" + encodeURIComponent("Cara Newdoc"));
+  assert.equal(r.status, 200, JSON.stringify(r.body));
+  const hit = r.body.results.find((p) => p.npi === CARA);
+  assert.ok(hit, JSON.stringify(r.body)); assert.match(hit.name.toLowerCase(), /cara newdoc/);
+  const pub = (await w.client("10.10.7.7").get("search?name=" + encodeURIComponent("Cara Newdoc"))).body;
+  assert.deepEqual(r.body.results.map((p) => p.npi), pub.results.map((p) => p.npi), "same results as sign-up's search");
+  const no = await ann.get("owner/search?name=Cara+Newdoc");
+  assert.equal(no.status, 403); assert.equal(no.body.error, "owner_only");
+  assert.equal((await w.client("10.10.8.8").get("owner/search?name=Cara+Newdoc")).status, 401);
+  assert.equal((await gil.get("owner/search?name=x")).status, 400);
+  for (let i = 0; i < 130; i++) assert.equal((await gil.get("owner/search?name=Cara+Newdoc")).status, 200, `search ${i}`);
+});
