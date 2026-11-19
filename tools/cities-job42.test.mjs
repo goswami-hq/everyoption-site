@@ -84,7 +84,7 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.match(r.html, /<a href="\/fibroids\/">Read about your fibroid treatment options<\/a>/);
     assert.match(r.html, /uterine fibroid embolization \(UFE\)/); assert.match(r.html, /less invasive/);
     assert.match(r.html, /"@type":"BreadcrumbList"/); assert.match(r.html, /<nav class="crumbs"/);
-    assert.match(r.html, /<h1>Who does fibroid embolization \(UFE\) (near|in) /);
+    assert.match(r.html, /<h1>Who does uterine fibroid embolization \(UFE\) (near|in) /);
     const text = r.html.replace(/<[^>]+>/g, " ");
     assert.doesNotMatch(text, /\b(best|top-rated|top \d|rating|rated|stars?)\b/i, `${m.slug}: no best, top or ratings`);
     // job platform-condition-pages-0013: the only insurance words are the menu, footer, coverage links and (fix A, his yes
@@ -153,7 +153,7 @@ test("addresses: unknown slug and a metro under the bar 404; no trailing slash 3
   assert.equal(await handleCity(new Request("http://localhost/fibroids/"), { ASSETS }), null, "the condition page stays static");
   r = await get("/fibroids/doctors/");
   assert.equal(r.status, 200);
-  assert.match(r.html, /<h1>Where can I get fibroid embolization \(UFE\)\?<\/h1>/);
+  assert.match(r.html, /<h1>Where can I get uterine fibroid embolization \(UFE\)\?<\/h1>/);
   for (const s of FIRST_11) assert.ok(r.html.includes(`href="/fibroids/doctors/${s}/"`), s);
   assert.match(r.html, /<li id="ga"><strong>Georgia<\/strong>: \d+ doctors listed\. City pages: <a href="\/fibroids\/doctors\/atlanta-ga\/">Atlanta<\/a>/);
   assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top)\.js\?v=[0-9a-f]{10}" defer>)/);   // W32: notice.js only; 2026-11-16: and the Back to top arrow (to-top.js), which needs no data

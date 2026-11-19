@@ -20,8 +20,8 @@ abstract_label = false   # he deleted the line explaining "(abstract only)"; `re
 # hemorrhoid banding 12,100; hemorrhoid surgery recovery 2,900; prolapsed hemorrhoid treatment 1,300; hemorrhoid artery
 # embolization 1,000; hemorrhoid embolization 720; hemorrhoidal embolization 720; hemorrhoid embolization vs banding no
 # figure (sellers own it; no neutral page, market report section 2).
-targets = ["hemorrhoid embolization", "hemorrhoid artery embolization", "hemorrhoidal embolization", "hemorrhoid embolization vs banding", "hemorrhoid banding", "hemorrhoid surgery recovery", "prolapsed hemorrhoid treatment"]
-title = "Hemorrhoid Embolization vs. Banding vs. Surgery | Every Option"
+targets = ["hemorrhoid artery embolization", "hemorrhoid embolization", "hemorrhoidal embolization", "hemorrhoid embolization vs banding", "hemorrhoid banding", "hemorrhoid surgery recovery", "prolapsed hemorrhoid treatment"]
+title = "Hemorrhoid Artery Embolization vs. Banding | Every Option"  # engines' wording, his yes 2026-11-19
 description = "Hemorrhoid artery embolization (HAE) vs. banding, other office treatments, and surgery: results, recovery, risks, insurance, and what is not known."
 h1 = "Hemorrhoid treatments compared, side by side"
 lede = "Hemorrhoid embolization vs. banding and surgery: good evidence suggests banding works well for many people, while hemorrhoid removal is the most lasting fix.[^vanoost][^jin21] Early results for hemorrhoid artery embolization (HAE) are encouraging for bleeding and suggest it hurts far less than surgery in the first days. Bleeding comes back for some within a year. It is not known to fix bulging hemorrhoids.[^falsarella][^aljnainati][^kucukay]"

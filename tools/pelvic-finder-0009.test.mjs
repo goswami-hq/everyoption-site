@@ -70,14 +70,14 @@ test("the first four pelvic city pages stay, by the bar of 8 within 25 miles, ea
   assert.ok(!CITIES.draft.includes("pelvic"));   // public since launch day, 2026-11-18 (his words 13:27 CT)
   const hub = await city("/chronic-pelvic-pain/doctors/");
   assert.equal(hub.status, 200);
-  assert.match(hub.html, /<h1>Where can I get pelvic vein embolization and stenting\?<\/h1>/);
+  assert.match(hub.html, /<h1>Where can I get pelvic congestion syndrome treatment\?<\/h1>/);
   assert.doesNotMatch(hub.html, /name="robots"/);
   for (const s of SLUGS) {
     const { status, html } = await city(`/chronic-pelvic-pain/doctors/${s}/`);
     assert.equal(status, 200, s);
     // robots: the test host is not production, so the metro page sends noindex here whatever the stage (lib/cities.mjs
     // the draft rule is covered by CITIES.draft above. Was: assert.match noindex, s
-    assert.match(html, /<h1>Who does pelvic vein embolization and stenting near [^<]+\?<\/h1>/, s);
+    assert.match(html, /<h1>Who treats pelvic congestion syndrome near [^<]+\?<\/h1>/, s);
     assert.match(html, /Confirmed by physician: 0 nearby\./, s);
     assert.match(html, /href="\/account\/\?procedure=pelvic"/, s);
     assert.match(html, /<a href="\/chronic-pelvic-pain\/">Read about your chronic pelvic pain treatment options<\/a>/, s);

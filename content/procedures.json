@@ -8,7 +8,7 @@
     ],
     "stage": "public",
     "view": "ufe",
-    "patient_name": "fibroid embolization",
+    "patient_name": "uterine fibroid embolization",
     "hub_label": "Fibroid embolization doctors",
     "city_blurb": "Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy periods, pain, or pressure, and you keep your uterus.",
     "finder": {
@@ -110,7 +110,7 @@
     ],
     "stage": "public",
     "view": "gae",
-    "patient_name": "knee artery embolization",
+    "patient_name": "genicular artery embolization",
     "hub_label": "Knee embolization doctors",
     "city_blurb": "Genicular artery embolization (GAE) is for knee pain from arthritis that hasn’t gotten better with other treatments.",
     "finder": {
@@ -161,6 +161,7 @@
     "stage": "public",
     "view": "pelvic_venous",
     "patient_name": "pelvic vein embolization and stenting",
+    "city_question": {"city": "Who treats pelvic congestion syndrome", "hub": "Where can I get pelvic congestion syndrome treatment"},
     "hub_label": "Pelvic vein embolization and stenting doctors",
     "city_blurb": "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins. If a large vein in the pelvis is squeezed, a doctor can place a stent, a small mesh tube, to hold it open.",
     "finder": {
@@ -204,7 +205,7 @@
     ],
     "stage": "public",
     "view": "hemorrhoid_embolization",
-    "patient_name": "hemorrhoid embolization",
+    "patient_name": "hemorrhoid artery embolization",
     "hub_label": "Hemorrhoid embolization doctors",
     "city_blurb": "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.",
     "listings_as_of": "2026-11-10",

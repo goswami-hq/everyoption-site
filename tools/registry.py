@@ -228,6 +228,9 @@ def lib_module(conditions_toml):
     data = {
         "ALL": ks,
         "PATIENT": {k: BY_KEY[k]["patient_name"] for k in ks},
+        # city and hub page questions worded around the condition, not the procedure (pelvic: "Who treats pelvic congestion
+        # syndrome in <city>?"; his yes, HQ chat 2026-11-19 09:21 CT); others use "Who does <patient_name> ..."
+        "CITY_Q": {k: BY_KEY[k]["city_question"] for k in ks if BY_KEY[k].get("city_question")},
         "CONDITION": {k: cond[k]["text"] for k in ks},
         "CONDITION_LABEL": {k: cond[k]["label"] for k in ks},
         "HUB_LABEL": {k: BY_KEY[k]["hub_label"] for k in ks},
