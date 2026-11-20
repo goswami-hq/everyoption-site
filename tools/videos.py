@@ -23,6 +23,15 @@ TEST_ID = "TESTONLY000"
 TEST_MARK = "data-test-only"   # on every element drawn from a test entry; --release-check looks for it in site/
 EMBED = "https://www.youtube-nocookie.com/embed/"
 FRAME_SRC = "frame-src https://www.youtube-nocookie.com"
+
+
+def upload_datetime(day):
+    """Google wants uploadDate as a datetime with a time zone (Search Console, 2026-11-20:
+    "Datetime property uploadDate is missing a timezone"). Noon Central on the upload day."""
+    import datetime as _dt
+    from zoneinfo import ZoneInfo
+    d = _dt.datetime.fromisoformat(day + "T12:00:00").replace(tzinfo=ZoneInfo("America/Chicago"))
+    return d.isoformat()
 REQUIRED = ("key", "title", "description", "condition", "order", "youtube_id", "upload_date", "seconds", "aspect",
             "still", "still_alt", "transcript", "page")
 
@@ -32,7 +41,7 @@ CHANNELS = [
     ("YouTube", "https://www.youtube.com/@everyoptionmd", "Our films in full, in one place."),
     ("TikTok", "https://www.tiktok.com/@every.option.md", "Short videos on treatments you may not have heard of."),
     ("Instagram", "https://www.instagram.com/everyoptionmd", "Short videos and pictures, one treatment at a time."),
-    ("X", "https://x.com/everyoptionmd", "Updates from Every Option."),
+    ("X", "https://x.com/EveryOption_MD", "Updates from Every Option."),
 ]
 
 ICONS = {   # 24 x 24, drawn here, currentColor
@@ -178,7 +187,7 @@ def schema(rows):
     for v in rows:
         out.append({"@context": "https://schema.org", "@type": "VideoObject", "name": v["title"],
                     "description": v["description"], "thumbnailUrl": ORIGIN + f"/assets/media/{v['still']}-1080.jpg",
-                    "uploadDate": v["upload_date"], "duration": iso_len(v["seconds"]),
+                    "uploadDate": upload_datetime(v["upload_date"]), "duration": iso_len(v["seconds"]),
                     "embedUrl": EMBED + v["youtube_id"], "transcript": " ".join(words(v)),
                     "publisher": {"@id": ORIGIN + "/#organization"}})
     return "".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False).replace("</", "<\\/") + "</script>"

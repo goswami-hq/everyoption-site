@@ -256,7 +256,7 @@ def hub_schema(data, copy, origin):
     hub = copy["hub"]
     ds = {"@context": "https://schema.org", "@type": "Dataset", "name": hub["dataset_name"], "description": hub["dataset_description"],
           "url": origin + "/insurance/", "dateModified": copy["reviewed"], "temporalCoverage": f'{data["checked_from"]}/{data["checked_to"]}',
-          "isAccessibleForFree": True, "inLanguage": "en-US", "creator": org(origin), "publisher": org(origin),
+          "isAccessibleForFree": True, "license": origin + "/terms/", "inLanguage": "en-US", "creator": org(origin), "publisher": org(origin),
           "variableMeasured": ["Insurer", "Procedure", "Coverage status", "Coverage conditions", "Policy link", "Date checked"]}
     return ld(ds) + "\n" + ld(breadcrumb(origin, [("Home", "/"), ("Insurance coverage", "/insurance/")]))
 

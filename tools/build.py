@@ -95,9 +95,9 @@ VIDEOS = videos.load()
 SHOWN_VIDEOS = videos.shown(VIDEOS)
 if SHOWN_VIDEOS:
     NAV.insert(NAV.index(("/about/", "About")), ("/videos/", "Videos"))
-# His brand accounts (ai-hq ops/accounts.md). Facebook is left out until Page vs profile is confirmed there.
+# His brand accounts (ai-hq ops/accounts.md; X handle is @EveryOption_MD, his words 2026-11-19 22:33 CT). Facebook is left out until Page vs profile is confirmed there.
 SOCIAL = [("Instagram", "https://www.instagram.com/everyoptionmd"), ("TikTok", "https://www.tiktok.com/@every.option.md"),
-          ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/everyoptionmd")]
+          ("YouTube", "https://www.youtube.com/@everyoptionmd"), ("X", "https://x.com/EveryOption_MD")]
 
 
 def e(s):
