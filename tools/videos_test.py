@@ -102,7 +102,7 @@ class ListRules(unittest.TestCase):
     def test_schema(self):
         rows = videos.load(toml(dict(yt="aaaaaaaaaaa", date="2026-11-16")), release=False, slugs=SLUGS)
         s = videos.schema(rows)
-        for k in ('"@type": "VideoObject"', '"duration": "PT1M35S"', '"uploadDate": "2026-11-16"',
+        for k in ('"@type": "VideoObject"', '"duration": "PT1M35S"', '"uploadDate": "2026-11-16T12:00:00-06:00"',
                   '"embedUrl": "https://www.youtube-nocookie.com/embed/aaaaaaaaaaa"', '"thumbnailUrl"', '"transcript"'):
             self.assertIn(k, s)
 
