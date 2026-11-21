@@ -1162,3 +1162,4 @@ table.city-ins { border-collapse: collapse; width: 100%; font-size: 1rem; line-h
 table.city-ins th, table.city-ins td { padding: 9px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
 table.city-ins thead th { border-top: 0; font-weight: 600; font-size: .9rem; color: var(--muted, inherit); }
 table.city-ins tbody th[scope=row] { font-weight: 600; width: 45%; }
+table.city-ins .pol { display: block; font-weight: 400; font-size: .85rem; line-height: 1.3; margin-top: 3px; color: var(--muted, inherit); }
