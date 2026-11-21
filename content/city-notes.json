@@ -60,9 +60,9 @@
         },
         {
           "name": "Amerigroup",
-          "policy": "Georgia guideline list, March 2026",
-          "link": "https://provider.amerigroup.com/docs/gpp/GA_CAID_Aug25CUMG.pdf",
-          "says": "No public answer. Ask the plan."
+          "policy": "Prior authorization lookup tool, checked November 21, 2026",
+          "link": "https://provider.amerigroup.com/georgia-provider/claims/prior-authorization-lookup-tool",
+          "says": "No approval listed for an outpatient procedure with an in-network doctor. Hospital stays and out-of-network doctors always need approval."
         },
         {
           "name": "State Medicaid (no plan)",
@@ -73,12 +73,40 @@
       ],
       "medicaid_checked": "Checked November 21, 2026.",
       "reviewed": "2026-11-21",
-      "lead": "Five of the six plans in the first table cover fibroid embolization when certain conditions are met. Medicaid rules differ by plan.",
+      "lead": "Five of the six national plans in the first table cover fibroid embolization when certain conditions are met. Many Georgia plans need approval before the procedure.",
       "steps": [
         "Find your plan in the tables below.",
         "Call the number on your insurance card. Ask whether fibroid embolization (UFE) is covered for you, and whether you need approval before the procedure.",
         "Ask the doctor's office to check with your plan before you book."
-      ]
+      ],
+      "georgia_title": "Other Georgia plans: approval before the procedure",
+      "georgia": [
+        {
+          "name": "Kaiser Permanente Georgia",
+          "policy": "2026 PPO certificate and federal-employee brochure",
+          "link": "https://www.opm.gov/healthcare-insurance/healthcare/plan-information/plans/pdf/2026/brochures/73-321.pdf",
+          "says": "Approval needed for its PPO and federal-employee plans. HMO members: call Member Services at (404) 261-2590 to ask."
+        },
+        {
+          "name": "Ambetter from Peach State (marketplace)",
+          "policy": "Pre-Auth Needed? tool, checked November 21, 2026",
+          "link": "https://www.ambetterhealth.com/en/ga/provider-resources/manuals-and-forms/pre-auth/",
+          "says": "Approval needed before the procedure."
+        },
+        {
+          "name": "Alliant Health Plans",
+          "policy": "Prior authorization verification tool, checked November 21, 2026",
+          "link": "https://alliantplans.com/prior-authorization/",
+          "says": "Approval needed before the procedure."
+        },
+        {
+          "name": "State Health Benefit Plan, Anthem options (state employees and teachers)",
+          "policy": "2026 Anthem HMO and HRA plan descriptions",
+          "link": "https://shbp.georgia.gov/plan-documents/summary-plan-description-and-evidence-coverage",
+          "says": "Not on its list of procedures that need approval. If unsure, call 855-641-4862."
+        }
+      ],
+      "georgia_checked": "Checked November 21, 2026. Approval is not a promise of payment; your plan's benefits still apply."
     }
   }
 }
