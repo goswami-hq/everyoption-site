@@ -1,0 +1,84 @@
+{
+  "_note": "Facts only one city has, shown on that city's page for one procedure (ai-hq projects/platform/marketing/atlanta-focus/page-facts-for-him.md; his yes HQ chat 2026-11-21 10:41 CT: 'Yes but let's make sure we format it in a readable way'). Insurer rows come from content/insurance/coverage-2026-11.toml cells; Medicaid rows from ai-hq projects/platform/marketing/atlanta-focus/georgia-medicaid-notes-2026-11-21.md. Plain words only, no policy text.",
+  "ufe": {
+    "atlanta-ga": {
+      "work": "As of November 21, 2026, doctors on this list are listed at Emory, Northside and Grady hospitals, and at 9 other practices across the metro, from Marietta to Stockbridge.",
+      "state": "Georgia",
+      "plan_line": "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan.",
+      "insurers": [
+        {
+          "name": "Anthem (Georgia's Blue Cross plan)",
+          "policy": "Carelon guideline CAR15-1126.1, effective November 15, 2026",
+          "link": "https://guidelines.carelonmedicalbenefitsmanagement.com/vascular-embolization-and-occlusion-procedures-2026-11-15/",
+          "says": "Covered with conditions: heavy bleeding, or pelvic pain, pressure or passing urine often, when not caused by infection. Based on the Carelon guideline that Anthem plans appear to use."
+        },
+        {
+          "name": "UnitedHealthcare",
+          "policy": "Abnormal Uterine Bleeding and Uterine Fibroids (2026T0442WW), in effect November 1, 2026",
+          "link": "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/comm-medical-drug/abnormal-uterine-bleeding-uterine-fibroids.pdf",
+          "says": "Covered with conditions: fibroids that cause symptoms; the detailed rules are not public. Not covered when the purpose is to preserve the ability to have children."
+        },
+        {
+          "name": "Aetna",
+          "policy": "Clinical Policy Bulletin 0304, last reviewed April 17, 2026",
+          "link": "https://www.aetna.com/cpb/medical/data/300_399/0304.html",
+          "says": "Covered with conditions: as an alternative to surgery to remove the uterus or the fibroids, when heavy periods, pain or pressure from the fibroids, urinary symptoms from pressure on the bladder, or pain with sex persist."
+        },
+        {
+          "name": "Cigna",
+          "policy": "EviCore Peripheral Vascular Intervention Guidelines V2.0.2026, in effect November 5, 2026",
+          "link": "https://www.evicore.com/sites/default/files/clinical-guidelines/2026-07/Cigna_PVI%20Guidelines_V2.0.2026_Eff11.05.2026_Pub07.20.2026.pdf",
+          "says": "Covered with conditions: fibroids seen on an earlier ultrasound or MRI, plus one of: abnormal bleeding (with a normal recent biopsy of the uterine lining), period pain that limits daily life despite pain medicines, pain with sex for over 6 months with no other cause, or urinary symptoms from the fibroids. Applies where EviCore manages the service."
+        },
+        {
+          "name": "Humana Medicare Advantage",
+          "policy": "Uterine Fibroid Surgical Treatments (HUM-1231-005), in effect April 1, 2026",
+          "link": "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=U&policyType=medical",
+          "says": "Covered with conditions: fibroids confirmed, you want to keep your uterus, and symptoms for 3 months or more despite medical treatment where that is appropriate."
+        },
+        {
+          "name": "Medicare (Original)",
+          "policy": "National decision 20.28, Therapeutic Embolization, dated December 15, 1978",
+          "link": "https://www.cms.gov/medicare-coverage-database/view/ncd.aspx?ncdid=52&ncdver=1&bc=0",
+          "says": "No specific policy; decided case by case."
+        }
+      ],
+      "insurers_checked": "Checked November 7, 2026.",
+      "medicaid_intro": "Georgia Medicaid plans today are Amerigroup, CareSource and Peach State (contracts run through June 2027; the plans may change after that). We found no written policy on fibroid embolization from any of them.",
+      "medicaid": [
+        {
+          "name": "Peach State",
+          "policy": "Medicaid prior authorization list, effective December 31, 2025",
+          "link": "https://www.pshpgeorgia.com/content/dam/centene/medicaid/pdfs/provider/prior-authorization-requirements-metrics/GA-PeachState_4_Medicaid_PriorAuthReq_R.pdf",
+          "says": "Approval needed before the procedure."
+        },
+        {
+          "name": "CareSource",
+          "policy": "2026 prior authorization list, state-approved February 12, 2026",
+          "link": "https://www.caresource.com/documents/ga-med-m-4855405_2026-pa-list-ga-mcd.pdf",
+          "says": "Not on its list of procedures that need approval, for doctors in its network."
+        },
+        {
+          "name": "Amerigroup",
+          "policy": "Georgia guideline list, March 2026",
+          "link": "https://provider.amerigroup.com/docs/gpp/GA_CAID_Aug25CUMG.pdf",
+          "says": "No public answer. Ask the plan."
+        },
+        {
+          "name": "State Medicaid (no plan)",
+          "policy": "Physician Services manual, January 1, 2026",
+          "link": "https://www.mmis.georgia.gov/portal/Portals/0/StaticContent/Public/ALL/Handbooks/Physician%20Services-%20Q1-%20January%202026%2020260127184806.pdf",
+          "says": "Not on its list of procedures that need approval."
+        }
+      ],
+      "medicaid_checked": "Checked November 21, 2026.",
+      "reviewed": "2026-11-21",
+      "lead": "Five of the six plans in the first table cover fibroid embolization when certain conditions are met. Medicaid rules differ by plan.",
+      "steps": [
+        "Find your plan in the tables below.",
+        "Call the number on your insurance card. Ask whether fibroid embolization (UFE) is covered for you, and whether you need approval before the procedure.",
+        "Ask the doctor's office to check with your plan before you book."
+      ]
+    }
+  }
+}
