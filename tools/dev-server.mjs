@@ -12,6 +12,7 @@ import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { onRequestPost } from "../functions/api/report.js";
+import { onRequestPost as tapPost } from "../functions/api/tap.js";
 import { handle } from "../lib/accounts/http.mjs";
 import { handlePublic } from "../lib/accounts/listings.mjs";
 import { handleDoctor } from "../lib/directory.mjs";
@@ -107,6 +108,9 @@ async function send(res, r) {
 const page = (res, body) => { res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); res.end(`<!doctype html><meta charset="utf-8"><title>Local stand-in</title><body style="font:18px system-ui;max-width:40em;margin:40px auto">${body}`); };
 const asJSON = (res, x) => { res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(x, null, 1)); };
 
+const tapDb = { taps: [], hits: new Map(),
+  async hit(key, win, max) { const n = (this.hits.get(key) || 0) + 1; this.hits.set(key, n); return n <= max; },
+  async tap(npi, proc, kind, src) { this.taps.push({ npi, proc, kind, src }); } };
 http.createServer(async (req, res) => {
   // A path such as "//" is not a valid relative URL; read it as a path, so one odd request cannot stop the server.
   const url = new URL(req.url.replace(/^\/+/, "/"), origin);
@@ -122,6 +126,10 @@ http.createServer(async (req, res) => {
     if (url.searchParams.has("dump")) console.log([...store.keys()]);
     return;
   }
+  // 2026-11-21: doctor-contact taps, the same handler as functions/api/tap.js, counted in memory; GET /__taps lists them.
+  if (url.pathname === "/api/tap") return send(res, req.method === "POST" ? await tapPost({ request: await toRequest(req, url), env: { __tapDb: tapDb } })
+    : new Response(null, { status: 405 }));
+  if (url.pathname === "/__taps") return asJSON(res, tapDb.taps);
   if (url.pathname.startsWith("/api/account/")) return send(res, await handle(await toRequest(req, url), { backend, origin, ...(seeded ? { now: seeded.env.now } : {}) }));
   if (seeded && url.pathname === "/__seed") return asJSON(res, seeded.cookies);
   // Job 25: the live overlay and public photos. --listings-slow=<ms> and --listings-down play a slow or failed database.

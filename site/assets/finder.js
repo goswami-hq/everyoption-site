@@ -248,7 +248,8 @@
     var report = el("a", { href: "/report/" + q, text: "Report an error" });
     kids.push(el("p", { "class": "claim", style: "margin:10px 0 0" }, p.confirmed ? [report]
       : [el("a", { href: "/account/" + q, text: "Is this you? Claim this free profile" }), el("span", { "class": "sep", "aria-hidden": "true", text: "·" }), report]));
-    return el("li", { "class": p.confirmed ? "card card-confirmed" : "card" }, kids);
+    // data-npi, data-proc, data-src: read by assets/taps.js to count a Call or website tap (2026-11-21).
+    return el("li", { "class": p.confirmed ? "card card-confirmed" : "card", "data-npi": p.npi, "data-proc": PROC, "data-src": "finder" }, kids);
   }
 
   function section(list, cls, title, note) {
