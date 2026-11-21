@@ -126,6 +126,16 @@ def metro_of(cfg, pages, site):
     return out
 
 
+def city_notes(root):
+    """content/city-notes.json: facts only one city has, per procedure and metro slug ("_" keys are comments)."""
+    path = os.path.join(root, "content", "city-notes.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        raw = json.load(fh)
+    return {k: {s: n for s, n in v.items() if not s.startswith("_")} for k, v in raw.items() if not k.startswith("_")}
+
+
 def write_module(root, cfg, pages, shell, blurbs, as_of, site):
     data = {
         "radius": cfg["radius"], "bar": cfg["bar"], "floor": cfg["floor"], "page": PAGE, "hub": HUB, "reviewed": REVIEWED, "draft": drafts(),
@@ -134,6 +144,7 @@ def write_module(root, cfg, pages, shell, blurbs, as_of, site):
                         "centers": [{"zip": c["zip"], "label": c["label"], "ll": c["ll"]} for c in m["centers"]]} for m in ms]
                    for k, ms in pages.items()},
         "metro_of": metro_of(cfg, pages, site),
+        "notes": city_notes(root),
     }
     with open(os.path.join(root, "lib", "cities-data.mjs"), "w", encoding="utf-8") as fh:
         fh.write("// Written by tools/build.py (job 42) from content/metros.json and the build's copy. Edit those, not this file.\n"

@@ -90,7 +90,7 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     // job platform-condition-pages-0013: the only insurance words are the menu, footer, coverage links and (fix A, his yes
     // 2026-11-15) the condition strip's Insurance tab (his words, 2026-11-08 21:35 CT)
     assert.equal((r.html.match(/<p class="cov-link"><a href="\/fibroids\/insurance\/">Does insurance cover fibroid embolization\?<\/a><\/p>/g) || []).length, 2, `${m.slug}: two coverage links`);
-    assert.doesNotMatch(r.html.replace(/<nav class="top".*?<\/nav>|<nav class="cond-strip".*?<\/nav>|<p class="cov-link">.*?<\/p>|<footer.*?<\/footer>/gs, "").replace(/<[^>]+>/g, " "), /insurance/i, "no insurance claims on a city page");
+    assert.doesNotMatch(r.html.replace(/<nav class="top".*?<\/nav>|<nav class="cond-strip".*?<\/nav>|<p class="cov-link">.*?<\/p>|<section class="city-notes">.*?<\/section>|<footer.*?<\/footer>/gs, "").replace(/<[^>]+>/g, " "), /insurance/i, "no insurance claims on a city page outside its city notes (content/city-notes.json, his yes 2026-11-21)");
     assert.ok(!/(Grady|Emory|Northwestern)/.test(ans), "no practice names in the answer");
   }
 });
