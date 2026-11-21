@@ -22,7 +22,7 @@ const block = (html) => (html.match(/<section class="city-notes">[\s\S]*?<\/sect
 test("Atlanta fibroid page carries its notes: where they work, the plan line, two tables, checked dates, the ask", async () => {
   const b = block(await get("/fibroids/doctors/atlanta-ga/"));
   assert.ok(b, "notes block present");
-  assert.match(b, /<h2>Where these doctors work<\/h2>/);
+  assert.match(b, /<h2>Where these doctors are listed<\/h2>/);
   assert.match(b, /<h2>Insurance in Georgia<\/h2>/);
   assert.match(b, /Your plan may differ\. Employer self-funded plans and Medicare Advantage plans can set their own rules\. Check with your plan\./);
   assert.equal((b.match(/<table class="city-ins"/g) || []).length, 2);
@@ -33,7 +33,9 @@ test("Atlanta fibroid page carries its notes: where they work, the plan line, tw
   assert.doesNotMatch(b, /myomectomy/i, "plain words");
   assert.match(b, /href="\/fibroids\/insurance\/">See the conditions for each plan<\/a>/);
   assert.match(b, /This section last reviewed November 21, 2026\./);
-  assert.doesNotMatch(b, /\bwork at\b/, "listed, never practicing");
+  assert.doesNotMatch(b, /\bwork(s|ing)?\b/, "listed, never practicing");
+  assert.match(b, /Based on the Carelon guideline that Anthem plans appear to use\./, "Anthem row keeps its inference label");
+  assert.match(b, /Five of the six plans in the first table/, "summary tied to the table");
 });
 
 test("every plan row names its source with a link, and no row says covered without its conditions", async () => {

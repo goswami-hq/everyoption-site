@@ -10,7 +10,7 @@
           "name": "Anthem (Georgia's Blue Cross plan)",
           "policy": "Carelon guideline CAR15-1126.1, effective November 15, 2026",
           "link": "https://guidelines.carelonmedicalbenefitsmanagement.com/vascular-embolization-and-occlusion-procedures-2026-11-15/",
-          "says": "Covered with conditions: heavy bleeding, or pelvic pain, pressure or passing urine often, when not caused by infection."
+          "says": "Covered with conditions: heavy bleeding, or pelvic pain, pressure or passing urine often, when not caused by infection. Based on the Carelon guideline that Anthem plans appear to use."
         },
         {
           "name": "UnitedHealthcare",
@@ -22,13 +22,13 @@
           "name": "Aetna",
           "policy": "Clinical Policy Bulletin 0304, last reviewed April 17, 2026",
           "link": "https://www.aetna.com/cpb/medical/data/300_399/0304.html",
-          "says": "Covered with conditions: as an alternative to surgery to remove the uterus or the fibroids, when heavy periods, pain or pressure, urinary symptoms or pain with sex persist."
+          "says": "Covered with conditions: as an alternative to surgery to remove the uterus or the fibroids, when heavy periods, pain or pressure from the fibroids, urinary symptoms from pressure on the bladder, or pain with sex persist."
         },
         {
           "name": "Cigna",
           "policy": "EviCore Peripheral Vascular Intervention Guidelines V2.0.2026, in effect November 5, 2026",
           "link": "https://www.evicore.com/sites/default/files/clinical-guidelines/2026-07/Cigna_PVI%20Guidelines_V2.0.2026_Eff11.05.2026_Pub07.20.2026.pdf",
-          "says": "Covered with conditions: fibroids seen on an earlier ultrasound or MRI, plus abnormal bleeding, period pain, pain with sex or urinary symptoms."
+          "says": "Covered with conditions: fibroids seen on an earlier ultrasound or MRI, plus one of: abnormal bleeding (with a normal recent biopsy of the uterine lining), period pain that limits daily life despite pain medicines, pain with sex for over 6 months with no other cause, or urinary symptoms from the fibroids. Applies where EviCore manages the service."
         },
         {
           "name": "Humana Medicare Advantage",
@@ -73,7 +73,7 @@
       ],
       "medicaid_checked": "Checked November 21, 2026.",
       "reviewed": "2026-11-21",
-      "lead": "Most large insurers in Georgia cover fibroid embolization when certain conditions are met. Medicaid rules differ by plan.",
+      "lead": "Five of the six plans in the first table cover fibroid embolization when certain conditions are met. Medicaid rules differ by plan.",
       "steps": [
         "Find your plan in the tables below.",
         "Call the number on your insurance card. Ask whether fibroid embolization (UFE) is covered for you, and whether you need approval before the procedure.",
