@@ -34,7 +34,7 @@ test("Atlanta fibroid page carries its notes: where they work, the plan line, tw
   assert.match(b, /href="\/fibroids\/insurance\/">See the conditions for each plan<\/a>/);
   assert.match(b, /This section last reviewed November 21, 2026\./);
   assert.doesNotMatch(b, /\bwork(s|ing)?\b/, "listed, never practicing");
-  assert.match(b, /Based on the Carelon guideline that Anthem plans appear to use\./, "Anthem row keeps its inference label");
+  assert.match(b, /Approval needed; Carelon reviews it\. Applies to fully insured plans and to employer plans that bought this program\./, "Anthem row keeps its scope");
   assert.match(b, /Five of the six national plans in the first table/, "summary tied to the table");
 });
 

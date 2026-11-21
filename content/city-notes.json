@@ -8,9 +8,9 @@
       "insurers": [
         {
           "name": "Anthem (Georgia's Blue Cross plan)",
-          "policy": "Carelon guideline CAR15-1126.1, effective November 15, 2026",
-          "link": "https://guidelines.carelonmedicalbenefitsmanagement.com/vascular-embolization-and-occlusion-procedures-2026-11-15/",
-          "says": "Covered with conditions: heavy bleeding, or pelvic pain, pressure or passing urine often, when not caused by infection. Based on the Carelon guideline that Anthem plans appear to use."
+          "policy": "Georgia Local Prior Authorization List, updated October 1, 2026; Carelon guideline CAR15-1126.1",
+          "link": "https://www.anthem.com/content/dam/digital/docs/provider/commercial/guides/GA_Local_PA_List.pdf",
+          "says": "Covered with conditions: heavy bleeding, or pelvic pain, pressure or passing urine often, when not caused by infection. Approval needed; Carelon reviews it. Applies to fully insured plans and to employer plans that bought this program."
         },
         {
           "name": "UnitedHealthcare",
@@ -101,9 +101,9 @@
         },
         {
           "name": "State Health Benefit Plan, Anthem options (state employees and teachers)",
-          "policy": "2026 Anthem HMO and HRA plan descriptions",
-          "link": "https://shbp.georgia.gov/plan-documents/summary-plan-description-and-evidence-coverage",
-          "says": "Not on the approval list in its 2026 Anthem plan descriptions; Anthem's code list was not public to us. Call 855-641-4862 to confirm. On the UnitedHealthcare or Kaiser options, call (888) 364-6352 or 855-512-5997."
+          "policy": "2026 Anthem plan descriptions; 2027 Anthem precertification list",
+          "link": "https://www.anthem.com/content/dam/digital/docs/provider/commercial/guides/GA_SHBP_PreCert_List.pdf",
+          "says": "Not on the approval list in its 2026 plan descriptions. From January 1, 2027, Anthem's list names vascular embolization as needing approval. Call 855-641-4862 to confirm. On the UnitedHealthcare or Kaiser options, call (888) 364-6352 or 855-512-5997."
         }
       ],
       "georgia_checked": "Checked November 21, 2026. Plans answer for the billing code used for this procedure. Approval is not a promise of payment; your plan's benefits still apply."
