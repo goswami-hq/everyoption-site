@@ -28,7 +28,7 @@ test("Atlanta fibroid page carries its notes: where they work, the plan line, tw
   assert.equal((b.match(/<table class="city-ins"/g) || []).length, 3);
   assert.match(b, /Checked November 7, 2026\./);
   assert.match(b, /Checked November 21, 2026\./);
-  assert.match(b, /<ol class="city-steps"><li>Find your plan in the tables below\.<\/li>/);
+  assert.match(b, /<ol class="city-steps"><li>Find your plan in the groups below\.<\/li>/);
   assert.match(b, /Ask the doctor&#39;s office to check with your plan before you book\./);
   assert.doesNotMatch(b, /myomectomy/i, "plain words");
   assert.match(b, /href="\/fibroids\/insurance\/">See the conditions for each plan<\/a>/);
@@ -67,4 +67,7 @@ test("Atlanta: insurance sits above the doctor list, plan tables folded, jump ro
   assert.ok(html.indexOf("<h2>Where these doctors are listed</h2>") > firstCard, "where they are listed stays below the cards");
   const chi = await get("/fibroids/doctors/chicago-il/");
   assert.doesNotMatch(chi, /class="on-page"|id="insurance"/, "a city with no notes is unchanged");
+  assert.match(chi, /<p class="cov-link">[\s\S]*<h2 id="doctors">/, "a city with no notes keeps its coverage link above the list");
+  assert.match(html, /Georgia Medicaid <span class="muted">\(3&nbsp;plans and the state program\)<\/span>/);
+  assert.match(html, /<summary><span>Other Georgia plans <span class="muted">\(4&nbsp;plans\)/, "no approval claim in the group title");
 });

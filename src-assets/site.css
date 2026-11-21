@@ -1170,7 +1170,7 @@ nav.on-page a { display: inline-block; min-height: 44px; line-height: 44px; }
 details.ins-fold { border: 1px solid var(--line); border-radius: 14px; margin: 8px 0; overflow: hidden; }
 details.ins-fold > summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; list-style: none; font-weight: 600; }
 details.ins-fold > summary::-webkit-details-marker { display: none; }
-details.ins-fold > summary::after { content: "+"; flex: none; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
-details.ins-fold[open] > summary::after { content: "\2013"; }
+details.ins-fold > summary::after { content: "+"; content: "+" / ""; flex: none; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+details.ins-fold[open] > summary::after { content: "\2013"; content: "\2013" / ""; }
 details.ins-fold > .fold-body { padding: 4px 16px 12px; border-top: 1px solid var(--line); }
 #insurance, #doctors, #nearby { scroll-margin-top: 14px; }
