@@ -44,7 +44,7 @@
         }
       ],
       "insurers_checked": "Checked November 7, 2026.",
-      "medicaid_intro": "Georgia Medicaid plans today are Amerigroup, CareSource and Peach State (contracts run through June 2027; the plans may change after that). We found no written policy on fibroid embolization from any of them.",
+      "medicaid_intro": "Georgia Medicaid plans today are Amerigroup, CareSource and Peach State (contracts run through June 2027; the plans may change after that). None of them publishes its own policy on fibroid embolization.",
       "medicaid": [
         {
           "name": "Peach State",
@@ -62,7 +62,7 @@
           "name": "Amerigroup",
           "policy": "Prior authorization lookup tool, checked November 21, 2026",
           "link": "https://provider.amerigroup.com/georgia-provider/claims/prior-authorization-lookup-tool",
-          "says": "No approval listed for an outpatient procedure with an in-network doctor. Hospital stays and out-of-network doctors always need approval."
+          "says": "Reviews under the same Carelon guideline as Anthem. Ask the plan whether you need approval; we are confirming its online tool's answer."
         },
         {
           "name": "State Medicaid (no plan)",
@@ -71,9 +71,9 @@
           "says": "Not on its list of procedures that need approval."
         }
       ],
-      "medicaid_checked": "Checked November 21, 2026.",
+      "medicaid_checked": "Checked November 21, 2026. Not needing approval is not a promise of payment; your plan's benefits still apply.",
       "reviewed": "2026-11-21",
-      "lead": "Five of the six national plans in the first table cover fibroid embolization when certain conditions are met. Many Georgia plans need approval before the procedure.",
+      "lead": "Five of the six national plans in the first table cover fibroid embolization when certain conditions are met. Three of the eight Georgia plans we checked need approval before the procedure, and Kaiser needs it for some of its plans.",
       "steps": [
         "Find your plan in the tables below.",
         "Call the number on your insurance card. Ask whether fibroid embolization (UFE) is covered for you, and whether you need approval before the procedure.",
@@ -83,9 +83,9 @@
       "georgia": [
         {
           "name": "Kaiser Permanente Georgia",
-          "policy": "2026 PPO certificate and federal-employee brochure",
-          "link": "https://www.opm.gov/healthcare-insurance/healthcare/plan-information/plans/pdf/2026/brochures/73-321.pdf",
-          "says": "Approval needed for its PPO and federal-employee plans. HMO members: call Member Services at (404) 261-2590 to ask."
+          "policy": "2026 small-group PPO plan document; 2026 federal-employee brochure",
+          "link": "https://healthy.kaiserpermanente.org/content/dam/kporg/final/documents/health-plan-documents/eoc/ga/sg/2026/kpic-dual-choice-ppo-silver-hdhp-hsa-3800-coi-ga-en.pdf",
+          "says": "Approval needed in its 2026 small-group PPO plan document and its federal-employee plans. HMO members: call Member Services at (404) 261-2590 to ask."
         },
         {
           "name": "Ambetter from Peach State (marketplace)",
@@ -103,10 +103,10 @@
           "name": "State Health Benefit Plan, Anthem options (state employees and teachers)",
           "policy": "2026 Anthem HMO and HRA plan descriptions",
           "link": "https://shbp.georgia.gov/plan-documents/summary-plan-description-and-evidence-coverage",
-          "says": "Not on its list of procedures that need approval. If unsure, call 855-641-4862."
+          "says": "Not on the approval list in its 2026 Anthem plan descriptions; Anthem's code list was not public to us. Call 855-641-4862 to confirm. On the UnitedHealthcare or Kaiser options, call (888) 364-6352 or 855-512-5997."
         }
       ],
-      "georgia_checked": "Checked November 21, 2026. Approval is not a promise of payment; your plan's benefits still apply."
+      "georgia_checked": "Checked November 21, 2026. Plans answer for the billing code used for this procedure. Approval is not a promise of payment; your plan's benefits still apply."
     }
   }
 }
