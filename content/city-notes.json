@@ -60,9 +60,9 @@
         },
         {
           "name": "Amerigroup",
-          "policy": "Prior authorization lookup tool, checked November 21, 2026",
+          "policy": "Prior authorization lookup tool, checked twice on November 21, 2026",
           "link": "https://provider.amerigroup.com/georgia-provider/claims/prior-authorization-lookup-tool",
-          "says": "Reviews under the same Carelon guideline as Anthem. Ask the plan whether you need approval; we are confirming its online tool's answer."
+          "says": "No approval listed for an outpatient procedure with an in-network doctor. Hospital stays and out-of-network doctors always need approval. Reviews under the same Carelon guideline as Anthem."
         },
         {
           "name": "State Medicaid (no plan)",
