@@ -24,7 +24,7 @@ const get = async (path) => {
   const r = await handleCity(new Request(`http://localhost:8787${path}`), { backend: null, noCache: true, ASSETS });
   return r.text();
 };
-const npis = (html) => [...html.matchAll(/<li class="card[^"]*">[\s\S]*?<h3><a href="\/doctors\/[^"]*-(\d{10})\/">/g)].map((m) => m[1]);
+const npis = (html) => [...html.matchAll(/<li class="card[^"]*"[^>]*>[\s\S]*?<h3><a href="\/doctors\/[^"]*-(\d{10})\/">/g)].map((m) => m[1]);
 const factLines = (html) => {
   const m = /<ul class="facts" aria-label="Local facts">(.*?)<\/ul>/.exec(html);
   return m ? [...m[1].matchAll(/<li>(.*?)<\/li>/g)].map((x) => x[1].replace(/&#39;/g, "'").replace(/&amp;/g, "&")) : [];

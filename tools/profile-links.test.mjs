@@ -35,7 +35,7 @@ const profile = async (path) => {
   const r = await handleDoctor(new Request(`http://localhost:8787${path}`), { backend: null, noCache: true, ASSETS });
   return r.status;
 };
-const cardLinks = (html) => [...html.matchAll(/<li class="card[^"]*">[\s\S]*?<h3><a href="([^"]+)">/g)].map((m) => m[1]);
+const cardLinks = (html) => [...html.matchAll(/<li class="card[^"]*"[^>]*>[\s\S]*?<h3><a href="([^"]+)">/g)].map((m) => m[1]);
 const every = (xs, n) => xs.filter((_, i) => i % Math.max(1, Math.floor(xs.length / n)) === 0).slice(0, n);
 
 test("one source: every listed doctor carries the build's address, and Python and the server agree on it", () => {

@@ -219,10 +219,22 @@ create table rate_hits (
   primary key (key, window_start)
 );
 
+-- Doctor-contact taps (supabase/migrations/2026-11-21-contact-taps.sql): a count per day, doctor, procedure, kind and
+-- page type; nothing about the visitor.
+create table contact_taps (
+  day date not null,
+  npi text not null constraint contact_taps_npi_check check (npi ~ '^[0-9]{10}$'),
+  proc text not null default '' constraint contact_taps_proc_check check (proc = '' or proc ~ '^[a-z]{2,12}$'),
+  kind text not null constraint contact_taps_kind_check check (kind in ('call', 'website', 'booking')),
+  src text not null constraint contact_taps_src_check check (src in ('finder', 'city', 'profile')),
+  n integer not null default 0,
+  primary key (day, npi, proc, kind, src)
+);
+
 -- Row level security: on everywhere, no policies, so only the service role gets in.
 do $$ declare t text; begin
   foreach t in array array['accounts','profiles','login_links','codes','invitations','radiologist_names','sessions',
-                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits','procedures','hidden_profiles'] loop
+                           'identity_checks','attestations','edits','exceptions','waitlist','rate_hits','procedures','hidden_profiles','contact_taps'] loop
     execute format('alter table %I enable row level security', t);
     execute format('alter table %I force row level security', t);
     execute format('revoke all on %I from anon, authenticated', t);
@@ -258,6 +270,14 @@ set search_path = public as $$
   on conflict (key, window_start) do update set n = rate_hits.n + 1
   returning n <= p_max;
 $$;
+
+-- One doctor-contact tap: add 1 in one statement (the day is the server's UTC date).
+create function eo_tap(p_npi text, p_proc text, p_kind text, p_src text) returns void language sql
+security definer set search_path = public as $$
+  insert into contact_taps (day, npi, proc, kind, src, n) values ((now() at time zone 'utc')::date, p_npi, p_proc, p_kind, p_src, 1)
+  on conflict (day, npi, proc, kind, src) do update set n = contact_taps.n + 1;
+$$;
+revoke all on function eo_tap(text, text, text, text) from public, anon, authenticated;
 
 -- A link works once and only before it expires: mark used and return it in one statement.
 create function eo_consume_link(p_hash text) returns setof login_links language sql security definer
