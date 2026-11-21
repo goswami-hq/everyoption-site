@@ -1156,3 +1156,9 @@ header.site nav.top { margin-left: auto; }
 .facts-more { margin: 1rem 0; }
 .facts-more summary { cursor: pointer; font-weight: 600; }
 .facts-more .facts { margin-top: 0.5rem; }
+
+/* City pages: facts only one city has (content/city-notes.json; 2026-11-21). Two short columns, readable on a phone. */
+table.city-ins { border-collapse: collapse; width: 100%; font-size: 1rem; line-height: 1.4; margin: 8px 0 6px; background: var(--card); border-radius: var(--radius); }
+table.city-ins th, table.city-ins td { padding: 9px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+table.city-ins thead th { border-top: 0; font-weight: 600; font-size: .9rem; color: var(--muted, inherit); }
+table.city-ins tbody th[scope=row] { font-weight: 600; width: 45%; }

@@ -1,0 +1,28 @@
+{
+  "_note": "Facts only one city has, shown on that city's page for one procedure (ai-hq projects/platform/marketing/atlanta-focus/page-facts-for-him.md; his yes HQ chat 2026-11-21 10:41 CT: 'Yes but let's make sure we format it in a readable way'). Insurer rows come from content/insurance/coverage-2026-11.toml cells; Medicaid rows from ai-hq projects/platform/marketing/atlanta-focus/georgia-medicaid-notes-2026-11-21.md. Plain words only, no policy text.",
+  "ufe": {
+    "atlanta-ga": {
+      "work": "The doctors listed here work at Emory, Northside and Grady hospitals, and at 9 other practices across the metro, from Marietta to Stockbridge.",
+      "state": "Georgia",
+      "plan_line": "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan.",
+      "insurers": [
+        {"name": "Anthem (Georgia's Blue Cross plan)", "says": "Covered when conditions are met", "link": "https://guidelines.carelonmedicalbenefitsmanagement.com/vascular-embolization-and-occlusion-procedures-2026-11-15/"},
+        {"name": "UnitedHealthcare", "says": "Covered when conditions are met", "link": "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/comm-medical-drug/abnormal-uterine-bleeding-uterine-fibroids.pdf"},
+        {"name": "Aetna", "says": "Covered when conditions are met", "link": "https://www.aetna.com/cpb/medical/data/300_399/0304.html"},
+        {"name": "Cigna", "says": "Covered when conditions are met", "link": "https://www.evicore.com/sites/default/files/clinical-guidelines/2026-07/Cigna_PVI%20Guidelines_V2.0.2026_Eff11.05.2026_Pub07.20.2026.pdf"},
+        {"name": "Humana Medicare Advantage", "says": "Covered when conditions are met", "link": "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=U&policyType=medical"},
+        {"name": "Medicare (Original)", "says": "No specific policy; decided case by case", "link": "https://www.cms.gov/medicare-coverage-database/view/ncd.aspx?ncdid=52&ncdver=1&bc=0"}
+      ],
+      "insurers_checked": "Checked November 7 to 8, 2026.",
+      "medicaid_intro": "Georgia Medicaid plans today are Amerigroup, CareSource and Peach State (contracts run through June 2027; the plans may change after that). None has a written policy on fibroid embolization.",
+      "medicaid": [
+        {"name": "Peach State", "says": "Approval needed before the procedure", "link": "https://www.pshpgeorgia.com/content/dam/centene/medicaid/pdfs/provider/prior-authorization-requirements-metrics/GA-PeachState_4_Medicaid_PriorAuthReq_R.pdf"},
+        {"name": "CareSource", "says": "Not on its list of procedures that need approval", "link": "https://www.caresource.com/documents/ga-med-m-4855405_2026-pa-list-ga-mcd.pdf"},
+        {"name": "Amerigroup", "says": "Reviews each case", "link": "https://provider.amerigroup.com/docs/gpp/GA_CAID_Aug25CUMG.pdf"},
+        {"name": "State Medicaid (no plan)", "says": "Not on its list of procedures that need approval", "link": "https://www.mmis.georgia.gov/portal/Portals/0/StaticContent/Public/ALL/Handbooks/Physician%20Services-%20Q1-%20January%202026%2020260127184806.pdf"}
+      ],
+      "medicaid_checked": "Checked November 21, 2026.",
+      "ask": "Ask the doctor's office to check with your plan before you book."
+    }
+  }
+}
