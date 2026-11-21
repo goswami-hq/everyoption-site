@@ -54,9 +54,9 @@
         },
         {
           "name": "CareSource",
-          "policy": "2026 prior authorization list, state-approved February 12, 2026",
-          "link": "https://www.caresource.com/documents/ga-med-m-4855405_2026-pa-list-ga-mcd.pdf",
-          "says": "Not on its list of procedures that need approval, for doctors in its network."
+          "policy": "Procedure code lookup, checked November 21, 2026",
+          "link": "https://procedurelookup.caresource.com/",
+          "says": "Approval needed, except when the procedure is done at an ambulatory surgery center."
         },
         {
           "name": "Amerigroup",
