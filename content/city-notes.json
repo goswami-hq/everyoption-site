@@ -1,5 +1,5 @@
 {
-  "_note": "Facts only one city has, shown on that city's page for one procedure (ai-hq projects/platform/marketing/atlanta-focus/page-facts-for-him.md; his yes HQ chat 2026-11-21 10:41 CT: 'Yes but let's make sure we format it in a readable way'). Insurer rows come from content/insurance/coverage-2026-11.toml cells; Medicaid rows from ai-hq projects/platform/marketing/atlanta-focus/georgia-medicaid-notes-2026-11-21.md. Plain words only, no policy text.",
+  "_note": "Facts only one city has, shown on that city's page for one procedure (ai-hq projects/platform/marketing/atlanta-focus/page-facts-for-him.md; his yes HQ chat 2026-11-21 10:41 CT: 'Yes but let's make sure we format it in a readable way'). Insurer rows come from content/insurance/coverage-2026-11.toml cells; Medicaid rows from ai-hq projects/platform/marketing/atlanta-focus/georgia-medicaid-notes-2026-11-21.md. Plain words only, no policy text. CareSource row: its procedure lookup run by him 2026-11-21 (ai-hq georgia-plans-2026-11.md row 4).",
   "ufe": {
     "atlanta-ga": {
       "work": "As of November 21, 2026, doctors on this list are listed at Emory, Northside and Grady hospitals, and at 9 other practices across the metro, from Marietta to Stockbridge.",
@@ -54,9 +54,9 @@
         },
         {
           "name": "CareSource",
-          "policy": "2026 prior authorization list, state-approved February 12, 2026",
-          "link": "https://www.caresource.com/documents/ga-med-m-4855405_2026-pa-list-ga-mcd.pdf",
-          "says": "Not on its list of procedures that need approval, for doctors in its network."
+          "policy": "Procedure code lookup, checked November 21, 2026",
+          "link": "https://procedurelookup.caresource.com/",
+          "says": "Approval needed, except at an in-network ambulatory surgery center. Out-of-network doctors always need approval."
         },
         {
           "name": "Amerigroup",
@@ -73,7 +73,7 @@
       ],
       "medicaid_checked": "Checked November 21, 2026. Not needing approval is not a promise of payment; your plan's benefits still apply.",
       "reviewed": "2026-11-21",
-      "lead": "Five of the six national plans in the first table cover fibroid embolization when certain conditions are met. Three of the eight Georgia plans we checked need approval before the procedure, and Kaiser needs it for some of its plans.",
+      "lead": "Five of the six national plans in the first table cover fibroid embolization when certain conditions are met. Four of the eight Georgia plans we checked need approval before the procedure (CareSource except at an in-network ambulatory surgery center), and Kaiser needs it for some of its plans.",
       "steps": [
         "Find your plan in the tables below.",
         "Call the number on your insurance card. Ask whether fibroid embolization (UFE) is covered for you, and whether you need approval before the procedure.",
