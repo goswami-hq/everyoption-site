@@ -67,8 +67,9 @@ test("town groups: 5+ towns grouped with jump links, every card once, nearest fi
     const towns = new Set(list.map(town)), got = npis(html);
     assert.equal(new Set(got).size, got.length, `${m.slug}: no card twice`);
     assert.deepEqual([...got].sort(), list.map((p) => p.npi).sort(), `${m.slug}: every card`);
-    // the doctor cards: nothing folded away with JS off (only the two-line facts note below the list is folded, 2026-11-19)
-    assert.doesNotMatch(html.replace(/<details class="facts-more">[\s\S]*?<\/details>/, ""), /<details|\shidden[\s>]|display:\s*none/, "JS off: nothing folded away");
+    // the doctor cards: nothing folded away with JS off (only the two-line facts note below the list, 2026-11-19, and the
+    // city insurance tables above it, his words 2026-11-21, are folded)
+    assert.doesNotMatch(html.replace(/<details class="facts-more">[\s\S]*?<\/details>/, "").replace(/<section class="city-notes">[\s\S]*?<\/section>/g, ""), /<details|\shidden[\s>]|display:\s*none/, "JS off: nothing folded away");
     if (towns.size < GROUP_AT) {
       assert.doesNotMatch(html, /town-group/, `${m.slug}: one list`);
       assert.deepEqual(got, list.map((p) => p.npi), `${m.slug}: nearest first`);

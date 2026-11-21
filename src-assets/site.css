@@ -1163,3 +1163,14 @@ table.city-ins th, table.city-ins td { padding: 9px 12px; text-align: left; vert
 table.city-ins thead th { border-top: 0; font-weight: 600; font-size: .9rem; color: var(--muted, inherit); }
 table.city-ins tbody th[scope=row] { font-weight: 600; width: 45%; }
 table.city-ins .pol { display: block; font-weight: 400; font-size: .85rem; line-height: 1.3; margin-top: 3px; color: var(--muted, inherit); }
+
+/* his words 2026-11-21: insurance findable without scrolling past every doctor. Jump row and closed plan tables. */
+nav.on-page { display: flex; flex-wrap: wrap; align-items: center; column-gap: 18px; margin: 12px 0 4px; }
+nav.on-page a { display: inline-block; min-height: 44px; line-height: 44px; }
+details.ins-fold { border: 1px solid var(--line); border-radius: 14px; margin: 8px 0; overflow: hidden; }
+details.ins-fold > summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; list-style: none; font-weight: 600; }
+details.ins-fold > summary::-webkit-details-marker { display: none; }
+details.ins-fold > summary::after { content: "+"; flex: none; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
+details.ins-fold[open] > summary::after { content: "\2013"; }
+details.ins-fold > .fold-body { padding: 4px 16px 12px; border-top: 1px solid var(--line); }
+#insurance, #doctors, #nearby { scroll-margin-top: 14px; }
