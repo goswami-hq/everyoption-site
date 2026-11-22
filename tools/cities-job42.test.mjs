@@ -66,7 +66,8 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     const r = await get(`/fibroids/doctors/${m.slug}/`);
     assert.equal(r.status, 200, m.slug);
     // W32 (job platform-launch-0005): the notice bar's script is the one script a city page loads; the cards need none.
-    assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top|taps)\.js\?v=[0-9a-f]{10}" defer>)/, "no script needed or loaded");
+    // 2026-11-21 (his words): deep-nav.js pins the contents list; it does nothing on a page without one.
+    assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top|taps|deep-nav)\.js\?v=[0-9a-f]{10}" defer>)/, "no script needed or loaded");
     const want = finderMetro(UFE, m).map((p) => p.npi);
     // job platform-main-0013: pages with 5+ towns group the cards by town (order checked in cities-facts-towns.test.mjs)
     if (/<div class="town-group">/.test(r.html)) assert.deepEqual([...cards(r.html)].sort(), [...want].sort(), `${m.slug}: same doctors`);
@@ -89,8 +90,8 @@ test("JavaScript off: every card on every metro page, in the finder's order, wit
     assert.doesNotMatch(text, /\b(best|top-rated|top \d|rating|rated|stars?)\b/i, `${m.slug}: no best, top or ratings`);
     // job platform-condition-pages-0013: the only insurance words are the menu, footer, coverage links and (fix A, his yes
     // 2026-11-15) the condition strip's Insurance tab (his words, 2026-11-08 21:35 CT)
-    assert.equal((r.html.match(/<p class="cov-link"><a href="\/fibroids\/insurance\/">Does insurance cover fibroid embolization\?<\/a><\/p>/g) || []).length, 2, `${m.slug}: two coverage links`);
-    assert.doesNotMatch(r.html.replace(/<nav class="top".*?<\/nav>|<nav class="cond-strip".*?<\/nav>|<p class="cov-link">.*?<\/p>|<section class="city-notes">.*?<\/section>|<footer.*?<\/footer>/gs, "").replace(/<[^>]+>/g, " "), /insurance/i, "no insurance claims on a city page outside its city notes (content/city-notes.json, his yes 2026-11-21)");
+    assert.equal((r.html.match(/<p class="cov-link"><a href="\/fibroids\/insurance\/">Does insurance cover fibroid embolization\?<\/a><\/p>/g) || []).length, CITIES.notes?.ufe?.[m.slug] ? 1 : 2, `${m.slug}: two coverage links (one when the city's insurance section sits above the list, his words 2026-11-21)`);
+    assert.doesNotMatch(r.html.replace(/<nav class="top".*?<\/nav>|<nav class="cond-strip".*?<\/nav>|<p class="cov-link">.*?<\/p>|<nav class="toc".*?<\/nav>|<section class="city-notes">.*?<\/section>|<footer.*?<\/footer>/gs, "").replace(/<[^>]+>/g, " "), /insurance/i, "no insurance claims on a city page outside its city notes (content/city-notes.json, his yes 2026-11-21)");
     assert.ok(!/(Grady|Emory|Northwestern)/.test(ans), "no practice names in the answer");
   }
 });
@@ -156,7 +157,7 @@ test("addresses: unknown slug and a metro under the bar 404; no trailing slash 3
   assert.match(r.html, /<h1>Where can I get uterine fibroid embolization \(UFE\)\?<\/h1>/);
   for (const s of FIRST_11) assert.ok(r.html.includes(`href="/fibroids/doctors/${s}/"`), s);
   assert.match(r.html, /<li id="ga"><strong>Georgia<\/strong>: \d+ doctors listed\. City pages: <a href="\/fibroids\/doctors\/atlanta-ga\/">Atlanta<\/a>/);
-  assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top|taps)\.js\?v=[0-9a-f]{10}" defer>)/);   // W32: notice.js only; 2026-11-16: and the Back to top arrow (to-top.js), which needs no data
+  assert.doesNotMatch(r.html, /<script(?! type="application\/ld\+json"| src="\/assets\/(?:notice|to-top|taps|deep-nav)\.js\?v=[0-9a-f]{10}" defer>)/);   // W32: notice.js only; 2026-11-16: and the Back to top arrow (to-top.js), which needs no data
   const post = await handleCity(new Request("http://localhost/fibroids/doctors/atlanta-ga/", { method: "POST" }), { backend: null, noCache: true, ASSETS });
   assert.equal(post.status, 405);
 });

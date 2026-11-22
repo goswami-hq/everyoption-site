@@ -901,7 +901,7 @@ def main():
                                               f"Doctors listed on Every Option whose last name starts with {label}.",
                                               directory.letter_body(by, k, e), cls="prose-page dir-page"))
     write("_routes.json", json.dumps(directory.routes(by), indent=1) + "\n")
-    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", head="%%HEAD%%", cls="prose-page city-page %%COLOR%%", section="/find-a-doctor/")
+    city_shell = page("%%PATH%%", "%%TITLE%%", "%%DESC%%", "%%BODY%%", ["/assets/deep-nav.js"], head="%%HEAD%%", cls="prose-page city-page %%COLOR%%", section="/find-a-doctor/")
     cities.write_module(ROOT, metro_cfg, city_pages, city_shell,
                         # one sentence per procedure for its city pages: its "city_blurb" in content/procedures.json
                         registry.city_blurbs(), LISTINGS_AS_OF, SITE)
