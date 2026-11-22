@@ -111,9 +111,9 @@ test("Confirmed stays above every town group: the 0 box today, and a confirmed d
 test("less shared text: one sentence and the fibroid link; the blank line is one sentence; no clinical claim added", async () => {
   for (const m of CITIES.metros.ufe) {
     const html = await get(`/fibroids/doctors/${m.slug}/`);
-    const right = /<h2>Is UFE right for me\?<\/h2>\n<p>(.*?)<\/p>/.exec(html)[1];
+    const right = /<h2(?: id="right-for-me")?>Is UFE right for me\?<\/h2>\n<p>(.*?)<\/p>/.exec(html)[1];
     assert.equal(right, 'Uterine fibroid embolization (UFE) is a less invasive procedure for fibroids that cause heavy periods, pain, or pressure, and you keep your uterus. <a href="/fibroids/">Read about your fibroid treatment options</a>.');
-    const blank = /<h2>A blank is not a no<\/h2>\n<p>(.*?)<\/p>/.exec(html)[1];
+    const blank = /<h2(?: id="blank")?>A blank is not a no<\/h2>\n<p>(.*?)<\/p>/.exec(html)[1];
     assert.equal(blank.split(/[.!?](\s|$)/).filter((x) => x && x.trim()).length, 1, `${m.slug}: one sentence: ${blank}`);
     assert.match(blank, /^A missing doctor usually means we have not found them yet/);
   }

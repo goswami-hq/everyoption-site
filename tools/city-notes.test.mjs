@@ -22,7 +22,7 @@ const block = (html) => (html.match(/<section class="city-notes[^"]*">[\s\S]*?<\
 test("Atlanta fibroid page carries its notes: where they work, the plan line, two tables, checked dates, the ask", async () => {
   const b = block(await get("/fibroids/doctors/atlanta-ga/"));
   assert.ok(b, "notes block present");
-  assert.match(b, /<h2>Where these doctors are listed<\/h2>/);
+  assert.match(b, /<h2 id="where">Where these doctors are listed<\/h2>/);
   assert.match(b, /<h2 id="insurance">Insurance in Georgia<\/h2>/);
   assert.match(b, /Your plan may differ\. Employer self-funded plans and Medicare Advantage plans can set their own rules\. Check with your plan\./);
   assert.equal((b.match(/<table class="city-ins"/g) || []).length, 3);
@@ -58,15 +58,18 @@ test("Atlanta: insurance sits above the doctor list, plan tables folded, jump ro
   const html = await get("/fibroids/doctors/atlanta-ga/");
   const ins = html.indexOf('<h2 id="insurance">'), docs = html.indexOf('<h2 id="doctors">'), firstCard = html.indexOf('class="cards"');
   assert.ok(ins > 0 && ins < docs && docs < firstCard, "insurance, then the doctors heading, then the cards");
-  assert.match(html, /<nav class="on-page" aria-label="On this page"><span class="k">On this page:<\/span> <a href="#insurance">Insurance in Georgia<\/a> <a href="#doctors">\d+ doctors<\/a>/);
-  assert.ok(html.indexOf('<nav class="on-page"') < ins, "jump row first");
-  for (const id of ["insurance", "doctors"]) assert.match(html, new RegExp(`id="${id}"`));
-  if (/href="#nearby"/.test(html)) assert.match(html, /<h2 id="nearby">/);
+  // the same contents list as the deep pages (his words 2026-11-21), and every entry lands on a heading
+  assert.match(html, /<nav class="toc" id="toc" aria-labelledby="toc-h"><p class="toc-title" id="toc-h">On this page<\/p><ol><li><a href="#insurance">Insurance in Georgia<\/a><\/li><li><a href="#doctors">\d+ doctors near Atlanta<\/a><\/li>/);
+  assert.ok(html.indexOf('<nav class="toc"') < ins, "contents list first");
+  const ids = [...html.match(/<nav class="toc"[\s\S]*?<\/nav>/)[0].matchAll(/href="#([^"]+)"/g)].map((x) => x[1]);
+  assert.ok(ids.length >= 5, "insurance, doctors, where, right for me, blank");
+  for (const id of ids) assert.match(html, new RegExp(`<h2 id="${id}">`), `#${id} lands on a heading`);
+  assert.match(html, /\/assets\/deep-nav\.js\?v=/, "pinned copy script loaded");
   assert.equal((html.match(/<details class="ins-fold"><summary>/g) || []).length, 3, "three closed plan tables");
   assert.doesNotMatch(html, /<details class="ins-fold" open/, "closed by default");
-  assert.ok(html.indexOf("<h2>Where these doctors are listed</h2>") > firstCard, "where they are listed stays below the cards");
+  assert.ok(html.indexOf('<h2 id="where">Where these doctors are listed</h2>') > firstCard, "where they are listed stays below the cards");
   const chi = await get("/fibroids/doctors/chicago-il/");
-  assert.doesNotMatch(chi, /class="on-page"|id="insurance"/, "a city with no notes is unchanged");
+  assert.doesNotMatch(chi, /class="toc"|id="insurance"/, "a city with no notes is unchanged");
   assert.match(chi, /<p class="cov-link">[\s\S]*<h2 id="doctors">/, "a city with no notes keeps its coverage link above the list");
   assert.match(html, /Georgia Medicaid <span class="muted">\(3&nbsp;plans and the state program\)<\/span>/);
   assert.match(html, /<summary><span>Other Georgia plans <span class="muted">\(4&nbsp;plans\)/, "no approval claim in the group title");

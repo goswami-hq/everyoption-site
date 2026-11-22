@@ -1165,12 +1165,27 @@ table.city-ins tbody th[scope=row] { font-weight: 600; width: 45%; }
 table.city-ins .pol { display: block; font-weight: 400; font-size: .85rem; line-height: 1.3; margin-top: 3px; color: var(--muted, inherit); }
 
 /* his words 2026-11-21: insurance findable without scrolling past every doctor. Jump row and closed plan tables. */
-nav.on-page { display: flex; flex-wrap: wrap; align-items: center; column-gap: 18px; margin: 12px 0 4px; }
-nav.on-page a { display: inline-block; min-height: 44px; line-height: 44px; }
 details.ins-fold { border: 1px solid var(--line); border-radius: 14px; margin: 8px 0; overflow: hidden; }
 details.ins-fold > summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; list-style: none; font-weight: 600; }
 details.ins-fold > summary::-webkit-details-marker { display: none; }
 details.ins-fold > summary::after { content: "+"; content: "+" / ""; flex: none; color: var(--accent); font: 400 1.5rem/1 var(--sans); }
 details.ins-fold[open] > summary::after { content: "\2013"; content: "\2013" / ""; }
 details.ins-fold > .fold-body { padding: 4px 16px 12px; border-top: 1px solid var(--line); }
-#insurance, #doctors, #nearby { scroll-margin-top: 14px; }
+.city-page main h2[id] { scroll-margin-top: 60px; }   /* clears the pinned contents bar on phones */
+/* City pages (contents list, his words 2026-11-21): the column is 816 px, wider than the deep pages', so the side rail
+   only fits from 1400 px (rail 248 px + 24 px gap + 20 px edge on each side of a centred column). Below that, the bar. */
+@media (min-width: 1180px) and (max-width: 1399px) {
+  .city-page .toc-dock { top: 0; left: 0; right: 0; width: auto; background: var(--card); }
+  .city-page .toc-bar { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 0 22px; border: 0; background: none;
+    color: var(--ink); font: 600 0.9375rem/1.3 var(--sans); text-align: left; cursor: pointer; }
+  .city-page .toc-bar-k { flex: none; color: var(--accent); }
+  .city-page .toc-now { flex: 1 1 auto; min-width: 0; overflow: hidden; color: var(--muted); font-weight: 400; text-overflow: ellipsis; white-space: nowrap; }
+  .city-page .toc-chev { flex: none; transition: transform 180ms var(--ease-out); }
+  .city-page .toc-dock.is-open .toc-chev { transform: rotate(180deg); }
+  .city-page .toc-panel { display: none; max-height: calc(100dvh - 72px); padding: 0 12px 14px; }
+  .city-page .toc-dock.is-open .toc-panel { display: block; }
+  .city-page .toc-dock.is-open { box-shadow: 0 22px 40px -24px rgba(40, 30, 20, .5); }
+  .city-page .toc-panel .toc-title { display: none; }
+  .city-page .toc-panel a { padding-top: 11px; padding-bottom: 11px; }
+}
+@media (min-width: 1400px) { .city-page .toc-dock { left: max(20px, calc(50% - 680px)); } }
