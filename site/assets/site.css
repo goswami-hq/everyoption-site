@@ -1189,3 +1189,5 @@ details.ins-fold > .fold-body { padding: 4px 16px 12px; border-top: 1px solid va
   .city-page .toc-panel a { padding-top: 11px; padding-bottom: 11px; }
 }
 @media (min-width: 1400px) { .city-page .toc-dock { left: max(20px, calc(50% - 680px)); } }
+/* Town links land below the pinned contents bar (reviewer 2026-11-21); the bar shows below 1400 px. */
+@media (max-width: 1399px) { .city-page .town-group, .city-page .town-group h4, .city-page #towns { scroll-margin-top: 60px; } }
