@@ -137,10 +137,10 @@ test("live: a test account that removes UFE leaves the page within the cache tim
 test("the database down or slow: the static list is served", async () => {
   const down = { data: { overlay: async () => { throw new Error("down"); } } };
   let r = await get("/fibroids/doctors/atlanta-ga/", { backend: down });
-  assert.equal(r.status, 200); assert.equal(cards(r.html).length, 24);
+  assert.equal(r.status, 200); assert.equal(cards(r.html).length, 25);   // 24 to 25: Michael Ray (Marietta), billing-only IRs batch (ai-hq job platform-directory-0061, his "Yes" 2026-11-24 10:07 CT)
   const slow = { data: { overlay: () => new Promise((ok) => setTimeout(() => ok([]), 300)) } };
   r = await get("/fibroids/doctors/atlanta-ga/", { backend: slow, listingsTimeoutMs: 50 });
-  assert.equal(r.status, 200); assert.equal(cards(r.html).length, 24);
+  assert.equal(r.status, 200); assert.equal(cards(r.html).length, 25);
 });
 
 test("addresses: unknown slug and a metro under the bar 404; no trailing slash 301; hub 200", async () => {
