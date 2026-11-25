@@ -491,7 +491,7 @@ def find_block(c, d, finder_href, city_hub, city_links=""):
     return (f'<section class="find-end" id="find" aria-labelledby="find-h"><h2 id="find-h">{e(d["find_heading"])}</h2>'
             f'<form class="zip" method="get" action="{e(action)}#finder" role="search" aria-label="Find doctors by ZIP code">'
             '<div class="f"><label for="end-zip">Your ZIP code</label>'
-            '<input id="end-zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 60611" required></div>'
+            '<input id="end-zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="Enter ZIP code" required></div>'
             f'<button type="submit">Find doctors</button></form>{FINDER_TERMS}{city_links}{city}</section>')
 
 
