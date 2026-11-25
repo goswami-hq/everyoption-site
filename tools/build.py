@@ -234,7 +234,7 @@ def home():
 <form id="home-search" class="hero-search" role="search" aria-label="Find a doctor" novalidate>
 <p class="find-label">Find a doctor near you</p>
 <div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond" required><option value="" disabled selected>Select a condition</option>{opts}</select></div>
-<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
+<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="Enter ZIP code"></div>
 <button type="submit">Find doctors</button></div>
 {FINDER_TERMS}
 <p id="home-status" class="hs-status" role="status"></p>
@@ -355,7 +355,7 @@ def finder_block(k, heading=None, learn="", intro=None, how=None, split=False, n
 {f'<p class="find-proc">{e(names)}</p>{chr(10)}' if names else ""}<div id="finder" data-procedure="{k}"{data}>
 <form class="zip" id="zip-form" role="search" aria-label="Find doctors by ZIP code" novalidate>
 <div class="f"><label for="zip">Your ZIP code</label>
-<input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{{5}}" maxlength="5" placeholder="e.g. 60611" required></div>
+<input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{{5}}" maxlength="5" placeholder="Enter ZIP code" required></div>
 <div class="f" style="flex:0 1 130px"><label for="radius">Within</label>
 <select id="radius" name="r"><option value="25">25 miles</option><option value="50" selected>50 miles</option><option value="100">100 miles</option><option value="250">250 miles</option></select></div>
 <button type="submit">Find doctors</button>
@@ -468,7 +468,7 @@ def find_page():
 <p class="lede">Choose a condition and enter your ZIP code. You will see doctors near you who perform its procedure, nearest first.</p>
 <form id="home-search" class="hero-search find-search" role="search" aria-label="Find a doctor" novalidate>
 <div class="hs-row"><div class="f"><label for="home-cond">Condition</label><select id="home-cond" required><option value="" disabled selected>Select a condition</option>{opts}</select></div>
-<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 60611"></div>
+<div class="f f-zip"><label for="home-zip">Your ZIP code</label><input id="home-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="Enter ZIP code"></div>
 <button type="submit">Find doctors</button></div>
 {FINDER_TERMS}
 <p id="home-status" class="hs-status" role="status"></p>
