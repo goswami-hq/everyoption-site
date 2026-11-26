@@ -173,7 +173,7 @@ read = "full text"
 id = "cpp-embolization-risks-18"
 option = "embolization"
 simple = ""
-deep = "In one center's study of 520 women, a coil or plug traveled to the lung in about 1 out of 100. In the reviews, coils that moved rarely caused lasting harm; those that needed to come out were usually pulled out at the time, with no lasting harm"
+deep = "In one center's study of 520 women, a coil or plug traveled to the lung in about 1 out of 100. In the reviews, coils that moved rarely caused lasting harm; those that needed to come out were usually pulled out at the same visit"
 refs = ["cpp-degregorio", "hanna"]
 read = "abstract"
 [[fact]]
