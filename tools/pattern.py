@@ -320,7 +320,7 @@ def other_pages(site):
             errs.append(f'{cov["path"]}: coverage page not built')
             continue
         p = page_parts(f)
-        tag = f'{x["abbr"]} coverage page'
+        tag = f'{x["abbr"] or x["key"]} coverage page'
         errs += chrome_errors(tag, p)
         # the link text everywhere is this page's own H1 (one source: content/procedures.json)
         if p["h1"] != cov["link"]:

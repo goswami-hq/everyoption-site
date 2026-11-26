@@ -54,12 +54,15 @@ class RegistryChecks(unittest.TestCase):
         self.assertTrue(any("life-strip.js has no noscene scene" in e for e in self.errs()), self.errs())
 
     def test_declared_coverage_page_must_be_built(self):
-        registry.BY_KEY["pelvic"]["parts"]["coverage"] = {"path": "/chronic-pelvic-pain/insurance/", "link": "x"}   # hae has its own page since fix F (2026-11-15)
-        self.assertTrue(any("coverage page /chronic-pelvic-pain/insurance/" in e for e in self.errs()), self.errs())
+        # pelvic has its own page since job platform-condition-pages-0024 (2026-11-25); a wrong path stands in for an unbuilt page
+        registry.BY_KEY["gae"]["parts"]["coverage"] = {"path": "/knee-pain/insurance/", "link": "x"}
+        self.assertTrue(any("coverage page /knee-pain/insurance/" in e for e in self.errs()), self.errs())
 
     def test_declared_payer_table_needs_rows(self):
-        registry.BY_KEY["pelvic"]["parts"]["payer_table"] = True
-        self.assertTrue(any("no pelvic rows" in e for e in self.errs()), self.errs())
+        # every procedure with a page has rows since 2026-11-25 (pelvic, job 0024): a copy with a new key has none
+        p = copy.deepcopy(registry.BY_KEY["hae"]); p["key"] = "norows"; p["parts"].pop("coverage", None)
+        registry.PROCEDURES.append(p); registry.BY_KEY["norows"] = p
+        self.assertTrue(any("no norows rows" in e for e in self.errs()), self.errs())
 
     def test_city_pages_must_match_metros(self):
         del registry.BY_KEY["hae"]["parts"]["city_pages"]

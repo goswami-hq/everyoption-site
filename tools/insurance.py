@@ -54,13 +54,20 @@ def split_lead(text):
     return (m.group(1), m.group(2)) if m else (text, "")
 
 
-def card(key, proc, data, copy, fold=True):
+def procs_of(p):
+    """The procedures a coverage page shows. One for most pages; the pelvic page shows two, embolization and stenting, as
+    two card groups (ai-hq job platform-condition-pages-0024). Each item: key (the cells section) and label (its group heading)."""
+    return p.get("procs") or [{"key": p["key"], "label": ""}]
+
+
+def card(key, proc, data, copy, fold=True, pick="", label=""):
     """A card. fold=True (the three coverage pages, phone-length job 0008): the chip and first sentence are the summary
     of a native <details>; all text stays in the HTML. fold=False: kept for callers that want an open card (the hub's HAE cards fold since 2026-11-08)."""
     c = data["cells"][proc][key]
     items = f'<ul>{"".join(f"<li>{e(i)}</li>" for i in c["items"])}</ul>' if c.get("items") else ""
     meta = f'<p class="ins-meta">{policy_line(c, data)}</p>'
-    head = f'<article class="card ins-card" id="{proc}-{key}"><h3>{e(data["names"][key])}</h3>'
+    tag = f' data-pick="{pick}"' if pick else ""   # the picker shows every card that carries its value (two on the pelvic page)
+    head = f'<article class="card ins-card" id="{proc}-{key}"{tag}><h3>{e(data["names"][key])}</h3>' + (f'<p class="ins-for">{e(label)}</p>' if label else "")
     if not fold:
         return f'{head}{chip(c["chip"], copy)}<p>{e(c["text"])}</p>{items}{meta}</article>'
     lead, rest = (c["text"], "") if f"{proc}-{key}" in copy["full_summary"] else split_lead(c["text"])   # see pages.toml
@@ -73,7 +80,7 @@ def card(key, proc, data, copy, fold=True):
 
 def jump(p, data, copy):
     """Top of the coverage pages: tap your insurer, go to its card. Plain links in the cards' fixed order; no script."""
-    links = "".join(f'<li><a href="#{p["key"]}-{i}">{e(copy["jump_names"].get(i, data["names"][i]))}</a></li>' for i in data["insurers"])
+    links = "".join(f'<li><a href="#{procs_of(p)[0]["key"]}-{i}">{e(copy["jump_names"].get(i, data["names"][i]))}</a></li>' for i in data["insurers"])
     return (f'<nav class="ins-jump" aria-labelledby="ins-jump-label"><p id="ins-jump-label">{e(copy["jump_label"])}</p><ul>{links}</ul>'
             f'<p class="ins-jump-no"><a href="#if-no">What if my insurer says no?</a></p></nav>')
 
@@ -129,14 +136,20 @@ def reviewed(copy):
 
 
 def procedure_body(p, data, copy):
-    cards = "".join(card(k, p["key"], data, copy) for k in data["insurers"])
+    ps = procs_of(p)
+    if len(ps) == 1:
+        cards = f'<div class="ins-cards">{"".join(card(k, p["key"], data, copy, pick=p['key'] + '-' + k) for k in data["insurers"])}</div>'
+    else:   # one group per procedure, each with its heading; the picker shows the insurer's card from every group
+        cards = "".join(f'<h3 class="ins-group" id="by-{q["key"]}">{e(q["label"])}</h3><div class="ins-cards">'
+                        + "".join(card(k, q["key"], data, copy, pick=f'{p["key"]}-{k}', label=q["label"]) for k in data["insurers"]) + "</div>"
+                        for q in ps)
     no, refs = says_no(copy)
     asks = "".join(f'<li>{e(a["text"])}</li>' for a in copy["asks"])
     import trail   # fix A (2026-11-15): the condition strip, Insurance marked
     return (crumbs([("Home", "/"), (registry.BY_SLUG[p["slug"]]["label"], f'/{p["slug"]}/'), ("Insurance coverage", None)]) + trail.strip_html(p["slug"], "insurance") +
             f'<h1>{e(p["h1"])}</h1><p class="lede">{e(p["answer"])}</p>{picker(p, data, copy)}{header_notice(copy)}{jump(p, data, copy)}'
             # fix F: every card under one fold, open in the HTML (no script: today's page); insurance.js closes it
-            f'<details class="ins-all" id="ins-all" open><summary><h2 id="by-insurer">See every insurer</h2></summary><div class="ins-cards">{cards}</div></details>'
+            f'<details class="ins-all" id="ins-all" open><summary><h2 id="by-insurer">See every insurer</h2></summary>{cards}</details>'
             # walkthrough 2026-11-15 finding 2 (his "Yes", HQ chat 20:00 CT): seen without the picker or the fold
             f'<p class="ins-unlisted"><strong>Medicaid, or your insurer is not listed?</strong> We did not check Medicaid or every insurer. '
             # walkthrough run 2 item B, his words "Yes" (HQ chat 2026-11-15 21:45 CT): one next step
@@ -190,12 +203,13 @@ def hub_body(data, copy):
     own = registry.hub_only_payers()
     heading = {p["key"]: f'{p["patient_name"][0].upper()}{p["patient_name"][1:]}{registry.paren(p)} by insurer' for p in own}
     rows = []
+    rowsets = [(q["key"], q.get("hub_label") or p["hub_label"], p["slug"]) for p in pages for q in procs_of(p)]
     for i in data["insurers"]:
-        r = "".join(hub_row(i, p["key"], p["hub_label"], f'/{p["slug"]}/insurance/#{p["key"]}-{i}', data, copy) for p in pages)
+        r = "".join(hub_row(i, k, label, f'/{slug}/insurance/#{k}-{i}', data, copy) for k, label, slug in rowsets)
         # a procedure with payer rows but no coverage page of its own (HAE today; content/procedures.json "parts")
         r += "".join(hub_row(i, p["key"], hub[p["key"] + "_label"], f'#{p["key"]}-{i}', data, copy) for p in own)
         note = f'<p class="ins-meta">{e(data["hub_notes"][i])}</p>' if i in data["hub_notes"] else ""
-        procs = [(p["key"], p["hub_label"]) for p in pages] + [(p["key"], hub[p["key"] + "_label"]) for p in own]
+        procs = [(k, label) for k, label, _ in rowsets] + [(p["key"], hub[p["key"] + "_label"]) for p in own]
         rows.append(f'<section class="card ins-hub-card"><h3>{e(data["names"][i])}</h3>{note}<dl>{r}</dl>{hub_checked(i, procs, data)}</section>')
     kinds = {data["cells"][k][i]["chip"] for k in data["cells"] for i in data["insurers"]}
     links = "".join(f'<li><a href="/{p["slug"]}/insurance/">{e(p["hub_label"])}: coverage by insurer, with conditions</a></li>' for p in pages)

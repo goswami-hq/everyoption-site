@@ -32,14 +32,18 @@
       if (list) box.appendChild(list.cloneNode(true));
       answer.appendChild(box);
     } else {
-      var src = document.getElementById(v);
-      if (!src) return;
-      var c = src.cloneNode(true);
-      c.removeAttribute("id");
-      c.classList.add("ins-chosen");
-      var d = c.querySelector("details");
-      if (d) { d.open = true; d.classList.add("ins-ready"); }
-      answer.appendChild(c);
+      // every card for this choice: one on most pages, two on the pelvic page (embolization and stenting; job 0024)
+      var srcs = document.querySelectorAll('[data-pick="' + v + '"]');
+      if (!srcs.length) { var one = document.getElementById(v); srcs = one ? [one] : []; }
+      if (!srcs.length) return;
+      for (var s = 0; s < srcs.length; s++) {
+        var c = srcs[s].cloneNode(true);
+        c.removeAttribute("id"); c.removeAttribute("data-pick");
+        c.classList.add("ins-chosen");
+        var d = c.querySelector("details");
+        if (d) { d.open = true; d.classList.add("ins-ready"); }
+        answer.appendChild(c);
+      }
     }
     answer.appendChild(links());
     // "#pick-<insurer>", never the card's own id: a link to "#ufe-aetna" made the browser open the folded full list and

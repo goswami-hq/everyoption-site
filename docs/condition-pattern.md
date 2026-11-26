@@ -118,7 +118,7 @@ scrolled to the top, in light and dark.
 - **Coverage link** (his words 2026-11-08 21:35 CT, L583: "We also need actual links to the insurance pages
   everywhere"): in the lead option, under its finder button; text is the coverage page's H1 (one source:
   `content/procedures.json` `coverage`; `tools/condition.py coverage_link`). None on a condition with no coverage page
-  (pelvic). `pattern`, node `insurance.test.mjs`. Open with him: prostate (his 2026-11-05 "No need to add" insurance
+  (none since 2026-11-25, when pelvic got its page). `pattern`, node `insurance.test.mjs`. Open with him: prostate (his 2026-11-05 "No need to add" insurance
   lines; ai-hq `projects/platform/content/page-reviews/2026-11-08-insurance-links/list-for-him.md` item 3).
 - **Links out (required):** every-option page (descriptive anchor naming the comparisons; fibroids: "Compare them side by
   side: embolization vs. myomectomy, hysterectomy, and medicines"; `pattern`); the coverage page (`pattern`); the city
@@ -285,13 +285,19 @@ scrolled to the top, in light and dark.
   L579: "Collapse sources for sure"); link to the hub; "Page last reviewed". `pattern` checks breadcrumbs, H1, the hub link and "Page last reviewed" in order, and the H1; the jump list, cards,
   folds and sources are node
   `insurance.test.mjs` (cards, folds, sources).
+- **Two-treatment coverage page** (pelvic, ai-hq job platform-condition-pages-0024, 2026-11-25; his words 2026-11-25
+  22:23 CT: "Pelvic insurance page is a to do, need to build it soon"): `pages.toml` `procs` lists the treatments
+  (pelvic: `pve` embolization, `ivs` iliac vein stenting). Inside "See every insurer" each treatment is a group with
+  its own heading (`h3.ins-group`) and the 12 cards in the fixed order; each card names its treatment (`p.ins-for`).
+  The picker has one value per insurer (`pelvic-<insurer>`) and shows that insurer's card from every group
+  (`data-pick`); the jump list goes to the first group. The hub shows one row per treatment. Node `insurance.test.mjs`.
 - **Hub:** H1, lede, changes coming, coverage by procedure (a link to every coverage page, `pattern`), the every-insurer
   grid open (on phones one compact row per insurer with four labelled chips, L581), HAE cards folded on phones (L580),
   questions to ask your plan, how we checked, "Page last reviewed".
 - **Fixed wording:** traditional Medicare cells read "No specific Medicare policy; decided case by case" (his words
   2026-11-08, L564: "use the label that's more honest"); rows not checked read "Looked <date>" (L582); no Medicaid (his
   words 2026-11-08, L561: "Just take out Medicaid altogether"); the table records his reading with policy name, link and
-  date, never the payer's own wording. No Medicaid: node `insurance.test.mjs` ("no pelvic or Medicaid data"); the
+  date, never the payer's own wording. No Medicaid: node `insurance.test.mjs` ("no Medicaid data"; pelvic vein data only on its page and the hub); the
   Medicare and "Looked <date>" wording are not checked.
 - **Where the links go** (L583): simple page (lead option), every-option page (under the lead heading and at the
   option's end, contents list), city pages (after the answer and in "Is <ABBR> right for me?"), finder results (above

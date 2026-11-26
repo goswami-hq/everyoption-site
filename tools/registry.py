@@ -340,8 +340,12 @@ def check(site=None):
             cells = {}
             for f in sorted((ROOT / "content" / "insurance").glob("coverage-*.toml"))[-1:]:
                 cells = tomllib.loads(f.read_text(encoding="utf-8")).get("cells", {})
-            if k not in cells:
-                errs.append(f"procedure {k}: declares a payer table but the newest content/insurance/coverage-*.toml has no {k} rows")
+            pages = tomllib.loads((ROOT / "content" / "insurance" / "pages.toml").read_text(encoding="utf-8"))["pages"]
+            # a two-treatment page keeps its rows under each treatment's key (pelvic: pve, ivs; job platform-condition-pages-0024)
+            sub = [q["key"] for x in pages if x["key"] == k for q in x.get("procs", [])]
+            missing = [q for q in (sub or [k]) if q not in cells]
+            if missing:
+                errs.append(f"procedure {k}: declares a payer table but the newest content/insurance/coverage-*.toml has no {', '.join(missing)} rows")
         if p.get("stage") in WITH_LIST and site and not os.path.exists(os.path.join(site, "data", k + ".json")):
             errs.append(f"procedure {k}: stage {p['stage']} needs its list site/data/{k}.json (run the export first)")
     for i, k in enumerate(issued):

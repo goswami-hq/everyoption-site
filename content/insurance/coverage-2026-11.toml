@@ -1,9 +1,9 @@
 # The public version of the payer coverage table, November 2026. Every cell comes from ai-hq
 # projects/platform/aeo/payer-table/coverage-2026-11.csv and criteria-2026-11.csv (cell ids in `cell`), rewritten in plain
 # words: no policy text, nothing from Carelon beyond his recorded reading (vault/decisions.md, 2026-11-07). His structure
-# and rules: ai-hq job platform-condition-pages-0005 (his "Yes", 2026-11-08 09:00 CT). Medicaid and pelvic veins are out.
+# and rules: ai-hq job platform-condition-pages-0005 (his "Yes", 2026-11-08 09:00 CT). Medicaid is out; pelvic veins added 2026-11-25 (job platform-condition-pages-0024).
 checked_from = "2026-11-07"
-checked_to = "2026-11-08"
+checked_to = "2026-11-25"
 notice_url = "https://www.uhcprovider.com/en/resource-library/news/2026/therapeutic-vascular-embolism-policy.html"
 notice_label = "UnitedHealthcare notice, read November 8, 2026"
 
@@ -436,4 +436,200 @@ cell = "C40"
 chip = "no_policy"
 policy = "kaiser-list"
 checked = "2026-11-07"
+text = "Kaiser's Washington region lists no criteria for this procedure. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
+
+# ---- Pelvic veins (ai-hq job platform-condition-pages-0024, read 2026-11-25): PVE = pelvic and ovarian vein
+# embolization, IVS = iliac vein stenting. Cells C49 to C72 in ai-hq coverage-2026-11.csv and criteria-2026-11.csv.
+# Anthem PVE rests on the job's reading of the Carelon guideline; his reading is pending (ai-hq list-for-him.md).
+[policies.lcd-stent]
+name = "Medicare local decision L37893, Endovenous Stenting (Novitas; First Coast L38231 has the same wording)"
+link = "https://www.cms.gov/medicare-coverage-database/view/lcd.aspx?lcdid=37893&ver=30"
+dated = "Revised December 27, 2020"
+[policies.uhc-pelvic-retired]
+name = "UnitedHealthcare Medical Policy Update Bulletin, March 2025"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/mpub-archives/commercial/medical-policy-update-bulletin-march-2025-full.pdf"
+dated = "Pelvic vein policy retired March 1, 2025"
+[policies.uhcma-pelvic-retired]
+name = "UnitedHealthcare Medicare Advantage Policy Update Bulletin, February 2025"
+link = "https://www.uhcprovider.com/content/dam/provider/docs/public/policies/mpub-archives/mamp/medicare-advantage-medical-policy-update-bulletin-february-2025-full.pdf"
+dated = "Pelvic vein content removed March 1, 2025"
+[policies.uhc-list]
+name = "UnitedHealthcare commercial policy list"
+link = "https://www.uhcprovider.com/en/policies-protocols/commercial-policies/commercial-medical-drug-policies.html"
+dated = ""
+[policies.anthem-106]
+name = "Anthem clinical guideline CG-SURG-106, Venous Angioplasty with or without Stent Placement"
+link = "https://www.anthem.com/medpolicies/abc/active/gl_pw_e000231.html"
+dated = "Published April 15, 2026"
+[policies.aetna-0441]
+name = "Clinical Policy Bulletin 0441, Pelvic Congestion Syndrome: Treatments"
+link = "https://www.aetna.com/cpb/medical/data/400_499/0441.html"
+dated = "Last reviewed July 9, 2026"
+[policies.aetna-0785]
+name = "Clinical Policy Bulletin 0785, Endovascular Arterial and Venous Stent Procedures"
+link = "https://www.aetna.com/cpb/medical/data/700_799/0785.html"
+dated = "Last reviewed October 30, 2026"
+[policies.humana-p]
+name = "Humana medical policy list, letter P"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=P&policyType=medical"
+dated = ""
+[policies.humana-t]
+name = "Humana medical policy list, letter T"
+link = "https://mcp.humana.com/tad/tad_new/Search.aspx?searchtype=beginswith&docbegin=T&policyType=medical"
+dated = ""
+[policies.hcsc-vv]
+name = "HCSC Varicose Vein Management (SUR707.016), the closest policy we found"
+link = "https://medicalpolicy.hcsc.com/content/dam/bcbs/medicalpolicy/pdf/surgery/SUR707.016_2026-06-15.pdf"
+dated = "In effect June 15, 2026"
+
+[cells.pve.medicare]
+cell = "C49"
+chip = "case_by_case"
+policy = "ncd"
+checked = "2026-11-25"
+text = "No specific Medicare policy; decided case by case. No national or local Medicare document we found names this procedure in its title. Each Medicare contractor decides, case by case, whether it is reasonable and necessary, under a general 1978 decision on embolization."
+[cells.pve.uhc]
+cell = "C50"
+chip = "no_policy"
+policy = "uhc-pelvic-retired"
+checked = "2026-11-25"
+text = "UnitedHealthcare retired its policy on this procedure on March 1, 2025, and said it no longer needs a clinical review. That is not a promise to pay. Plans that UMR runs for employers still list it as unproven. Ask your plan."
+[cells.pve.uhc-ma]
+cell = "C51"
+chip = "no_policy"
+policy = "uhcma-pelvic-retired"
+checked = "2026-11-25"
+text = "UnitedHealthcare took this procedure out of its Medicare Advantage vein policy on March 1, 2025. With no plan policy, these plans follow Original Medicare, which decides case by case. Ask your plan."
+[cells.pve.anthem]
+cell = "C52"
+chip = "conditions"
+policy = "carelon"
+checked = "2026-11-25"
+text = "Long-lasting pelvic pain from the pelvic veins that limits daily life, with scans or a vein test showing blood flowing backward in the pelvic veins. Based on the Carelon guideline that Anthem plans appear to use."
+items = ["Not covered for leg varicose veins", "Not covered for veins of the vulva without long-lasting pelvic pain"]
+[cells.pve.aetna]
+cell = "C53"
+chip = "conditions"
+policy = "aetna-0441"
+checked = "2026-11-25"
+text = "Pelvic congestion shown on a vein X-ray (venogram), CT, or MRI, after medicines such as pain or hormone medicines did not help."
+[cells.pve.aetna-ma]
+cell = "C54"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-25"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.pve.cigna]
+cell = "C55"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-25"
+text = "Pelvic pain for more than 6 months, no sign of an inflammatory disease, and ultrasound, CT, or MRI showing widened pelvic veins of a set size. Plus one of these. Applies where EviCore manages the service for Cigna."
+items = ["Pain worse with walking, standing, or tiredness", "An ache after sex, or pain with sex", "Painful periods", "Bladder or rectal discomfort", "Varicose veins in the legs that keep coming back"]
+[cells.pve.humana]
+cell = "C56"
+chip = "no_policy"
+policy = "humana-p"
+checked = "2026-11-25"
+text = "We found no Medicare Advantage policy on this procedure in Humana's list. We did not check every letter of the list. No policy does not mean covered or not covered. Ask your plan."
+[cells.pve.hcsc]
+cell = "C57"
+chip = "conditions"
+policy = "hcsc-pelvic"
+checked = "2026-11-25"
+text = "All of these."
+items = ["Pelvic pain that has lasted 6 months or more", "A check by a gynecologist", "Pelvic congestion shown on a vein X-ray (venogram), CT, or MRI"]
+[cells.pve.ambetter]
+cell = "C58"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-25"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.pve.molina]
+cell = "C59"
+chip = "no_policy"
+policy = "molina-list"
+checked = "2026-11-25"
+text = "We found no Molina policy on this procedure in a web search. We could not open Molina's full policy list, so one may exist. Ask your plan."
+[cells.pve.kaiser]
+cell = "C60"
+chip = "no_policy"
+policy = "kaiser-list"
+checked = "2026-11-25"
+text = "Kaiser's Washington region lists no criteria for this procedure. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
+
+[cells.ivs.medicare]
+cell = "C61"
+chip = "conditions"
+policy = "lcd-stent"
+checked = "2026-11-25"
+text = "Covered with conditions in some states only. Medicare contractors in some states, including Texas, Florida, Pennsylvania, and New Jersey, have a written stent policy. Elsewhere, there is no specific policy, and each case gets its own decision. Where the policy applies, these are needed."
+items = ["Severe symptoms from a squeezed or blocked pelvic vein, such as May-Thurner syndrome", "The vein is narrowed by more than half", "Simpler care, such as compression stockings, tried first", "Not covered without symptoms"]
+[cells.ivs.uhc]
+cell = "C62"
+chip = "no_policy"
+policy = "uhc-list"
+checked = "2026-11-25"
+text = "We found no UnitedHealthcare policy on vein stents in its policy list. Its leg stent policy covers arteries only. No policy does not mean covered or not covered. Ask your plan."
+[cells.ivs.uhc-ma]
+cell = "C63"
+chip = "no_policy"
+policy = "uhcma-list"
+checked = "2026-11-25"
+text = "We found no Medicare Advantage policy on vein stents in UnitedHealthcare's list. These plans follow Original Medicare, whose rules differ by state for this procedure. Ask your plan."
+[cells.ivs.anthem]
+cell = "C64"
+chip = "conditions"
+policy = "anthem-106"
+checked = "2026-11-25"
+text = "A long-lasting blockage or squeeze of the large pelvic and thigh vein, such as May-Thurner syndrome, shown on ultrasound, CT, or MRI. Plus one of these. Not covered for a new blood clot."
+items = ["Leg swelling or pain that limits daily life after at least 3 months of simpler care, such as compression stockings or medicine", "A leg sore from poor vein flow (venous ulcer)"]
+[cells.ivs.aetna]
+cell = "C65"
+chip = "conditions"
+policy = "aetna-0785"
+checked = "2026-11-25"
+text = "Listed as medically necessary for a blocked pelvic vein or May-Thurner syndrome. The policy sets no size limits or treatments to try first, and your plan may still ask for records. Not covered for repeated vein inflammation (phlebitis)."
+[cells.ivs.aetna-ma]
+cell = "C66"
+chip = "not_checked"
+policy = "aetna-ma"
+checked = "2026-11-25"
+text = "Aetna says its Medicare Advantage plans can use their own criteria where Medicare's are not fully established. It does not say which rules apply to this procedure, and we have not read them. Call your plan."
+[cells.ivs.cigna]
+cell = "C67"
+chip = "conditions"
+policy = "cigna"
+checked = "2026-11-25"
+text = "The pelvic vein is narrowed by at least half, on ultrasound, CT, MRI, or a vein X-ray, plus one of these. Applies where EviCore manages the service for Cigna."
+items = ["After a new leg clot was treated, when a squeezed vein is left behind", "A leg sore or advanced skin changes from poor vein flow", "Leg pain on walking or swelling that limits daily life, after 8 weeks of compression stockings", "Pelvic congestion with painful or swollen veins of the vulva or vagina, or pelvic pain for more than 6 months"]
+[cells.ivs.humana]
+cell = "C68"
+chip = "not_checked"
+policy = "humana-t"
+checked = "2026-11-25"
+text = "Humana lists a Medicare Advantage policy on stents in the chest, belly, and pelvis, in effect February 2, 2026. We could not open it, so we do not know whether it covers vein stents. Ask your plan."
+[cells.ivs.hcsc]
+cell = "C69"
+chip = "no_policy"
+policy = "hcsc-vv"
+checked = "2026-11-25"
+text = "We found no HCSC policy on vein stents. Its varicose vein policy does not address them. No policy does not mean covered or not covered. Ask your plan."
+[cells.ivs.ambetter]
+cell = "C70"
+chip = "no_policy"
+policy = "ambetter"
+checked = "2026-11-25"
+text = "We found no Ambetter or Centene policy on this procedure in Ambetter's Florida list or in web searches. Ambetter says it uses a licensed tool (InterQual) that is not public when it has no policy of its own. No policy does not mean covered or not covered. Ask your plan."
+[cells.ivs.molina]
+cell = "C71"
+chip = "no_policy"
+policy = "molina-list"
+checked = "2026-11-25"
+text = "We found no Molina policy on this procedure in a web search. We could not open Molina's full policy list, so one may exist. Ask your plan."
+[cells.ivs.kaiser]
+cell = "C72"
+chip = "no_policy"
+policy = "kaiser-list"
+checked = "2026-11-25"
 text = "Kaiser's Washington region lists no criteria for this procedure. We found no public criteria for other regions we searched, and we did not search every region. Ask your plan."
