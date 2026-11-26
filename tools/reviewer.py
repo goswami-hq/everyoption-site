@@ -8,12 +8,26 @@ under the H1; the date is the page's `reviewed` field, the day he signed that pa
 import datetime
 import html
 
-NAME = "Abhishek Goswami"
-DEGREE = "MD"
-SPECIALTY = "interventional radiology"
-TITLE = "Founder and Medical Director"
+# REVIEWERS is the one list of physician reviewers: the About page's "Our reviewers" and the press page's "Our team"
+# (ai-hq job platform-web-design-0020, his yes 2026-11-26) both read it, so a new reviewer is added here once and shows on
+# both. Each entry: name, degree, specialty, title (shown as "<title> at Every Option"), anchor id on /about/, training.
+# The first entry is the reviewer named on the condition pages' "Reviewed by" line and in their structured data.
+REVIEWERS = [
+    {"name": "Abhishek Goswami", "degree": "MD", "specialty": "interventional radiology",
+     "title": "Founder and Medical Director", "id": "abhishek-goswami",
+     # (label, school, field); his wording, HQ chat 2026-11-19 08:53 CT
+     "training": [("Medical school", "Emory University", ""),
+                  ("Residency", "University of Chicago", "Radiology"),
+                  ("Fellowship", "Northwestern University", "Interventional Radiology")]},
+]
+LEAD = REVIEWERS[0]
+NAME = LEAD["name"]
+DEGREE = LEAD["degree"]
+SPECIALTY = LEAD["specialty"]
+TITLE = LEAD["title"]
 CONTACT = "accounts@everyoptionmd.com"   # the site's general contact (terms); his blurb, HQ chat 2026-11-19 08:54 CT
-ANCHOR = "/about/#abhishek-goswami"   # his own entry under "Our reviewers"; the section is /about/#reviewers
+SECTION = "/about/#reviewers"
+ANCHOR = "/about/#" + LEAD["id"]   # his own entry under "Our reviewers"; the section is /about/#reviewers
 
 
 def long_date(iso):
@@ -37,23 +51,29 @@ def person(origin):
             "worksFor": {"@id": origin + "/#organization"}}
 
 
-# (label, school, field); his wording, HQ chat 2026-11-19 08:53 CT
-TRAINING = [("Medical school", "Emory University", ""),
-            ("Residency", "University of Chicago", "Radiology"),
-            ("Fellowship", "Northwestern University", "Interventional Radiology")]
+TRAINING = LEAD["training"]
 
 
 def about_section():
     """The reviewer section on the About page, the target of every line's link. Wording from his notes, HQ chat 2026-11-19
     08:35 CT: a physician reviews against current medical research; checked against sources before publishing and at every
-    revision; an "Our reviewers" list with him as the only reviewer for now; each training line on its own line."""
-    training = "".join(f"<li>{html.escape(label)}: {html.escape(school)}" + (f" ({html.escape(field)})" if field else "") + "</li>"
-                       for label, school, field in TRAINING)
+    revision; an "Our reviewers" list (REVIEWERS, him as the only reviewer for now); each training line on its own line."""
+    def entry(r):
+        training = "".join(f"<li>{html.escape(label)}: {html.escape(school)}" + (f" ({html.escape(field)})" if field else "") + "</li>"
+                           for label, school, field in r["training"])
+        return f"""<div class="reviewer" id="{html.escape(r['id'])}">
+<p class="reviewer-name"><strong>{html.escape(r['name'])}, {html.escape(r['degree'])}</strong><br>{html.escape(r['title'])} at Every Option</p>
+<ul class="reviewer-training">{training}</ul>
+</div>"""
     return f"""<h2 id="reviewers">Who reviews the condition pages</h2>
 <p>A physician reviews every condition page against current medical research. We check each page against its sources before we publish it and again at every revision.</p>
 <h3>Our reviewers</h3>
-<div class="reviewer" id="abhishek-goswami">
-<p class="reviewer-name"><strong>{html.escape(NAME)}, {DEGREE}</strong><br>{TITLE} at Every Option</p>
-<ul class="reviewer-training">{training}</ul>
-</div>
+{chr(10).join(entry(r) for r in REVIEWERS)}
 <p>Interested in being a reviewer? Reach out to us at <a href="mailto:{CONTACT}?subject=Reviewer">{CONTACT}</a>.</p>"""
+
+
+def team_items():
+    """The press page's "Our team" list, one <li> per reviewer: "<name>, <degree>, <specialty>. <title> at Every Option."
+    (his approved press wording, draft 2, 2026-11-26)."""
+    return "".join(f"<li>{html.escape(r['name'])}, {html.escape(r['degree'])}, {html.escape(r['specialty'])}. "
+                   f"{html.escape(r['title'])} at Every Option.</li>" for r in REVIEWERS)
