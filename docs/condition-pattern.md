@@ -61,8 +61,9 @@ finder, no city pages, no find-a-doctor block; its simple page is one centered r
 with the "Deep dive, every option" (was "Compare your options" until 2026-11-15) link under the intro (`hero-compare`); volumes in its tomls. `pattern` and
 `first-screen` treat a condition without `finder` this way. Known break (2026-11-09): its compare link is 24 px tall, under the 44 px
 tap rule (`first-screen` fails it; listed, not fixed, by job platform-web-design-0009). Chronic pelvic pain has the simple page with the finder and four city pages (2026-11-07, L533: "Yes to both changes and
-the builder"), no every-option page and no coverage page yet (pelvic insurance is to-do W24 with the pelvic build,
-L617). Draft conditions stay noindex and out of the sitemap (`cities.drafts()`; node `cities-job42.test.mjs`). A
+the builder"), an every-option page, and a coverage page `/chronic-pelvic-pain/insurance/` with two card groups (pelvic vein
+embolization, iliac vein stenting) built 2026-11-25 by ai-hq job platform-condition-pages-0024 (W24; corrected
+2026-11-26, job 0025). Draft conditions stay noindex and out of the sitemap (`cities.drafts()`; node `cities-job42.test.mjs`). A
 condition page with no doctor list yet sits in the home list from `PAGE_ONLY` in `tools/build.py` ("Doctor list
 coming"), not in the ZIP dropdown. The site launches only on his explicit word (2026-11-06, L490).
 
@@ -269,7 +270,8 @@ scrolled to the top, in light and dark.
 
 - **Three layers** (his yes 2026-11-08, L567): a short answer on each condition page, one coverage page per procedure,
   one hub. Today the coverage link stands in for the short answer while that block is open with him (below).
-  Not public until launch: noindex and out of every sitemap (node `insurance.test.mjs`). Open with him: the short answer
+  Public since launch (2026-11-18): indexed and in `sitemap-pages.xml` (the pre-launch "noindex and out of every
+  sitemap" line was stale; corrected 2026-11-26, ai-hq job platform-condition-pages-0025). Open with him: the short answer
   block "Will insurance cover it?" on each condition page (ai-hq
   `projects/platform/content/page-reviews/2026-11-08-insurance/list-for-him.md` item 1).
 - **Hub contents:** the hub prints an "On this page" list after the notice, one entry per section (Changes coming soon,

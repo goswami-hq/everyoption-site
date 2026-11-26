@@ -58,6 +58,9 @@
   function fromHash() {
     var id = location.hash.slice(1), v = id.indexOf("pick-") === 0 ? id.slice(5) : id;
     if (!pick || !v) return false;
+    // a hub row link names a card ("#pve-aetna"); a card shown under one pick carries that pick ("pelvic-aetna") in data-pick
+    // (design review 2026-11-26, ai-hq job platform-condition-pages-0025, FC2: the pelvic hub links opened the picker blank)
+    var byId = document.getElementById(v); if (byId && byId.getAttribute("data-pick")) v = byId.getAttribute("data-pick");
     for (var i = 0; i < who.options.length; i++) {
       if (who.options[i].value === v) {
         who.value = v; show(v, true);
