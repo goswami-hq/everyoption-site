@@ -170,7 +170,7 @@ option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
 intro = "An interventional radiologist passes a thin tube through a tiny skin nick at the wrist or groin and guides it into the arteries that feed the prostate. You get numbing medicine at the skin and medicine to help you relax. The doctor then releases tiny beads or particles that block that blood flow. With less blood flow, the prostate shrinks over time. Most men do not need a urinary catheter (a tube that drains the bladder).[^sirpt][^ucla] {d:r2-embolization-intro-12}."
-works = "Early results are encouraging. In larger groups of men followed over time, {f:pae-helps}, and {f:pae-3y}.[^pisco] {d:r2-embolization-works-13}. The trade-offs: TURP improves urine flow more, and more men need a second procedure after PAE. PAE also eased symptoms far more than a fake procedure, and more than taking two pills.[^sham][^cochrane][^abt18][^partem][^peasy][^knight]"
+works = "Early results are encouraging. In larger groups of men followed over time, {f:pae-helps}, and {f:pae-3y}.[^pisco][^xu22] {d:r2-embolization-works-13}. The trade-offs: TURP improves urine flow more, and more men need a second procedure after PAE. PAE also eased symptoms far more than a fake procedure, and more than taking two pills.[^sham][^cochrane][^abt18][^partem][^peasy][^knight]"
 evidence = [
   "* **PAE eased symptoms far more than a fake procedure.** {d:r2-embolization-evidence-14}.",
   "* **PAE vs. TURP: symptom relief is about the same.** {d:r2-embolization-evidence-15}.",

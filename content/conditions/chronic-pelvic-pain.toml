@@ -76,13 +76,13 @@ text = [
 [[lead_pair.parts]]
 heading = "How well do they work?"
 text = [
-  "**Embolization.** Early results are encouraging. About 8 out of 10 women have less pain after embolization. About 8 out of 10 still feel better 4 to 5 years later. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. Some may need a second treatment: fewer than 1 out of 10 need a repeat procedure. It is an option to look into if you have not found relief with anything else.[^strobl][^hanna][^kim06][^laborda][^hansrani][^embolize][^daniels]",
+  "**Embolization.** Early results are encouraging. About 8 out of 10 women have less pain after embolization. About 8 out of 10 still feel better 4 to 5 years later. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. Some may need a second treatment: up to about 1 out of 10 need a repeat procedure. It is an option to look into if you have not found relief with anything else.[^strobl][^hanna][^kim06][^laborda][^hansrani][^embolize][^daniels]",
   "**Stenting.** Early studies suggest a stent eases pelvic pain for women whose pain comes from a squeezed vein, and that when both vein problems are present, treating both gives more lasting relief than a stent alone.[^alenichev][^mokhtar][^razavi][^kibbe] For a swollen leg, most people have less swelling after a stent. While it goes away completely in 3 to 5 out of 10 patients, 6 to 8 out of 10 patients see improvement. Pain also tends to improve more reliably than swelling.[^rajuneglen06][^neglen07][^hong22][^liuh26][^ye12]",
 ]
 [[lead_pair.parts]]
 heading = "Side effects"
 text = [
-  "**Embolization.** Pain in the belly or back right afterward is common. A coil can move out of place in about 2 out of 100 women. It is usually caught and fixed during the same procedure. Other serious problems are possible, but rare. Pain may come back for some women.[^hanna][^strobl][^degregorio20][^sutanto]",
+  "**Embolization.** Pain in the belly or back right afterward is common. A coil can move out of place in about 2 out of 100 women. This usually causes no lasting harm. Other serious problems are possible, but rare. Pain may come back for some women.[^hanna][^strobl][^degregorio20][^sutanto]",
   "**Stenting.** Back pain after a stent is common. A clot in the stent or the stent moving is rare, about 1 to 2 out of 100. Doctors may suggest a blood thinner during a later pregnancy.[^wenda][^villalba]",
 ]
 
@@ -177,8 +177,8 @@ id = "embolization"
 name = "Pelvic vein embolization"
 what = "A doctor guides a thin tube into the wide pelvic veins. Tiny coils, plugs, or a medicine close those veins.[^strobl]"
 invasive = "It is done through a tiny skin nick.[^strobl]"
-works = "Early results are encouraging. About 8 out of 10 women have less pain after embolization.[^strobl][^kim06][^laborda] About 8 out of 10 still feel better 4 to 5 years later.[^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] More research is under way.[^embolize]\nSome may need a second treatment: fewer than 1 out of 10 need a repeat procedure.[^strobl] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
-side = "Pain in the belly or back right afterward is common. A coil can move out of place in about 2 out of 100 women. It is usually caught and fixed during the same procedure.[^hanna][^strobl][^degregorio20] Other serious problems are possible, but rare.[^hanna] Pain may come back for some women.[^sutanto]"
+works = "Early results are encouraging. About 8 out of 10 women have less pain after embolization.[^strobl][^kim06][^laborda] About 8 out of 10 still feel better 4 to 5 years later.[^kim06][^laborda] Doctors are still learning how much of this relief comes from the treatment itself.[^hanna] More research is under way.[^embolize]\nSome may need a second treatment: up to about 1 out of 10 need a repeat procedure.[^strobl] If embolization works for you, it may help you avoid surgery to remove your uterus and ovaries, but we don't know that yet."
+side = "Pain in the belly or back right afterward is common. A coil can move out of place in about 2 out of 100 women. This usually causes no lasting harm.[^hanna][^strobl][^degregorio20] Other serious problems are possible, but rare.[^hanna] Pain may come back for some women.[^sutanto]"
 
 [[options]]
 id = "stent"

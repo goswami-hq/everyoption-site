@@ -572,7 +572,7 @@ read = "abstract"
 id = "r2-embolization-risks-19"
 option = "embolization"
 simple = ""
-deep = "about 1 out of 10 people, in two reviews that pooled the studies (11 out of 100 in each). The radiology society's summary gives a wider range, 10 to 30 out of 100. In one small trial against a fake procedure, 11 of 29 people who had GAE (38 out of 100) had brief redness, gone in 1 to 4 weeks. It usually fades within about a month"
+deep = "about 1 out of 10 people, in two reviews that pooled the studies (11 and 12 out of 100). The radiology society's summary gives a wider range, 10 to 30 out of 100. In one small trial against a fake procedure, 11 of 29 people who had GAE (38 out of 100) had brief redness, gone in 1 to 4 weeks. It usually fades within about a month"
 refs = ["amin", "taslak23", "sir26", "vz24"]
 read = "abstract"
 [[fact]]

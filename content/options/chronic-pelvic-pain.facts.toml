@@ -13,7 +13,7 @@ refs = ["ahangari"]
 id = "cpp-emb-serious"
 option = "embolization"
 simple = ""
-deep = "**Serious side effects are possible, but rare: about 1 to 2 out of 100 women need another procedure or treatment.** Most of these are a coil that moved and was pulled back out. Do not add this to the coil figure above: they are mostly the same women"
+deep = "**Serious side effects are possible, but rare: about 1 to 2 out of 100 women need another procedure or treatment.** Most of these are a coil that moved and was pulled back out. This overlaps with the coil figure above: they are mostly the same women"
 refs = ["hanna", "degregorio20"]
 read = "abstract"
 [[fact]]
@@ -31,14 +31,14 @@ refs = ["kim06", "laborda"]
 [[fact]]
 id = "cpp-emb-repeat"
 option = "embolization"
-simple = "fewer than 1 out of 10"
-deep = "**Fewer than 1 out of 10 women need a repeat procedure.** In the newest review it was about 3 to 11 out of 100, depending on what was used to close the veins"
+simple = "up to about 1 out of 10"
+deep = "**Up to about 1 out of 10 women need a repeat procedure.** In the newest review it was about 3 to 11 out of 100, depending on what was used to close the veins"
 refs = ["strobl"]
 [[fact]]
 id = "cpp-emb-coil"
 option = "embolization"
 simple = "about 2 out of 100 women"
-deep = "**A coil can move out of place in about 2 out of 100 women.** It is usually caught and pulled out through the same tube at the same visit"
+deep = "**A coil can move out of place in about 2 out of 100 women.** This usually causes no lasting harm. When a coil needs to come out, it is usually pulled out through the same tube at the same visit"
 refs = ["hanna", "strobl"]
 [[fact]]
 id = "cpp-stent-rare"
@@ -173,7 +173,7 @@ read = "full text"
 id = "cpp-embolization-risks-18"
 option = "embolization"
 simple = ""
-deep = "In one center's study of 520 women, a coil or plug traveled to the lung in about 1 out of 100. In the reviews, most coils that moved were caught and pulled out at the time, with no lasting harm"
+deep = "In one center's study of 520 women, a coil or plug traveled to the lung in about 1 out of 100. In the reviews, coils that moved rarely caused lasting harm; those that needed to come out were usually pulled out at the time, with no lasting harm"
 refs = ["cpp-degregorio", "hanna"]
 read = "abstract"
 [[fact]]

@@ -71,20 +71,20 @@ id = "pae-helps"
 option = "embolization"
 simple = "about 8 out of 10 men feel better 1 to 2 years after pae"
 deep = "about 8 out of 10 men feel better 1 to 2 years after PAE"
-refs = ["pisco"]
+refs = ["pisco", "xu22"]
 [[fact]]
 # the top intro's short form; tied to the works line above, which cites it
 id = "pae-helps-intro"
 option = "embolization"
 simple = "about 8 out of 10 men"
 deep = "about 8 out of 10 men"
-refs = ["pisco"]
+refs = ["pisco", "xu22"]
 [[fact]]
 id = "pae-3y"
 option = "embolization"
 simple = "about 7 out of 10 still feel better 3 years later"
 deep = "about 7 out of 10 still feel better 3 years later"
-refs = ["pisco"]
+refs = ["pisco", "xu22"]
 [[fact]]
 # his answer 2026-11-26: "fewer than 5 out of 100"; the Swiss 16% stays on the in-depth page with its context (ejac-swiss, r2-embolization-risks-37)
 id = "pae-anejac"
