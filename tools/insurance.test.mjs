@@ -6,7 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
 const SITE = new URL("../site/", import.meta.url).pathname;
-const PAGES = ["fibroids/insurance", "enlarged-prostate/insurance", "knee-arthritis/insurance", "hemorrhoids/insurance", "insurance"];   // hemorrhoids: fix F, 2026-11-15
+const PAGES = ["fibroids/insurance", "enlarged-prostate/insurance", "knee-arthritis/insurance", "hemorrhoids/insurance", "chronic-pelvic-pain/insurance", "insurance"];   // hemorrhoids: fix F, 2026-11-15; pelvic: job 0024, 2026-11-25
 const read = (p) => readFileSync(path.join(SITE, p, "index.html"), "utf8");
 const PLAN = "Your plan may differ. Employer self-funded plans and Medicare Advantage plans can set their own rules. Check with your plan.";
 const CHIPS = ["Covered with conditions", "Covered", "Not covered", "No specific policy", "Decided case by case", "Not yet checked"];
@@ -29,7 +29,7 @@ test("the insurance pages are indexed and in the pages sitemap since launch day 
 });
 
 // Job platform-condition-pages-0013 (his words 2026-11-08 21:35 CT): live pages link here, placed from patient walkthroughs.
-// The links must keep the coverage page's own H1 as their text, and the pelvic pages must not link: they have no coverage data.
+// The links must keep the coverage page's own H1 as their text. The pelvic pages link too since job 0024 (2026-11-25).
 test("the coverage links land where the walkthroughs put them, with the target page's words", () => {
   // job platform-directory-0032: the procedures declaring a coverage page are the ones content/insurance/pages.toml builds
   const procs = JSON.parse(readFileSync(new URL("../content/procedures.json", import.meta.url), "utf8"));
@@ -53,9 +53,7 @@ test("the coverage links land where the walkthroughs put them, with the target p
     assert.match(read(p).split('<footer class="site">')[1], /<a href="\/insurance\/">Insurance coverage<\/a>/, `${p}: footer`);
     assert.match(read(p).split("</header>")[0], /<a href="\/insurance\/">Insurance<\/a>/, `${p}: menu`);
   }
-  for (const f of htmlFiles(path.join(SITE, "chronic-pelvic-pain"))) {
-    assert.doesNotMatch(readFileSync(f, "utf8").split('<footer class="site">')[0].replace(/<header.*?<\/header>/s, ""), /href="\/(?:[a-z-]+\/)?insurance\//, f);
-  }
+  assert.ok(COV.some((p) => p.key === "pelvic"), "pelvic has its coverage page (walkthrough v2 item 1, W24)");
 });
 
 test("every procedure page has 12 cards in the fixed order, each with a chip, a date, and a link", () => {
@@ -90,9 +88,10 @@ test("required lines, sections, and data limits", () => {
     assert.ok(t.includes(PLAN), `${p}: header line`);
     assert.match(t, /Education, not medical advice/, p);
     assert.match(t, /Page last reviewed/, p);
-    assert.doesNotMatch(t, /pelvic vein|ovarian vein|Medicaid plan/i, p);
+    assert.doesNotMatch(t, /Medicaid plan/i, p);
+    if (!/pelvic|^insurance$/.test(p)) assert.doesNotMatch(t, /pelvic vein|ovarian vein/i, p);   // pelvic data only on its page and the hub
   }
-  for (const p of PAGES.slice(0, 4)) assert.match(read(p), /What if my insurer says no\?/, p);
+  for (const p of PAGES.slice(0, 5)) assert.match(read(p), /What if my insurer says no\?/, p);
   assert.doesNotMatch(read("fibroids/insurance") + read("enlarged-prostate/insurance") + read("knee-arthritis/insurance"), /id="hae-/);
 });
 
@@ -168,7 +167,7 @@ test("the hub: no cards of its own, the dataset grid folded and closed, the pick
 test("the source file is present",() => assert.ok(existsSync(new URL("../content/insurance/coverage-2026-11.toml", import.meta.url))));
 
 test("the sources list is folded at every width, every source number points inside it, and the script opens it", () => {   // his "Collapse sources for sure", 2026-11-08
-  for (const p of PAGES.slice(0, 4)) {
+  for (const p of PAGES.slice(0, 5)) {
     const h = read(p);
     const fold = h.match(/<details class="ins-sources"><summary><h2 id="sources">Sources \((\d+)\)<\/h2><\/summary><ol class="refs">([\s\S]*?)<\/ol><\/details>/);
     assert.ok(fold, `${p}: sources folded in a closed details with a counted heading`);
@@ -187,8 +186,9 @@ test("the hub grid: every insurer has four rows in order, each with its full nam
   assert.equal(cards.length, 12);
   for (const c of cards) {
     const rows = c.split('<div class="ins-row">').slice(1);
-    assert.deepEqual(rows.map((r) => r.match(/>([A-Z]{3})<span class="ins-proc-rest">/)[1]), ["UFE", "PAE", "GAE", "HAE"]);
-    for (const [r, full] of rows.map((r, n) => [r, ["Fibroids (UFE)", "Enlarged prostate (PAE)", "Knee arthritis (GAE)", "Hemorrhoids (HAE)"][n]])) {
+    const FULL = ["Fibroids (UFE)", "Enlarged prostate (PAE)", "Knee arthritis (GAE)", "Pelvic vein embolization", "Iliac vein stenting", "Hemorrhoids (HAE)"];
+    assert.equal(rows.length, FULL.length);
+    for (const [r, full] of rows.map((r, n) => [r, FULL[n]])) {
       assert.equal(r.split("</a>")[0].replace(/<[^>]+>/g, ""), full, "full name in the link for screen readers");
       assert.match(r, /class="ins-chip ins-[a-z_]+"><svg/, "status has a shape");
       assert.ok(CHIPS.includes(r.match(/<\/svg>([^<]+)<\/span>/)[1]), "status in words");
@@ -211,7 +211,8 @@ test("each hub row links to that insurer's card for that procedure", () => {
   for (const c of grid.split('<section class="card ins-hub-card">').slice(1)) {
     const hrefs = [...c.matchAll(/<dt><a href="([^"]+)"/g)].map((m) => m[1]);
     const i = hrefs[0].split("#ufe-")[1];
-    assert.deepEqual(hrefs, [`/fibroids/insurance/#ufe-${i}`, `/enlarged-prostate/insurance/#pae-${i}`, `/knee-arthritis/insurance/#gae-${i}`, `/hemorrhoids/insurance/#hae-${i}`]);
+    assert.deepEqual(hrefs, [`/fibroids/insurance/#ufe-${i}`, `/enlarged-prostate/insurance/#pae-${i}`, `/knee-arthritis/insurance/#gae-${i}`,
+      `/chronic-pelvic-pain/insurance/#pve-${i}`, `/chronic-pelvic-pain/insurance/#ivs-${i}`, `/hemorrhoids/insurance/#hae-${i}`]);
   }
 });
 
@@ -245,4 +246,37 @@ test("picker addresses use #pick-, never a card id; old card-id links are taken 
   assert.match(js, /"#pick-none" : w \? "#pick-" \+ key \+ "-" \+ w/);
   assert.match(js, /if \(all\) all\.open = false;/);
   for (const [p, key] of COVERAGE) assert.doesNotMatch(read(p), new RegExp(`id="pick-${key}-`), `${p}: no element owns a #pick- address`);
+});
+
+// Job platform-condition-pages-0024 (his words 2026-11-25 22:23 CT: "Pelvic insurance page is a to do, need to build it
+// soon"): the pelvic coverage page shows two treatments as two card groups, each with every insurer in the fixed order; the
+// picker shows the chosen insurer's card from both groups (data-pick), and each card names its treatment.
+test("the pelvic coverage page: two groups, 12 cards each in order, one picker value per insurer, both cards picked", () => {
+  const order = ["medicare", "uhc", "uhc-ma", "anthem", "aetna", "aetna-ma", "cigna", "humana", "hcsc", "ambetter", "molina", "kaiser"];
+  const t = read("chronic-pelvic-pain/insurance");
+  assert.ok(t.indexOf('id="by-pve"') > 0 && t.indexOf('id="by-pve"') < t.indexOf('id="by-ivs"'), "embolization group, then stenting");
+  for (const k of ["pve", "ivs"]) {
+    const ids = [...t.matchAll(new RegExp(`<article class="card ins-card" id="${k}-([a-z-]+)" data-pick="pelvic-([a-z-]+)"`, "g"))];
+    assert.deepEqual(ids.map((m) => m[1]), order, k);
+    assert.deepEqual(ids.map((m) => m[2]), order, `${k}: picker value per insurer`);
+  }
+  for (const c of t.split('<article class="card ins-card"').slice(1)) {
+    const card = c.split("</article>")[0];
+    assert.match(card, /<p class="ins-for">(Pelvic vein embolization|Iliac vein stenting[^<]*)<\/p>/, "card names its treatment");
+    assert.match(card, /<details class="ins-more"><summary><span class="ins-chip [^"]+"><svg/, "chip in the summary");
+    assert.match(card.split("</summary>")[1], /Checked [A-Z][a-z]+ \d{1,2}, 2026/, "date in the details");
+    assert.match(card, /<p class="ins-meta">.*<a href="https:/, "policy link");
+  }
+  const sel = t.split('<div class="ins-pick" id="ins-pick" hidden>')[1].split("</select>")[0];
+  assert.deepEqual([...sel.matchAll(/<option value="([a-z-]+)">/g)].map((m) => m[1]), [...order.map((i) => `pelvic-${i}`), "none"]);
+  const jumps = [...t.split('<nav class="ins-jump"')[1].split("</nav>")[0].matchAll(/<li><a href="#([a-z-]+)">/g)].map((m) => m[1]);
+  assert.deepEqual(jumps, order.map((i) => `pve-${i}`));
+  const js = readFileSync(path.join(SITE, "assets", "insurance.js"), "utf8");
+  assert.match(js, /querySelectorAll\('\[data-pick="' \+ v \+ '"\]'\)/, "the picker clones every card with the value");
+  assert.match(read("insurance"), /<option value="\/chronic-pelvic-pain\/insurance\/" data-key="pelvic">/, "hub picker sends pelvic to its page");
+  assert.doesNotMatch(read("insurance"), /value="none" data-key="pelvic"/);
+  for (const k of ["ivs-medicare", "pve-uhc"]) {   // the hedge stays visible with the details closed
+    const v = t.split(`id="${k}"`)[1].split("</summary>")[0];
+    assert.match(v, k === "ivs-medicare" ? /some states only/ : /not a promise to pay/, k);
+  }
 });

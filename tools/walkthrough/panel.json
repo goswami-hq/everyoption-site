@@ -1,6 +1,6 @@
 {
  "version": 2,
- "updated": "2026-11-15",
+ "updated": "2026-11-26",
  "sources": [
   "records/reports/2026-11-06 Fibroids audience and content research.md",
   "records/reports/2026-11-06 Enlarged prostate audience and content research.md",
@@ -563,6 +563,62 @@
       "covered"
      ],
      "note": "Site has no pelvic coverage page at this build (insurance-links job 2026-11-08, row 9); the hub is the finish line."
+    },
+    {
+     "id": "insurance-pick",
+     "function": "check insurance",
+     "start": "/chronic-pelvic-pain/",
+     "goal": "Your insurance is Cigna. Find out whether Cigna would pay for the vein treatment, and what you would need for it to be covered.",
+     "finish": {
+      "url_re": "^/chronic-pelvic-pain/insurance",
+      "selector": "#ins-answer .ins-chosen"
+     },
+     "tap_budget": 4,
+     "words": [
+      "insurance",
+      "Cigna",
+      "covered"
+     ],
+     "note": "Added 2026-11-26 (job platform-condition-pages-0025, his words 02:06 CT: \"Remember to run the relevant pipelines for pages and site walkthrough as well\") for the new pelvic insurance page."
+    },
+    {
+     "id": "insurance-home",
+     "function": "check insurance",
+     "start": "/",
+     "goal": "You have Aetna through work. Find out whether Aetna would pay for a vein treatment for pelvic pain.",
+     "finish": {
+      "url_re": "^/chronic-pelvic-pain/insurance",
+      "selector": "#ins-answer .ins-chosen"
+     },
+     "tap_budget": 6,
+     "words": [
+      "insurance",
+      "Aetna",
+      "pelvic pain"
+     ],
+     "note": "Added 2026-11-26 (job platform-condition-pages-0025, his words 02:06 CT: \"Remember to run the relevant pipelines for pages and site walkthrough as well\") for the new pelvic insurance page."
+    },
+    {
+     "id": "insurance-then-find",
+     "function": "find a doctor near a ZIP",
+     "start": "/chronic-pelvic-pain/insurance/",
+     "goal": "You have read about your insurance. Now find a doctor near you who does this vein treatment. Your ZIP code is 77004.",
+     "finish": {
+      "any_of": [
+       {
+        "selector": "#results .card"
+       },
+       {
+        "selector": ".tier .card, .tier li"
+       }
+      ]
+     },
+     "tap_budget": 5,
+     "words": [
+      "find a doctor",
+      "near me"
+     ],
+     "note": "Added 2026-11-26 (job platform-condition-pages-0025, his words 02:06 CT: \"Remember to run the relevant pipelines for pages and site walkthrough as well\") for the new pelvic insurance page."
     }
    ]
   },
@@ -1241,11 +1297,12 @@
       "url_re": "^/hemorrhoids/insurance",
       "selector": "#ins-answer .ins-chosen"
      },
-     "tap_budget": 3,
+     "tap_budget": 4,
      "words": [
       "insurance",
       "UnitedHealthcare"
-     ]
+     ],
+     "note": "Tap budget 3 to 4 on 2026-11-26 (next-walkthrough list item 3: one more tap on insurer picker tasks; job platform-condition-pages-0025)."
     },
     {
      "id": "deep",

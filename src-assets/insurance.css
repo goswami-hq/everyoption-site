@@ -92,6 +92,9 @@ p.ins-meta { margin-top: 12px; }
   .ins-row .ins-row-date-keep { grid-column: 1 / -1; grid-row: 3; }
   .ins-row .ins-sep { display: none; }
   .ins-row-date:not(.ins-row-date-keep) { display: none; }
+  /* Pelvic rows carry a full label with no short form (no .ins-proc-rest), so the 2.3em label column made the label print
+     over the status chip at 390 (design review 2026-11-26, ai-hq job platform-condition-pages-0025, FC1): label on its own line. */
+  .ins-row:not(:has(.ins-proc-rest)) > dt, .ins-row:not(:has(.ins-proc-rest)) > dd { grid-column: 1 / -1; }
 }
 @media (max-width: 380px) { .ins-row { padding: 10px 6px 10px 8px; } .ins-row dt { font-size: 1rem; } .ins-row dd { column-gap: 4px; } .ins-row .ins-chip { gap: 4px; font-size: 0.875rem; } .ins-row .ins-chip svg { width: 14px; height: 14px; } }
 
@@ -135,3 +138,7 @@ p.ins-meta { margin-top: 12px; }
 .ins-pick-msg:empty { display: none; }
 .ins-unlisted { margin: 14px 0 0; padding: 12px 16px; background: var(--soft); border-radius: var(--radius); }
 .ins-unlisted a { display: inline-block; padding: 10px 0; margin: -10px 0; font-weight: 600; }
+/* Two-procedure coverage page (pelvic: embolization and stenting; ai-hq job platform-condition-pages-0024) */
+.ins-group { font: 400 1.5rem/1.25 var(--serif); margin: 28px 0 0; }
+.ins-group:first-of-type { margin-top: 12px; }
+.ins-card .ins-for { margin: -4px 0 8px; font-size: .875rem; font-weight: 600; color: var(--muted, inherit); }

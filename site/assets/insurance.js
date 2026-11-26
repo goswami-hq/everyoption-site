@@ -32,14 +32,18 @@
       if (list) box.appendChild(list.cloneNode(true));
       answer.appendChild(box);
     } else {
-      var src = document.getElementById(v);
-      if (!src) return;
-      var c = src.cloneNode(true);
-      c.removeAttribute("id");
-      c.classList.add("ins-chosen");
-      var d = c.querySelector("details");
-      if (d) { d.open = true; d.classList.add("ins-ready"); }
-      answer.appendChild(c);
+      // every card for this choice: one on most pages, two on the pelvic page (embolization and stenting; job 0024)
+      var srcs = document.querySelectorAll('[data-pick="' + v + '"]');
+      if (!srcs.length) { var one = document.getElementById(v); srcs = one ? [one] : []; }
+      if (!srcs.length) return;
+      for (var s = 0; s < srcs.length; s++) {
+        var c = srcs[s].cloneNode(true);
+        c.removeAttribute("id"); c.removeAttribute("data-pick");
+        c.classList.add("ins-chosen");
+        var d = c.querySelector("details");
+        if (d) { d.open = true; d.classList.add("ins-ready"); }
+        answer.appendChild(c);
+      }
     }
     answer.appendChild(links());
     // "#pick-<insurer>", never the card's own id: a link to "#ufe-aetna" made the browser open the folded full list and
@@ -54,6 +58,9 @@
   function fromHash() {
     var id = location.hash.slice(1), v = id.indexOf("pick-") === 0 ? id.slice(5) : id;
     if (!pick || !v) return false;
+    // a hub row link names a card ("#pve-aetna"); a card shown under one pick carries that pick ("pelvic-aetna") in data-pick
+    // (design review 2026-11-26, ai-hq job platform-condition-pages-0025, FC2: the pelvic hub links opened the picker blank)
+    var byId = document.getElementById(v); if (byId && byId.getAttribute("data-pick")) v = byId.getAttribute("data-pick");
     for (var i = 0; i < who.options.length; i++) {
       if (who.options[i].value === v) {
         who.value = v; show(v, true);

@@ -171,6 +171,11 @@
     },
     "parts": {
       "banner": "life",
+      "coverage": {
+        "path": "/chronic-pelvic-pain/insurance/",
+        "link": "Does insurance cover pelvic vein embolization or stenting?"
+      },
+      "payer_table": true,
       "city_pages": true,
       "animations": {
         "pelvic-embo": {
