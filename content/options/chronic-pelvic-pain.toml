@@ -109,7 +109,7 @@ certainty = "Early results are encouraging"
 diagram = "pelvic-embo"   # his "Yes" 2026-11-14 15:56 CT: the short guide's two drawings here too
 headings = { selection = "Will I need another treatment later?" }
 intro = "A doctor guides a thin tube through a tiny skin nick to the wide veins near the ovaries and uterus. Tiny coils, plugs, a medical glue, or a medicine then close those veins.[^strobl]\nYou get numbing medicine at the skin, and sometimes medicine to help you relax. Most women go home the same day. Some centers keep women overnight.[^hansrani][^cpp-rossi][^cpp-eleissawy]"
-works = "Early results are encouraging. {d:cpp-embolization-works-3}. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^hansrani][^daniels][^cpp-degregorio]"
+works = "Early results are encouraging. {f:cpp-emb-helps}. {f:cpp-emb-lasting}. In the one trial that compared embolization with a fake procedure, embolization eased pain more. More research is under way. It is an option to look into if you have not found relief with anything else.[^hansrani][^daniels][^cpp-degregorio]"
 evidence = [
   "* **Embolization eased pain more than a fake procedure (a sham).** {d:cpp-embolization-evidence-4}.",
   "- {d:cpp-embolization-evidence-5}.",
@@ -133,12 +133,14 @@ risks = [
   "* **Pain in the pelvis or lower back for the first few days, sometimes with a low fever (post-embolization syndrome).** {d:cpp-embolization-risks-15}.",
   "* **Doctors usually suggest about a week of taking it easy.**[^cpp-eleissawy][^cpp-badak][^cpp-senechal]",
   "* {d:cpp-embolization-risks-16}.",
-  "* {d:cpp-embolization-risks-17}.",
-  "* {d:cpp-embolization-risks-18}.",
+  "* {f:cpp-emb-coil}.",
+  "- {d:cpp-embolization-risks-18}.",
+  "* {d:cpp-emb-serious}.",
   "* **A small clot can form in a nearby vein.** A center found that though some women had one, most caused no symptoms, and none traveled to the lungs.[^cpp-gav-jsr][^cpp-gav-vte]",
   "* **Hormone levels did not change.** In the study that checked, the ovaries kept working as before.[^kim06]",
 ]
 selection = [
+  "* {f:cpp-emb-repeat}.",
   "* **Pain may come back for some women.** {d:cpp-embolization-selection-19}.",
   "* **A second procedure can help.** {d:cpp-embolization-selection-20}.",
 ]

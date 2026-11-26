@@ -157,7 +157,7 @@ def page(path, title, desc, body, scripts=(), head="", cls=None, banner="", css=
 <p><strong>Education, not medical advice.</strong> Talk to your doctor about your own care. In an emergency, call 911.</p>
 <p>Found an error? <a href="/report/">Report an error</a> or email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
 <p class="disclosure">{e(DISCLOSURE)}</p>
-<p><a href="/find-a-doctor/">Find a doctor</a> · <a href="/doctors/">Find a doctor by name</a> · <a href="/find-a-doctor/#by-city">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/about/">About</a> · <a href="/how-we-know/">How the doctor lists work</a></p>
+<p><a href="/find-a-doctor/">Find a doctor</a> · <a href="/doctors/">Find a doctor by name</a> · <a href="/find-a-doctor/#by-city">Doctors by city</a> · <a href="/insurance/">Insurance coverage</a> · <a href="/about/">About</a> · <a href="/press/">Press</a> · <a href="/how-we-know/">How the doctor lists work</a></p>
 {legal.footer_line()}
 <p id="follow" class="follow"><strong>Follow Every Option:</strong> {social}</p>
 </div></footer>
@@ -523,6 +523,57 @@ def about():
                 "the doctor lists work.", body, head=head)
 
 
+# The press page (ai-hq job platform-web-design-0020): his "Yes" 2026-11-26 to draft 2, word for word
+# (goswami-hq/ai-hq projects/platform/marketing/outreach/press-page-draft-2026-11.md, "Page text, as it would read";
+# approval ops/approvals/posts/2026-11-26-press-page.md). Room to grow (his words 2026-11-26): the condition list comes
+# from the registry (the labels on /conditions/) and the team list from tools/reviewer.py REVIEWERS (About's "Our
+# reviewers"), so a new condition or reviewer appears here with no edit to this page.
+PRESS_EMAIL = "hello@everyoptionmd.com"
+PRESS_UPDATED = "2026-11-26"   # the day this page's text last changed; change it with the text
+PRESS_ABOUT = [
+    "Every Option is a free website that explains every treatment for common conditions, including the ones without surgery "
+    "that many people never hear about.",
+    "Each condition page covers medicines, surgery, and less invasive treatments, with the sources listed.",
+    "The site also lists doctors who perform these treatments, nearest first, and shows what Medicare and large insurers say "
+    "about covering them.",
+    "No one can pay to be listed, ranked higher, or sent patients.",
+    "Every Option went live on November 18, 2026.",
+]
+
+
+def press_conditions():
+    """The condition labels exactly as on /conditions/ (its cards), in the same order."""
+    return [c["card"]["name"] for c, p, _ in registry.condition_rows() if p]
+
+
+def press():
+    conds = "".join(f"<li>{e(n)}</li>" for n in press_conditions())
+    body = trail.html_of([trail.HOME, ("Press", None)]) + f"""<h1>Press</h1>
+<div class="prose">
+<p class="lede">For interviews, quotes, or logo files, email <a href="mailto:{PRESS_EMAIL}">{PRESS_EMAIL}</a>.</p>
+<h2>About Every Option</h2>
+<p>{e(" ".join(PRESS_ABOUT))}</p>
+<h2>Conditions we cover</h2>
+<ul>{conds}</ul>
+<p>We add conditions over time. The current list is always on our Conditions page: <a href="/conditions/">everyoptionmd.com/conditions/</a></p>
+<h2>What is interventional radiology?</h2>
+<p>Interventional radiologists are doctors who use imaging, such as X-ray, ultrasound, CT, or MRI, to see inside the body and guide treatment. They treat through a tiny nick in the skin, instead of a surgical cut. For many of these treatments, people go home the same day. Every doctor we list is an interventional radiologist.</p>
+<p class="small muted">Source: Society of Interventional Radiology, What is interventional radiology? (updated February 2025), <a href="https://www.sirweb.org/patients/" rel="noopener">https://www.sirweb.org/patients/</a></p>
+<h2>How the condition pages are reviewed</h2>
+<p>One of our physician reviewers reviews every condition page against current medical research. We check each page against its sources before we publish it and again at every revision.</p>
+<h2>What we can speak to</h2>
+<ul>
+<li>Treatments without surgery for the conditions we cover, and how they compare with surgery.</li>
+<li>What Medicare and large insurers say about covering these treatments, from their written policies (our insurance pages: <a href="/insurance/">everyoptionmd.com/insurance/</a>).</li>
+<li>Why many patients never hear about these options.</li>
+</ul>
+<h2 id="team">Our team</h2>
+<p>Every Option is run by a practicing interventional radiologist. Our reviewers are listed on our About page: <a href="{reviewer.SECTION}">everyoptionmd.com/about/#reviewers</a></p>
+<ul class="team">{reviewer.team_items()}</ul>
+<p class="small muted">Last updated {reviewer.long_date(PRESS_UPDATED)}</p>
+</div>"""
+    return page("/press/", "Press | Every Option", PRESS_ABOUT[0], body)
+
 def how():
     # fix E (his yes, 2026-11-15 18:06 CT): this page is now only about the doctor lists; who runs the site, what IR is
     # and how the condition pages are written moved to About (about() below). Same address, so every link still works.
@@ -686,7 +737,8 @@ AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Searc
 ROBOTS = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n"
 # Job 42 (seo-audit 4): /account/ and /report/ stay indexable but leave the sitemap; each page's date is when its text
 # last changed: a condition page's own `reviewed` field, REVIEWED for the others.
-SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/about/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+SITEMAP_PAGES = ["/", "/conditions/", "/find-a-doctor/", "/about/", "/press/", "/how-we-know/", "/doctors/"] + list(legal.PAGES)   # legal pages: W32, job platform-launch-0005
+PAGE_DATES = {"/press/": PRESS_UPDATED}   # a page whose text changed after REVIEWED carries its own date
 if videos.real(VIDEOS):
     SITEMAP_PAGES.append("/videos/")   # only real films; a test entry never reaches the sitemap
 
@@ -721,7 +773,7 @@ def urlset(entries):
 def sitemaps(profiles=(), letters=(), cities=()):
     """Job 42 (city-pages 4): a sitemap index with one file per page type, so indexing can be read per type."""
     files = {
-        "sitemap-pages.xml": [(u, REVIEWED) for u in SITEMAP_PAGES] + sorted(condition_dates().items()) + launch_pages(),
+        "sitemap-pages.xml": [(u, PAGE_DATES.get(u, REVIEWED)) for u in SITEMAP_PAGES] + sorted(condition_dates().items()) + launch_pages(),
         "sitemap-cities.xml": list(cities),
         "sitemap-doctors.xml": [(u, None) for u in letters] + [(u, None) for u in profiles],   # job 27: indexed groups only
     }
@@ -842,6 +894,7 @@ def main():
     write("conditions/index.html", conditions_page())   # fix C
     write("find-a-doctor/index.html", find_page())      # fix D
     write("about/index.html", about())   # fix E
+    write("press/index.html", press())   # job platform-web-design-0020
     vdir = os.path.join(SITE, "videos")
     if SHOWN_VIDEOS:
         write("videos/index.html", videos_page())   # job platform-web-design-0019

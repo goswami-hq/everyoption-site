@@ -176,7 +176,7 @@ option = "embolization"
 diagram = true
 certainty = "Early results are encouraging"
 intro = "A doctor guides a thin tube through a tiny skin nick in the wrist or groin to the arteries that feed the hemorrhoids. You get numbing medicine at the skin and medicine to help you relax. Tiny metal coils, tiny beads, or both then block those arteries. No one material is proven best.[^bagla][^falsarella][^kucukay]"
-works = "Early results are encouraging. Most people bleed less, and {f:hae-year}. Some need a second treatment or surgery. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella][^cai]"
+works = "Early results are encouraging: {f:hae-help}, and {f:hae-year}. Some need more treatment: {f:hae-retreat} within a year. It is mainly a treatment for bleeding.[^nguyenhuy][^aljnainati][^falsarella][^cai]"
 evidence = [
   "* **Most bleed less at first.** {d:nguyen}. Every study followed one group before and after, with no comparison group.",
   "* **Results vary from center to center.** {d:aljn}. The authors judged the studies too different to combine into one number.",
@@ -191,7 +191,7 @@ evidence = [
 ]
 risks = [
   "{d:emb-avoids}.",
-  "* **Common and short-lived:** a few days of rectal pressure, urge to go, or low fever. {d:tenesmus}.",
+  "* **Common and short-lived:** rectal pressure or an urge to go for {f:hae-urge} in about half of people, or a low fever. {d:tenesmus}.",
   "* **Small ulcers, which healed:** {d:kucu-ulcer}. Most series do not look with a scope, so they undercount ulcers.",
   "* **Serious bowel injury: possible, but rare.** It has been reported more than once, with no reliable rate. Case reports describe bowel damage from poor blood flow, including one hole in the bowel that needed an operation and one narrowing of the bowel.[^aljnainati][^deoliveira][^eberspacher][^hess]",
   "* Loss of bowel control has not been reported.[^aljnainati]",

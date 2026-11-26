@@ -46,7 +46,7 @@ diagram_at = "embolization"    # ... shown inside this option
 # The finder block (job platform-directory-0029). The intro restates the embolization option's own "what" below.
 finder_button = "Find a doctor for hemorrhoid embolization"
 finder_heading = "Find a doctor for hemorrhoid embolization"
-finder_intro = "Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery. It treats bleeding hemorrhoids."   # his call 2, "Your picks" 2026-11-14 15:46 CT (ai-hq job platform-directory-0039): opens as the other four do
+finder_intro = "Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery. It treats bleeding hemorrhoids.\n**About 8 out of 10 people** bleed less in the first months."   # his call 2, "Your picks" 2026-11-14 15:46 CT (ai-hq job platform-directory-0039): opens as the other four do
 finder_how = "#embolization"
 options_page = "/hemorrhoids/every-option/"
 options_link = "Compare them side by side: embolization vs. banding, other office treatments, and surgery"
@@ -178,8 +178,8 @@ lead_heading = "What is hemorrhoid artery embolization (HAE)?"
 what = "Hemorrhoid artery embolization (HAE) treats bleeding hemorrhoids without surgery. A thin tube goes through a tiny skin nick in the wrist or groin. Tiny coils or beads block the arteries feeding the hemorrhoids, so they bleed less. Most people go home the same day.[^bagla][^falsarella][^kucukay]"
 invasive = "Early studies suggest recovery is far less painful than after surgery in the first days.[^falsarella]"
 invasive_heading = "Recovery"   # his word "Fine", 2026-11-10 15:03 CT; the text under it is about recovery
-works = "Early results are encouraging. Most patients bleed less afterward. About 2 out of 3 people still have little or no bleeding a year later, some after a second embolization. Some may need a second treatment or surgery.[^nguyenhuy][^degregorio][^tradi][^aljnainati] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
-side = "There is no wound, and no loss of bowel control has been reported.[^jin25] You may have pressure, an urge to go, or a low fever for a few days.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
+works = "Early results are encouraging. About 8 out of 10 people bleed less in the first months.[^nguyenhuy][^aljnainati] About 2 out of 3 people still have little or no bleeding a year later.[^degregorio][^tradi] Some may need another treatment: about 1 out of 4 have a second embolization or surgery within a year.[^degregorio][^tradi] It is not known to fix hemorrhoids that bulge out.[^kucukay] It may spare you surgery, but we don't know that yet."
+side = "There is no wound, and no loss of bowel control has been reported.[^jin25] You may have pressure or an urge to go for 3 to 5 days: about half of people do. A low fever can happen too.[^han][^zhou] Serious bowel injury is possible, but rare.[^deoliveira][^eberspacher][^hess]"
 
 [[options]]
 id = "banding"

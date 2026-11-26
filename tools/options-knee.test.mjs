@@ -30,7 +30,7 @@ test("a deep-only fact with no reading label fails", () =>
 test("a shared fact written as deep-only fails", () =>
   assert.match(run(`gae["works"] = gae["works"] + " {d:gae-skin}"`), /shared fact/));
 test("a changed number on the simple page fails", () =>
-  assert.match(run(`o = next(o for o in c["options"] if o["id"] == "embolization"); o["side"] = o["side"].replace("1 to 3 out of 10", "2 to 4 out of 10")`), /gae-skin|no ledger line/));
+  assert.match(run(`o = next(o for o in c["options"] if o["id"] == "embolization"); o["side"] = o["side"].replace("about 1 out of 10", "about 2 out of 10")`), /gae-skin|no ledger line/));
 test("abstract-only numbers print their label", () =>
   assert.match(execFileSync("python3", ["-I", "-c", `import sys; sys.path.insert(0, ${JSON.stringify(TOOLS)})
 import options

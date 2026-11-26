@@ -140,7 +140,7 @@ class PatternTest(unittest.TestCase):
         self.assertTrue(any("strictly outpatient" in e for e in errs), errs)
 
     def test_frequency_in_fails(self):
-        errs = self.site(("chronic-pelvic-pain/index.html", "about 1 out of 100", "about 1 in 100"))
+        errs = self.site(("chronic-pelvic-pain/index.html", "about 2 out of 100", "about 2 in 100"))
         self.assertTrue(any('write "out of"' in e for e in errs), errs)
 
     def test_embolization_explainer_missing_or_moved_fails(self):

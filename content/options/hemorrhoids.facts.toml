@@ -17,11 +17,29 @@ simple = "more than 2 weeks at a time"
 deep = "more than 2 weeks at a time"
 refs = ["aga"]
 [[fact]]
-id = "hae-year"           # E6, E7: no bleeding 68.7% (De Gregorio), success 72% (Tradi) at 12 months
+id = "hae-help"           # E1: clinical success 82% (Nguyenhuy pool, 13 studies); numbers up front 2026-11-26 (stage 1 source check, his "Looks good")
 option = "embolization"
-simple = "about 2 out of 3 people still have little or no bleeding a year later, some after a second embolization"
-deep = "about 2 out of 3 people still have little or no bleeding a year later, some after a second embolization"
+simple = "about 8 out of 10 people bleed less in the first months"
+deep = "about 8 out of 10 people bleed less in the first months"
+refs = ["nguyenhuy"]
+[[fact]]
+id = "hae-year"           # E6, E7: no bleeding 68.7% (De Gregorio), success 72% (Tradi) at 12 months; "some after a second embolization" dropped 2026-11-26 (source check: true of Tradi, not clearly of De Gregorio)
+option = "embolization"
+simple = "about 2 out of 3 people still have little or no bleeding a year later"
+deep = "about 2 out of 3 people still have little or no bleeding a year later"
 refs = ["degregorio", "tradi"]
+[[fact]]
+id = "hae-retreat"        # E6, E7: De Gregorio 21.3% second embolization + 5% surgery at 12 months; Tradi 8 of 25 two sessions
+option = "embolization"
+simple = "about 1 out of 4 have a second embolization or surgery"
+deep = "about 1 out of 4 have a second embolization or surgery"
+refs = ["degregorio", "tradi"]
+[[fact]]
+id = "hae-urge"           # E13: tenesmus 53.1% (Han, 32) and 81.8% easing in 3 to 5 days (Zhou, 22); small series
+option = "embolization"
+simple = "3 to 5 days"
+deep = "3 to 5 days"
+refs = ["han", "zhou"]
 [[fact]]
 id = "incont"             # C10, late incontinence 2.48% in randomized trials
 option = "hemorrhoidectomy"

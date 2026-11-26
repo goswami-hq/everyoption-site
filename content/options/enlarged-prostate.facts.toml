@@ -66,6 +66,33 @@ deep = "in the trials that compared them, which followed men for up to 2 years"
 refs = ["aua", "cochrane"]
 read = "page"
 [[fact]]
+# Numbers up front (job platform-condition-pages-0027; stage 1 check P1, P2, P5 held up or changed; his "Looks good", 2026-11-26)
+id = "pae-helps"
+option = "embolization"
+simple = "about 8 out of 10 men feel better 1 to 2 years after pae"
+deep = "about 8 out of 10 men feel better 1 to 2 years after PAE"
+refs = ["pisco", "xu22"]
+[[fact]]
+# the top intro's short form; tied to the works line above, which cites it
+id = "pae-helps-intro"
+option = "embolization"
+simple = "about 8 out of 10 men"
+deep = "about 8 out of 10 men"
+refs = ["pisco", "xu22"]
+[[fact]]
+id = "pae-3y"
+option = "embolization"
+simple = "about 7 out of 10 still feel better 3 years later"
+deep = "about 7 out of 10 still feel better 3 years later"
+refs = ["pisco", "xu22"]
+[[fact]]
+# his answer 2026-11-26: "fewer than 5 out of 100"; the Swiss 16% stays on the in-depth page with its context (ejac-swiss, r2-embolization-risks-37)
+id = "pae-anejac"
+option = "embolization"
+simple = "fewer than 5 out of 100 men lose it"
+deep = "Most studies find that fewer than 5 out of 100 men lose ejaculation completely"
+refs = ["lokesh", "pisco", "aua"]
+[[fact]]
 id = "pae-retreat"
 option = "embolization"
 simple = "about 1 out of 5 within five years"
@@ -770,7 +797,7 @@ read = "abstract"
 id = "r2-embolization-risks-37"
 option = "embolization"
 simple = ""
-deep = "In one trial against TURP that asked 25 men in each group, 4 out of 25 men lost ejaculation completely after PAE, compared with 13 out of 25 men after TURP. About 10 out of 25 men had less semen after PAE"
+deep = "One small trial found more. It was led by urologists, asked 25 men in each group at 12 weeks, and counted no ejaculation and semen going into the bladder together. In it, 4 out of 25 men lost ejaculation completely after PAE, compared with 13 out of 25 men after TURP. About 10 out of 25 men had less semen after PAE"
 refs = ["ejac"]
 read = "abstract"
 [[fact]]
