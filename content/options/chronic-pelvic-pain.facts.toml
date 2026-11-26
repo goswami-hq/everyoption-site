@@ -12,9 +12,34 @@ refs = ["ahangari"]
 [[fact]]
 id = "cpp-emb-serious"
 option = "embolization"
-simple = "about 1 out of 100"
-deep = "Serious side effects are possible, but rare: about 1 out of 100"
-refs = ["hanna"]
+simple = ""
+deep = "**Serious side effects are possible, but rare: about 1 to 2 out of 100 women need another procedure or treatment.** Most of these are a coil that moved and was pulled back out. Do not add this to the coil figure above: they are mostly the same women"
+refs = ["hanna", "degregorio20"]
+read = "abstract"
+[[fact]]
+id = "cpp-emb-helps"
+option = "embolization"
+simple = "about 8 out of 10 women have less pain"
+deep = "about 8 out of 10 women have less pain after embolization"
+refs = ["strobl", "kim06", "laborda"]
+[[fact]]
+id = "cpp-emb-lasting"
+option = "embolization"
+simple = "about 8 out of 10 still feel better 4 to 5 years later"
+deep = "about 8 out of 10 still feel better 4 to 5 years later"
+refs = ["kim06", "laborda"]
+[[fact]]
+id = "cpp-emb-repeat"
+option = "embolization"
+simple = "fewer than 1 out of 10"
+deep = "**Fewer than 1 out of 10 women need a repeat procedure.** In the newest review it was about 3 to 11 out of 100, depending on what was used to close the veins"
+refs = ["strobl"]
+[[fact]]
+id = "cpp-emb-coil"
+option = "embolization"
+simple = "about 2 out of 100 women"
+deep = "**A coil can move out of place in about 2 out of 100 women.** It is usually caught and pulled out through the same tube at the same visit"
+refs = ["hanna", "strobl"]
 [[fact]]
 id = "cpp-stent-rare"
 option = "stent"
@@ -54,13 +79,6 @@ deep = "In one study of 113 women treated for pelvic pain from a squeezed vein, 
 refs = ["cpp-larkin"]
 read = "abstract"
 [[fact]]
-id = "cpp-embolization-works-3"
-option = "embolization"
-simple = ""
-deep = "About 3 out of 4 women have much less pain soon after embolization, and for many the relief lasts for years"
-refs = ["hansrani", "daniels", "cpp-degregorio"]
-read = "abstract"
-[[fact]]
 id = "cpp-embolization-evidence-4"
 option = "embolization"
 simple = ""
@@ -85,7 +103,7 @@ read = "full text"
 id = "cpp-embolization-evidence-7"
 option = "embolization"
 simple = ""
-deep = "**About 3 out of 4 women had much less pain soon afterward.** A second review covered 22 studies with 1,308 women. The relief generally held or grew over time"
+deep = "**In an older review, about 3 out of 4 women had much less pain soon afterward.** It covered 22 studies with 1,308 women. This is the lowest figure of the reviews; most studies find about 8 out of 10. The relief generally held or grew over time"
 refs = ["daniels"]
 read = "abstract"
 [[fact]]
@@ -152,18 +170,11 @@ deep = "**About 9 out of 100 women have a side effect of some kind, and most are
 refs = ["hanna"]
 read = "full text"
 [[fact]]
-id = "cpp-embolization-risks-17"
-option = "embolization"
-simple = ""
-deep = "**Serious side effects are possible, but rare: about 1 out of 100.** Most of these are fixed with another procedure"
-refs = ["hanna"]
-read = "full text"
-[[fact]]
 id = "cpp-embolization-risks-18"
 option = "embolization"
 simple = ""
-deep = "**A coil can move out of place.** This happened in fewer than 3 out of 100 women. In about 1 out of 100, a coil or plug traveled to the lung"
-refs = ["strobl", "cpp-degregorio"]
+deep = "In one center's study of 520 women, a coil or plug traveled to the lung in about 1 out of 100. In the reviews, most coils that moved were caught and pulled out at the time, with no lasting harm"
+refs = ["cpp-degregorio", "hanna"]
 read = "abstract"
 [[fact]]
 id = "cpp-embolization-selection-19"
@@ -456,8 +467,8 @@ read = "full text"
 id = "cpp-g-embolization"
 option = "embolization"
 simple = ""
-deep = "About 3 out of 4 women have much less pain soon after, and for many the relief lasts for years"
-refs = ["hanna", "cpp-degregorio", "kim06", "daniels"]
+deep = "About 8 out of 10 women have less pain, and for many the relief lasts for years"
+refs = ["strobl", "kim06", "laborda", "hanna"]
 read = "abstract"
 [[fact]]
 id = "cpp-g-hysterectomy"

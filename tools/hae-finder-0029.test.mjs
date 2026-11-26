@@ -51,7 +51,7 @@ test("the hemorrhoid page has the ZIP finder, its button in the lead option, kee
     assert.ok(/<\/h1><p class="reviewed-by[^>]*>.*?<\/p><section class="find-first">/.test(hero), "only the reviewer line between the H1 and the finder");
     assert.ok(/<\/section><p class="lede">Rectal bleeding[^<]*<\/p><p class="lede">Hemorrhoids have multiple treatments available\.[^<]*<\/p><\/section>$/.test(hero), "the two paragraphs right below the finder, closing the first screen");
   }
-  assert.match(page, /Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery\. It treats bleeding hemorrhoids\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/hemorrhoids\/every-option\/">Deep dive, every option<\/a><\/p>/);
+  assert.match(page, /Hemorrhoid embolization works through a tiny skin nick in the wrist or groin, without surgery\. It treats bleeding hemorrhoids\.<br><strong>About 8 out of 10 people<\/strong> bleed less in the first months\.<\/p>\n<p class="find-links"><a href="#embolization">How it works<\/a><a class="find-compare" href="\/hemorrhoids\/every-option\/">Deep dive, every option<\/a><\/p>/);
   assert.match(page, /<section class="lead-option" id="embolization">[\s\S]*?<a class="btn" href="#finder">Find a doctor for hemorrhoid embolization<\/a>/);
   assert.match(page, /or contact one of the doctors listed on our site\./, "the FAQ line stays (his words 2026-11-10: \"Just leave it\")");
   assert.match(page, /data-replay/, "the animation stays");

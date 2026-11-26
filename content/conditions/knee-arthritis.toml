@@ -45,7 +45,7 @@ answer = "Osteoarthritis is the most common joint problem. It happens when the c
 urgent = "If a joint suddenly turns hot, red, and swollen, you cannot put weight on it, you have a fever, or you feel very sick or faint, call 911."
 finder_button = "Find a doctor for knee embolization (GAE)"
 finder_heading = "A newer option for knee arthritis pain, without surgery"
-finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. You go home the same day."
+finder_intro = "Genicular (knee) artery embolization works through a tiny skin nick. Nothing in the knee is cut or replaced. You keep your own knee. You go home the same day.\n**About 7 out of 10 people** have their knee pain cut at least in half."
 # agreed list item 13: the scope note sits under the finder
 finder_note = "Knee only, not other joints."   # his call 1, "Your picks" 2026-11-14 15:46 CT (ai-hq job platform-directory-0039): the finder line above already says "Doctors who perform knee embolization"
 finder_how = "#embolization"
@@ -169,8 +169,8 @@ name = "Knee artery embolization (GAE)"
 lead_heading = "What is genicular (knee) artery embolization (GAE)?"
 what = "Genicular (knee) artery embolization (GAE) is a newer treatment for knee arthritis pain.[^bsir][^ucla] A thin tube goes through a tiny skin nick, usually in the groin and sometimes at the ankle.[^bsir][^ucla][^ratcliffe26] Tiny particles slow extra blood flow to the lining of the knee to calm swelling and pain.[^bsir][^ucla] You keep your own knee. It aims to ease pain; it does not fix the arthritis.[^ucla]"
 invasive = "You stay awake, with medicine to help you relax. You go home the same day.[^bsir][^ucla] Most people are back to their normal activities within a few days, instead of 3 to 6 weeks after a knee replacement.[^nhsrec] Relief often starts within about two weeks.[^ucla]"
-works = "Early results are encouraging.[^amin] Many people feel better, and for some the relief lasts at least two years.[^sir26][^cus24] Doctors are still learning how much of this relief comes from the treatment itself.[^lanza] Larger trials are under way.[^gen2] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
-side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 to 3 out of 10 people get it. It usually fades within a month.[^sir26][^ashraf][^amin][^vzsham] Serious problems are rare.[^sir26]"
+works = "Early results are encouraging. About 7 out of 10 people had their knee pain cut at least in half.[^amin] About 5 out of 10 still had their symptoms cut at least in half 2 years later.[^cus24] However, in the two larger studies that compared GAE with a fake procedure, people given the fake one improved almost as much. Doctors are still learning how much of this relief comes from the treatment itself.[^lanza][^vzsham] Larger trials are under way.[^gen2]\nSome people may need another treatment later: about 8 out of 100 had a second embolization within 2 years.[^taslak23] If GAE works for you, it may help you put off a knee replacement, but we don't know that yet.[^singh26]\nThe Society of Interventional Radiology says GAE should be offered to people whose knee pain has not improved with other treatments, or who cannot have, do not want, or want to delay a knee replacement.[^sir26]"
+side = "You may have a bruise where the tube went in.[^bsir] A patchy color change or redness on the skin over the knee is fairly common: about 1 out of 10 people get it. It usually fades within about a month.[^amin][^taslak23][^sir26][^ashraf] Serious problems are rare.[^sir26]"
 
 [[options]]
 id = "steroid"
@@ -273,6 +273,10 @@ url = "https://doi.org/10.1177/15266028251326770"
 key = "amin"
 cite = "Amin AT, Safar IEM, Trujillo RB, et al. Outcome and safety of genicular artery embolization for knee osteoarthritis: a systematic review and meta-analysis. CardioVascular and Interventional Radiology. 2026;49(9):1682-1697. doi:10.1007/s00270-026-04502-7. PMID 42303879."
 url = "https://doi.org/10.1007/s00270-026-04502-7"
+[[refs]]
+key = "taslak23"
+cite = "Taslakian B, et al. Osteoarthritis and Cartilage Open. 2023. Meta-analysis of genicular artery embolization for knee osteoarthritis (described, not the paper's title). doi:10.1016/j.ocarto.2023.100342. PMID 36865988."
+url = "https://doi.org/10.1016/j.ocarto.2023.100342"
 [[refs]]
 key = "aihta"
 cite = "Krenn C, Semlitsch T, Wilfling D. Transarterial periarticular embolisation for knee and shoulder osteoarthritis. Austrian Institute for Health Technology Assessment (AIHTA), 2026. Read through its INAHTA database record, November 4, 2026."

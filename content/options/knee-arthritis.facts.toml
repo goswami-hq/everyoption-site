@@ -34,9 +34,29 @@ refs = ["mpoa"]
 [[fact]]
 id = "gae-skin"
 option = "embolization"
-simple = "about 1 to 3 out of 10 people"
-deep = "about 1 to 3 out of 10 people (10% to 30% in the society's summary of more than 1,000 reported cases)"
-refs = ["sir26", "ashraf", "amin"]
+simple = "about 1 out of 10 people"
+deep = "about 1 out of 10 people"
+refs = ["amin", "taslak23"]
+[[fact]]
+# Numbers up front, stage 2 (job platform-condition-pages-0027): the help figure (ai-hq numbers-source-check-2026-11-26, knee row 1;
+# his answer 2026-11-26: "leave it at 7/10, keep the sham in the details, not at the top")
+id = "gae-helps"
+option = "embolization"
+simple = "about 7 out of 10 people"
+deep = "about 7 out of 10 people"
+refs = ["amin"]
+[[fact]]
+id = "gae-2y"
+option = "embolization"
+simple = "about 5 out of 10 still had their symptoms cut at least in half 2 years later"
+deep = "about 5 out of 10 still had their symptoms cut at least in half 2 years later"
+refs = ["cus24"]
+[[fact]]
+id = "gae-repeat"
+option = "embolization"
+simple = "about 8 out of 100 had a second embolization within 2 years"
+deep = "about 8 out of 100 had a second embolization within 2 years"
+refs = ["taslak23"]
 [[fact]]
 id = "steroid-fade"
 option = "steroid"
@@ -461,7 +481,7 @@ read = "abstract"
 id = "r2-embolization-works-6"
 option = "embolization"
 simple = ""
-deep = "In studies that followed people after GAE, pain dropped a lot, and for many the relief lasted 2 years or more"
+deep = "In studies that followed people after GAE, about 7 out of 10 had their knee pain cut at least in half, and for many the relief lasted 2 years or more. In these studies, everyone knew they had GAE"
 refs = ["lanza", "amin", "kumar26", "cus24", "sir26"]
 read = "abstract"
 [[fact]]
@@ -552,8 +572,8 @@ read = "abstract"
 id = "r2-embolization-risks-19"
 option = "embolization"
 simple = ""
-deep = "about 1 to 3 out of 10 people. It usually fades within a month"
-refs = ["sir26", "vz24"]
+deep = "about 1 out of 10 people, in two reviews that pooled the studies (11 out of 100 in each). The radiology society's summary gives a wider range, 10 to 30 out of 100. In one small trial against a fake procedure, 11 of 29 people who had GAE (38 out of 100) had brief redness, gone in 1 to 4 weeks. It usually fades within about a month"
+refs = ["amin", "taslak23", "sir26", "vz24"]
 read = "abstract"
 [[fact]]
 id = "r2-embolization-risks-20"
