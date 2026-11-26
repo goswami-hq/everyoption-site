@@ -525,7 +525,7 @@ chip = "conditions"
 policy = "cigna"
 checked = "2026-11-25"
 text = "Pelvic pain for more than 6 months, no sign of an inflammatory disease, and ultrasound, CT, or MRI showing widened pelvic veins of a set size. Plus one of these. Applies where EviCore manages the service for Cigna."
-items = ["Pain worse with walking, standing, or tiredness", "An ache after sex, or pain with sex", "Painful periods", "Bladder or rectal discomfort", "Varicose veins in the legs that keep coming back"]
+items = ["Pain worse with walking, standing, or tiredness", "An ache after sex, or pain with sex", "Painful periods", "Bladder irritation and rectal discomfort", "Varicose veins in the legs that keep coming back"]
 [cells.pve.humana]
 cell = "C56"
 chip = "no_policy"
@@ -563,8 +563,8 @@ cell = "C61"
 chip = "conditions"
 policy = "lcd-stent"
 checked = "2026-11-25"
-text = "Covered with conditions in some states only. Medicare contractors in some states, including Texas, Florida, Pennsylvania, and New Jersey, have a written stent policy. Elsewhere, there is no specific policy, and each case gets its own decision. Where the policy applies, these are needed."
-items = ["Severe symptoms from a squeezed or blocked pelvic vein, such as May-Thurner syndrome", "The vein is narrowed by more than half", "Simpler care, such as compression stockings, tried first", "Not covered without symptoms"]
+text = "Covered with conditions in some states only. Medicare contractors for states including Texas, Florida, Pennsylvania, and New Jersey have a written stent policy that needs all of these, and it does not cover a stent without symptoms. The contractor for states including Iowa, Kansas, Missouri, Nebraska, Indiana, and Michigan covers it under a shorter policy. Elsewhere, each case gets its own decision."
+items = ["Severe symptoms from a squeezed or blocked pelvic vein, such as May-Thurner syndrome", "The vein is narrowed by more than half", "Simpler care, such as compression stockings, tried first"]
 [cells.ivs.uhc]
 cell = "C62"
 chip = "no_policy"
@@ -601,8 +601,8 @@ cell = "C67"
 chip = "conditions"
 policy = "cigna"
 checked = "2026-11-25"
-text = "The pelvic vein is narrowed by at least half, on ultrasound, CT, MRI, or a vein X-ray, plus one of these. Applies where EviCore manages the service for Cigna."
-items = ["After a new leg clot was treated, when a squeezed vein is left behind", "A leg sore or advanced skin changes from poor vein flow", "Leg pain on walking or swelling that limits daily life, after 8 weeks of compression stockings", "Pelvic congestion with painful or swollen veins of the vulva or vagina, or pelvic pain for more than 6 months"]
+text = "The pelvic vein is narrowed past a set amount, on ultrasound, CT, MRI, or a vein X-ray, plus one of these. Applies where EviCore manages the service for Cigna."
+items = ["After a new leg clot was treated, when a squeezed vein is left behind", "A leg sore or advanced skin changes from poor vein flow", "Leg pain on walking or swelling that limits daily life, after 8 weeks of compression stockings", "Pelvic congestion with painful or swollen veins of the vulva or vagina, or with pelvic pain for more than 6 months plus a related symptom, no inflammatory disease, and scan signs of pelvic congestion"]
 [cells.ivs.humana]
 cell = "C68"
 chip = "not_checked"

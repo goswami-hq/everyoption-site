@@ -98,6 +98,7 @@ guide = "Read about your chronic pelvic pain treatment options"
 compare = "Compare pelvic vein embolization with stenting, medicines, and surgery"
 finder = "Find a doctor for pelvic vein embolization and stenting"
 hub_label = "Pelvic veins"
+reviewed = "2026-11-25"
 procs = [
   { key = "pve", label = "Pelvic vein embolization", hub_label = "Pelvic vein embolization" },
   { key = "ivs", label = "Iliac vein stenting (May-Thurner)", hub_label = "Iliac vein stenting" },
@@ -126,6 +127,7 @@ finder = "Find a doctor for hemorrhoid embolization"
 hub_label = "Hemorrhoids (HAE)"
 
 [hub]
+reviewed = "2026-11-25"   # pelvic rows added (job 0024)
 title = "Insurance Coverage for Embolization, by Insurer | Every Option"
 description = "What Medicare and 9 large U.S. insurers' written policies say about embolization for fibroids, enlarged prostate, knee arthritis, hemorrhoids, and pelvic veins, and about iliac vein stenting."
 h1 = "What insurers' policies say about embolization"

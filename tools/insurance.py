@@ -131,8 +131,9 @@ def crumbs(items):
     return trail.html_of(items)
 
 
-def reviewed(copy):
-    return f'<p class="small muted">Page last reviewed {long_date(copy["reviewed"])}.</p>'
+def reviewed(copy, page=None):
+    """A page's own reviewed date where it has one (the pelvic page and the hub, 2026-11-25, job 0024), else the shared one."""
+    return f'<p class="small muted">Page last reviewed {long_date((page or {}).get("reviewed") or copy["reviewed"])}.</p>'
 
 
 def procedure_body(p, data, copy):
@@ -157,7 +158,7 @@ def procedure_body(p, data, copy):
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>{no}'
             f'<h2 id="next">Next steps</h2><ul class="ins-links"><li><a href="/{p["slug"]}/">{e(p["guide"])}</a></li>'
             f'<li><a href="/{p["slug"]}/every-option/">{e(p["compare"])}</a></li><li><a href="/{p["slug"]}/#finder">{e(p["finder"])}</a></li>'
-            f'<li><a href="/insurance/">See every procedure and how we checked</a></li></ul>{refs}{reviewed(copy)}')
+            f'<li><a href="/insurance/">See every procedure and how we checked</a></li></ul>{refs}{reviewed(copy, p)}')
 
 
 def proc_label(label):
@@ -243,7 +244,7 @@ def hub_body(data, copy):
             f'<details class="ins-all ins-dataset"><summary><h2 id="dataset">Every insurer, every procedure</h2></summary>{legend(kinds, copy)}<div class="ins-hub">{"".join(rows)}</div></details>'
             f'<h2 id="ask">Questions to ask your plan</h2><ul>{asks}</ul>'
             # no next-check date: nothing scheduled keeps it (his "A3 remove it", HQ chat 2026-11-16 14:30 CT)
-            f'<h2 id="method">How we checked</h2>{method}{reviewed(copy)}')
+            f'<h2 id="method">How we checked</h2>{method}{reviewed(copy, copy["hub"])}')
 
 
 def ld(d):
@@ -262,14 +263,14 @@ def org(origin):
 def procedure_schema(p, copy, origin):
     path = f'/{p["slug"]}/insurance/'
     page = {"@context": "https://schema.org", "@type": "MedicalWebPage", "name": p["h1"], "headline": p["h1"], "description": p["description"],
-            "url": origin + path, "inLanguage": "en-US", "lastReviewed": copy["reviewed"], "audience": {"@type": "Patient"}, "publisher": org(origin)}
+            "url": origin + path, "inLanguage": "en-US", "lastReviewed": p.get("reviewed") or copy["reviewed"], "audience": {"@type": "Patient"}, "publisher": org(origin)}
     return ld(page) + "\n" + ld(breadcrumb(origin, [("Home", "/"), (registry.BY_SLUG[p["slug"]]["label"], f'/{p["slug"]}/'), ("Insurance coverage", path)]))
 
 
 def hub_schema(data, copy, origin):
     hub = copy["hub"]
     ds = {"@context": "https://schema.org", "@type": "Dataset", "name": hub["dataset_name"], "description": hub["dataset_description"],
-          "url": origin + "/insurance/", "dateModified": copy["reviewed"], "temporalCoverage": f'{data["checked_from"]}/{data["checked_to"]}',
+          "url": origin + "/insurance/", "dateModified": hub.get("reviewed") or copy["reviewed"], "temporalCoverage": f'{data["checked_from"]}/{data["checked_to"]}',
           "isAccessibleForFree": True, "license": origin + "/terms/", "inLanguage": "en-US", "creator": org(origin), "publisher": org(origin),
           "variableMeasured": ["Insurer", "Procedure", "Coverage status", "Coverage conditions", "Policy link", "Date checked"]}
     return ld(ds) + "\n" + ld(breadcrumb(origin, [("Home", "/"), ("Insurance coverage", "/insurance/")]))

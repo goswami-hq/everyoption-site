@@ -708,8 +708,8 @@ def launch_pages():
         if not d.get("draft"):
             out.append((d["path"], d.get("reviewed") or c.get("reviewed")))
     copy = insurance.load()[1]
-    out.append(("/insurance/", copy.get("reviewed")))
-    out += [(f'/{p["slug"]}/insurance/', copy.get("reviewed")) for p in copy["pages"]]
+    out.append(("/insurance/", copy["hub"].get("reviewed") or copy.get("reviewed")))   # own dates: job 0024 (2026-11-25)
+    out += [(f'/{p["slug"]}/insurance/', p.get("reviewed") or copy.get("reviewed")) for p in copy["pages"]]
     return sorted(out)
 
 
