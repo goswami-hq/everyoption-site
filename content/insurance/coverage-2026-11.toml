@@ -565,6 +565,7 @@ policy = "lcd-stent"
 checked = "2026-11-25"
 text = "Covered with conditions in some states only. Medicare contractors for states including Texas, Florida, Pennsylvania, and New Jersey have a written stent policy that needs all of these, and it does not cover a stent without symptoms. The contractor for states including Iowa, Kansas, Missouri, Nebraska, Indiana, and Michigan covers it under a shorter policy. Elsewhere, each case gets its own decision."
 items = ["Severe symptoms from a squeezed or blocked pelvic vein, such as May-Thurner syndrome", "The vein is narrowed by more than half", "Simpler care, such as compression stockings, tried first"]
+short = "In some states only"
 [cells.ivs.uhc]
 cell = "C62"
 chip = "no_policy"
