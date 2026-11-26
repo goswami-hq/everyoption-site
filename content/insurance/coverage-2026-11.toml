@@ -524,7 +524,7 @@ cell = "C55"
 chip = "conditions"
 policy = "cigna"
 checked = "2026-11-25"
-text = "Pelvic pain for more than 6 months, no sign of an inflammatory disease, and ultrasound, CT, or MRI showing widened pelvic veins of a set size. Plus one of these. Applies where EviCore manages the service for Cigna."
+text = "Pelvic pain for more than 6 months, no sign of an inflammatory disease, and ultrasound, CT, or MRI showing signs of pelvic congestion, such as widened pelvic veins or slow or backward blood flow. Plus one of these. Applies where EviCore manages the service for Cigna."
 items = ["Pain worse with walking, standing, or tiredness", "An ache after sex, or pain with sex", "Painful periods", "Bladder irritation and rectal discomfort", "Varicose veins in the legs that keep coming back"]
 [cells.pve.humana]
 cell = "C56"
@@ -601,8 +601,8 @@ cell = "C67"
 chip = "conditions"
 policy = "cigna"
 checked = "2026-11-25"
-text = "The pelvic vein is narrowed past a set amount, on ultrasound, CT, MRI, or a vein X-ray, plus one of these. Applies where EviCore manages the service for Cigna."
-items = ["After a new leg clot was treated, when a squeezed vein is left behind", "A leg sore or advanced skin changes from poor vein flow", "Leg pain on walking or swelling that limits daily life, after 8 weeks of compression stockings", "Pelvic congestion with painful or swollen veins of the vulva or vagina, or with pelvic pain for more than 6 months plus a related symptom, no inflammatory disease, and scan signs of pelvic congestion"]
+text = "One of these. Each route except the last half of the last one needs the pelvic vein narrowed past a set amount, shown on ultrasound, CT, MRI, or a vein X-ray. Applies where EviCore manages the service for Cigna."
+items = ["After a new leg clot was treated, when a squeezed vein is left behind", "A leg sore or advanced skin changes from poor vein flow", "Leg pain on walking or swelling that limits daily life, after 8 weeks of compression stockings", "Pelvic congestion with painful or swollen veins of the vulva or vagina; or pelvic pain for more than 6 months plus a related symptom, no inflammatory disease, and scan signs of pelvic congestion, with no set amount of narrowing named"]
 [cells.ivs.humana]
 cell = "C68"
 chip = "not_checked"
