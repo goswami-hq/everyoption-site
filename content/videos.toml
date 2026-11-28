@@ -12,12 +12,14 @@
 #   The brand-film layout test was removed 2026-11-18 when the real film got its YouTube ID.
 
 # Channels with at least one post (true/false). A channel's "what you get there" line shows on the site only while it
-# posts; YouTube also counts once a film above has a YouTube ID. Set each to true after its first post (post gate).
+# posts; YouTube also counts once a film above has a YouTube ID. Since 2026-11-27 (CLAUDE.md "Approved films onto the
+# site") ai-hq's scripts/videos_sync.py turns a channel on after its first logged post with a link. TikTok stays false
+# while our TikTok posts go out from a personal account (since 2026-11-24): the site links the brand account.
 [channels]
-youtube = false
+youtube = true
 tiktok = false
-instagram = false
-x = false
+instagram = true
+x = true
 
 [[video]]
 key = "brand-film"
@@ -37,3 +39,37 @@ still = "video-brand-film"
 still_alt = "The Every Option sign under a bright sun, with the words: You deserve to know every option."
 transcript = "brand-film.txt"
 page = "/about/"
+
+# ops/approvals/done/2026-11-22-fibroid-loop.md (approved post); added by scripts/videos_sync.py (ai-hq), CLAUDE.md "Approved films onto the site"
+[[video]]
+key = "fibroid-loop"
+title = "What is uterine fibroid embolization (UFE)? Fibroid treatment without surgery"
+description = "Heavy periods and pelvic pain ruining your day? It could be fibroids, non-cancerous growths in the uterus.\nMultiple treatments exist, including medicines and surgeries. Uterine fibroid embolization (UFE), also called uterine artery embolization, treats fibroids without surgery and without removing your uterus. Tiny beads block blood flow to the fibroids and help with fibroid symptoms. Recovery usually takes about a week, compared with 2 to 6 weeks after major surgery, and most people go home the same day. Almost 9 out of 10 women see their symptoms improve. Only about 1 in 4 may need another procedure down the line. UFE is performed by an interventional radiologist, a type of doctor."
+credit = "Music and sound generated with AI (Stable Audio)"
+condition = "fibroids"
+order = 1
+youtube_id = "lOeEO2Ay780"
+upload_date = "2026-11-24"
+seconds = 25
+aspect = "9:16"
+still = "video-fibroid-loop"
+still_alt = "A frame from the film with the words: Heavy periods and pelvic pain ruining your day?"
+transcript = "fibroid-loop.txt"
+page = "/fibroids/"
+
+# ops/approvals/done/2026-11-22-fibroid-hysterectomy-short.md (approved post); added by scripts/videos_sync.py (ai-hq), CLAUDE.md "Approved films onto the site"
+[[video]]
+key = "hysterectomy-short"
+title = "Do I need a hysterectomy for fibroids?"
+description = "Do I need a hysterectomy for fibroids? Not always. Many women never need one.\nHysterectomy, surgery to remove the uterus, is the only treatment that keeps fibroids from returning. Medicines, less invasive treatments, and surgery that removes only the fibroids (myomectomy) are also options. Uterine fibroid embolization (UFE), also called uterine artery embolization, treats fibroids without surgery and without removing the uterus. Recovery usually takes about a week, compared with 2 to 6 weeks after major surgery, and most people go home the same day. Almost 9 out of 10 women see their symptoms improve; about 1 out of 4 may need another procedure down the line. Interventional radiologists, a type of doctor, perform it. UFE is for women with symptoms from fibroids (such as heavy periods, pelvic pain, cramps). Your doctor will check whether it fits you. If you hope to get pregnant, ask your doctor which options fit you."
+credit = "Music and sound generated with AI (Stable Audio)"
+condition = "fibroids"
+order = 2
+youtube_id = "PvxPSJcBWtg"
+upload_date = "2026-11-27"
+seconds = 33
+aspect = "9:16"
+still = "video-hysterectomy-short"
+still_alt = "A frame from the film with the words: Do I need a hysterectomy for fibroids?"
+transcript = "hysterectomy-short.txt"
+page = "/fibroids/"

@@ -122,10 +122,16 @@ def load(path=LIST, release=None, slugs=None):
 
 
 def shown(rows):
-    """Videos that show: a YouTube ID, sorted by section (brand film first, then conditions in registry order) and order."""
+    """Videos that show: a YouTube ID, sorted by section (conditions in home-list order, the brand film's "about" last)
+    and, within a section, newest first (upload_date), then order (job platform-web-design-0021; his yes 2026-11-27 to
+    the proposal: "Newest first within each condition", About last)."""
+    import datetime as _dt
     import registry
-    rank = {s: i + 1 for i, s in enumerate(registry.BY_SLUG)}
-    return sorted((v for v in rows if v["youtube_id"]), key=lambda v: (0 if v["condition"] == "about" else rank[v["condition"]], v["order"]))
+    rank = {s: i for i, s in enumerate(registry.BY_SLUG)}
+    def key(v):
+        day = _dt.date.fromisoformat(v["upload_date"]).toordinal() if v["upload_date"] else 0
+        return (len(rank) if v["condition"] == "about" else rank[v["condition"]], -day, v["order"])
+    return sorted((v for v in rows if v["youtube_id"]), key=key)
 
 
 def real(rows):
@@ -154,6 +160,11 @@ def still(v, ver=lambda u: u):
             f'alt="" width="{w}" height="{h}" loading="lazy" decoding="async">')
 
 
+def paras(text, cls):
+    """A description may run to several paragraphs (one per line in content/videos.toml), as approved posts do."""
+    return "".join(f'<p class="{cls}">{e(l.strip())}</p>' for l in str(text).splitlines() if l.strip())
+
+
 def film(v, ver=lambda u: u, level=3, page_link=True, page_name=None):
     """One film: our still with a play button (a link to YouTube; videos.js loads the player in place on tap), its title,
     length, one line, the words in a fold, and a link to its page."""
@@ -176,9 +187,98 @@ def film(v, ver=lambda u: u, level=3, page_link=True, page_name=None):
 <div class="vid-frame" style="aspect-ratio: {a}"><a class="vid-play" href="https://www.youtube.com/watch?v={e(v['youtube_id'])}" data-yt="{e(v['youtube_id'])}" data-title="{t}" aria-label="{e(label)}" rel="noopener" target="_blank">{still(v, ver)}<span class="vid-btn">{PLAY}</span></a></div>
 <figcaption>{flag}<h{level} class="vid-title">{t}</h{level}>
 <p class="vid-len">{e(length(v['seconds']))}</p>
-<p class="vid-line">{e(v['description'])}</p>{note}
+{paras(v['description'], "vid-line")}{note}
 <details class="vid-words"><summary>Read the words in the film</summary><div class="vid-words-in">{body}</div></details>
 {link}</figcaption></figure>"""
+
+
+# The calmer Videos page (ai-hq job platform-web-design-0021; his words, chat 2026-11-27: "we need to make the videos
+# section less chaotic, less busy, more organized, more easily viewed", then "Yes agree with the one decision / Build
+# it"). A card is the still, the title and the length only; it opens the film's sheet: the player with the description,
+# note, credit, words and page link under it, in one box (a <dialog>). Nothing loads from YouTube until a card or the
+# play button is pressed. Without JavaScript the card goes to the sheet (#film-<key>, shown by :target) and the play
+# button opens the film on YouTube.
+
+def sheet_id(v):
+    return "film-" + re.sub(r"[^a-z0-9-]", "-", v["key"].lower())
+
+
+def card(v, ver=lambda u: u):
+    """One card: still, title, length. A link to the film's sheet; videos.js opens the sheet and starts the film."""
+    test = bool(v.get("test_only"))
+    mark = f' {TEST_MARK}' if test else ""
+    small, big = f"/assets/media/{v['still']}-540.jpg", f"/assets/media/{v['still']}-1080.jpg"
+    a = v["aspect"].replace(":", " / ")
+    cond = e(v["condition"])
+    return (f'<li class="vcard-li" data-cond="{cond}"{mark}><a class="vcard" href="#{sheet_id(v)}" data-sheet="{sheet_id(v)}">'
+            f'<span class="vcard-still" style="aspect-ratio: {a}"><img src="{ver(small)}" srcset="{ver(small)} 540w, {ver(big)} 1080w" '
+            f'sizes="(max-width: 600px) 46vw, 200px" alt="" width="540" height="960" loading="lazy" decoding="async">'
+            f'<span class="vcard-btn">{PLAY}</span></span>'
+            f'<span class="vcard-title"><span class="sr">Play the film: </span>{e(v["title"])}</span>'
+            f'<span class="vcard-len">{e(length(v["seconds"]))}</span></a></li>')
+
+
+def sheet(v, ver=lambda u: u, page_link=True, page_name=None, describe=True):
+    """The film's sheet: the player box (our still and a play button until pressed), then the title, length,
+    description, note, credit, the words in a fold and the page link, all in the same box, so nothing jumps."""
+    test = bool(v.get("test_only"))
+    mark = f' {TEST_MARK}' if test else ""
+    sid, t = sheet_id(v), e(v["title"])
+    label = f"Play the film: {v['title']} ({length(v['seconds'])})"
+    a = v["aspect"].replace(":", " / ")
+    flag = ('<p class="vid-test">Test only: shows the layout on the dev site. Not a real video; it never ships.</p>'
+            if test else "")
+    note = f'<p class="vid-note">{e(v["note"])}</p>' if v.get("note") else ""
+    note += f'<p class="vid-note vid-credit">{e(v["credit"])}</p>' if v.get("credit") else ""
+    body = "".join(f"<p>{e(l)}</p>" for l in words(v))
+    link = ""
+    if page_link and v["page"]:
+        link = f'<p class="vid-more"><a href="{e(v["page"])}">{e(page_name or v["page"])}</a></p>'
+    return (f'<dialog class="vsheet" id="{sid}" aria-labelledby="{sid}-h"{mark}><div class="vsheet-in">'
+            f'<div class="vid-frame vsheet-frame" style="aspect-ratio: {a}"><a class="vid-play" href="https://www.youtube.com/watch?v={e(v["youtube_id"])}" '
+            f'data-yt="{e(v["youtube_id"])}" data-title="{t}" aria-label="{e(label)}" rel="noopener" target="_blank">{still(v, ver)}<span class="vid-btn">{PLAY}</span></a></div>'
+            f'<div class="vsheet-text">{flag}<h2 class="vid-title" id="{sid}-h">{t}</h2><p class="vid-len">{e(length(v["seconds"]))}</p>'
+            f'{paras(v["description"], "vid-line") if describe else ""}{note}'
+            f'<details class="vid-words"><summary>Read the words in the film</summary><div class="vid-words-in">{body}</div></details>'
+            f'{link}</div>'
+            f'<a class="vsheet-close" href="#films" aria-label="Close the film">{CLOSE}</a></div></dialog>')
+
+
+CLOSE = ('<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" '
+         'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>')
+
+
+def section_name(cond):
+    import registry
+    return "About Every Option" if cond == "about" else registry.BY_SLUG[cond]["card"]["name"]
+
+
+def chips(rows):
+    """All, then each condition that has a film in home-list order, About last. Hidden until videos.js runs (without
+    JavaScript every film is listed and there is nothing to filter)."""
+    conds = list(dict.fromkeys(v["condition"] for v in rows))
+    if len(conds) < 2:
+        return ""
+    btns = '<button type="button" class="vchip" data-cond="all" aria-pressed="true">All</button>' + "".join(
+        f'<button type="button" class="vchip" data-cond="{e(c)}" aria-pressed="false">{e(section_name(c))}</button>'
+        for c in conds)
+    return (f'<div class="vchips" role="group" aria-label="Show films about" hidden>{btns}</div>'
+            '<p class="sr" id="vchips-status" role="status" aria-live="polite"></p>')
+
+
+def grid(rows, ver=lambda u: u, page_name=None, page_link=True, cls="vcards", describe=True):
+    """The cards, then their sheets (closed dialogs: nothing in them shows or loads until opened). describe=False (the
+    condition pages): no description in the sheet; the page itself says those things in the site's own wording, and an
+    approved post's description may not follow the page rules (condition pattern: "1 in 4")."""
+    cards = "".join(card(v, ver) for v in rows)
+    sheets = "".join(sheet(v, ver, page_link=page_link, page_name=page_name(v) if page_name else None, describe=describe) for v in rows)
+    return f'<ul class="{cls}" id="films">{cards}</ul>{sheets}'
+
+
+def follow_row():
+    """The slim follow row at the foot of the Videos page: the four channel names with their icons."""
+    items = " ".join(f'<a href="{u}" rel="noopener" target="_blank">{icon(n, 16)}<span>{e(n)}</span></a>' for n, u, _ in CHANNELS)
+    return f'<p class="vfollow"><span class="vfollow-h">Follow Every Option</span> {items}</p>'
 
 
 def schema(rows):
@@ -186,7 +286,7 @@ def schema(rows):
     out = []
     for v in rows:
         out.append({"@context": "https://schema.org", "@type": "VideoObject", "name": v["title"],
-                    "description": v["description"], "thumbnailUrl": ORIGIN + f"/assets/media/{v['still']}-1080.jpg",
+                    "description": " ".join(l.strip() for l in v["description"].splitlines() if l.strip()), "thumbnailUrl": ORIGIN + f"/assets/media/{v['still']}-1080.jpg",
                     "uploadDate": upload_datetime(v["upload_date"]), "duration": iso_len(v["seconds"]),
                     "embedUrl": EMBED + v["youtube_id"], "transcript": " ".join(words(v)),
                     "publisher": {"@id": ORIGIN + "/#organization"}})

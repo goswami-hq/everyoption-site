@@ -1191,3 +1191,52 @@ details.ins-fold > .fold-body { padding: 4px 16px 12px; border-top: 1px solid va
 @media (min-width: 1400px) { .city-page .toc-dock { left: max(20px, calc(50% - 680px)); } }
 /* Town links land below the pinned contents bar (reviewer 2026-11-21); the bar shows below 1400 px. */
 @media (max-width: 1399px) { .city-page .town-group, .city-page .town-group h4, .city-page #towns { scroll-margin-top: 60px; } }
+
+/* The calmer Videos page (ai-hq job platform-web-design-0021, his yes 2026-11-27): chips, a grid of cards (still, title,
+   length), each opening its film's sheet; a slim follow row at the foot. The condition pages reuse the cards. */
+.vchips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
+.vchips[hidden] { display: none; }
+.vchip { min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: inherit; font-size: 0.9375rem; cursor: pointer; transition: border-color 160ms ease, background-color 160ms ease, transform 140ms var(--ease-out); }
+.vchip[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--card); }
+.vchip:active { transform: scale(.97); }
+.vchip:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .vchip:hover { border-color: var(--pine); } }
+.vcards { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 24px 16px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+.vcard-li[hidden] { display: none; }
+.vcard { display: block; color: var(--ink); text-decoration: none; border-radius: 14px; }
+.vcard-still { position: relative; display: block; overflow: hidden; border-radius: 14px; background: var(--soft); box-shadow: 0 10px 24px -18px rgba(60, 40, 20, .55); }
+.vcard-still img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 240ms var(--ease-out); }
+.vcard-btn { position: absolute; right: 8px; bottom: 8px; color: var(--pine); --play-ink: #fffdf8; }
+.vcard-btn svg { display: block; width: 38px; height: 38px; filter: drop-shadow(0 4px 10px rgba(20, 30, 25, .35)); }
+@media (prefers-color-scheme: dark) { .vcard-btn { --play-ink: #1c1a17; } }
+.vcard-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; margin: 10px 0 2px; font: 400 1.0625rem/1.3 var(--serif); }
+.vcard-len { display: block; color: var(--muted); font-size: 0.875rem; }
+.vcard:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.vcard:active .vcard-still { transform: scale(.985); }
+.vcard-still { transition: transform 140ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .vcard:hover .vcard-still img { transform: scale(1.03); } .vcard:hover .vcard-title { text-decoration: underline; text-underline-offset: 3px; } }
+.vcards-row { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); max-width: 680px; }
+.cond-films { margin-top: 36px; }
+.cond-films .small { margin-top: 14px; }
+.vfollow { margin: 40px 0 10px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; font-size: 0.9375rem; }
+.vfollow-h { font-weight: 600; margin-right: 2px; }
+.vfollow a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--ink); }
+.vfollow a svg { color: var(--pine); }
+
+/* The film's sheet: one box with the player and, under it (beside it on wide screens), the film's words. */
+.vsheet { width: min(94vw, 820px); max-height: min(94vh, 960px); padding: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--card); color: var(--ink); overflow: auto; overscroll-behavior: contain; }
+.vsheet::backdrop { background: rgba(22, 20, 17, .62); }
+.vsheet[open] { animation: arrive 220ms var(--ease-out) both; }
+.vsheet-in { position: relative; display: grid; gap: 18px 28px; padding: 56px 18px 22px; grid-template-columns: minmax(0, 1fr); }
+.vsheet-frame { max-width: min(100%, 360px); margin: 0 auto; }
+.vsheet-text .vid-title { margin-top: 0; }
+.vsheet-close { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--ink); background: var(--soft); }
+.vsheet-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (min-width: 720px) {
+  .vsheet-in { grid-template-columns: minmax(0, min(340px, calc((min(94vh, 960px) - 80px) * 9 / 16))) minmax(0, 1fr); padding: 28px 64px 28px 28px; align-items: start; }
+  .vsheet-frame { margin: 0; width: 100%; }
+}
+/* Without JavaScript: the card's #film-<key> address shows its sheet over the page, closed by its X (#films). */
+.vsheet:target:not([open]) { display: block; position: fixed; inset: 0; z-index: 50; margin: auto; height: fit-content; box-shadow: 0 0 0 100vmax rgba(22, 20, 17, .62); }
+@media (prefers-reduced-motion: reduce) { .vsheet[open] { animation: none; } .vcard-still img, .vcard-still { transition: none; } }
+.vsheet:focus, .vsheet:focus-visible { outline: none; }
