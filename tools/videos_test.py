@@ -83,13 +83,47 @@ class ListRules(unittest.TestCase):
         self.assertIn("Our films in full", h)
         self.assertNotIn("TikTok</strong><span", h)
 
-    def test_order_brand_first_then_playlist(self):
-        rows = videos.load(toml(dict(key="k2", cond="knee-arthritis", order=2, yt="bbbbbbbbbbb", date="2026-11-16"),
+    def test_order_conditions_newest_first_about_last(self):
+        # job platform-web-design-0021: conditions in home-list order, newest first within one, the brand film last
+        rows = videos.load(toml(dict(key="k2", cond="knee-arthritis", order=2, yt="bbbbbbbbbbb", date="2026-11-20"),
                                 dict(key="k1", cond="knee-arthritis", order=1, yt="ccccccccccc", date="2026-11-16"),
                                 dict(key="f", cond="fibroids", yt="ddddddddddd", date="2026-11-16"),
                                 dict(key="b", yt="aaaaaaaaaaa", date="2026-11-16")), release=False, slugs=SLUGS)
-        self.assertEqual([v["key"] for v in videos.shown(rows)], ["b", "f", "k1", "k2"])
+        import registry
+        want = sorted(["f", "k2", "k1"], key=lambda k: list(registry.BY_SLUG).index("fibroids" if k == "f" else "knee-arthritis"))
+        self.assertEqual([v["key"] for v in videos.shown(rows)], want + ["b"])
         self.assertIn('class="watch"', videos.home_band(rows))
+
+    def test_card_is_still_title_length_only(self):
+        rows = videos.load(toml(dict(key="f", cond="fibroids", yt="ddddddddddd", date="2026-11-16")), release=False, slugs=SLUGS)
+        c = videos.card(rows[0])
+        self.assertIn('href="#film-f"', c)
+        self.assertIn("1 minute 35 seconds", c)
+        for absent in ("One line.", "<details", "<iframe", "youtube"):
+            self.assertNotIn(absent, c)
+
+    def test_sheet_holds_the_rest_and_loads_nothing(self):
+        rows = videos.load(toml(dict(key="f", cond="fibroids", yt="ddddddddddd", date="2026-11-16",
+                                     extra='credit = "A credit."')), release=False, slugs=SLUGS)
+        h = videos.sheet(rows[0], page_name="Read the guide")
+        self.assertTrue(h.startswith('<dialog class="vsheet" id="film-f"'))
+        for k in ("One line.", "A credit.", "Read the words in the film", "Read the guide", 'data-yt="ddddddddddd"'):
+            self.assertIn(k, h)
+        self.assertNotIn("<iframe", h)
+        self.assertEqual(re.findall(r'src="([^"]+)"', h), ["/assets/media/video-brand-film-540.jpg"])
+        self.assertNotIn("One line.", videos.sheet(rows[0], describe=False))
+
+    def test_description_paragraphs(self):
+        self.assertEqual(videos.paras("A.\nB.", "x"), '<p class="x">A.</p><p class="x">B.</p>')
+
+    def test_chips_hidden_until_script_and_about_last(self):
+        rows = videos.load(toml(dict(key="b", yt="aaaaaaaaaaa", date="2026-11-16"),
+                                dict(key="f", cond="fibroids", yt="ddddddddddd", date="2026-11-16")), release=False, slugs=SLUGS)
+        ch = videos.chips(videos.shown(rows))
+        self.assertIn("hidden>", ch)
+        self.assertLess(ch.index("Fibroids"), ch.index("About Every Option"))
+        self.assertLess(ch.index(">All<"), ch.index("Fibroids"))
+        self.assertEqual(videos.chips(videos.shown(rows)[:1]), "")
 
     def test_film_loads_nothing_from_youtube(self):
         rows = videos.load(toml(dict(yt="aaaaaaaaaaa", date="2026-11-16")), release=False, slugs=SLUGS)
@@ -136,6 +170,24 @@ class Built(unittest.TestCase):
 
     def test_footer_line_kept(self):
         self.assertIn('<p id="follow" class="follow"><strong>Follow Every Option:</strong>', self.home)
+
+    def test_videos_page_layout(self):
+        if not videos.shown(self.rows):
+            return
+        page = (SITE / "videos" / "index.html").read_text(encoding="utf-8")
+        n = len(videos.shown(self.rows))
+        self.assertEqual(page.count('class="vcard"'), n)
+        self.assertEqual(page.count('<dialog class="vsheet"'), n)
+        self.assertNotIn("<iframe", page)
+        self.assertIn('class="vfollow"', page)
+        self.assertNotIn('class="chans', page)   # the big channel buttons left the Videos page
+
+    def test_condition_page_rows(self):
+        for slug in {v["condition"] for v in videos.shown(self.rows)} - {"about"}:
+            page = (SITE / slug / "index.html").read_text(encoding="utf-8")
+            n = sum(1 for v in videos.shown(self.rows) if v["condition"] == slug)
+            self.assertEqual(page.count('class="vcard"'), n, slug)
+            self.assertIn("/assets/videos.js", page)
 
     def test_no_test_entry_in_sitemap(self):
         self.assertEqual("/videos/" in (SITE / "sitemap-pages.xml").read_text(encoding="utf-8"), bool(videos.real(self.rows)))

@@ -622,28 +622,22 @@ REASONS = [("not_performed", "Doesn’t perform this procedure"), ("contact", "W
            ("moved", "No longer practices here"), ("other", "Something else")]
 
 
-VIDEOS_REVIEWED = "2026-11-16"   # the /videos/ page's words; change when they change
+VIDEOS_REVIEWED = "2026-11-27"   # the /videos/ page's words; change when they change
+
+
+def video_page_name(v):
+    """The link under an opened film: its condition's guide, or About for the brand film."""
+    import registry as reg
+    if v["page"] == "/about/":
+        return "About Every Option"
+    slug = v["page"].strip("/").split("/")[0]
+    return f"Read the guide: {reg.BY_SLUG[slug]['card']['name']}" if slug in reg.BY_SLUG else v["page"]
 
 
 def videos_page():
-    """/videos/ (job platform-web-design-0019): channel buttons at the top, then one section per condition in playlist
-    order, the brand film first under "About Every Option"."""
-    import registry as reg
-    sections, cur = [], None
-    for v in SHOWN_VIDEOS:
-        if v["condition"] != cur:
-            cur = v["condition"]
-            name = "About Every Option" if cur == "about" else reg.BY_SLUG[cur]["card"]["name"]
-            sections.append([cur, name, []])
-        sections[-1][2].append(v)
-    def page_name(v):
-        if v["page"] == "/about/":
-            return "About Every Option"
-        slug = v["page"].strip("/").split("/")[0]
-        return f"Read the guide: {reg.BY_SLUG[slug]['card']['name']}" if slug in reg.BY_SLUG else v["page"]
-    secs = "".join(f'<section class="vid-sec" aria-labelledby="vs-{e(k)}"><h2 id="vs-{e(k)}">{e(n)}</h2><div class="vid-grid">'
-                   + "".join(videos.film(v, ver, page_name=page_name(v)) for v in vs) + "</div></section>"
-                   for k, n, vs in sections)
+    """/videos/ (job platform-web-design-0019; calmer layout job platform-web-design-0021, his yes 2026-11-27): one
+    opening line, condition chips (All, conditions in home-list order, About last), a grid of cards (still, title,
+    length), each opening its film's sheet; newest first within a condition; the follow links one slim row at the foot."""
     # The lede and description say what the shown films are (reviewer round 1, 2026-11-16): the brand film alone is not
     # a film about any condition.
     if any(v["condition"] != "about" for v in SHOWN_VIDEOS):
@@ -652,12 +646,26 @@ def videos_page():
         lede = desc = "A short film about what Every Option is for. Films on each condition are coming."
     body = trail.html_of([trail.HOME, ("Videos", None)]) + f"""<h1>Videos</h1>
 <p class="lede">{e(lede)}</p>
-<h2 class="chans-h">Watch and follow</h2>
-{videos.channels("chans chans-row", live=videos.posting() | {"YouTube"})}
-{secs}
+{videos.chips(SHOWN_VIDEOS)}
+{videos.grid(SHOWN_VIDEOS, ver, page_name=video_page_name)}
+{videos.follow_row()}
 <p class="small muted">Education, not medical advice. Talk to your doctor about your own care. A film plays from YouTube only after you press play. Last reviewed {VIDEOS_REVIEWED}.</p>"""
     head = "" if videos.real(VIDEOS) else '<meta name="robots" content="noindex">\n'
     return page("/videos/", "Videos | Every Option", desc, body, ["/assets/videos.js"], head=head + videos.schema(SHOWN_VIDEOS), cls="prose-page videos-page")
+
+
+def condition_films(slug):
+    """A condition page's own films, in the Videos page's card style, above its Learn more section (job
+    platform-web-design-0021). Empty when the condition has no film."""
+    vs = [v for v in SHOWN_VIDEOS if v["condition"] == slug]
+    if not vs:
+        return "", ""
+    html_ = (f'<section class="cond-films" aria-labelledby="films-h"><h2 id="films-h">Short films</h2>'
+             f'{videos.grid(vs, ver, page_link=False, cls="vcards vcards-row", describe=False)}'
+             '<p class="small muted"><a href="/videos/">All videos</a> · A film plays from YouTube only after you press play.</p></section>')
+    # No VideoObject data here: /videos/ carries it, and an approved post's description may not follow the condition
+    # page rules the pattern check reads in the whole page (frequencies "1 out of 4").
+    return html_, ""
 
 
 def headers_frame_src(on):
@@ -920,12 +928,16 @@ def main():
         # Fix B (2026-11-15): the short guide gets the trail every other page has (Home > its condition)
         # Fix A (2026-11-15): the condition strip under the trail, Quick guide marked
         body = trail.html_of(trail.condition(slug)) + trail.strip_html(slug, "quick") + condition.body(c, diagram, e, condition.hero(c, finder_block))
+        films, films_ld = condition_films(slug)   # job platform-web-design-0021: the condition's own films
+        if films:
+            assert '<section id="learn">' in body, "condition page layout changed: place the films row again"
+            body = body.replace('<section id="learn">', films + '<section id="learn">', 1)
         block = cities.city_block(c["finder"], city_pages, e) if c.get("finder") else ""
         if block:
             assert nojs in body, "condition page layout changed: place the Doctors by city block again"
             body = body.replace(nojs, nojs + block, 1)
-        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/pelvic-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"],
-                                         css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option"),
+        write(f"{slug}/index.html", page(path, c["title"], c["description"], body, ["/assets/procedures.js", "/assets/telehealth.js", "/assets/finder.js", "/assets/condition.js", "/assets/procedure-anim.js", "/assets/pelvic-anim.js", "/assets/proc-banner.js", "/assets/life-strip.js", "/assets/city-fold.js"] + (["/assets/videos.js"] if films else []),
+                                         css=["/assets/condition-box.css"], head=robots + condition.schema(c, ORIGIN + path, ORIGIN, "Every Option") + films_ld,
                                          cls=f"prose-page condition-page t-{c['color']}", banner=condition_strip(slug)))
     for slug in options.slugs():   # the deep "every option" pages, tied to the simple page by tools/options.py
         c, d, f = options.load(slug)
